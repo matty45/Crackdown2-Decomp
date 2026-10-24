@@ -1,0 +1,69 @@
+# config/splits.txt: which addresses of Crackdown 2 belong to which source file.
+# Maintainer-owned ground truth. tools/check_integrity.py checks every claim in config/matched_functions.json
+# against it. Contributors and agents never edit this file.
+#
+# <source file>
+#   text <start> <end>   main-body range [start, end) in .text. Outside the order-list region the linker lays out each
+#                        object's functions contiguously, so EVERY function in the range was emitted by this file's
+#                        object, including inline/template functions from headers and surviving copies of folded code.
+#   hot <addr>           a function of this file that the link order list moved into 0x821D0000-0x823D0000
+#   init <addr>          the registrar's dynamic initializer
+#   atexit <addr>        the registrar's at-exit destructor
+#   folded <addr>        a function of this file that the linker folded (identical-code folding) into an identical
+#                        copy owned by another file; the source still defines it, but it does not own the address
+#
+# Evidence for every entry below: the agents' recorded split decisions (tools/research/batch1, batch2, the pilots), the
+# class's RetClassName/vtable/registrar, and the link-order check: the files' text ranges, initializers and at-exit
+# destructors appear in the same order. Bootstrap script: tools/research/splits_bootstrap.py.
+
+src/AI/cChaseBehaviour.cpp
+  text 0x824CE570 0x824CF6C8   # RetClassName .. start of cVehicleAttackedRockingBehaviour's code
+  folded 0x824D2850            # MakeNew: one copy shared by cAgressiveResponseBase, cChaseBehaviour,
+                               # cAgressiveResponsePilotBehaviour and cChaseAndAttackPilotBehaviour (registrar data);
+                               # the surviving copy lies between BreachPilot's and cChaseAndAttackPilotBehaviour's code
+  init 0x82F9A170
+  atexit 0x8303BC50
+
+src/CHARACTER/cNPCTintProfile.cpp
+  text 0x8255DF80 0x8255E0D8   # end: 0x8255E0D8 (VMX tint maths) starts the next file
+  hot 0x821D0300
+  hot 0x821D0A20
+  init 0x82FAF4E0
+  atexit 0x8303D140
+
+src/Equip/cFlocket.cpp
+  text 0x826253E8 0x826270F8   # contains F46, an accessor judged to be another class's: an inline/template function
+                               # emitted by this object (still unmatched)
+  init 0x82FD1A60
+  atexit 0x8303F858
+
+src/GangManager/cFactionConfigData.cpp
+  text 0x826761B0 0x826766E0   # contains F09-F12, tiny accessors of other classes (pool, globals): inline functions
+                               # emitted by this object (still unmatched). F09/F10 (0x82676288, 0x82676298) are
+                               # cFactionInfo's RetClass and IsA: they read the class pointer 0x83840498, which this
+                               # file's second initializer sets ("cFactionInfo", class ID 1038, size 544)
+  init 0x82FDCB00
+  init 0x82FDCB50              # cFactionInfo's class registration (StaticCreateClass inlined)
+  atexit 0x83040248
+
+src/VEHICLE_CONTROL/cHelicopterController.cpp
+  text 0x82782020 0x82783498   # start: the prototype's MakeNew; end: start of a function judged to be another class's
+                               # (vptr 0x8214C264). Contains F49-F51 (VMX helpers, not yet analysed). The true end may
+                               # lie further on; extend only with evidence.
+  init 0x83005770
+  atexit 0x830423B0
+
+src/VFX/cAmbientVFXSpawner.cpp
+  text 0x827F8FD0 0x827F9980   # end: start of cAmbientVFXPrototypeBase::MakeNew (another file)
+  init 0x8300AF48
+  atexit 0x83042F00
+
+src/VFX/cRopes.cpp
+  text 0x82805F50 0x8280740C   # end: end of the last known function (ReloadShader); the true end may lie further on
+  init 0x8300C0E0
+  atexit 0x83043158
+
+src/GameManagement/cGameModeArena.cpp
+  text 0x8284E330 0x8284EE40   # end: start of the barrier classes' code
+  init 0x830176F8
+  atexit 0x83043CD8

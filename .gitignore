@@ -1,0 +1,99 @@
+# This repository holds source and text only: no binaries of any kind, and nothing from the game.
+# Tools are git submodules under tools/external/, built from source by tools/build_tools.ps1 into build/.
+
+# build outputs and tool binaries (every tool writes under build/ or the system's temporary folder)
+/build/
+*.exe
+*.dll
+*.lib
+*.obj
+*.o
+*.a
+*.so
+*.pdb
+*.ilk
+*.exp
+*.pch
+*.xdb
+*.map
+*.pe
+*.cod
+*.i
+
+# game files and anything extracted from them: the executable, title-update patches, disc images, memory dumps, and
+# disassembly (jeff's output stays in build/; never commit the game's assembly)
+*.xex
+*.xexp
+*.xcp
+*.iso
+*.xbe
+*.bin
+*.dmp
+default.exe
+*.s
+*.S
+*.asm
+
+# unpublished research: the feasibility pilots' attempts at game functions. The ones that matched are published in
+# examples/matching/ and src/; the rest are unverified reconstructions of game code, which this repository never holds
+# (the only code from the games here is matched source)
+/tools/research/agent_pilot/haiku/*/*.cpp
+/tools/research/agent_pilot/sonnet/*/*.cpp
+/tools/research/agent_pilot_large/*/*.cpp
+/tools/research/manual_pilot/*.cpp
+/tools/research/tu_pilot/agent_work/
+/tools/research/tu_pilot2/agent_work/
+
+# reverse-engineering databases (IDA, Ghidra, Binary Ninja)
+*.i64
+*.idb
+*.id0
+*.id1
+*.id2
+*.nam
+*.til
+*.gpr
+*.rep/
+*.bndb
+
+# machine-specific settings written by tools/cd2.py config
+/local.json
+
+# secrets: API keys for the benchmark's chat agent (CD2_LLM_API_KEY) and the like
+.env
+.env.*
+
+# personal AI-agent state and settings (the shared instructions are AGENTS.md, CLAUDE.md and .mcp.json)
+.claude/settings.local.json
+CLAUDE.local.md
+.aider*
+.cursor/
+.kilo/
+.kilocode/
+.opencode/
+.roo/
+.continue/
+.windsurf/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# editors, operating systems, leftovers
+.vs/
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+*.orig
+*.rej
+*.bak
+*.tmp

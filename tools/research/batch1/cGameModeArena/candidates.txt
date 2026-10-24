@@ -1,0 +1,36 @@
+Class cGameModeArena: CD2 object size 0x10C, MakeNew 0x8284E388
+F01 8284E158   12 insns 
+F02 8284E188   24 insns 
+F03 8284E1E8   22 insns 
+F04 8284E240    2 insns 
+F05 8284E248   23 insns 
+F06 8284E2A8    2 insns 
+F07 8284E2B0   28 insns 
+F08 8284E320    3 insns 
+F09 8284E330   20 insns 
+F10 8284E380    2 insns 
+F11 8284E388   17 insns MakeNew
+F12 8284E3D0    3 insns RetClassName
+F13 8284E3E0   55 insns 
+F14 8284E4C0   63 insns 
+F15 8284E5C0   69 insns 
+F16 8284E6D8  280 insns 
+F17 8284EB38   81 insns 
+F18 8284EC80   55 insns 
+F19 8284ED60   55 insns 
+F20 8284EE40   27 insns 
+F21 8284EEB0    3 insns 
+F22 8284EEC0   23 insns 
+F23 8284EF20  112 insns 
+F24 8284F0E0   44 insns 
+F25 8284F190    3 insns 
+F26 8284F1A0   34 insns 
+F27 8284F228   51 insns 
+F28 8284F2F8   10 insns 
+F29 8284F320    8 insns 
+F30 8284F340   63 insns 
+F31 8284F440    3 insns 
+F32 823CDC00    5 insns vtable entry in hot region
+F33 823CDC18    4 insns vtable entry in hot region
+F34 830176F8   15 insns registrar init
+F35 83043CD8    3 insns registrar atexit

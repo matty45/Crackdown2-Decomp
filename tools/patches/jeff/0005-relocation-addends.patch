@@ -1,0 +1,117 @@
+0005-relocation-addends
+
+Relocated fields carry the addend (target offset from its symbol), as the XDK linker expects:
+ADDR32 holds it; REFHI holds its high half adjusted for the sign of the low half, which goes in the
+following PAIR; REFLO holds the low half; REL24/REL14 hold the addend minus the instruction offset.
+Verified against the XDK linker with hand-made objects. Without it, pointers and calls into the
+middle of functions (exception tables, funclets) land on the function start.
+
+diff --git a/src/util/xex.rs b/src/util/xex.rs
+index f2103de..20ff06e 100644
+--- a/src/util/xex.rs
++++ b/src/util/xex.rs
+@@ -12,7 +12,7 @@ use typed_path::{Utf8NativePathBuf, Utf8UnixPath};
+ use crate::{
+     array_ref,
+     obj::{
+-        ObjInfo, ObjRelocKind, ObjSection, ObjSectionKind, ObjSymbolKind, ObjSymbolScope,
++        ObjInfo, ObjReloc, ObjRelocKind, ObjSection, ObjSectionKind, ObjSymbolKind, ObjSymbolScope,
+         SectionIndex, SymbolIndex,
+     },
+     util::{
+@@ -493,23 +493,31 @@ fn adjusted_data_for_relocs(
+             current_address = addr as usize + 4;
+             continue;
+         }
++        // The fields hold the addend (the target's offset from the target symbol), as Microsoft's linker expects
++        let addend = reloc.addend as i32;
+         match reloc.kind {
+             ObjRelocKind::Absolute => {
+-                ins = 0;
++                ins = addend as u32;
+             }
+-            ObjRelocKind::PpcAddr16Hi | ObjRelocKind::PpcAddr16Ha | ObjRelocKind::PpcAddr16Lo => {
+-                ins &= !0xFFFF;
++            ObjRelocKind::PpcAddr16Hi | ObjRelocKind::PpcAddr16Ha => {
++                // REFHI: the high half of the addend, adjusted for the sign of the low half, which goes into the
++                // following PAIR record (see pair_displacement)
++                ins = (ins & !0xFFFF) | (addend.wrapping_sub(addend as i16 as i32) >> 16) as u32 & 0xFFFF;
++            }
++            ObjRelocKind::PpcAddr16Lo => {
++                ins = (ins & !0xFFFF) | (addend as u32 & 0xFFFF);
+             }
+             ObjRelocKind::PpcRel24 => {
+-                // Microsoft's convention for PowerPC branch relocations: the field holds minus the instruction's
+-                // offset within its section, and the linker adds the target's offset from the section start.
+-                // A zero field makes every branch land its own section offset too far.
+-                let field = (addr as i32).wrapping_neg() as u32 & 0x3FFFFFC;
++                // Microsoft's convention for PowerPC branch relocations: the field holds the addend minus the
++                // instruction's offset within its section, and the linker adds the distance from the start of the
++                // instruction's section to the target symbol. A zero field makes every branch land its own section
++                // offset too far.
++                let field = addend.wrapping_sub(addr as i32) as u32 & 0x3FFFFFC;
+                 ins = (ins & !0x3FFFFFC) | field;
+             }
+             ObjRelocKind::PpcRel14 => {
+                 // Same convention; the 16-bit field only fits when the offset is below 32 KB.
+-                let field = (addr as i32).wrapping_neg() as u32 & 0xFFFC;
++                let field = addend.wrapping_sub(addr as i32) as u32 & 0xFFFC;
+                 ins = (ins & !0xFFFC) | field;
+             }
+             ObjRelocKind::PpcEmbSda21 => {
+@@ -595,11 +603,16 @@ pub fn write_coff(obj: &ObjInfo) -> Result<Vec<u8>> {
+     }
+ 
+     // insert the relocs
+-    for (sect_idx, sect) in obj.sections.iter() {
++    // PAIR displacements by (output section position, offset); sections were added in this same order
++    let mut pair_displacements: BTreeMap<(usize, u32), u32> = BTreeMap::new();
++    for (pos, (sect_idx, sect)) in obj.sections.iter().enumerate() {
+         for (addr, reloc) in sect.relocations.iter() {
+             if keep_same_section_rel14(reloc.kind, reloc.target_symbol, sect_idx, &sym_section) {
+                 continue;
+             }
++            if let Some(disp) = pair_displacement(reloc) {
++                pair_displacements.insert((pos, addr), disp);
++            }
+             let sym_id = match sym_map.get(&reloc.target_symbol) {
+                 Some(id) => id,
+                 None => bail!("Could not find symbol ID for index {}", reloc.target_symbol),
+@@ -637,15 +650,24 @@ pub fn write_coff(obj: &ObjInfo) -> Result<Vec<u8>> {
+ 
+     // finally, write the COFF
+     let mut coff_data = cur_coff.write()?;
+-    zero_pair_displacements(&mut coff_data)?;
++    set_pair_displacements(&mut coff_data, &pair_displacements)?;
+     Ok(coff_data)
+ }
+ 
++/// The displacement the PAIR record after a REFHI carries: the low 16 bits of the addend (its high half, adjusted
++/// for their sign, is in the instruction). The linker ignores the PAIR after a REFLO; the compiler writes zero there.
++fn pair_displacement(reloc: &ObjReloc) -> Option<u32> {
++    match reloc.kind {
++        ObjRelocKind::PpcAddr16Ha => Some(reloc.addend as u32 & 0xFFFF),
++        _ => None,
++    }
++}
++
+ /// Microsoft's PowerPC COFF: the PAIR record after REFHI/REFLO carries the low 16 bits of the displacement in its
+ /// symbol-table-index field, and the linker uses it to compute the @ha carry. The object writer stores the target
+ /// symbol's index there instead, so high halves come out one too high or low whenever the bogus displacement
+-/// crosses 0x8000. All relocations written here have no displacement, so the field must be zero.
+-fn zero_pair_displacements(data: &mut [u8]) -> Result<()> {
++/// crosses 0x8000. Each PAIR gets its displacement (by output section index and offset), or zero.
++fn set_pair_displacements(data: &mut [u8], displacements: &BTreeMap<(usize, u32), u32>) -> Result<()> {
+     let rd16 = |d: &[u8], o: usize| u16::from_le_bytes([d[o], d[o + 1]]) as usize;
+     let rd32 = |d: &[u8], o: usize| u32::from_le_bytes([d[o], d[o + 1], d[o + 2], d[o + 3]]) as usize;
+     let nsec = rd16(data, 2);
+@@ -664,7 +686,8 @@ fn zero_pair_displacements(data: &mut [u8]) -> Result<()> {
+             let r = ptr + 10 * k;
+             ensure!(r + 10 <= data.len(), "relocation table runs past the end of the object");
+             if rd16(data, r + 8) == object::pe::IMAGE_REL_PPC_PAIR as usize {
+-                data[r + 4..r + 8].copy_from_slice(&0u32.to_le_bytes());
++                let disp = displacements.get(&(i, rd32(data, r) as u32)).copied().unwrap_or(0);
++                data[r + 4..r + 8].copy_from_slice(&disp.to_le_bytes());
+             }
+         }
+     }

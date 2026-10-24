@@ -1,0 +1,10 @@
+[submodule "tools/external/jeff"]
+	path = tools/external/jeff
+	url = https://github.com/rjkiv/jeff.git
+[submodule "tools/external/objdiff"]
+	path = tools/external/objdiff
+	url = https://github.com/encounter/objdiff.git
+[submodule "tools/external/resym"]
+	path = tools/external/resym
+	url = https://github.com/ergrelet/resym.git
+	update = none

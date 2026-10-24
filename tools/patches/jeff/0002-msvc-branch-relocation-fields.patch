@@ -1,0 +1,29 @@
+0002-msvc-branch-relocation-fields
+
+Branch relocations (REL24/REL14) in Microsoft PowerPC COFF: the linker adds the distance from the
+start of the instruction's section to the target, so the field holds minus the instruction's offset
+within its section. A zero field lands every cross-object call its own offset too far.
+
+diff --git a/src/util/xex.rs b/src/util/xex.rs
+index 722b92e..b8f8454 100644
+--- a/src/util/xex.rs
++++ b/src/util/xex.rs
+@@ -480,10 +480,16 @@ fn adjusted_data_for_relocs(section: &ObjSection) -> Result<Vec<u8>> {
+                 ins &= !0xFFFF;
+             }
+             ObjRelocKind::PpcRel24 => {
+-                ins &= !0x3FFFFFC;
++                // Microsoft's convention for PowerPC branch relocations: the field holds minus the instruction's
++                // offset within its section, and the linker adds the target's offset from the section start.
++                // A zero field makes every branch land its own section offset too far.
++                let field = (addr as i32).wrapping_neg() as u32 & 0x3FFFFFC;
++                ins = (ins & !0x3FFFFFC) | field;
+             }
+             ObjRelocKind::PpcRel14 => {
+-                ins &= !0xFFFC;
++                // Same convention; the 16-bit field only fits when the offset is below 32 KB.
++                let field = (addr as i32).wrapping_neg() as u32 & 0xFFFC;
++                ins = (ins & !0xFFFC) | field;
+             }
+             ObjRelocKind::PpcEmbSda21 => {
+                 ins &= !0x1FFFFF;

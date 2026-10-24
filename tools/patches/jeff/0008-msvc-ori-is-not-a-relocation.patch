@@ -1,0 +1,38 @@
+0008-msvc-ori-is-not-a-relocation
+
+A lis/ori pair is never relocated in MSVC code: REFHI is adjusted for a signed low half, so the
+compiler pairs lis with addi or a load/store. jeff (from dtk, where Metrowerks does use ori)
+made REFHI/REFLO relocations of constants that fall in the address range; relinked, their high
+half came out one too high whenever the low half was 0x8000 or more.
+
+diff --git a/src/analysis/tracker.rs b/src/analysis/tracker.rs
+index 10a0c9e..40e7a47 100644
+--- a/src/analysis/tracker.rs
++++ b/src/analysis/tracker.rs
+@@ -258,23 +258,9 @@ impl Tracker {
+                             }
+                         }
+                     }
+-                    // ori rA, rS, UIMM
+-                    Opcode::Ori => {
+-                        let target = ins.field_ra() as usize;
+-                        if let Some(value) = self.gpr_address(obj, ins_addr, &vm.gpr[target].value)
+-                            && let (Some(hi_addr), Some(lo_addr)) =
+-                                (vm.gpr[target].hi_addr, vm.gpr[target].lo_addr)
+-                        {
+-                            let hi_reloc = self.relocations.get(&hi_addr).cloned();
+-                            if hi_reloc.is_none() {
+-                                self.relocations.insert(hi_addr, Relocation::Ha(value));
+-                            }
+-                            let lo_reloc = self.relocations.get(&lo_addr).cloned();
+-                            if lo_reloc.is_none() {
+-                                self.relocations.insert(lo_addr, Relocation::Lo(value));
+-                            }
+-                        }
+-                    }
++                    // ori rA, rS, UIMM: never a relocation in MSVC code. Its only high-half relocation (REFHI) is
++                    // adjusted for a signed low half, so the compiler pairs lis with addi or a load/store; a lis/ori
++                    // pair builds a constant (one in the image's address range is still a constant).
+                     _ => {}
+                 }
+                 Ok(ExecCbResult::Continue)

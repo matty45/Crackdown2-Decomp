@@ -1,0 +1,28 @@
+0007-unique-string-names
+
+Detected strings are named by their MSVC literal mangling, so identical contents at different
+addresses got the same name and the linker bound every reference to the first copy. Only the
+first copy keeps the name; the others are named by address.
+
+diff --git a/src/analysis/objects.rs b/src/analysis/objects.rs
+index af2350b..695165f 100644
+--- a/src/analysis/objects.rs
++++ b/src/analysis/objects.rs
+@@ -256,11 +256,15 @@ pub fn detect_strings(obj: &mut ObjInfo) -> Result<()> {
+         }
+     }
+ 
++    // Identical contents give identical literal names, but the image can hold separate copies (in different
++    // sections, or data that only looks like a string). One name must not stand for several addresses, so only the
++    // first copy keeps it; the others are named by address, like strings without a literal name.
++    let mut used_names = std::collections::HashSet::new();
+     for entry in symbols_set.iter() {
+         let mut symbol = obj.symbols[entry.idx].clone();
+         symbol.name = match &entry.mangled_name {
+-            Some(mangled_name) => mangled_name.clone(),
+-            None => format!("str_{:08X}", symbol.address),
++            Some(mangled_name) if used_names.insert(mangled_name.clone()) => mangled_name.clone(),
++            _ => format!("str_{:08X}", symbol.address),
+         };
+         symbol.data_kind = entry.kind;
+         // canonically, strings are not 4 byte aligned

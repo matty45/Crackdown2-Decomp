@@ -1,0 +1,58 @@
+[
+ {
+  "packet": "P1",
+  "exact": true,
+  "best_percent": 100,
+  "harness_runs": 2,
+  "file": "P1/a.cpp",
+  "notes": "Easy; 1 run was wasted on relative path (harness needs absolute source path)."
+ },
+ {
+  "packet": "P2",
+  "exact": false,
+  "best_percent": 11.5,
+  "harness_runs": 8,
+  "file": "P2/b.cpp",
+  "notes": "Frame layout (0xC0 vs 0xD0, local offsets), register allocation (this in r31) and a bool (x==0) materialised via addic/subfe before the branch were not reproducible; 2 runs lost to my tooling errors."
+ },
+ {
+  "packet": "P3",
+  "exact": false,
+  "best_percent": 90.7,
+  "harness_runs": 11,
+  "file": "P3/g.cpp",
+  "notes": "Byte-swap idiom and branch layout (switch with case 0-7 / case 8) matched; only instruction scheduling of the slwi index calc differs."
+ },
+ {
+  "packet": "P4",
+  "exact": false,
+  "best_percent": 65.0,
+  "harness_runs": 7,
+  "file": "P4/b.cpp",
+  "notes": "Guard/static-init structure matched; remaining diff is null-path codegen (target reuses r3 as zero, mine emits extra li r11,0)."
+ },
+ {
+  "packet": "P5",
+  "exact": true,
+  "best_percent": 100,
+  "harness_runs": 3,
+  "file": "P5/c.cpp",
+  "notes": "Needed 'if (da<db) return a; return b;' form and (dx*dx+(dz*dz+dy*dy)) association."
+ },
+ {
+  "packet": "P6",
+  "exact": true,
+  "best_percent": 100,
+  "harness_runs": 3,
+  "file": "P6/c.cpp",
+  "notes": "Branch layout: nested if(t){ if(type!=4) return type==6?2:1; return 0;} return 1;"
+ },
+ {
+  "packet": "P7",
+  "exact": false,
+  "best_percent": 54.1,
+  "harness_runs": 9,
+  "file": "P7/g.cpp",
+  "notes": "Needed a live 'bool ret=true' (r29) trick for the mask-and tail; still li r3,1 gets hoisted before the branch in mine."
+ }
+]

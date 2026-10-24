@@ -1,0 +1,15 @@
+# Maintainer-owned paths: changes need a maintainer's review (see CONTRIBUTING.md).
+# Replace your-github-name with the maintainers' GitHub names and remove the leading "# " from each line, then turn on
+# "Require review from Code Owners" in the repository's branch protection for main.
+#
+# /config/          @your-github-name
+# /tools/           @your-github-name
+# /tests/           @your-github-name
+# /.github/         @your-github-name
+# /.gitmodules      @your-github-name
+# /.gitattributes   @your-github-name
+# /.gitignore       @your-github-name
+# /LICENSE          @your-github-name
+# /AGENTS.md        @your-github-name
+# /CLAUDE.md        @your-github-name
+# /.mcp.json        @your-github-name

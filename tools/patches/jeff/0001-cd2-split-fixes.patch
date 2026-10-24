@@ -1,0 +1,37 @@
+0001-cd2-split-fixes
+
+jeff crashes on Crackdown 2 without these: execution that walks past the end of a section stops
+(executor.rs), and a block that cannot be finalised means "not a function" (slices.rs).
+
+diff --git a/src/analysis/executor.rs b/src/analysis/executor.rs
+index 1100f11..b313f6f 100644
+--- a/src/analysis/executor.rs
++++ b/src/analysis/executor.rs
+@@ -113,6 +113,10 @@ impl Executor {
+ 
+             let mut block_start = state.address;
+             loop {
++                // fell through the end of the section
++                if !section.contains(state.address.address) {
++                    break;
++                }
+                 self.visited.insert(section_address, state.address);
+ 
+                 let ins = match disassemble(section, state.address.address) {
+diff --git a/src/analysis/slices.rs b/src/analysis/slices.rs
+index b20d55f..ef69c7b 100644
+--- a/src/analysis/slices.rs
++++ b/src/analysis/slices.rs
+@@ -658,7 +658,11 @@ impl FunctionSlices {
+ 
+         // Sanity check
+         for (&start, &end) in &self.blocks {
+-            ensure!(end.is_some(), "Failed to finalize block @ {start:#010X}");
++            if end.is_none() {
++                // e.g. data at the tail of .text that runs off the section end
++                log::warn!("Failed to finalize block @ {start:#010X}; not treating as a function");
++                return Ok(false);
++            }
+         }
+ 
+         Ok(true)

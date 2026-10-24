@@ -1,0 +1,12 @@
+# config/symbol_aliases.txt: CD2 addresses that our sources legitimately reference under several names.
+# Maintainer-owned. tools/verify_src.py fails when one CD2 address is referenced under more than one name, unless the
+# names are declared here. The linker's identical-code/data folding (ICF) is the only accepted reason: byte-identical
+# functions or vtables merged into one copy. Each entry needs evidence from CD2 itself.
+#
+# <address> <name> <name> ...   # evidence
+
+0x82139BA8 ??_7?$cGUIDEventHandler@VcAmbientVFXPrototype@VFX@@@Editor@@6B@ ??_7?$cGUIDEventHandler@VcNPCTintProfile@CHARACTER@@@Editor@@6B@ ??_7cGUIDEventHandlerBase@Editor@@6B@   # identical vtables folded: the constructors of several unrelated classes store this one address; cGUIDEventHandler<T> overrides nothing, so its vtable equals its base's
+
+0x82580578 ??1cEventId@GameManagement@@QAA@XZ ?HandleAttributes@cNonGameBase@@UAAXABVCAttributePacket@RWS@@@Z   # empty functions folded: the code at 0x82580578 is a single blr
+
+0x821327A4 ??_7cChaseBehaviourPrototype@cChaseBehaviour@AI@@6BcStreamingResourceClient@ResourceManager@@@ ??_7cFlocketPrototype@Equip@@6BcStreamingResourceClient@ResourceManager@@@ ??_7cHelicopterControllerPrototype@cHelicopterController@VEHICLE_CONTROL@@6BcStreamingResourceClient@ResourceManager@@@   # identical vtables folded: GOM::cObjectPrototype's own vtable for its ResourceManager::cStreamingResourceClient base (its constructor at 0x82654118 stores this address at +0x18); no derived prototype overrides the client's virtuals, so every derived copy equals it

@@ -1,0 +1,41 @@
+Class cRopes: CD2 object size 0xCC, MakeNew 0x82805FC0
+F01 828052B8   25 insns 
+F02 82805320   22 insns 
+F03 82805378   64 insns 
+F04 82805478   90 insns 
+F05 828055E0  109 insns 
+F06 82805798   65 insns 
+F07 828058A0  242 insns 
+F08 82805C68  185 insns 
+F09 82805F50    3 insns 
+F10 82805F60   23 insns 
+F11 82805FC0   17 insns MakeNew
+F12 82806008    3 insns RetClassName
+F13 82806018   39 insns 
+F14 828060B8  109 insns 
+F15 82806270   20 insns 
+F16 828062C0   65 insns 
+F17 828063C8   49 insns 
+F18 82806490   50 insns 
+F19 82806560   59 insns 
+F20 82806650  443 insns 
+F21 82806D40   34 insns 
+F22 82806DC8   25 insns 
+F23 82806E30  188 insns 
+F24 82807120  150 insns 
+F25 82807378    2 insns 
+F26 82807380    2 insns 
+F27 82807388    2 insns 
+F28 82807390    2 insns 
+F29 82807398    2 insns 
+F30 828073A0    2 insns 
+F31 828073A8   25 insns 
+F32 823CDC00    5 insns vtable entry in hot region
+F33 823CDC18    4 insns vtable entry in hot region
+F34 823CBE80    4 insns vtable entry in hot region
+F35 822339E0   21 insns vtable entry in hot region
+F36 823CBE90    5 insns vtable entry in hot region
+F37 823CBEA8   16 insns vtable entry in hot region
+F38 823CBEE8    3 insns vtable entry in hot region
+F39 8300C0E0   15 insns registrar init
+F40 83043158    3 insns registrar atexit

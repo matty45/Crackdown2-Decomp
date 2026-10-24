@@ -1,0 +1,41 @@
+
+class Fun_Runtime::Vec3 { /* Size=0x10 */
+  /* 0x0000 */ private: __vector4 m_Vector;
+  
+  public: Vec3(const Fun_Runtime::OldVec3&);
+  public: Vec3(const __vector4);
+  public: Vec3(float);
+  public: Vec3(float, float, float);
+  public: Vec3();
+  public: __vector4 operator struct __vector4() const;
+  public: void Set(float, float, float);
+  public: void Set(const Fun_Runtime::OldVec3&);
+  public: void Zero();
+  public: float& X();
+  public: const float& X() const;
+  public: float& Y();
+  public: const float& Y() const;
+  public: float& Z();
+  public: const float& Z() const;
+  public: void SetX(float);
+  public: void SetY(float);
+  public: void SetZ(float);
+  public: float AddX(float);
+  public: float AddY(float);
+  public: float AddZ(float);
+  public: float SubX(float);
+  public: float SubY(float);
+  public: float SubZ(float);
+  public: float MulX(float);
+  public: float MulY(float);
+  public: float MulZ(float);
+  public: float DivX(float);
+  public: float DivY(float);
+  public: float DixZ(float);
+  public: void Normalize();
+  public: bool IsValid() const;
+  public: bool IsEqual(const Fun_Runtime::Vec3, const float) const;
+  public: bool IsEqual(const Fun_Runtime::Vec3) const;
+  public: bool IsZero() const;
+  public: Fun_Runtime::Vec3 operator-() const;
+};

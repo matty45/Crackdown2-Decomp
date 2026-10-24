@@ -1,0 +1,8 @@
+20:49:02	a.cpp	diff	0.096
+20:49:20	a.cpp	diff	0.115
+20:49:37	b.cpp	compile_error
+20:49:43	b.cpp	diff	0.115
+20:50:04	c.cpp	compile_error
+20:50:10	c.cpp	diff	0.115
+20:50:31	d.cpp	diff	0.115
+20:50:40	e.cpp	diff	0.115

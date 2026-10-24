@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "cd2": {
+      "command": "py",
+      "args": ["-I", "tools/mcp_server.py"]
+    }
+  }
+}

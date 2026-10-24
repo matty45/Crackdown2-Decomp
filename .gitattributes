@@ -1,0 +1,6 @@
+# Text is stored and checked out with LF on every machine, whatever core.autocrlf says, so the tools that rewrite
+# sources (search, bench, facts) see the same bytes everywhere.
+* text=auto eol=lf
+
+# patches apply to sources exported as stored (LF); keep them LF on every checkout
+*.patch text eol=lf

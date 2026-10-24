@@ -1,0 +1,13 @@
+
+## cRopes findings (VFX/cRopes.cpp; 20 of 25 belonging targets exact; F14 ctor 35%, F21 85%, F20 Render not attempted, F26/F27 thunks open)
+- Split: F01-F08 (neighbouring effect class) and F32-F38 (shared base-class functions in the hot region) do not belong. F09-F25, F28-F31, F39, F40 do. F31 (828073A8) is a shader reload helper on a global shader object, placed after the thunks.
+- Object layout: CAttributeHandler at 0 (HandleAttributes = vtable slot 1, MakeNew returns the object pointer unchanged), then polymorphic bases at 0x18, 0x1C, 0x30, 0x38 (stand-ins), cDebugPageHandler (vptr only) at 0x7C, fields from 0x80. The compiler-made adjustor thunks (-0x7C, -0x18, -0x38, -0x1C) match with this base layout (F25, F28-F30 exact). RetClass/IsA thunks at -0x4C (F26/F27) imply a subobject at 0x4C that has no vptr store in the ctor; not reproduced.
+- Ctor takes NO packet parameter (cRopes()); MakeNew is `new cRopes`.
+- std::vector with `#define _SECURE_SCL 0` and a custom allocator reproduces erase/find/_Insert exactly (F19, F24). The allocator allocate() must be a STATIC out-of-line member (called with just the count); deallocate = XDestroyHeapBlock inline. clear() and push_back() are out of line in CD2: wrap std::vector in a cVector<T> that defines them out of class.
+- Bool materialisation: `return c.m_nID == m_nID || HasAncestor(c);` with HasAncestor returning `(...) != CONST_INT_0` gives CD2 branchy li 0 / li 1. if/return true/return false or a bool local gives addic/subfe instead.
+- Inline ctor store order follows BODY assignment order, not member declaration order; use body assignments to reproduce a non-sequential store order (cConsoleCommand zeroing).
+- Pool GetOne is inlined only with __forceinline and the form `T *result; if (used < cap) { ...; T *pRet = p ? new(p) T : 0; ...; result = pRet; } else result = 0; return result;`. ReturnOne: `avail[putI]=p; ++putI; --used; if (putI >= cap) putI = 0;` (the `if (++putI >= cap)` form schedules differently). Reset: `if (used > 0)` on an unsigned (cmplwi/ble), and `(int)(diff) / (int)sizeof(T)` gives divw by a register holding 48; the compiler auto-unrolls the 600-element loops by 6.
+- Pool dtor: `~cPool() { Reset(); }` with an out-of-line ~cPoolBase(); the scalar deleting destructor then matches (F22).
+- GetRopeSegment/ReturnRopeSegment are STATIC in CD2 (they read the global g_pRopes, no this).
+- Unresolved: F14 has one extra dead `addi r11,r30,0x7C` (address of the debug-handler subobject) that shifts scheduling; F21 frame is 16 bytes larger than ours (0x70 vs 0x60, local at 0x60), not explained by the variadic arg count.
+- Helper: work/d.py compiles locally (no harness run) and prints status plus masked diffs for mapped targets.

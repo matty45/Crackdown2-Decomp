@@ -1,0 +1,10 @@
+# config/toolchain.txt: the exact compiler and linker every result in this repository is measured with.
+# Maintainer-owned. Every gate and tools/cd2.py refuse to run when a file under the XDK's bin\win32 differs: a match
+# made with another build of the compiler proves nothing about Crackdown 2. XDK 9328, compiler 15.00.8153.
+#
+# <SHA1>  <file in XDK\bin\win32>
+0E173EC6CB6F2B802B96585DC39E4367A0CAFC0E  cl.exe
+CE5D41193F81F59811516C309684D9047EF28A89  c1.dll
+02151BDCF4AC4EAE274A20CC7A4A3E3EE11E8476  c1xx.dll
+E3FE6E3F6F14A7FFD9D9115CE846C201DB16ECD0  c2.dll
+9F5276F6C65FF3027D5B8EBDF6DE78CA48CEE59A  link.exe

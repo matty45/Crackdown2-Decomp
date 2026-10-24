@@ -1,0 +1,12 @@
+{"functions": [
+{"id":"F1","belongs":true,"exact":true,"best_percent":100,"notes":"ctor; needs inline base ctors (CAttributeHandler, cGUIDEventHandlerBase with GUID copy-constructed from a global) and Register taking const RWSGUID& with a local copy"},
+{"id":"F2","belongs":true,"exact":true,"best_percent":100,"notes":"HandleAttributes; switch with case 8 first plus explicit case 0..7; inline IsFinished and GetAs_UInt32; no assert"},
+{"id":"F3","belongs":true,"exact":true,"best_percent":100,"notes":"MakeNew; new via XCreateHeapBlock"},
+{"id":"F4","belongs":true,"exact":true,"best_percent":100,"notes":"RetClassName"},
+{"id":"F5","belongs":false,"exact":false,"best_percent":0,"notes":"VMX tint/vector math on fields at +1,+0x10..+0x30; unrelated to this class, next file"},
+{"id":"F6","belongs":true,"exact":true,"best_percent":100,"notes":"implicit scalar deleting dtor; generated because the ctor references the vtable; must NOT declare a user dtor (adds vptr stores)"},
+{"id":"F7","belongs":true,"exact":true,"best_percent":100,"notes":"static CRegistrar initializer"},
+{"id":"F8","belongs":true,"exact":true,"best_percent":100,"notes":"atexit destructor of the static registrar"}],
+"harness_runs":17,
+"header_notes":"Header scaffolded in work/cNPCTintProfile.h with local definitions of RWS::CClassFactory::CRegistrar, Editor::cGUIDLinkerBase/cGUIDEventHandlerBase/cGUIDEventHandler<T> (not opaque). Recommend for repo rws/attributes.h: make IsFinished (both iterators), CAttributeCommand::GetAs_UInt32 (and likely the other GetAs_*), CAttributeHandler ctor and RWSGUID::Clear inline as in CD2. Do not declare ~cNPCTintProfile or a dtor on cGUIDEventHandler<T> (remove from ref dump). Drop Destruct? kept declared (vtable slot 12). Editor::g_GUIDNull is an invented name for the global at 0x834146C4. Register signature deviates from the PDB (const ref + local copy) to get the scheduling.",
+"split_notes":"F1-F4, F6-F8 belong. F2 and F6 sit in the hot region but are this file's code (F6 is a COMDAT emitted here because the ctor references the vtable). F5 does not belong."}

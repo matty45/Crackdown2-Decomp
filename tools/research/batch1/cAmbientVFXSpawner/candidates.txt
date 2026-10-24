@@ -1,0 +1,34 @@
+Class cAmbientVFXSpawner: CD2 object size 0x50, MakeNew 0x827F92E0
+F01 827F8F38   36 insns 
+F02 827F8FC8    2 insns 
+F03 827F8FD0    3 insns 
+F04 827F8FE0   23 insns 
+F05 827F9040   66 insns 
+F06 827F9148    3 insns 
+F07 827F9158   29 insns 
+F08 827F91D0    3 insns 
+F09 827F91E0   23 insns 
+F10 827F9240   39 insns 
+F11 827F92E0   36 insns MakeNew
+F12 827F9370   74 insns 
+F13 827F9498    5 insns 
+F14 827F94B0    4 insns 
+F15 827F94C0   54 insns 
+F16 827F9598   54 insns 
+F17 827F9670   54 insns 
+F18 827F9748   41 insns 
+F19 827F97F0   20 insns 
+F20 827F9840   51 insns 
+F21 827F9910   27 insns 
+F22 827F9980   38 insns 
+F23 827F9A18    3 insns 
+F24 827F9A28   23 insns 
+F25 827F9A88  147 insns 
+F26 827F9CD8   77 insns 
+F27 827F9E10   15 insns 
+F28 827F9E50  115 insns 
+F29 827FA020    4 insns 
+F30 827FA030  119 insns 
+F31 827FA210  104 insns 
+F32 8300AF48   15 insns registrar init
+F33 83042F00    3 insns registrar atexit

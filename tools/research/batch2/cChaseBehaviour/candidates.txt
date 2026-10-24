@@ -1,0 +1,82 @@
+Class cChaseBehaviour: CD2 object size 0x100, MakeNew 0x824D2850, window centred on RetClassName 0x824CE570
+F01 824CD920   37 insns 
+F02 824CD9B8  156 insns 
+F03 824CDC28    2 insns 
+F04 824CDC30    2 insns 
+F05 824CDC38    2 insns 
+F06 824CDC40    3 insns 
+F07 824CDC50   23 insns 
+F08 824CDCB0   46 insns 
+F09 824CDD68    3 insns 
+F10 824CDD78    6 insns 
+F11 824CDD90    3 insns 
+F12 824CDDA0   23 insns 
+F13 824CDE00   41 insns 
+F14 824CDEA8   53 insns 
+F15 824CDF80   20 insns 
+F16 824CDFD0   52 insns 
+F17 824CE0A0   17 insns 
+F18 824CE0E8   35 insns 
+F19 824CE178   76 insns 
+F20 824CE2A8   25 insns 
+F21 824CE310  128 insns 
+F22 824CE510   17 insns 
+F23 824CE558    2 insns 
+F24 824CE560    2 insns 
+F25 824CE568    2 insns 
+F26 824CE570    3 insns RetClassName
+F27 824CE580    6 insns 
+F28 824CE598    3 insns 
+F29 824CE5A8   23 insns 
+F30 824CE608   41 insns 
+F31 824CE6B0   40 insns 
+F32 824CE750   27 insns 
+F33 824CE7C0   17 insns 
+F34 824CE808   89 insns 
+F35 824CE970   98 insns 
+F36 824CEAF8   16 insns 
+F37 824CEB38   56 insns 
+F38 824CEC18   98 insns 
+F39 824CEDA0   52 insns 
+F40 824CEE70   68 insns 
+F41 824CEF80   13 insns 
+F42 824CEFB8    5 insns 
+F43 824CEFD0   10 insns 
+F44 824CEFF8   24 insns 
+F45 824CF058   32 insns 
+F46 824CF0D8   43 insns 
+F47 824CF188  252 insns 
+F48 824CF578   32 insns 
+F49 824CF5F8   12 insns 
+F50 824CF628   12 insns 
+F51 824CF658    4 insns 
+F52 824CF668    4 insns 
+F53 824CF678    4 insns 
+F54 824CF688    4 insns 
+F55 824CF698    4 insns 
+F56 824CF6A8    4 insns 
+F57 824CF6B8    4 insns 
+F58 824CF6C8   46 insns 
+F59 824CF780    3 insns 
+F60 824CF790   38 insns 
+F61 824CF828    3 insns 
+F62 824CF838   23 insns 
+F63 824CF898   41 insns 
+F64 824CF940    4 insns 
+F65 824CF950   26 insns 
+F66 824CF9B8    2 insns 
+F67 824CF9C0   60 insns 
+F68 824CFAB0  217 insns 
+F69 824CFE18  123 insns 
+F70 824D0008    3 insns 
+F71 824D0018   36 insns 
+F72 823CDC00    5 insns vtable entry in hot region
+F73 823CDC18    4 insns vtable entry in hot region
+F74 823CBE80    4 insns vtable entry in hot region
+F75 822339E0   21 insns vtable entry in hot region
+F76 823CBE90    5 insns vtable entry in hot region
+F77 823CBEA8   16 insns vtable entry in hot region
+F78 823CBEE8    3 insns vtable entry in hot region
+F79 824D2850   28 insns MakeNew
+F80 82F9A170   19 insns registrar init
+F81 8303BC50    3 insns registrar atexit

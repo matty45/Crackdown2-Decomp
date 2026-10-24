@@ -1,0 +1,73 @@
+0003-keep-same-section-short-branches
+
+A conditional branch (REL14) to a target in the same object section keeps its original instruction
+and gets no relocation: the distance is preserved, while the convention of 0002 cannot express
+offsets of 32 KB and more in a 16-bit field (139 fixup overflows on Crackdown 2).
+
+diff --git a/src/util/xex.rs b/src/util/xex.rs
+index b8f8454..aa6e917 100644
+--- a/src/util/xex.rs
++++ b/src/util/xex.rs
+@@ -466,12 +466,33 @@ impl XexInfo {
+     }
+ }
+ 
+-fn adjusted_data_for_relocs(section: &ObjSection) -> Result<Vec<u8>> {
++/// Short conditional branches (REL14) whose target lies in the same section keep their original encoding and get no
++/// relocation: relative distances within a section are preserved, while Microsoft's convention (minus the offset in a
++/// 16-bit field) cannot express offsets of 32 KB and more in large sections.
++fn keep_same_section_rel14(
++    kind: ObjRelocKind,
++    target: SymbolIndex,
++    sect_idx: SectionIndex,
++    sym_section: &BTreeMap<SymbolIndex, Option<SectionIndex>>,
++) -> bool {
++    matches!(kind, ObjRelocKind::PpcRel14) && sym_section.get(&target) == Some(&Some(sect_idx))
++}
++
++fn adjusted_data_for_relocs(
++    section: &ObjSection,
++    sect_idx: SectionIndex,
++    sym_section: &BTreeMap<SymbolIndex, Option<SectionIndex>>,
++) -> Result<Vec<u8>> {
+     let mut new_data: Vec<u8> = vec![];
+     let mut current_address = 0;
+     for (addr, reloc) in section.relocations.iter() {
+         new_data.extend_from_slice(&section.data[current_address..addr as usize]);
+         let mut ins = u32::from_be_bytes(*array_ref!(section.data, addr as usize, 4));
++        if keep_same_section_rel14(reloc.kind, reloc.target_symbol, sect_idx, sym_section) {
++            new_data.extend(ins.to_be_bytes());
++            current_address = addr as usize + 4;
++            continue;
++        }
+         match reloc.kind {
+             ObjRelocKind::Absolute => {
+                 ins = 0;
+@@ -512,6 +533,8 @@ pub fn write_coff(obj: &ObjInfo) -> Result<Vec<u8>> {
+         object::write::Object::new(BinaryFormat::Coff, Architecture::PowerPc, Endianness::Big);
+     let mut sect_map: BTreeMap<SectionIndex, SectionId> = Default::default();
+     let mut sym_map: BTreeMap<SymbolIndex, SymbolId> = Default::default();
++    let sym_section: BTreeMap<SymbolIndex, Option<SectionIndex>> =
++        obj.symbols.iter().map(|(idx, sym)| (idx, sym.section)).collect();
+ 
+     // insert the sections
+     for (idx, sect) in obj.sections.iter() {
+@@ -527,7 +550,7 @@ pub fn write_coff(obj: &ObjInfo) -> Result<Vec<u8>> {
+             },
+         );
+         if sect.kind != ObjSectionKind::Bss {
+-            let data_to_write = adjusted_data_for_relocs(sect)?;
++            let data_to_write = adjusted_data_for_relocs(sect, idx, &sym_section)?;
+             cur_coff.append_section_data(sect_id, &data_to_write, sect.align);
+         }
+         sect_map.insert(idx, sect_id);
+@@ -574,6 +597,9 @@ pub fn write_coff(obj: &ObjInfo) -> Result<Vec<u8>> {
+     // insert the relocs
+     for (sect_idx, sect) in obj.sections.iter() {
+         for (addr, reloc) in sect.relocations.iter() {
++            if keep_same_section_rel14(reloc.kind, reloc.target_symbol, sect_idx, &sym_section) {
++                continue;
++            }
+             let sym_id = match sym_map.get(&reloc.target_symbol) {
+                 Some(id) => id,
+                 None => bail!("Could not find symbol ID for index {}", reloc.target_symbol),

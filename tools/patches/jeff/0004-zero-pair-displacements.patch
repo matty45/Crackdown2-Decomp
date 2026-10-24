@@ -1,0 +1,53 @@
+0004-zero-pair-displacements
+
+The PAIR record after REFHI/REFLO carries the low half of the displacement in its symbol-index
+field; the object writer stores the target symbol's index there, which puts the linker's carry
+into the high half (lis) one off. Zero the field (0005 then writes real displacements).
+
+diff --git a/src/util/xex.rs b/src/util/xex.rs
+index aa6e917..f2103de 100644
+--- a/src/util/xex.rs
++++ b/src/util/xex.rs
+@@ -636,10 +636,41 @@ pub fn write_coff(obj: &ObjInfo) -> Result<Vec<u8>> {
+     }
+ 
+     // finally, write the COFF
+-    let coff_data = cur_coff.write()?;
++    let mut coff_data = cur_coff.write()?;
++    zero_pair_displacements(&mut coff_data)?;
+     Ok(coff_data)
+ }
+ 
++/// Microsoft's PowerPC COFF: the PAIR record after REFHI/REFLO carries the low 16 bits of the displacement in its
++/// symbol-table-index field, and the linker uses it to compute the @ha carry. The object writer stores the target
++/// symbol's index there instead, so high halves come out one too high or low whenever the bogus displacement
++/// crosses 0x8000. All relocations written here have no displacement, so the field must be zero.
++fn zero_pair_displacements(data: &mut [u8]) -> Result<()> {
++    let rd16 = |d: &[u8], o: usize| u16::from_le_bytes([d[o], d[o + 1]]) as usize;
++    let rd32 = |d: &[u8], o: usize| u32::from_le_bytes([d[o], d[o + 1], d[o + 2], d[o + 3]]) as usize;
++    let nsec = rd16(data, 2);
++    let opt = rd16(data, 16);
++    for i in 0..nsec {
++        let sh = 20 + opt + 40 * i;
++        let ptr = rd32(data, sh + 24);
++        let mut count = rd16(data, sh + 32);
++        let mut first = 0;
++        if rd32(data, sh + 36) & 0x0100_0000 != 0 && count == 0xFFFF {
++            // IMAGE_SCN_LNK_NRELOC_OVFL: the real count is in the first relocation's address field
++            count = rd32(data, ptr);
++            first = 1;
++        }
++        for k in first..count {
++            let r = ptr + 10 * k;
++            ensure!(r + 10 <= data.len(), "relocation table runs past the end of the object");
++            if rd16(data, r + 8) == object::pe::IMAGE_REL_PPC_PAIR as usize {
++                data[r + 4..r + 8].copy_from_slice(&0u32.to_le_bytes());
++            }
++        }
++    }
++    Ok(())
++}
++
+ pub fn coff_path_for_unit(unit: &str) -> Utf8NativePathBuf {
+     Utf8UnixPath::new(unit)
+         .with_encoding()

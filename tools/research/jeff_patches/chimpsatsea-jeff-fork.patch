@@ -1,0 +1,43 @@
+diff --git a/src/analysis/cfa.rs b/src/analysis/cfa.rs
+index 7916f20..34a44f3 100644
+--- a/src/analysis/cfa.rs
++++ b/src/analysis/cfa.rs
+@@ -293,14 +293,17 @@ impl AnalyzerState {
+             // some assertions, since we're working with known function boundaries
+             // if we got this from pdata or import data, there should be a known end
+             if let Some(value) = obj.known_functions.get(&addr) {
+-                if let Some(func) = self.functions.get(&addr) {
++                if let Some(func) = self.functions.get_mut(&addr) {
+                     if let Some(known_size) = value {
+                         let known_end = addr + *known_size;
+-                        assert_eq!(func.end.is_some(), true, "Function at {} has no detected end rather than known end {}. There must be an error in processing!", addr, known_end);
+-                        let func_end = func.end.unwrap();
+-                        assert_eq!(func_end, known_end,
+-                                   "Function at {} has known end addr {}, but during processing, ending was found to be {}!",
+-                                   addr, known_end, func_end);
++                        // pdata is authoritative; warn instead of aborting on mismatches
++                        if func.end != Some(known_end) {
++                            log::warn!(
++                                "Function at {} has known end addr {}, but processing found {:?}; using pdata",
++                                addr, known_end, func.end
++                            );
++                            func.end = Some(known_end);
++                        }
+                     }
+                 } else {
+                     unreachable!();
+diff --git a/src/analysis/executor.rs b/src/analysis/executor.rs
+index dd12fe4..a8e1fec 100644
+--- a/src/analysis/executor.rs
++++ b/src/analysis/executor.rs
+@@ -107,6 +107,10 @@ impl Executor {
+ 
+             let mut block_start = state.address;
+             loop {
++                // fell through the end of the section
++                if !section.contains(state.address.address) {
++                    break;
++                }
+                 self.visited.insert(section_address, state.address);
+ 
+                 let ins = match disassemble(section, state.address.address) {

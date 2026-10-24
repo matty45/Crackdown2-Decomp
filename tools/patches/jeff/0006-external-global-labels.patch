@@ -1,0 +1,23 @@
+0006-external-global-labels
+
+Labels are written with the LABEL storage class, which other objects cannot see; labels with
+global scope (referenced from other objects: .pdata, unwind data, savegpr/restgpr entry points)
+are written as external symbols instead, so the linker can resolve them.
+
+diff --git a/src/util/xex.rs b/src/util/xex.rs
+index 20ff06e..e7363fa 100644
+--- a/src/util/xex.rs
++++ b/src/util/xex.rs
+@@ -580,8 +580,11 @@ pub fn write_coff(obj: &ObjInfo) -> Result<Vec<u8>> {
+                 ObjSymbolKind::Function => SymbolKind::Text,
+                 ObjSymbolKind::Object => SymbolKind::Data,
+                 ObjSymbolKind::Section => SymbolKind::Section,
++                // A label is written with the LABEL storage class, which other objects cannot see; labels that
++                // other objects reference (global scope) are written as plain external symbols instead.
+                 ObjSymbolKind::Unknown => match sym.section {
+-                    Some(_) => SymbolKind::Label,
++                    Some(_) if sym.flags.scope() == ObjSymbolScope::Local => SymbolKind::Label,
++                    Some(_) => SymbolKind::Data,
+                     None => SymbolKind::Unknown,
+                 },
+             },

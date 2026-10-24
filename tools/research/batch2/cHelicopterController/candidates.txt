@@ -1,0 +1,81 @@
+Class cHelicopterController: CD2 object size 0x8C0, MakeNew 0x82782020
+F01 827818C8   54 insns 
+F02 827819A0   18 insns 
+F03 827819E8    3 insns 
+F04 827819F8   28 insns 
+F05 82781A68    3 insns 
+F06 82781A78    6 insns 
+F07 82781A90    4 insns 
+F08 82781AA0   38 insns 
+F09 82781B38   69 insns 
+F10 82781C50   39 insns 
+F11 82781CF0   16 insns 
+F12 82781D30   37 insns 
+F13 82781DC8    2 insns 
+F14 82781DD0    9 insns 
+F15 82781DF8   32 insns 
+F16 82781E78   29 insns 
+F17 82781EF0    2 insns 
+F18 82781EF8   33 insns 
+F19 82781F80    4 insns 
+F20 82781F90    2 insns 
+F21 82781F98    2 insns 
+F22 82781FA0    2 insns 
+F23 82781FA8    2 insns 
+F24 82781FB0    3 insns 
+F25 82781FC0   23 insns 
+F26 82782020   28 insns MakeNew
+F27 82782090    3 insns RetClassName
+F28 827820A0    6 insns 
+F29 827820B8    2 insns 
+F30 827820C0    3 insns 
+F31 827820D0   38 insns 
+F32 82782168    2 insns 
+F33 82782170   32 insns 
+F34 827821F0   16 insns 
+F35 82782230   32 insns 
+F36 827822B0   79 insns 
+F37 827823F0   93 insns 
+F38 82782568   97 insns 
+F39 827826F0  104 insns 
+F40 82782890  145 insns 
+F41 82782AD8    4 insns 
+F42 82782AE8   27 insns 
+F43 82782B58   61 insns 
+F44 82782C50   47 insns 
+F45 82782D10   24 insns 
+F46 82782D70   29 insns 
+F47 82782DE8   17 insns 
+F48 82782E30   24 insns 
+F49 82782E90  198 insns 
+F50 827831A8   78 insns 
+F51 827832E0   90 insns 
+F52 82783448   20 insns 
+F53 82783498   91 insns 
+F54 82783608   71 insns 
+F55 82783728   21 insns 
+F56 82783780   54 insns 
+F57 82783858  102 insns 
+F58 827839F0   65 insns 
+F59 82783AF8  230 insns 
+F60 82783E90   60 insns 
+F61 82783F80   65 insns 
+F62 82784088  428 insns 
+F63 82784738  158 insns 
+F64 827849B0   72 insns 
+F65 82784AD0   60 insns 
+F66 82784BC0  131 insns 
+F67 82784DD0   98 insns 
+F68 82784F58  131 insns 
+F69 82785168  197 insns 
+F70 82785480  543 insns 
+F71 82785D00   43 insns 
+F72 823CDC00    5 insns vtable entry in hot region
+F73 823CDC18    4 insns vtable entry in hot region
+F74 823CBE80    4 insns vtable entry in hot region
+F75 822339E0   21 insns vtable entry in hot region
+F76 823CBE90    5 insns vtable entry in hot region
+F77 823CBEA8   16 insns vtable entry in hot region
+F78 823CBEE8    3 insns vtable entry in hot region
+F79 83005770   19 insns registrar init
+F80 830423B0    3 insns registrar atexit
