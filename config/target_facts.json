@@ -38,6 +38,9 @@
   "src/GangManager/cFactionConfigData.cpp": {
    "direct_constants": []
   },
+  "src/PLAYER/cPlayer.cpp": {
+   "direct_constants": []
+  },
   "src/Prop/cTrafficLight.cpp": {
    "direct_constants": []
   },
@@ -2226,6 +2229,41 @@
     ]
    },
    "size": 776
+  },
+  "0x82724998": {
+   "ltcg": {
+    "ends": true,
+    "sha": "f6675cff9e2957ca604896839c39d03a9d03be288e20a912a7f4064821c34b19"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     4,
+     72,
+     84,
+     140
+    ],
+    "sha": "7f20e5ef10aee8e875fd95793cb8cad703224a92489e9ec4ab2944e56aa1db8b",
+    "strings": {},
+    "targets": [
+     [
+      4,
+      "call",
+      "0x82F1E40C"
+     ],
+     [
+      84,
+      "data",
+      "0x83823D4C"
+     ],
+     [
+      140,
+      "branch",
+      "0x82F1E45C"
+     ]
+    ]
+   },
+   "size": 144
   },
   "0x827478F8": {
    "ltcg": {

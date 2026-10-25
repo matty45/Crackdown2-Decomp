@@ -163,6 +163,9 @@
     ],
     "src/Prop/cTrafficLight.cpp": [
       {"address": "0x827478F8", "size": 156, "symbol": "?UpdateRenderMatrix@cTrafficLight@Prop@@"}
+    ],
+    "src/PLAYER/cPlayer.cpp": [
+      {"address": "0x82724998", "size": 144, "symbol": "?SetAITargeting@cPlayer@PLAYER@@"}
     ]
   }
 }

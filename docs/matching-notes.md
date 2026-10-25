@@ -181,3 +181,14 @@ in a `.cpp` are no longer needed.
   lies in cVehicle's code. Name a call after the class the source names (`cProp::UpdateRenderMatrix`). Its address is
   not evidence of the owner. Whoever matches cVehicle's adds the pair to `config/symbol_aliases.txt`.
 
+### PLAYER/cPlayer.cpp (SetAITargeting exact)
+- **Script-method registrations name functions RuffKing does not have.** A class's script-binding function (cPlayer's
+  is 0x8271F230) pairs each method-name string with its function's address. It named the target SetAITargeting and
+  its neighbours SetAIActive, IsAIActive and IsAITargeting, where RuffKing only suggested SetAIActive.
+- **An if/else store gives CD2's select.** `if (b) p = &m_A; else p = &m_B;` with two members of different derived
+  types compiles to the merged form (both addresses computed, one branch, one store) with no ternary or cast.
+  `if (m_bFlag || !bArg)` gave CD2's test order directly.
+- **CD2's player character.** CD2's `cCwTransCharacter` / `cCwTransCharacterWrapper` are Burn's `cPlayerCharacter` /
+  `cPlayerCharacterWrapper` (headers under `include/CHARACTER/`). `cCharacter::m_pTargeting` is at 0x1524 in CD2
+  (0x1534 in RuffKing).
+
