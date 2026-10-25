@@ -1,0 +1,60 @@
+
+class Equip::cProxMine : public Equip::cCWSatchelCharge { /* Size=0xbb0 */
+  /* 0x0000: fields for Equip::cCWSatchelCharge */
+  /* 0x0b80 */ private: VFX::cGlobalLight* m_pProxLight;
+  /* 0x0b84 */ private: VFX::cParticleEffectInstance* m_pProxVFX;
+  /* 0x0b88 */ private: float m_fAngle;
+  /* 0x0b8c */ private: float m_fCachedRadius;
+  /* 0x0b90 */ private: Fun_Runtime::Vec3 m_vCachedScale;
+  /* 0x0ba0 */ private: float m_fPrimeTimer;
+  /* 0x0ba4 */ private: unsigned char m_nFriendlyID;
+  /* 0x0ba8 */ private: int m_nProxEffectID;
+  /* 0x0bac */ private: char m_nProxLightID;
+  public: static const char m_cProxMine_ClassName[0];
+  public: static const Fun_Runtime::cClass* ms_pcProxMineClass;
+  public: static const char* pcProxMineClassID;
+  
+  public: virtual const Fun_Runtime::cClass& RetClass() const;
+  public: virtual bool IsA(const Fun_Runtime::cClass&) const;
+  public: virtual const char* RetClassName() const;
+  public: virtual void Destruct();
+  public: virtual void TickUpdate(float);
+  public: Equip::cProxMine::cProxMinePrototype* RetProxMinePrototype();
+  public: virtual bool CanBeDetonated();
+  public: virtual bool Trigger(unsigned char);
+  public: virtual bool IsTracked();
+  public: virtual void Launched(cGameBase*);
+  public: virtual void UpdateRenderMatrix();
+  public: virtual Fun_Runtime::RetVal Term();
+  public: cProxMine(const Equip::cProxMine&);
+  public: cProxMine(GOM::cObjectPrototype*);
+  public: virtual ~cProxMine();
+  public: virtual void ReplicateInitialFields();
+  public: virtual void ReplicateFields();
+  public: virtual unsigned int GetMaxReplicatedFields() const;
+  protected: virtual void SetExplosiveLevel(unsigned int);
+  private: virtual void NowStuck();
+  private: virtual void Unstick();
+  private: void ProximityCheck();
+  private: bool CheckCharacterProximity(CHARACTER::cCharacter*, float);
+  private: void CreateProxVFX();
+  private: void UpdateProxVFX();
+  private: void ReleaseProxVFX();
+  private: void CreateProxLight();
+  private: void UpdateProxLight();
+  private: void ReleaseProxLight();
+  private: void Animate(float);
+  private: virtual void Reorient(const Fun_Runtime::Vec3&, const Fun_Runtime::Vec3&);
+  private: void CacheProxRadius(unsigned char);
+  private: void UpdateVFX();
+  private: void SetFriendlyID(unsigned char);
+  private: bool IsFriendly(CHARACTER::cCharacter*) const;
+  public: Equip::cProxMine& operator=(const Equip::cProxMine&);
+  public: virtual void* __vecDelDtor(unsigned int);
+  
+  public: static Fun_Runtime::cClass& StaticCreateClass();
+  public: static const Fun_Runtime::cClass& StaticRetClass();
+  public: static const char* RetRWSClassName();
+  public: static RWS::CAttributeHandler* MakeNew(const RWS::CAttributePacket&, bool);
+  public: static RWS::CAttributeHandler* SpawnFromPrototype(GOM::cObjectPrototype*, void*);
+};

@@ -20,6 +20,11 @@
 
 XDK headers are real and come from the XDK itself (`XDK\include\xbox`), so they are not copied here.
 
+Most source files were set up automatically (see `config/splits.txt`) and their classes have no header yet. The first
+person to work on such a class adds `<Namespace>/<Class>.h` following the conventions below. Most of these classes have
+a reference dump in `ref/` (the type only: its bases are named, not expanded); the source file names it. Classes in
+neither later build have none, and their layout comes from CD2's code alone.
+
 ## Conventions for curated headers
 - Source: the reference dumps in `ref/` (RuffKing first, Burn second). Treat a dump as a starting point, never as truth for CD2. A type that is not dumped yet can be requested from a maintainer: dumping needs the reference PDBs, contributing never does.
 - Keep the member order, the access specifiers and the order of virtual functions exactly as in the PDB. Access is encoded in mangled names, and virtual order *is* the vtable.

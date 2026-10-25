@@ -10,7 +10,7 @@ if (-not $XdkDir) { throw "XDK location not set: run tools\cd2.py config --xdk <
 $bin = "$XdkDir\bin\win32"
 $env:PATH = "$bin;$env:PATH"
 $env:INCLUDE = "$XdkDir\include\xbox;$repo\include"
-$tmp = Join-Path $env:TEMP "cd2_header_check"
+$tmp = Join-Path $env:TEMP ("cd2_header_check_" + $PID)  # private to this run
 New-Item -ItemType Directory -Force $tmp | Out-Null
 $flags = @('/nologo', '/c', '/Ox', '/Ob1', '/Gy', '/GF', '/GR-', '/GS-', '/fp:fast', '/D_XBOX', '/DNDEBUG', '/W3')
 
@@ -22,6 +22,7 @@ if (-not $ok) { $out | Select-String -Pattern 'error' | ForEach-Object { "  $_" 
 $out2 = & "$bin\cl.exe" @flags /DCD2_SELFTEST_EXPECT_FAILURE "$repo\tests\headers\layout_test.cpp" "/Fo$tmp\selftest.obj" 2>&1
 $fired = ($LASTEXITCODE -ne 0) -and (($out2 | Out-String) -match 'C2118')
 Write-Output ("self-test (a wrong size must fail with C2118): " + $(if ($fired) { "PASS" } else { "FAIL" }))
+Remove-Item -Recurse -Force $tmp -ErrorAction SilentlyContinue
 if (-not ($ok -and $fired)) { exit 1 }
 exit 0
 

@@ -1,0 +1,60 @@
+
+class Equip::cHarpoonBolt : public Equip::cWeaponProjectile { /* Size=0x930 */
+  /* 0x0000: fields for Equip::cWeaponProjectile */
+  /* 0x0890 */ protected: Fun_Runtime::cSafeDeletablePointer<cGameBase> m_pAttatchedObject;
+  /* 0x08a0 */ protected: bool bHadAttatchedObject;
+  /* 0x08b0 */ protected: Fun_Runtime::Vec3 m_vLocalPos;
+  /* 0x08c0 */ protected: Fun_Runtime::Mtx m_LocalMat;
+  /* 0x0900 */ protected: int m_Limb;
+  /* 0x0904 */ protected: int m_InstigatorID;
+  /* 0x0908 */ protected: int m_CharacterID;
+  /* 0x090c */ protected: int m_BodyType;
+  /* 0x0910 */ protected: int m_BodyID;
+  /* 0x0914 */ protected: bool m_bAllowFixup;
+  /* 0x0915 */ protected: bool m_bFixUpProcessed;
+  /* 0x0918 */ protected: Fun_Runtime::cSafeDeletablePointer<CHARACTER::cCharacter> m_pHarpoonedCharacter;
+  /* 0x0928 */ protected: char m_eDeleteReason;
+  public: static const char m_cHarpoonBolt_ClassName[0];
+  public: static const Fun_Runtime::cClass* ms_pcHarpoonBoltClass;
+  public: static const char* pcHarpoonBoltClassID;
+  
+  public: virtual const Fun_Runtime::cClass& RetClass() const;
+  public: virtual bool IsA(const Fun_Runtime::cClass&) const;
+  public: virtual const char* RetClassName() const;
+  public: virtual void Destruct();
+  public: virtual ~cHarpoonBolt();
+  public: cHarpoonBolt(const Equip::cHarpoonBolt&);
+  public: cHarpoonBolt(GOM::cObjectPrototype*);
+  public: virtual void HandleAttributes(GOM::cObjectPrototype*);
+  public: virtual Fun_Runtime::RetVal Init(const GOM::cSpawner*);
+  public: virtual Fun_Runtime::RetVal Term();
+  public: virtual void TickUpdate(float);
+  public: void Attatch(cGameBase*, const Fun_Runtime::Mtx&, const Fun_Runtime::Vec3&, CHARACTER::cCharacter*, CHARACTER::cCharacterInterface*, int);
+  public: virtual bool CanEnterPhysicalState();
+  public: virtual bool EnterPhysicalState();
+  public: virtual bool CanSpawnPickupVFX();
+  public: virtual SNetworkHeader::etNetworkDataType GetReplicatedObjectType() const;
+  public: virtual unsigned int GetMaxReplicatedFields() const;
+  public: virtual void ReplicateHeaderData();
+  public: virtual void ReplicateInitialFields();
+  public: virtual void ReplicateFields();
+  public: virtual unsigned int GetNumObjectIDBits() const;
+  public: virtual void CalculateRelevancy(int);
+  public: virtual void CalculateLOD(int);
+  public: virtual void SkipDefaultReplicatedFields();
+  public: virtual bool CheckForReplicationActivation();
+  public: void SetUpHarpoonForReplication();
+  public: virtual void OnExitedAV(bool);
+  public: virtual void SetDeletingReason(char);
+  public: virtual char GetDeletingReason();
+  protected: void AttatchInternal(cGameBase*, const Fun_Runtime::Mtx&, const Fun_Runtime::Vec3&, CHARACTER::cCharacter*, CHARACTER::cCharacterInterface*, int, bool);
+  protected: void DoFixup();
+  public: Equip::cHarpoonBolt& operator=(const Equip::cHarpoonBolt&);
+  public: virtual void* __vecDelDtor(unsigned int);
+  
+  public: static Fun_Runtime::cClass& StaticCreateClass();
+  public: static const Fun_Runtime::cClass& StaticRetClass();
+  public: static const char* RetRWSClassName();
+  public: static RWS::CAttributeHandler* MakeNew(const RWS::CAttributePacket&, bool);
+  public: static RWS::CAttributeHandler* SpawnFromPrototype(GOM::cObjectPrototype*, void*);
+};

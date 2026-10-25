@@ -1,0 +1,67 @@
+
+class AI::NPCBehaviour : public AI::AIBehaviour { /* Size=0x100 */
+  /* 0x0000: fields for AI::AIBehaviour */
+  /* 0x00c0 */ protected: AI::cAiPlayer* m_pHost;
+  /* 0x00c4 */ private: bool m_bReactResupplyPointSet;
+  /* 0x00d0 */ private: Fun_Runtime::Vec3 m_vReactResupply;
+  /* 0x00e0 */ private: Fun_Runtime::Vec3 m_vRespawnHeading;
+  /* 0x00f0 */ private: float m_fInActivityTimer;
+  /* 0x00f4 */ private: Activity::cSquadMemberSpawnPoint* m_pAmbientTarget;
+  public: static const char* pNPCBehaviourClassID;
+  public: static const char m_NPCBehaviour_ClassName[0];
+  public: static const Fun_Runtime::cClass* ms_pNPCBehaviourClass;
+  
+  public: virtual const char* RetClassName() const;
+  public: virtual void Destruct();
+  public: virtual const Fun_Runtime::cClass& RetClass() const;
+  public: virtual bool IsA(const Fun_Runtime::cClass&) const;
+  public: NPCBehaviour(const AI::NPCBehaviour&);
+  public: NPCBehaviour(GOM::cObjectPrototype*);
+  public: void SetHost(AI::cAiPlayer*);
+  public: virtual void OnEnter();
+  public: virtual void OnEnterReplicatedState(unsigned char);
+  public: virtual void OnExit();
+  public: virtual void Update(float);
+  public: virtual void OnAttacked(CHARACTER::cCharacter*, const Fun_Runtime::Vec3&, AI::cAIEvent*);
+  public: virtual void OnDetectedEnemy(CHARACTER::cCharacter*, const Fun_Runtime::Vec3&, AI::cAIEvent*);
+  public: virtual void OnHeardSuspiciousSound(CHARACTER::cCharacter*, const Fun_Runtime::Vec3&, AI::cAIEvent*);
+  public: virtual void OnAvailableVehicleFound(Vehicle::cVehicle*);
+  public: virtual void OnObjectApproached(CHARACTER::cCharacter*, PHYSICS::cDynamicBody*, const Fun_Runtime::Vec3&, AI::cAIEvent*);
+  public: virtual void OnFriendlyFire(CHARACTER::cCharacter*, const Fun_Runtime::Vec3&, AI::cAIEvent*);
+  public: virtual void OnDied(CHARACTER::cCharacter*, AI::cAIEvent*);
+  public: virtual void OnCharacterEvent(unsigned char, unsigned char, unsigned char);
+  public: virtual void OnAnimationEvent(unsigned char, int, short);
+  public: virtual void OnAttachSatchelCharge(Equip::cCWSatchelCharge*);
+  public: virtual void OnAmbient(const Fun_Runtime::cVectorip<AI::cAnimParams *,10>&, float);
+  public: virtual void OnTransitionFromCrowd(unsigned char);
+  public: virtual void OnEjectedFromVehicle(AI::cCharacterEntityIF*);
+  public: virtual void ActiveAgentComplete(unsigned int);
+  public: void ResetReactResupplyPoint();
+  public: virtual void SetReactResupplyPoint(const Fun_Runtime::Vec3&, const Fun_Runtime::Vec3&);
+  public: virtual void SetSpawnAction(unsigned char);
+  public: const float RetInactivityTime() const;
+  public: void SetInactivityTime(float);
+  public: virtual void SetAmbientTarget(Activity::cSquadMemberSpawnPoint*);
+  public: virtual void NotifySquadMemberDead();
+  public: virtual unsigned char GetStateReplicationInfo() const;
+  public: virtual bool HasControlsVelocityOverride() const;
+  public: virtual const Fun_Runtime::Vec3& GetControlsVelocityOverride() const;
+  public: virtual void SetControlsVelocityOverride(const Fun_Runtime::Vec3&);
+  public: virtual unsigned int RetCorpseFadeOutTimeMillis() const;
+  public: virtual bool ShouldLockVehicleOwnership() const;
+  public: virtual bool CanBeAttackedByNPC() const;
+  public: virtual void StartSequence(const RWS::RWSGUID&);
+  protected: bool IsReactResupplyPointSet() const;
+  protected: bool GetReactResupplyPoint(Fun_Runtime::Vec3&) const;
+  protected: bool GetReactResupplyHeading(Fun_Runtime::Vec3&) const;
+  protected: Activity::cSquadMemberSpawnPoint* GetAmbientTarget();
+  public: virtual ~NPCBehaviour();
+  public: AI::NPCBehaviour& operator=(const AI::NPCBehaviour&);
+  public: virtual void* __vecDelDtor(unsigned int);
+  
+  public: static const char* RetRWSClassName();
+  public: static RWS::CAttributeHandler* MakeNew(const RWS::CAttributePacket&, bool);
+  public: static RWS::CAttributeHandler* SpawnFromPrototype(GOM::cObjectPrototype*, void*);
+  public: static Fun_Runtime::cClass& StaticCreateClass();
+  public: static const Fun_Runtime::cClass& StaticRetClass();
+};

@@ -63,6 +63,11 @@ def api(messages, model):
                 time.sleep(10 * (attempt + 1))
                 continue
             raise SystemExit('API error %d: %s' % (e.code, e.read().decode('utf-8', 'replace')[:2000]))
+        except (urllib.error.URLError, ConnectionError, TimeoutError, OSError) as e:  # refused, reset, timed out
+            if attempt < 3:
+                time.sleep(2 * (attempt + 1))
+                continue
+            raise SystemExit('API unreachable: %s' % e)
 
 
 def read_request(ws, reply):

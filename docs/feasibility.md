@@ -290,6 +290,7 @@ Conclusions:
   - jeff's own split inference.
 - Accuracy is unmeasured but **can be validated on RuffKing**, whose PDB has the true boundaries.
 - Boundaries do not block function-level matching. They matter for object splits and the final relink, and can be refined while decompiling.
+- **Applied (2026-10-25):** 372 source files set up automatically from the registrar, RetClassName and vtable anchors (4,290 functions), with conservative ranges, checked against link order and the hand-verified files. Method and scripts: `tools/research/scaffold/README.md`.
 - Shape-based alignment of RuffKing objects to CD2 (`tools/research/scripts/tu_align.py`, added 2026-10-23) found only 3–24% of the functions of `cString.obj`, `Fundamental.obj` and `cThread.obj`: RuffKing's game code drifted too much.
 - Better anchors:
   - the class registrar's dynamic initializer, which names the class and points at `MakeNew`;

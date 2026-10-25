@@ -46,7 +46,7 @@ Nothing a contributor writes decides what counts as matched: check and verify co
 extracted copy of the game, with the pinned compiler (config/toolchain.txt) and the maintainers' symbol table
 (config/matched_functions.json). docs/contributor-harness.md explains the workflow and the rules.
 """
-import argparse, collections, datetime, hashlib, json, os, re, shutil, struct, subprocess, sys
+import argparse, collections, datetime, hashlib, json, os, re, shutil, struct, subprocess, sys, tempfile
 
 TOOLS = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, TOOLS)
@@ -56,7 +56,8 @@ import mismatch  # noqa: E402
 import search as srch  # noqa: E402
 import bench  # noqa: E402
 import verify_ltcg  # noqa: E402
-from verify_src import ROOT, XDK, BIN, FLAGS, EXPECTED_ENTRY, CODE_SECTIONS, pe_reader, toolchain_problems, local_config  # noqa: E402
+from verify_src import (ROOT, XDK, BIN, FLAGS, EXPECTED_ENTRY, CODE_SECTIONS, pe_reader, toolchain_problems,  # noqa: E402
+                        local_config, run_compiler)
 from check_integrity import load_splits  # noqa: E402
 
 XEX_SHA1 = 'EC7B163617CD725F50B0CCA665AAF943F9BC6D8A'
@@ -76,6 +77,39 @@ JEFF_SECTIONS = [('.rdata', 'rodata'), ('.pdata', 'rodata'), ('.text', 'code'), 
 
 class Fail(Exception):
     pass
+
+
+_proc = None
+
+
+def scratch(*parts):
+    """A scratch path private to this process (build/cd2/tmp/<pid>/...), removed when it exits: several cd2.py
+    processes (a benchmark, an agent's check, a verify) may run at once and must never share a working file. Folders
+    left by processes that were killed are removed after a day."""
+    global _proc
+    if _proc is None:
+        import atexit, time
+        base = os.path.join(WORK, 'tmp')
+        os.makedirs(base, exist_ok=True)
+        for d in os.listdir(base):
+            p = os.path.join(base, d)
+            try:
+                if time.time() - os.path.getmtime(p) > 86400:
+                    shutil.rmtree(p, ignore_errors=True)
+            except OSError:
+                pass
+        _proc = tempfile.mkdtemp(prefix='%d_' % os.getpid(), dir=base)
+        atexit.register(shutil.rmtree, _proc, True)
+    p = os.path.join(_proc, *parts)
+    os.makedirs(os.path.dirname(p), exist_ok=True)
+    return p
+
+
+def scratch_dir(*parts):
+    """A directory private to this process (see scratch)."""
+    d = scratch(*parts)
+    os.makedirs(d, exist_ok=True)
+    return d
 
 
 def env():
@@ -142,11 +176,13 @@ def claims():
 
 def file_functions(splits, syms):
     """{file: [address, ...]} of every function a file owns: its text range, plus hot, init and atexit functions."""
+    import bisect
+    starts = sorted(syms)
     out = {}
     for f, e in splits.items():
         addrs = set(e['hot'] + e['init'] + e['atexit'])
         if e['text']:
-            addrs |= {a for a in syms if e['text'][0] <= a < e['text'][1]}
+            addrs.update(starts[bisect.bisect_left(starts, e['text'][0]):bisect.bisect_left(starts, e['text'][1])])
         out[f] = sorted(addrs)
     return out
 
@@ -255,17 +291,19 @@ def policy(src, extra_roots=(), roots=None, include=None):
     for n, line in enumerate(open(path, errors='replace'), 1):
         if re.match(r'\s*#\s*line\b', line):
             errors.append('%s:%d: #line directive (would disguise where code comes from)' % (src, n))
-    pp = os.path.join(WORK, 'pp')
-    os.makedirs(pp, exist_ok=True)
-    out = os.path.join(pp, os.path.splitext(os.path.basename(src))[0] + '.i')
-    # this compiler has no /Fi: /P writes <name>.i to the current directory
+    # this compiler has no /Fi: /P writes <name>.i to the current directory, a fresh one per call (no file is reused, so
+    # nothing still held by another process from an earlier call gets in the way)
+    pp = tempfile.mkdtemp(prefix='pp_', dir=scratch_dir('pp'))
     e = env()
     if include is not None:
         e['INCLUDE'] = ';'.join([os.path.join(XDK, 'include', 'xbox')] + list(include))
-    r = subprocess.run([os.path.join(BIN, 'cl.exe')] + FLAGS + ['/P', '/I' + os.path.dirname(path), path],
-                       env=e, capture_output=True, text=True, cwd=pp)
-    if r.returncode:
-        return ['%s: preprocessor error\n%s' % (src, (r.stdout + r.stderr)[-2000:])], warnings
+    try:
+        r = run_compiler([os.path.join(BIN, 'cl.exe')] + FLAGS + ['/P', '/I' + os.path.dirname(path), path], env=e, cwd=pp)
+        if r.returncode:
+            return ['%s: preprocessor error\n%s' % (src, (r.stdout + r.stderr)[-2000:])], warnings
+        preprocessed = open(os.path.join(pp, os.path.splitext(os.path.basename(src))[0] + '.i'), errors='replace').readlines()
+    finally:
+        shutil.rmtree(pp, ignore_errors=True)
     if roots is None:
         roots = [os.path.join(ROOT, 'src'), os.path.join(ROOT, 'include')]
     roots = [os.path.normcase(os.path.abspath(r)) for r in list(roots) + list(extra_roots)]
@@ -273,7 +311,7 @@ def policy(src, extra_roots=(), roots=None, include=None):
     xdk = os.path.normcase(XDK)
     origin, lineno, ours = path, 0, True
     seen_outside = set()
-    for line in open(out, errors='replace'):
+    for line in preprocessed:
         m = re.match(r'#line (\d+) "(.*)"', line)
         if m:
             lineno, origin = int(m.group(1)) - 1, os.path.normcase(os.path.abspath(m.group(2).replace('\\\\', '\\')))
@@ -301,7 +339,7 @@ def policy(src, extra_roots=(), roots=None, include=None):
 # ---------------------------------------------------------------------------------------------------- compile/compare
 
 def compile_file(src):
-    obj = os.path.join(WORK, 'obj', os.path.basename(src) + '.obj')
+    obj = scratch('obj', os.path.basename(src) + '.obj')
     os.makedirs(os.path.dirname(obj), exist_ok=True)
     r = subprocess.run([os.path.join(BIN, 'cl.exe')] + FLAGS + ['/Fo' + obj, os.path.join(ROOT, src)],
                        env=env(), capture_output=True, text=True)
@@ -321,7 +359,7 @@ def compare_file(src, funcs, ltcg=False):
     lt = None
     if ltcg:
         consts = verify_ltcg.direct_constants(read, funcs)
-        lt = verify_ltcg.build_ltcg(os.path.join(ROOT, src), obj, consts, os.path.join(WORK, 'ltcg', os.path.basename(src)), env())
+        lt = verify_ltcg.build_ltcg(os.path.join(ROOT, src), obj, consts, scratch_dir('ltcg', os.path.basename(src)), env())
     for f in funcs:
         va, size = int(f['address'], 16), f['size']
         target = read(va, size)
@@ -615,7 +653,7 @@ def cmd_claim(a):
     cl['0x%08X' % addr] = dict(file=f, size=syms[addr][1], symbol=a.symbol,
                                time=datetime.datetime.now().isoformat(timespec='seconds'))
     os.makedirs(WORK, exist_ok=True)
-    json.dump(cl, open(CLAIMS, 'w'), indent=1)
+    write_claims(cl)
     return dict(ok=True, claimed='0x%08X' % addr, file=f, symbol=a.symbol)
 
 
@@ -625,7 +663,7 @@ def cmd_unclaim(a):
     if key not in cl:
         raise Fail('%s is not claimed' % key)
     del cl[key]
-    json.dump(cl, open(CLAIMS, 'w'), indent=1)
+    write_claims(cl)
     return dict(ok=True, released=key)
 
 
@@ -654,8 +692,7 @@ def objdiff_unit(src, obj, unit, mappings):
     """objdiff's one-shot diff of one target unit against our object. mappings: {CD2 address: our full symbol}.
     Returns the parsed JSON (every symbol of the unit)."""
     target = os.path.join(WORK, 'split', 'obj', unit[:-4] + '.obj')
-    d = os.path.join(WORK, 'objdiff')
-    os.makedirs(d, exist_ok=True)
+    d = scratch_dir('objdiff')
     # objdiff takes Unix-style paths relative to the project directory
     cfg = dict(min_version='2.0.0', units=[dict(name='u', target_path=os.path.relpath(target, d).replace('\\', '/'),
                                                 base_path=os.path.relpath(obj, d).replace('\\', '/'),
@@ -708,7 +745,7 @@ def explain(src, results):
     """Attach the classifier's findings to every function of `results` that is not exact (one objdiff run per unit)."""
     need_setup()
     splits = load_splits(SPLITS)
-    obj = os.path.join(WORK, 'obj', os.path.basename(src) + '.obj')
+    obj = scratch('obj', os.path.basename(src) + '.obj')
     names = {int(r['address'], 16): r['name'] for r in results if r.get('name')}
     todo = [r for r in results if r.get('name') and r['status'] not in ('EXACT', 'LTCG EXACT')]
     by_unit = collections.defaultdict(list)
@@ -735,7 +772,7 @@ def cmd_search(a):
     if errors:
         raise Fail('fix the source policy first:\n  ' + '\n  '.join(errors))
     try:
-        res = srch.search(src, f['symbol'], read(addr, f['size']), os.path.join(WORK, 'search'), rounds=a.rounds,
+        res = srch.search(src, f['symbol'], read(addr, f['size']), scratch_dir('search'), rounds=a.rounds,
                           budget=a.budget, jobs=a.jobs, log=lambda m: print(m, file=sys.stderr, flush=True))
     except ValueError as e:
         raise Fail(str(e))
@@ -764,6 +801,12 @@ def git(*args):
     if r.returncode:
         raise Fail('git %s: %s' % (' '.join(args[:3]), (r.stderr or r.stdout).strip()))
     return r.stdout
+
+
+def write_claims(cl):
+    tmp = scratch('claims.json')
+    json.dump(cl, open(tmp, 'w'), indent=1)
+    os.replace(tmp, CLAIMS)
 
 
 def cmd_review(a):
@@ -864,6 +907,17 @@ def bench_agent(agent):
     return agent
 
 
+def selftest_expected(r):
+    """Whether one self-test run ended as its agent must: the oracle and the chat agent EXACT, the cheats rejected by the
+    source policy (emit, include) or not exact (forged result), the do-nothing agent not exact."""
+    m = r['kind']
+    if m in ('oracle', 'chat'):
+        return r['exact']
+    if m in ('cheat-emit', 'cheat-include'):
+        return r['status'] == 'rejected by the source policy'
+    return not r['exact']
+
+
 def cmd_bench(a):
     need_toolchain()
     man = manifest()
@@ -892,29 +946,35 @@ def cmd_bench(a):
         else:
             # only the oracle may reach EXACT: doing nothing, emitting CD2's words, compiling the repository's own
             # file and forging the result must all fail
-            runs = [(selftest + 'oracle', 'selftest-oracle'), ('echo nothing', 'selftest-null')] + [
-                (selftest + c, 'selftest-' + c) for c in ('cheat-emit', 'cheat-include', 'cheat-result')] + [
-                (bench_agent('chat:mock-model') + ' --rounds 3', 'selftest-chat')]
+            # model names private to this process, so that two self-tests (two verify runs) never share a workspace
+            own = 'selftest%d-' % os.getpid()
+            runs = [(selftest + 'oracle', own + 'oracle'), ('echo nothing', own + 'null')] + [
+                (selftest + c, own + c) for c in ('cheat-emit', 'cheat-include', 'cheat-result')] + [
+                (bench_agent('chat:mock-model') + ' --rounds 3', own + 'chat')]
         aliases = relocs.load_aliases(ALIASES)
         out = []
         for agent, m in runs:
             saved, server = dict(os.environ), None
-            if m == 'selftest-chat':  # the built-in chat agent against a local stand-in model: no API, no key
+            kind = m.split('-', 1)[1] if a.action == 'selftest' else None
+            if kind == 'chat':  # the built-in chat agent against a local stand-in model: no API, no key
                 server, url = bench.mock_chat_server()
                 for k in ('CD2_LLM_API_KEY', 'CD2_LLM_OPTIONS'):
                     os.environ.pop(k, None)
                 os.environ['CD2_LLM_BASE_URL'] = url
             todo = tasks
-            if m.startswith('selftest-cheat'):  # the defences do not depend on the task: one per tier shows them
+            if kind and kind.startswith('cheat'):  # the defences do not depend on the task: one per tier shows them
                 todo = [t for i, t in enumerate(tasks) if t['tier'] not in [x['tier'] for x in tasks[:i]]]
             try:
                 for t in todo:
                     bench_prepare(man, t['address'], m)
                     code, secs = bench.run_agent(int(t['address'], 16), m, agent, a.timeout)
                     res = bench.check(int(t['address'], 16), m, read, {}, aliases, count=False, policy=bench_policy)
-                    out.append(dict(model=m, address=t['address'], tier=t['tier'], status=res['status'],
+                    out.append(dict(model=m, kind=kind, address=t['address'], tier=t['tier'], status=res['status'],
                                     exact=res['exact'], attempts=res['attempts'], agent_exit=code, seconds=secs,
-                                    same_as_repository=res.get('same_as_repository')))
+                                    same_as_repository=res.get('same_as_repository'), detail=res.get('detail', '')))
+                    if a.action == 'selftest' and not selftest_expected(out[-1]):  # keep the evidence of a failure
+                        log = os.path.join(bench.workspace(int(t['address'], 16), m), 'agent.log')
+                        out[-1]['agent_log_tail'] = open(log, errors='replace').read()[-1500:] if os.path.exists(log) else ''
                     print('%-22s %s tier %d  %-14s %3d attempt(s) %6.1f s' % (
                         m, t['address'], t['tier'], res['status'], res['attempts'], secs), file=sys.stderr, flush=True)
             finally:
@@ -923,18 +983,19 @@ def cmd_bench(a):
                     os.environ.clear()
                     os.environ.update(saved)
         if a.action == 'selftest':
-            def runs_of(m):
-                return [r for r in out if r['model'] == m]
+            def runs_of(kind):
+                return [r for r in out if r['kind'] == kind]
             checks = dict(
-                oracle_all_exact=all(r['exact'] for r in runs_of('selftest-oracle')),
-                chat_agent_all_exact=all(r['exact'] for r in runs_of('selftest-chat')),
-                null_none_exact=not any(r['exact'] for r in runs_of('selftest-null')),
-                emit_rejected=all(r['status'] == 'rejected by the source policy' for r in runs_of('selftest-cheat-emit')),
-                include_rejected=all(r['status'] == 'rejected by the source policy' for r in runs_of('selftest-cheat-include')),
-                forged_result_ignored=not any(r['exact'] for r in runs_of('selftest-cheat-result')))
+                oracle_all_exact=all(r['exact'] for r in runs_of('oracle')),
+                chat_agent_all_exact=all(r['exact'] for r in runs_of('chat')),
+                null_none_exact=not any(r['exact'] for r in runs_of('null')),
+                emit_rejected=all(r['status'] == 'rejected by the source policy' for r in runs_of('cheat-emit')),
+                include_rejected=all(r['status'] == 'rejected by the source policy' for r in runs_of('cheat-include')),
+                forged_result_ignored=not any(r['exact'] for r in runs_of('cheat-result')))
             for m in {r['model'] for r in out}:
                 shutil.rmtree(os.path.join(bench.BENCH, bench.model_dir(m)), ignore_errors=True)
-            return dict(ok=all(checks.values()), runs=out, **checks)
+            return dict(ok=all(checks.values()), runs=out, unexpected=[r for r in out if not selftest_expected(r)],
+                        **checks)
         return dict(ok=True, runs=out, summary=bench.report(model)[1])
     if a.action == 'score':  # the final verdict of every prepared task (after working through them in an IDE agent)
         need_setup()
@@ -972,8 +1033,7 @@ def cmd_bench(a):
 
 def policy_self_test():
     """Plant one violation of each kind in a scratch file and require the policy to catch it; a clean file must pass."""
-    import tempfile
-    d = os.path.join(WORK, 'policy_selftest')
+    d = scratch_dir('policy_selftest')
     shutil.rmtree(d, ignore_errors=True)
     os.makedirs(d)
     outside = tempfile.mkdtemp(prefix='cd2_outside_')
@@ -1008,11 +1068,20 @@ def cmd_lint(a):
         return dict(ok=ok, self_test=cases)
     files = [rel(p) for p in a.files] or sorted(rel(os.path.join(dp, f)) for dp, _, fs in os.walk(os.path.join(ROOT, 'src'))
                                                   for f in fs if f.endswith('.cpp'))
-    res = []
+    res, empty = [], 0
     for src in files:
+        if not has_code(os.path.join(ROOT, src)):  # set up, nothing written yet: nothing to check
+            empty += 1
+            continue
         e, w = policy(src)
         res.append(dict(file=src, errors=e, warnings=w))
-    return dict(ok=not any(r['errors'] for r in res), files=res)
+    return dict(ok=not any(r['errors'] for r in res), files=res, without_code=empty)
+
+
+def has_code(path):
+    """False for a file of nothing but comments and whitespace (a set-up source file nobody has written in yet)."""
+    text = re.sub(r'//[^\n]*|/\*.*?\*/', '', open(path, encoding='utf-8', errors='replace').read(), flags=re.S)
+    return bool(text.strip())
 
 
 def cmd_verify(a):
@@ -1051,7 +1120,8 @@ def cmd_verify(a):
         if name == 'source policy':
             lint = cmd_lint(argparse.Namespace(files=[], self_test=False))
             bad = [e for f in lint['files'] for e in f['errors']]
-            out.append(dict(gate=name, ok=not bad, detail='; '.join(bad[:5]) or '%d files clean' % len(lint['files'])))
+            out.append(dict(gate=name, ok=not bad, detail='; '.join(bad[:5]) or '%d files clean (%d set up, nothing written yet)' % (
+                len(lint['files']), lint['without_code'])))
             continue
         if name == 'self-test: source policy':
             ok, cases = policy_self_test()
@@ -1151,7 +1221,8 @@ def show_text(cmd, res):
                 print('ERROR ' + e)
             for w in f['warnings']:
                 print('warning ' + w)
-        print('%d files, %s' % (len(res['files']), 'policy OK' if res['ok'] else 'POLICY VIOLATIONS'))
+        print('%d files, %s%s' % (len(res['files']), 'policy OK' if res['ok'] else 'POLICY VIOLATIONS',
+                                  ' (%d without code yet, skipped)' % res['without_code'] if res.get('without_code') else ''))
     elif cmd == 'search':
         print('%s %s: %d of %d words match before, %d of %d after (%d compiles)%s' % (
             res['address'], res['symbol'], res['baseline']['words'], res['baseline']['of'], res['best']['words'],
@@ -1176,6 +1247,12 @@ def show_text(cmd, res):
                      ('forged_result_ignored', 'forged result ignored')]
             for k, what in names:
                 print('  %-4s %s' % ('ok' if res.get(k) else 'FAIL', what))
+            for r in res.get('unexpected', []):
+                print('  unexpected: %s %s: %s (agent exit %s)%s%s' % (
+                    r['model'], r['address'], r['status'], r['agent_exit'],
+                    ('\n    detail: ' + r['detail'][:300]) if r.get('detail') else '',
+                    ('\n    agent log: ' + r['agent_log_tail'][-600:].replace('\n', '\n               '))
+                    if r.get('agent_log_tail') else ''))
             print('benchmark self-test: %s' % ('all %d checks hold' % len(names) if res['ok'] else 'FAILED'))
         elif 'runs' in res:
             for k, v in sorted(res['summary'].items()):

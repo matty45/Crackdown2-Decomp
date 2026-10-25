@@ -36,7 +36,7 @@ sys.path.insert(0, TOOLS)
 import coff  # noqa: E402
 import relocs  # noqa: E402
 import search  # noqa: E402
-from verify_src import ROOT, XDK, BIN, FLAGS, local_config  # noqa: E402
+from verify_src import ROOT, XDK, BIN, FLAGS, local_config, run_compiler  # noqa: E402
 
 BENCH = os.path.abspath(os.environ.get('CD2_BENCH_DIR') or local_config().get('bench_dir')
                         or os.path.join(os.environ.get('LOCALAPPDATA') or tempfile.gettempdir(), 'cd2-bench'))
@@ -164,11 +164,12 @@ def check(addr, model, read, known, aliases, count=True, policy=None):
     rp = result_path(addr, model)
     res = json.load(open(rp))
     src = os.path.join(d, res['file'])
-    obj = os.path.join(os.path.dirname(rp), '%08X.obj' % addr)
+    # a fresh object file per check, deleted afterwards: no file is reused, so nothing still held by another process
+    # (a virus scanner, the indexer) from an earlier check gets in the way
+    fd, obj = tempfile.mkstemp(prefix='%08X_' % addr, suffix='.obj', dir=os.path.dirname(rp))
+    os.close(fd)
     env = dict(os.environ, PATH=BIN + ';' + os.environ['PATH'],
                INCLUDE=os.path.join(XDK, 'include', 'xbox') + ';' + os.path.join(d, 'include'))
-    if os.path.exists(obj):
-        os.remove(obj)
     res['attempts'] += bool(count)
     res['last_check'] = datetime.datetime.now().isoformat(timespec='seconds')
     res['exact'] = False
@@ -180,8 +181,7 @@ def check(addr, model, read, known, aliases, count=True, policy=None):
     elif errors:
         res.update(status='rejected by the source policy', words=0, of=len(target) // 4, detail='; '.join(errors)[:1500])
     else:
-        r = subprocess.run([os.path.join(BIN, 'cl.exe')] + FLAGS + ['/I' + os.path.dirname(src), '/Fo' + obj, src],
-                           env=env, capture_output=True, text=True)
+        r = run_compiler([os.path.join(BIN, 'cl.exe')] + FLAGS + ['/I' + os.path.dirname(src), '/Fo' + obj, src], env=env)
     if r is None:
         pass
     elif r.returncode:
@@ -209,6 +209,10 @@ def check(addr, model, read, known, aliases, count=True, policy=None):
         ours = body_text(open(src, newline='').read(), res['symbol'])
         orig = body_text(open(os.path.join(ROOT, res['file']), newline='').read(), res['symbol'])
         res['same_as_repository'] = bool(ours) and ours == orig
+    try:
+        os.remove(obj)
+    except OSError:
+        pass
     json.dump(res, open(rp, 'w'), indent=1)
     return res
 

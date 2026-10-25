@@ -13,9 +13,9 @@ contributor cannot influence.
 | | |
 |---|---|
 | Functions in the game | 74,551 (as split by jeff) |
-| Source files scaffolded | 8 |
+| Source files set up | 380 (8 by hand, 372 automatically) |
 | Functions matched | 134 (131 in a plain build, 3 more under link-time code generation) |
-| In progress / open in the scaffolded files | 10 / 34 |
+| In progress / open in the set-up files | 10 / 5,072 |
 | Full relink of the split game | byte-identical round trip (`tools/relink.py`) |
 
 `py -I tools\cd2.py status` prints the current numbers.

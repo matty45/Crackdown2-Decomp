@@ -43,6 +43,21 @@ EXPECTED_ENTRY = 0x823BF8C8  # title-update build
 CODE_SECTIONS = ('.text', '.text$yc', '.text$yd')
 
 
+# a compiler failure that is about the file system, not the source: another process (a virus scanner, the indexer)
+# briefly holding a file the compiler must open or write
+TRANSIENT = ('C1083', 'C1085', 'Permission denied', 'being used by another process', 'Access is denied')
+
+
+def run_compiler(cmd, **kw):
+    """subprocess.run of the compiler (capture_output, text), retried once after a transient file-system failure."""
+    import time
+    r = subprocess.run(cmd, capture_output=True, text=True, **kw)
+    if r.returncode and any(t in r.stdout + r.stderr for t in TRANSIENT):
+        time.sleep(1)
+        r = subprocess.run(cmd, capture_output=True, text=True, **kw)
+    return r
+
+
 def toolchain_problems():
     """Files under BIN whose SHA1 differs from config/toolchain.txt (empty when the toolchain is the pinned one)."""
     import hashlib

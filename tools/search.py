@@ -17,7 +17,7 @@ Transformations (the shapes docs/matching-notes.md found to matter):
   increment   `i++;` versus `++i;`
 Nothing is written unless --apply is given; the result shows the transformations and the changed lines.
 """
-import concurrent.futures, difflib, os, re, shutil, subprocess, sys
+import concurrent.futures, difflib, os, re, shutil, subprocess, sys, tempfile
 
 TOOLS = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, TOOLS)
@@ -359,10 +359,24 @@ def search(src, symbol, target, workdir, rounds=6, budget=400, jobs=None, log=pr
 def recovery_test(manifest, read, limit=8, log=print):
     """End to end: break solved functions with one transformation each and require the search to restore an exact
     match. Returns (recovered, tried)."""
+    try:
+        return _recovery_test(manifest, read, limit, log)
+    finally:
+        while _RECOVERY_WORK:
+            shutil.rmtree(_RECOVERY_WORK.pop(), ignore_errors=True)
+
+
+_RECOVERY_WORK = []
+
+
+def _recovery_test(manifest, read, limit=8, log=print):
+    """End to end: break solved functions with one transformation each and require the search to restore an exact
+    match. Returns (recovered, tried)."""
     env = dict(os.environ, PATH=BIN + ';' + os.environ['PATH'],
                INCLUDE=os.path.join(XDK, 'include', 'xbox') + ';' + os.path.join(ROOT, 'include'))
     tried = recovered = 0
-    work = os.path.join(ROOT, 'build', 'cd2', 'search_test')
+    work = tempfile.mkdtemp(prefix='cd2_search_test_')  # private to this process; removed by recovery_test
+    _RECOVERY_WORK.append(work)
     for src, entries in manifest['files'].items():
         text = open(os.path.join(ROOT, src), newline='').read()
         for e in entries:

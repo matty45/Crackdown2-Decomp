@@ -60,6 +60,9 @@ copies are not published.
 The measurement batches: per class, the candidate list (addresses and sizes), the agent's notes and `results.json`; the
 batch's brief template and scripts. The sources they produced are in `src/`.
 
+## scaffold/
+The automatic set-up of 372 source files from registered classes; see its own `README.md`.
+
 ## compiler_re/
 Reverse engineering of the XDK compiler's code generation; see its own `README.md`.
 

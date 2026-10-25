@@ -5,7 +5,8 @@ usage: py -I tools/check_integrity.py [--no-compile] [--self-test]
 Checks config/matched_functions.json and the sources against config/splits.txt (maintainer-owned ground truth).
 Needs no game files; --no-compile skips check 7, the only one that needs the XDK compiler (for machines without
 it). All checks must pass:
-  1. files      splits.txt and the manifest name the same source files, and they exist
+  1. files      every file in the manifest has a splits.txt entry, and every file there exists (a file may be set
+                up before any of its functions is matched)
   2. ranges     no two files' text ranges overlap; no listed address belongs to two files
   3. ownership  every claimed function lies in its file's text range or is listed for that file (hot/init/atexit);
                 entries marked "folded" must be listed as folded for that file and lie outside its range
@@ -148,11 +149,9 @@ def run(manifest, splits, extra_type_roots=(), extra_sources=(), skip_compile=Fa
     for b in binary_files(extra_files):
         failures['binaries'].append('%s is a binary file; the repository holds source and text only' % b)
 
-    # 1. files
+    # 1. files (a file in splits.txt without manifest entries is set up but has no matched function yet)
     for f in set(manifest) - set(splits):
         failures['files'].append('%s is in the manifest but has no entry in splits.txt' % f)
-    for f in set(splits) - set(manifest):
-        failures['files'].append('%s is in splits.txt but not in the manifest' % f)
     for f in splits:
         if not os.path.exists(os.path.join(ROOT, f)):
             failures['files'].append('%s does not exist' % f)
@@ -250,11 +249,14 @@ def self_test(no_compile=False):
     import copy
     manifest = json.load(open(os.path.join(ROOT, 'config', 'matched_functions.json')))['files']
     splits = load_splits(os.path.join(ROOT, 'config', 'splits.txt'))
-    files = list(splits)
+    files = [f for f in splits if manifest.get(f) and splits[f]['init']]  # files with matches and initializers
     a_file, b_file = files[0], files[1]
     b_addr = '0x%08X' % splits[b_file]['text'][0]
     tmp = tempfile.mkdtemp(prefix='cd2integrity_selftest_')
     cases = []
+    m = copy.deepcopy(manifest)
+    m['src/SelfTest/NotInSplits.cpp'] = [{'address': b_addr, 'size': 4, 'symbol': 'SelfTest'}]
+    cases.append(('files', 'a manifest file without a splits entry', m, splits, (), ()))
     m = copy.deepcopy(manifest)
     m[a_file].append({'address': b_addr, 'size': 4, 'symbol': 'SelfTest'})
     cases.append(('ownership', 'a function claimed by the wrong file', m, splits, (), ()))
@@ -314,6 +316,7 @@ def main():
         bad += len(msgs)
     print('\n%d files, %d claimed functions: %s' % (len(manifest), sum(len(v) for v in manifest.values()),
                                                      'integrity OK' if not bad else '%d problem(s)' % bad))
+    print('%d source files set up in splits.txt' % len(splits))
     sys.exit(1 if bad else 0)
 
 

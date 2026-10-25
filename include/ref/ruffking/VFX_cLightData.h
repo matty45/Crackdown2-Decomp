@@ -1,0 +1,72 @@
+
+class VFX::cLightData : public RWS::CAttributeHandler, public RWS::DynamicAllocationPolicy { /* Size=0x1a0 */
+  /* 0x0000: fields for RWS::CAttributeHandler */
+  /* 0x0018: fields for RWS::DynamicAllocationPolicy */
+  /* 0x0018 */ private: Fun_Runtime::cString m_sName;
+  /* 0x0034 */ private: bool m_bDayLightEnabled;
+  /* 0x0035 */ private: bool m_bToDTransition;
+  /* 0x0036 */ private: bool m_bFlicker;
+  /* 0x0038 */ private: float m_fFlickerRandomnessMin;
+  /* 0x003c */ private: float m_fFlickerRandomnessMax;
+  /* 0x0040 */ private: float m_fFlickerAlphaMin;
+  /* 0x0044 */ private: float m_fFlickerAlphaMax;
+  /* 0x0048 */ private: bool m_bPulse;
+  /* 0x004c */ private: Fun_Runtime::eInterpType m_ePulseInterpolationType;
+  /* 0x0050 */ private: float m_fPulseScaleMin;
+  /* 0x0054 */ private: float m_fPulseScaleMax;
+  /* 0x0058 */ private: float m_fPulseSpeed;
+  /* 0x005c */ private: bool m_bFlash;
+  /* 0x0060 */ private: float m_fFlashPeriod;
+  /* 0x0064 */ private: bool m_bBillboardLight;
+  /* 0x0068 */ private: float m_fLightWidth;
+  /* 0x006c */ private: float m_fLightHeight;
+  /* 0x0070 */ private: float m_fMinAlpha;
+  /* 0x0074 */ private: float m_fMaxAlpha;
+  /* 0x0078 */ private: float m_fMinScale;
+  /* 0x007c */ private: float m_fMaxScale;
+  /* 0x0080 */ private: float m_fFallOffAngle;
+  /* 0x0084 */ private: float m_fFallOffDistance;
+  /* 0x0088 */ private: float m_fTexU;
+  /* 0x008c */ private: float m_fTexV;
+  /* 0x0090 */ private: float m_fTextureFrameSizeU;
+  /* 0x0094 */ private: float m_fTextureFrameSizeV;
+  /* 0x0098 */ private: bool m_bUsingFallOffAngle;
+  /* 0x0099 */ private: bool m_bInvertLightDirection;
+  /* 0x009c */ private: unsigned long m_Colour1;
+  /* 0x00a0 */ private: unsigned long m_Colour2;
+  /* 0x00a4 */ private: unsigned int m_nMaxPixels;
+  /* 0x00a8 */ private: float m_fTotalPixelModifier;
+  /* 0x00ac */ private: float m_fOcclusionDamp;
+  /* 0x00b0 */ private: float m_fGLFudgeDistSqMax;
+  /* 0x00b4 */ private: float m_fGLFudgeMin;
+  /* 0x00b8 */ private: float m_fGLFudgeMax;
+  /* 0x00bc */ private: float m_fGLFudgeNormalDistSqMax;
+  /* 0x00c0 */ private: float m_fGLFudgeNormalMin;
+  /* 0x00c4 */ private: float m_fGLFudgeNormalMax;
+  /* 0x00c8 */ private: bool m_bGLFudgeNormalToCamera;
+  /* 0x00d0 */ private: Fun_Runtime::Mtx m_AfterLightMtx;
+  /* 0x0110 */ private: Fun_Runtime::Vec3 m_InscatterSphereSize[2];
+  /* 0x0130 */ private: Fun_Runtime::Vec3 m_DiffuseSphereSize;
+  /* 0x0140 */ private: float m_DiffuseSpherePos;
+  /* 0x0144 */ private: float m_InscatterSpherePos[2];
+  /* 0x014c */ private: Fun_Runtime::RGBAReal m_InscatterColor;
+  /* 0x015c */ private: Fun_Runtime::RGBAReal m_DiffuseColor;
+  /* 0x016c */ private: char m_Mode;
+  /* 0x0170 */ private: Fun_Runtime::Vec3 m_vOffset;
+  /* 0x0180 */ private: Fun_Runtime::Vec3 m_vScale;
+  /* 0x0190 */ private: Fun_Runtime::Vec3 m_vRotation;
+  public: static const char* pcLightDataClassID;
+  
+  public: virtual const char* RetClassName() const;
+  public: virtual void Destruct();
+  public: cLightData(const VFX::cLightData&);
+  public: cLightData(const RWS::CAttributePacket&);
+  public: virtual ~cLightData();
+  public: virtual void HandleAttributes(const RWS::CAttributePacket&);
+  public: virtual bool HandleDataInNewDesignBuild();
+  public: VFX::cLightData& operator=(const VFX::cLightData&);
+  public: virtual void* __vecDelDtor(unsigned int);
+  
+  public: static RWS::CAttributeHandler* MakeNew(const RWS::CAttributePacket&, bool);
+  public: static const char* RetRWSClassName();
+};
