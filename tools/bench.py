@@ -152,9 +152,66 @@ def prepare(file, entry, brief, model=None):
     open(os.path.join(d, 'TASK.md'), 'w', newline='\n').write('\n'.join(task))
     json.dump(dict(address=entry['address'], size=entry['size'], file=file, symbol=entry['symbol'], tier=brief['tier'],
                    model=model, prepared=datetime.datetime.now().isoformat(timespec='seconds'), attempts=0, exact=False,
-                   check=check_cmd),
+                   check=check_cmd, blank_sha=file_sha(dst)),
               open(result_path(addr, model), 'w'), indent=1)
     return d
+
+
+def file_sha(path):
+    import hashlib
+    return hashlib.sha256(open(path, 'rb').read()).hexdigest()
+
+
+def agent_failed(res, ws_file=None):
+    """The agent exited with an error and did nothing: it ran no check and left the workspace's file as prepared.
+    Such a task says nothing about the model (a usage limit, a missing key, a crash) and is not scored. A timeout, or
+    an error exit after some work, is a genuine attempt."""
+    code = res.get('agent_exit')
+    if isinstance(code, bool) or not isinstance(code, int) or code == 0 or res.get('attempts', 0):
+        return False
+    if ws_file and os.path.exists(ws_file):
+        if res.get('blank_sha'):
+            return file_sha(ws_file) == res['blank_sha']
+        # recorded before the prepared file's hash was: the blanked body's marker is still there if nothing was written
+        return 'TODO (benchmark)' in open(ws_file, errors='replace').read()
+    return True  # no workspace left to look at
+
+
+def agent_log_tail(addr, model, n=600):
+    """The end of the agent's output, without terminal colour codes."""
+    p = os.path.join(workspace(addr, model), 'agent.log')
+    text = open(p, errors='replace').read() if os.path.exists(p) else ''
+    return re.sub(r'\x1b\[[0-9;]*m', '', text).strip()[-n:]
+
+
+def mark_agent_error(addr, model):
+    """Record the task as an agent error (not scored), with the end of the agent's output as the detail."""
+    rp = result_path(addr, model)
+    res = json.load(open(rp))
+    res.update(status='agent error', exact=False, agent_error=True, words=0, detail=agent_log_tail(addr, model))
+    json.dump(res, open(rp, 'w'), indent=1)
+    return res
+
+
+def mark_scored(addr, model):
+    """Record that the task's result counts (the agent worked on it)."""
+    rp = result_path(addr, model)
+    res = json.load(open(rp))
+    res['agent_error'] = False
+    json.dump(res, open(rp, 'w'), indent=1)
+    return res
+
+
+def needs_run(addr, model):
+    """For `bench run --resume`: true unless the task already has a genuine result (its agent finished, or timed out,
+    and did not fail without working)."""
+    rp = result_path(addr, model)
+    if not os.path.exists(rp):
+        return True
+    res = json.load(open(rp))
+    if 'agent_exit' not in res or res.get('agent_error'):
+        return True
+    return agent_failed(res, os.path.join(workspace(addr, model), res['file']))
 
 
 def check(addr, model, read, known, aliases, count=True, policy=None):
@@ -342,9 +399,19 @@ def report(model=None):
             for t in sorted(os.listdir(rdir)) if os.path.isdir(rdir) else []:
                 if t.endswith('.json'):
                     rows.append(json.load(open(os.path.join(rdir, t))))
-    table = collections.defaultdict(lambda: dict(tasks=0, exact=0, attempts=0, seconds=0.0, same_as_repository=0))
+    table = collections.defaultdict(lambda: dict(tasks=0, exact=0, attempts=0, seconds=0.0, same_as_repository=0,
+                                                 agent_errors=0, not_run=0))
     for r in rows:
+        failed = r['agent_error'] if 'agent_error' in r else agent_failed(
+            r, os.path.join(workspace(int(r['address'], 16), r.get('model')), r['file']))
+        ran = 'last_check' in r  # prepared but never checked: the run was stopped, or an IDE workspace not scored yet
         for k in ('%s / tier %d' % (r.get('model') or 'unnamed', r['tier']), '%s / all' % (r.get('model') or 'unnamed')):
+            if failed:  # the agent never worked on it: not a result for the model
+                table[k]['agent_errors'] += 1
+                continue
+            if not ran:
+                table[k]['not_run'] += 1
+                continue
             table[k]['tasks'] += 1
             table[k]['exact'] += bool(r['exact'])
             table[k]['attempts'] += r['attempts']

@@ -25,12 +25,15 @@ usage: py -I tools/cd2.py <command> [arguments] [--json]
                                  keep those that bring the function closer to CD2 (tools/search.py)
   search-test [--limit N]        break solved functions with one transformation each; the search must restore them
   bench list|suite|prepare|check|score|run|report|selftest [address] [--model M] [--agent A] [--tier N] [--limit N]
+        [--resume]
                                  the benchmark: re-solve solved functions in isolated workspaces (tools/bench.py).
                                  `bench run --model NAME --agent A` runs an agent over the suite; A is
                                  chat:<model> (any model behind an OpenAI-compatible API, tools/bench_chat.py),
                                  claude:<model> or kilo:<provider/model> (those CLIs, sandboxed), or the command of
                                  any other agent. IDE agents: `bench prepare --model NAME` (the whole suite), work
-                                 through the workspaces, then `bench score --model NAME`
+                                 through the workspaces, then `bench score --model NAME`. An agent that exits with an
+                                 error without working is an agent error, not scored; 3 in a row stop the run, and
+                                 --resume re-runs only the tasks without a genuine result
   lint [file.cpp ...]            the source policy on the preprocessed source (default: every file in src/)
   verify [--facts]               every gate; exit status 0 only if all pass. --facts needs no game file: the facts
                                  recorded in config/target_facts.json stand in for it
@@ -909,12 +912,15 @@ def bench_agent(agent):
 
 def selftest_expected(r):
     """Whether one self-test run ended as its agent must: the oracle and the chat agent EXACT, the cheats rejected by the
-    source policy (emit, include) or not exact (forged result), the do-nothing agent not exact."""
+    source policy (emit, include) or not exact (forged result), the do-nothing agent not exact, the agent that fails
+    without working flagged as an agent error."""
     m = r['kind']
     if m in ('oracle', 'chat'):
         return r['exact']
     if m in ('cheat-emit', 'cheat-include'):
         return r['status'] == 'rejected by the source policy'
+    if m == 'error':
+        return r['status'] == 'agent error' and not r['exact']
     return not r['exact']
 
 
@@ -950,9 +956,10 @@ def cmd_bench(a):
             own = 'selftest%d-' % os.getpid()
             runs = [(selftest + 'oracle', own + 'oracle'), ('echo nothing', own + 'null')] + [
                 (selftest + c, own + c) for c in ('cheat-emit', 'cheat-include', 'cheat-result')] + [
-                (bench_agent('chat:mock-model') + ' --rounds 3', own + 'chat')]
+                (bench_agent('chat:mock-model') + ' --rounds 3', own + 'chat'),
+                ('"%s" -I -c "import sys; sys.exit(3)"' % sys.executable, own + 'error')]  # fails without working
         aliases = relocs.load_aliases(ALIASES)
-        out = []
+        out, stopped = [], None
         for agent, m in runs:
             saved, server = dict(os.environ), None
             kind = m.split('-', 1)[1] if a.action == 'selftest' else None
@@ -962,13 +969,28 @@ def cmd_bench(a):
                     os.environ.pop(k, None)
                 os.environ['CD2_LLM_BASE_URL'] = url
             todo = tasks
-            if kind and kind.startswith('cheat'):  # the defences do not depend on the task: one per tier shows them
+            if kind and (kind.startswith('cheat') or kind == 'error'):  # one task per tier shows these
                 todo = [t for i, t in enumerate(tasks) if t['tier'] not in [x['tier'] for x in tasks[:i]]]
+            failures_in_a_row = 0
             try:
                 for t in todo:
+                    addr = int(t['address'], 16)
+                    if a.action == 'run' and a.resume and not bench.needs_run(addr, m):
+                        print('%-22s %s tier %d  kept (already has a result)' % (m, t['address'], t['tier']),
+                              file=sys.stderr, flush=True)
+                        continue
                     bench_prepare(man, t['address'], m)
-                    code, secs = bench.run_agent(int(t['address'], 16), m, agent, a.timeout)
-                    res = bench.check(int(t['address'], 16), m, read, {}, aliases, count=False, policy=bench_policy)
+                    code, secs = bench.run_agent(addr, m, agent, a.timeout)
+                    rec = json.load(open(bench.result_path(addr, m)))
+                    if bench.agent_failed(rec, os.path.join(bench.workspace(addr, m), rec['file'])):
+                        res = bench.mark_agent_error(addr, m)  # the agent never worked on it: not scored
+                        failures_in_a_row += 1
+                        print('%-22s %s agent error (exit %s, nothing done):\n    %s' % (
+                            m, t['address'], code, res['detail'][-300:].replace('\n', '\n    ')), file=sys.stderr, flush=True)
+                    else:
+                        res = bench.check(addr, m, read, {}, aliases, count=False, policy=bench_policy)
+                        res = dict(res, **{k: v for k, v in bench.mark_scored(addr, m).items() if k == 'agent_error'})
+                        failures_in_a_row = 0
                     out.append(dict(model=m, kind=kind, address=t['address'], tier=t['tier'], status=res['status'],
                                     exact=res['exact'], attempts=res['attempts'], agent_exit=code, seconds=secs,
                                     same_as_repository=res.get('same_as_repository'), detail=res.get('detail', '')))
@@ -977,6 +999,11 @@ def cmd_bench(a):
                         out[-1]['agent_log_tail'] = open(log, errors='replace').read()[-1500:] if os.path.exists(log) else ''
                     print('%-22s %s tier %d  %-14s %3d attempt(s) %6.1f s' % (
                         m, t['address'], t['tier'], res['status'], res['attempts'], secs), file=sys.stderr, flush=True)
+                    if a.action == 'run' and failures_in_a_row >= 3:
+                        stopped = ('stopped: the agent failed %d tasks in a row without doing anything (a usage limit, a '
+                                   'missing key, a crash; its output is above and in agent.log). Fix it, then continue '
+                                   'with the same command plus --resume.' % failures_in_a_row)
+                        break
             finally:
                 if server:
                     server.shutdown()
@@ -991,12 +1018,13 @@ def cmd_bench(a):
                 null_none_exact=not any(r['exact'] for r in runs_of('null')),
                 emit_rejected=all(r['status'] == 'rejected by the source policy' for r in runs_of('cheat-emit')),
                 include_rejected=all(r['status'] == 'rejected by the source policy' for r in runs_of('cheat-include')),
-                forged_result_ignored=not any(r['exact'] for r in runs_of('cheat-result')))
+                forged_result_ignored=not any(r['exact'] for r in runs_of('cheat-result')),
+                agent_error_flagged=all(r['status'] == 'agent error' for r in runs_of('error')))
             for m in {r['model'] for r in out}:
                 shutil.rmtree(os.path.join(bench.BENCH, bench.model_dir(m)), ignore_errors=True)
             return dict(ok=all(checks.values()), runs=out, unexpected=[r for r in out if not selftest_expected(r)],
                         **checks)
-        return dict(ok=True, runs=out, summary=bench.report(model)[1])
+        return dict(ok=not stopped, runs=out, summary=bench.report(model)[1], stopped=stopped)
     if a.action == 'score':  # the final verdict of every prepared task (after working through them in an IDE agent)
         need_setup()
         rdir = os.path.dirname(bench.result_path(0, model))
@@ -1244,7 +1272,8 @@ def show_text(cmd, res):
                      ('null_none_exact', 'do-nothing agent exact on none'),
                      ('emit_rejected', '__emit of CD2\'s words rejected'),
                      ('include_rejected', '#include of the repository\'s file rejected'),
-                     ('forged_result_ignored', 'forged result ignored')]
+                     ('forged_result_ignored', 'forged result ignored'),
+                     ('agent_error_flagged', 'an agent that fails without working is flagged, not scored')]
             for k, what in names:
                 print('  %-4s %s' % ('ok' if res.get(k) else 'FAIL', what))
             for r in res.get('unexpected', []):
@@ -1256,18 +1285,24 @@ def show_text(cmd, res):
             print('benchmark self-test: %s' % ('all %d checks hold' % len(names) if res['ok'] else 'FAILED'))
         elif 'runs' in res:
             for k, v in sorted(res['summary'].items()):
-                print('%-30s %3d of %3d exact, %d attempts, %.0f s%s' % (
+                print('%-30s %3d of %3d exact, %d attempts, %.0f s%s%s%s' % (
                     k, v['exact'], v['tasks'], v['attempts'], v['seconds'],
-                    ', %d identical to the repository' % v['same_as_repository'] if v.get('same_as_repository') else ''))
+                    ', %d identical to the repository' % v['same_as_repository'] if v.get('same_as_repository') else '',
+                    ', %d agent error(s), not scored' % v['agent_errors'] if v.get('agent_errors') else '',
+                    ', %d not run' % v['not_run'] if v.get('not_run') else ''))
+            if res.get('stopped'):
+                print(res['stopped'])
         elif 'tasks' in res:
             for t in res['tasks']:
                 print('%s %5d bytes  tier %d  %-44s %s' % (t['address'], t['size'], t['tier'], t['file'], t['symbol'][:60]))
             print('%d benchmark tasks' % len(res['tasks']))
         elif 'by_model_and_tier' in res:
             for k, v in sorted(res['by_model_and_tier'].items()):
-                print('%-30s %3d of %3d exact, %d attempts, %.0f s%s' % (
+                print('%-30s %3d of %3d exact, %d attempts, %.0f s%s%s%s' % (
                     k, v['exact'], v['tasks'], v['attempts'], v['seconds'],
-                    ', %d identical to the repository' % v['same_as_repository'] if v.get('same_as_repository') else ''))
+                    ', %d identical to the repository' % v['same_as_repository'] if v.get('same_as_repository') else '',
+                    ', %d agent error(s), not scored' % v['agent_errors'] if v.get('agent_errors') else '',
+                    ', %d not run' % v['not_run'] if v.get('not_run') else ''))
             if not res['by_model_and_tier']:
                 print('no results yet')
         elif 'workspace' in res:
@@ -1356,7 +1391,7 @@ def main():
     s.add_argument('action', choices=['list', 'suite', 'prepare', 'check', 'score', 'run', 'report', 'selftest'])
     s.add_argument('address', nargs='?'); s.add_argument('--tier', type=int); s.add_argument('--model')
     s.add_argument('--agent'); s.add_argument('--limit', type=int); s.add_argument('--timeout', type=int, default=1800)
-    s.add_argument('--make', action='store_true')
+    s.add_argument('--make', action='store_true'); s.add_argument('--resume', action='store_true')
     s = sub.add_parser('lint'); s.add_argument('files', nargs='*'); s.add_argument('--self-test', action='store_true')
     s = sub.add_parser('verify'); s.add_argument('--exe'); s.add_argument('--facts', action='store_true')
     s = sub.add_parser('review'); s.add_argument('ref'); s.add_argument('--record-facts', action='store_true')

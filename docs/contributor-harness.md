@@ -190,6 +190,13 @@ What the harness guarantees for every kind of agent:
 - **Copying is flagged.** `bench report` counts solutions identical to the repository's. That is expected for tiny
   functions and suspicious for long ones.
 
+**When the agent itself fails.** A task where the agent exits with an error without doing anything (it ran no check
+and left the file as prepared) is an **agent error**: a usage limit, a missing key, a crash. It says nothing about the
+model, so it is not scored; `bench report` counts it separately, and the run prints the end of the agent's output. After
+3 agent errors in a row the run stops. Fix the cause, then repeat the same command with `--resume`: it re-runs only the
+tasks without a genuine result (agent errors, and tasks never run or interrupted) and keeps the rest. A timeout, or an
+error exit after some work, is a genuine attempt and is scored.
+
 The suite's solutions are public once the repository is, so a model trained after that may have seen them. Compare
 models with that in mind, and refresh the suite (`bench suite --make`, maintainers) as new functions are solved.
 

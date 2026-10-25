@@ -22,7 +22,7 @@ contributor cannot influence.
 
 ## What you need
 
-- **Your own copy of the game**: the title-update XEX `default_patched.xex` (SHA1
+- **Your own copy of the game**: The XEX of the game patched with the latest title update. `default_patched.xex` (SHA1
   `EC7B163617CD725F50B0CCA665AAF943F9BC6D8A`). The tools refuse any other build. Nothing from the game is stored in
   this repository, and nothing you extract ever enters it.
 - **The Xbox 360 XDK 9328**, extracted (not installed). It is not distributed here. Its compiler must be the exact
