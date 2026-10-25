@@ -69,7 +69,7 @@ public:
     virtual void Slot23();
     virtual void Slot24();
     virtual void Slot25();
-    virtual void Slot26();
+    virtual void UpdateRenderMatrix();      // slot 26: a body copies its matrix into the render matrix (Prop/cProp.h)
     virtual void Slot27();
     virtual void Slot28();
     virtual void Slot29();

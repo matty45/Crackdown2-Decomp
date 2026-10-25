@@ -167,3 +167,17 @@ in a `.cpp` are no longer needed.
 - `Term` calls `cNonGameBase::Term` (0x826538B8), although `cVehicleController` overrides `Term` (0x82781CF0). `cVehicleController::Term` is inline, `{ cNonGameBase::Term(); return Ret_OK; }`: inlined into the helicopter's `Term`, its load of `Ret_OK` is dead. The out-of-line copy exists only for the vtable.
 - Positive modulo `i = idx % n; if (i < 0) i += m_nCount;` (field re-read) and wrap-around `if (idx < 0) i = size() + idx; if (idx >= size()) i -= size();` with an inline `size()` computed three times.
 - Open: `fmadds`/`fmuls` operand choice in a clamped cross product and an xz normalisation; two state transitions that inline an intrusive-list `front()` three times (needs the real list types); the VMX128 code.
+
+## First matches in automatically set-up files (2026-10-25)
+
+### Prop/cTrafficLight.cpp (UpdateRenderMatrix exact)
+- **Name a virtual slot from its chain of base calls.** cTrafficLight's override calls cProp's (0x826DA5B8), which first
+  calls the same slot of its own base, PHYSICS::cBody (0x82683DC0). The bottom of the chain shows what the slot does:
+  it copies the body matrix into the render matrix, so slot 26 is UpdateRenderMatrix (now named in
+  `gom/non_game_base.h`). Slots 31 and 32 are EnterRenderableState and LeaveRenderableState.
+- **Class sizes without a PDB.** A registrar's initializer passes the class size to the class registration, as does
+  StaticCreateClass. A prototype's size is the allocation in its MakeNew.
+- **Identical-code folding across class families.** cProp's and cVehicle's UpdateRenderMatrix are one folded copy that
+  lies in cVehicle's code. Name a call after the class the source names (`cProp::UpdateRenderMatrix`). Its address is
+  not evidence of the owner. Whoever matches cVehicle's adds the pair to `config/symbol_aliases.txt`.
+

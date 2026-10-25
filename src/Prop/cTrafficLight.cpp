@@ -9,3 +9,26 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Prop/cTrafficLight.cpp
+
+#include "Prop/cTrafficLight.h"
+
+namespace Prop
+{
+    void cTrafficLight::UpdateRenderMatrix()
+    {
+        cProp::UpdateRenderMatrix();
+
+        if (m_eCurrentColour != m_eNewColour || m_bFirstRender)
+        {
+            cTrafficLightPrototype *pProto = static_cast<cTrafficLightPrototype *>(m_pPrototype);
+            for (unsigned int i = 0; i < pProto->m_nNumLights; ++i)
+            {
+                if (m_bLightActive && !m_bIsBroken)
+                    AddLight(i, m_eNewColour);
+            }
+            m_bLightActive = true;
+            m_bFirstRender = false;
+            m_eCurrentColour = m_eNewColour;
+        }
+    }
+}

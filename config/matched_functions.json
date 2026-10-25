@@ -160,6 +160,9 @@
       {"address": "0x83005770", "size": 76, "symbol": "??__EcHelicopterControllerRegistrar@VEHICLE_CONTROL@@"},
       {"address": "0x830423B0", "size": 12, "symbol": "??__FcHelicopterControllerRegistrar@VEHICLE_CONTROL@@"},
       {"address": "0x82782D70", "size": 116, "symbol": "?Flatten2D@VEHICLE_CONTROL@@", "matching": false, "note": "59%: xz flatten + optional normalise; fmadds operand choice not matched (58%)"}
+    ],
+    "src/Prop/cTrafficLight.cpp": [
+      {"address": "0x827478F8", "size": 156, "symbol": "?UpdateRenderMatrix@cTrafficLight@Prop@@"}
     ]
   }
 }

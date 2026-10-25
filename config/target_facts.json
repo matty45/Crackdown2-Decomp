@@ -38,6 +38,9 @@
   "src/GangManager/cFactionConfigData.cpp": {
    "direct_constants": []
   },
+  "src/Prop/cTrafficLight.cpp": {
+   "direct_constants": []
+  },
   "src/VEHICLE_CONTROL/cHelicopterController.cpp": {
    "direct_constants": [
     [
@@ -2223,6 +2226,46 @@
     ]
    },
    "size": 776
+  },
+  "0x827478F8": {
+   "ltcg": {
+    "ends": true,
+    "sha": "03437c601f9637d555c355e50e035d6c8a54be244b3e2a17f531592596ac1ac9"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     4,
+     16,
+     104,
+     152
+    ],
+    "sha": "33ddf4d9e08c18ae79b94183a42bdc85dab176fc2478a26f1fe6ba4ef5db11d8",
+    "strings": {},
+    "targets": [
+     [
+      4,
+      "call",
+      "0x82F1E40C"
+     ],
+     [
+      16,
+      "call",
+      "0x826DA5B8"
+     ],
+     [
+      104,
+      "call",
+      "0x82747998"
+     ],
+     [
+      152,
+      "branch",
+      "0x82F1E45C"
+     ]
+    ]
+   },
+   "size": 156
   },
   "0x82782020": {
    "ltcg": {
