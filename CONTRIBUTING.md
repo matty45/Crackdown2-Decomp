@@ -62,12 +62,15 @@ Pull requests may not change these without a maintainer's agreement (`cd2.py rev
 Two exceptions in `config/`:
 - you may **add** entries for functions you matched to `config/matched_functions.json`: the address, size and mangled
   symbol prefix, plus `"ltcg": true` if the function is exact only under `--ltcg`;
-- maintainers then record the new entries' target facts (`cd2.py facts record`) and adjust the other config files.
+- you then **record** their target facts with `py -I tools\cd2.py facts record`, which rewrites
+  `config/target_facts.json` from your copy of the game (never edit it by hand). The maintainer records them again
+  from their own copy when reviewing (`cd2.py review --record-facts`).
 
 ## Pull-request checklist
 
 - [ ] `py -I tools\cd2.py verify` passes (paste its last lines into the pull request).
-- [ ] New exact functions are added to `config/matched_functions.json`.
+- [ ] New exact functions are added to `config/matched_functions.json`, and their facts recorded
+      (`py -I tools\cd2.py facts record`).
 - [ ] Anything non-obvious you learned is added to `docs/matching-notes.md` (pattern, then cause or fix).
 - [ ] No binaries, no game data, no machine-specific paths.
 

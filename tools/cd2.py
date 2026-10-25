@@ -37,7 +37,7 @@ usage: py -I tools/cd2.py <command> [arguments] [--json]
   lint [file.cpp ...]            the source policy on the preprocessed source (default: every file in src/)
   verify [--facts]               every gate; exit status 0 only if all pass. --facts needs no game file: the facts
                                  recorded in config/target_facts.json stand in for it
-  facts record                   maintainers: record those facts (after adding matches to the manifest)
+  facts record                   record those facts from your copy of the game (after adding matches to the manifest)
   review <branch> [--record-facts]
                                  maintainers, before merging a contribution: verify it with this checkout's tools and
                                  config (only its changes to src/, include/, the manifest and the notes are applied),

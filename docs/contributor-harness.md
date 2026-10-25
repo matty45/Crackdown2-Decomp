@@ -57,7 +57,7 @@ still compile identically in a plain build. Where LTCG gathered a function's flo
 code has that shape.
 
 **When a function is exact,** add it to `config/matched_functions.json` in your pull request (address, size, mangled
-symbol prefix). Before merging, a maintainer recomputes every entry (`cd2.py review`, below); an entry that is not
+symbol prefix), and run `cd2.py facts record` to record its target facts (below). Before merging, a maintainer recomputes every entry (`cd2.py review`, below); an entry that is not
 exact is not merged.
 
 ## Mismatch findings
@@ -272,8 +272,9 @@ facts for the new manifest entries first (below); commit `config/target_facts.js
 
 ## Verifying without the game
 
-For every function in the manifest, maintainers record facts in `config/target_facts.json` (`cd2.py facts record`, or
-`review --record-facts`, with the game). From these facts a match can be confirmed, but no code can be recovered:
+For every function in the manifest, facts are recorded in `config/target_facts.json` with the game: by whoever adds the
+entry (`cd2.py facts record`), and again by the maintainer from their own copy when reviewing (`review
+--record-facts`), so the facts in a merge never depend on the contributor. From these facts a match can be confirmed, but no code can be recovered:
 
 - a hash of CD2's bytes with the linker-filled fields masked, and the positions of those fields;
 - the CD2 address each relocation resolves to;

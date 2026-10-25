@@ -1,12 +1,12 @@
 """Target facts: confirm matches without the game.
 
-usage: py -I tools/facts.py record <path to extracted default.exe>     (maintainers: writes config/target_facts.json)
+usage: py -I tools/facts.py record <path to extracted default.exe>     (writes config/target_facts.json)
        py -I tools/facts.py verify                                      (anyone with the XDK: no game file needed)
        py -I tools/facts.py --self-test                                 (plants errors; each must be caught)
 
 Every gate normally reads Crackdown 2's code from your own extracted executable. To confirm the matches without the
-game (another machine, a reviewer), a maintainer records, for every function in config/matched_functions.json, facts from which a match can be
-confirmed but no code recovered:
+game (another machine, a reviewer), whoever adds a match records (`cd2.py facts record`, with the game), for every
+function in config/matched_functions.json, facts from which a match can be confirmed but no code recovered:
   plain   the word positions the compiler leaves to the linker (relocations), and a SHA-256 of CD2's bytes with those
           fields masked as the byte comparison masks them (only the opcode bits kept)
   targets the CD2 address each relocation resolves to; the bytes of the float constants referenced; a SHA-256 of the
@@ -124,7 +124,7 @@ def verify(override=None, ltcg=True, out=print):
     override = override or {}
     man = json.load(open(MANIFEST))
     if not os.path.exists(FACTS):
-        raise SystemExit('no %s: a maintainer runs `py -I tools/facts.py record <default.exe>`' % FACTS)
+        raise SystemExit('no %s: run `py -I tools/cd2.py facts record`' % FACTS)
     facts = json.load(open(FACTS))
     tmp = tempfile.mkdtemp(prefix='cd2facts_')
     ok = total = pending = ltcg_ok = ltcg_total = 0
@@ -157,7 +157,7 @@ def verify(override=None, ltcg=True, out=print):
             if fe is None or fe['size'] != size:
                 out('  %08X  NO FACTS     %s' % (va, name))
                 if tracked:
-                    problems.append('%s: no recorded facts for %08X (record them with the game)' % (src, va))
+                    problems.append('%s: no recorded facts for %08X (run `py -I tools/cd2.py facts record`)' % (src, va))
                 continue
             p = fe.get('plain')
             exact = bool(p) and sorted(rl) == p['relocations'] and len(code) == size and sha(mask(code, rl)) == p['sha']
