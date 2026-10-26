@@ -50,6 +50,7 @@ namespace AI
     class cFactionTargetingProfile : public RWS::CAttributeHandler
     {
     public:
+        virtual const char *RetClassName() const;
         GangManager::cConfigBase m_ConfigBase;
     };
 }
@@ -83,3 +84,4 @@ namespace GangManager
 }
 
 #endif // GANGMANAGER_CFACTIONCONFIGDATA_H
+

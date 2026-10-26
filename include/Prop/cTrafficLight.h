@@ -48,6 +48,7 @@ namespace Prop
         unsigned char m_padE43[0xE60 - 0xE43];
 
     public:
+        virtual const char *RetClassName() const;
         virtual void UpdateRenderMatrix();                               // slot 26, 0x827478F8
 
     protected:
@@ -65,3 +66,5 @@ namespace Prop
 }
 
 #endif // PROP_CTRAFFICLIGHT_H
+
+

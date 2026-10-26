@@ -1,11 +1,16 @@
-// src/AI/cAiPlayer.cpp
-//
-// Class: cAiPlayer (namespace: AI). Set up automatically: no function is matched yet. The address range and the
-// evidence for it are in config/splits.txt; RuffKing's object for it is cAiPlayer.obj.
-//
-// Reference layout from a later build of the same codebase (a starting point, not CD2's: verify it against CD2's code):
-// include/ref/ruffking/AI_cAiPlayer.h.
-//
-// Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
-// include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
-//     py -I tools/cd2.py tasks src/AI/cAiPlayer.cpp
+#include "AI/cAiPlayer.h"
+
+namespace AI
+{
+    const Fun_Runtime::cClass *cAiPlayer::ms_pcAiPlayerClass = 0;
+
+    const Fun_Runtime::cClass &cAiPlayer::RetClass() const
+    {
+        return *ms_pcAiPlayerClass;
+    }
+
+    const char *cAiPlayer::RetClassName() const
+    {
+        return "cAiPlayer";
+    }
+}

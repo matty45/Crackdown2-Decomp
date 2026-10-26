@@ -1,11 +1,9 @@
-// src/CHARACTER/cAgentTintProfile.cpp
-//
-// Class: cAgentTintProfile (namespace: CHARACTER). Set up automatically: no function is matched yet. The address range
-// and the evidence for it are in config/splits.txt; RuffKing's object for it is cAgentTintProfile.obj.
-//
-// Reference layout from a later build of the same codebase (a starting point, not CD2's: verify it against CD2's code):
-// include/ref/ruffking/CHARACTER_cAgentTintProfile.h.
-//
-// Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
-// include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
-//     py -I tools/cd2.py tasks src/CHARACTER/cAgentTintProfile.cpp
+#include "CHARACTER/cAgentTintProfile.h"
+
+namespace CHARACTER
+{
+    const char *cAgentTintProfile::RetClassName() const
+    {
+        return "cAgentTintProfile";
+    }
+}

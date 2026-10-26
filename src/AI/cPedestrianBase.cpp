@@ -1,11 +1,21 @@
-// src/AI/cPedestrianBase.cpp
-//
-// Class: cPedestrianBase (namespace: AI). Set up automatically: no function is matched yet. The address range and the
-// evidence for it are in config/splits.txt; RuffKing's object for it is PedestrianBase.obj.
-//
-// Reference layout from a later build of the same codebase (a starting point, not CD2's: verify it against CD2's code):
-// include/ref/ruffking/AI_cPedestrianBase.h.
-//
-// Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
-// include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
-//     py -I tools/cd2.py tasks src/AI/cPedestrianBase.cpp
+#include "AI/cPedestrianBase.h"
+
+namespace AI
+{
+    const Fun_Runtime::cClass *cPedestrianBase::ms_pcPedestrianBaseClass = 0;
+
+    const Fun_Runtime::cClass &cPedestrianBase::RetClass() const
+    {
+        return *ms_pcPedestrianBaseClass;
+    }
+
+    bool cPedestrianBase::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcPedestrianBaseClass->IsA(c);
+    }
+
+    const char *cPedestrianBase::RetClassName() const
+    {
+        return "cPedestrianBase";
+    }
+}

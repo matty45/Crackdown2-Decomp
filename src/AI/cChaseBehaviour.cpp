@@ -217,7 +217,7 @@ namespace AI
                 m_bF5 = false;
         }
         HostReg *reg = m_pHost->m_Registry.m_pReg;
-        if (reg && ((!reg->m_b37 && m_bF6) || reg->m_b38))
+        if ((int)reg && ((!reg->m_b37 && m_bF6) || reg->m_b38))
         {
             Ext_823E9738(m_pHost);
             Ext_8244D038(&m_pHost->m_Registry);
