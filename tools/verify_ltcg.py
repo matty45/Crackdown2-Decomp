@@ -25,7 +25,7 @@ import bisect, json, math, os, re, shutil, struct, subprocess, sys, tempfile
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import coff
 import relocs
-from verify_src import pe_reader, FLAGS, XDK, BIN, ROOT, EXPECTED_ENTRY, check_toolchain
+from verify_src import pe_reader, FLAGS, XDK, BIN, ROOT, EXPECTED_ENTRY, check_toolchain, parallel_map
 
 POOL_START, POOL_SIZE = 0x820F8C80, 0x8000  # CD2's LTCG constant pool (__pool@_0)
 RDATA = (0x82000400, 0x8216F658)
@@ -516,11 +516,21 @@ def main():
     work = keep or tempfile.mkdtemp(prefix='cd2ltcg_')
     totals = dict(n=0, plain=0, ltcg=0, tracked=0, tracked_ok=0)
     ref_entries, ref_problems, known, nref = [], [], {}, 0
-    for src, funcs in manifest['files'].items():
-        if only not in src:
-            continue
-        res = check_file(src, funcs, read, env, os.path.join(work, os.path.splitext(os.path.basename(src))[0]))
+    sources = [(src, funcs) for src, funcs in manifest['files'].items() if only in src]
+
+    def check_source(item):
+        n, (src, funcs) = item
+        lines = []
+        d = os.path.join(work, '%d_%s' % (n, os.path.splitext(os.path.basename(src))[0]))
+        res = check_file(src, funcs, read, env, d, out=lines.append)
+        return res, lines
+
+    build_errors = 0
+    for res, lines in parallel_map(check_source, enumerate(sources)):
+        for line in lines:
+            print(line)
         if res is None:
+            build_errors += 1
             continue
         ref_entries += res['entries']
         ref_problems += res['problems']
@@ -542,7 +552,7 @@ def main():
         print('  ' + pr)
     if not keep:
         shutil.rmtree(work, ignore_errors=True)
-    sys.exit(0 if totals['tracked_ok'] == totals['tracked'] and not ref_problems else 1)
+    sys.exit(0 if totals['tracked_ok'] == totals['tracked'] and not ref_problems and not build_errors else 1)
 
 
 if __name__ == '__main__':

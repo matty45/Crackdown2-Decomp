@@ -23,7 +23,7 @@ import collections, json, os, re, struct, subprocess, sys, tempfile
 
 TOOLS = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, TOOLS)
-from verify_src import FLAGS, XDK, BIN, ROOT
+from verify_src import FLAGS, XDK, BIN, ROOT, parallel_map
 
 HOT = (0x821D0000, 0x823D0000)
 
@@ -228,10 +228,14 @@ def run(manifest, splits, extra_type_roots=(), extra_sources=(), skip_compile=Fa
         tmp = tempfile.mkdtemp(prefix='cd2integrity_')
         owners = collections.defaultdict(list)
         sources = [os.path.join(ROOT, f) for f in manifest] + list(extra_sources)
-        for n, path in enumerate(sources):
+        def compile_source(item):
+            n, path = item
             obj = os.path.join(tmp, '%d_%s.obj' % (n, os.path.basename(path)))
             r = subprocess.run([os.path.join(BIN, 'cl.exe')] + FLAGS + ['/I' + os.path.dirname(path), '/Fo' + obj, path],
                                env=env, capture_output=True, text=True)
+            return path, obj, r
+
+        for path, obj, r in parallel_map(compile_source, enumerate(sources)):
             if r.returncode:
                 failures['functions'].append('%s does not compile' % path)
                 continue

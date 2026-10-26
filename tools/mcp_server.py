@@ -41,8 +41,11 @@ TOOLS_DEF = {
                    lambda a: ['search', a['file'], a['address']] + (['--apply'] if a.get('apply') else [])),
     'cd2_lint': ('The source policy (no inline assembly, pragmas, ...) on one file or all of src/.',
                  S(file=('string', 'one file; omit for all')), [], lambda a: ['lint'] + ([a['file']] if a.get('file') else [])),
-    'cd2_verify': ('Every gate (run it before a pull request).', S(facts=('boolean', 'use the recorded facts instead of the game file')), [],
-                   lambda a: ['verify'] + (['--facts'] if a.get('facts') else [])),
+    'cd2_verify': ('Every gate (run it before a pull request).',
+                   S(facts=('boolean', 'use the recorded facts instead of the game file'),
+                     jobs=('integer', 'parallel files; positive, defaults to up to 8 CPUs; 1 runs serially')), [],
+                   lambda a: ['verify'] + (['--facts'] if a.get('facts') else [])
+                             + (['--jobs', str(a['jobs'])] if 'jobs' in a else [])),
     'cd2_bench_check': ('Score a benchmark task\'s workspace (the check command in its TASK.md); each call is an attempt.',
                         S(address=ADDR, model=('string', 'the model name the task was prepared for (--model)')),
                         ['address', 'model'], lambda a: ['bench', 'check', a['address'], '--model', a['model']]),

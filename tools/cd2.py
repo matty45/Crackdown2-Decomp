@@ -35,7 +35,7 @@ usage: py -I tools/cd2.py <command> [arguments] [--json]
                                  error without working is an agent error, not scored; 3 in a row stop the run, and
                                  --resume re-runs only the tasks without a genuine result
   lint [file.cpp ...]            the source policy on the preprocessed source (default: every file in src/)
-  verify [--facts]               every gate; exit status 0 only if all pass. --facts needs no game file: the facts
+  verify [--facts] [--jobs N]    every gate; exit status 0 only if all pass. --facts needs no game file: the facts
                                  recorded in config/target_facts.json stand in for it
   facts record                   record those facts from your copy of the game (after adding matches to the manifest)
   review <branch> [--record-facts]
@@ -49,7 +49,7 @@ Nothing a contributor writes decides what counts as matched: check and verify co
 extracted copy of the game, with the pinned compiler (config/toolchain.txt) and the maintainers' symbol table
 (config/matched_functions.json). docs/contributor-harness.md explains the workflow and the rules.
 """
-import argparse, collections, datetime, hashlib, json, os, re, shutil, struct, subprocess, sys, tempfile
+import argparse, collections, datetime, hashlib, json, os, re, shutil, struct, subprocess, sys, tempfile, time
 
 TOOLS = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, TOOLS)
@@ -60,7 +60,7 @@ import search as srch  # noqa: E402
 import bench  # noqa: E402
 import verify_ltcg  # noqa: E402
 from verify_src import (ROOT, XDK, BIN, FLAGS, EXPECTED_ENTRY, CODE_SECTIONS, pe_reader, toolchain_problems,  # noqa: E402
-                        local_config, run_compiler)
+                        local_config, run_compiler, parallel_map, verification_jobs)
 from check_integrity import load_splits  # noqa: E402
 
 XEX_SHA1 = 'EC7B163617CD725F50B0CCA665AAF943F9BC6D8A'
@@ -1096,14 +1096,17 @@ def cmd_lint(a):
         return dict(ok=ok, self_test=cases)
     files = [rel(p) for p in a.files] or sorted(rel(os.path.join(dp, f)) for dp, _, fs in os.walk(os.path.join(ROOT, 'src'))
                                                   for f in fs if f.endswith('.cpp'))
-    res, empty = [], 0
-    for src in files:
-        if not has_code(os.path.join(ROOT, src)):  # set up, nothing written yet: nothing to check
-            empty += 1
-            continue
+    # Set up files with no code have nothing to check. Initialize the process scratch directory before starting
+    # workers; each policy call then creates its own preprocessor directory inside it.
+    sources = [src for src in files if has_code(os.path.join(ROOT, src))]
+    scratch_dir('pp')
+
+    def lint_source(src):
         e, w = policy(src)
-        res.append(dict(file=src, errors=e, warnings=w))
-    return dict(ok=not any(r['errors'] for r in res), files=res, without_code=empty)
+        return dict(file=src, errors=e, warnings=w)
+
+    res = list(parallel_map(lint_source, sources, getattr(a, 'jobs', None)))
+    return dict(ok=not any(r['errors'] for r in res), files=res, without_code=len(files) - len(sources))
 
 
 def has_code(path):
@@ -1114,6 +1117,12 @@ def has_code(path):
 
 def cmd_verify(a):
     """Every gate, then the gates' own self-tests (each plants errors and must catch all of them)."""
+    started = time.perf_counter()
+    try:
+        jobs = verification_jobs(getattr(a, 'jobs', None))
+    except ValueError as e:
+        raise Fail(str(e))
+    gate_env = dict(os.environ, CD2_VERIFY_JOBS=str(jobs))
     exe = a.exe or EXE
     py = [sys.executable, '-I']
     ps = ['powershell', '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File']
@@ -1139,31 +1148,35 @@ def cmd_verify(a):
              ('self-test: source policy', None, None),
              ('self-test: mismatch classifier', py + [os.path.join(TOOLS, 'mismatch.py'), '--self-test'], r'self-test'),
              ('self-test: search transformations', py + [os.path.join(TOOLS, 'search.py'), '--self-test'], r'self-test')]
-    out = []
-    for name, cmd, pattern in gates:
+    def run_gate(name, cmd, pattern):
         if name == 'toolchain':
             tp = toolchain_problems()
-            out.append(dict(gate=name, ok=not tp, detail='; '.join(tp) or 'pinned'))
-            continue
+            return dict(gate=name, ok=not tp, detail='; '.join(tp) or 'pinned')
         if name == 'source policy':
-            lint = cmd_lint(argparse.Namespace(files=[], self_test=False))
+            lint = cmd_lint(argparse.Namespace(files=[], self_test=False, jobs=jobs))
             bad = [e for f in lint['files'] for e in f['errors']]
-            out.append(dict(gate=name, ok=not bad, detail='; '.join(bad[:5]) or '%d files clean (%d set up, nothing written yet)' % (
-                len(lint['files']), lint['without_code'])))
-            continue
+            return dict(gate=name, ok=not bad, detail='; '.join(bad[:5]) or '%d files clean (%d set up, nothing written yet)' % (
+                len(lint['files']), lint['without_code']))
         if name == 'self-test: source policy':
             ok, cases = policy_self_test()
-            out.append(dict(gate=name, ok=ok, detail='%d of %d cases as expected' % (sum(c['ok'] for c in cases), len(cases))))
-            continue
-        print('%s...' % name, file=sys.stderr, flush=True)
-        r = subprocess.run(cmd, capture_output=True, text=True)
+            return dict(gate=name, ok=ok, detail='%d of %d cases as expected' % (sum(c['ok'] for c in cases), len(cases)))
+        r = subprocess.run(cmd, capture_output=True, text=True, env=gate_env)
         lines = [l.strip() for l in (r.stdout + r.stderr).splitlines() if l.strip()]
         summary = [l for l in lines if re.search(pattern, l)]
         if 'self-test' in name and 'benchmark' not in name:
             caught = sum(1 for l in summary if re.search(r'\b(caught|accepted|ok)\b', l))
             summary = ['%d of %d cases as expected' % (caught, len(summary))]
-        out.append(dict(gate=name, ok=r.returncode == 0, detail=' | '.join(summary[-3:] or lines[-2:])))
-    return dict(ok=all(g['ok'] for g in out), gates=out)
+        return dict(gate=name, ok=r.returncode == 0, detail=' | '.join(summary[-3:] or lines[-2:]))
+
+    out = []
+    for name, cmd, pattern in gates:
+        print('%s...' % name, file=sys.stderr, flush=True)
+        start = time.perf_counter()
+        result = run_gate(name, cmd, pattern)
+        result['seconds'] = round(time.perf_counter() - start, 3)
+        out.append(result)
+        print('%s: %s (%.1fs)' % (name, 'PASS' if result['ok'] else 'FAIL', result['seconds']), file=sys.stderr, flush=True)
+    return dict(ok=all(g['ok'] for g in out), gates=out, jobs=jobs, seconds=round(time.perf_counter() - started, 3))
 
 
 # ---------------------------------------------------------------------------------------------------- diff rendering
@@ -1348,7 +1361,7 @@ def show_text(cmd, res):
     elif cmd == 'verify':
         for g in res['gates']:
             print('%-34s %-4s %s' % (g['gate'], 'PASS' if g['ok'] else 'FAIL', g['detail'][:150]))
-        print('VERIFY: %s' % ('PASS' if res['ok'] else 'FAIL'))
+        print('VERIFY: %s (%.1fs; %d workers)' % ('PASS' if res['ok'] else 'FAIL', res['seconds'], res['jobs']))
     elif cmd == 'review':
         print('%s (%s), branched from %s; applied %d change(s) to src/, include/, the manifest and the notes'
               % (res['ref'], res['commit'][:10], res['base'][:10], len(res['applied'])))
@@ -1394,6 +1407,7 @@ def main():
     s.add_argument('--make', action='store_true'); s.add_argument('--resume', action='store_true')
     s = sub.add_parser('lint'); s.add_argument('files', nargs='*'); s.add_argument('--self-test', action='store_true')
     s = sub.add_parser('verify'); s.add_argument('--exe'); s.add_argument('--facts', action='store_true')
+    s.add_argument('--jobs', type=verification_jobs, help='parallel files (default: up to 8 CPUs; 1 for serial verification)')
     s = sub.add_parser('review'); s.add_argument('ref'); s.add_argument('--record-facts', action='store_true')
     s = sub.add_parser('facts'); s.add_argument('action', choices=['record'])
     a = p.parse_args(sys.argv[1:] if '--json' not in sys.argv else [x for x in sys.argv[1:] if x != '--json'])
