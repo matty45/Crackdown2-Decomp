@@ -16,6 +16,9 @@
     ]
    ]
   },
+  "src/CHARACTER/cCharacterVFXProfile.cpp": {
+   "direct_constants": []
+  },
   "src/CHARACTER/cNPCTintProfile.cpp": {
    "direct_constants": []
   },
@@ -883,6 +886,93 @@
     ]
    },
    "size": 112
+  },
+  "0x82555310": {
+   "ltcg": {
+    "ends": true,
+    "sha": "c741a1fd212935529ca5334f177675727cacb16d9d876a7d58590c03bdfe610a"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     24,
+     40
+    ],
+    "sha": "0f6037aabe0d97658a105ae486af717d75ac8c9eb6193bde660d4966e21dbb91",
+    "strings": {},
+    "targets": [
+     [
+      24,
+      "call",
+      "0x8264DDA0"
+     ],
+     [
+      40,
+      "call",
+      "0x82555378"
+     ]
+    ]
+   },
+   "size": 88
+  },
+  "0x82555368": {
+   "ltcg": {
+    "ends": true,
+    "sha": "895fe9afb4049e772281c8b7c81647dcab35c221ffd54389652b873d103fc373"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     0,
+     4
+    ],
+    "sha": "75efdb422cd187209b148b1c32bcf66a1bd7c5a0bc07f207823e58b0ba8b9043",
+    "strings": {
+     "0x821141F8:21": "0a38a102a569acd071ff5e69c8f1aafaf3d8a99e8ad4186a1e2696c28360b07c"
+    },
+    "targets": [
+     [
+      4,
+      "data",
+      "0x821141F8"
+     ]
+    ]
+   },
+   "size": 12
+  },
+  "0x825554D8": {
+   "ltcg": {
+    "ends": true,
+    "sha": "25de6d6f7ab250c86cc506db46a56fc74cd3e4c2264abb895ce745cc9c1b34cd"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     32,
+     40,
+     60
+    ],
+    "sha": "8ead94a63e14729a1b8927e7c66a98fd6befb4d5e4b2b191d44ca8da598b500d",
+    "strings": {},
+    "targets": [
+     [
+      32,
+      "call",
+      "0x82886178"
+     ],
+     [
+      40,
+      "call",
+      "0x82F04768"
+     ],
+     [
+      60,
+      "call",
+      "0x8264DCF8"
+     ]
+    ]
+   },
+   "size": 92
   },
   "0x8255DF80": {
    "ltcg": {
@@ -4753,6 +4843,64 @@
    },
    "size": 76
   },
+  "0x82FAED00": {
+   "ltcg": {
+    "ends": true,
+    "sha": "ad6125f576e14a6b09873f8f025ffe24c8d10e86913ed69846a192db94223c7d"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     12,
+     16,
+     20,
+     24,
+     28,
+     40,
+     44,
+     48,
+     52,
+     56
+    ],
+    "sha": "8857e78fec573690a2907e79de60f69bb1f041002edba0f8a7691775b3cd7998",
+    "strings": {
+     "0x821141F8:21": "0a38a102a569acd071ff5e69c8f1aafaf3d8a99e8ad4186a1e2696c28360b07c"
+    },
+    "targets": [
+     [
+      24,
+      "data",
+      "0x821141F8"
+     ],
+     [
+      28,
+      "data",
+      "0x83825479"
+     ],
+     [
+      40,
+      "data",
+      "0x82555310"
+     ],
+     [
+      44,
+      "call",
+      "0x82F02DF0"
+     ],
+     [
+      52,
+      "data",
+      "0x8303D0A8"
+     ],
+     [
+      56,
+      "call",
+      "0x82F17DC8"
+     ]
+    ]
+   },
+   "size": 76
+  },
   "0x82FAF4E0": {
    "ltcg": {
     "ends": true,
@@ -5178,6 +5326,35 @@
       4,
       "data",
       "0x8381FD61"
+     ],
+     [
+      8,
+      "branch",
+      "0x82F02E30"
+     ]
+    ]
+   },
+   "size": 12
+  },
+  "0x8303D0A8": {
+   "ltcg": {
+    "ends": true,
+    "sha": "de57a67235a44fb0f29046a8adbe86b9c959a76848fcd6a6ea552f446d0b708a"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     0,
+     4,
+     8
+    ],
+    "sha": "4cbdbf94597c0bf2aa70bb5dc5751ba82973d99b28e96a5e7f2b871b73bf082f",
+    "strings": {},
+    "targets": [
+     [
+      4,
+      "data",
+      "0x83825479"
      ],
      [
       8,

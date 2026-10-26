@@ -1,11 +1,26 @@
-// src/CHARACTER/cCharacterVFXProfile.cpp
-//
-// Class: cCharacterVFXProfile (namespace: CHARACTER). Set up automatically: no function is matched yet. The address
-// range and the evidence for it are in config/splits.txt; RuffKing's object for it is cCharacterVFXProfile.obj.
-//
-// Reference layout from a later build of the same codebase (a starting point, not CD2's: verify it against CD2's code):
-// include/ref/ruffking/CHARACTER_cCharacterVFXProfile.h.
-//
-// Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
-// include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
-//     py -I tools/cd2.py tasks src/CHARACTER/cCharacterVFXProfile.cpp
+#include "CHARACTER/cCharacterVFXProfile.h"
+#include "cd2/memory.h"
+#include "rws/classfactory.h"
+
+namespace CHARACTER
+{
+    const char *const cCharacterVFXProfile::pcCharacterVFXProfileClassID = "cCharacterVFXProfile";
+
+    cCharacterVFXProfile::cCharacterVFXProfile(const RWS::CAttributePacket &packet)
+    {
+        m_EventHandler.Register(this, packet.GetInstanceId());
+    }
+
+    const char *cCharacterVFXProfile::RetClassName() const
+    {
+        return pcCharacterVFXProfileClassID;
+    }
+
+    RWS::CAttributeHandler *cCharacterVFXProfile::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cCharacterVFXProfile(packet);
+    }
+
+    static RWS::CClassFactory::CRegistrar cCharacterVFXProfileRegistrar(
+        "cCharacterVFXProfile", cCharacterVFXProfile::MakeNew, 0x130, false);
+}

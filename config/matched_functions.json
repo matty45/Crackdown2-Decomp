@@ -2,170 +2,807 @@
   "comment": "Functions in src/ verified byte-exact against the title-update default.exe. symbol = substring of the compiled (mangled) name. matching: false = work in progress. ltcg: true = exact only in a /GL + /LTCG build (tools/verify_ltcg.py); tools/verify_src.py lists those without counting them. folded: true = the linker folded this function into an identical copy owned by another file; the bytes still match, but this file does not own the address (config/splits.txt).",
   "files": {
     "src/CHARACTER/cNPCTintProfile.cpp": [
-      {"address": "0x8255DFE8", "size": 240, "symbol": "??0cNPCTintProfile@CHARACTER@@"},
-      {"address": "0x821D0300", "size": 216, "symbol": "?HandleAttributes@cNPCTintProfile@CHARACTER@@"},
-      {"address": "0x8255DF80", "size": 88, "symbol": "?MakeNew@cNPCTintProfile@CHARACTER@@"},
-      {"address": "0x8255DFD8", "size": 12, "symbol": "?RetClassName@cNPCTintProfile@CHARACTER@@"},
-      {"address": "0x821D0A20", "size": 92, "symbol": "??_GcNPCTintProfile@CHARACTER@@"},
-      {"address": "0x82FAF4E0", "size": 76, "symbol": "??__EcNPCTintProfileRegistrar@CHARACTER@@"},
-      {"address": "0x8303D140", "size": 12, "symbol": "??__FcNPCTintProfileRegistrar@CHARACTER@@"}
+      {
+        "address": "0x8255DFE8",
+        "size": 240,
+        "symbol": "??0cNPCTintProfile@CHARACTER@@"
+      },
+      {
+        "address": "0x821D0300",
+        "size": 216,
+        "symbol": "?HandleAttributes@cNPCTintProfile@CHARACTER@@"
+      },
+      {
+        "address": "0x8255DF80",
+        "size": 88,
+        "symbol": "?MakeNew@cNPCTintProfile@CHARACTER@@"
+      },
+      {
+        "address": "0x8255DFD8",
+        "size": 12,
+        "symbol": "?RetClassName@cNPCTintProfile@CHARACTER@@"
+      },
+      {
+        "address": "0x821D0A20",
+        "size": 92,
+        "symbol": "??_GcNPCTintProfile@CHARACTER@@"
+      },
+      {
+        "address": "0x82FAF4E0",
+        "size": 76,
+        "symbol": "??__EcNPCTintProfileRegistrar@CHARACTER@@"
+      },
+      {
+        "address": "0x8303D140",
+        "size": 12,
+        "symbol": "??__FcNPCTintProfileRegistrar@CHARACTER@@"
+      }
     ],
     "src/GangManager/cFactionConfigData.cpp": [
-      {"address": "0x82676278", "size": 12, "symbol": "?RetClassName@cFactionConfigData@GangManager@@"},
-      {"address": "0x82676328", "size": 80, "symbol": "??_GcFactionConfigData@GangManager@@"},
-      {"address": "0x82676378", "size": 92, "symbol": "??1cFactionConfigData@GangManager@@"},
-      {"address": "0x826763D8", "size": 776, "symbol": "?HandleAttributes@cFactionConfigData@GangManager@@"},
-      {"address": "0x82FDCB00", "size": 76, "symbol": "??__EcFactionConfigDataRegistrar@GangManager@@"},
-      {"address": "0x83040248", "size": 12, "symbol": "??__FcFactionConfigDataRegistrar@GangManager@@"},
-      {"address": "0x826761B0", "size": 200, "symbol": "?MakeNew@cFactionConfigData@GangManager@@", "matching": false, "note": "constructor inlined; same stores as CD2 but our register allocation needs r31 (scheduling puzzle)"}
+      {
+        "address": "0x82676278",
+        "size": 12,
+        "symbol": "?RetClassName@cFactionConfigData@GangManager@@"
+      },
+      {
+        "address": "0x82676328",
+        "size": 80,
+        "symbol": "??_GcFactionConfigData@GangManager@@"
+      },
+      {
+        "address": "0x82676378",
+        "size": 92,
+        "symbol": "??1cFactionConfigData@GangManager@@"
+      },
+      {
+        "address": "0x826763D8",
+        "size": 776,
+        "symbol": "?HandleAttributes@cFactionConfigData@GangManager@@"
+      },
+      {
+        "address": "0x82FDCB00",
+        "size": 76,
+        "symbol": "??__EcFactionConfigDataRegistrar@GangManager@@"
+      },
+      {
+        "address": "0x83040248",
+        "size": 12,
+        "symbol": "??__FcFactionConfigDataRegistrar@GangManager@@"
+      },
+      {
+        "address": "0x826761B0",
+        "size": 200,
+        "symbol": "?MakeNew@cFactionConfigData@GangManager@@",
+        "matching": false,
+        "note": "constructor inlined; same stores as CD2 but our register allocation needs r31 (scheduling puzzle)"
+      }
     ],
     "src/VFX/cAmbientVFXSpawner.cpp": [
-      {"address": "0x827F8FD0", "size": 12, "symbol": "?RetClassName@cAmbientVFXPrototypeBase@VFX@@"},
-      {"address": "0x827F8FE0", "size": 92, "symbol": "??_GcAmbientVFXPrototypeBase@VFX@@"},
-      {"address": "0x827F9040", "size": 264, "symbol": "?MakeNew@cAmbientVFXPrototype@VFX@@"},
-      {"address": "0x827F9148", "size": 12, "symbol": "?RetClassName@cAmbientVFXPrototype@VFX@@"},
-      {"address": "0x827F9158", "size": 116, "symbol": "??_GcAmbientVFXPrototype@VFX@@"},
-      {"address": "0x827F91D0", "size": 12, "symbol": "?RetClass@cAmbientVFXSpawner@VFX@@"},
-      {"address": "0x827F91E0", "size": 92, "symbol": "?IsA@cAmbientVFXSpawner@VFX@@"},
-      {"address": "0x827F9240", "size": 156, "symbol": "?StaticCreateClass@cAmbientVFXSpawner@VFX@@"},
-      {"address": "0x827F92E0", "size": 144, "symbol": "?MakeNew@cAmbientVFXSpawner@VFX@@"},
-      {"address": "0x827F9498", "size": 24, "symbol": "?OnBecomeRelevantToPlayer@cAmbientVFXSpawner@VFX@@"},
-      {"address": "0x827F94B0", "size": 16, "symbol": "?OnBecomeIrrelevantToPlayer@cAmbientVFXSpawner@VFX@@"},
-      {"address": "0x827F97F0", "size": 80, "symbol": "?OnVFXFinished@cAmbientVFXSpawner@VFX@@"},
-      {"address": "0x827F9840", "size": 204, "symbol": "?CanSpawn@cAmbientVFXSpawner@VFX@@"},
-      {"address": "0x827F9910", "size": 108, "symbol": "?ReleaseVFX@cAmbientVFXSpawner@VFX@@"},
-      {"address": "0x8300AF48", "size": 76, "symbol": "??__EcAmbientVFXSpawnerRegistrar@VFX@@"},
-      {"address": "0x83042F00", "size": 12, "symbol": "??__FcAmbientVFXSpawnerRegistrar@VFX@@"},
-      {"address": "0x827F9370", "size": 296, "symbol": "?HandleAttributes@cAmbientVFXSpawner@VFX@@", "matching": false, "note": "CD2 has three 16-byte GUID stack slots around the LinkToObject call; we have two"},
-      {"address": "0x827F94C0", "size": 216, "symbol": "?CalcRandInitSpawnTime@cAmbientVFXSpawner@VFX@@", "ltcg": true, "note": "exact only under LTCG: float constants come from the LTCG constant pool"},
-      {"address": "0x827F9598", "size": 216, "symbol": "?CalcRandRespawnTime@cAmbientVFXSpawner@VFX@@", "ltcg": true},
-      {"address": "0x827F9670", "size": 216, "symbol": "?CalcRandLifetime@cAmbientVFXSpawner@VFX@@", "ltcg": true},
-      {"address": "0x827F9748", "size": 164, "symbol": "?IsVFXFinished@cAmbientVFXSpawner@VFX@@"}
+      {
+        "address": "0x827F8FD0",
+        "size": 12,
+        "symbol": "?RetClassName@cAmbientVFXPrototypeBase@VFX@@"
+      },
+      {
+        "address": "0x827F8FE0",
+        "size": 92,
+        "symbol": "??_GcAmbientVFXPrototypeBase@VFX@@"
+      },
+      {
+        "address": "0x827F9040",
+        "size": 264,
+        "symbol": "?MakeNew@cAmbientVFXPrototype@VFX@@"
+      },
+      {
+        "address": "0x827F9148",
+        "size": 12,
+        "symbol": "?RetClassName@cAmbientVFXPrototype@VFX@@"
+      },
+      {
+        "address": "0x827F9158",
+        "size": 116,
+        "symbol": "??_GcAmbientVFXPrototype@VFX@@"
+      },
+      {
+        "address": "0x827F91D0",
+        "size": 12,
+        "symbol": "?RetClass@cAmbientVFXSpawner@VFX@@"
+      },
+      {
+        "address": "0x827F91E0",
+        "size": 92,
+        "symbol": "?IsA@cAmbientVFXSpawner@VFX@@"
+      },
+      {
+        "address": "0x827F9240",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cAmbientVFXSpawner@VFX@@"
+      },
+      {
+        "address": "0x827F92E0",
+        "size": 144,
+        "symbol": "?MakeNew@cAmbientVFXSpawner@VFX@@"
+      },
+      {
+        "address": "0x827F9498",
+        "size": 24,
+        "symbol": "?OnBecomeRelevantToPlayer@cAmbientVFXSpawner@VFX@@"
+      },
+      {
+        "address": "0x827F94B0",
+        "size": 16,
+        "symbol": "?OnBecomeIrrelevantToPlayer@cAmbientVFXSpawner@VFX@@"
+      },
+      {
+        "address": "0x827F97F0",
+        "size": 80,
+        "symbol": "?OnVFXFinished@cAmbientVFXSpawner@VFX@@"
+      },
+      {
+        "address": "0x827F9840",
+        "size": 204,
+        "symbol": "?CanSpawn@cAmbientVFXSpawner@VFX@@"
+      },
+      {
+        "address": "0x827F9910",
+        "size": 108,
+        "symbol": "?ReleaseVFX@cAmbientVFXSpawner@VFX@@"
+      },
+      {
+        "address": "0x8300AF48",
+        "size": 76,
+        "symbol": "??__EcAmbientVFXSpawnerRegistrar@VFX@@"
+      },
+      {
+        "address": "0x83042F00",
+        "size": 12,
+        "symbol": "??__FcAmbientVFXSpawnerRegistrar@VFX@@"
+      },
+      {
+        "address": "0x827F9370",
+        "size": 296,
+        "symbol": "?HandleAttributes@cAmbientVFXSpawner@VFX@@",
+        "matching": false,
+        "note": "CD2 has three 16-byte GUID stack slots around the LinkToObject call; we have two"
+      },
+      {
+        "address": "0x827F94C0",
+        "size": 216,
+        "symbol": "?CalcRandInitSpawnTime@cAmbientVFXSpawner@VFX@@",
+        "ltcg": true,
+        "note": "exact only under LTCG: float constants come from the LTCG constant pool"
+      },
+      {
+        "address": "0x827F9598",
+        "size": 216,
+        "symbol": "?CalcRandRespawnTime@cAmbientVFXSpawner@VFX@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x827F9670",
+        "size": 216,
+        "symbol": "?CalcRandLifetime@cAmbientVFXSpawner@VFX@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x827F9748",
+        "size": 164,
+        "symbol": "?IsVFXFinished@cAmbientVFXSpawner@VFX@@"
+      }
     ],
     "src/VFX/cRopes.cpp": [
-      {"address": "0x82805F50", "size": 12, "symbol": "?RetClass@cRopes@VFX@@"},
-      {"address": "0x82805F60", "size": 92, "symbol": "?IsA@cRopes@VFX@@"},
-      {"address": "0x82805FC0", "size": 68, "symbol": "?MakeNew@cRopes@VFX@@"},
-      {"address": "0x82806008", "size": 12, "symbol": "?RetClassName@cRopes@VFX@@"},
-      {"address": "0x82806018", "size": 156, "symbol": "?StaticCreateClass@cRopes@VFX@@"},
-      {"address": "0x82806270", "size": 80, "symbol": "??_GcRopes@VFX@@"},
-      {"address": "0x828062C0", "size": 260, "symbol": "??1cRopes@VFX@@"},
-      {"address": "0x828063C8", "size": 196, "symbol": "?HandleAttributes@cRopes@VFX@@"},
-      {"address": "0x82806490", "size": 204, "symbol": "?GetRopeSegment@cRopes@VFX@@"},
-      {"address": "0x82806560", "size": 236, "symbol": "?ReturnRopeSegment@cRopes@VFX@@"},
-      {"address": "0x82806DC8", "size": 100, "symbol": "??_G?$cPool@URopeSegmentData@VFX@@"},
-      {"address": "0x82806E30", "size": 752, "symbol": "?Reset@?$cPool@URopeSegmentData@VFX@@"},
-      {"address": "0x82807120", "size": 600, "symbol": "??$_Insert@V?$_Vector_iterator@PAURopeSegmentData@VFX@@"},
-      {"address": "0x82807378", "size": 8, "symbol": "??_EcRopes@VFX@@WHM@"},
-      {"address": "0x82807390", "size": 8, "symbol": "??_EcRopes@VFX@@WBI@"},
-      {"address": "0x82807398", "size": 8, "symbol": "??_EcRopes@VFX@@WDI@"},
-      {"address": "0x828073A0", "size": 8, "symbol": "??_EcRopes@VFX@@WBM@"},
-      {"address": "0x828073A8", "size": 100, "symbol": "?ReloadShader@VFX@@"},
-      {"address": "0x8300C0E0", "size": 76, "symbol": "??__EcRopesRegistrar@VFX@@"},
-      {"address": "0x83043158", "size": 12, "symbol": "??__FcRopesRegistrar@VFX@@"},
-      {"address": "0x828060B8", "size": 436, "symbol": "??0cRopes@VFX@@", "matching": false, "note": "stores match; CD2 has one extra dead addi r11,r30,0x7C that shifts scheduling"},
-      {"address": "0x82806D40", "size": 136, "symbol": "?ShowRopeSegments@cRopes@VFX@@", "matching": false, "note": "only the stack frame differs: 0x70 in CD2, 0x60 here"}
+      {
+        "address": "0x82805F50",
+        "size": 12,
+        "symbol": "?RetClass@cRopes@VFX@@"
+      },
+      {
+        "address": "0x82805F60",
+        "size": 92,
+        "symbol": "?IsA@cRopes@VFX@@"
+      },
+      {
+        "address": "0x82805FC0",
+        "size": 68,
+        "symbol": "?MakeNew@cRopes@VFX@@"
+      },
+      {
+        "address": "0x82806008",
+        "size": 12,
+        "symbol": "?RetClassName@cRopes@VFX@@"
+      },
+      {
+        "address": "0x82806018",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cRopes@VFX@@"
+      },
+      {
+        "address": "0x82806270",
+        "size": 80,
+        "symbol": "??_GcRopes@VFX@@"
+      },
+      {
+        "address": "0x828062C0",
+        "size": 260,
+        "symbol": "??1cRopes@VFX@@"
+      },
+      {
+        "address": "0x828063C8",
+        "size": 196,
+        "symbol": "?HandleAttributes@cRopes@VFX@@"
+      },
+      {
+        "address": "0x82806490",
+        "size": 204,
+        "symbol": "?GetRopeSegment@cRopes@VFX@@"
+      },
+      {
+        "address": "0x82806560",
+        "size": 236,
+        "symbol": "?ReturnRopeSegment@cRopes@VFX@@"
+      },
+      {
+        "address": "0x82806DC8",
+        "size": 100,
+        "symbol": "??_G?$cPool@URopeSegmentData@VFX@@"
+      },
+      {
+        "address": "0x82806E30",
+        "size": 752,
+        "symbol": "?Reset@?$cPool@URopeSegmentData@VFX@@"
+      },
+      {
+        "address": "0x82807120",
+        "size": 600,
+        "symbol": "??$_Insert@V?$_Vector_iterator@PAURopeSegmentData@VFX@@"
+      },
+      {
+        "address": "0x82807378",
+        "size": 8,
+        "symbol": "??_EcRopes@VFX@@WHM@"
+      },
+      {
+        "address": "0x82807390",
+        "size": 8,
+        "symbol": "??_EcRopes@VFX@@WBI@"
+      },
+      {
+        "address": "0x82807398",
+        "size": 8,
+        "symbol": "??_EcRopes@VFX@@WDI@"
+      },
+      {
+        "address": "0x828073A0",
+        "size": 8,
+        "symbol": "??_EcRopes@VFX@@WBM@"
+      },
+      {
+        "address": "0x828073A8",
+        "size": 100,
+        "symbol": "?ReloadShader@VFX@@"
+      },
+      {
+        "address": "0x8300C0E0",
+        "size": 76,
+        "symbol": "??__EcRopesRegistrar@VFX@@"
+      },
+      {
+        "address": "0x83043158",
+        "size": 12,
+        "symbol": "??__FcRopesRegistrar@VFX@@"
+      },
+      {
+        "address": "0x828060B8",
+        "size": 436,
+        "symbol": "??0cRopes@VFX@@",
+        "matching": false,
+        "note": "stores match; CD2 has one extra dead addi r11,r30,0x7C that shifts scheduling"
+      },
+      {
+        "address": "0x82806D40",
+        "size": 136,
+        "symbol": "?ShowRopeSegments@cRopes@VFX@@",
+        "matching": false,
+        "note": "only the stack frame differs: 0x70 in CD2, 0x60 here"
+      }
     ],
     "src/GameManagement/cGameModeArena.cpp": [
-      {"address": "0x8284E330", "size": 80, "symbol": "??_GcGameModeArena@GameManagement@@"},
-      {"address": "0x8284E380", "size": 8, "symbol": "??_EcGameModeArena@GameManagement@@WBI@"},
-      {"address": "0x8284E388", "size": 68, "symbol": "?MakeNew@cGameModeArena@GameManagement@@"},
-      {"address": "0x8284E3D0", "size": 12, "symbol": "?RetClassName@cGameModeArena@GameManagement@@"},
-      {"address": "0x8284E3E0", "size": 220, "symbol": "?GetArena@cArenaLinker@GameManagement@@"},
-      {"address": "0x8284E4C0", "size": 252, "symbol": "??0cGameModeArena@GameManagement@@"},
-      {"address": "0x8284E5C0", "size": 276, "symbol": "??1cGameModeArena@GameManagement@@"},
-      {"address": "0x8284EB38", "size": 324, "symbol": "?OnShutDownLevel@cGameModeArena@GameManagement@@"},
-      {"address": "0x830176F8", "size": 76, "symbol": "??__EcGameModeArenaRegistrar@GameManagement@@"},
-      {"address": "0x83043CD8", "size": 12, "symbol": "??__FcGameModeArenaRegistrar@GameManagement@@"},
-      {"address": "0x8284E6D8", "size": 1120, "symbol": "?HandleAttributes@cGameModeArena@GameManagement@@", "matching": false, "note": "95%: CD2 shares stack slot 0x50 between the address-taken p and the float locals; we put p at 0x54"},
-      {"address": "0x8284EC80", "size": 220, "symbol": "??$GetRandSpawnPointInList@VcNetGamePlayerSpawnPoint@GameManagement@@", "matching": false, "note": "87%: srawi. test and size recompute reproduced (unsigned pointer-difference size(), if (size() > 0) ... Rand(size())); open: register numbering in the modulo sequence"},
-      {"address": "0x8284ED60", "size": 220, "symbol": "??$GetRandSpawnPointInList@VcNetGamePickupSpawnPoint@GameManagement@@", "matching": false, "note": "as the player spawn point instantiation (87%)"}
+      {
+        "address": "0x8284E330",
+        "size": 80,
+        "symbol": "??_GcGameModeArena@GameManagement@@"
+      },
+      {
+        "address": "0x8284E380",
+        "size": 8,
+        "symbol": "??_EcGameModeArena@GameManagement@@WBI@"
+      },
+      {
+        "address": "0x8284E388",
+        "size": 68,
+        "symbol": "?MakeNew@cGameModeArena@GameManagement@@"
+      },
+      {
+        "address": "0x8284E3D0",
+        "size": 12,
+        "symbol": "?RetClassName@cGameModeArena@GameManagement@@"
+      },
+      {
+        "address": "0x8284E3E0",
+        "size": 220,
+        "symbol": "?GetArena@cArenaLinker@GameManagement@@"
+      },
+      {
+        "address": "0x8284E4C0",
+        "size": 252,
+        "symbol": "??0cGameModeArena@GameManagement@@"
+      },
+      {
+        "address": "0x8284E5C0",
+        "size": 276,
+        "symbol": "??1cGameModeArena@GameManagement@@"
+      },
+      {
+        "address": "0x8284EB38",
+        "size": 324,
+        "symbol": "?OnShutDownLevel@cGameModeArena@GameManagement@@"
+      },
+      {
+        "address": "0x830176F8",
+        "size": 76,
+        "symbol": "??__EcGameModeArenaRegistrar@GameManagement@@"
+      },
+      {
+        "address": "0x83043CD8",
+        "size": 12,
+        "symbol": "??__FcGameModeArenaRegistrar@GameManagement@@"
+      },
+      {
+        "address": "0x8284E6D8",
+        "size": 1120,
+        "symbol": "?HandleAttributes@cGameModeArena@GameManagement@@",
+        "matching": false,
+        "note": "95%: CD2 shares stack slot 0x50 between the address-taken p and the float locals; we put p at 0x54"
+      },
+      {
+        "address": "0x8284EC80",
+        "size": 220,
+        "symbol": "??$GetRandSpawnPointInList@VcNetGamePlayerSpawnPoint@GameManagement@@",
+        "matching": false,
+        "note": "87%: srawi. test and size recompute reproduced (unsigned pointer-difference size(), if (size() > 0) ... Rand(size())); open: register numbering in the modulo sequence"
+      },
+      {
+        "address": "0x8284ED60",
+        "size": 220,
+        "symbol": "??$GetRandSpawnPointInList@VcNetGamePickupSpawnPoint@GameManagement@@",
+        "matching": false,
+        "note": "as the player spawn point instantiation (87%)"
+      }
     ],
     "src/AI/cChaseBehaviour.cpp": [
-      {"address": "0x824CE570", "size": 12, "symbol": "?RetClassName@cChaseBehaviour@AI@@"},
-      {"address": "0x824CE580", "size": 24, "symbol": "?SpawnFromPrototype@cChaseBehaviour@AI@@"},
-      {"address": "0x824CE598", "size": 12, "symbol": "?RetClass@cChaseBehaviour@AI@@"},
-      {"address": "0x824CE5A8", "size": 92, "symbol": "?IsA@cChaseBehaviour@AI@@"},
-      {"address": "0x824CE608", "size": 164, "symbol": "?StaticCreateClass@cChaseBehaviour@AI@@"},
-      {"address": "0x824CE6B0", "size": 160, "symbol": "??0cChaseBehaviour@AI@@"},
-      {"address": "0x824CE750", "size": 108, "symbol": "?OnEnter@cChaseBehaviour@AI@@"},
-      {"address": "0x824CE7C0", "size": 68, "symbol": "?OnExit@cChaseBehaviour@AI@@"},
-      {"address": "0x824CEAF8", "size": 64, "symbol": "?V106@cChaseBehaviour@AI@@"},
-      {"address": "0x824CEF80", "size": 52, "symbol": "?V111@cChaseBehaviour@AI@@"},
-      {"address": "0x824CEFB8", "size": 20, "symbol": "?V117@cChaseBehaviour@AI@@"},
-      {"address": "0x824CEFD0", "size": 40, "symbol": "?V118@cChaseBehaviour@AI@@"},
-      {"address": "0x824CEFF8", "size": 96, "symbol": "?OnEvent74@cChaseBehaviour@AI@@"},
-      {"address": "0x824CF058", "size": 128, "symbol": "?SetTarget@cChaseBehaviour@AI@@"},
-      {"address": "0x824CF0D8", "size": 172, "symbol": "?TryBindTarget@cChaseBehaviour@AI@@"},
-      {"address": "0x824CF578", "size": 128, "symbol": "?HandleAttributes@cChaseBehaviourPrototype@cChaseBehaviour@AI@@"},
-      {"address": "0x824CF658", "size": 16, "symbol": "??_9NPCBehaviourSM@AI@@$BBMA@AA"},
-      {"address": "0x824CF668", "size": 16, "symbol": "??_9NPCBehaviourSM@AI@@$BBKE@AA"},
-      {"address": "0x824CF678", "size": 16, "symbol": "??_9NPCBehaviourSM@AI@@$BBME@AA"},
-      {"address": "0x824CF688", "size": 16, "symbol": "??_9cChaseBehaviour@AI@@"},
-      {"address": "0x824CF698", "size": 16, "symbol": "??_9NPCBehaviourSM@AI@@$BBLI@AA"},
-      {"address": "0x824CF6A8", "size": 16, "symbol": "??_9NPCBehaviourSM@AI@@$BBMI@AA"},
-      {"address": "0x824CF6B8", "size": 16, "symbol": "??_9NPCBehaviourSM@AI@@$BBJM@AA"},
-      {"address": "0x824D2850", "size": 112, "symbol": "?MakeNew@cChaseBehaviour@AI@@", "folded": true, "note": "identical code folded with 3 other classes; the surviving copy belongs to another file (config/splits.txt)"},
-      {"address": "0x82F9A170", "size": 76, "symbol": "??__EcChaseBehaviourRegistrar@AI@@"},
-      {"address": "0x8303BC50", "size": 12, "symbol": "??__FcChaseBehaviourRegistrar@AI@@"},
-      {"address": "0x824CEC18", "size": 392, "symbol": "?Update@cChaseBehaviour@AI@@", "matching": false, "note": "99%: Update(float); 97/98 words in plain and LTCG builds: one compare, CD2 cmpwi (signed) where ours is cmplwi"},
-      {"address": "0x824CEE70", "size": 272, "symbol": "?V108@cChaseBehaviour@AI@@", "matching": false, "note": "43%: virtual 108; same host+0x7C addressing difference as F39"}
+      {
+        "address": "0x824CE570",
+        "size": 12,
+        "symbol": "?RetClassName@cChaseBehaviour@AI@@"
+      },
+      {
+        "address": "0x824CE580",
+        "size": 24,
+        "symbol": "?SpawnFromPrototype@cChaseBehaviour@AI@@"
+      },
+      {
+        "address": "0x824CE598",
+        "size": 12,
+        "symbol": "?RetClass@cChaseBehaviour@AI@@"
+      },
+      {
+        "address": "0x824CE5A8",
+        "size": 92,
+        "symbol": "?IsA@cChaseBehaviour@AI@@"
+      },
+      {
+        "address": "0x824CE608",
+        "size": 164,
+        "symbol": "?StaticCreateClass@cChaseBehaviour@AI@@"
+      },
+      {
+        "address": "0x824CE6B0",
+        "size": 160,
+        "symbol": "??0cChaseBehaviour@AI@@"
+      },
+      {
+        "address": "0x824CE750",
+        "size": 108,
+        "symbol": "?OnEnter@cChaseBehaviour@AI@@"
+      },
+      {
+        "address": "0x824CE7C0",
+        "size": 68,
+        "symbol": "?OnExit@cChaseBehaviour@AI@@"
+      },
+      {
+        "address": "0x824CEAF8",
+        "size": 64,
+        "symbol": "?V106@cChaseBehaviour@AI@@"
+      },
+      {
+        "address": "0x824CEF80",
+        "size": 52,
+        "symbol": "?V111@cChaseBehaviour@AI@@"
+      },
+      {
+        "address": "0x824CEFB8",
+        "size": 20,
+        "symbol": "?V117@cChaseBehaviour@AI@@"
+      },
+      {
+        "address": "0x824CEFD0",
+        "size": 40,
+        "symbol": "?V118@cChaseBehaviour@AI@@"
+      },
+      {
+        "address": "0x824CEFF8",
+        "size": 96,
+        "symbol": "?OnEvent74@cChaseBehaviour@AI@@"
+      },
+      {
+        "address": "0x824CF058",
+        "size": 128,
+        "symbol": "?SetTarget@cChaseBehaviour@AI@@"
+      },
+      {
+        "address": "0x824CF0D8",
+        "size": 172,
+        "symbol": "?TryBindTarget@cChaseBehaviour@AI@@"
+      },
+      {
+        "address": "0x824CF578",
+        "size": 128,
+        "symbol": "?HandleAttributes@cChaseBehaviourPrototype@cChaseBehaviour@AI@@"
+      },
+      {
+        "address": "0x824CF658",
+        "size": 16,
+        "symbol": "??_9NPCBehaviourSM@AI@@$BBMA@AA"
+      },
+      {
+        "address": "0x824CF668",
+        "size": 16,
+        "symbol": "??_9NPCBehaviourSM@AI@@$BBKE@AA"
+      },
+      {
+        "address": "0x824CF678",
+        "size": 16,
+        "symbol": "??_9NPCBehaviourSM@AI@@$BBME@AA"
+      },
+      {
+        "address": "0x824CF688",
+        "size": 16,
+        "symbol": "??_9cChaseBehaviour@AI@@"
+      },
+      {
+        "address": "0x824CF698",
+        "size": 16,
+        "symbol": "??_9NPCBehaviourSM@AI@@$BBLI@AA"
+      },
+      {
+        "address": "0x824CF6A8",
+        "size": 16,
+        "symbol": "??_9NPCBehaviourSM@AI@@$BBMI@AA"
+      },
+      {
+        "address": "0x824CF6B8",
+        "size": 16,
+        "symbol": "??_9NPCBehaviourSM@AI@@$BBJM@AA"
+      },
+      {
+        "address": "0x824D2850",
+        "size": 112,
+        "symbol": "?MakeNew@cChaseBehaviour@AI@@",
+        "folded": true,
+        "note": "identical code folded with 3 other classes; the surviving copy belongs to another file (config/splits.txt)"
+      },
+      {
+        "address": "0x82F9A170",
+        "size": 76,
+        "symbol": "??__EcChaseBehaviourRegistrar@AI@@"
+      },
+      {
+        "address": "0x8303BC50",
+        "size": 12,
+        "symbol": "??__FcChaseBehaviourRegistrar@AI@@"
+      },
+      {
+        "address": "0x824CEC18",
+        "size": 392,
+        "symbol": "?Update@cChaseBehaviour@AI@@",
+        "matching": false,
+        "note": "99%: Update(float); 97/98 words in plain and LTCG builds: one compare, CD2 cmpwi (signed) where ours is cmplwi"
+      },
+      {
+        "address": "0x824CEE70",
+        "size": 272,
+        "symbol": "?V108@cChaseBehaviour@AI@@",
+        "matching": false,
+        "note": "43%: virtual 108; same host+0x7C addressing difference as F39"
+      }
     ],
     "src/Equip/cFlocket.cpp": [
-      {"address": "0x826253E8", "size": 12, "symbol": "?RetClass@cFlocket@Equip@@UBAABVcClass@Fun_Runtime@@XZ"},
-      {"address": "0x826253F8", "size": 92, "symbol": "?IsA@cFlocket@Equip@@UBA_NABVcClass@Fun_Runtime@@@Z"},
-      {"address": "0x82625458", "size": 88, "symbol": "?MakeNew@cFlocketPrototype@Equip@@"},
-      {"address": "0x826254B0", "size": 12, "symbol": "?RetClassName@cFlocket@Equip@@"},
-      {"address": "0x826254C0", "size": 24, "symbol": "?SpawnFromPrototype@cFlocket@Equip@@"},
-      {"address": "0x826254D8", "size": 152, "symbol": "?StaticCreateClass@cFlocket@Equip@@"},
-      {"address": "0x82625570", "size": 216, "symbol": "??0cFlocket@Equip@@"},
-      {"address": "0x82625648", "size": 80, "symbol": "??_GcFlocket@Equip@@"},
-      {"address": "0x82625698", "size": 156, "symbol": "??1cFlocket@Equip@@"},
-      {"address": "0x826268A0", "size": 148, "symbol": "?ReplicateInitialFields@cFlocket@Equip@@"},
-      {"address": "0x82626938", "size": 188, "symbol": "?ReplicateFields@cFlocket@Equip@@"},
-      {"address": "0x82626D88", "size": 64, "symbol": "?UpdateAttachedEffect@cFlocket@Equip@@"},
-      {"address": "0x82626DC8", "size": 84, "symbol": "?ReleaseEffect@cFlocket@Equip@@"},
-      {"address": "0x82626F00", "size": 104, "symbol": "??_GcFlocketPrototype@Equip@@"},
-      {"address": "0x82626F68", "size": 296, "symbol": "?HandleAttributes@cFlocketPrototype@Equip@@"},
-      {"address": "0x826270A0", "size": 8, "symbol": "?IsA@cFlocket@Equip@@WPA@BA_NABVcClass@Fun_Runtime@@@Z"},
-      {"address": "0x826270A8", "size": 8, "symbol": "??_EcFlocket@Equip@@WBI@AAPAXI@Z"},
-      {"address": "0x826270B0", "size": 8, "symbol": "??_EcFlocket@Equip@@WFBA@AAPAXI@Z"},
-      {"address": "0x826270B8", "size": 8, "symbol": "??_EcFlocket@Equip@@WDI@AAPAXI@Z"},
-      {"address": "0x826270C0", "size": 8, "symbol": "??_EcFlocket@Equip@@WBM@AAPAXI@Z"},
-      {"address": "0x826270C8", "size": 8, "symbol": "?RetClass@cFlocket@Equip@@WEOA@BAABVcClass@Fun_Runtime@@XZ"},
-      {"address": "0x826270D0", "size": 8, "symbol": "??_EcFlocket@Equip@@WCFA@AAPAXI@Z"},
-      {"address": "0x826270D8", "size": 8, "symbol": "?IsA@cFlocket@Equip@@WEOA@BA_NABVcClass@Fun_Runtime@@@Z"},
-      {"address": "0x826270E0", "size": 8, "symbol": "??_EcFlocket@Equip@@WCJE@AAPAXI@Z"},
-      {"address": "0x826270E8", "size": 8, "symbol": "??_EcFlocket@Equip@@WBCA@AAPAXI@Z"},
-      {"address": "0x826270F0", "size": 8, "symbol": "?RetClass@cFlocket@Equip@@WPA@BAABVcClass@Fun_Runtime@@XZ"},
-      {"address": "0x82FD1A60", "size": 76, "symbol": "??__EcFlocketRegistrar@Equip@@"},
-      {"address": "0x8303F858", "size": 12, "symbol": "??__FcFlocketRegistrar@Equip@@"}
+      {
+        "address": "0x826253E8",
+        "size": 12,
+        "symbol": "?RetClass@cFlocket@Equip@@UBAABVcClass@Fun_Runtime@@XZ"
+      },
+      {
+        "address": "0x826253F8",
+        "size": 92,
+        "symbol": "?IsA@cFlocket@Equip@@UBA_NABVcClass@Fun_Runtime@@@Z"
+      },
+      {
+        "address": "0x82625458",
+        "size": 88,
+        "symbol": "?MakeNew@cFlocketPrototype@Equip@@"
+      },
+      {
+        "address": "0x826254B0",
+        "size": 12,
+        "symbol": "?RetClassName@cFlocket@Equip@@"
+      },
+      {
+        "address": "0x826254C0",
+        "size": 24,
+        "symbol": "?SpawnFromPrototype@cFlocket@Equip@@"
+      },
+      {
+        "address": "0x826254D8",
+        "size": 152,
+        "symbol": "?StaticCreateClass@cFlocket@Equip@@"
+      },
+      {
+        "address": "0x82625570",
+        "size": 216,
+        "symbol": "??0cFlocket@Equip@@"
+      },
+      {
+        "address": "0x82625648",
+        "size": 80,
+        "symbol": "??_GcFlocket@Equip@@"
+      },
+      {
+        "address": "0x82625698",
+        "size": 156,
+        "symbol": "??1cFlocket@Equip@@"
+      },
+      {
+        "address": "0x826268A0",
+        "size": 148,
+        "symbol": "?ReplicateInitialFields@cFlocket@Equip@@"
+      },
+      {
+        "address": "0x82626938",
+        "size": 188,
+        "symbol": "?ReplicateFields@cFlocket@Equip@@"
+      },
+      {
+        "address": "0x82626D88",
+        "size": 64,
+        "symbol": "?UpdateAttachedEffect@cFlocket@Equip@@"
+      },
+      {
+        "address": "0x82626DC8",
+        "size": 84,
+        "symbol": "?ReleaseEffect@cFlocket@Equip@@"
+      },
+      {
+        "address": "0x82626F00",
+        "size": 104,
+        "symbol": "??_GcFlocketPrototype@Equip@@"
+      },
+      {
+        "address": "0x82626F68",
+        "size": 296,
+        "symbol": "?HandleAttributes@cFlocketPrototype@Equip@@"
+      },
+      {
+        "address": "0x826270A0",
+        "size": 8,
+        "symbol": "?IsA@cFlocket@Equip@@WPA@BA_NABVcClass@Fun_Runtime@@@Z"
+      },
+      {
+        "address": "0x826270A8",
+        "size": 8,
+        "symbol": "??_EcFlocket@Equip@@WBI@AAPAXI@Z"
+      },
+      {
+        "address": "0x826270B0",
+        "size": 8,
+        "symbol": "??_EcFlocket@Equip@@WFBA@AAPAXI@Z"
+      },
+      {
+        "address": "0x826270B8",
+        "size": 8,
+        "symbol": "??_EcFlocket@Equip@@WDI@AAPAXI@Z"
+      },
+      {
+        "address": "0x826270C0",
+        "size": 8,
+        "symbol": "??_EcFlocket@Equip@@WBM@AAPAXI@Z"
+      },
+      {
+        "address": "0x826270C8",
+        "size": 8,
+        "symbol": "?RetClass@cFlocket@Equip@@WEOA@BAABVcClass@Fun_Runtime@@XZ"
+      },
+      {
+        "address": "0x826270D0",
+        "size": 8,
+        "symbol": "??_EcFlocket@Equip@@WCFA@AAPAXI@Z"
+      },
+      {
+        "address": "0x826270D8",
+        "size": 8,
+        "symbol": "?IsA@cFlocket@Equip@@WEOA@BA_NABVcClass@Fun_Runtime@@@Z"
+      },
+      {
+        "address": "0x826270E0",
+        "size": 8,
+        "symbol": "??_EcFlocket@Equip@@WCJE@AAPAXI@Z"
+      },
+      {
+        "address": "0x826270E8",
+        "size": 8,
+        "symbol": "??_EcFlocket@Equip@@WBCA@AAPAXI@Z"
+      },
+      {
+        "address": "0x826270F0",
+        "size": 8,
+        "symbol": "?RetClass@cFlocket@Equip@@WPA@BAABVcClass@Fun_Runtime@@XZ"
+      },
+      {
+        "address": "0x82FD1A60",
+        "size": 76,
+        "symbol": "??__EcFlocketRegistrar@Equip@@"
+      },
+      {
+        "address": "0x8303F858",
+        "size": 12,
+        "symbol": "??__FcFlocketRegistrar@Equip@@"
+      }
     ],
     "src/VEHICLE_CONTROL/cHelicopterController.cpp": [
-      {"address": "0x82782020", "size": 112, "symbol": "?MakeNew@cHelicopterController@VEHICLE_CONTROL@@"},
-      {"address": "0x82782090", "size": 12, "symbol": "?RetClassName@cHelicopterController@VEHICLE_CONTROL@@"},
-      {"address": "0x827820A0", "size": 24, "symbol": "?SpawnFromPrototype@cHelicopterController@VEHICLE_CONTROL@@"},
-      {"address": "0x827820B8", "size": 8, "symbol": "?GetSpeedLimit@cHelicopterController@VEHICLE_CONTROL@@"},
-      {"address": "0x827820C0", "size": 12, "symbol": "?ResetSpeedLimit@cHelicopterController@VEHICLE_CONTROL@@"},
-      {"address": "0x827820D0", "size": 152, "symbol": "?StaticCreateClass@cHelicopterController@VEHICLE_CONTROL@@"},
-      {"address": "0x82782168", "size": 8, "symbol": "?SetSpeedLimit@cHelicopterController@VEHICLE_CONTROL@@"},
-      {"address": "0x82782170", "size": 128, "symbol": "?Init@cHelicopterController@VEHICLE_CONTROL@@"},
-      {"address": "0x827821F0", "size": 64, "symbol": "?Term@cHelicopterController@VEHICLE_CONTROL@@"},
-      {"address": "0x82782230", "size": 128, "symbol": "?AssignVehicle@cHelicopterController@VEHICLE_CONTROL@@"},
-      {"address": "0x82782AD8", "size": 16, "symbol": "?Init@cHelicopterControllerPrototype@cHelicopterController@VEHICLE_CONTROL@@"},
-      {"address": "0x82782AE8", "size": 108, "symbol": "?GetPoint@cPointArray@VEHICLE_CONTROL@@"},
-      {"address": "0x82782DE8", "size": 68, "symbol": "?GetOwnerPosition@VEHICLE_CONTROL@@"},
-      {"address": "0x82782E30", "size": 96, "symbol": "?GetWrapped@cPointVector@VEHICLE_CONTROL@@"},
-      {"address": "0x82783448", "size": 80, "symbol": "??_GcHelicopterControllerPrototype@cHelicopterController@VEHICLE_CONTROL@@"},
-      {"address": "0x83005770", "size": 76, "symbol": "??__EcHelicopterControllerRegistrar@VEHICLE_CONTROL@@"},
-      {"address": "0x830423B0", "size": 12, "symbol": "??__FcHelicopterControllerRegistrar@VEHICLE_CONTROL@@"},
-      {"address": "0x82782D70", "size": 116, "symbol": "?Flatten2D@VEHICLE_CONTROL@@", "matching": false, "note": "59%: xz flatten + optional normalise; fmadds operand choice not matched (58%)"}
+      {
+        "address": "0x82782020",
+        "size": 112,
+        "symbol": "?MakeNew@cHelicopterController@VEHICLE_CONTROL@@"
+      },
+      {
+        "address": "0x82782090",
+        "size": 12,
+        "symbol": "?RetClassName@cHelicopterController@VEHICLE_CONTROL@@"
+      },
+      {
+        "address": "0x827820A0",
+        "size": 24,
+        "symbol": "?SpawnFromPrototype@cHelicopterController@VEHICLE_CONTROL@@"
+      },
+      {
+        "address": "0x827820B8",
+        "size": 8,
+        "symbol": "?GetSpeedLimit@cHelicopterController@VEHICLE_CONTROL@@"
+      },
+      {
+        "address": "0x827820C0",
+        "size": 12,
+        "symbol": "?ResetSpeedLimit@cHelicopterController@VEHICLE_CONTROL@@"
+      },
+      {
+        "address": "0x827820D0",
+        "size": 152,
+        "symbol": "?StaticCreateClass@cHelicopterController@VEHICLE_CONTROL@@"
+      },
+      {
+        "address": "0x82782168",
+        "size": 8,
+        "symbol": "?SetSpeedLimit@cHelicopterController@VEHICLE_CONTROL@@"
+      },
+      {
+        "address": "0x82782170",
+        "size": 128,
+        "symbol": "?Init@cHelicopterController@VEHICLE_CONTROL@@"
+      },
+      {
+        "address": "0x827821F0",
+        "size": 64,
+        "symbol": "?Term@cHelicopterController@VEHICLE_CONTROL@@"
+      },
+      {
+        "address": "0x82782230",
+        "size": 128,
+        "symbol": "?AssignVehicle@cHelicopterController@VEHICLE_CONTROL@@"
+      },
+      {
+        "address": "0x82782AD8",
+        "size": 16,
+        "symbol": "?Init@cHelicopterControllerPrototype@cHelicopterController@VEHICLE_CONTROL@@"
+      },
+      {
+        "address": "0x82782AE8",
+        "size": 108,
+        "symbol": "?GetPoint@cPointArray@VEHICLE_CONTROL@@"
+      },
+      {
+        "address": "0x82782DE8",
+        "size": 68,
+        "symbol": "?GetOwnerPosition@VEHICLE_CONTROL@@"
+      },
+      {
+        "address": "0x82782E30",
+        "size": 96,
+        "symbol": "?GetWrapped@cPointVector@VEHICLE_CONTROL@@"
+      },
+      {
+        "address": "0x82783448",
+        "size": 80,
+        "symbol": "??_GcHelicopterControllerPrototype@cHelicopterController@VEHICLE_CONTROL@@"
+      },
+      {
+        "address": "0x83005770",
+        "size": 76,
+        "symbol": "??__EcHelicopterControllerRegistrar@VEHICLE_CONTROL@@"
+      },
+      {
+        "address": "0x830423B0",
+        "size": 12,
+        "symbol": "??__FcHelicopterControllerRegistrar@VEHICLE_CONTROL@@"
+      },
+      {
+        "address": "0x82782D70",
+        "size": 116,
+        "symbol": "?Flatten2D@VEHICLE_CONTROL@@",
+        "matching": false,
+        "note": "59%: xz flatten + optional normalise; fmadds operand choice not matched (58%)"
+      }
     ],
     "src/Prop/cTrafficLight.cpp": [
-      {"address": "0x827478F8", "size": 156, "symbol": "?UpdateRenderMatrix@cTrafficLight@Prop@@"}
+      {
+        "address": "0x827478F8",
+        "size": 156,
+        "symbol": "?UpdateRenderMatrix@cTrafficLight@Prop@@"
+      }
     ],
     "src/PLAYER/cPlayer.cpp": [
-      {"address": "0x82724998", "size": 144, "symbol": "?SetAITargeting@cPlayer@PLAYER@@"}
+      {
+        "address": "0x82724998",
+        "size": 144,
+        "symbol": "?SetAITargeting@cPlayer@PLAYER@@"
+      }
+    ],
+    "src/CHARACTER/cCharacterVFXProfile.cpp": [
+      {
+        "address": "0x82555310",
+        "size": 88,
+        "symbol": "?MakeNew@cCharacterVFXProfile@CHARACTER@@"
+      },
+      {
+        "address": "0x82555368",
+        "size": 12,
+        "symbol": "?RetClassName@cCharacterVFXProfile@CHARACTER@@"
+      },
+      {
+        "address": "0x825554D8",
+        "size": 92,
+        "symbol": "??_GcCharacterVFXProfile@CHARACTER@@"
+      },
+      {
+        "address": "0x82FAED00",
+        "size": 76,
+        "symbol": "??__EcCharacterVFXProfileRegistrar@CHARACTER@@"
+      },
+      {
+        "address": "0x8303D0A8",
+        "size": 12,
+        "symbol": "??__FcCharacterVFXProfileRegistrar@CHARACTER@@"
+      }
     ]
   }
 }
