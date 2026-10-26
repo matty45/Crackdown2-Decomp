@@ -7,6 +7,7 @@
 #include "CHARACTER/cNPCTintProfile.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
+#include "rw/rwmem.h"
 
 namespace CHARACTER
 {
@@ -37,7 +38,7 @@ namespace CHARACTER
                 {
                     int n = it->GetCommandId();
                     unsigned int x = it->GetAs_UInt32();
-                    m_anPalette[n].c = (x >> 24) | ((x >> 8) & 0xFF00) | ((x << 8) & 0xFF0000) | (x << 24);
+                    m_anPalette[n].c = rwSwap32(x);
                 }
             }
         }
