@@ -23,7 +23,7 @@ sys.path.insert(0, TOOLS)
 import coff  # noqa: E402
 import relocs  # noqa: E402
 import verify_ltcg  # noqa: E402
-from verify_src import ROOT, XDK, BIN, FLAGS, EXPECTED_ENTRY, pe_reader, check_toolchain  # noqa: E402
+from verify_src import ROOT, XDK, BIN, FLAGS, EXPECTED_ENTRY, pe_reader, check_toolchain, parallel_map  # noqa: E402
 
 FACTS = os.path.join(ROOT, 'config', 'target_facts.json')
 MANIFEST = os.path.join(ROOT, 'config', 'matched_functions.json')
@@ -136,12 +136,22 @@ def verify(override=None, ltcg=True, out=print):
     entries, problems, known, nfuncs = [], [], {}, 0
     contents = {}  # (address, length) -> bytes confirmed against the recorded facts, for the consistency checker
 
+    def compile_source(item):
+        n, src = item
+        d = os.path.join(tmp, 'plain_%d' % n)
+        os.makedirs(d)
+        return src, compile_plain(src, d, override.get(src))
+
+    # The plain and LTCG checks use exactly the same object. Keep it for this invocation only, including when a
+    # self-test supplies a modified source; never reuse objects from another run or another self-test case.
+    objects = dict(parallel_map(compile_source, enumerate(man['files'])))
+
     def read(addr, n):
         if (addr, n) in contents:
             return contents[(addr, n)]
         raise KeyError('no recorded fact for %d bytes at %08X' % (n, addr))
     for src, funcs in man['files'].items():
-        obj = compile_plain(src, tmp, override.get(src))
+        obj = objects[src]
         compiled = list(coff.functions(obj))
         robj = relocs.Obj(obj)
         out(src)
@@ -218,14 +228,17 @@ def verify(override=None, ltcg=True, out=print):
 
     def no_read(addr, n):
         raise KeyError('no recorded fact for %d bytes at %08X' % (n, addr))
-    for src, funcs in man['files'].items():
-        d = os.path.join(tmp, 'ltcg_' + os.path.basename(src))
-        plain = compile_plain(src, tmp, override.get(src))
+    def build_source(item):
+        n, src = item
+        d = os.path.join(tmp, 'ltcg_%d' % n)
         consts = [(op, struct.unpack('>d', bytes.fromhex(h))[0]) for op, h in facts['files'].get(src, {}).get('direct_constants', [])]
-        lread, fs, _ = verify_ltcg.build_ltcg(override.get(src) or os.path.join(ROOT, src), plain, consts, d, env(),
+        lread, fs, _ = verify_ltcg.build_ltcg(override.get(src) or os.path.join(ROOT, src), objects[src], consts, d, env(),
                                               extra_flags=['/I' + os.path.dirname(os.path.join(ROOT, src))])
         syms = verify_ltcg.map_symbols(os.path.join(d, 't.map'))
-        for f in funcs:
+        return src, lread, fs, syms
+
+    for src, lread, fs, syms in parallel_map(build_source, enumerate(man['files'])):
+        for f in man['files'][src]:
             if not f.get('matching', True):
                 continue
             ltcg_total += 1

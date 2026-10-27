@@ -15,7 +15,7 @@ symbol stands for, consistently across the whole repository (one name, one addre
 declared in config/symbol_aliases.txt; constants and strings by content). A function that calls the wrong function
 or reads the wrong global fails here even though its bytes match.
 """
-import json, os, struct, subprocess, sys, tempfile
+import concurrent.futures, json, os, struct, subprocess, sys, tempfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, 'tools'))
@@ -56,6 +56,30 @@ def run_compiler(cmd, **kw):
         time.sleep(1)
         r = subprocess.run(cmd, capture_output=True, text=True, **kw)
     return r
+
+
+def verification_jobs(value=None):
+    """Bound compiler concurrency; one worker also provides a serial diagnostic mode."""
+    if value is None:
+        value = os.environ.get('CD2_VERIFY_JOBS', min(8, os.cpu_count() or 1))
+    jobs = int(value)
+    if jobs < 1:
+        raise ValueError('verification worker count must be positive')
+    return jobs
+
+
+def parallel_map(function, items, jobs=None):
+    """Run independent files concurrently, yielding results and exceptions in input order.
+
+    Callers must give each file its own output paths. Cross-file checks and reporting remain on the calling thread.
+    Nothing is cached across runs: changed sources and headers are always compiled again.
+    """
+    jobs = verification_jobs(jobs)
+    if jobs == 1:
+        yield from map(function, items)
+    else:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=jobs) as pool:
+            yield from pool.map(function, items)
 
 
 def toolchain_problems():
@@ -182,10 +206,14 @@ def main():
     tmp = tempfile.mkdtemp(prefix='cd2verify_')
     total = ok = pending = 0
     entries, problems, known, nfuncs = [], [], {}, 0
-    for src, funcs in manifest['files'].items():
-        obj = os.path.join(tmp, os.path.basename(src) + '.obj')
+    def compile_source(item):
+        n, (src, funcs) = item
+        obj = os.path.join(tmp, '%d_%s.obj' % (n, os.path.basename(src)))
         r = subprocess.run([os.path.join(BIN, 'cl.exe')] + FLAGS + ['/Fo' + obj, os.path.join(ROOT, src)],
                            env=env, capture_output=True, text=True)
+        return src, funcs, obj, r
+
+    for src, funcs, obj, r in parallel_map(compile_source, enumerate(manifest['files'].items())):
         if r.returncode:
             print('%s: COMPILE ERROR\n%s' % (src, r.stdout + r.stderr))
             total += len(funcs)
