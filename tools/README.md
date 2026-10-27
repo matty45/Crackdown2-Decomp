@@ -18,12 +18,6 @@ py -I tools\cd2.py setup <path>\default_patched.xex
 - `verify` runs every gate below, plus their self-tests.
 - Every command takes `--json`.
 
-`verify` runs independent files concurrently, with up to eight workers by default. Use `verify --jobs N` to set the
-limit, or `--jobs 1` for serial verification. `CD2_VERIFY_JOBS` sets the default for verification scripts called
-directly as well. Gates still run in order, retain all comparisons and self-tests, and print their elapsed times;
-JSON results include `seconds` per gate and for the whole run. Each file gets separate build outputs, and facts
-verification reuses its own plain objects for the LTCG pass. No build artifacts or verdicts are reused across runs.
-
 The compiler and linker must be the builds pinned in `config/toolchain.txt`; every gate refuses another toolchain.
 
 ## Gates (all must pass)
