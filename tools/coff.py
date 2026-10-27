@@ -1,5 +1,16 @@
 import struct
 
+ADDR32, PAIR = 0x02, 0x12
+
+
+class Relocations(set):
+    """Word offsets, with the absolute data relocations kept separate from instructions."""
+    def __init__(self, records):
+        records = list(records)
+        super().__init__(off & ~3 for off, typ in records if typ != PAIR)
+        self.absolute = {off for off, typ in records if typ == ADDR32 and off % 4 == 0}
+
+
 def parse(path):
     d = open(path, 'rb').read()
     mach, nsec, _, symptr, nsym, opt, _ = struct.unpack('<HHIIIHH', d[:20])
@@ -30,7 +41,7 @@ def parse(path):
     return secs, syms
 
 def functions(path):
-    """yield (name, code_bytes, set_of_reloc_word_offsets)"""
+    """yield (name, code_bytes, Relocations word offsets)"""
     secs, syms = parse(path)
     bysec = {}
     for s in syms:
@@ -42,17 +53,19 @@ def functions(path):
         lst.sort(key=lambda s: s['value'])
         for j, s in enumerate(lst):
             end = lst[j + 1]['value'] if j + 1 < len(lst) else len(sec['data'])
-            rel = {(r[0] - s['value']) & ~3 for r in sec['relocs'] if s['value'] <= r[0] < end}
+            rel = Relocations((off - s['value'], typ) for off, _, typ in sec['relocs']
+                              if s['value'] <= off < end)
             yield s['name'], sec['data'][s['value']:end], rel
 
 def compare(a, b, rel):
-    """a = candidate obj bytes, b = target bytes. returns (exact, ratio)"""
+    """Compare code shape; ADDR32 destinations must also pass relocs.resolve. Returns (exact, ratio)."""
     n = max(len(a), len(b)) // 4
     if n == 0:
         return False, 0.0
     good = 0
     for w in range(min(len(a), len(b)) // 4):
         x, y = a[w * 4:w * 4 + 4], b[w * 4:w * 4 + 4]
-        if x == y or (w * 4 in rel and (x[0] >> 2) == (y[0] >> 2)):
+        if x == y or w * 4 in getattr(rel, 'absolute', ()) or \
+                (w * 4 in rel and (x[0] >> 2) == (y[0] >> 2)):
             good += 1
     return good == n and len(a) == len(b), good / n

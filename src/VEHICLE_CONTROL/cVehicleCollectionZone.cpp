@@ -1,12 +1,32 @@
-// src/VEHICLE_CONTROL/cVehicleCollectionZone.cpp
-//
-// Class: cVehicleCollectionZone (namespace: VEHICLE_CONTROL). Set up automatically: no function is matched yet. The
-// address range and the evidence for it are in config/splits.txt; RuffKing's object for it is
-// cVehicleCollectionZone.obj.
-//
-// Reference layout from a later build of the same codebase (a starting point, not CD2's: verify it against CD2's code):
-// include/ref/ruffking/VEHICLE_CONTROL_cVehicleCollectionZone.h.
-//
-// Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
-// include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
-//     py -I tools/cd2.py tasks src/VEHICLE_CONTROL/cVehicleCollectionZone.cpp
+#include "VEHICLE_CONTROL/cVehicleCollectionZone.h"
+#include "rws/classfactory.h"
+
+namespace VEHICLE_CONTROL
+{
+    const Fun_Runtime::cClass *cVehicleCollectionZone::ms_pcVehicleCollectionZoneClass = 0;
+
+    cVehicleCollectionZone::cVehicleCollectionZone() {}
+
+    const Fun_Runtime::cClass &cVehicleCollectionZone::RetClass() const
+    {
+        return *ms_pcVehicleCollectionZoneClass;
+    }
+
+    const char *cVehicleCollectionZone::RetClassName() const
+    {
+        return "cVehicleCollectionZone";
+    }
+
+    bool cVehicleCollectionZone::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcVehicleCollectionZoneClass->IsA(c);
+    }
+
+    RWS::CAttributeHandler *cVehicleCollectionZone::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cVehicleCollectionZone();
+    }
+}
+
+static RWS::CClassFactory::CRegistrar cVehicleCollectionZoneRegistrar(
+    "cVehicleCollectionZone", VEHICLE_CONTROL::cVehicleCollectionZone::MakeNew, 0x7C, false);

@@ -1,12 +1,32 @@
-// src/AI/cReaperJumpEvent.cpp
-//
-// Classes: cReaperJumpEvent, cReaperPropAttackEvent (namespace: AI). Set up automatically: no function is matched yet.
-// The address range and the evidence for it are in config/splits.txt; RuffKing's object for it is
-// cReaperPatrolRouteEvent.obj.
-//
-// Reference layout from a later build of the same codebase (a starting point, not CD2's: verify it against CD2's code):
-// include/ref/ruffking/AI_cReaperJumpEvent.h, include/ref/ruffking/AI_cReaperPropAttackEvent.h.
-//
-// Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
-// include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
-//     py -I tools/cd2.py tasks src/AI/cReaperJumpEvent.cpp
+#include "AI/cReaperJumpEvent.h"
+#include "rws/classfactory.h"
+
+namespace AI
+{
+    const Fun_Runtime::cClass *cReaperJumpEvent::ms_pcReaperJumpEventClass = 0;
+
+    cReaperJumpEvent::cReaperJumpEvent() {}
+
+    const Fun_Runtime::cClass &cReaperJumpEvent::RetClass() const
+    {
+        return *ms_pcReaperJumpEventClass;
+    }
+
+    const char *cReaperJumpEvent::RetClassName() const
+    {
+        return "cReaperJumpEvent";
+    }
+
+    bool cReaperJumpEvent::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcReaperJumpEventClass->IsA(c);
+    }
+
+    RWS::CAttributeHandler *cReaperJumpEvent::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cReaperJumpEvent();
+    }
+}
+
+static RWS::CClassFactory::CRegistrar cReaperJumpEventRegistrar(
+    "cReaperJumpEvent", AI::cReaperJumpEvent::MakeNew, 0x7C, false);

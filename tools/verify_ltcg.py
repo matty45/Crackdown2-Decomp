@@ -36,11 +36,14 @@ FLOAT_LOADS = {48: 4, 50: 8}  # lfs, lfd
 LOGICAL_RA_DEST = {20, 21, 23, 24, 25, 26, 27, 28, 29, 30}  # rotates and logical immediates write rA, not rS
 
 
-def masked(ws, start):
-    """Mask address immediates: lis halves, addi/loads/stores based on lis-derived registers, calls out of the function."""
+def masked(ws, start, absolute_offsets=()):
+    """Mask address immediates; retain ADDR32 table destinations as function-relative offsets."""
     out, hi = [], set()
     end = start + 4 * len(ws)
     for i, w in enumerate(ws):
+        if i * 4 in absolute_offsets:
+            out.append((w - start) & 0xFFFFFFFF)  # compare the destination, relative to the function
+            continue
         op, rt, ra = w >> 26, (w >> 21) & 31, (w >> 16) & 31
         m = w
         if op == 15 and ra == 0:
@@ -360,7 +363,7 @@ def build_ltcg(srcpath, plain_obj, consts, d, env, extra_flags=()):
     return image_reader(image), map_funcs(os.path.join(d, 't.map')), len(globs)
 
 
-def compare_ltcg(ltcg_read, fs, symbol, target, va):
+def compare_ltcg(ltcg_read, fs, symbol, target, va, absolute_offsets=()):
     """Compare the LTCG image's function matching `symbol` with target bytes at CD2 address va.
     Returns (exact, good_words, target_words), or None if the symbol is not in the image."""
     lt = [a for a, n in fs if symbol in n]
@@ -376,7 +379,7 @@ def compare_ltcg(ltcg_read, fs, symbol, target, va):
         # the map gives no end for the last function of a section; words after a target that cannot fall through
         # (and has no branch past its end) are not part of it
         lw = lw[:len(tw)]
-    mt, ml = masked(tw, va), masked(lw, a)
+    mt, ml = masked(tw, va, absolute_offsets), masked(lw, a, absolute_offsets)
     good = sum(1 for x, y in zip(ml, mt) if x == y)
     return len(lw) == len(tw) and good == len(tw), good, len(tw)
 
@@ -433,7 +436,8 @@ def check_file(src, funcs, read, env, d, srcpath=None, out=print):
         target = read(va, size)
         found = [(n, c, rel) for n, c, rel in compiled if f['symbol'] in n]
         plain_exact = bool(found) and coff.compare(found[0][1], target, found[0][2])[0]
-        cmp = compare_ltcg(ltcg_read, fs, f['symbol'], target, va)
+        absolute = getattr(found[0][2], 'absolute', ()) if found else ()
+        cmp = compare_ltcg(ltcg_read, fs, f['symbol'], target, va, absolute)
         if cmp is None:
             lt_exact, status = False, 'not found in LTCG image'
         else:

@@ -1,11 +1,32 @@
-// src/AI/cAgencyTowerSegmentMission.cpp
-//
-// Class: cAgencyTowerSegmentMission (namespace: AI). Set up automatically: no function is matched yet. The address
-// range and the evidence for it are in config/splits.txt; RuffKing's object for it is cAgencyTowerSegmentMission.obj.
-//
-// Reference layout from a later build of the same codebase (a starting point, not CD2's: verify it against CD2's code):
-// include/ref/ruffking/AI_cAgencyTowerSegmentMission.h.
-//
-// Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
-// include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
-//     py -I tools/cd2.py tasks src/AI/cAgencyTowerSegmentMission.cpp
+#include "AI/cAgencyTowerSegmentMission.h"
+#include "rws/classfactory.h"
+
+namespace AI
+{
+    const Fun_Runtime::cClass *cAgencyTowerSegmentMission::ms_pcAgencyTowerSegmentMissionClass = 0;
+
+    cAgencyTowerSegmentMission::cAgencyTowerSegmentMission() {}
+
+    const Fun_Runtime::cClass &cAgencyTowerSegmentMission::RetClass() const
+    {
+        return *ms_pcAgencyTowerSegmentMissionClass;
+    }
+
+    const char *cAgencyTowerSegmentMission::RetClassName() const
+    {
+        return "cAgencyTowerSegmentMission";
+    }
+
+    bool cAgencyTowerSegmentMission::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcAgencyTowerSegmentMissionClass->IsA(c);
+    }
+
+    RWS::CAttributeHandler *cAgencyTowerSegmentMission::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cAgencyTowerSegmentMission();
+    }
+}
+
+static RWS::CClassFactory::CRegistrar cAgencyTowerSegmentMissionRegistrar(
+    "cAgencyTowerSegmentMission", AI::cAgencyTowerSegmentMission::MakeNew, 0x7C, false);

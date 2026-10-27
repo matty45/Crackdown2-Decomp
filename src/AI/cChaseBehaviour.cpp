@@ -1,6 +1,6 @@
 // AI/cChaseBehaviour.cpp: cChaseBehaviour of Crackdown 2.
-// Measurement batch 2 (2026-10-23, Sonnet 5.5): 26 functions byte-exact, 2 tracked as work in progress
-// (config/matched_functions.json). Unknown bases and callees are stand-ins named in the header; out-of-line
+// All 28 mapped functions are byte-exact (checked 2026-10-26; config/matched_functions.json).
+// Unknown bases and callees are stand-ins named in the header; out-of-line
 // callees without a known name are declared as Ext_<address>.
 // AI/cChaseBehaviour.cpp: cChaseBehaviour, the vehicle chase behaviour of Crackdown 2 (measurement batch 2, round 2).
 #include "AI/cChaseBehaviour.h"
@@ -228,18 +228,18 @@ namespace AI
 
     void cChaseBehaviour::V108()
     {
-        Player *player = static_cast<Player *>(m_pHost->m_Links.m_pPlayerSub);
+        Player *player = m_pHost->m_Links.RetPlayer();
         if (player->m_p1524->O5())
         {
             V118();
             return;
         }
-        player = static_cast<Player *>(m_pHost->m_Links.m_pPlayerSub);
+        player = m_pHost->m_Links.RetPlayer();
         XSub *xs = player->m_pX;
         X *x = xs ? static_cast<X *>(xs) : 0;
         if (x)
         {
-            Player *player2 = static_cast<Player *>(m_pHost->m_Links.m_pPlayerSub);
+            Player *player2 = m_pHost->m_Links.RetPlayer();
             X *x2 = static_cast<X *>(player2->m_pX);
             YSub *ys = x2->m_pY;
             Y *y = ys ? static_cast<Y *>(ys) : 0;

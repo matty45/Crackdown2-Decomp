@@ -1,11 +1,32 @@
-// src/AI/PedestrianInjured.cpp
-//
-// Class: PedestrianInjured (namespace: AI). Set up automatically: no function is matched yet. The address range and the
-// evidence for it are in config/splits.txt; RuffKing's object for it is PedestrianInjured.obj.
-//
-// Reference layout from a later build of the same codebase (a starting point, not CD2's: verify it against CD2's code):
-// include/ref/ruffking/AI_PedestrianInjured.h.
-//
-// Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
-// include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
-//     py -I tools/cd2.py tasks src/AI/PedestrianInjured.cpp
+#include "AI/PedestrianInjured.h"
+#include "rws/classfactory.h"
+
+namespace AI
+{
+    const Fun_Runtime::cClass *PedestrianInjured::ms_pPedestrianInjuredClass = 0;
+
+    PedestrianInjured::PedestrianInjured() {}
+
+    const Fun_Runtime::cClass &PedestrianInjured::RetClass() const
+    {
+        return *ms_pPedestrianInjuredClass;
+    }
+
+    const char *PedestrianInjured::RetClassName() const
+    {
+        return "PedestrianInjured";
+    }
+
+    bool PedestrianInjured::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pPedestrianInjuredClass->IsA(c);
+    }
+
+    RWS::CAttributeHandler *PedestrianInjured::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new PedestrianInjured();
+    }
+}
+
+static RWS::CClassFactory::CRegistrar PedestrianInjuredRegistrar(
+    "PedestrianInjured", AI::PedestrianInjured::MakeNew, 0x7C, false);

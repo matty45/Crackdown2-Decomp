@@ -1,11 +1,32 @@
-// src/AI/cBeaconMission.cpp
-//
-// Class: cBeaconMission (namespace: AI). Set up automatically: no function is matched yet. The address range and the
-// evidence for it are in config/splits.txt; RuffKing's object for it is cBeaconMission.obj.
-//
-// Reference layout from a later build of the same codebase (a starting point, not CD2's: verify it against CD2's code):
-// include/ref/ruffking/AI_cBeaconMission.h.
-//
-// Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
-// include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
-//     py -I tools/cd2.py tasks src/AI/cBeaconMission.cpp
+#include "AI/cBeaconMission.h"
+#include "rws/classfactory.h"
+
+namespace AI
+{
+    const Fun_Runtime::cClass *cBeaconMission::ms_pcBeaconMissionClass = 0;
+
+    cBeaconMission::cBeaconMission() {}
+
+    const Fun_Runtime::cClass &cBeaconMission::RetClass() const
+    {
+        return *ms_pcBeaconMissionClass;
+    }
+
+    const char *cBeaconMission::RetClassName() const
+    {
+        return "cBeaconMission";
+    }
+
+    bool cBeaconMission::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcBeaconMissionClass->IsA(c);
+    }
+
+    RWS::CAttributeHandler *cBeaconMission::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cBeaconMission();
+    }
+}
+
+static RWS::CClassFactory::CRegistrar cBeaconMissionRegistrar(
+    "cBeaconMission", AI::cBeaconMission::MakeNew, 0x7C, false);

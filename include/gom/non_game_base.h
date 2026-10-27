@@ -74,8 +74,8 @@ public:
     virtual void Slot28();
     virtual void Slot29();
     virtual void Slot30();
-    virtual void Slot31();
-    virtual void Slot32();
+    virtual bool EnterRenderableState();
+    virtual void LeaveRenderableState();
     virtual void Slot33();
     virtual void Slot34();
     virtual void Slot35();
@@ -111,6 +111,7 @@ public:
     virtual void Slot65();
     virtual void Slot66();
     virtual void Slot67();
+    virtual void Slot68();
 
     CD2_LAYOUT_CHECKS(cNonGameBase,
         CD2_SIZE(cNonGameBase, 0x7C)

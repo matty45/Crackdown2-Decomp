@@ -1,11 +1,32 @@
-// src/AI/TrainingAmbient.cpp
-//
-// Class: TrainingAmbient (namespace: AI). Set up automatically: no function is matched yet. The address range and the
-// evidence for it are in config/splits.txt; RuffKing's object for it is TrainingAmbient.obj.
-//
-// Reference layout from a later build of the same codebase (a starting point, not CD2's: verify it against CD2's code):
-// include/ref/ruffking/AI_TrainingAmbient.h.
-//
-// Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
-// include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
-//     py -I tools/cd2.py tasks src/AI/TrainingAmbient.cpp
+#include "AI/TrainingAmbient.h"
+#include "rws/classfactory.h"
+
+namespace AI
+{
+    const Fun_Runtime::cClass *TrainingAmbient::ms_pTrainingAmbientClass = 0;
+
+    TrainingAmbient::TrainingAmbient() {}
+
+    const Fun_Runtime::cClass &TrainingAmbient::RetClass() const
+    {
+        return *ms_pTrainingAmbientClass;
+    }
+
+    const char *TrainingAmbient::RetClassName() const
+    {
+        return "TrainingAmbient";
+    }
+
+    bool TrainingAmbient::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pTrainingAmbientClass->IsA(c);
+    }
+
+    RWS::CAttributeHandler *TrainingAmbient::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new TrainingAmbient();
+    }
+}
+
+static RWS::CClassFactory::CRegistrar TrainingAmbientRegistrar(
+    "TrainingAmbient", AI::TrainingAmbient::MakeNew, 0x7C, false);

@@ -1,11 +1,32 @@
-// src/AI/cVehicleCollectionBehaviour.cpp
-//
-// Class: cVehicleCollectionBehaviour (namespace: AI). Set up automatically: no function is matched yet. The address
-// range and the evidence for it are in config/splits.txt; RuffKing's object for it is VehicleCollectionBehaviour.obj.
-//
-// Reference layout from a later build of the same codebase (a starting point, not CD2's: verify it against CD2's code):
-// include/ref/ruffking/AI_cVehicleCollectionBehaviour.h.
-//
-// Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
-// include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
-//     py -I tools/cd2.py tasks src/AI/cVehicleCollectionBehaviour.cpp
+#include "AI/cVehicleCollectionBehaviour.h"
+#include "rws/classfactory.h"
+
+namespace AI
+{
+    const Fun_Runtime::cClass *cVehicleCollectionBehaviour::ms_pcVehicleCollectionBehaviourClass = 0;
+
+    cVehicleCollectionBehaviour::cVehicleCollectionBehaviour() {}
+
+    const Fun_Runtime::cClass &cVehicleCollectionBehaviour::RetClass() const
+    {
+        return *ms_pcVehicleCollectionBehaviourClass;
+    }
+
+    const char *cVehicleCollectionBehaviour::RetClassName() const
+    {
+        return "cVehicleCollectionBehaviour";
+    }
+
+    bool cVehicleCollectionBehaviour::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcVehicleCollectionBehaviourClass->IsA(c);
+    }
+
+    RWS::CAttributeHandler *cVehicleCollectionBehaviour::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cVehicleCollectionBehaviour();
+    }
+}
+
+static RWS::CClassFactory::CRegistrar cVehicleCollectionBehaviourRegistrar(
+    "cVehicleCollectionBehaviour", AI::cVehicleCollectionBehaviour::MakeNew, 0x7C, false);

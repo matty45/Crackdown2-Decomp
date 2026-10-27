@@ -1,11 +1,32 @@
-// src/AI/cPKDropPilot.cpp
-//
-// Class: cPKDropPilot (namespace: AI). Set up automatically: no function is matched yet. The address range and the
-// evidence for it are in config/splits.txt; RuffKing's object for it is PKDropPilot.obj.
-//
-// Reference layout from a later build of the same codebase (a starting point, not CD2's: verify it against CD2's code):
-// include/ref/ruffking/AI_cPKDropPilot.h.
-//
-// Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
-// include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
-//     py -I tools/cd2.py tasks src/AI/cPKDropPilot.cpp
+#include "AI/cPKDropPilot.h"
+#include "rws/classfactory.h"
+
+namespace AI
+{
+    const Fun_Runtime::cClass *cPKDropPilot::ms_pcPKDropPilotClass = 0;
+
+    cPKDropPilot::cPKDropPilot() {}
+
+    const Fun_Runtime::cClass &cPKDropPilot::RetClass() const
+    {
+        return *ms_pcPKDropPilotClass;
+    }
+
+    const char *cPKDropPilot::RetClassName() const
+    {
+        return "cPKDropPilot";
+    }
+
+    bool cPKDropPilot::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcPKDropPilotClass->IsA(c);
+    }
+
+    RWS::CAttributeHandler *cPKDropPilot::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cPKDropPilot();
+    }
+}
+
+static RWS::CClassFactory::CRegistrar cPKDropPilotRegistrar(
+    "cPKDropPilot", AI::cPKDropPilot::MakeNew, 0x7C, false);

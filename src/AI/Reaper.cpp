@@ -1,11 +1,32 @@
-// src/AI/Reaper.cpp
-//
-// Class: Reaper (namespace: AI). Set up automatically: no function is matched yet. The address range and the evidence
-// for it are in config/splits.txt; RuffKing's object for it is Reaper.obj.
-//
-// Reference layout from a later build of the same codebase (a starting point, not CD2's: verify it against CD2's code):
-// include/ref/ruffking/AI_Reaper.h.
-//
-// Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
-// include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
-//     py -I tools/cd2.py tasks src/AI/Reaper.cpp
+#include "AI/Reaper.h"
+#include "rws/classfactory.h"
+
+namespace AI
+{
+    const Fun_Runtime::cClass *Reaper::ms_pReaperClass = 0;
+
+    Reaper::Reaper() {}
+
+    const Fun_Runtime::cClass &Reaper::RetClass() const
+    {
+        return *ms_pReaperClass;
+    }
+
+    const char *Reaper::RetClassName() const
+    {
+        return "Reaper";
+    }
+
+    bool Reaper::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pReaperClass->IsA(c);
+    }
+
+    RWS::CAttributeHandler *Reaper::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new Reaper();
+    }
+}
+
+static RWS::CClassFactory::CRegistrar ReaperRegistrar(
+    "Reaper", AI::Reaper::MakeNew, 0x7C, false);

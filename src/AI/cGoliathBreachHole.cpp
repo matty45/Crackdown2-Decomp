@@ -1,11 +1,32 @@
-// src/AI/cGoliathBreachHole.cpp
-//
-// Class: cGoliathBreachHole (namespace: AI). Set up automatically: no function is matched yet. The address range and
-// the evidence for it are in config/splits.txt; RuffKing's object for it is cGoliathBreach.obj.
-//
-// Reference layout from a later build of the same codebase (a starting point, not CD2's: verify it against CD2's code):
-// include/ref/ruffking/AI_cGoliathBreachHole.h.
-//
-// Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
-// include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
-//     py -I tools/cd2.py tasks src/AI/cGoliathBreachHole.cpp
+#include "AI/cGoliathBreachHole.h"
+#include "rws/classfactory.h"
+
+namespace AI
+{
+    const Fun_Runtime::cClass *cGoliathBreachHole::ms_pcGoliathBreachHoleClass = 0;
+
+    cGoliathBreachHole::cGoliathBreachHole() {}
+
+    const Fun_Runtime::cClass &cGoliathBreachHole::RetClass() const
+    {
+        return *ms_pcGoliathBreachHoleClass;
+    }
+
+    const char *cGoliathBreachHole::RetClassName() const
+    {
+        return "cGoliathBreachHole";
+    }
+
+    bool cGoliathBreachHole::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcGoliathBreachHoleClass->IsA(c);
+    }
+
+    RWS::CAttributeHandler *cGoliathBreachHole::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cGoliathBreachHole();
+    }
+}
+
+static RWS::CClassFactory::CRegistrar cGoliathBreachHoleRegistrar(
+    "cGoliathBreachHole", AI::cGoliathBreachHole::MakeNew, 0x7C, false);

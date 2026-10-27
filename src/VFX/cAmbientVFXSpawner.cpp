@@ -1,7 +1,6 @@
 // VFX/cAmbientVFXSpawner.cpp: ambient VFX spawner and prototype classes of Crackdown 2.
-// Measurement batch 1 (2026-10-23, Sonnet 5.5): 16 of the file's 21 functions byte-exact (see config/matched_functions.json).
-// Work in progress: HandleAttributes (CD2 has three GUID stack slots, we have two), CalcRand* (CD2 loads both float
-// constants through one base register), IsVFXFinished (extrwi versus our rlwinm, one word).
+// All 21 mapped functions are exact; the three CalcRand functions require LTCG. See config/matched_functions.json.
+// HandleAttributes uses GUID assignment before lookup to preserve the target's three GUID temporaries.
 #include "VFX/cAmbientVFXSpawner.h"
 #include "editor/guid_event_handler.h"
 #include "rws/classfactory.h"
@@ -51,7 +50,11 @@ namespace VFX
         for (RWS::CAttributeCommandIterator it(packet, pcAmbientVFXSpawnerClassID); !it.IsFinished(); ++it)
         {
             if (it->GetCommandId() == 0)
-                m_pPrototype = Editor::cGUIDLinker<cAmbientVFXPrototype>::LinkToObject(it->GetAs_RWSGUID());
+            {
+                RWS::RWSGUID guid;
+                guid = it->GetAs_RWSGUID();
+                m_pPrototype = Editor::cGUIDLinker<cAmbientVFXPrototype>::LinkToObject(guid);
+            }
         }
         if (m_pPrototype)
         {

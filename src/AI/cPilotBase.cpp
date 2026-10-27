@@ -1,11 +1,32 @@
-// src/AI/cPilotBase.cpp
-//
-// Class: cPilotBase (namespace: AI). Set up automatically: no function is matched yet. The address range and the
-// evidence for it are in config/splits.txt; RuffKing's object for it is PilotBase.obj.
-//
-// Reference layout from a later build of the same codebase (a starting point, not CD2's: verify it against CD2's code):
-// include/ref/ruffking/AI_cPilotBase.h.
-//
-// Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
-// include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
-//     py -I tools/cd2.py tasks src/AI/cPilotBase.cpp
+#include "AI/cPilotBase.h"
+#include "rws/classfactory.h"
+
+namespace AI
+{
+    const Fun_Runtime::cClass *cPilotBase::ms_pcPilotBaseClass = 0;
+
+    cPilotBase::cPilotBase() {}
+
+    const Fun_Runtime::cClass &cPilotBase::RetClass() const
+    {
+        return *ms_pcPilotBaseClass;
+    }
+
+    const char *cPilotBase::RetClassName() const
+    {
+        return "cPilotBase";
+    }
+
+    bool cPilotBase::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcPilotBaseClass->IsA(c);
+    }
+
+    RWS::CAttributeHandler *cPilotBase::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cPilotBase();
+    }
+}
+
+static RWS::CClassFactory::CRegistrar cPilotBaseRegistrar(
+    "cPilotBase", AI::cPilotBase::MakeNew, 0x7C, false);

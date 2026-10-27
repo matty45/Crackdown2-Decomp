@@ -1,12 +1,32 @@
-// src/AI/cVehicleAttackedRockingBehaviour.cpp
-//
-// Class: cVehicleAttackedRockingBehaviour (namespace: AI). Set up automatically: no function is matched yet. The
-// address range and the evidence for it are in config/splits.txt; RuffKing's object for it is
-// VehicleAttackedRockingBehaviour.obj.
-//
-// Reference layout from a later build of the same codebase (a starting point, not CD2's: verify it against CD2's code):
-// include/ref/ruffking/AI_cVehicleAttackedRockingBehaviour.h.
-//
-// Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
-// include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
-//     py -I tools/cd2.py tasks src/AI/cVehicleAttackedRockingBehaviour.cpp
+#include "AI/cVehicleAttackedRockingBehaviour.h"
+#include "rws/classfactory.h"
+
+namespace AI
+{
+    const Fun_Runtime::cClass *cVehicleAttackedRockingBehaviour::ms_pcVehicleAttackedRockingBehaviourClass = 0;
+
+    cVehicleAttackedRockingBehaviour::cVehicleAttackedRockingBehaviour() {}
+
+    const Fun_Runtime::cClass &cVehicleAttackedRockingBehaviour::RetClass() const
+    {
+        return *ms_pcVehicleAttackedRockingBehaviourClass;
+    }
+
+    const char *cVehicleAttackedRockingBehaviour::RetClassName() const
+    {
+        return "cVehicleAttackedRockingBehaviour";
+    }
+
+    bool cVehicleAttackedRockingBehaviour::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcVehicleAttackedRockingBehaviourClass->IsA(c);
+    }
+
+    RWS::CAttributeHandler *cVehicleAttackedRockingBehaviour::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cVehicleAttackedRockingBehaviour();
+    }
+}
+
+static RWS::CClassFactory::CRegistrar cVehicleAttackedRockingBehaviourRegistrar(
+    "cVehicleAttackedRockingBehaviour", AI::cVehicleAttackedRockingBehaviour::MakeNew, 0x7C, false);

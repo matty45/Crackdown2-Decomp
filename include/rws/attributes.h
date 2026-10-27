@@ -45,6 +45,17 @@ namespace RWS
             CD2_SIZE(RWSGUID, 0x10))
     };
 
+    // Inlined by cAmbientVFXSpawner::HandleAttributes (0x827F9370). Keep the four assignments explicit:
+    // a loop changes the compiler's copy sequence and the caller's stack temporaries.
+    inline RWSGUID &RWSGUID::operator=(const RWSGUID &src)
+    {
+        m_Data[0] = src.m_Data[0];
+        m_Data[1] = src.m_Data[1];
+        m_Data[2] = src.m_Data[2];
+        m_Data[3] = src.m_Data[3];
+        return *this;
+    }
+
     class CAttributeDataChunk
     {
     public:

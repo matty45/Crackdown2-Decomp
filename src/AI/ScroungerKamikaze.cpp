@@ -1,11 +1,32 @@
-// src/AI/ScroungerKamikaze.cpp
-//
-// Class: ScroungerKamikaze (namespace: AI). Set up automatically: no function is matched yet. The address range and the
-// evidence for it are in config/splits.txt; RuffKing's object for it is ScroungerKamikaze.obj.
-//
-// Reference layout from a later build of the same codebase (a starting point, not CD2's: verify it against CD2's code):
-// include/ref/ruffking/AI_ScroungerKamikaze.h.
-//
-// Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
-// include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
-//     py -I tools/cd2.py tasks src/AI/ScroungerKamikaze.cpp
+#include "AI/ScroungerKamikaze.h"
+#include "rws/classfactory.h"
+
+namespace AI
+{
+    const Fun_Runtime::cClass *ScroungerKamikaze::ms_pScroungerKamikazeClass = 0;
+
+    ScroungerKamikaze::ScroungerKamikaze() {}
+
+    const Fun_Runtime::cClass &ScroungerKamikaze::RetClass() const
+    {
+        return *ms_pScroungerKamikazeClass;
+    }
+
+    const char *ScroungerKamikaze::RetClassName() const
+    {
+        return "ScroungerKamikaze";
+    }
+
+    bool ScroungerKamikaze::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pScroungerKamikazeClass->IsA(c);
+    }
+
+    RWS::CAttributeHandler *ScroungerKamikaze::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new ScroungerKamikaze();
+    }
+}
+
+static RWS::CClassFactory::CRegistrar ScroungerKamikazeRegistrar(
+    "ScroungerKamikaze", AI::ScroungerKamikaze::MakeNew, 0x7C, false);

@@ -8,7 +8,8 @@
 //   three bytes and copies 0xE3C to 0xE38. The words from 0xE44 are one light per light index (AddLight reads 0xE44 +
 //   index times 4); they and the rest up to 0xE60 are not modelled yet.
 // - The prototype's word at 0x4F0 is the number of lights: unsigned (cmplw against the loop index), read through
-//   m_pPrototype (0x44). AddLight picks one of the words at 0x4F4, 0x4F8 and 0x4FC by colour; not modelled yet.
+//   m_pPrototype (0x44). AddLight picks one of the words at 0x4F4, 0x4F8 and 0x4FC by colour. MakeNew sets byte 0x500
+//   to -1.
 // - Primary vtable 0x8200F530: UpdateRenderMatrix is slot 26 (see Prop/cProp.h). Only the functions matched so far are
 //   declared.
 // - The colours are AI::cJunctionNodeController::eSignalColour (AI/cJunctionNodeController.h).
@@ -27,14 +28,20 @@ namespace Prop
         class cTrafficLightPrototype : public cProp::cPropPrototype
         {
         public:
+            cTrafficLightPrototype(const RWS::CAttributePacket &packet) : cPropPrototype(packet) {}
             unsigned int m_nNumLights;               // 0x4F0
         private:
-            unsigned char m_pad4F4[0x510 - 0x4F4];
+            unsigned int m_unk4F4[3];
+        public:
+            signed char m_unk500;
+        private:
+            unsigned char m_pad501[0x510 - 0x501];
 
         public:
             CD2_LAYOUT_CHECKS(cTrafficLightPrototype,
                 CD2_SIZE(cTrafficLightPrototype, 0x510)
-                CD2_OFFSET(cTrafficLightPrototype, m_nNumLights, 0x4F0))
+            CD2_OFFSET(cTrafficLightPrototype, m_nNumLights, 0x4F0)
+            CD2_OFFSET(cTrafficLightPrototype, m_unk500, 0x500))
         };
 
     protected:
@@ -49,7 +56,10 @@ namespace Prop
 
     public:
         virtual const char *RetClassName() const;
+        virtual bool EnterRenderableState();                           // slot 31, 0x82747898
         virtual void UpdateRenderMatrix();                               // slot 26, 0x827478F8
+
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
 
     protected:
         bool AddLight(int, AI::cJunctionNodeController::eSignalColour);  // 0x82747998

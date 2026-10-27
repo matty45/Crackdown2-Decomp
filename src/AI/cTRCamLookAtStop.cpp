@@ -1,11 +1,32 @@
-// src/AI/cTRCamLookAtStop.cpp
-//
-// Class: cTRCamLookAtStop (namespace: AI). Set up automatically: no function is matched yet. The address range and the
-// evidence for it are in config/splits.txt; RuffKing's object for it is TCamCutEvents.obj.
-//
-// Reference layout from a later build of the same codebase (a starting point, not CD2's: verify it against CD2's code):
-// include/ref/ruffking/AI_cTRCamLookAtStop.h.
-//
-// Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
-// include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
-//     py -I tools/cd2.py tasks src/AI/cTRCamLookAtStop.cpp
+#include "AI/cTRCamLookAtStop.h"
+#include "rws/classfactory.h"
+
+namespace AI
+{
+    const Fun_Runtime::cClass *cTRCamLookAtStop::ms_pcTRCamLookAtStopClass = 0;
+
+    cTRCamLookAtStop::cTRCamLookAtStop() {}
+
+    const Fun_Runtime::cClass &cTRCamLookAtStop::RetClass() const
+    {
+        return *ms_pcTRCamLookAtStopClass;
+    }
+
+    const char *cTRCamLookAtStop::RetClassName() const
+    {
+        return "cTRCamLookAtStop";
+    }
+
+    bool cTRCamLookAtStop::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcTRCamLookAtStopClass->IsA(c);
+    }
+
+    RWS::CAttributeHandler *cTRCamLookAtStop::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cTRCamLookAtStop();
+    }
+}
+
+static RWS::CClassFactory::CRegistrar cTRCamLookAtStopRegistrar(
+    "cTRCamLookAtStop", AI::cTRCamLookAtStop::MakeNew, 0x7C, false);

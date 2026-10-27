@@ -1,11 +1,32 @@
-// src/AI/cCellStrongholdMission.cpp
-//
-// Class: cCellStrongholdMission (namespace: AI). Set up automatically: no function is matched yet. The address range
-// and the evidence for it are in config/splits.txt; RuffKing's object for it is cCellStrongholdMission.obj.
-//
-// Reference layout from a later build of the same codebase (a starting point, not CD2's: verify it against CD2's code):
-// include/ref/ruffking/AI_cCellStrongholdMission.h.
-//
-// Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
-// include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
-//     py -I tools/cd2.py tasks src/AI/cCellStrongholdMission.cpp
+#include "AI/cCellStrongholdMission.h"
+#include "rws/classfactory.h"
+
+namespace AI
+{
+    const Fun_Runtime::cClass *cCellStrongholdMission::ms_pcCellStrongholdMissionClass = 0;
+
+    cCellStrongholdMission::cCellStrongholdMission() {}
+
+    const Fun_Runtime::cClass &cCellStrongholdMission::RetClass() const
+    {
+        return *ms_pcCellStrongholdMissionClass;
+    }
+
+    const char *cCellStrongholdMission::RetClassName() const
+    {
+        return "cCellStrongholdMission";
+    }
+
+    bool cCellStrongholdMission::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcCellStrongholdMissionClass->IsA(c);
+    }
+
+    RWS::CAttributeHandler *cCellStrongholdMission::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cCellStrongholdMission();
+    }
+}
+
+static RWS::CClassFactory::CRegistrar cCellStrongholdMissionRegistrar(
+    "cCellStrongholdMission", AI::cCellStrongholdMission::MakeNew, 0x7C, false);

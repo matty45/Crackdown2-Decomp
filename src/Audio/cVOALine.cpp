@@ -1,11 +1,32 @@
-// src/Audio/cVOALine.cpp
-//
-// Class: cVOALine (namespace: Audio). Set up automatically: no function is matched yet. The address range and the
-// evidence for it are in config/splits.txt; RuffKing's object for it is cVOALine.obj.
-//
-// Reference layout from a later build of the same codebase (a starting point, not CD2's: verify it against CD2's code):
-// include/ref/ruffking/Audio_cVOALine.h.
-//
-// Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
-// include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
-//     py -I tools/cd2.py tasks src/Audio/cVOALine.cpp
+#include "Audio/cVOALine.h"
+#include "rws/classfactory.h"
+
+namespace Audio
+{
+    const Fun_Runtime::cClass *cVOALine::ms_pcVOALineClass = 0;
+
+    cVOALine::cVOALine() {}
+
+    const Fun_Runtime::cClass &cVOALine::RetClass() const
+    {
+        return *ms_pcVOALineClass;
+    }
+
+    const char *cVOALine::RetClassName() const
+    {
+        return "cVOALine";
+    }
+
+    bool cVOALine::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcVOALineClass->IsA(c);
+    }
+
+    RWS::CAttributeHandler *cVOALine::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cVOALine();
+    }
+}
+
+static RWS::CClassFactory::CRegistrar cVOALineRegistrar(
+    "cVOALine", Audio::cVOALine::MakeNew, 0x7C, false);

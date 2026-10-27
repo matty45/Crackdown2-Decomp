@@ -1,11 +1,32 @@
-// src/AI/cAnimParams.cpp
-//
-// Class: cAnimParams (namespace: AI). Set up automatically: no function is matched yet. The address range and the
-// evidence for it are in config/splits.txt; RuffKing's object for it is cAmbientAnimParams.obj.
-//
-// Reference layout from a later build of the same codebase (a starting point, not CD2's: verify it against CD2's code):
-// include/ref/ruffking/AI_cAnimParams.h.
-//
-// Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
-// include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
-//     py -I tools/cd2.py tasks src/AI/cAnimParams.cpp
+#include "AI/cAnimParams.h"
+#include "rws/classfactory.h"
+
+namespace AI
+{
+    const Fun_Runtime::cClass *cAnimParams::ms_pcAnimParamsClass = 0;
+
+    cAnimParams::cAnimParams() {}
+
+    const Fun_Runtime::cClass &cAnimParams::RetClass() const
+    {
+        return *ms_pcAnimParamsClass;
+    }
+
+    const char *cAnimParams::RetClassName() const
+    {
+        return "cAnimParams";
+    }
+
+    bool cAnimParams::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcAnimParamsClass->IsA(c);
+    }
+
+    RWS::CAttributeHandler *cAnimParams::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cAnimParams();
+    }
+}
+
+static RWS::CClassFactory::CRegistrar cAnimParamsRegistrar(
+    "cAnimParams", AI::cAnimParams::MakeNew, 0x7C, false);

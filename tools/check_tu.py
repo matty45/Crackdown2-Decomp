@@ -127,7 +127,9 @@ def main():
             try:
                 ltcg_read, fs, nglobs = vl.build_ltcg(src, obj, consts, os.path.join(os.path.dirname(src), 'ltcg'), env)
                 for k, a, t in mapped:
-                    res = vl.compare_ltcg(ltcg_read, fs, mapping[k], t, a)
+                    found = [rel for name, _, rel in funcs if mapping[k] in name]
+                    absolute = getattr(found[0], 'absolute', ()) if found else ()
+                    res = vl.compare_ltcg(ltcg_read, fs, mapping[k], t, a, absolute)
                     lt_status[k] = 'not in image' if res is None else ('EXACT' if res[0] else '%d/%d words' % (res[1], res[2]))
             except RuntimeError as e:
                 print('LTCG build failed: %s' % str(e)[:500])

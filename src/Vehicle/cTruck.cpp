@@ -9,3 +9,16 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Vehicle/cTruck.cpp
+
+#include "Vehicle/cTruck.h"
+
+namespace Vehicle
+{
+    const Fun_Runtime::cClass *cTruck::ms_pcTruckClass = 0;
+
+    bool cTruck::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcTruckClass->IsA(c);
+    }
+}
+

@@ -379,7 +379,7 @@ def compare_file(src, funcs, ltcg=False):
         res['plain'] = round(100 * ratio, 1)
         res['plain_exact'] = exact
         if lt:
-            c = verify_ltcg.compare_ltcg(lt[0], lt[1], f['symbol'], target, va)
+            c = verify_ltcg.compare_ltcg(lt[0], lt[1], f['symbol'], target, va, getattr(rl, 'absolute', ()))
             res['ltcg_exact'] = bool(c and c[0])
             res['ltcg'] = '%d/%d words' % (c[1], c[2]) if c else 'not in image'
         if exact:
@@ -1138,7 +1138,9 @@ def cmd_verify(a):
              ('self-test: integrity', py + [os.path.join(TOOLS, 'check_integrity.py'), '--self-test'], r'self-test'),
              ('self-test: source policy', None, None),
              ('self-test: mismatch classifier', py + [os.path.join(TOOLS, 'mismatch.py'), '--self-test'], r'self-test'),
-             ('self-test: search transformations', py + [os.path.join(TOOLS, 'search.py'), '--self-test'], r'self-test')]
+             ('self-test: search transformations', py + [os.path.join(TOOLS, 'search.py'), '--self-test'], r'self-test'),
+             ('self-test: jump table relocations', py + ['-m', 'unittest', 'discover', '-s',
+                os.path.join(ROOT, 'tests'), '-p', 'test_jump_table_relocations.py'], r'Ran |^OK$|FAILED|ERROR')]
     out = []
     for name, cmd, pattern in gates:
         if name == 'toolchain':
@@ -1159,7 +1161,7 @@ def cmd_verify(a):
         r = subprocess.run(cmd, capture_output=True, text=True)
         lines = [l.strip() for l in (r.stdout + r.stderr).splitlines() if l.strip()]
         summary = [l for l in lines if re.search(pattern, l)]
-        if 'self-test' in name and 'benchmark' not in name:
+        if 'self-test' in name and 'benchmark' not in name and 'jump table' not in name:
             caught = sum(1 for l in summary if re.search(r'\b(caught|accepted|ok)\b', l))
             summary = ['%d of %d cases as expected' % (caught, len(summary))]
         out.append(dict(gate=name, ok=r.returncode == 0, detail=' | '.join(summary[-3:] or lines[-2:])))

@@ -161,9 +161,7 @@
       {
         "address": "0x827F9370",
         "size": 296,
-        "symbol": "?HandleAttributes@cAmbientVFXSpawner@VFX@@",
-        "matching": false,
-        "note": "CD2 has three 16-byte GUID stack slots around the LinkToObject call; we have two"
+        "symbol": "?HandleAttributes@cAmbientVFXSpawner@VFX@@"
       },
       {
         "address": "0x827F94C0",
@@ -360,9 +358,7 @@
       {
         "address": "0x8284E6D8",
         "size": 1120,
-        "symbol": "?HandleAttributes@cGameModeArena@GameManagement@@",
-        "matching": false,
-        "note": "95%: CD2 shares stack slot 0x50 between the address-taken p and the float locals; we put p at 0x54"
+        "symbol": "?HandleAttributes@cGameModeArena@GameManagement@@"
       },
       {
         "address": "0x8284EC80",
@@ -520,9 +516,7 @@
       {
         "address": "0x824CEE70",
         "size": 272,
-        "symbol": "?V108@cChaseBehaviour@AI@@",
-        "matching": false,
-        "note": "43%: virtual 108; same host+0x7C addressing difference as F39"
+        "symbol": "?V108@cChaseBehaviour@AI@@"
       }
     ],
     "src/Equip/cFlocket.cpp": [
@@ -766,6 +760,31 @@
         "address": "0x82747440",
         "size": 12,
         "symbol": "?RetClassName@cTrafficLight@Prop@@"
+      },
+      {
+        "address": "0x827478F8",
+        "size": 156,
+        "symbol": "?UpdateRenderMatrix@cTrafficLight@Prop@@"
+      },
+      {
+        "address": "0x827473C0",
+        "size": 128,
+        "symbol": "?MakeNew@cTrafficLight@Prop@@"
+      },
+      {
+        "address": "0x82FFC358",
+        "size": 76,
+        "symbol": "??__EcTrafficLightRegistrar@Prop@@"
+      },
+      {
+        "address": "0x83041AF0",
+        "size": 12,
+        "symbol": "??__FcTrafficLightRegistrar@Prop@@"
+      },
+      {
+        "address": "0x82747898",
+        "size": 12,
+        "symbol": "?EnterRenderableState@cTrafficLight@Prop@@"
       }
     ],
     "src/PLAYER/cPlayer.cpp": [
@@ -836,6 +855,123 @@
         "address": "0x823E7968",
         "size": 12,
         "symbol": "?RetClass@cAiPlayer@AI@@"
+      },
+      {
+        "address": "0x823E79B8",
+        "size": 8,
+        "symbol": "?SetField60C@cAiPlayer@AI@@"
+      },
+      {
+        "address": "0x823E79C0",
+        "size": 8,
+        "symbol": "?SetF5F8@cAiPlayer@AI@@"
+      },
+      {
+        "address": "0x823E79C8",
+        "size": 8,
+        "symbol": "?SetF5FC@cAiPlayer@AI@@"
+      },
+      {
+        "address": "0x823E79D0",
+        "size": 8,
+        "symbol": "?GetB616@cAiPlayer@AI@@"
+      },
+      {
+        "address": "0x823E79D8",
+        "size": 8,
+        "symbol": "?SetB616@cAiPlayer@AI@@"
+      },
+      {
+        "address": "0x823E79E0",
+        "size": 8,
+        "symbol": "?GetB617@cAiPlayer@AI@@"
+      },
+      {
+        "address": "0x823E79E8",
+        "size": 8,
+        "symbol": "?SetB617@cAiPlayer@AI@@"
+      },
+      {
+        "address": "0x823E79F0",
+        "size": 8,
+        "symbol": "?SetS614@cAiPlayer@AI@@"
+      },
+      {
+        "address": "0x823E7B30",
+        "size": 8,
+        "symbol": "?RetConstantC8@cAiPlayer@AI@@"
+      }
+    ],
+    "src/AI/cCharacterEntityIF.cpp": [
+      {
+        "address": "0x823EBF88",
+        "size": 8,
+        "symbol": "?GetStorage4B0@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823EBF90",
+        "size": 8,
+        "symbol": "?GetStorage480@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823EC028",
+        "size": 8,
+        "symbol": "?SetByte539@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823EC038",
+        "size": 12,
+        "symbol": "?GetWord50CLowByte@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823EC160",
+        "size": 8,
+        "symbol": "?GetWord51C@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823EC168",
+        "size": 8,
+        "symbol": "?SetWord51C@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823EC1F8",
+        "size": 8,
+        "symbol": "?SetByte534@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823EC200",
+        "size": 8,
+        "symbol": "?SetByte535@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823EC208",
+        "size": 8,
+        "symbol": "?SetByte536@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823EC210",
+        "size": 8,
+        "symbol": "?SetByte537@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823EC218",
+        "size": 8,
+        "symbol": "?GetByte534@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823EC220",
+        "size": 8,
+        "symbol": "?GetByte535@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823EC228",
+        "size": 8,
+        "symbol": "?GetByte536@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823EC230",
+        "size": 8,
+        "symbol": "?GetByte537@cCharacterEntityIF@AI@@"
       }
     ],
     "src/cAgencyGarageDoor.cpp": [
@@ -2145,6 +2281,363 @@
         "address": "0x8280EA10",
         "size": 12,
         "symbol": "?RetClassName@cVOAZone@ZoneManager@@"
+      }
+    ],
+    "src/AI/cStreamingDataHolder.cpp": [
+      {
+        "address": "0x8244C0B0",
+        "size": 92,
+        "symbol": "?IsA@cStreamingDataHolder@AI@@"
+      }
+    ],
+    "src/AI/BeaconDropBehaviour.cpp": [
+      {
+        "address": "0x824C7870",
+        "size": 92,
+        "symbol": "?IsA@BeaconDropBehaviour@AI@@"
+      }
+    ],
+    "src/AI/BreachPilot.cpp": [
+      {
+        "address": "0x824D17A8",
+        "size": 92,
+        "symbol": "?IsA@BreachPilot@AI@@"
+      }
+    ],
+    "src/AI/cAgencyTowerSegmentMission.cpp": [
+      {
+        "address": "0x8245C6E8",
+        "size": 92,
+        "symbol": "?IsA@cAgencyTowerSegmentMission@AI@@"
+      }
+    ],
+    "src/AI/cAgentPickup.cpp": [
+      {
+        "address": "0x824D00B8",
+        "size": 92,
+        "symbol": "?IsA@cAgentPickup@AI@@"
+      }
+    ],
+    "src/AI/cAgressiveResponseChaseBehaviour.cpp": [
+      {
+        "address": "0x824C9390",
+        "size": 92,
+        "symbol": "?IsA@cAgressiveResponseChaseBehaviour@AI@@"
+      }
+    ],
+    "src/AI/cAmbientTrafficBehaviour.cpp": [
+      {
+        "address": "0x824CCAE0",
+        "size": 92,
+        "symbol": "?IsA@cAmbientTrafficBehaviour@AI@@"
+      }
+    ],
+    "src/AI/cAnimParams.cpp": [
+      {
+        "address": "0x824DF5A0",
+        "size": 92,
+        "symbol": "?IsA@cAnimParams@AI@@"
+      }
+    ],
+    "src/AI/cAUMission.cpp": [
+      {
+        "address": "0x8245D4A0",
+        "size": 92,
+        "symbol": "?IsA@cAUMission@AI@@"
+      }
+    ],
+    "src/AI/cBaseJumperMission.cpp": [
+      {
+        "address": "0x82488F50",
+        "size": 92,
+        "symbol": "?IsA@cBaseJumperMission@AI@@"
+      }
+    ],
+    "src/AI/cBasePatrolRouteEvent.cpp": [
+      {
+        "address": "0x824BF9C8",
+        "size": 92,
+        "symbol": "?IsA@cBasePatrolRouteEvent@AI@@"
+      }
+    ],
+    "src/AI/cBeaconMission.cpp": [
+      {
+        "address": "0x824611C8",
+        "size": 92,
+        "symbol": "?IsA@cBeaconMission@AI@@"
+      }
+    ],
+    "src/AI/cBreachHole.cpp": [
+      {
+        "address": "0x8246E6F8",
+        "size": 92,
+        "symbol": "?IsA@cBreachHole@AI@@"
+      }
+    ],
+    "src/AI/cBreachHoleMission.cpp": [
+      {
+        "address": "0x82471310",
+        "size": 92,
+        "symbol": "?IsA@cBreachHoleMission@AI@@"
+      }
+    ],
+    "src/AI/cCellStrongholdMission.cpp": [
+      {
+        "address": "0x82474E20",
+        "size": 92,
+        "symbol": "?IsA@cCellStrongholdMission@AI@@"
+      }
+    ],
+    "src/AI/cCityGliderMission.cpp": [
+      {
+        "address": "0x82489740",
+        "size": 92,
+        "symbol": "?IsA@cCityGliderMission@AI@@"
+      }
+    ],
+    "src/AI/CellMinigun.cpp": [
+      {
+        "address": "0x824C32D0",
+        "size": 92,
+        "symbol": "?IsA@CellMinigun@AI@@"
+      }
+    ],
+    "src/AI/CellRocket.cpp": [
+      {
+        "address": "0x824C3EC0",
+        "size": 92,
+        "symbol": "?IsA@CellRocket@AI@@"
+      }
+    ],
+    "src/AI/CellTurret.cpp": [
+      {
+        "address": "0x824C5318",
+        "size": 92,
+        "symbol": "?IsA@CellTurret@AI@@"
+      }
+    ],
+    "src/AI/cFinalMission.cpp": [
+      {
+        "address": "0x8246A7D0",
+        "size": 92,
+        "symbol": "?IsA@cFinalMission@AI@@"
+      }
+    ],
+    "src/AI/cFreakSniperEvent.cpp": [
+      {
+        "address": "0x824BFE78",
+        "size": 92,
+        "symbol": "?IsA@cFreakSniperEvent@AI@@"
+      }
+    ],
+    "src/AI/cGoliathBreachHole.cpp": [
+      {
+        "address": "0x82473D68",
+        "size": 92,
+        "symbol": "?IsA@cGoliathBreachHole@AI@@"
+      }
+    ],
+    "src/AI/cGoliathPatrolRouteEvent.cpp": [
+      {
+        "address": "0x824C0038",
+        "size": 92,
+        "symbol": "?IsA@cGoliathPatrolRouteEvent@AI@@"
+      }
+    ],
+    "src/AI/cHeliCallZone.cpp": [
+      {
+        "address": "0x8248A3D0",
+        "size": 92,
+        "symbol": "?IsA@cHeliCallZone@AI@@"
+      }
+    ],
+    "src/AI/cMissionTier.cpp": [
+      {
+        "address": "0x8248E3E8",
+        "size": 92,
+        "symbol": "?IsA@cMissionTier@AI@@"
+      }
+    ],
+    "src/AI/cPilotBase.cpp": [
+      {
+        "address": "0x824D31D8",
+        "size": 92,
+        "symbol": "?IsA@cPilotBase@AI@@"
+      }
+    ],
+    "src/AI/cPilotRespawn.cpp": [
+      {
+        "address": "0x824D4248",
+        "size": 92,
+        "symbol": "?IsA@cPilotRespawn@AI@@"
+      }
+    ],
+    "src/AI/cPKDropPilot.cpp": [
+      {
+        "address": "0x824D4C30",
+        "size": 92,
+        "symbol": "?IsA@cPKDropPilot@AI@@"
+      }
+    ],
+    "src/AI/cReaperJumpEvent.cpp": [
+      {
+        "address": "0x824C02F0",
+        "size": 92,
+        "symbol": "?IsA@cReaperJumpEvent@AI@@"
+      }
+    ],
+    "src/AI/cRefineryMission.cpp": [
+      {
+        "address": "0x82456A20",
+        "size": 92,
+        "symbol": "?IsA@cRefineryMission@AI@@"
+      }
+    ],
+    "src/AI/cTrainingHeliPilot.cpp": [
+      {
+        "address": "0x824D5400",
+        "size": 92,
+        "symbol": "?IsA@cTrainingHeliPilot@AI@@"
+      }
+    ],
+    "src/AI/cTrainingMission.cpp": [
+      {
+        "address": "0x8247EF88",
+        "size": 92,
+        "symbol": "?IsA@cTrainingMission@AI@@"
+      }
+    ],
+    "src/AI/cTrainingRouteEvent.cpp": [
+      {
+        "address": "0x82486ED0",
+        "size": 92,
+        "symbol": "?IsA@cTrainingRouteEvent@AI@@"
+      }
+    ],
+    "src/AI/cTrainingVOARouteEvent.cpp": [
+      {
+        "address": "0x82487058",
+        "size": 92,
+        "symbol": "?IsA@cTrainingVOARouteEvent@AI@@"
+      }
+    ],
+    "src/AI/cTRCamLookAtStop.cpp": [
+      {
+        "address": "0x824872D8",
+        "size": 92,
+        "symbol": "?IsA@cTRCamLookAtStop@AI@@"
+      }
+    ],
+    "src/AI/cVehicleAttackedRockingBehaviour.cpp": [
+      {
+        "address": "0x824CF838",
+        "size": 92,
+        "symbol": "?IsA@cVehicleAttackedRockingBehaviour@AI@@"
+      }
+    ],
+    "src/AI/cVehicleCollectionBehaviour.cpp": [
+      {
+        "address": "0x824D6980",
+        "size": 92,
+        "symbol": "?IsA@cVehicleCollectionBehaviour@AI@@"
+      }
+    ],
+    "src/AI/EquipmentDropBehaviour.cpp": [
+      {
+        "address": "0x824D2C00",
+        "size": 92,
+        "symbol": "?IsA@EquipmentDropBehaviour@AI@@"
+      }
+    ],
+    "src/AI/NPCBehaviour.cpp": [
+      {
+        "address": "0x824A7E00",
+        "size": 92,
+        "symbol": "?IsA@NPCBehaviour@AI@@"
+      }
+    ],
+    "src/AI/Peacekeeper.cpp": [
+      {
+        "address": "0x824C6850",
+        "size": 92,
+        "symbol": "?IsA@Peacekeeper@AI@@"
+      }
+    ],
+    "src/AI/PedestrianInjured.cpp": [
+      {
+        "address": "0x824AB7A0",
+        "size": 92,
+        "symbol": "?IsA@PedestrianInjured@AI@@"
+      }
+    ],
+    "src/AI/Reaper.cpp": [
+      {
+        "address": "0x824B26D8",
+        "size": 92,
+        "symbol": "?IsA@Reaper@AI@@"
+      }
+    ],
+    "src/AI/ScroungerKamikaze.cpp": [
+      {
+        "address": "0x824BDE90",
+        "size": 92,
+        "symbol": "?IsA@ScroungerKamikaze@AI@@"
+      }
+    ],
+    "src/AI/ScroungerSlinger.cpp": [
+      {
+        "address": "0x824BE6B8",
+        "size": 92,
+        "symbol": "?IsA@ScroungerSlinger@AI@@"
+      }
+    ],
+    "src/AI/TrainingAmbient.cpp": [
+      {
+        "address": "0x824C7D10",
+        "size": 92,
+        "symbol": "?IsA@TrainingAmbient@AI@@"
+      }
+    ],
+    "src/AI/TrainingDummy.cpp": [
+      {
+        "address": "0x824C8390",
+        "size": 92,
+        "symbol": "?IsA@TrainingDummy@AI@@"
+      }
+    ],
+    "src/AI/TrainingPilot.cpp": [
+      {
+        "address": "0x824C8E50",
+        "size": 92,
+        "symbol": "?IsA@TrainingPilot@AI@@"
+      }
+    ],
+    "src/Audio/cNPCDialogScheduler.cpp": [
+      {
+        "address": "0x82839B68",
+        "size": 92,
+        "symbol": "?IsA@cNPCDialogScheduler@Audio@@"
+      }
+    ],
+    "src/Audio/cVOALine.cpp": [
+      {
+        "address": "0x82835E08",
+        "size": 92,
+        "symbol": "?IsA@cVOALine@Audio@@"
+      }
+    ],
+    "src/Audio/cWorldGameObjectPosition.cpp": [
+      {
+        "address": "0x82837EB8",
+        "size": 92,
+        "symbol": "?IsA@cWorldGameObjectPosition@Audio@@"
+      }
+    ],
+    "src/VEHICLE_CONTROL/cVehicleCollectionZone.cpp": [
+      {
+        "address": "0x827867D0",
+        "size": 92,
+        "symbol": "?IsA@cVehicleCollectionZone@VEHICLE_CONTROL@@"
       }
     ]
   }

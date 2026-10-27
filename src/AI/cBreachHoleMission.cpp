@@ -1,11 +1,32 @@
-// src/AI/cBreachHoleMission.cpp
-//
-// Class: cBreachHoleMission (namespace: AI). Set up automatically: no function is matched yet. The address range and
-// the evidence for it are in config/splits.txt; RuffKing's object for it is cBreachHoleMission.obj.
-//
-// Reference layout from a later build of the same codebase (a starting point, not CD2's: verify it against CD2's code):
-// include/ref/ruffking/AI_cBreachHoleMission.h.
-//
-// Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
-// include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
-//     py -I tools/cd2.py tasks src/AI/cBreachHoleMission.cpp
+#include "AI/cBreachHoleMission.h"
+#include "rws/classfactory.h"
+
+namespace AI
+{
+    const Fun_Runtime::cClass *cBreachHoleMission::ms_pcBreachHoleMissionClass = 0;
+
+    cBreachHoleMission::cBreachHoleMission() {}
+
+    const Fun_Runtime::cClass &cBreachHoleMission::RetClass() const
+    {
+        return *ms_pcBreachHoleMissionClass;
+    }
+
+    const char *cBreachHoleMission::RetClassName() const
+    {
+        return "cBreachHoleMission";
+    }
+
+    bool cBreachHoleMission::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcBreachHoleMissionClass->IsA(c);
+    }
+
+    RWS::CAttributeHandler *cBreachHoleMission::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cBreachHoleMission();
+    }
+}
+
+static RWS::CClassFactory::CRegistrar cBreachHoleMissionRegistrar(
+    "cBreachHoleMission", AI::cBreachHoleMission::MakeNew, 0x7C, false);

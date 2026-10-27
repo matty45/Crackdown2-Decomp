@@ -1,11 +1,32 @@
-// src/AI/cHeliCallZone.cpp
-//
-// Class: cHeliCallZone (namespace: AI). Set up automatically: no function is matched yet. The address range and the
-// evidence for it are in config/splits.txt; RuffKing's object for it is cHeliCallZone.obj.
-//
-// Reference layout from a later build of the same codebase (a starting point, not CD2's: verify it against CD2's code):
-// include/ref/ruffking/AI_cHeliCallZone.h.
-//
-// Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
-// include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
-//     py -I tools/cd2.py tasks src/AI/cHeliCallZone.cpp
+#include "AI/cHeliCallZone.h"
+#include "rws/classfactory.h"
+
+namespace AI
+{
+    const Fun_Runtime::cClass *cHeliCallZone::ms_pcHeliCallZoneClass = 0;
+
+    cHeliCallZone::cHeliCallZone() {}
+
+    const Fun_Runtime::cClass &cHeliCallZone::RetClass() const
+    {
+        return *ms_pcHeliCallZoneClass;
+    }
+
+    const char *cHeliCallZone::RetClassName() const
+    {
+        return "cHeliCallZone";
+    }
+
+    bool cHeliCallZone::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcHeliCallZoneClass->IsA(c);
+    }
+
+    RWS::CAttributeHandler *cHeliCallZone::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cHeliCallZone();
+    }
+}
+
+static RWS::CClassFactory::CRegistrar cHeliCallZoneRegistrar(
+    "cHeliCallZone", AI::cHeliCallZone::MakeNew, 0x7C, false);

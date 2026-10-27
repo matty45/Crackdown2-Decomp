@@ -1,12 +1,32 @@
-// src/AI/cFreakSniperEvent.cpp
-//
-// Classes: cFreakExplodeEvent, cFreakSniperEvent (namespace: AI). Set up automatically: no function is matched yet. The
-// address range and the evidence for it are in config/splits.txt; RuffKing's object for it is
-// cFreakPatrolRouteEvent.obj.
-//
-// Reference layout from a later build of the same codebase (a starting point, not CD2's: verify it against CD2's code):
-// include/ref/ruffking/AI_cFreakExplodeEvent.h, include/ref/ruffking/AI_cFreakSniperEvent.h.
-//
-// Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
-// include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
-//     py -I tools/cd2.py tasks src/AI/cFreakSniperEvent.cpp
+#include "AI/cFreakSniperEvent.h"
+#include "rws/classfactory.h"
+
+namespace AI
+{
+    const Fun_Runtime::cClass *cFreakSniperEvent::ms_pcFreakSniperEventClass = 0;
+
+    cFreakSniperEvent::cFreakSniperEvent() {}
+
+    const Fun_Runtime::cClass &cFreakSniperEvent::RetClass() const
+    {
+        return *ms_pcFreakSniperEventClass;
+    }
+
+    const char *cFreakSniperEvent::RetClassName() const
+    {
+        return "cFreakSniperEvent";
+    }
+
+    bool cFreakSniperEvent::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcFreakSniperEventClass->IsA(c);
+    }
+
+    RWS::CAttributeHandler *cFreakSniperEvent::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cFreakSniperEvent();
+    }
+}
+
+static RWS::CClassFactory::CRegistrar cFreakSniperEventRegistrar(
+    "cFreakSniperEvent", AI::cFreakSniperEvent::MakeNew, 0x7C, false);

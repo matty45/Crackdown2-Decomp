@@ -49,17 +49,17 @@ def compile_plain(src, d, path=None):
 
 
 def mask(code, rel):
-    """The bytes as the byte comparison sees them: at relocated words only the opcode bits count."""
+    """Keep instruction opcodes at relocations; mask ADDR32 data words, whose destinations are checked separately."""
     b = bytearray(code)
     for off in rel:
         if off + 4 <= len(b):
-            b[off] &= 0xFC
+            b[off] = 0 if off in getattr(rel, 'absolute', ()) else b[off] & 0xFC
             b[off + 1:off + 4] = b'\0\0\0'
     return bytes(b)
 
 
-def ltcg_hash(ws, start):
-    return sha(struct.pack('>%dI' % len(ws), *verify_ltcg.masked(ws, start)))
+def ltcg_hash(ws, start, absolute_offsets=()):
+    return sha(struct.pack('>%dI' % len(ws), *verify_ltcg.masked(ws, start, absolute_offsets)))
 
 
 # ---------------------------------------------------------------------------------------------------- record
@@ -96,6 +96,9 @@ def record(read):
             found = [(n, c, rl) for n, c, rl in compiled if f['symbol'] in n]
             if found:
                 name, code, rl = found[0]
+                absolute = sorted(getattr(rl, 'absolute', ()))
+                if absolute:
+                    e['ltcg'].update(absolute_relocations=absolute, sha=ltcg_hash(tw, va, absolute))
                 if coff.compare(code, target, rl)[0]:
                     res, _ = relocs.resolve(robj, name, target, va)
                     consts_b, strings = {}, {}
@@ -111,6 +114,8 @@ def record(read):
                     e['plain'] = dict(relocations=sorted(rl), sha=sha(mask(target, rl)),
                                       targets=sorted([off, kind, '0x%08X' % addr] for _, addr, kind, off in res),
                                       constants=consts_b, strings=strings)
+                    if absolute:
+                        e['plain']['absolute_relocations'] = absolute
             facts['functions'][f['address']] = e
     json.dump(facts, open(FACTS, 'w', newline='\n'), indent=1, sort_keys=True)
     return facts
@@ -160,7 +165,9 @@ def verify(override=None, ltcg=True, out=print):
                     problems.append('%s: no recorded facts for %08X (run `py -I tools/cd2.py facts record`)' % (src, va))
                 continue
             p = fe.get('plain')
-            exact = bool(p) and sorted(rl) == p['relocations'] and len(code) == size and sha(mask(code, rl)) == p['sha']
+            exact = bool(p) and sorted(rl) == p['relocations'] and \
+                sorted(getattr(rl, 'absolute', ())) == p.get('absolute_relocations', []) and \
+                len(code) == size and sha(mask(code, rl)) == p['sha']
             if exact and tracked:
                 stored = {off: int(a, 16) for off, kind, a in p['targets']}
                 for off, t, sym, add in robj.relocations(name):
@@ -169,7 +176,17 @@ def verify(override=None, ltcg=True, out=print):
                     if off not in stored:
                         problems.append('%s %s+%X: relocation not in the recorded facts' % (src, name, off))
                         continue
-                    entries.append((src, name, sym, stored[off], 'call' if t == relocs.REL24 else 'data', off, robj))
+                    kind = 'call' if t == relocs.REL24 else 'data'
+                    if t == relocs.ADDR32:
+                        kind = 'local address'
+                        try:
+                            expected = (va + robj.local_address_offset(name, off, sym, add)) & 0xFFFFFFFF
+                            if stored[off] != expected:
+                                problems.append('%s %s+%X: ADDR32 destination differs from the recorded target'
+                                                % (src, name, off))
+                        except ValueError as e:
+                            problems.append('%s %s+%X: %s' % (src, name, off, e))
+                    entries.append((src, name, sym, stored[off], kind, off, robj))
                     if relocs.is_constant(sym):
                         want = bytes.fromhex(sym.split('@', 1)[1])
                         rec = p['constants'].get('0x%08X' % stored[off])
@@ -224,7 +241,7 @@ def verify(override=None, ltcg=True, out=print):
             n = f['size'] // 4
             if len(lw) > n and fe['ltcg']['ends']:
                 lw = lw[:n]
-            exact = len(lw) == n and ltcg_hash(lw, a) == fe['ltcg']['sha']
+            exact = len(lw) == n and ltcg_hash(lw, a, fe['ltcg'].get('absolute_relocations', ())) == fe['ltcg']['sha']
             ltcg_ok += exact
             if exact and f.get('ltcg'):
                 rec = fe['ltcg']

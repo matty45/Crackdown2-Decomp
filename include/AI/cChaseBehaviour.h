@@ -193,7 +193,14 @@ namespace AI
         XSub *m_pX;
     };
 
-    struct HostLinks { unsigned char pad[0xC]; PlayerSub *m_pPlayerSub; };   // at host+0x7C; m_pPlayerSub is host+0x88
+    // At host+0x7C; the player link is host+0x88. Keep its downcast in an inline accessor:
+    // V108 (0x824CEE70) retains this subobject address and reloads the link on its second use.
+    struct HostLinks
+    {
+        unsigned char pad[0xC];
+        PlayerSub *m_pPlayerSub;
+        Player *RetPlayer() { return static_cast<Player *>(m_pPlayerSub); }
+    };
     // The character that owns the behaviour (this+0x7C). Only offsets used here.
     struct NPCHost : public TgtBase0
     {

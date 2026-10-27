@@ -3,6 +3,11 @@
     "cd2": {
       "command": "py",
       "args": ["-I", "tools/mcp_server.py"]
+    },
+    "ida": {
+      "type": "streamable-http",
+      "url": "http://127.0.0.1:23343/mcp",
+      "disabled": false
     }
   }
 }

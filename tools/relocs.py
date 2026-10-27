@@ -16,7 +16,7 @@ Rules (check_consistency):
 """
 import collections, re, struct
 
-REL24, REFHI, REFLO, PAIR = 0x06, 0x10, 0x11, 0x12
+ADDR32, REL24, REFHI, REFLO, PAIR = 0x02, 0x06, 0x10, 0x11, 0x12
 EMBEDDED = re.compile(r'(?:Ext|sub|fn|loc|unk|off|dword)_([0-9A-Fa-f]{8})\b')
 
 
@@ -82,6 +82,21 @@ class Obj:
                 return data[s['value']:s['value'] + n]
         return None
 
+    def local_address_offset(self, fname, off, symbol, addend=0):
+        """Resolve an ADDR32 to a label inside this function; reject other uses for now."""
+        sec, start, size = self.functions()[fname]
+        if off < 0 or off % 4 or off + 4 > size:
+            raise ValueError('unaligned or out-of-range ADDR32 site')
+        hit = [s for s in self.symbols.values() if s['name'] == symbol]
+        if len(hit) != 1 or hit[0]['sec'] != sec:
+            raise ValueError('ADDR32 must reference a label in the same function section')
+        data = self.sections[sec - 1]['data']
+        embedded_addend = struct.unpack_from('>i', data, start + off)[0]
+        dest = hit[0]['value'] + embedded_addend + addend - start
+        if dest % 4 or not 0 <= dest < size:
+            raise ValueError('ADDR32 destination is not an aligned label inside the function')
+        return dest
+
 
 def _sx16(v):
     return v - 0x10000 if v & 0x8000 else v
@@ -99,7 +114,18 @@ def resolve(obj, fname, cd2_code, cd2_va):
             problems.append('%s+%X: relocation beyond the CD2 function' % (fname, off))
             continue
         w = words[off // 4]
-        if t == REL24:
+        if t == ADDR32:
+            try:
+                dest = obj.local_address_offset(fname, off, sym, add)
+            except ValueError as e:
+                problems.append('%s+%X: %s' % (fname, off, e))
+                continue
+            expected = (cd2_va + dest) & 0xFFFFFFFF
+            if w != expected:
+                problems.append('%s+%X: ADDR32 %s targets %08X but CD2 targets %08X'
+                                % (fname, off, sym, expected, w))
+            out.append((sym, w, 'local address', off))
+        elif t == REL24:
             if w >> 26 != 18:
                 problems.append('%s+%X: REL24 on a non-branch CD2 instruction %08X' % (fname, off, w))
                 continue
@@ -148,6 +174,8 @@ def check_consistency(entries, read, aliases, known):
     by_addr = collections.defaultdict(set)
     where = collections.defaultdict(list)
     for f, fn, sym, addr, kind, off, obj in entries:
+        if kind == 'local address':
+            continue  # validated against this function's label offset by resolve/facts.verify
         if is_constant(sym):
             hexval = sym.split('@', 1)[1]
             want = bytes.fromhex(hexval)

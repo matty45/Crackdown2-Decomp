@@ -1,7 +1,6 @@
 // GameManagement/cGameModeArena.cpp: game-mode arena definitions of Crackdown 2.
-// Measurement batch 1 (2026-10-23, Sonnet 5.5): 10 of the file's 13 functions byte-exact (see config/matched_functions.json).
-// Work in progress: HandleAttributes (95%: CD2 shares stack slot 0x50 between p and the float locals) and
-// GetRandSpawnPointInList<T> (CD2 tests the size with srawi.; every form tried folds to clrrwi + cmpwi).
+// 11 of the file's 13 mapped functions are exact (checked 2026-10-26; config/matched_functions.json).
+// Work in progress: GetRandSpawnPointInList<T> (87.3%; register allocation in the modulo sequence).
 #include <string.h>
 #include "GameManagement/cGameModeArena.h"
 #include "editor/guid_event_handler.h"
@@ -52,6 +51,7 @@ namespace GameManagement
 
     void cGameModeArena::HandleAttributes(const RWS::CAttributePacket &packet)
     {
+        union { void *p; float mem; } temp;
         cGMMResource::HandleAttributes(packet);
         for (RWS::CAttributeCommandIterator it(packet, pcGameModeArenaClassID); !it.IsFinished(); ++it)
         {
@@ -61,15 +61,14 @@ namespace GameManagement
                 {
                     const unsigned int *list = (const unsigned int *)((const char *)it.operator->() + 8);
                     unsigned int count = rwSwap32(*list);
-                    void *p;
                     for (unsigned int i = 0; i < count; i++)
                     {
                         RWS::RWSGUID g = GetListGUID(list, i);
-                        p = Editor::cGUIDLinker<cGameModePrototype>::LinkToObject(g);
-                        if (p)
+                        temp.p = Editor::cGUIDLinker<cGameModePrototype>::LinkToObject(g);
+                        if (temp.p)
                         {
-                            m_lCompatibleGameModes.push_back(p);
-                            if (((cArenaEntity *)p)->RetType() == 13)
+                            m_lCompatibleGameModes.push_back(temp.p);
+                            if (((cArenaEntity *)temp.p)->RetType() == 13)
                                 { cEntityManager *m = RetEntityManager(13); m->m_nCount = m->m_nCount + 1; }
                         }
                     }
@@ -86,10 +85,10 @@ namespace GameManagement
                 m_bForceToD = rwSwap32(it->GetAs_UInt32()) != 0;
                 break;
             case 3:
-                { float mem = it->GetAs_float(); RwMemNative32(&mem, 4); m_fToDPhase = mem; }
+                { temp.mem = it->GetAs_float(); RwMemNative32(&temp.mem, 4); m_fToDPhase = temp.mem; }
                 break;
             case 4:
-                { float mem = it->GetAs_float(); RwMemNative32(&mem, 4); m_fToDPeriod = mem; }
+                { temp.mem = it->GetAs_float(); RwMemNative32(&temp.mem, 4); m_fToDPeriod = temp.mem; }
                 break;
             case 5:
                 m_bToDActive = rwSwap32(it->GetAs_UInt32()) != 0;

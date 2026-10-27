@@ -1,11 +1,32 @@
-// src/AI/CellRocket.cpp
-//
-// Class: CellRocket (namespace: AI). Set up automatically: no function is matched yet. The address range and the
-// evidence for it are in config/splits.txt; RuffKing's object for it is CellRocket.obj.
-//
-// Reference layout from a later build of the same codebase (a starting point, not CD2's: verify it against CD2's code):
-// include/ref/ruffking/AI_CellRocket.h.
-//
-// Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
-// include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
-//     py -I tools/cd2.py tasks src/AI/CellRocket.cpp
+#include "AI/CellRocket.h"
+#include "rws/classfactory.h"
+
+namespace AI
+{
+    const Fun_Runtime::cClass *CellRocket::ms_pCellRocketClass = 0;
+
+    CellRocket::CellRocket() {}
+
+    const Fun_Runtime::cClass &CellRocket::RetClass() const
+    {
+        return *ms_pCellRocketClass;
+    }
+
+    const char *CellRocket::RetClassName() const
+    {
+        return "CellRocket";
+    }
+
+    bool CellRocket::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pCellRocketClass->IsA(c);
+    }
+
+    RWS::CAttributeHandler *CellRocket::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new CellRocket();
+    }
+}
+
+static RWS::CClassFactory::CRegistrar CellRocketRegistrar(
+    "CellRocket", AI::CellRocket::MakeNew, 0x7C, false);

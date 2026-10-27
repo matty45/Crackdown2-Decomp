@@ -1,11 +1,32 @@
-// src/AI/cBaseJumperMission.cpp
-//
-// Class: cBaseJumperMission (namespace: AI). Set up automatically: no function is matched yet. The address range and
-// the evidence for it are in config/splits.txt; RuffKing's object for it is cBaseJumperMission.obj.
-//
-// Reference layout from a later build of the same codebase (a starting point, not CD2's: verify it against CD2's code):
-// include/ref/ruffking/AI_cBaseJumperMission.h.
-//
-// Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
-// include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
-//     py -I tools/cd2.py tasks src/AI/cBaseJumperMission.cpp
+#include "AI/cBaseJumperMission.h"
+#include "rws/classfactory.h"
+
+namespace AI
+{
+    const Fun_Runtime::cClass *cBaseJumperMission::ms_pcBaseJumperMissionClass = 0;
+
+    cBaseJumperMission::cBaseJumperMission() {}
+
+    const Fun_Runtime::cClass &cBaseJumperMission::RetClass() const
+    {
+        return *ms_pcBaseJumperMissionClass;
+    }
+
+    const char *cBaseJumperMission::RetClassName() const
+    {
+        return "cBaseJumperMission";
+    }
+
+    bool cBaseJumperMission::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcBaseJumperMissionClass->IsA(c);
+    }
+
+    RWS::CAttributeHandler *cBaseJumperMission::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cBaseJumperMission();
+    }
+}
+
+static RWS::CClassFactory::CRegistrar cBaseJumperMissionRegistrar(
+    "cBaseJumperMission", AI::cBaseJumperMission::MakeNew, 0x7C, false);

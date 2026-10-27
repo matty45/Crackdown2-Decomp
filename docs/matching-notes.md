@@ -123,6 +123,7 @@ in a `.cpp` are no longer needed.
 - Static local class descriptor: `static cClass *p = new cClass(id, name, size); return *p;` reproduces the guard, `XCreateHeapBlock(0x5C)` and the out-of-line `cClass` constructor.
 - Open, `CalcRand*` (3 functions): same instructions, but CD2 loads its two float constants (1/32767 and -1000.0) through one base register (`addi r30, anchor`, displacements 0x84 and 0x3D4, r30 saved in the prologue); ours uses one `lis` per constant. Unsigned, int, double and divide variants never produced the anchor. Lead: two fields of one global constants struct would load this way (RuffKing's `Fun_Runtime::tGlobalConstants` has float members).
 - Open, `HandleAttributes`: CD2 has three 16-byte GUID slots (return buffer, a 4-load/4-store copy, then a second interleaved copy passed by address). One or two nested copies, an explicit temporary, a named local in the caller, a by-value `LinkToObject` (RuffKing's signature) and a by-value `FindEntityInMap` all leave two slots.
+- Rechecked 2026-10-26: an explicit `RWSGUID` local makes `HandleAttributes` worse (29.7% versus 32.4%); direct nested return remains better.
 - Open, `IsVFXFinished`: one word. CD2 tests bit 12 with `extrwi r10,r11,1,19`; we always get `rlwinm r10,r11,0,19,19`, also for `(x >> 12) & 1` and for a bitfield.
 
 ### VFX/cRopes.cpp (20 of 25 exact)
@@ -133,6 +134,7 @@ in a `.cpp` are no longer needed.
 - `~cPool() { Reset(); }` with an out-of-line `~cPoolBase()` reproduces the pool's scalar deleting destructor.
 - `GetRopeSegment`/`ReturnRopeSegment` are static (they read the global `g_pRopes`, no `this`).
 - Open: the constructor has one extra dead `addi r11,r30,0x7C` (address of the debug-handler subobject) that shifts scheduling; `ShowRopeSegments`' frame is 0x70 in CD2 against our 0x60 (not explained by the variadic argument count); the `RetClass`/`IsA` thunks at -0x4C imply a subobject at 0x4C with no vptr store in the constructor; `Render` (443 instructions, D3D and VMX128) was not attempted.
+- Rechecked 2026-10-26: moving `g_pRopes = this` before `CreateRopeVertexDecl(elements)` improves the constructor score from 34.9% to 42.2%; still not exact.
 
 ### GameManagement/cGameModeArena.cpp (10 of 13 exact)
 - Split: cGameModeArena's functions, `cArenaLinker::GetArena` (found by its message string "cGameModeArena*"; RuffKing has it in the same object), the two `GetRandSpawnPointInList<T>` instantiations and the registrar pair. Before them is cCHordeArena (derived, 0x110 bytes, own vtable); after them are the barrier classes.
@@ -145,6 +147,7 @@ in a `.cpp` are no longer needed.
 - String-id hash (inlined `GetStringID`): `int mult = <chain>; int id = 0; for (char c = *s; c != 0; c = *++s) id = id * mult + c;` with `mult` declared before `id`.
 - An 11-case switch (0..10) became an inline jump table; case bodies are in source order (case 7 before case 6 in CD2).
 - Open, `HandleAttributes` (95%): CD2 keeps the address-taken `void *p` of case 0 in the same slot as the float `mem` of cases 3/4 (0x50); ours is at 0x54. Moving `p`'s declaration (function, case, loop scope) did not merge them.
+- Rechecked 2026-10-26: a shared union for `p` and `mem` removes the stack-slot finding; objdiff reports no instruction differences, while strict `check` remains 96.1%, so it is not exact.
 - Open, `GetRandSpawnPointInList`: CD2 tests the size with `srawi. r8,r10,2; beq`, then recomputes it for the `Rand` argument. Using the size only for the test folds to `clrrwi; cmpwi`; keeping it in a local gives `srawi.` but no recompute. The arm order `if (n) return list[Rand(n)]; return 0;` is right. `Rand(max)` is `divwu` plus a `twllei` zero trap.
 
 ## Measurement batch 2 findings (2026-10-23; gameplay files; 71 of 96 belonging functions exact, logic 22 of 43)
@@ -192,3 +195,118 @@ in a `.cpp` are no longer needed.
   `cPlayerCharacterWrapper` (headers under `include/CHARACTER/`). `cCharacter::m_pTargeting` is at 0x1524 in CD2
   (0x1534 in RuffKing).
 
+## Partial-match audit (2026-10-26)
+
+- **cChaseBehaviour::V108 (0x824CEE70) is now EXACT.** Put the player-link downcast in
+  `HostLinks::RetPlayer()`, defined in the class, and call it at all three uses. This preserves the
+  host+0x7C subobject address and the second link load. Direct field access lets the compiler remove
+  both instructions. `check` confirms all 28 mapped functions in the file, including relocation targets.
+- **cGameModeArena::HandleAttributes (0x8284E6D8): checker limitation identified.** The candidate and
+  target both have 280 words, and objdiff reports no instruction differences. All eleven strict mismatches
+  are the jump-table entries at function offsets 0x78..0xA0: the COFF object has zero placeholders with
+  relocations, whereas the executable has linked addresses. `coff.compare` only masks a relocation when
+  the first six bits agree, which fails for these data words. Keep this function partial (96.1%); source
+  changes cannot resolve that comparison without changing the table or checker. No tool was modified.
+- **Remaining eight manifest partials were rechecked.** Current plain scores: faction `MakeNew`
+  0x826761B0 17.0%; ambient VFX `HandleAttributes` 0x827F9370 32.4%; ropes constructor 0x828060B8
+  42.2%, `ShowRopeSegments` 0x82806D40 85.3%; arena `HandleAttributes` 96.1%, both random-spawn
+  instantiations 0x8284EC80/0x8284ED60 87.3%; helicopter `Flatten2D` 0x82782D70 58.6%.
+- **Unsuccessful variants:** faction list initialization order; rope debug-handler constructor/abstract
+  forms; GUID const-reference/value parameters, explicit locals, memberwise copies and memcpy; random
+  generator integer types, modulo forms and nested overloads, vector begin/subscript accessors; scalar
+  norm operand orders, float/double locals, sqrt intrinsics, inline helpers, division forms and vector
+  dot/normalization methods. Automated search also found no improvement in the tested partials.
+  Unhelpful experimental source changes were discarded. Faction and helicopter were also checked with
+  LTCG, without an exact result. The three existing ambient VFX random-time functions remain LTCG EXACT.
+- **Local claims also audited:** traffic-light `EnterRenderableState` 0x82747898 is EXACT and was added
+  to the manifest. `Pedestrian::IsA` 0x824A8D60 and `cPedestrianBase::IsA` 0x824A90F0 pass plain
+  `check`, but each has only 21/23 matching words in the LTCG model. They remain unpromoted local claims
+  because adding them makes the full verification fail. The explosion-level-info claims and traffic-light
+  constructor claim have no matching compiled definitions; they are missing implementations, not partials.
+
+## Jump-table checker fix (2026-10-26)
+
+- The user authorized a focused exception to the tools/tests editing rule. `coff.functions` now retains
+  ADDR32 relocation sites separately from instruction relocations. The byte comparison masks those data
+  words fully, while retaining the opcode check for relocated instructions. `relocs.resolve` then checks
+  each ADDR32 against its same-function label plus its embedded addend; unsupported external references
+  fail closed. Changed labels, addends, out-of-range destinations and unaligned destinations are rejected.
+- The same destinations are checked in recorded-facts mode. LTCG comparisons normalize only the explicitly
+  identified table sites to function-relative destinations, so a retargeted linked table still fails.
+- `cGameModeArena::HandleAttributes` (0x8284E6D8) is now `check` EXACT, including all relocations, and
+  280/280 words under LTCG. Its C++ was unchanged by this fix. Seven manifest partials remain.
+- Thirteen synthetic regression tests in `tests/test_jump_table_relocations.py` cover the COFF parser,
+  instruction masking, local-label resolution, signed addends, wrong destinations, LTCG and recorded facts.
+  They run as a new gate in `cd2.py verify` and need neither the game nor the XDK.
+- Additional source probes found no improvement: faction list-initialization helper/inheritance forms,
+  scanf scalar/one-element-array storage, random-index local lifetimes and element return types, GUID lookup
+  parameter/return ABI and copy-constructor forms. These experimental source changes were not retained.
+
+
+### Additional WIP probes (2026-10-26)
+
+- IDA reconfirms the ambient-spawner GUID sequence: returned value, intermediate copy, and lookup argument
+  occupy three separate stack slots. Eighteen inline GUID-return wrapper variants (value/reference parameters,
+  const returns and explicit copied locals) all remain 24/74 words. Adding an empty GUID destructor does not
+  preserve the missing copy; explicit memberwise/loop copy constructors reduce the score to 23/74.
+- Arena random-bound parameters by const reference or signed/unsigned 32-bit value remain 48/55 words.
+  Changing the vector subscript parameter to references or a 64-bit index also leaves 48/55. Narrowing the
+  random bound to 16 bits introduces another instruction; a 64-bit bound changes the division.
+- Helicopter signed-product and double-intermediate probes do not reproduce the target's two differently
+  ordered single-precision multiply/add sequences. One signed-product form reaches 18/29 words but uses
+  different arithmetic instructions, so it was not retained. Ordinary identity operations are optimized away.
+- Faction list constructor statement permutations and int/unsigned int/unsigned long counters retain the
+  extra saved register (at best 9/53 words). Source statement order alone does not control these stores.
+- All probes above were compiled in scratch directories. No candidate was promoted and all seven WIP
+  manifest entries remain unresolved. Next investigations should examine original helper/type structure
+  and compiler scheduling rather than repeating these expression/parameter permutations.
+
+### Rope initialization-order correction (2026-10-26)
+
+- Re-reading the target establishes that `g_pRopes = this` occurs after `CreateRopeVertexDecl`. Restored
+  that source order; the earlier move before the call improved a positional score but did not reproduce
+  target behavior. The constructor remains WIP (38/109 words), with the missing debug-handler address
+  calculation shifting the comparison. Do not move this assignment before the call to improve the score.
+- Empty inline debug-handler initialization helpers (member, static pointer/reference, self-return and
+  virtual forms) all leave the same 38/109 result. No helper variants were retained.
+- IDA confirms the console output callee saves the variadic argument registers and formats a wide string.
+  Other small scanf/console callbacks also put scalar locals at stack offset 0x60, whereas an inspected
+  scanf callback without console output uses 0x50. This supports investigating the original console call
+  declaration or wrapper, rather than adding arbitrary padding to ShowRopeSegments.
+- Scratch declarations returning int, float, double, 64-bit integer, vector or a small POD aggregate all
+  leave ShowRopeSegments at 29/34 words. An unused return type alone does not explain the extra stack slot.
+
+### Reference-type investigation (2026-10-27)
+
+- Local RuffKing PDB dumps identify cDebugPageHandler constructors taking a wide name (optionally a bool),
+  and inheritance from cRegisteredClass. The reference debug handler is 0x24 bytes, versus the observed
+  four-byte CD2 subobject, so its full layout cannot be copied. Named-constructor and out-of-class inline
+  variants still produce 38/109 words for the rope constructor; no header changes were retained.
+- The faction helper destructor at 0x8276F0C0 writes the same primary/secondary vtable addresses seen in
+  cNonGameBase's base construction: primary at +0 and secondary at +0x14. This connects the local cConfig
+  stand-ins to the shared safe-deletion interfaces and warrants a hierarchy audit before more expression
+  sweeps. Do not infer a shared class size solely from the next base offset.
+- The reference cSafeDeletablePointerBase derives from cLinkedListItem (vptr, next, previous) and ends
+  with a pointer to cSafeDeletable, not a count. Changing the faction stand-in's last field from integer
+  to pointer, and testing this base/derived split, did not improve MakeNew (best 9/53 words).
+- Scratch-only floating-point flag diagnostics also failed to match Flatten2D: fast 17/29, precise 8/29,
+  strict 9/31. Repository compiler settings were not changed.
+
+### Console callback diagnostics (2026-10-27)
+
+- RuffKing's cRopes module symbols list the ShowRopeSegments parameters `object`/`cmdLine` and one
+  local, `nDoPosInfo`; no additional local buffer is described. This does not prove CD2's frame layout,
+  but weakens the hypothesis that the source needs an extra local.
+- Scratch optimization-mode diagnostics did not produce an exact callback, arena random-spawn function,
+  or Flatten2D. /Ot, /O2, /Ob2 and /Oy- retain their existing scores; /Os and /O1 worsen all three.
+  No compiler settings or source candidates were retained.
+
+### Ambient GUID assignment match (2026-10-27)
+
+- `cAmbientVFXSpawner::HandleAttributes` (0x827F9370) is now `check` EXACT in plain and LTCG builds,
+  74/74 words, with no relocation problems. All 21 mapped functions in the file pass.
+- The missing copy came from using copy initialization instead of assignment. Declare a GUID, assign
+  `it->GetAs_RWSGUID()` to it, then pass it to LinkToObject. Define the existing RWSGUID assignment
+  operator inline with four explicit member assignments and return `*this`. A loop generates different
+  code (25/75 words); nested copies and copy constructors do not reproduce the assignment's temporaries.
+- The shared header now contains that assignment implementation. Six manifest WIP functions remain.
