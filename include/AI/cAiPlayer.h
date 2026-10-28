@@ -36,6 +36,10 @@ namespace AI
         unsigned char GetB617() const;
         void SetB617(unsigned char v);
         static int RetConstantC8();
+        int GetField38() const;
+        unsigned char GetByte20() const;
+        unsigned char GetByte2E() const;
+        float GetFloat278() const;
     };
 }
 

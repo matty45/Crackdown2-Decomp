@@ -29,4 +29,4 @@ namespace AI
 }
 
 static RWS::CClassFactory::CRegistrar cBeaconMissionRegistrar(
-    "cBeaconMission", AI::cBeaconMission::MakeNew, 0x7C, false);
+    "cBeaconMission", AI::cBeaconMission::MakeNew, 0x2300, false);

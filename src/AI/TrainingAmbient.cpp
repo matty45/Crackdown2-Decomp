@@ -29,4 +29,4 @@ namespace AI
 }
 
 static RWS::CClassFactory::CRegistrar TrainingAmbientRegistrar(
-    "TrainingAmbient", AI::TrainingAmbient::MakeNew, 0x7C, false);
+    "TrainingAmbient", AI::TrainingAmbient::MakeNew, 0xD0, false);

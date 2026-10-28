@@ -29,4 +29,4 @@ namespace AI
 }
 
 static RWS::CClassFactory::CRegistrar cHeliCallZoneRegistrar(
-    "cHeliCallZone", AI::cHeliCallZone::MakeNew, 0x7C, false);
+    "cHeliCallZone", AI::cHeliCallZone::MakeNew, 0x1F0, false);

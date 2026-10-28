@@ -1,4 +1,4 @@
-#ifndef AI_cCrowdZoneDataHolder_H
+﻿#ifndef AI_cCrowdZoneDataHolder_H
 #define AI_cCrowdZoneDataHolder_H
 
 #include "rws/attributes.h"

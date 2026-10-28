@@ -29,4 +29,4 @@ namespace AI
 }
 
 static RWS::CClassFactory::CRegistrar cBasePatrolRouteEventRegistrar(
-    "cBasePatrolRouteEvent", AI::cBasePatrolRouteEvent::MakeNew, 0x7C, false);
+    "cBasePatrolRouteEvent", AI::cBasePatrolRouteEvent::MakeNew, 0x90, false);

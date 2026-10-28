@@ -12,3 +12,6 @@
 0x821327A4 ??_7cChaseBehaviourPrototype@cChaseBehaviour@AI@@6BcStreamingResourceClient@ResourceManager@@@ ??_7cFlocketPrototype@Equip@@6BcStreamingResourceClient@ResourceManager@@@ ??_7cHelicopterControllerPrototype@cHelicopterController@VEHICLE_CONTROL@@6BcStreamingResourceClient@ResourceManager@@@ ??_7cTrafficLightPrototype@cTrafficLight@Prop@@6BcStreamingResourceClient@ResourceManager@@@   # identical vtables folded: GOM::cObjectPrototype's own vtable for its ResourceManager::cStreamingResourceClient base (its constructor at 0x82654118 stores this address at +0x18); no derived prototype overrides the client's virtuals, so every derived copy equals it
 0x8264DDA0 ??2@YAPAXI@Z ?XCreateHeapBlock@@YAPAXI@Z   # operator new is inlined to XCreateHeapBlock (include/cd2/memory.h): identical code folded
 
+0x824C7BF8 ?MakeNew@TrainingAmbient@AI@@SAPAVCAttributeHandler@RWS@@ABVCAttributePacket@4@_N@Z ?MakeNew@TrainingPilot@AI@@SAPAVCAttributeHandler@RWS@@ABVCAttributePacket@4@_N@Z   # ICF MakeNew
+
+0x8215BDB8 ??_7cCHordeArena@GameManagement@@6BcGMMEventBase@1@@ ??_7cGameModeArena@GameManagement@@6BcGMMEventBase@1@@   # cCHordeArena inherits cGMMEventBase without overriding; identical secondary vtable folded

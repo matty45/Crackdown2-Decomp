@@ -1,14 +1,19 @@
-#ifndef GameManagement_cCHordeArena_H
+﻿#ifndef GameManagement_cCHordeArena_H
 #define GameManagement_cCHordeArena_H
 
-#include "rws/attributes.h"
+#include "GameManagement/cGameModeArena.h"
 
 namespace GameManagement
 {
-    class cCHordeArena : public RWS::CAttributeHandler
+    class cCHordeProfile;
+    class cCHordeArena : public cGameModeArena
     {
+    protected:
+        cCHordeProfile *m_pProfile;
     public:
         virtual const char *RetClassName() const;
+
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &packet, bool);
     };
 }
 

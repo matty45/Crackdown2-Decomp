@@ -1,4 +1,5 @@
-#include "AI/cCrowdZoneDataHolder.h"
+﻿#include "AI/cCrowdZoneDataHolder.h"
+#include "rws/classfactory.h"
 
 namespace AI
 {

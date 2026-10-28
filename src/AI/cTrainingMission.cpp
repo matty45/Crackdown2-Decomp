@@ -29,4 +29,4 @@ namespace AI
 }
 
 static RWS::CClassFactory::CRegistrar cTrainingMissionRegistrar(
-    "cTrainingMission", AI::cTrainingMission::MakeNew, 0x7C, false);
+    "cTrainingMission", AI::cTrainingMission::MakeNew, 0x9D0, false);

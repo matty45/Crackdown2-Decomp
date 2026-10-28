@@ -18,6 +18,8 @@ namespace Audio
         virtual const Fun_Runtime::cClass &RetClass() const;
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         virtual const char *RetClassName() const;
+
+        unsigned char m_pad[0xF0 - 0x7C];
     };
 }
 

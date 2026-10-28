@@ -29,4 +29,4 @@ namespace AI
 }
 
 static RWS::CClassFactory::CRegistrar cRefineryMissionRegistrar(
-    "cRefineryMission", AI::cRefineryMission::MakeNew, 0x7C, false);
+    "cRefineryMission", AI::cRefineryMission::MakeNew, 0x400, false);

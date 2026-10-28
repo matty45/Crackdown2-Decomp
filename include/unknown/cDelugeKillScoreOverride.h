@@ -9,6 +9,7 @@ namespace unknown
     {
     public:
         virtual const char *RetClassName() const;
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
     };
 }
 

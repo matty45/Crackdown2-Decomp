@@ -29,4 +29,4 @@ namespace AI
 }
 
 static RWS::CClassFactory::CRegistrar cAUMissionRegistrar(
-    "cAUMission", AI::cAUMission::MakeNew, 0x7C, false);
+    "cAUMission", AI::cAUMission::MakeNew, 0x5F0, false);

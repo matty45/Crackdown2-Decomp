@@ -29,4 +29,4 @@ namespace Audio
 }
 
 static RWS::CClassFactory::CRegistrar cVOALineRegistrar(
-    "cVOALine", Audio::cVOALine::MakeNew, 0x7C, false);
+    "cVOALine", Audio::cVOALine::MakeNew, 0xF0, false);

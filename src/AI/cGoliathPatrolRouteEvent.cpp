@@ -29,4 +29,4 @@ namespace AI
 }
 
 static RWS::CClassFactory::CRegistrar cGoliathPatrolRouteEventRegistrar(
-    "cGoliathPatrolRouteEvent", AI::cGoliathPatrolRouteEvent::MakeNew, 0x7C, false);
+    "cGoliathPatrolRouteEvent", AI::cGoliathPatrolRouteEvent::MakeNew, 0xA0, false);

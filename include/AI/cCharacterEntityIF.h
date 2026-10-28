@@ -53,6 +53,20 @@ namespace AI
         unsigned char GetByte536() const;
         unsigned char GetByte537() const;
         void SetByte539(unsigned char value);
+        virtual const char *RetClassName() const;
+        const char *RetMovementType() const;
+        const char *RetPerceptionOptions() const;
+        const char *RetFaceTarget() const;
+        const char *RetAttackState() const;
+        const char *RetState() const;
+        void *GetPtr504A0() const;
+        void *GetPtr504B0() const;
+        float GetFloat504_90() const;
+        float GetFloat504_98() const;
+        float GetFloat504_9C() const;
+        unsigned char GetBool38_50() const;
+        unsigned char CheckField548() const;
+        float GetFloatConditional() const;
 
         CD2_LAYOUT_CHECKS(cCharacterEntityIF,
             CD2_SIZE(cCharacterEntityIF, 0x540)

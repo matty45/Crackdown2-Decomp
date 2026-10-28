@@ -29,4 +29,4 @@ namespace AI
 }
 
 static RWS::CClassFactory::CRegistrar cAnimParamsRegistrar(
-    "cAnimParams", AI::cAnimParams::MakeNew, 0x7C, false);
+    "cAnimParams", AI::cAnimParams::MakeNew, 0x48, false);

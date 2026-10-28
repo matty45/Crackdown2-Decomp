@@ -1,4 +1,5 @@
-#include "GameManagement/cCHordeArena.h"
+﻿#include "GameManagement/cCHordeArena.h"
+#include "rws/classfactory.h"
 
 namespace GameManagement
 {
@@ -6,4 +7,12 @@ namespace GameManagement
     {
         return "cCHordeArena";
     }
+
+    RWS::CAttributeHandler *cCHordeArena::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cCHordeArena();
+    }
 }
+
+static RWS::CClassFactory::CRegistrar cCHordeArenaRegistrar(
+    "cCHordeArena", GameManagement::cCHordeArena::MakeNew, 0x110, false);

@@ -29,4 +29,4 @@ namespace AI
 }
 
 static RWS::CClassFactory::CRegistrar cBaseJumperMissionRegistrar(
-    "cBaseJumperMission", AI::cBaseJumperMission::MakeNew, 0x7C, false);
+    "cBaseJumperMission", AI::cBaseJumperMission::MakeNew, 0x400, false);

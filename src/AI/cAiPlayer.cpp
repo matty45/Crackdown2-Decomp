@@ -63,4 +63,24 @@ namespace AI
     {
         return 0xC8;
     }
+
+    int cAiPlayer::GetField38() const
+    {
+        return *reinterpret_cast<const int *>((const char *)this + 0x38);
+    }
+
+    unsigned char cAiPlayer::GetByte20() const
+    {
+        return *reinterpret_cast<const unsigned char *>((const char *)this + 0x20);
+    }
+
+    unsigned char cAiPlayer::GetByte2E() const
+    {
+        return *reinterpret_cast<const unsigned char *>((const char *)this + 0x2E);
+    }
+
+    float cAiPlayer::GetFloat278() const
+    {
+        return *reinterpret_cast<const float *>((const char *)this + 0x278);
+    }
 }

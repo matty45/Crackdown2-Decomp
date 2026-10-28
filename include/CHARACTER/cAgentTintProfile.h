@@ -2,6 +2,7 @@
 #define CHARACTER_cAgentTintProfile_H
 
 #include "rws/attributes.h"
+#include "cd2/layout.h"
 
 namespace CHARACTER
 {
@@ -9,6 +10,7 @@ namespace CHARACTER
     {
     public:
         virtual const char *RetClassName() const;
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
     };
 }
 

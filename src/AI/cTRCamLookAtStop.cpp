@@ -29,4 +29,4 @@ namespace AI
 }
 
 static RWS::CClassFactory::CRegistrar cTRCamLookAtStopRegistrar(
-    "cTRCamLookAtStop", AI::cTRCamLookAtStop::MakeNew, 0x7C, false);
+    "cTRCamLookAtStop", AI::cTRCamLookAtStop::MakeNew, 0x90, false);

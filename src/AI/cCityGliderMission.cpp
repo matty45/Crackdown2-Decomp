@@ -29,4 +29,4 @@ namespace AI
 }
 
 static RWS::CClassFactory::CRegistrar cCityGliderMissionRegistrar(
-    "cCityGliderMission", AI::cCityGliderMission::MakeNew, 0x7C, false);
+    "cCityGliderMission", AI::cCityGliderMission::MakeNew, 0x440, false);

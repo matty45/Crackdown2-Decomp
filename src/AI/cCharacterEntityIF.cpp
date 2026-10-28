@@ -83,4 +83,100 @@ namespace AI
     {
         m_byte539 = value;
     }
+
+    const char *cCharacterEntityIF::RetClassName() const
+    {
+        return "cCharacterEntityIF";
+    }
+
+    const char *cCharacterEntityIF::RetMovementType() const
+    {
+        return "eMovementType";
+    }
+
+    const char *cCharacterEntityIF::RetPerceptionOptions() const
+    {
+        return "ePerceptionOptions";
+    }
+
+    const char *cCharacterEntityIF::RetFaceTarget() const
+    {
+        return "eFaceTarget";
+    }
+
+    const char *cCharacterEntityIF::RetAttackState() const
+    {
+        return "eAttackState";
+    }
+
+    const char *cCharacterEntityIF::RetState() const
+    {
+        return "eState";
+    }
+
+    void *cCharacterEntityIF::GetPtr504A0() const
+    {
+        return reinterpret_cast<void *>(*reinterpret_cast<const unsigned int *>((const char *)this + 0x504) + 0xA0);
+    }
+
+    void *cCharacterEntityIF::GetPtr504B0() const
+    {
+        return reinterpret_cast<void *>(*reinterpret_cast<const unsigned int *>((const char *)this + 0x504) + 0xB0);
+    }
+
+    float cCharacterEntityIF::GetFloat504_90() const
+    {
+        return *reinterpret_cast<const float *>(*reinterpret_cast<const unsigned int *>((const char *)this + 0x504) + 0x90);
+    }
+
+    float cCharacterEntityIF::GetFloat504_98() const
+    {
+        return *reinterpret_cast<const float *>(*reinterpret_cast<const unsigned int *>((const char *)this + 0x504) + 0x98);
+    }
+
+    float cCharacterEntityIF::GetFloat504_9C() const
+    {
+        return *reinterpret_cast<const float *>(*reinterpret_cast<const unsigned int *>((const char *)this + 0x504) + 0x9C);
+    }
+
+    unsigned char cCharacterEntityIF::GetBool38_50() const
+    {
+        if (*reinterpret_cast<const unsigned int *>((const char *)this + 0x38) != 0)
+        {
+            if (*reinterpret_cast<const unsigned int *>((const char *)this + 0x50) != 0)
+                return 1;
+        }
+        return 0;
+    }
+
+    unsigned char cCharacterEntityIF::CheckField548() const
+    {
+        const unsigned int p = *reinterpret_cast<const unsigned int *>((const char *)this + 0x88);
+        if (p != 0)
+        {
+            const volatile unsigned int qv = p - 0x1C;
+            const unsigned int q = qv;
+            if (q != 0)
+            {
+                const unsigned int v = *reinterpret_cast<const unsigned int *>((const char *)q + 0x548);
+                return (0x30000 - (v & 0xFFFF0000)) == 0;
+            }
+        }
+        return 0;
+    }
+
+    float cCharacterEntityIF::GetFloatConditional() const
+    {
+        const unsigned int t = *reinterpret_cast<const unsigned int *>((const char *)this + 0x504);
+        unsigned int p = *reinterpret_cast<const unsigned int *>((const char *)t + 0xC8);
+        p = *reinterpret_cast<const unsigned int *>((const char *)p + 0x88);
+        if (p != 0)
+            p = p - 0x1C;
+        if (p != 0)
+        {
+            if ((*reinterpret_cast<const unsigned char *>((const char *)p + 0x1681) & 0x40) != 0)
+                return 180.0f;
+        }
+        return *reinterpret_cast<const float *>((const char *)t + 0x88);
+    }
 }

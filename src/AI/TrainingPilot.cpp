@@ -29,4 +29,4 @@ namespace AI
 }
 
 static RWS::CClassFactory::CRegistrar TrainingPilotRegistrar(
-    "TrainingPilot", AI::TrainingPilot::MakeNew, 0x7C, false);
+    "TrainingPilot", AI::TrainingPilot::MakeNew, 0xD0, false);

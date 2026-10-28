@@ -2,6 +2,7 @@
 #define AI_cForceFieldVFXProfile_H
 
 #include "rws/attributes.h"
+#include "cd2/layout.h"
 
 namespace AI
 {
@@ -9,6 +10,7 @@ namespace AI
     {
     public:
         virtual const char *RetClassName() const;
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
     };
 }
 

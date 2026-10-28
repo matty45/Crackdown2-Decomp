@@ -29,4 +29,4 @@ namespace Audio
 }
 
 static RWS::CClassFactory::CRegistrar cNPCDialogSchedulerRegistrar(
-    "cNPCDialogScheduler", Audio::cNPCDialogScheduler::MakeNew, 0x7C, false);
+    "cNPCDialogScheduler", Audio::cNPCDialogScheduler::MakeNew, 0x144, false);
