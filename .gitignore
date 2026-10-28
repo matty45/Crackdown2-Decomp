@@ -97,3 +97,6 @@ desktop.ini
 *.rej
 *.bak
 *.tmp
+
+#Source files from pdbs generated using pdb decompiler.
+refs/*
