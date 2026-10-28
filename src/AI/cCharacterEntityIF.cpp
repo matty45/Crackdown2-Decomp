@@ -116,27 +116,27 @@ namespace AI
 
     void *cCharacterEntityIF::GetPtr504A0() const
     {
-        return reinterpret_cast<void *>(*reinterpret_cast<const unsigned int *>((const char *)this + 0x504) + 0xA0);
+        return reinterpret_cast<void *>(m_ptr504 + 0xA0);
     }
 
     void *cCharacterEntityIF::GetPtr504B0() const
     {
-        return reinterpret_cast<void *>(*reinterpret_cast<const unsigned int *>((const char *)this + 0x504) + 0xB0);
+        return reinterpret_cast<void *>(m_ptr504 + 0xB0);
     }
 
     float cCharacterEntityIF::GetFloat504_90() const
     {
-        return *reinterpret_cast<const float *>(*reinterpret_cast<const unsigned int *>((const char *)this + 0x504) + 0x90);
+        return *reinterpret_cast<const float *>(m_ptr504 + 0x90);
     }
 
     float cCharacterEntityIF::GetFloat504_98() const
     {
-        return *reinterpret_cast<const float *>(*reinterpret_cast<const unsigned int *>((const char *)this + 0x504) + 0x98);
+        return *reinterpret_cast<const float *>(m_ptr504 + 0x98);
     }
 
     float cCharacterEntityIF::GetFloat504_9C() const
     {
-        return *reinterpret_cast<const float *>(*reinterpret_cast<const unsigned int *>((const char *)this + 0x504) + 0x9C);
+        return *reinterpret_cast<const float *>(m_ptr504 + 0x9C);
     }
 
     unsigned char cCharacterEntityIF::GetBool38_50() const
@@ -159,7 +159,7 @@ namespace AI
 
     float cCharacterEntityIF::GetFloatConditional() const
     {
-        const unsigned int t = *reinterpret_cast<const unsigned int *>((const char *)this + 0x504);
+        const unsigned int t = m_ptr504;
         const unsigned int owner = *reinterpret_cast<const unsigned int *>((const char *)t + 0xC8);
         Fun_Runtime::cSafeDeletable *safe = *reinterpret_cast<Fun_Runtime::cSafeDeletable *const *>((const char *)owner + 0x88);
         const CHARACTER::cCharacter *p = static_cast<const CHARACTER::cCharacter *>(safe);

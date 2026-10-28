@@ -12,7 +12,27 @@ namespace AI
         static const Fun_Runtime::cClass *ms_pcAiPlayerClass;
 
     private:
-        unsigned char _pad0[0x5F8 - 0x7C];
+        unsigned char _pad7C[0x88 - 0x7C];
+    protected:
+        unsigned int m_field88;
+        unsigned char _pad8C[0xA0 - 0x8C];
+        float m_fA0;
+        unsigned char _padA4[0xA8 - 0xA4];
+        float m_fA8;
+        unsigned char _padAC[0x278 - 0xAC];
+        float m_f278;
+        unsigned char _pad27C[0x4E8 - 0x27C];
+        unsigned int m_field4E8;
+        unsigned char _pad4EC[0x4F8 - 0x4EC];
+        int m_field4F8;
+        int m_field4FC;
+        int m_field500;
+        unsigned char _pad504[0x540 - 0x504];
+        unsigned char _pad540[0x5A0 - 0x540];
+
+        unsigned char _pad5A0[0x5E4 - 0x5A0];
+        unsigned int m_field5E4;
+        unsigned char _pad5E8[0x5F8 - 0x5E8];
     protected:
         float m_f5F8;
         float m_f5FC;

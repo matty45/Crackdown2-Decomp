@@ -81,25 +81,25 @@ namespace AI
 
     float cAiPlayer::GetFloat278() const
     {
-        return *reinterpret_cast<const float *>((const char *)this + 0x278);
+        return m_f278;
     }
 
     int cAiPlayer::GetField4E8_4() const
     {
-        const unsigned int p = *reinterpret_cast<const unsigned int *>((const char *)this + 0x4E8);
-        return *reinterpret_cast<const int *>((const char *)p + 0x4);
+        const unsigned int p = m_field4E8;
+        return reinterpret_cast<const int *>(p)[1];
     }
 
     void cAiPlayer::SetFields4F8(int v, int w)
     {
-        *reinterpret_cast<int *>((char *)this + 0x4F8) = v;
-        *reinterpret_cast<int *>((char *)this + 0x4FC) = v;
-        *reinterpret_cast<int *>((char *)this + 0x500) = w;
+        m_field4F8 = v;
+        m_field4FC = v;
+        m_field500 = w;
     }
 
     void *cAiPlayer::GetField5E4() const
     {
-        const unsigned int p = *reinterpret_cast<const unsigned int *>((const char *)this + 0x5E4);
+        const unsigned int p = m_field5E4;
         if (p != 0)
             return reinterpret_cast<void *>(p - 0x1C);
         return 0;
@@ -143,7 +143,7 @@ namespace AI
 
     int cAiPlayer::FuncEB518()
     {
-        unsigned int p = *reinterpret_cast<unsigned int *>((char *)this + 0x88);
+        unsigned int p = m_field88;
         if (p == 0)
             p = 0;
         else
@@ -151,23 +151,23 @@ namespace AI
         const unsigned char b = *reinterpret_cast<unsigned char *>((char *)p + 0x2812);
         if (b > 1)
             return 0;
-        const float f12 = *reinterpret_cast<float *>((char *)this + 0xA0);
+        const float f12 = m_fA0;
         const float f0 = 0.0f;
         const float f13 = 10.0f;
         if (f12 >= f0 - f13)
             return 0;
-        *reinterpret_cast<float *>((char *)this + 0xA0) = f0;
+        m_fA0 = f0;
         return 1;
     }
 
     int cAiPlayer::FuncEB570()
     {
-        const float f12 = *reinterpret_cast<float *>((char *)this + 0xA8);
+        const float f12 = m_fA8;
         const float f0 = 0.0f;
         const float f13 = 3.0f;
         if (f12 >= f0 - f13)
             return 0;
-        *reinterpret_cast<float *>((char *)this + 0xA8) = f0;
+        m_fA8 = f0;
         return 1;
     }
 

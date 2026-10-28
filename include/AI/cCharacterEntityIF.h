@@ -18,7 +18,9 @@ namespace AI
         unsigned char m_padC0[0x480 - 0xC0];
     protected:
         unsigned char m_storage480[0x4B0 - 0x480];
-        unsigned char m_storage4B0[0x50C - 0x4B0];
+        unsigned char m_storage4B0[0x504 - 0x4B0];
+        unsigned int m_ptr504;
+        unsigned char m_pad508[0x50C - 0x508];
         unsigned int m_word50C;
     private:
         unsigned char m_pad510[0x51C - 0x510];
