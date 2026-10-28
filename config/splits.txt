@@ -24,6 +24,9 @@
 # no other class's marker and no function of another RuffKing object inside; no overlap; initializers in text order.
 # Classes whose RetClassName comes from the same RuffKing object are one file.
 
+src/GDb/ConsoleOutput.cpp
+  text 0x825D0CF0 0x825D0D4C   # user-authorized extension: IDA function bounds; GDb::ConsoleOutput identified from reference PDBs and matching retail formatting body
+
 src/Activity/cPersistenceProfile.cpp
   text 0x823D93B8 0x823D9718   # auto: cPersistenceProfile; RuffKing cPersistenceProfile.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F5B240

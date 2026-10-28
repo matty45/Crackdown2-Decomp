@@ -133,7 +133,10 @@ namespace GameManagement
     {
         static Fun_Runtime::cRandGen s_RandGen(GetTime_msec());
         if (list.size() > 0)
-            return (T *)list[s_RandGen.Rand(list.size())];
+        {
+            unsigned int index = s_RandGen.Rand(list.size());
+            return (T *)list[index];
+        }
         return 0;
     }
 

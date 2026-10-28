@@ -310,3 +310,118 @@ in a `.cpp` are no longer needed.
   operator inline with four explicit member assignments and return `*this`. A loop generates different
   code (25/75 words); nested copies and copy constructors do not reproduce the assignment's temporaries.
 - The shared header now contains that assignment implementation. Six manifest WIP functions remain.
+
+### IDA WIP audit and accessor fixes (2026-10-28)
+
+- Opened the CD2, RuffKing and Burn IDA databases. Six manifest WIP entries remain:
+  faction MakeNew (0x826761B0), rope constructor/ShowRopeSegments
+  (0x828060B8/0x82806D40), arena random-spawn templates
+  (0x8284EC80/0x8284ED60), and Flatten2D (0x82782D70).
+- Also audited unpromoted local claims. Three cCharacterEntityIF accessors now pass strict
+  plain and LTCG checks: GetFloatConditional (0x823EBFB8, 16/16 words), CheckField548
+  (0x823EC1B8, 15/15), and GetBool38_50 (0x823EC378, 10/10).
+  Use RetCharacter() for the second null test after the safe-pointer downcast; an integer
+  subtraction and volatile temporary do not reproduce it. For GetFloatConditional, cast
+  the actual cSafeDeletable pointer to cCharacter and immediately read its flag: CD2 has
+  no extra null guard after the conversion. A bool local materializes GetBool38_50's result.
+- Implemented the four previously missing explosion-info claims: RetClassName,
+  scalar deleting destructor, registrar and registrar destructor. All are strict EXACT.
+  CD2's registrar confirms size 0x80. Field offsets agree with the reference layout;
+  factory defaults use the shared g_GlobalConstants. The factory is not promoted.
+- New scratch probes did not improve the six manifest WIP functions: arena Rand local,
+  modulo and index-type variants, real std::vector indexing; rope explicit member/base
+  initializers and named debug-handler constructor arguments; faction list-body/store
+  permutations; Flatten2D square temporaries, sqrt variants and powf expressions.
+  Arena compiler-search (150 budget, two rounds) also found no improvement. No such
+  source variants were retained. Original arena and console namespace edits predated this run.
+- Streaming-factory constructor inlining reproduces more of the body but introduces
+  a saved this register absent in CD2; its original source was restored. Chase V104's
+  LTCG model still does not reproduce its shared constant-base register and frame.
+- Other unpromoted claims remain: two pedestrian IsA functions (plain EXACT but not
+  accepted by the LTCG model), traffic-light constructor, chase V104, crowd-zone factory
+  (missing), and streaming-data factory. These are separate from the six manifest WIPs.
+- Final verification: VERIFY: PASS; 542 plain exact, 545 LTCG exact, six manifest WIP. Header layout/self-tests and git diff --check pass.
+
+
+### Shared hierarchy correction and rope constructor (2026-10-28)
+
+- IDA identifies the former faction cConfigBase stand-in as cScriptHost: the runtime
+  class initializer at 0x8276ED30 names cScriptHost, ID 1009, size 0x1C. Its destructor
+  at 0x8276F0C0 restores primary and registered-interface vtables at +0/+0x14 and
+  calls the cSafeDeletable destructor at 0x8264B398. cSafeDeletable itself has only
+  one virtual destructor; the six-slot table previously attributed to it belongs
+  to cScriptHost. cRegisteredClass is four bytes. The flag at cScriptHost+0x18
+  accounts for the remaining bytes before cNonGameBase's network base.
+- Corrected cNonGameBase to inherit cScriptHost, retaining all interface and field
+  offsets. CD2's four-byte debug handler also inherits cRegisteredClass, with
+  RetClass, IsA and a virtual destructor. This missing inheritance caused the
+  rope constructor's apparently dead base-address calculation to disappear.
+- cRopes::cRopes (0x828060B8) now passes strict plain and LTCG checks, 109/109 words,
+  including relocation checks. Its RetClass/IsA adjustment thunks at 0x82807380
+  and 0x82807388 also pass both models, 2/2 words each, and are promoted.
+- Declare the std::vector reserve instantiation external: its implementation is
+  owned by another translation unit (0x826104B8). Otherwise the single-file LTCG
+  model specializes both reserve calls to 600 and removes their size arguments.
+- Further scratch-only expression, return-lifetime, random-generator extraction,
+  scalar-alignment and constructor-hierarchy probes did not finish the other five
+  manifest WIPs. In particular the corrected faction hierarchy alone does not
+  fix its constructor scheduling. No unsuccessful variants were retained.
+
+### Faction factory and shared sentinel initialization (2026-10-28)
+
+- `cFactionConfigData::MakeNew` (0x826761B0) now passes strict plain and LTCG
+  checks, 50/50 words, including relocation consistency. All seven mapped
+  functions in its source file pass both models.
+- Replace the local cConfigBase hierarchy with the existing cScriptHost. The
+  pointer-list sentinel constructor initializes only m_pPtr; the owning
+  cSafeDeletable constructor then links next and previous to the sentinel.
+  Initializing next/previous to zero first leaves two extra stores. Initializing
+  the circular links in the member constructor retains the extra saved r31.
+- The inline constructor definitions are local to the faction translation unit;
+  other files retain their existing out-of-line cSafeDeletable construction.
+  Shared pointer-list fields now have explicit offset and size checks.
+- CD2 stores 0x820FC01C for both the script-host and final faction registered
+  interfaces in MakeNew. cScriptHost's destructor at 0x8276F0C0 restores the same
+  table. The user authorized the corresponding ICF alias in symbol_aliases.txt.
+- Four manifest WIPs remain: ShowRopeSegments, both arena random-spawn template
+  instantiations, and Flatten2D. Scratch-only probes of modulo helper inlining,
+  vector subscript return types, complete spawn-point inheritance, nonstatic
+  arena methods under LTCG, scalar alignment, and floating-point helper/member
+  expressions did not yield another exact match. No unsuccessful variant was
+  applied to the source files.
+- Final verification: VERIFY: PASS; 546/546 plain matched functions and 549/549
+  LTCG matched functions pass, with four manifest WIPs. Header layout checks,
+  recorded-fact validation, all verification self-tests, and git diff --check pass.
+
+### Rope callback and visible variadic callee (2026-10-28)
+
+- The unchanged ShowRopeSegments implementation (0x82806D40) passes strict
+  `check --ltcg`, 34/34 words including relocation checks, when the real
+  GDb::ConsoleOutput definition is compiled as a separate /GL dependency.
+  A declaration-only stub leaves the frame 16 bytes smaller. Merely declaring
+  the callee noinline, or providing an inline body, does not reproduce it.
+- Reconstructed ConsoleOutput at 0x825D0CF0 independently passes strict plain
+  and LTCG checks, 23/23 words: wchar_t buffer[256], va_start, and a call to
+  _vsnwprintf_s(buffer, 255, _TRUNCATE, fmt, args). IDA confirms that retail CD2
+  discards the formatted result; the reference builds also output it.
+- The user authorized adding the owning source/split and compiling this
+  source-backed dependency in the LTCG model. Comparison, masking, and
+  relocation-validation logic were not changed. The dependency registration is
+  currently explicit in verify_ltcg.py; broader build-model cleanup remains.
+  The user subsequently confirmed that the correct match should be retained.
+- Final verification: VERIFY: PASS; 547/547 plain matched functions and 551/551
+  LTCG matched functions pass. Three manifest WIPs remain: both arena random
+  spawn-point templates and Flatten2D. Target facts and git diff --check pass.
+
+### Standard verifier restored (2026-10-28)
+
+- The user discarded the one-off ConsoleOutput dependency extension in
+  verify_ltcg.py. With the restored tool, ShowRopeSegments is 29/34 words in
+  both plain and LTCG checks. Its manifest entry is WIP again, superseding the
+  experimental promotion above. Four manifest WIPs remain.
+- The independent ConsoleOutput implementation remains subject to the normal
+  checker and does not inject a callee definition into the rope compilation.
+- Re-ran the restored verifier: VERIFY: PASS; 547/547 plain matched functions,
+  550/550 LTCG matched functions, and four WIPs. ConsoleOutput independently
+  remains EXACT, 23/23 words, in plain and LTCG checks. Facts were regenerated;
+  verify_ltcg.py has no Git diff and git diff --check passes.

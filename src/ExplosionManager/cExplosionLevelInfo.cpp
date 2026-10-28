@@ -1,11 +1,38 @@
-// src/ExplosionManager/cExplosionLevelInfo.cpp
-//
-// Class: cExplosionLevelInfo (namespace: ExplosionManager). Set up automatically: no function is matched yet. The
-// address range and the evidence for it are in config/splits.txt; RuffKing's object for it is cExplosionLevelInfo.obj.
-//
-// Reference layout from a later build of the same codebase (a starting point, not CD2's: verify it against CD2's code):
-// include/ref/ruffking/ExplosionManager_cExplosionLevelInfo.h.
-//
-// Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
-// include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
-//     py -I tools/cd2.py tasks src/ExplosionManager/cExplosionLevelInfo.cpp
+// ExplosionManager/cExplosionLevelInfo.cpp: four mapped functions verified exact.
+// Reference layout: include/ref/ruffking/ExplosionManager_cExplosionLevelInfo.h.
+// The constructor supplies the vtable used by the deleting destructor; its factory
+// has not been promoted as an exact match.
+
+#include "ExplosionManager/cExplosionLevelInfo.h"
+#include "cd2/memory.h"
+#include "rws/classfactory.h"
+#include "fun_runtime/class.h"
+
+namespace ExplosionManager
+{
+    cExplosionLevelInfo::cExplosionLevelInfo(const RWS::CAttributePacket &)
+        : m_nLevel(0), m_fExplosionTime(1.0f), m_fVFXScale(1.0f),
+          m_fAccumulationRadius(5.0f),
+          m_fMaxDamage(Fun_Runtime::g_GlobalConstants.CONST_FLOAT_0),
+          m_fMinDamage(Fun_Runtime::g_GlobalConstants.CONST_FLOAT_0),
+          m_fMaxForce(Fun_Runtime::g_GlobalConstants.CONST_FLOAT_0),
+          m_fDamageRadius(10.0f), m_fDecalRadius(5.0f),
+          m_nExplosionEffectLevel(Fun_Runtime::g_GlobalConstants.CONST_INT_0),
+          m_fExplosionSoundVolume(Fun_Runtime::g_GlobalConstants.CONST_FLOAT_0),
+          m_nWaterExplosionVFXID(-1), m_nUVExplosionVFXID(-1), m_fCameraShakeAmount(20.0f)
+    {
+    }
+
+    RWS::CAttributeHandler *cExplosionLevelInfo::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cExplosionLevelInfo(packet);
+    }
+
+    const char *cExplosionLevelInfo::RetClassName() const
+    {
+        return "cExplosionLevelInfo";
+    }
+
+    static RWS::CClassFactory::CRegistrar cExplosionLevelInfoRegistrar(
+        "cExplosionLevelInfo", cExplosionLevelInfo::MakeNew, 0x80, false);
+}

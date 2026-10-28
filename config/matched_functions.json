@@ -72,9 +72,7 @@
       {
         "address": "0x826761B0",
         "size": 200,
-        "symbol": "?MakeNew@cFactionConfigData@GangManager@@",
-        "matching": false,
-        "note": "constructor inlined; same stores as CD2 but our register allocation needs r31 (scheduling puzzle)"
+        "symbol": "?MakeNew@cFactionConfigData@GangManager@@"
       }
     ],
     "src/VFX/cAmbientVFXSpawner.cpp": [
@@ -293,15 +291,24 @@
         "address": "0x828060B8",
         "size": 436,
         "symbol": "??0cRopes@VFX@@",
-        "matching": false,
-        "note": "stores match; CD2 has one extra dead addi r11,r30,0x7C that shifts scheduling"
+        "note": "IDA-verified cRegisteredClass/cScriptHost hierarchy; strict plain and LTCG exact"
       },
       {
         "address": "0x82806D40",
         "size": 136,
         "symbol": "?ShowRopeSegments@cRopes@VFX@@",
         "matching": false,
-        "note": "only the stack frame differs: 0x70 in CD2, 0x60 here"
+        "note": "29/34 words with the standard verifier; stack frame differs by 16 bytes"
+      },
+      {
+        "address": "0x82807380",
+        "size": 8,
+        "symbol": "?RetClass@cRopes@VFX@@WEM@"
+      },
+      {
+        "address": "0x82807388",
+        "size": 8,
+        "symbol": "?IsA@cRopes@VFX@@WEM@"
       }
     ],
     "src/GameManagement/cGameModeArena.cpp": [
@@ -1047,6 +1054,21 @@
         "address": "0x823EC018",
         "size": 12,
         "symbol": "?GetFloat504_9C@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823EBFB8",
+        "size": 64,
+        "symbol": "?GetFloatConditional@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823EC1B8",
+        "size": 60,
+        "symbol": "?CheckField548@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823EC378",
+        "size": 40,
+        "symbol": "?GetBool38_50@cCharacterEntityIF@AI@@"
       }
     ],
     "src/cAgencyGarageDoor.cpp": [
@@ -3243,6 +3265,35 @@
         "address": "0x827867D0",
         "size": 92,
         "symbol": "?IsA@cVehicleCollectionZone@VEHICLE_CONTROL@@"
+      }
+    ],
+    "src/GDb/ConsoleOutput.cpp": [
+      {
+        "address": "0x825D0CF0",
+        "size": 92,
+        "symbol": "?ConsoleOutput@GDb@@"
+      }
+    ],
+    "src/ExplosionManager/cExplosionLevelInfo.cpp": [
+      {
+        "address": "0x8263E6D0",
+        "size": 12,
+        "symbol": "?RetClassName@cExplosionLevelInfo@ExplosionManager@@"
+      },
+      {
+        "address": "0x8263E6E0",
+        "size": 92,
+        "symbol": "??_GcExplosionLevelInfo@ExplosionManager@@"
+      },
+      {
+        "address": "0x82FD5440",
+        "size": 76,
+        "symbol": "??__EcExplosionLevelInfoRegistrar@ExplosionManager@@"
+      },
+      {
+        "address": "0x8303FB68",
+        "size": 12,
+        "symbol": "??__FcExplosionLevelInfoRegistrar@ExplosionManager@@"
       }
     ]
   }

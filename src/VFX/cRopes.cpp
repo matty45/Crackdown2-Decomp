@@ -1,3 +1,8 @@
+// Matching update (2026-10-28): ShowRopeSegments remains WIP, 29/34 words with
+// the standard verifier. The experimental callee-model extension was discarded.
+// Matching update (2026-10-28): the constructor is strict EXACT in plain and
+// LTCG builds after correcting the debug-handler and script-host inheritance.
+// The historical constructor and RetClass/IsA thunk limitations below are superseded.
 // VFX/cRopes.cpp: rope renderer of Crackdown 2.
 // Measurement batch 1 (2026-10-23, Sonnet 5.5): 20 of the file's 25 functions byte-exact (see config/matched_functions.json).
 // Not done: Render (443 instructions, D3D/VMX128 internals), the constructor (CD2 has one extra dead addi),
@@ -6,6 +11,11 @@
 #include "VFX/cRopes.h"
 #include "rw/rwmem.h"
 
+// The reserve instantiation belongs to another translation unit (CD2 0x826104B8).
+// Keep its external definition, including its size argument, visible to LTCG.
+extern template void std::vector<VFX::RopeSegmentData *,
+    Fun_Runtime::cAllocator<VFX::RopeSegmentData *> >::reserve(size_t);
+
 namespace Fun_Runtime
 {
     template <class T> cPoolBase<T>::~cPoolBase() {}
@@ -13,7 +23,7 @@ namespace Fun_Runtime
 
 D3DVertexDeclaration *CreateRopeVertexDecl(const D3DVERTEXELEMENT9 *);
 #include <stdio.h>
-void ConsoleOutput(const wchar_t *fmt, ...);
+#include "GDb/console.h"
 
 namespace VFX
 {
@@ -112,7 +122,7 @@ namespace VFX
         int value = 0;
         if (swscanf(cmdLine, L"%d", &value) > 0)
             m_bRenderRopes = value != 0;
-        ConsoleOutput(L"Ropes now: %s", m_bRenderRopes ? L"on" : L"off");
+        GDb::ConsoleOutput(L"Ropes now: %s", m_bRenderRopes ? L"on" : L"off");
     }
 
     static RWS::CClassFactory::CRegistrar cRopesRegistrar("cRopes", cRopes::MakeNew, 0xCC, false);

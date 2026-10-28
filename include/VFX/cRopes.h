@@ -1,3 +1,7 @@
+// Hierarchy correction (2026-10-28): CD2's four-byte debug handler inherits
+// cRegisteredClass. Its table at 0x8212DC9C contains RetClass, IsA and the
+// virtual destructor. This inheritance preserves the constructor's base-address
+// calculation and produces CD2's RetClass/IsA adjustment thunks.
 // VFX::cRopes: rope renderer (CD2 object size 0xCC). Layout from CD2's code; RuffKing's class is 0x118 with different
 // bases. Bases: cNonGameBase (gom/non_game_base.h) and the debug-page handler at 0x7C (a stand-in for
 // GDb::cDebugPageHandler: only the slots cRopes needs).
@@ -201,12 +205,13 @@ namespace VFX
         RopeSegmentData() : x0(0.0f), y0(0.0f), z0(0.0f), x1(0.0f), y1(0.0f), z1(0.0f) {}
     };
 
-    class cDebugPageHandler
+    class cDebugPageHandler : public Fun_Runtime::cRegisteredClass
     {
     public:
         cDebugPageHandler() {}
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         virtual ~cDebugPageHandler() {}
-        virtual void RenderDebugPage(int, int) {}
     };
 
     class cRopes : public cNonGameBase, public cDebugPageHandler

@@ -1,3 +1,7 @@
+// Hierarchy correction (2026-10-28): the six-slot table at 0x82146F00 belongs
+// to cScriptHost, identified through its runtime class descriptor. cSafeDeletable
+// itself has one virtual destructor (table 0x8212BED8). The historical slot
+// interpretation below is superseded by include/fun_runtime/scripthost.h.
 // Fun_Runtime::cSafeDeletable: an object that nulls the safe pointers to it when it dies. Polymorphic base of every
 // game object (cNonGameBase, at 0x1C). Name, size (0x14) and the list head at +4 (itself polymorphic) from the RuffKing
 // and Burn PDBs, which agree with CD2: cNonGameBase's constructor (0x82653588) stores the list head's vptr at 0x20.
@@ -13,12 +17,22 @@
 
 namespace Fun_Runtime
 {
+    class cSafeDeletable;
     class cSafeDeletablePointerBase
     {
     public:
+        cSafeDeletablePointerBase();
         virtual ~cSafeDeletablePointerBase();
-    private:
-        unsigned char m_pad[0xC];
+        // CD2 0x8264B328 initializes the payload before linking this sentinel.
+        cSafeDeletablePointerBase *m_pNext;
+        cSafeDeletablePointerBase *m_pPrev;
+        cSafeDeletable *m_pPtr;
+
+        CD2_LAYOUT_CHECKS(cSafeDeletablePointerBase,
+            CD2_SIZE(cSafeDeletablePointerBase, 0x10)
+            CD2_OFFSET(cSafeDeletablePointerBase, m_pNext, 0x4)
+            CD2_OFFSET(cSafeDeletablePointerBase, m_pPrev, 0x8)
+            CD2_OFFSET(cSafeDeletablePointerBase, m_pPtr, 0xC))
     };
 
     class cSafeDeletable
@@ -28,11 +42,7 @@ namespace Fun_Runtime
 
         cSafeDeletable();
         virtual ~cSafeDeletable();
-        virtual void Slot1();
-        virtual void Slot2();
-        virtual Fun_Runtime::Vec3 RetPosition() const;
-        virtual const char *RetName() const;
-        virtual void Slot5();
+
         void NullifySafeDeletablePointers();
 
         CD2_LAYOUT_CHECKS(cSafeDeletable,

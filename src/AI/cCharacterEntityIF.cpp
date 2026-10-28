@@ -141,26 +141,18 @@ namespace AI
 
     unsigned char cCharacterEntityIF::GetBool38_50() const
     {
-        if (*reinterpret_cast<const unsigned int *>((const char *)this + 0x38) != 0)
-        {
-            if (*reinterpret_cast<const unsigned int *>((const char *)this + 0x50) != 0)
-                return 1;
-        }
-        return 0;
+        bool result = *reinterpret_cast<const unsigned int *>((const char *)this + 0x38) != 0 &&
+            *reinterpret_cast<const unsigned int *>((const char *)this + 0x50) != 0;
+        return result;
     }
 
     unsigned char cCharacterEntityIF::CheckField548() const
     {
-        const unsigned int p = *reinterpret_cast<const unsigned int *>((const char *)this + 0x88);
-        if (p != 0)
+        const CHARACTER::cCharacter *character = RetCharacter();
+        if (character)
         {
-            const volatile unsigned int qv = p - 0x1C;
-            const unsigned int q = qv;
-            if (q != 0)
-            {
-                const unsigned int v = *reinterpret_cast<const unsigned int *>((const char *)q + 0x548);
-                return (0x30000 - (v & 0xFFFF0000)) == 0;
-            }
+            const unsigned int v = *reinterpret_cast<const unsigned int *>((const char *)character + 0x548);
+            return (0x30000 - (v & 0xFFFF0000)) == 0;
         }
         return 0;
     }
@@ -168,15 +160,11 @@ namespace AI
     float cCharacterEntityIF::GetFloatConditional() const
     {
         const unsigned int t = *reinterpret_cast<const unsigned int *>((const char *)this + 0x504);
-        unsigned int p = *reinterpret_cast<const unsigned int *>((const char *)t + 0xC8);
-        p = *reinterpret_cast<const unsigned int *>((const char *)p + 0x88);
-        if (p != 0)
-            p = p - 0x1C;
-        if (p != 0)
-        {
-            if ((*reinterpret_cast<const unsigned char *>((const char *)p + 0x1681) & 0x40) != 0)
-                return 180.0f;
-        }
+        const unsigned int owner = *reinterpret_cast<const unsigned int *>((const char *)t + 0xC8);
+        Fun_Runtime::cSafeDeletable *safe = *reinterpret_cast<Fun_Runtime::cSafeDeletable *const *>((const char *)owner + 0x88);
+        const CHARACTER::cCharacter *p = static_cast<const CHARACTER::cCharacter *>(safe);
+        if ((*reinterpret_cast<const unsigned char *>((const char *)p + 0x1681) & 0x40) != 0)
+            return 180.0f;
         return *reinterpret_cast<const float *>((const char *)t + 0x88);
     }
 }

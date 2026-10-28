@@ -1,3 +1,5 @@
+// Matching update (2026-10-28): all seven mapped functions are strict EXACT,
+// including MakeNew in plain and LTCG builds. The constructor notes below are historical.
 // GangManager/cFactionConfigData.cpp: 6 of 7 functions byte-exact against Crackdown 2 (title update).
 // Whole-file pilot 2 (2026-10-23, Sonnet 5.5; finished by Opus with the /Ob1 flag correction). Exact:
 //   RetClassName 0x82676278, scalar deleting destructor 0x82676328, ~cFactionConfigData 0x82676378,
@@ -10,6 +12,18 @@
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
 #include "rw/rwmem.h"
+
+namespace Fun_Runtime
+{
+    // CD2's inlined sentinel initializes only its payload. The owning
+    // cSafeDeletable constructor supplies both circular links afterward.
+    inline cSafeDeletablePointerBase::cSafeDeletablePointerBase() : m_pPtr(0) {}
+    inline cSafeDeletable::cSafeDeletable()
+    {
+        m_SafeDeletablePointerListHead.m_pNext = &m_SafeDeletablePointerListHead;
+        m_SafeDeletablePointerListHead.m_pPrev = &m_SafeDeletablePointerListHead;
+    }
+}
 
 namespace GangManager
 {

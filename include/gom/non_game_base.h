@@ -1,3 +1,7 @@
+// Hierarchy correction (2026-10-28): cScriptHost groups cSafeDeletable (+0)
+// and cRegisteredClass (+0x14), with its own flag at +0x18. In cNonGameBase this
+// complete base starts at +0x1C; its interfaces retain offsets +0x1C and +0x30.
+// The independent-base interpretation in the historical notes below is superseded.
 // cNonGameBase: base of every game object in Crackdown 2 (directly: VFX::cRopes, VEHICLE_CONTROL::cVehicleController,
 // the AI behaviours; through cGameBase: the equipment and projectile classes). Its constructor (0x82653588) has 48
 // callers in CD2.
@@ -21,14 +25,15 @@
 #include "fun_runtime/class.h"
 #include "fun_runtime/retval.h"
 #include "fun_runtime/safedeletable.h"
+#include "fun_runtime/scripthost.h"
 #include "network/netrole.h"
 #include "gom/object_prototype.h"
 #include "cd2/layout.h"
 
 namespace GOM { class cSpawner; }
 
-class cNonGameBase : public RWS::CAttributeHandler, public RWS::CEventHandler, public Fun_Runtime::cSafeDeletable,
-    public Fun_Runtime::cRegisteredClass, public Network::cNetRoleObject
+class cNonGameBase : public RWS::CAttributeHandler, public RWS::CEventHandler, public Fun_Runtime::cScriptHost,
+    public Network::cNetRoleObject
 {
 private:
     unsigned int m_unk40;

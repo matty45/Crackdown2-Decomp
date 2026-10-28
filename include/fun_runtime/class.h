@@ -58,18 +58,19 @@ namespace Fun_Runtime
 
     // The RetClass/IsA interface of game objects (cNonGameBase, at 0x30). Both are pure in CD2's own vtable
     // (0x820FF0CC) and every game class's copy holds its RetClass and IsA. RuffKing's and Burn's class is the vptr
-    // alone; CD2's is 8 bytes (the next base starts at 0x38).
+    // alone in CD2 too (4 bytes). The flag after cScriptHost's registered-class subobject belongs to cScriptHost;
+    // it pads that complete base to 0x1C. Its next sibling in cNonGameBase starts at 0x38.
     class cRegisteredClass
     {
     public:
         virtual const cClass &RetClass() const = 0;
         virtual bool IsA(const cClass &) const = 0;
     private:
-        unsigned int m_unk04;
+
 
     public:
         CD2_LAYOUT_CHECKS(cRegisteredClass,
-            CD2_SIZE(cRegisteredClass, 0x8))
+            CD2_SIZE(cRegisteredClass, 0x4))
     };
 }
 

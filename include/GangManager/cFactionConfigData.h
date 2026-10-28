@@ -1,3 +1,5 @@
+// Hierarchy update (2026-10-28): the historical cConfigBase/B1/B2/List model
+// below is superseded by the shared cScriptHost and cSafeDeletable definitions.
 // GangManager::cFactionConfigData: per-faction configuration (AR level triggers, faction id, targeting profile link),
 // set from RWS attributes. CD2 layout (0x50 bytes), worked out from F07 (ctor), F14 (dtor) and F15:
 //   0x00 CAttributeHandler (0x18)
@@ -12,6 +14,7 @@
 
 #include "rws/attributes.h"
 #include "cd2/layout.h"
+#include "fun_runtime/scripthost.h"
 
 namespace GangManager
 {
@@ -26,23 +29,13 @@ namespace GangManager
         FACTION_NUM = 6
     };
 
+    // Historical stand-in notes, superseded by the shared hierarchy:
     // Circular list head (vptr, next, prev, count); inline constructor in CD2.
-    class cConfigList
-    {
-    public:
-        cConfigList() : m_pNext(this), m_pPrev(this), m_nCount(0) {}
-        virtual ~cConfigList() {}
-    private:
-        cConfigList *m_pNext;
-        cConfigList *m_pPrev;
-        int m_nCount;
-    };
-
     // Destructor of cConfigBase is out of line in CD2. B2 must have no constructor of its own (flag set in cConfigBase's
     // body) or the compiler leaves a dead this+0x2C address computation in the derived constructor.
-    class cConfigB1 { public: virtual void Reset() {} private: cConfigList m_List; };
-    class cConfigB2 { public: virtual void Notify() {} protected: bool m_bFlag; };
-    class cConfigBase : public cConfigB1, public cConfigB2 { public: cConfigBase() { m_bFlag = false; } virtual ~cConfigBase(); };
+    // Historical cConfigBase stand-in identified as cScriptHost by CD2's
+    // descriptor at 0x8276ED30 and destructor at 0x8276F0C0.
+    typedef Fun_Runtime::cScriptHost cConfigBase;
 }
 
 namespace AI
