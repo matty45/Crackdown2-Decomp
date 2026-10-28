@@ -1147,6 +1147,20 @@
    },
    "size": 8
   },
+  "0x823E79F8": {
+   "ltcg": {
+    "ends": true,
+    "sha": "fccdf46960d1e0dfc76c6a6a5d74fdf826404fb802e73ea61bfb9ddedc7d465d"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [],
+    "sha": "fccdf46960d1e0dfc76c6a6a5d74fdf826404fb802e73ea61bfb9ddedc7d465d",
+    "strings": {},
+    "targets": []
+   },
+   "size": 24
+  },
   "0x823E7A80": {
    "ltcg": {
     "ends": true,
@@ -1161,6 +1175,20 @@
    },
    "size": 8
   },
+  "0x823E7A88": {
+   "ltcg": {
+    "ends": true,
+    "sha": "e4bcab35d0ac0c7386a4c4072ceb7481baa7fd0dba095d4286021107b8b1ed66"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [],
+    "sha": "e4bcab35d0ac0c7386a4c4072ceb7481baa7fd0dba095d4286021107b8b1ed66",
+    "strings": {},
+    "targets": []
+   },
+   "size": 24
+  },
   "0x823E7B30": {
    "ltcg": {
     "ends": true,
@@ -1174,6 +1202,20 @@
     "targets": []
    },
    "size": 8
+  },
+  "0x823E7C18": {
+   "ltcg": {
+    "ends": true,
+    "sha": "9c5ef61434af0e9ac16660d008f57cad86db156dd1f2cf9e7a5b3726b6584cca"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [],
+    "sha": "9c5ef61434af0e9ac16660d008f57cad86db156dd1f2cf9e7a5b3726b6584cca",
+    "strings": {},
+    "targets": []
+   },
+   "size": 24
   },
   "0x823E7C30": {
    "ltcg": {
@@ -1216,6 +1258,34 @@
     "targets": []
    },
    "size": 8
+  },
+  "0x823E92B8": {
+   "ltcg": {
+    "ends": true,
+    "sha": "475d71076dce91bafed77f3bbd6d78a40ea75c17e99ea44d5a48993d2dbce73a"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [],
+    "sha": "475d71076dce91bafed77f3bbd6d78a40ea75c17e99ea44d5a48993d2dbce73a",
+    "strings": {},
+    "targets": []
+   },
+   "size": 16
+  },
+  "0x823EB508": {
+   "ltcg": {
+    "ends": true,
+    "sha": "4b25aa54d6925307b13bf00d1e2811883bb072392c946aa81079d6b99ca603bc"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [],
+    "sha": "4b25aa54d6925307b13bf00d1e2811883bb072392c946aa81079d6b99ca603bc",
+    "strings": {},
+    "targets": []
+   },
+   "size": 12
   },
   "0x823EBF00": {
    "ltcg": {

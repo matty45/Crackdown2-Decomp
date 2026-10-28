@@ -40,6 +40,18 @@ namespace AI
         unsigned char GetByte20() const;
         unsigned char GetByte2E() const;
         float GetFloat278() const;
+        int GetField4E8_4() const;
+        void SetFields4F8(int v, int w);
+        void *GetField5E4() const;
+        void *GetField60() const;
+        void *GetField50() const;
+        const char *RetTriggerEventFlags() const;
+        const char *RetEnemyStatus() const;
+        const char *RetMapStatus() const;
+        void StoreGlobal83803420();
+        int FuncEB518();
+        int FuncEB570();
+        float FuncE8DC8(const void *p) const;
     };
 }
 

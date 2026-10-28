@@ -927,6 +927,31 @@
         "address": "0x823E7C40",
         "size": 8,
         "symbol": "?GetFloat278@cAiPlayer@AI@@"
+      },
+      {
+        "address": "0x823E79F8",
+        "size": 24,
+        "symbol": "?GetField5E4@cAiPlayer@AI@@"
+      },
+      {
+        "address": "0x823E7A88",
+        "size": 24,
+        "symbol": "?GetField60@cAiPlayer@AI@@"
+      },
+      {
+        "address": "0x823E7C18",
+        "size": 24,
+        "symbol": "?GetField50@cAiPlayer@AI@@"
+      },
+      {
+        "address": "0x823E92B8",
+        "size": 16,
+        "symbol": "?SetFields4F8@cAiPlayer@AI@@"
+      },
+      {
+        "address": "0x823EB508",
+        "size": 12,
+        "symbol": "?GetField4E8_4@cAiPlayer@AI@@"
       }
     ],
     "src/AI/cCharacterEntityIF.cpp": [
