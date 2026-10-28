@@ -8,14 +8,14 @@ Contributions are welcome **by hand or with any AI agent**. The tooling is built
 and so that nobody, person or model, can claim a match that is not real: every result is recomputed by tools the
 contributor cannot influence.
 
-## Status (2026-10-27)
+## Status (2026-10-28)
 
 | | |
 |---|---|
 | Functions in the game | 74,551 (as split by jeff) |
-| Source files set up | 380 (8 by hand, 372 automatically) |
-| Functions matched | 417 (414 in a plain build, 3 more under link-time code generation) |
-| In progress / open in the set-up files | 6 / 4,786 |
+| Source files set up | 381 (9 by hand, 372 automatically) |
+| Functions matched | 550 (547 in a plain build, 3 more under link-time code generation) |
+| In progress / open in the set-up files | 4 / 4,657 |
 | Full relink of the split game | byte-identical round trip (`tools/relink.py`) |
 
 `py -I tools\cd2.py status` prints the current numbers.
