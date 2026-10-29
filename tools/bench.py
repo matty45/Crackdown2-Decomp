@@ -276,13 +276,19 @@ def check(addr, model, read, known, aliases, count=True, policy=None):
     return res
 
 
-def run_agent(addr, model, agent, timeout):
-    """Run the agent command in the workspace. Returns (exit code or 'timeout', seconds)."""
+def run_agent(addr, model, agent, timeout, changes=None):
+    """Run the agent command in the workspace. changes: environment variables to set for it (None: remove).
+    Returns (exit code or 'timeout', seconds)."""
     d = workspace(addr, model)
     rp = result_path(addr, model)
     res = json.load(open(rp))
     task = os.path.join(d, 'TASK.md')
     env = dict(os.environ, CD2_TASK=task, CD2_WORKSPACE=d, CD2_CHECK=res['check'])
+    for k, v in (changes or {}).items():
+        if v is None:
+            env.pop(k, None)
+        else:
+            env[k] = v
     cmd = agent.replace('{task}', '"%s"' % task).replace('{workspace}', '"%s"' % d)
     t0 = time.time()
     try:
@@ -386,7 +392,10 @@ def mock_chat_server():
             self.end_headers()
             self.wfile.write(out)
 
-    server = http.server.ThreadingHTTPServer(('127.0.0.1', 0), Handler)
+    class Server(http.server.ThreadingHTTPServer):
+        request_queue_size = 128  # every self-test chat agent may connect at once; a refused one backs off for seconds
+
+    server = Server(('127.0.0.1', 0), Handler)
     threading.Thread(target=server.serve_forever, daemon=True).start()
     return server, 'http://127.0.0.1:%d/v1' % server.server_address[1]
 

@@ -48,7 +48,7 @@ Reference material is in the `refs/` folder.
 | Check | `cd2.py check <file.cpp> [--ltcg] [--explain]` | Source policy, compile, then every mapped function of the file: `EXACT`, a percentage, `LTCG EXACT`, `missing` or `WRONG TARGET` (bytes match but a call or address resolves elsewhere than in CD2). `--explain` adds the mismatch findings for each function not yet exact. Each run is logged to `build/cd2/attempts.jsonl`. |
 | Compare | `cd2.py diff <file.cpp> <address>` | objdiff's instruction diff, CD2 against yours, showing only the differing regions, with **findings**: what kind of mismatch it is and what usually fixes it (below). Call targets and addresses are not flagged here, because `check` verifies them exactly. |
 | Close the gap | `cd2.py search <file.cpp> <address> [--apply]` | Once the structure is right, tries source transformations itself and keeps whatever brings the function closer (below). Writes the file only with `--apply`. |
-| Before a pull request | `cd2.py verify` | Every gate; a maintainer runs the same gates on your pull request before merging it. |
+| Before a pull request | `cd2.py verify` | Every gate; a maintainer runs the same gates on your pull request before merging it. The gates run at the same time, each building `CD2_WORKERS` files at once (default 2, fastest measured with a real-time virus scanner). |
 
 CD2 was built with link-time code generation (`docs/feasibility.md` section 4). Most functions, float code included,
 still compile identically in a plain build. Where LTCG gathered a function's float constants behind one base register

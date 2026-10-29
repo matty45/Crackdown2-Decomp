@@ -49,7 +49,8 @@ Nothing a contributor writes decides what counts as matched: check and verify co
 extracted copy of the game, with the pinned compiler (config/toolchain.txt) and the maintainers' symbol table
 (config/matched_functions.json). docs/contributor-harness.md explains the workflow and the rules.
 """
-import argparse, collections, datetime, hashlib, json, os, re, shutil, struct, subprocess, sys, tempfile
+import argparse, collections, concurrent.futures, datetime, hashlib, json, os, re, shutil, struct, subprocess, sys, tempfile
+import time
 
 TOOLS = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, TOOLS)
@@ -917,12 +918,19 @@ def bench_tasks(man):
     return rows
 
 
-def bench_prepare(man, address, model):
+def bench_prepare(man, address, model, briefs=None):
+    """Prepare a task's workspace. briefs: a dict that keeps each task's file, entry and brief, which do not depend on
+    the model, for preparing the same task again."""
     addr = int(address, 16)
-    hit = next(((f, e) for f, e in bench.candidates(man) if int(e['address'], 16) == addr), None)
-    if not hit:
-        raise Fail('%08X is not a benchmark task (see `bench list`)' % addr)
-    return bench.prepare(hit[0], hit[1], cmd_show(argparse.Namespace(address=address)), model)
+    if briefs is None or addr not in briefs:
+        hit = next(((f, e) for f, e in bench.candidates(man) if int(e['address'], 16) == addr), None)
+        if not hit:
+            raise Fail('%08X is not a benchmark task (see `bench list`)' % addr)
+        got = (hit[0], hit[1], cmd_show(argparse.Namespace(address=address)))
+        if briefs is None:
+            return bench.prepare(*got, model=model)
+        briefs[addr] = got
+    return bench.prepare(*briefs[addr], model=model)
 
 
 def bench_suite_tasks(a):
@@ -1000,56 +1008,71 @@ def cmd_bench(a):
                 (bench_agent('chat:mock-model') + ' --rounds 3', own + 'chat'),
                 ('"%s" -I -c "import sys; sys.exit(3)"' % sys.executable, own + 'error')]  # fails without working
         aliases = relocs.load_aliases(ALIASES)
-        out, stopped = [], None
+        out, stopped, jobs, servers, briefs = [], None, [], [], {}
         for agent, m in runs:
-            saved, server = dict(os.environ), None
             kind = m.split('-', 1)[1] if a.action == 'selftest' else None
+            changes = {}
             if kind == 'chat':  # the built-in chat agent against a local stand-in model: no API, no key
                 server, url = bench.mock_chat_server()
-                for k in ('CD2_LLM_API_KEY', 'CD2_LLM_OPTIONS'):
-                    os.environ.pop(k, None)
-                os.environ['CD2_LLM_BASE_URL'] = url
+                servers.append(server)
+                changes = dict(CD2_LLM_API_KEY=None, CD2_LLM_OPTIONS=None, CD2_LLM_BASE_URL=url)
             todo = tasks
             if kind and (kind.startswith('cheat') or kind == 'error'):  # one task per tier shows these
                 todo = [t for i, t in enumerate(tasks) if t['tier'] not in [x['tier'] for x in tasks[:i]]]
-            failures_in_a_row = 0
-            try:
-                for t in todo:
-                    addr = int(t['address'], 16)
-                    if a.action == 'run' and a.resume and not bench.needs_run(addr, m):
-                        print('%-22s %s tier %d  kept (already has a result)' % (m, t['address'], t['tier']),
-                              file=sys.stderr, flush=True)
-                        continue
-                    bench_prepare(man, t['address'], m)
-                    code, secs = bench.run_agent(addr, m, agent, a.timeout)
-                    rec = json.load(open(bench.result_path(addr, m)))
-                    if bench.agent_failed(rec, os.path.join(bench.workspace(addr, m), rec['file'])):
-                        res = bench.mark_agent_error(addr, m)  # the agent never worked on it: not scored
-                        failures_in_a_row += 1
-                        print('%-22s %s agent error (exit %s, nothing done):\n    %s' % (
-                            m, t['address'], code, res['detail'][-300:].replace('\n', '\n    ')), file=sys.stderr, flush=True)
-                    else:
-                        res = bench.check(addr, m, read, {}, aliases, count=False, policy=bench_policy)
-                        res = dict(res, **{k: v for k, v in bench.mark_scored(addr, m).items() if k == 'agent_error'})
-                        failures_in_a_row = 0
-                    out.append(dict(model=m, kind=kind, address=t['address'], tier=t['tier'], status=res['status'],
-                                    exact=res['exact'], attempts=res['attempts'], agent_exit=code, seconds=secs,
-                                    same_as_repository=res.get('same_as_repository'), detail=res.get('detail', '')))
-                    if a.action == 'selftest' and not selftest_expected(out[-1]):  # keep the evidence of a failure
-                        log = os.path.join(bench.workspace(int(t['address'], 16), m), 'agent.log')
-                        out[-1]['agent_log_tail'] = open(log, errors='replace').read()[-1500:] if os.path.exists(log) else ''
-                    print('%-22s %s tier %d  %-14s %3d attempt(s) %6.1f s' % (
-                        m, t['address'], t['tier'], res['status'], res['attempts'], secs), file=sys.stderr, flush=True)
-                    if a.action == 'run' and failures_in_a_row >= 3:
-                        stopped = ('stopped: the agent failed %d tasks in a row without doing anything (a usage limit, a '
-                                   'missing key, a crash; its output is above and in agent.log). Fix it, then continue '
-                                   'with the same command plus --resume.' % failures_in_a_row)
-                        break
-            finally:
-                if server:
-                    server.shutdown()
-                    os.environ.clear()
-                    os.environ.update(saved)
+            jobs += [(t, m, agent, kind, changes) for t in todo]
+
+        def one(job):
+            """One task: prepare, run the agent, score. Returns (row, agent failed), or None if kept."""
+            t, m, agent, kind, changes = job
+            addr = int(t['address'], 16)
+            if a.action == 'run' and a.resume and not bench.needs_run(addr, m):
+                print('%-22s %s tier %d  kept (already has a result)' % (m, t['address'], t['tier']),
+                      file=sys.stderr, flush=True)
+                return None
+            bench_prepare(man, t['address'], m, briefs)
+            code, secs = bench.run_agent(addr, m, agent, a.timeout, changes)
+            rec = json.load(open(bench.result_path(addr, m)))
+            failed = bench.agent_failed(rec, os.path.join(bench.workspace(addr, m), rec['file']))
+            if failed:
+                res = bench.mark_agent_error(addr, m)  # the agent never worked on it: not scored
+                print('%-22s %s agent error (exit %s, nothing done):\n    %s' % (
+                    m, t['address'], code, res['detail'][-300:].replace('\n', '\n    ')), file=sys.stderr, flush=True)
+            else:
+                res = bench.check(addr, m, read, {}, aliases, count=False, policy=bench_policy)
+                res = dict(res, **{k: v for k, v in bench.mark_scored(addr, m).items() if k == 'agent_error'})
+            row = dict(model=m, kind=kind, address=t['address'], tier=t['tier'], status=res['status'],
+                       exact=res['exact'], attempts=res['attempts'], agent_exit=code, seconds=secs,
+                       same_as_repository=res.get('same_as_repository'), detail=res.get('detail', ''))
+            if a.action == 'selftest' and not selftest_expected(row):  # keep the evidence of a failure
+                log = os.path.join(bench.workspace(addr, m), 'agent.log')
+                row['agent_log_tail'] = open(log, errors='replace').read()[-1500:] if os.path.exists(log) else ''
+            print('%-22s %s tier %d  %-14s %3d attempt(s) %6.1f s' % (
+                m, t['address'], t['tier'], res['status'], res['attempts'], secs), file=sys.stderr, flush=True)
+            return row, failed
+        failures_in_a_row = 0
+        try:
+            if a.action == 'selftest':
+                # every task of every self-test agent is independent (a workspace and a result file each, the
+                # environment passed per agent, a stand-in chat model that keeps no state), so they all run at once;
+                # a real agent's tasks run one after another
+                # (the chat agent's tasks, which run checks of their own, start first: they take longest)
+                pool = concurrent.futures.ThreadPoolExecutor(max_workers=verify_ltcg.WORKERS)
+                out = [row for row, _ in pool.map(one, sorted(jobs, key=lambda job: job[3] != 'chat'))]
+                pool.shutdown()
+            for job in (jobs if a.action == 'run' else []):
+                got = one(job)
+                if got is None:
+                    continue
+                out.append(got[0])
+                failures_in_a_row = failures_in_a_row + 1 if got[1] else 0
+                if failures_in_a_row >= 3:
+                    stopped = ('stopped: the agent failed %d tasks in a row without doing anything (a usage limit, a '
+                               'missing key, a crash; its output is above and in agent.log). Fix it, then continue '
+                               'with the same command plus --resume.' % failures_in_a_row)
+                    break
+        finally:
+            for server in servers:
+                server.shutdown()
         if a.action == 'selftest':
             def runs_of(kind):
                 return [r for r in out if r['kind'] == kind]
@@ -1200,6 +1223,20 @@ def cmd_verify(a):
              ('self-test: search transformations', py + [os.path.join(TOOLS, 'search.py'), '--self-test'], r'self-test'),
              ('self-test: jump table relocations', py + ['-m', 'unittest', 'discover', '-s',
                 os.path.join(ROOT, 'tests'), '-p', 'test_jump_table_relocations.py'], r'Ran |^OK$|FAILED|ERROR')]
+    # the external gates are independent (each builds in its own temporary directory; the benchmark self-test's
+    # workspaces are private to its process), so they all run at once while the in-process gates run here
+    pool = concurrent.futures.ThreadPoolExecutor(max_workers=len(gates))
+    t0, runs = time.time(), {}
+
+    def run(name, cmd):
+        r = subprocess.run(cmd, capture_output=True, text=True)
+        print('%s: done in %d s' % (name, time.time() - t0), file=sys.stderr, flush=True)
+        return r
+    print('running %d gates in parallel...' % sum(1 for _, cmd, _ in gates if cmd), file=sys.stderr, flush=True)
+    for name, cmd, pattern in gates:
+        if cmd:
+            runs[name] = pool.submit(run, name, cmd)
+    pool.shutdown(wait=False)
     out = []
     for name, cmd, pattern in gates:
         if name == 'toolchain':
@@ -1216,8 +1253,7 @@ def cmd_verify(a):
             ok, cases = policy_self_test()
             out.append(dict(gate=name, ok=ok, detail='%d of %d cases as expected' % (sum(c['ok'] for c in cases), len(cases))))
             continue
-        print('%s...' % name, file=sys.stderr, flush=True)
-        r = subprocess.run(cmd, capture_output=True, text=True)
+        r = runs[name].result()
         lines = [l.strip() for l in (r.stdout + r.stderr).splitlines() if l.strip()]
         summary = [l for l in lines if re.search(pattern, l)]
         if 'self-test' in name and 'benchmark' not in name and 'jump table' not in name:

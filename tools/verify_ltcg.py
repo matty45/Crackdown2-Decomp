@@ -23,7 +23,7 @@ Comparison masks address immediates only: halves derived from a `lis`, loads/sto
 calls that leave the function. Everything else (offsets, registers, opcodes, intra-function branches) must match.
 The build and comparison functions (build_ltcg, compare_ltcg, direct_constants) are also used by agent harnesses.
 """
-import bisect, json, math, os, re, shutil, struct, subprocess, sys, tempfile
+import bisect, concurrent.futures, json, math, os, re, shutil, struct, subprocess, sys, tempfile
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import coff
@@ -31,6 +31,9 @@ import relocs
 from verify_src import pe_reader, FLAGS, XDK, BIN, ROOT, EXPECTED_ENTRY, check_toolchain
 
 POOL_START, POOL_SIZE = 0x820F8C80, 0x8000  # CD2's LTCG constant pool (__pool@_0)
+# builds each gate runs at once (CD2_WORKERS). verify runs every gate at the same time, and with a real-time virus
+# scanner more builds at once are slower: 2 per gate measured fastest (verify 49 s; 60 s with 3, 88 s with 4)
+WORKERS = max(1, int(os.environ.get('CD2_WORKERS', 2)))
 RDATA = (0x82000400, 0x8216F658)
 LOADS = {32, 33, 34, 35, 40, 41, 42, 43, 46, 48, 49, 50, 51, 58}
 STORES = {36, 37, 38, 39, 44, 45, 47, 52, 53, 54, 55, 62}
@@ -586,10 +589,19 @@ def main():
     work = keep or tempfile.mkdtemp(prefix='cd2ltcg_')
     totals = dict(n=0, plain=0, ltcg=0, tracked=0, tracked_ok=0)
     ref_entries, ref_problems, known, nref = [], [], {}, 0
-    for src, funcs in manifest['files'].items():
-        if only not in src:
-            continue
-        res = check_file(src, funcs, read, env, os.path.join(work, os.path.splitext(os.path.basename(src))[0]))
+
+    def one(job):
+        """One file's build, in its own directory, with its output kept for printing in manifest order."""
+        src, funcs = job
+        lines = []
+        res = check_file(src, funcs, read, env, os.path.join(work, re.sub(r'\W', '_', os.path.splitext(src)[0])),
+                         out=lines.append)
+        return lines, res
+    jobs = [(src, funcs) for src, funcs in manifest['files'].items() if only in src]
+    pool = concurrent.futures.ThreadPoolExecutor(max_workers=WORKERS)
+    for lines, res in pool.map(one, jobs):
+        for line in lines:
+            print(line)
         if res is None:
             continue
         ref_entries += res['entries']

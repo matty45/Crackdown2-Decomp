@@ -16,7 +16,7 @@ function in config/matched_functions.json, facts from which a match can be confi
 `verify` compiles every file with the pinned compiler and reaches the same verdicts as tools/verify_src.py and
 tools/verify_ltcg.py. A function whose relocations moved, or a new entry, needs `record` again (with the game).
 """
-import hashlib, json, os, struct, subprocess, sys, tempfile
+import concurrent.futures, hashlib, json, os, re, struct, subprocess, sys, tempfile
 
 TOOLS = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, TOOLS)
@@ -140,8 +140,17 @@ def verify(override=None, ltcg=True, out=print):
         if (addr, n) in contents:
             return contents[(addr, n)]
         raise KeyError('no recorded fact for %d bytes at %08X' % (n, addr))
+    # every file compiles at once, each into its own directory; the checks below read the results in manifest order
+    pool = concurrent.futures.ThreadPoolExecutor(max_workers=verify_ltcg.WORKERS)
+
+    def own_dir(src, kind):
+        d = os.path.join(tmp, kind + '_' + re.sub(r'\W', '_', os.path.splitext(src)[0]))
+        os.makedirs(d, exist_ok=True)
+        return d
+    objs = dict(zip(man['files'], pool.map(lambda src: compile_plain(src, own_dir(src, 'plain'), override.get(src)),
+                                           man['files'])))
     for src, funcs in man['files'].items():
-        obj = compile_plain(src, tmp, override.get(src))
+        obj = objs[src]
         compiled = list(coff.functions(obj))
         robj = relocs.Obj(obj)
         out(src)
@@ -218,14 +227,16 @@ def verify(override=None, ltcg=True, out=print):
 
     def no_read(addr, n):
         raise KeyError('no recorded fact for %d bytes at %08X' % (n, addr))
-    for src, funcs in man['files'].items():
-        d = os.path.join(tmp, 'ltcg_' + os.path.basename(src))
-        plain = compile_plain(src, tmp, override.get(src))
+    def build(src):
+        d, plain = own_dir(src, 'ltcg'), objs[src]
         consts = [(op, struct.unpack('>d', bytes.fromhex(h))[0]) for op, h in facts['files'].get(src, {}).get('direct_constants', [])]
         lread, fs, _ = verify_ltcg.build_ltcg(override.get(src) or os.path.join(ROOT, src), plain, consts, d, env(),
                                               extra_flags=['/I' + os.path.dirname(os.path.join(ROOT, src))],
                                               deps=verify_ltcg.dependencies(src, plain, d, env(), man, override))
-        syms = verify_ltcg.map_symbols(os.path.join(d, 't.map'))
+        return lread, fs, verify_ltcg.map_symbols(os.path.join(d, 't.map'))
+    builds = dict(zip(man['files'], pool.map(build, man['files'])))
+    for src, funcs in man['files'].items():
+        lread, fs, syms = builds[src]
         for f in funcs:
             if not f.get('matching', True):
                 continue
@@ -292,6 +303,8 @@ def self_test():
     ok = True
     for what, src, old, new, near in cases:
         text = open(os.path.join(ROOT, src), newline='').read()
+        nl = '\r\n' if '\r\n' in text else '\n'  # a checkout may have either line ending
+        old, new = old.replace('\n', nl), new.replace('\n', nl)
         at = text.index(near) if near else 0
         if text.find(old, at) < 0:
             print('self-test %-30s cannot plant it (update the self-test)' % what)
