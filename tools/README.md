@@ -44,7 +44,6 @@ The compiler and linker must be the builds pinned in `config/toolchain.txt`; eve
 | `mcp_server.py` | The `cd2.py` commands as MCP tools, for any agent that speaks the Model Context Protocol. |
 | `check_tu.py <packet> <file.cpp> [--diff Fnn] [--ltcg]` | The measurement batches' harness, superseded by `cd2.py check`/`diff` for contributors (it needs packets built with IDA): compares a work-in-progress source with every target of a packet built by `packets/build_cd2.py`. A byte-exact function whose references point elsewhere than CD2's is reported as `WRONGTGT`, not exact (needs `CD2_EXE`). |
 | `sweep.py <default.exe> <spec.py>` | Compiles named source variants and reports how each matches chosen functions. Use it to find the source shape behind an instruction pattern. |
-| `headers/ref_dump.ps1` | Maintainers only: dumps reference types from the RuffKing or Burn PDB (via resym) into `include/ref/`. Contributors never need the PDBs. |
 | `packets/build_cd2.py`, `packets/build_ruffking.py` | IDA scripts that build per-file packets: CD2 targets, and RuffKing reference material. |
 | `build_tools.ps1` | Builds jeff and objdiff-cli from the submodules, with the patches in `patches/<tool>/` applied in order; `build_tools.ps1 resym` adds resymc (maintainers). |
 

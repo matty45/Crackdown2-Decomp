@@ -16,17 +16,17 @@
 | `gom/object_prototype.h` | `GOM::cObjectPrototype` and `ResourceManager::cStreamingResourceClient`: the base of every prototype | yes, via the chase, flocket and helicopter prototypes |
 | `gom/non_game_base.h` | `cNonGameBase`: the base of every game object (5 bases at 0, 0x18, 0x1C, 0x30, 0x38; 68 primary slots; 0x7C bytes) | yes, via `cRopes`, `cChaseBehaviour`, `cHelicopterController`, `cFlocket` |
 | `<Namespace>/<Class>.h` | per-class headers (`CHARACTER/`, `GangManager/`, `VFX/`, `GameManagement/`); unknown bases are named stand-ins of the right size and slot count, described at the top of each header | yes, with the matching `src/` file |
-| `ref/<build>/` | raw reference type dumps from two later builds of the same codebase, RuffKing (Ryse prototype) and Burn (Crackdown 3 alpha), made by maintainers with `tools/headers/ref_dump.ps1` (resym output). They are in the repository so that contributors need no PDB. | no, reference only |
+
 
 XDK headers are real and come from the XDK itself (`XDK\include\xbox`), so they are not copied here.
 
 Most source files were set up automatically (see `config/splits.txt`) and their classes have no header yet. The first
 person to work on such a class adds `<Namespace>/<Class>.h` following the conventions below. Most of these classes have
-a reference dump in `ref/` (the type only: its bases are named, not expanded); the source file names it. Classes in
+a reference dump in `refs/` (the type only: its bases are named, not expanded); the source file names it. Classes in
 neither later build have none, and their layout comes from CD2's code alone.
 
 ## Conventions for curated headers
-- Source: the reference dumps in `ref/` (RuffKing first, Burn second). Treat a dump as a starting point, never as truth for CD2. A type that is not dumped yet can be requested from a maintainer: dumping needs the reference PDBs, contributing never does.
+- Source: the reference dumps in `refs/` (RuffKing first, Burn second). Treat a dump as a starting point, never as truth for CD2. A type that is not dumped yet can be requested from a maintainer: dumping needs the reference PDBs, contributing never does.
 - Keep the member order, the access specifiers and the order of virtual functions exactly as in the PDB. Access is encoded in mangled names, and virtual order *is* the vtable.
 - Drop compiler-generated members (`__vecDelDtor`, `__local_vftable_ctor_closure`); the compiler regenerates them.
 - End every class with `CD2_LAYOUT_CHECKS` covering its size and its key field offsets. A wrong layout then fails the build (C2118).

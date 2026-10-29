@@ -5,7 +5,7 @@
 // cAgressiveResponseTurretVehicleSetup.obj.
 //
 // Reference layout from a later build of the same codebase (a starting point, not CD2's: verify it against CD2's code):
-// include/ref/burn/GangManager_cAgressiveResponseTurretVehicleSetup.h.
+// refs/burn_peb_ref/Burn/Main/Source/Code/Libraries/Shared/GangManager/cAgressiveResponseTurretVehicleSetup.h.
 //
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:

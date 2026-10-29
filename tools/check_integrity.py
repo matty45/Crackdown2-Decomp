@@ -12,7 +12,7 @@ it). All checks must pass:
                 entries marked "folded" must be listed as folded for that file and lie outside its range
   4. claims     no address is claimed by two files, and no file claims an address another file lists as folded
   5. order      the files' text ranges, initializers and at-exit destructors appear in the same (link) order
-  6. types      no class/struct/union is defined in more than one place (include/ except include/ref, and src/)
+  6. types      no class/struct/union is defined in more than one place (include/ and src/)
   7. functions  no non-inline function is defined by more than one source file (COMDAT selection NODUPLICATES)
   8. binaries   no binary file anywhere git would track (by extension or NUL bytes): the repository holds source and
                 text only; tools are submodules built from source (tools/build_tools.ps1)
@@ -92,8 +92,6 @@ def type_definitions(extra_roots=()):
     roots = [os.path.join(ROOT, 'include'), os.path.join(ROOT, 'src')] + list(extra_roots)
     for root in roots:
         for dp, dn, fn in os.walk(root):
-            if os.path.join(ROOT, 'include', 'ref') in dp:
-                continue
             for f in fn:
                 if not f.endswith(('.h', '.cpp')):
                     continue

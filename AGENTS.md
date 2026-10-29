@@ -27,7 +27,7 @@ search for either.
    prototypes derive from `GOM::cObjectPrototype` (`include/gom/object_prototype.h`). Never define a second copy of a
    type that already exists: search `include/` first. A missing type gets its own header, one class per header, at
    `include/<Namespace>/<Class>.h`, marked as a stand-in with your evidence (see `include/README.md`). Start from the
-   reference layout the source file's top comment names (`include/ref/...`): it comes from a later build of the same
+   reference layout the source file's top comment names (`refs/...`): it comes from a later build of the same
    codebase, so check every size and offset against CD2's code.
 5. **Stay in the file.** Write a function in the source file that owns its address (`config/splits.txt`).
 6. **Nothing from the game in the repository.** Never paste the game's bytes or assembly into a committed file.

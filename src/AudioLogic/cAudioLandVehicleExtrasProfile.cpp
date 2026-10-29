@@ -5,7 +5,7 @@
 // cAudioLandVehicleExtrasProfile.obj.
 //
 // Reference layout from a later build of the same codebase (a starting point, not CD2's: verify it against CD2's code):
-// include/ref/ruffking/AudioLogic_cAudioLandVehicleExtrasProfile.h.
+// refs/ruffking_pdb_ref/DevBranches/Kingdoms/Source/Code/Libraries/Shared/Audio/cAudioLandVehicleExtrasProfile.h.
 //
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:

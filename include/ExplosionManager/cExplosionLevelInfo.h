@@ -1,4 +1,4 @@
-// STAND-IN: reference include/ref/ruffking/ExplosionManager_cExplosionLevelInfo.h.
+// STAND-IN: reference refs/ruffking_pdb_ref/DevBranches/Kingdoms/Source/Code/Libraries/Shared/ExplosionManager/cExplosionLevelInfo.h.
 // CD2's registrar at 0x82FD5440 gives size 0x80. The deleting destructor at
 // 0x8263E6E0 resets this class's vptr and calls CAttributeHandler's destructor.
 // Attribute offsets agree with the reference and CD2's factory at 0x8263E5E0.

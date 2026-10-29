@@ -47,18 +47,3 @@ Inputs in the work directory:
 - `cd2_labels.json` (library or game origin per function, from `scripts/composition.py`).
 
 The CD2 executable itself comes from `cd2.py setup`. Re-running finds nothing new once files exist (ranges overlap).
-
-## Reference dumps
-
-```
-py -I tools/research/scaffold/ref_dumps.py <work>  # include/ref/<pdb>/<Namespace_Class>.h for every new class
-py -I tools/research/scaffold/link_refs.py <work>  # each new source file names its class's dump
-```
-
-One class at a time, as `tools/headers/ref_dump.ps1 <Type> -NoDeps` (the type only; its bases are named, not expanded):
-RuffKing's PDB first, Burn's when RuffKing lacks the class. Each resymc process needs well under 100 MB and is stopped
-if it ever passes 2 GB. Never use `resymc dump-all`: it builds every type of the PDB in memory at once and can exhaust
-all of a machine's memory. Existing dumps are kept, so the script can be re-run after an interruption.
-
-Result (2026-10-25): 317 of the 372 files have a reference layout (313 new dumps, 1.3 MB; peak 109 MB per process).
-The classes of the other 55 are in neither later build: CD2's own, whose layout comes from CD2's code alone.

@@ -83,7 +83,7 @@ the main branch's tools (`cd2.py review`), and it is merged only when they pass.
 | Path | Contents |
 |---|---|
 | `src/` | the decompiled source files |
-| `include/` | shared, verified headers; `include/ref/` holds reference type dumps from two later builds of the same codebase |
+| `include/` | shared, verified headers |
 | `config/` | maintainer-owned ground truth: file ranges, matched functions, symbol aliases, the pinned toolchain, recorded facts, the benchmark suite |
 | `tools/` | the contributor tool `cd2.py` and the gates; `tools/external/` holds tool submodules built from source |
 | `docs/` | the contributor guide, the matching notes and the feasibility study |

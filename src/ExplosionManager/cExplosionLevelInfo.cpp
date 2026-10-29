@@ -1,5 +1,5 @@
 // ExplosionManager/cExplosionLevelInfo.cpp: four mapped functions verified exact.
-// Reference layout: include/ref/ruffking/ExplosionManager_cExplosionLevelInfo.h.
+// Reference layout: refs/ruffking_pdb_ref/DevBranches/Kingdoms/Source/Code/Libraries/Shared/ExplosionManager/cExplosionLevelInfo.h.
 // The constructor supplies the vtable used by the deleting destructor; its factory
 // has not been promoted as an exact match.
 
