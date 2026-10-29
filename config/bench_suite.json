@@ -12,7 +12,7 @@
   {
    "address": "0x826254B0",
    "size": 12,
-   "file": "src/Equip/cFlocket.cpp",
+   "file": "src/Equip/DLCWeapons/cFlocket.cpp",
    "symbol": "?RetClassName@cFlocket@Equip@@",
    "tier": 1
   },
@@ -110,7 +110,7 @@
   {
    "address": "0x82626F68",
    "size": 296,
-   "file": "src/Equip/cFlocket.cpp",
+   "file": "src/Equip/DLCWeapons/cFlocket.cpp",
    "symbol": "?HandleAttributes@cFlocketPrototype@Equip@@",
    "tier": 2
   },
@@ -131,14 +131,14 @@
   {
    "address": "0x826268A0",
    "size": 148,
-   "file": "src/Equip/cFlocket.cpp",
+   "file": "src/Equip/DLCWeapons/cFlocket.cpp",
    "symbol": "?ReplicateInitialFields@cFlocket@Equip@@",
    "tier": 4
   },
   {
    "address": "0x82626938",
    "size": 188,
-   "file": "src/Equip/cFlocket.cpp",
+   "file": "src/Equip/DLCWeapons/cFlocket.cpp",
    "symbol": "?ReplicateFields@cFlocket@Equip@@",
    "tier": 4
   }

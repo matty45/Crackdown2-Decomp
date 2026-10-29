@@ -150,7 +150,7 @@ print('rejected:', dict(rejected))
 
 print('\nvalidation against the verified files (the class core must lie inside the verified range):')
 verified = {'cChaseBehaviour': 'src/AI/cChaseBehaviour.cpp', 'cNPCTintProfile': 'src/CHARACTER/cNPCTintProfile.cpp',
-            'cFlocket': 'src/Equip/cFlocket.cpp', 'cFactionConfigData': 'src/GangManager/cFactionConfigData.cpp',
+            'cFlocket': 'src/Equip/DLCWeapons/cFlocket.cpp', 'cFactionConfigData': 'src/GangManager/cFactionConfigData.cpp',
             'cHelicopterController': 'src/VEHICLE_CONTROL/cHelicopterController.cpp',
             'cAmbientVFXSpawner': 'src/VFX/cAmbientVFXSpawner.cpp', 'cRopes': 'src/VFX/cRopes.cpp',
             'cGameModeArena': 'src/GameManagement/cGameModeArena.cpp'}

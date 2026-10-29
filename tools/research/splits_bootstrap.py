@@ -18,7 +18,7 @@ PACKETS = [
     ('src/VFX/cRopes.cpp', S + r'\batch\cRopes\cRopes', None),
     ('src/GameManagement/cGameModeArena.cpp', S + r'\batch\cGameModeArena\cGameModeArena', None),
     ('src/AI/cChaseBehaviour.cpp', S + r'\batch2\cChaseBehaviour_r2\cChaseBehaviour', None),
-    ('src/Equip/cFlocket.cpp', S + r'\batch2\cFlocket\cFlocket', None),
+    ('src/Equip/DLCWeapons/cFlocket.cpp', S + r'\batch2\cFlocket\cFlocket', None),
     ('src/VEHICLE_CONTROL/cHelicopterController.cpp', S + r'\batch2\cHelicopterController\cHelicopterController', None),
 ]
 FOLDED = {0x824D2850: 'MakeNew shared by cAgressiveResponseBase, cChaseBehaviour, cAgressiveResponsePilotBehaviour, '

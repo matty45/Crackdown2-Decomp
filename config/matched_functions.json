@@ -526,7 +526,7 @@
         "symbol": "?V108@cChaseBehaviour@AI@@"
       }
     ],
-    "src/Equip/cFlocket.cpp": [
+    "src/Equip/DLCWeapons/cFlocket.cpp": [
       {
         "address": "0x826253E8",
         "size": 12,
@@ -762,7 +762,7 @@
         "note": "59%: xz flatten + optional normalise; fmadds operand choice not matched (58%)"
       }
     ],
-    "src/Prop/cTrafficLight.cpp": [
+    "src/Prop/Custom/cTrafficLight.cpp": [
       {
         "address": "0x82747440",
         "size": 12,
@@ -828,7 +828,7 @@
         "symbol": "??__FcCharacterVFXProfileRegistrar@CHARACTER@@"
       }
     ],
-    "src/AI/Pedestrian.cpp": [
+    "src/AI/Behaviour/NPC/Civilian/Pedestrian.cpp": [
       {
         "address": "0x824A8CB0",
         "size": 12,
@@ -1181,7 +1181,7 @@
         "symbol": "?RetClassName@cKeysToTheCityGameModePrototype@unknown@@"
       }
     ],
-    "src/cLaunchPadConfig.cpp": [
+    "src/PHYSICS/LaunchPad/cLaunchPadConfig.cpp": [
       {
         "address": "0x82713E28",
         "size": 12,
@@ -1203,7 +1203,7 @@
         "symbol": "??__FcLaunchPadConfigRegistrar@unknown@@YAXXZ"
       }
     ],
-    "src/cLaunchPadLocation.cpp": [
+    "src/PHYSICS/LaunchPad/cLaunchPadLocation.cpp": [
       {
         "address": "0x82714110",
         "size": 12,
@@ -1280,7 +1280,7 @@
         "symbol": "?RetClassName@cVehicleTagGameModePrototype@unknown@@"
       }
     ],
-    "src/Activity/cPersistenceProfile.cpp": [
+    "src/Activity/Persistence/cPersistenceProfile.cpp": [
       {
         "address": "0x823D9420",
         "size": 12,
@@ -1302,7 +1302,7 @@
         "symbol": "??__FcPersistenceProfileRegistrar@Activity@@YAXXZ"
       }
     ],
-    "src/AI/cAITargetingProfile.cpp": [
+    "src/AI/Targeting/cAITargetingProfile.cpp": [
       {
         "address": "0x82451CB8",
         "size": 12,
@@ -1316,49 +1316,49 @@
         "symbol": "?RetClassName@cAmbientWanderAttackBehaviour@AI@@"
       }
     ],
-    "src/AI/cBreachExplosion.cpp": [
+    "src/AI/Mission/BreachHole/cBreachExplosion.cpp": [
       {
         "address": "0x82470ED0",
         "size": 12,
         "symbol": "?RetClassName@cBreachExplosion@AI@@"
       }
     ],
-    "src/AI/cCrowdZoneDataHolder.cpp": [
+    "src/AI/Streaming/cCrowdZoneDataHolder.cpp": [
       {
         "address": "0x8244A7F0",
         "size": 12,
         "symbol": "?RetClassName@cCrowdZoneDataHolder@AI@@"
       }
     ],
-    "src/AI/cDocksMission.cpp": [
+    "src/AI/Mission/cDocksMission.cpp": [
       {
         "address": "0x824744B8",
         "size": 12,
         "symbol": "?RetClassName@cDocksMission@AI@@"
       }
     ],
-    "src/AI/CellGuard.cpp": [
+    "src/AI/Behaviour/NPC/Cell/CellGuard.cpp": [
       {
         "address": "0x824C0B60",
         "size": 12,
         "symbol": "?RetClassName@CellGuard@AI@@"
       }
     ],
-    "src/AI/cFactionTargetingProfile.cpp": [
+    "src/AI/Targeting/cFactionTargetingProfile.cpp": [
       {
         "address": "0x82451FF8",
         "size": 12,
         "symbol": "?RetClassName@cFactionTargetingProfile@AI@@"
       }
     ],
-    "src/AI/cForceFieldProfile.cpp": [
+    "src/AI/Mission/Training/cForceFieldProfile.cpp": [
       {
         "address": "0x824889F8",
         "size": 12,
         "symbol": "?RetClassName@cForceFieldProfile@AI@@"
       }
     ],
-    "src/AI/cForceFieldVFXProfile.cpp": [
+    "src/AI/Mission/Training/cForceFieldVFXProfile.cpp": [
       {
         "address": "0x82488E38",
         "size": 12,
@@ -1380,63 +1380,63 @@
         "symbol": "??__FcForceFieldVFXProfileRegistrar@AI@@YAXXZ"
       }
     ],
-    "src/AI/cGlobalGraphDataHolder.cpp": [
+    "src/AI/Streaming/cGlobalGraphDataHolder.cpp": [
       {
         "address": "0x8244AB50",
         "size": 12,
         "symbol": "?RetClassName@cGlobalGraphDataHolder@AI@@"
       }
     ],
-    "src/AI/cMissionActivationCylinder.cpp": [
+    "src/AI/Mission/cMissionActivationCylinder.cpp": [
       {
         "address": "0x8248AFF8",
         "size": 12,
         "symbol": "?RetClassName@cMissionActivationCylinder@AI@@"
       }
     ],
-    "src/AI/cMissionActivationZone.cpp": [
+    "src/AI/Mission/cMissionActivationZone.cpp": [
       {
         "address": "0x8248B4B0",
         "size": 12,
         "symbol": "?RetClassName@cMissionActivationZone@AI@@"
       }
     ],
-    "src/AI/cMissionCompletionZone.cpp": [
+    "src/AI/Mission/cMissionCompletionZone.cpp": [
       {
         "address": "0x8248B6A8",
         "size": 12,
         "symbol": "?RetClassName@cMissionCompletionZone@AI@@"
       }
     ],
-    "src/AI/cTopOfTheWorldTrigger.cpp": [
+    "src/AI/Mission/AchievementMissions/cTopOfTheWorldTrigger.cpp": [
       {
         "address": "0x8248A360",
         "size": 12,
         "symbol": "?RetClassName@cTopOfTheWorldTrigger@AI@@"
       }
     ],
-    "src/AI/cTrainingTrigger.cpp": [
+    "src/AI/Mission/Training/cTrainingTrigger.cpp": [
       {
         "address": "0x824855E0",
         "size": 12,
         "symbol": "?RetClassName@cTrainingTrigger@AI@@"
       }
     ],
-    "src/AI/PedestrianGuard.cpp": [
+    "src/AI/Behaviour/NPC/Civilian/PedestrianGuard.cpp": [
       {
         "address": "0x824AB0A0",
         "size": 12,
         "symbol": "?RetClassName@PedestrianGuard@AI@@"
       }
     ],
-    "src/AI/Scrounger.cpp": [
+    "src/AI/Behaviour/NPC/Freak/Scrounger.cpp": [
       {
         "address": "0x824BAA70",
         "size": 12,
         "symbol": "?RetClassName@Scrounger@AI@@"
       }
     ],
-    "src/AI/Squad.cpp": [
+    "src/AI/Squad/Squad.cpp": [
       {
         "address": "0x824D8210",
         "size": 12,
@@ -1814,7 +1814,7 @@
         "symbol": "?RetClassName@BillboardProfile@Billboard@@"
       }
     ],
-    "src/Cam/cCameraMarker.cpp": [
+    "src/Cam/General/cCameraMarker.cpp": [
       {
         "address": "0x8252CAD8",
         "size": 12,
@@ -1928,21 +1928,21 @@
         "symbol": "??__FcDemoSettingsRegistrar@Demo@@YAXXZ"
       }
     ],
-    "src/Equip/cBulletData.cpp": [
+    "src/Equip/Weapon/cBulletData.cpp": [
       {
         "address": "0x82623EA8",
         "size": 12,
         "symbol": "?RetClassName@cBulletData@Equip@@"
       }
     ],
-    "src/Equip/cLightAttachmentData.cpp": [
+    "src/Equip/Attachments/cLightAttachmentData.cpp": [
       {
         "address": "0x82615A80",
         "size": 12,
         "symbol": "?RetClassName@cLightAttachmentData@Equip@@"
       }
     ],
-    "src/Equip/cUVLightAttachmentData.cpp": [
+    "src/Equip/Attachments/cUVLightAttachmentData.cpp": [
       {
         "address": "0x82616370",
         "size": 12,
@@ -2252,7 +2252,7 @@
         "symbol": "?RetClassName@cVehicleDataPrototype@GangManager@@"
       }
     ],
-    "src/LaunchPad/cLaunchPadTargetLocation.cpp": [
+    "src/LaunchPad/LaunchPad/cLaunchPadTargetLocation.cpp": [
       {
         "address": "0x82714440",
         "size": 12,
@@ -2287,14 +2287,14 @@
         "symbol": "?RetClassName@cSurfaceProfile@PHYSICS@@"
       }
     ],
-    "src/Prop/cHingedDoor.cpp": [
+    "src/Prop/Custom/cHingedDoor.cpp": [
       {
         "address": "0x82744350",
         "size": 12,
         "symbol": "?RetClassName@cHingedDoor@Prop@@"
       }
     ],
-    "src/Prop/cPintleFaceplate.cpp": [
+    "src/Prop/Custom/cPintleFaceplate.cpp": [
       {
         "address": "0x827451F8",
         "size": 12,
@@ -2585,7 +2585,7 @@
         "symbol": "?RetClassName@cVOAZone@ZoneManager@@"
       }
     ],
-    "src/AI/cStreamingDataHolder.cpp": [
+    "src/AI/Streaming/cStreamingDataHolder.cpp": [
       {
         "address": "0x8244C0B0",
         "size": 92,
@@ -2612,21 +2612,21 @@
         "symbol": "??__FcStreamingDataHolderRegistrar@@"
       }
     ],
-    "src/AI/BeaconDropBehaviour.cpp": [
+    "src/AI/Behaviour/NPC/Mission_Specific/BeaconDropBehaviour.cpp": [
       {
         "address": "0x824C7870",
         "size": 92,
         "symbol": "?IsA@BeaconDropBehaviour@AI@@"
       }
     ],
-    "src/AI/BreachPilot.cpp": [
+    "src/AI/Behaviour/NPC/Vehicle/BreachPilot.cpp": [
       {
         "address": "0x824D17A8",
         "size": 92,
         "symbol": "?IsA@BreachPilot@AI@@"
       }
     ],
-    "src/AI/cAgencyTowerSegmentMission.cpp": [
+    "src/AI/Mission/AU/cAgencyTowerSegmentMission.cpp": [
       {
         "address": "0x8245C6E8",
         "size": 92,
@@ -2681,7 +2681,7 @@
         "symbol": "??__FcAnimParamsRegistrar@@"
       }
     ],
-    "src/AI/cAUMission.cpp": [
+    "src/AI/Mission/AU/cAUMission.cpp": [
       {
         "address": "0x8245D4A0",
         "size": 92,
@@ -2708,7 +2708,7 @@
         "symbol": "??__FcAUMissionRegistrar@@"
       }
     ],
-    "src/AI/cBaseJumperMission.cpp": [
+    "src/AI/Mission/AchievementMissions/cBaseJumperMission.cpp": [
       {
         "address": "0x82488F50",
         "size": 92,
@@ -2735,7 +2735,7 @@
         "symbol": "??__FcBaseJumperMissionRegistrar@@"
       }
     ],
-    "src/AI/cBasePatrolRouteEvent.cpp": [
+    "src/AI/Behaviour/NPC/Freak/cBasePatrolRouteEvent.cpp": [
       {
         "address": "0x824BF9C8",
         "size": 92,
@@ -2767,7 +2767,7 @@
         "symbol": "??__FcBasePatrolRouteEventRegistrar@@"
       }
     ],
-    "src/AI/cBeaconMission.cpp": [
+    "src/AI/Mission/AU/cBeaconMission.cpp": [
       {
         "address": "0x824611C8",
         "size": 92,
@@ -2821,21 +2821,21 @@
         "symbol": "??__FcBreachHoleRegistrar@@"
       }
     ],
-    "src/AI/cBreachHoleMission.cpp": [
+    "src/AI/Mission/BreachHole/cBreachHoleMission.cpp": [
       {
         "address": "0x82471310",
         "size": 92,
         "symbol": "?IsA@cBreachHoleMission@AI@@"
       }
     ],
-    "src/AI/cCellStrongholdMission.cpp": [
+    "src/AI/Mission/cCellStrongholdMission.cpp": [
       {
         "address": "0x82474E20",
         "size": 92,
         "symbol": "?IsA@cCellStrongholdMission@AI@@"
       }
     ],
-    "src/AI/cCityGliderMission.cpp": [
+    "src/AI/Mission/AchievementMissions/cCityGliderMission.cpp": [
       {
         "address": "0x82489740",
         "size": 92,
@@ -2862,28 +2862,28 @@
         "symbol": "??__FcCityGliderMissionRegistrar@@"
       }
     ],
-    "src/AI/CellMinigun.cpp": [
+    "src/AI/Behaviour/NPC/Cell/CellMinigun.cpp": [
       {
         "address": "0x824C32D0",
         "size": 92,
         "symbol": "?IsA@CellMinigun@AI@@"
       }
     ],
-    "src/AI/CellRocket.cpp": [
+    "src/AI/Behaviour/NPC/Cell/CellRocket.cpp": [
       {
         "address": "0x824C3EC0",
         "size": 92,
         "symbol": "?IsA@CellRocket@AI@@"
       }
     ],
-    "src/AI/CellTurret.cpp": [
+    "src/AI/Behaviour/NPC/Cell/CellTurret.cpp": [
       {
         "address": "0x824C5318",
         "size": 92,
         "symbol": "?IsA@CellTurret@AI@@"
       }
     ],
-    "src/AI/cFinalMission.cpp": [
+    "src/AI/Mission/AU/cFinalMission.cpp": [
       {
         "address": "0x8246A7D0",
         "size": 92,
@@ -2904,7 +2904,7 @@
         "symbol": "?IsA@cGoliathBreachHole@AI@@"
       }
     ],
-    "src/AI/cGoliathPatrolRouteEvent.cpp": [
+    "src/AI/Behaviour/NPC/Freak/cGoliathPatrolRouteEvent.cpp": [
       {
         "address": "0x824C0038",
         "size": 92,
@@ -2931,7 +2931,7 @@
         "symbol": "??__FcGoliathPatrolRouteEventRegistrar@@"
       }
     ],
-    "src/AI/cHeliCallZone.cpp": [
+    "src/AI/Mission/cHeliCallZone.cpp": [
       {
         "address": "0x8248A3D0",
         "size": 92,
@@ -2958,7 +2958,7 @@
         "symbol": "??__FcHeliCallZoneRegistrar@@"
       }
     ],
-    "src/AI/cMissionTier.cpp": [
+    "src/AI/Mission/cMissionTier.cpp": [
       {
         "address": "0x8248E3E8",
         "size": 92,
@@ -2993,7 +2993,7 @@
         "symbol": "?IsA@cReaperJumpEvent@AI@@"
       }
     ],
-    "src/AI/cRefineryMission.cpp": [
+    "src/AI/Mission/cRefineryMission.cpp": [
       {
         "address": "0x82456A20",
         "size": 92,
@@ -3027,7 +3027,7 @@
         "symbol": "?IsA@cTrainingHeliPilot@AI@@"
       }
     ],
-    "src/AI/cTrainingMission.cpp": [
+    "src/AI/Mission/Training/cTrainingMission.cpp": [
       {
         "address": "0x8247EF88",
         "size": 92,
@@ -3054,14 +3054,14 @@
         "symbol": "??__FcTrainingMissionRegistrar@@"
       }
     ],
-    "src/AI/cTrainingRouteEvent.cpp": [
+    "src/AI/Mission/Training/cTrainingRouteEvent.cpp": [
       {
         "address": "0x82486ED0",
         "size": 92,
         "symbol": "?IsA@cTrainingRouteEvent@AI@@"
       }
     ],
-    "src/AI/cTrainingVOARouteEvent.cpp": [
+    "src/AI/Mission/Training/cTrainingVOARouteEvent.cpp": [
       {
         "address": "0x82487058",
         "size": 92,
@@ -3109,56 +3109,56 @@
         "symbol": "?IsA@cVehicleCollectionBehaviour@AI@@"
       }
     ],
-    "src/AI/EquipmentDropBehaviour.cpp": [
+    "src/AI/Behaviour/NPC/Vehicle/EquipmentDropBehaviour.cpp": [
       {
         "address": "0x824D2C00",
         "size": 92,
         "symbol": "?IsA@EquipmentDropBehaviour@AI@@"
       }
     ],
-    "src/AI/NPCBehaviour.cpp": [
+    "src/AI/Behaviour/NPC/NPCBehaviour.cpp": [
       {
         "address": "0x824A7E00",
         "size": 92,
         "symbol": "?IsA@NPCBehaviour@AI@@"
       }
     ],
-    "src/AI/Peacekeeper.cpp": [
+    "src/AI/Behaviour/NPC/Peacekeeper/Peacekeeper.cpp": [
       {
         "address": "0x824C6850",
         "size": 92,
         "symbol": "?IsA@Peacekeeper@AI@@"
       }
     ],
-    "src/AI/PedestrianInjured.cpp": [
+    "src/AI/Behaviour/NPC/Civilian/PedestrianInjured.cpp": [
       {
         "address": "0x824AB7A0",
         "size": 92,
         "symbol": "?IsA@PedestrianInjured@AI@@"
       }
     ],
-    "src/AI/Reaper.cpp": [
+    "src/AI/Behaviour/NPC/Freak/Reaper.cpp": [
       {
         "address": "0x824B26D8",
         "size": 92,
         "symbol": "?IsA@Reaper@AI@@"
       }
     ],
-    "src/AI/ScroungerKamikaze.cpp": [
+    "src/AI/Behaviour/NPC/Freak/ScroungerKamikaze.cpp": [
       {
         "address": "0x824BDE90",
         "size": 92,
         "symbol": "?IsA@ScroungerKamikaze@AI@@"
       }
     ],
-    "src/AI/ScroungerSlinger.cpp": [
+    "src/AI/Behaviour/NPC/Freak/ScroungerSlinger.cpp": [
       {
         "address": "0x824BE6B8",
         "size": 92,
         "symbol": "?IsA@ScroungerSlinger@AI@@"
       }
     ],
-    "src/AI/TrainingAmbient.cpp": [
+    "src/AI/Behaviour/NPC/Mission_Specific/TrainingAmbient.cpp": [
       {
         "address": "0x824C7D10",
         "size": 92,
@@ -3185,14 +3185,14 @@
         "symbol": "??__FTrainingAmbientRegistrar@@"
       }
     ],
-    "src/AI/TrainingDummy.cpp": [
+    "src/AI/Behaviour/NPC/Mission_Specific/TrainingDummy.cpp": [
       {
         "address": "0x824C8390",
         "size": 92,
         "symbol": "?IsA@TrainingDummy@AI@@"
       }
     ],
-    "src/AI/TrainingPilot.cpp": [
+    "src/AI/Behaviour/NPC/Mission_Specific/TrainingPilot.cpp": [
       {
         "address": "0x824C8E50",
         "size": 92,

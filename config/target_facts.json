@@ -1,72 +1,153 @@
 {
  "files": {
-  "src/AI/BeaconDropBehaviour.cpp": {
+  "src/AI/Behaviour/NPC/Cell/CellGuard.cpp": {
    "direct_constants": []
   },
-  "src/AI/BreachPilot.cpp": {
+  "src/AI/Behaviour/NPC/Cell/CellMinigun.cpp": {
    "direct_constants": []
   },
-  "src/AI/CellGuard.cpp": {
+  "src/AI/Behaviour/NPC/Cell/CellRocket.cpp": {
    "direct_constants": []
   },
-  "src/AI/CellMinigun.cpp": {
+  "src/AI/Behaviour/NPC/Cell/CellTurret.cpp": {
    "direct_constants": []
   },
-  "src/AI/CellRocket.cpp": {
+  "src/AI/Behaviour/NPC/Civilian/Pedestrian.cpp": {
    "direct_constants": []
   },
-  "src/AI/CellTurret.cpp": {
+  "src/AI/Behaviour/NPC/Civilian/PedestrianGuard.cpp": {
    "direct_constants": []
   },
-  "src/AI/EquipmentDropBehaviour.cpp": {
+  "src/AI/Behaviour/NPC/Civilian/PedestrianInjured.cpp": {
    "direct_constants": []
   },
-  "src/AI/NPCBehaviour.cpp": {
+  "src/AI/Behaviour/NPC/Freak/Reaper.cpp": {
    "direct_constants": []
   },
-  "src/AI/Peacekeeper.cpp": {
+  "src/AI/Behaviour/NPC/Freak/Scrounger.cpp": {
    "direct_constants": []
   },
-  "src/AI/Pedestrian.cpp": {
+  "src/AI/Behaviour/NPC/Freak/ScroungerKamikaze.cpp": {
    "direct_constants": []
   },
-  "src/AI/PedestrianGuard.cpp": {
+  "src/AI/Behaviour/NPC/Freak/ScroungerSlinger.cpp": {
    "direct_constants": []
   },
-  "src/AI/PedestrianInjured.cpp": {
+  "src/AI/Behaviour/NPC/Freak/cBasePatrolRouteEvent.cpp": {
    "direct_constants": []
   },
-  "src/AI/Reaper.cpp": {
+  "src/AI/Behaviour/NPC/Freak/cGoliathPatrolRouteEvent.cpp": {
    "direct_constants": []
   },
-  "src/AI/Scrounger.cpp": {
+  "src/AI/Behaviour/NPC/Mission_Specific/BeaconDropBehaviour.cpp": {
    "direct_constants": []
   },
-  "src/AI/ScroungerKamikaze.cpp": {
+  "src/AI/Behaviour/NPC/Mission_Specific/TrainingAmbient.cpp": {
    "direct_constants": []
   },
-  "src/AI/ScroungerSlinger.cpp": {
+  "src/AI/Behaviour/NPC/Mission_Specific/TrainingDummy.cpp": {
    "direct_constants": []
   },
-  "src/AI/Squad.cpp": {
+  "src/AI/Behaviour/NPC/Mission_Specific/TrainingPilot.cpp": {
    "direct_constants": []
   },
-  "src/AI/TrainingAmbient.cpp": {
+  "src/AI/Behaviour/NPC/NPCBehaviour.cpp": {
    "direct_constants": []
   },
-  "src/AI/TrainingDummy.cpp": {
+  "src/AI/Behaviour/NPC/Peacekeeper/Peacekeeper.cpp": {
    "direct_constants": []
   },
-  "src/AI/TrainingPilot.cpp": {
+  "src/AI/Behaviour/NPC/Vehicle/BreachPilot.cpp": {
    "direct_constants": []
   },
-  "src/AI/cAITargetingProfile.cpp": {
+  "src/AI/Behaviour/NPC/Vehicle/EquipmentDropBehaviour.cpp": {
    "direct_constants": []
   },
-  "src/AI/cAUMission.cpp": {
+  "src/AI/Mission/AU/cAUMission.cpp": {
    "direct_constants": []
   },
-  "src/AI/cAgencyTowerSegmentMission.cpp": {
+  "src/AI/Mission/AU/cAgencyTowerSegmentMission.cpp": {
+   "direct_constants": []
+  },
+  "src/AI/Mission/AU/cBeaconMission.cpp": {
+   "direct_constants": []
+  },
+  "src/AI/Mission/AU/cFinalMission.cpp": {
+   "direct_constants": []
+  },
+  "src/AI/Mission/AchievementMissions/cBaseJumperMission.cpp": {
+   "direct_constants": []
+  },
+  "src/AI/Mission/AchievementMissions/cCityGliderMission.cpp": {
+   "direct_constants": []
+  },
+  "src/AI/Mission/AchievementMissions/cTopOfTheWorldTrigger.cpp": {
+   "direct_constants": []
+  },
+  "src/AI/Mission/BreachHole/cBreachExplosion.cpp": {
+   "direct_constants": []
+  },
+  "src/AI/Mission/BreachHole/cBreachHoleMission.cpp": {
+   "direct_constants": []
+  },
+  "src/AI/Mission/Training/cForceFieldProfile.cpp": {
+   "direct_constants": []
+  },
+  "src/AI/Mission/Training/cForceFieldVFXProfile.cpp": {
+   "direct_constants": []
+  },
+  "src/AI/Mission/Training/cTrainingMission.cpp": {
+   "direct_constants": []
+  },
+  "src/AI/Mission/Training/cTrainingRouteEvent.cpp": {
+   "direct_constants": []
+  },
+  "src/AI/Mission/Training/cTrainingTrigger.cpp": {
+   "direct_constants": []
+  },
+  "src/AI/Mission/Training/cTrainingVOARouteEvent.cpp": {
+   "direct_constants": []
+  },
+  "src/AI/Mission/cCellStrongholdMission.cpp": {
+   "direct_constants": []
+  },
+  "src/AI/Mission/cDocksMission.cpp": {
+   "direct_constants": []
+  },
+  "src/AI/Mission/cHeliCallZone.cpp": {
+   "direct_constants": []
+  },
+  "src/AI/Mission/cMissionActivationCylinder.cpp": {
+   "direct_constants": []
+  },
+  "src/AI/Mission/cMissionActivationZone.cpp": {
+   "direct_constants": []
+  },
+  "src/AI/Mission/cMissionCompletionZone.cpp": {
+   "direct_constants": []
+  },
+  "src/AI/Mission/cMissionTier.cpp": {
+   "direct_constants": []
+  },
+  "src/AI/Mission/cRefineryMission.cpp": {
+   "direct_constants": []
+  },
+  "src/AI/Squad/Squad.cpp": {
+   "direct_constants": []
+  },
+  "src/AI/Streaming/cCrowdZoneDataHolder.cpp": {
+   "direct_constants": []
+  },
+  "src/AI/Streaming/cGlobalGraphDataHolder.cpp": {
+   "direct_constants": []
+  },
+  "src/AI/Streaming/cStreamingDataHolder.cpp": {
+   "direct_constants": []
+  },
+  "src/AI/Targeting/cAITargetingProfile.cpp": {
+   "direct_constants": []
+  },
+  "src/AI/Targeting/cFactionTargetingProfile.cpp": {
    "direct_constants": []
   },
   "src/AI/cAgentPickup.cpp": {
@@ -87,25 +168,7 @@
   "src/AI/cAnimParams.cpp": {
    "direct_constants": []
   },
-  "src/AI/cBaseJumperMission.cpp": {
-   "direct_constants": []
-  },
-  "src/AI/cBasePatrolRouteEvent.cpp": {
-   "direct_constants": []
-  },
-  "src/AI/cBeaconMission.cpp": {
-   "direct_constants": []
-  },
-  "src/AI/cBreachExplosion.cpp": {
-   "direct_constants": []
-  },
   "src/AI/cBreachHole.cpp": {
-   "direct_constants": []
-  },
-  "src/AI/cBreachHoleMission.cpp": {
-   "direct_constants": []
-  },
-  "src/AI/cCellStrongholdMission.cpp": {
    "direct_constants": []
   },
   "src/AI/cCharacterEntityIF.cpp": {
@@ -132,52 +195,10 @@
     ]
    ]
   },
-  "src/AI/cCityGliderMission.cpp": {
-   "direct_constants": []
-  },
-  "src/AI/cCrowdZoneDataHolder.cpp": {
-   "direct_constants": []
-  },
-  "src/AI/cDocksMission.cpp": {
-   "direct_constants": []
-  },
-  "src/AI/cFactionTargetingProfile.cpp": {
-   "direct_constants": []
-  },
-  "src/AI/cFinalMission.cpp": {
-   "direct_constants": []
-  },
-  "src/AI/cForceFieldProfile.cpp": {
-   "direct_constants": []
-  },
-  "src/AI/cForceFieldVFXProfile.cpp": {
-   "direct_constants": []
-  },
   "src/AI/cFreakSniperEvent.cpp": {
    "direct_constants": []
   },
-  "src/AI/cGlobalGraphDataHolder.cpp": {
-   "direct_constants": []
-  },
   "src/AI/cGoliathBreachHole.cpp": {
-   "direct_constants": []
-  },
-  "src/AI/cGoliathPatrolRouteEvent.cpp": {
-   "direct_constants": []
-  },
-  "src/AI/cHeliCallZone.cpp": {
-   "direct_constants": []
-  },
-  "src/AI/cMissionActivationCylinder.cpp": {
-   "direct_constants": []
-  },
-  "src/AI/cMissionActivationZone.cpp": {
-   "direct_constants": []
-  },
-  "src/AI/cMissionCompletionZone.cpp": {
-   "direct_constants": []
-  },
-  "src/AI/cMissionTier.cpp": {
    "direct_constants": []
   },
   "src/AI/cPKDropPilot.cpp": {
@@ -195,31 +216,10 @@
   "src/AI/cReaperJumpEvent.cpp": {
    "direct_constants": []
   },
-  "src/AI/cRefineryMission.cpp": {
-   "direct_constants": []
-  },
-  "src/AI/cStreamingDataHolder.cpp": {
-   "direct_constants": []
-  },
   "src/AI/cTRCamLookAtStop.cpp": {
    "direct_constants": []
   },
-  "src/AI/cTopOfTheWorldTrigger.cpp": {
-   "direct_constants": []
-  },
   "src/AI/cTrainingHeliPilot.cpp": {
-   "direct_constants": []
-  },
-  "src/AI/cTrainingMission.cpp": {
-   "direct_constants": []
-  },
-  "src/AI/cTrainingRouteEvent.cpp": {
-   "direct_constants": []
-  },
-  "src/AI/cTrainingTrigger.cpp": {
-   "direct_constants": []
-  },
-  "src/AI/cTrainingVOARouteEvent.cpp": {
    "direct_constants": []
   },
   "src/AI/cVehicleAttackedRockingBehaviour.cpp": {
@@ -228,7 +228,7 @@
   "src/AI/cVehicleCollectionBehaviour.cpp": {
    "direct_constants": []
   },
-  "src/Activity/cPersistenceProfile.cpp": {
+  "src/Activity/Persistence/cPersistenceProfile.cpp": {
    "direct_constants": []
   },
   "src/Anim/cBasePoseAnimationProfile.cpp": {
@@ -435,16 +435,19 @@
   "src/CHARACTER/cStrengthSkillProfile.cpp": {
    "direct_constants": []
   },
-  "src/Cam/cCameraMarker.cpp": {
+  "src/Cam/General/cCameraMarker.cpp": {
    "direct_constants": []
   },
   "src/Demo/cDemoSettings.cpp": {
    "direct_constants": []
   },
-  "src/Equip/cBulletData.cpp": {
+  "src/Equip/Attachments/cLightAttachmentData.cpp": {
    "direct_constants": []
   },
-  "src/Equip/cFlocket.cpp": {
+  "src/Equip/Attachments/cUVLightAttachmentData.cpp": {
+   "direct_constants": []
+  },
+  "src/Equip/DLCWeapons/cFlocket.cpp": {
    "direct_constants": [
     [
      48,
@@ -452,10 +455,7 @@
     ]
    ]
   },
-  "src/Equip/cLightAttachmentData.cpp": {
-   "direct_constants": []
-  },
-  "src/Equip/cUVLightAttachmentData.cpp": {
+  "src/Equip/Weapon/cBulletData.cpp": {
    "direct_constants": []
   },
   "src/Equip/cWeaponProjectile.cpp": {
@@ -592,10 +592,16 @@
   "src/GangManager/cVehicleDataPrototype.cpp": {
    "direct_constants": []
   },
-  "src/LaunchPad/cLaunchPadTargetLocation.cpp": {
+  "src/LaunchPad/LaunchPad/cLaunchPadTargetLocation.cpp": {
    "direct_constants": []
   },
   "src/ORB/cSkillPickupProfile.cpp": {
+   "direct_constants": []
+  },
+  "src/PHYSICS/LaunchPad/cLaunchPadConfig.cpp": {
+   "direct_constants": []
+  },
+  "src/PHYSICS/LaunchPad/cLaunchPadLocation.cpp": {
    "direct_constants": []
   },
   "src/PHYSICS/cOnlineOrb.cpp": {
@@ -610,13 +616,13 @@
   "src/PLAYER/cPlayer.cpp": {
    "direct_constants": []
   },
-  "src/Prop/cHingedDoor.cpp": {
+  "src/Prop/Custom/cHingedDoor.cpp": {
    "direct_constants": []
   },
-  "src/Prop/cPintleFaceplate.cpp": {
+  "src/Prop/Custom/cPintleFaceplate.cpp": {
    "direct_constants": []
   },
-  "src/Prop/cTrafficLight.cpp": {
+  "src/Prop/Custom/cTrafficLight.cpp": {
    "direct_constants": []
   },
   "src/RPG/cRPGGlobalsInterface.cpp": {
@@ -786,12 +792,6 @@
    "direct_constants": []
   },
   "src/cKeysToTheCityGameModePrototype.cpp": {
-   "direct_constants": []
-  },
-  "src/cLaunchPadConfig.cpp": {
-   "direct_constants": []
-  },
-  "src/cLaunchPadLocation.cpp": {
    "direct_constants": []
   },
   "src/cNetGameDroppedPickupGroupSpawnPoint.cpp": {

@@ -27,12 +27,12 @@
 src/GDb/ConsoleOutput.cpp
   text 0x825D0CF0 0x825D0D4C   # user-authorized extension: IDA function bounds; GDb::ConsoleOutput identified from reference PDBs and matching retail formatting body
 
-src/Activity/cPersistenceProfile.cpp
+src/Activity/Persistence/cPersistenceProfile.cpp
   text 0x823D93B8 0x823D9718   # auto: cPersistenceProfile; RuffKing cPersistenceProfile.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F5B240
   atexit 0x83039600
 
-src/Activity/cLongDistancePropManager.cpp
+src/Activity/LongDistanceProps/cLongDistancePropManager.cpp
   text 0x823DA790 0x823DAA5C   # auto: cLongDistancePropManager; RuffKing cLongDistancePropManager.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F5C6B0
   atexit 0x83039648
@@ -47,32 +47,32 @@ src/AI/cCharacterEntityIF.cpp
   init 0x82F60DC0
   atexit 0x83039840
 
-src/AI/cAIAnimEventProfile.cpp
+src/AI/Animation/cAIAnimEventProfile.cpp
   text 0x8243D218 0x8243D5C8   # auto: cAIAnimEventProfile; RuffKing cAIAnimEventProfile.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F769F0
   atexit 0x8303A0A8
 
-src/AI/cCrowdZoneDataHolder.cpp
+src/AI/Streaming/cCrowdZoneDataHolder.cpp
   text 0x8244A770 0x8244A7FC   # auto: cCrowdZoneDataHolder; RuffKing cCrowdZoneDataHolder.obj; 2 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F7F490
   atexit 0x8303AA58
 
-src/AI/cGlobalGraphDataHolder.cpp
+src/AI/Streaming/cGlobalGraphDataHolder.cpp
   text 0x8244AAF8 0x8244AB5C   # auto: cGlobalGraphDataHolder; RuffKing cGlobalGraphDataHolder.obj; 2 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F7FE58
   atexit 0x8303AA90
 
-src/AI/cStreamingDataHolder.cpp
+src/AI/Streaming/cStreamingDataHolder.cpp
   text 0x8244C010 0x8244C2BC   # auto: cStreamingDataHolder; RuffKing cStreamingDataHolder.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F80F20
   atexit 0x8303AAE8
 
-src/AI/cAITargetingProfile.cpp
+src/AI/Targeting/cAITargetingProfile.cpp
   text 0x82451C60 0x82451F9C   # auto: cAITargetingProfile; RuffKing cAITargetingProfile.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F841B8
   atexit 0x8303AD80
 
-src/AI/cFactionTargetingProfile.cpp
+src/AI/Targeting/cFactionTargetingProfile.cpp
   text 0x82451FA0 0x824523F0   # auto: cFactionTargetingProfile; RuffKing cFactionTargetingProfile.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F84518
   atexit 0x8303AD98
@@ -82,17 +82,17 @@ src/cStaticInterestingObject.cpp
   init 0x82F85F18
   atexit 0x8303AE80
 
-src/AI/cRefineryMission.cpp
+src/AI/Mission/cRefineryMission.cpp
   text 0x82456A10 0x82457270   # auto: cRefineryMission; RuffKing cRefineryMission.obj; 12 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F863E8
   atexit 0x8303AEA8
 
-src/AI/cSupplyValve.cpp
+src/AI/Mission/cSupplyValve.cpp
   text 0x82457BA0 0x82458624   # auto: cSupplyValve; RuffKing cSupplyValve.obj; 11 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F86680
   atexit 0x8303AEC0
 
-src/AI/cMissionCriticalProp.cpp
+src/AI/Mission/cMissionCriticalProp.cpp
   text 0x8245AEC0 0x8245B3A4   # auto: cMissionCriticalProp; RuffKing cMissionCriticalProp.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F87350
   atexit 0x8303AF40
@@ -102,22 +102,22 @@ src/AI/cBeaconProp.cpp
   init 0x82F87C58
   atexit 0x8303AF98
 
-src/AI/cAgencyTowerSegmentMission.cpp
+src/AI/Mission/AU/cAgencyTowerSegmentMission.cpp
   text 0x8245C6D8 0x8245D110   # auto: cAgencyTowerSegmentMission; RuffKing cAgencyTowerSegmentMission.obj; 10 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F88090
   atexit 0x8303AFC8
 
-src/AI/cAUMission.cpp
+src/AI/Mission/AU/cAUMission.cpp
   text 0x8245D490 0x8245F548   # auto: cAUMission; RuffKing cAUMission.obj; 20 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F88480
   atexit 0x8303AFE0
 
-src/AI/cBeaconMission.cpp
+src/AI/Mission/AU/cBeaconMission.cpp
   text 0x824611B8 0x824685FC   # auto: cBeaconMission; RuffKing cBeaconMission.obj; 17 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F88C88
   atexit 0x8303B010
 
-src/AI/cFinalMission.cpp
+src/AI/Mission/AU/cFinalMission.cpp
   text 0x8246A7C0 0x8246E644   # auto: cFinalMission; RuffKing cFinalMission.obj; 14 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F89398
   atexit 0x8303B038
@@ -127,12 +127,12 @@ src/AI/cBreachHole.cpp
   init 0x82F89720
   atexit 0x8303B050
 
-src/AI/cBreachExplosion.cpp
+src/AI/Mission/BreachHole/cBreachExplosion.cpp
   text 0x82470E18 0x82471204   # auto: cBreachExplosion; RuffKing cBreachExplosion.obj; 7 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F89AB0
   atexit 0x8303B068
 
-src/AI/cBreachHoleMission.cpp
+src/AI/Mission/BreachHole/cBreachHoleMission.cpp
   text 0x82471300 0x82473370   # auto: cBreachHoleMission; RuffKing cBreachHoleMission.obj; 15 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F89EA0
   atexit 0x8303B080
@@ -142,37 +142,37 @@ src/AI/cGoliathBreachHole.cpp
   init 0x82F8A0F8
   atexit 0x8303B090
 
-src/AI/cDocksMission.cpp
+src/AI/Mission/cDocksMission.cpp
   text 0x82474380 0x82474DE4   # auto: cDocksMission; RuffKing cDocksMission.obj; 15 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F8A4E8
   atexit 0x8303B0A8
 
-src/AI/cCellStrongholdMission.cpp
+src/AI/Mission/cCellStrongholdMission.cpp
   text 0x82474E10 0x82475548   # auto: cCellStrongholdMission; RuffKing cCellStrongholdMission.obj; 10 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F8A8D8
   atexit 0x8303B0C0
 
-src/AI/cAgencyGarage.cpp
+src/AI/Mission/Delivery_Manager/cAgencyGarage.cpp
   text 0x82479B80 0x8247A53C   # auto: cAgencyGarage; RuffKing cAgencyGarage.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F8B1E8
   atexit 0x8303B100
 
-src/AI/cTrainingMission.cpp
+src/AI/Mission/Training/cTrainingMission.cpp
   text 0x8247EF78 0x82484C2C   # auto: cTrainingMission; RuffKing cTrainingMission.obj; 12 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F8BC88
   atexit 0x8303B148
 
-src/AI/cTrainingTrigger.cpp
+src/AI/Mission/Training/cTrainingTrigger.cpp
   text 0x82485588 0x824858F8   # auto: cTrainingTrigger; RuffKing cTrainingTrigger.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F8BFE8
   atexit 0x8303B160
 
-src/AI/cTrainingRouteEvent.cpp
+src/AI/Mission/Training/cTrainingRouteEvent.cpp
   text 0x82486EC0 0x82486F9C   # auto: cTrainingRouteEvent; RuffKing cTrainingRouteEvent.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F8D2A0
   atexit 0x8303B198
 
-src/AI/cTrainingVOARouteEvent.cpp
+src/AI/Mission/Training/cTrainingVOARouteEvent.cpp
   text 0x82487048 0x824871FC   # auto: cTrainingVOARouteEvent; RuffKing cTrainingVOARouteEvent.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F8D3B0
   atexit 0x8303B1A8
@@ -182,77 +182,77 @@ src/AI/cTRCamLookAtStop.cpp
   init 0x82F8D6E8
   atexit 0x8303B1C8
 
-src/AI/cForceFieldProfile.cpp
+src/AI/Mission/Training/cForceFieldProfile.cpp
   text 0x824889A0 0x82488DD0   # auto: cForceFieldProfile; RuffKing cForceFieldProfile.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F8DA10
   atexit 0x8303B1E8
 
-src/AI/cForceFieldVFXProfile.cpp
+src/AI/Mission/Training/cForceFieldVFXProfile.cpp
   text 0x82488DD0 0x82488F40   # auto: cForceFieldVFXProfile; RuffKing cForceFieldVFXProfile.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F8DA60
   atexit 0x8303B1F8
 
-src/AI/cBaseJumperMission.cpp
+src/AI/Mission/AchievementMissions/cBaseJumperMission.cpp
   text 0x82488F40 0x82489578   # auto: cBaseJumperMission; RuffKing cBaseJumperMission.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F8DE78
   atexit 0x8303B210
 
-src/AI/cCityGliderMission.cpp
+src/AI/Mission/AchievementMissions/cCityGliderMission.cpp
   text 0x82489730 0x8248988C   # auto: cCityGliderMission; RuffKing cCityGliderMission.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F8E398
   atexit 0x8303B238
 
-src/AI/cTopOfTheWorldTrigger.cpp
+src/AI/Mission/AchievementMissions/cTopOfTheWorldTrigger.cpp
   text 0x8248A2E0 0x8248A3C0   # auto: cTopOfTheWorldTrigger; RuffKing cTopOfTheWorldTrigger.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F8EB60
   atexit 0x8303B278
 
-src/AI/cHeliCallZone.cpp
+src/AI/Mission/cHeliCallZone.cpp
   text 0x8248A3C0 0x8248AA38   # auto: cHeliCallZone; RuffKing cHeliCallZone.obj; 9 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F8EF78
   atexit 0x8303B290
 
-src/AI/cMissionActivationCylinder.cpp
+src/AI/Mission/cMissionActivationCylinder.cpp
   text 0x8248AF38 0x8248B298   # auto: cMissionActivationCylinder; RuffKing cMissionActivationCylinder.obj; 6 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F8F338
   atexit 0x8303B2B0
 
-src/AI/cMissionActivationZone.cpp
+src/AI/Mission/cMissionActivationZone.cpp
   text 0x8248B3F0 0x8248B61C   # auto: cMissionActivationZone; RuffKing cMissionActivationZone.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F8F698
   atexit 0x8303B2C8
 
-src/AI/cMissionCompletionZone.cpp
+src/AI/Mission/cMissionCompletionZone.cpp
   text 0x8248B620 0x8248B894   # auto: cMissionCompletionZone; RuffKing cMissionCompletionZone.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F8F9F8
   atexit 0x8303B2E0
 
-src/AI/cPlayerRejectionZone.cpp
+src/AI/Mission/cPlayerRejectionZone.cpp
   text 0x8248B898 0x8248BB74   # auto: cPlayerRejectionZone; RuffKing cPlayerRejectionZone.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F8FD58
   atexit 0x8303B2F8
 
-src/AI/cAmbientEventMission.cpp
+src/AI/Mission/cAmbientEventMission.cpp
   text 0x8248DA90 0x8248DEE0   # auto: cAmbientEventMission; RuffKing cAmbientEventMission.obj; 6 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F90148
   atexit 0x8303B310
 
-src/AI/cMissionTier.cpp
+src/AI/Mission/cMissionTier.cpp
   text 0x8248E3D8 0x8248E854   # auto: cMissionTier; RuffKing cMissionTier.obj; 6 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F90268
   atexit 0x8303B340
 
-src/AI/AIBehaviour.cpp
+src/AI/Behaviour/AIBehaviour.cpp
   text 0x824A4A10 0x824A4A8C   # auto: AIBehaviour; RuffKing AIBehaviour.obj; 2 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F90CB8
   atexit 0x8303B3A8
 
-src/AI/NPCBehaviour.cpp
+src/AI/Behaviour/NPC/NPCBehaviour.cpp
   text 0x824A7DD0 0x824A8330   # auto: NPCBehaviour; RuffKing NPCArmedBehaviour.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F91D70
   atexit 0x8303B6B0
 
-src/AI/Pedestrian.cpp
+src/AI/Behaviour/NPC/Civilian/Pedestrian.cpp
   text 0x824A8CB0 0x824A90A4   # auto: Pedestrian; RuffKing Pedestrian.obj; 8 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F925E0
   atexit 0x8303B710
@@ -262,47 +262,47 @@ src/AI/cPedestrianBase.cpp
   init 0x82F92A18
   atexit 0x8303B740
 
-src/AI/PedestrianGuard.cpp
+src/AI/Behaviour/NPC/Civilian/PedestrianGuard.cpp
   text 0x824AB020 0x824AB4CC   # auto: PedestrianGuard; RuffKing PedestrianGuard.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F92E50
   atexit 0x8303B770
 
-src/AI/PedestrianInjured.cpp
+src/AI/Behaviour/NPC/Civilian/PedestrianInjured.cpp
   text 0x824AB6F0 0x824AB9B8   # auto: PedestrianInjured; RuffKing PedestrianInjured.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F93298
   atexit 0x8303B7A8
 
-src/AI/FreakBase.cpp
+src/AI/Behaviour/NPC/Freak/FreakBase.cpp
   text 0x824ABC10 0x824B0B74   # auto: FreakBase; RuffKing FreakBase.obj; 12 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F936D0
   atexit 0x8303B7D8
 
-src/AI/Goliath.cpp
+src/AI/Behaviour/NPC/Freak/Goliath.cpp
   text 0x824B0EA8 0x824B1E7C   # auto: Goliath; RuffKing Goliath.obj; 11 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F93B08
   atexit 0x8303B818
 
-src/AI/Reaper.cpp
+src/AI/Behaviour/NPC/Freak/Reaper.cpp
   text 0x824B2640 0x824B80A4   # auto: Reaper; RuffKing Reaper.obj; 33 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F93F40
   atexit 0x8303B848
 
-src/AI/Scrounger.cpp
+src/AI/Behaviour/NPC/Freak/Scrounger.cpp
   text 0x824BAA18 0x824BB53C   # auto: Scrounger; RuffKing Scrounger.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F94378
   atexit 0x8303B878
 
-src/AI/ScroungerKamikaze.cpp
+src/AI/Behaviour/NPC/Freak/ScroungerKamikaze.cpp
   text 0x824BDD58 0x824BE49C   # auto: ScroungerKamikaze; RuffKing ScroungerKamikaze.obj; 7 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F947B0
   atexit 0x8303B8A8
 
-src/AI/ScroungerSlinger.cpp
+src/AI/Behaviour/NPC/Freak/ScroungerSlinger.cpp
   text 0x824BE5A0 0x824BF860   # auto: ScroungerSlinger; RuffKing ScroungerSlinger.obj; 16 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F94BE8
   atexit 0x8303B8D8
 
-src/AI/cBasePatrolRouteEvent.cpp
+src/AI/Behaviour/NPC/Freak/cBasePatrolRouteEvent.cpp
   text 0x824BF9B8 0x824BFA7C   # auto: cBasePatrolRouteEvent; RuffKing cBasePatrolRouteEvent.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F94D38
   atexit 0x8303B900
@@ -314,7 +314,7 @@ src/AI/cFreakSniperEvent.cpp
   atexit 0x8303B910
   atexit 0x8303B920
 
-src/AI/cGoliathPatrolRouteEvent.cpp
+src/AI/Behaviour/NPC/Freak/cGoliathPatrolRouteEvent.cpp
   text 0x824C0028 0x824C02DC   # auto: cGoliathPatrolRouteEvent; RuffKing cGoliathPatrolRouteEvent.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F951C8
   atexit 0x8303B930
@@ -326,47 +326,47 @@ src/AI/cReaperJumpEvent.cpp
   atexit 0x8303B940
   atexit 0x8303B950
 
-src/AI/CellGuard.cpp
+src/AI/Behaviour/NPC/Cell/CellGuard.cpp
   text 0x824C0B08 0x824C3154   # auto: CellGuard; RuffKing CellGuard.obj; 7 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F95B38
   atexit 0x8303B9B0
 
-src/AI/CellMinigun.cpp
+src/AI/Behaviour/NPC/Cell/CellMinigun.cpp
   text 0x824C3170 0x824C3D80   # auto: CellMinigun; RuffKing CellMinigun.obj; 13 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F95F70
   atexit 0x8303B9E0
 
-src/AI/CellRocket.cpp
+src/AI/Behaviour/NPC/Cell/CellRocket.cpp
   text 0x824C3D80 0x824C4ED0   # auto: CellRocket; RuffKing CellRocket.obj; 15 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F963A8
   atexit 0x8303BA10
 
-src/AI/CellTurret.cpp
+src/AI/Behaviour/NPC/Cell/CellTurret.cpp
   text 0x824C51B8 0x824C5DF4   # auto: CellTurret; RuffKing CellTurret.obj; 12 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F967E0
   atexit 0x8303BA40
 
-src/AI/Peacekeeper.cpp
+src/AI/Behaviour/NPC/Peacekeeper/Peacekeeper.cpp
   text 0x824C6790 0x824C76A4   # auto: Peacekeeper; RuffKing Peacekeeper.obj; 11 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F97858
   atexit 0x8303BA90
 
-src/AI/BeaconDropBehaviour.cpp
+src/AI/Behaviour/NPC/Mission_Specific/BeaconDropBehaviour.cpp
   text 0x824C77B8 0x824C7BF4   # auto: BeaconDropBehaviour; RuffKing BeaconDropBehaviour.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F97FB0
   atexit 0x8303BAD0
 
-src/AI/TrainingAmbient.cpp
+src/AI/Behaviour/NPC/Mission_Specific/TrainingAmbient.cpp
   text 0x824C7C50 0x824C8214   # auto: TrainingAmbient; RuffKing TrainingAmbient.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F983E8
   atexit 0x8303BB00
 
-src/AI/TrainingDummy.cpp
+src/AI/Behaviour/NPC/Mission_Specific/TrainingDummy.cpp
   text 0x824C8218 0x824C8D98   # auto: TrainingDummy; RuffKing TrainingDummy.obj; 6 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F98820
   atexit 0x8303BB30
 
-src/AI/TrainingPilot.cpp
+src/AI/Behaviour/NPC/Mission_Specific/TrainingPilot.cpp
   text 0x824C8D98 0x824C9098   # auto: TrainingPilot; RuffKing TrainingPilot.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F98C58
   atexit 0x8303BB60
@@ -404,12 +404,12 @@ src/AI/cAgentPickup.cpp
   init 0x82F9A9E0
   atexit 0x8303BCB0
 
-src/AI/BreachPilot.cpp
+src/AI/Behaviour/NPC/Vehicle/BreachPilot.cpp
   text 0x824D16D0 0x824D2708   # auto: BreachPilot; RuffKing BreachPilot.obj; 12 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F9B250
   atexit 0x8303BD10
 
-src/AI/EquipmentDropBehaviour.cpp
+src/AI/Behaviour/NPC/Vehicle/EquipmentDropBehaviour.cpp
   text 0x824D2B50 0x824D319C   # auto: EquipmentDropBehaviour; RuffKing EquipmentDropBehaviour.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F9B9B0
   atexit 0x8303BD68
@@ -439,7 +439,7 @@ src/AI/cVehicleCollectionBehaviour.cpp
   init 0x82F9CEC8
   atexit 0x8303BE58
 
-src/AI/Squad.cpp
+src/AI/Squad/Squad.cpp
   text 0x824D81A0 0x824D8B78   # auto: Squad; RuffKing Squad.obj; 6 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F9D300
   atexit 0x8303BE88
@@ -724,12 +724,12 @@ src/AudioLogic/cAudioLandVehicleProfile.cpp
   init 0x82FAA138
   atexit 0x8303C9B8
 
-src/Cam/cCameraManager.cpp
+src/Cam/Camera_Manager/cCameraManager.cpp
   text 0x8252BFD0 0x8252C418   # auto: cCameraManager; not in RuffKing; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FAB0C8
   atexit 0x8303CBC8
 
-src/Cam/cCameraMarker.cpp
+src/Cam/General/cCameraMarker.cpp
   text 0x8252C9D8 0x8252CB50   # auto: cCameraMarker; RuffKing cCameraMarker.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FAB1A8
   atexit 0x8303CBF8
@@ -846,7 +846,7 @@ src/Equip/cEquipment.cpp
   init 0x82FCB250
   atexit 0x8303F2E0
 
-src/Equip/cCWWeapon.cpp
+src/Equip/Weapon/cCWWeapon.cpp
   text 0x82607B50 0x82608168   # auto: cCWWeapon; RuffKing cCWWeapon.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FCB840
   atexit 0x8303F320
@@ -861,82 +861,82 @@ src/cBoostPack.cpp
   init 0x82FCC318
   atexit 0x8303F3D8
 
-src/Equip/cCloakingDevice.cpp
+src/Equip/Gadget/cCloakingDevice.cpp
   text 0x8260B1E8 0x8260B97C   # auto: cCloakingDevice; RuffKing cCloakingDevice.obj; 9 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FCC720
   atexit 0x8303F418
 
-src/Equip/cMag.cpp
+src/Equip/Weapon/cMag.cpp
   text 0x8260BB80 0x8260DA54   # auto: cMag; RuffKing cMag.obj; 13 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FCCBB0
   atexit 0x8303F458
 
-src/Equip/cPortableLaunchPad.cpp
+src/Equip/Gadget/cPortableLaunchPad.cpp
   text 0x8260DDD0 0x8260E8B0   # auto: cPortableLaunchPad; RuffKing cPortableLaunchPad.obj; 10 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FCCE50
   atexit 0x8303F480
 
-src/Equip/cPulseRifle.cpp
+src/Equip/Gadget/cPulseRifle.cpp
   text 0x8260ECE0 0x8260FEA4   # auto: cPulseRifle; RuffKing cPulseRifle.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FCD288
   atexit 0x8303F4B0
 
-src/Equip/cRefractor.cpp
+src/Equip/Gadget/Refractor/cRefractor.cpp
   text 0x82610650 0x82610B7C   # auto: cRefractor; RuffKing cRefractor.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FCD6C0
   atexit 0x8303F4E0
 
-src/Equip/cLightAttachmentData.cpp
+src/Equip/Attachments/cLightAttachmentData.cpp
   text 0x826159C0 0x82615D64   # auto: cLightAttachmentData; RuffKing cLightAttachmentData.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FCDF78
   atexit 0x8303F538
 
-src/Equip/cUVLightAttachmentData.cpp
+src/Equip/Attachments/cUVLightAttachmentData.cpp
   text 0x826162B0 0x826164AC   # auto: cUVLightAttachmentData; RuffKing cUVLightAttachmentData.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FCE250
   atexit 0x8303F550
 
-src/Equip/cChainGun.cpp
+src/Equip/DLCWeapons/cChainGun.cpp
   text 0x82616550 0x82616EAC   # auto: cChainGun; RuffKing cChainGun.obj; 6 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FCE5B8
   atexit 0x8303F568
 
-src/Equip/cCWFirearm.cpp
+src/Equip/Weapon/cCWFirearm.cpp
   text 0x82617D50 0x82617EB8   # auto: cCWFirearm; RuffKing cCWFirearm.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FCE9F0
   atexit 0x8303F598
 
-src/Equip/cClusterGrenade.cpp
+src/Equip/Weapon/cClusterGrenade.cpp
   text 0x82619728 0x82619F50   # auto: cClusterGrenade; RuffKing cClusterGrenade.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FCF1E0
   atexit 0x8303F630
 
-src/Equip/cCWSatchelCharge.cpp
+src/Equip/Weapon/cCWSatchelCharge.cpp
   text 0x8261A1B8 0x8261A21C   # auto: cCWSatchelCharge; RuffKing cCWSatchelCharge.obj; 2 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FCF618
   atexit 0x8303F670
 
-src/Equip/cExplosiveGrenade.cpp
+src/Equip/Weapon/cExplosiveGrenade.cpp
   text 0x8261D1B8 0x8261D21C   # auto: cExplosiveGrenade; RuffKing cExplosiveGrenade.obj; 2 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FCFAA8
   atexit 0x8303F6B0
 
-src/Equip/cGrenade.cpp
+src/Equip/Weapon/cGrenade.cpp
   text 0x8261DF40 0x8261E380   # auto: cGrenade; RuffKing cGrenade.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FCFF38
   atexit 0x8303F6F0
 
-src/Equip/cProxMine.cpp
+src/Equip/DLCWeapons/cProxMine.cpp
   text 0x8261F8E0 0x8262136C   # auto: cProxMine; RuffKing cProxMine.obj; 13 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FD0420
   atexit 0x8303F730
 
-src/Equip/cShrapnelGrenade.cpp
+src/Equip/Weapon/cShrapnelGrenade.cpp
   text 0x82621AD0 0x82622468   # auto: cShrapnelGrenade; RuffKing cShrapnelGrenade.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FD0948
   atexit 0x8303F760
 
-src/Equip/cSmokeGrenade.cpp
+src/Equip/Weapon/cSmokeGrenade.cpp
   text 0x82622640 0x82622C84   # auto: cSmokeGrenade; RuffKing cSmokeGrenade.obj; 8 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FD0C20
   atexit 0x8303F7A8
@@ -951,38 +951,38 @@ src/cSticklerGrenade.cpp
   init 0x82FD1490
   atexit 0x8303F808
 
-src/Equip/cBulletData.cpp
+src/Equip/Weapon/cBulletData.cpp
   text 0x82623E60 0x826253DC   # auto: cBulletData; RuffKing cBulletData.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FD16F8
   atexit 0x8303F840
 
-src/Equip/cFlocket.cpp
+src/Equip/DLCWeapons/cFlocket.cpp
   text 0x826253E8 0x826270F8   # contains F46, an accessor judged to be another class's: an inline/template function
                                # emitted by this object (still unmatched)
   init 0x82FD1A60
   atexit 0x8303F858
 
-src/Equip/cHarpoonBolt.cpp
+src/Equip/Weapon/cHarpoonBolt.cpp
   text 0x82627168 0x82628288   # auto: cHarpoonBolt; RuffKing cHarpoonBolt.obj; 12 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FD1E98
   atexit 0x8303F890
 
-src/Equip/cHWGrenadeProjectile.cpp
+src/Equip/Weapon/cHWGrenadeProjectile.cpp
   text 0x826292F0 0x8262A1F4   # auto: cHWGrenadeProjectile; RuffKing cHWGrenadeProjectile.obj; 11 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FD22D0
   atexit 0x8303F8C0
 
-src/Equip/cHWProjectile.cpp
+src/Equip/Weapon/cHWProjectile.cpp
   text 0x8262A778 0x8262BD30   # auto: cHWProjectile; RuffKing cHWProjectile.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FD2760
   atexit 0x8303F900
 
-src/Equip/cCWHeavyWeapon.cpp
+src/Equip/Weapon/cCWHeavyWeapon.cpp
   text 0x8262FC20 0x8262FDA8   # auto: cCWHeavyWeapon; RuffKing cCWHeavyWeapon.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FD2F58
   atexit 0x8303F9A0
 
-src/Equip/cFlocketLauncher.cpp
+src/Equip/DLCWeapons/cFlocketLauncher.cpp
   text 0x82630D60 0x826317A4   # auto: cFlocketLauncher; RuffKing cFlocketLauncher.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FD3360
   atexit 0x8303F9E0
@@ -992,7 +992,7 @@ src/cGrappler.cpp
   init 0x82FD36F0
   atexit 0x8303FA10
 
-src/Equip/cRealNadeLauncher.cpp
+src/Equip/Gadget/cRealNadeLauncher.cpp
   text 0x82634998 0x82634FD8   # auto: cRealNadeLauncher; RuffKing cRealNadeLauncher.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FD3B30
   atexit 0x8303FA68
@@ -1002,17 +1002,17 @@ src/cSucknBlowGun.cpp
   init 0x82FD3F68
   atexit 0x8303FA98
 
-src/Equip/cFlakCannon.cpp
+src/Equip/Weapon/cFlakCannon.cpp
   text 0x8263A718 0x8263ACCC   # auto: cFlakCannon; RuffKing cFlakCannon.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FD4318
   atexit 0x8303FAC8
 
-src/Equip/cMiniGun.cpp
+src/Equip/Weapon/cMiniGun.cpp
   text 0x8263B168 0x8263B4FC   # auto: cMiniGun; RuffKing cMiniGun.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FD46C8
   atexit 0x8303FAF8
 
-src/Equip/cUVTurret.cpp
+src/Equip/Weapon/cUVTurret.cpp
   text 0x8263BAD8 0x8263BD10   # auto: cUVTurret; RuffKing cUVTurret.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FD4B00
   atexit 0x8303FB28
@@ -1201,17 +1201,17 @@ src/cAgencyATV.cpp
   init 0x82FEACD8
   atexit 0x830409E0
 
-src/Vehicle/cAgencyBuggy.cpp
+src/Vehicle/Agency/cAgencyBuggy.cpp
   text 0x826E98D0 0x826EBF38   # auto: cAgencyBuggy; RuffKing cAgencyBuggy.obj; 9 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FEB148
   atexit 0x83040A20
 
-src/Vehicle/cAgencyCar.cpp
+src/Vehicle/Agency/cAgencyCar.cpp
   text 0x826EC108 0x826EC184   # auto: cAgencyCar; RuffKing cAgencyCar.obj; 2 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FEB4F8
   atexit 0x83040A50
 
-src/Vehicle/cAgencySports.cpp
+src/Vehicle/Agency/cAgencySports.cpp
   text 0x826ECF38 0x826ED98C   # auto: cAgencySports; RuffKing cAgencySports.obj; 8 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FEB930
   atexit 0x83040A88
@@ -1221,12 +1221,12 @@ src/cAgencySquadChopper.cpp
   init 0x82FEBD68
   atexit 0x83040AB8
 
-src/Vehicle/cAgencySUV.cpp
+src/Vehicle/Agency/cAgencySUV.cpp
   text 0x826FB9C8 0x826FBF84   # auto: cAgencySUV; RuffKing cAgencySUV.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FEC1D8
   atexit 0x83040AF8
 
-src/Vehicle/cAgencyTank.cpp
+src/Vehicle/Agency/cAgencyTank.cpp
   text 0x826FC6B0 0x82700234   # auto: cAgencyTank; RuffKing cAgencyTank.obj; 12 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FEC610
   atexit 0x83040B28
@@ -1251,17 +1251,17 @@ src/PHYSICS/cOnlineOrb.cpp
   init 0x82FF19F0
   atexit 0x83040CC0
 
-src/cLaunchPadConfig.cpp
+src/PHYSICS/LaunchPad/cLaunchPadConfig.cpp
   text 0x82713DC0 0x82714020   # auto: cLaunchPadConfig; RuffKing cLaunchPadConfig.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FF25C0
   atexit 0x83040D08
 
-src/cLaunchPadLocation.cpp
+src/PHYSICS/LaunchPad/cLaunchPadLocation.cpp
   text 0x82714020 0x827143E4   # auto: cLaunchPadLocation; RuffKing cLaunchPadLocation.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FF2788
   atexit 0x83040D18
 
-src/LaunchPad/cLaunchPadTargetLocation.cpp
+src/LaunchPad/LaunchPad/cLaunchPadTargetLocation.cpp
   text 0x827143E8 0x82714668   # auto: cLaunchPadTargetLocation; RuffKing cLaunchPadTargetLocation.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FF2950
   atexit 0x83040D28
@@ -1301,7 +1301,7 @@ src/cAgencyGaragePlatform.cpp
   init 0x82FF6C50
   atexit 0x83041528
 
-src/Prop/cHingedProp.cpp
+src/Prop/Constrained/cHingedProp.cpp
   text 0x82736DE8 0x82737698   # auto: cHingedProp; RuffKing cHingedProp.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FF7138
   atexit 0x83041558
@@ -1311,17 +1311,17 @@ src/cLift.cpp
   init 0x82FF77D8
   atexit 0x83041598
 
-src/Prop/cMovingPlatform.cpp
+src/Prop/Constrained/cMovingPlatform.cpp
   text 0x8273A760 0x8273AD9C   # auto: cMovingPlatform; RuffKing cMovingPlatform.obj; 8 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FF7AB8
   atexit 0x830415C8
 
-src/Prop/cPivotBasedProp.cpp
+src/Prop/Constrained/cPivotBasedProp.cpp
   text 0x8273AE80 0x8273B110   # auto: cPivotBasedProp; RuffKing cPivotBasedProp.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FF7D98
   atexit 0x830415F8
 
-src/Prop/cPrismaticProp.cpp
+src/Prop/Constrained/cPrismaticProp.cpp
   text 0x8273B548 0x8273BC98   # auto: cPrismaticProp; RuffKing cPrismaticProp.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FF8228
   atexit 0x83041628
@@ -1336,7 +1336,7 @@ src/cSpawnPortal.cpp
   init 0x82FF8C78
   atexit 0x83041698
 
-src/Prop/cSpinningProp.cpp
+src/Prop/Constrained/cSpinningProp.cpp
   text 0x8273E618 0x8273EC48   # auto: cSpinningProp; RuffKing cSpinningProp.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FF8F58
   atexit 0x830416C8
@@ -1356,57 +1356,57 @@ src/cWeaponCabinetDoor.cpp
   init 0x82FF9DB8
   atexit 0x83041768
 
-src/Prop/cBoomBox.cpp
+src/Prop/Custom/cBoomBox.cpp
   text 0x82742D68 0x82742DEC   # auto: cBoomBox; RuffKing cBoomBox.obj; 2 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FFA5E8
   atexit 0x83041910
 
-src/Prop/cExplosiveBarrel.cpp
+src/Prop/Custom/cExplosiveBarrel.cpp
   text 0x827430C8 0x827435B0   # auto: cExplosiveBarrel; RuffKing cExplosiveBarrel.obj; 6 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FFA8C8
   atexit 0x83041940
 
-src/Prop/cGasCanister.cpp
+src/Prop/Custom/cGasCanister.cpp
   text 0x82743708 0x82743E74   # auto: cGasCanister; RuffKing cGasCanister.obj; 6 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FFAC78
   atexit 0x83041970
 
-src/Prop/cHingedDoor.cpp
+src/Prop/Custom/cHingedDoor.cpp
   text 0x827442E0 0x82744784   # auto: cHingedDoor; RuffKing cHingedDoor.obj; 6 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FFAF58
   atexit 0x830419A0
 
-src/Prop/cHingedSpawnDoor.cpp
+src/Prop/Custom/cHingedSpawnDoor.cpp
   text 0x827449E8 0x82744E4C   # auto: cHingedSpawnDoor; RuffKing cHingedSpawnDoor.obj; 7 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FFB340
   atexit 0x830419E0
 
-src/Prop/cPintleFaceplate.cpp
+src/Prop/Custom/cPintleFaceplate.cpp
   text 0x82745188 0x827455F8   # auto: cPintleFaceplate; RuffKing cPintleFaceplate.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FFB6D0
   atexit 0x83041A20
 
-src/Prop/cSearchLight.cpp
+src/Prop/Custom/cSearchLight.cpp
   text 0x827456D8 0x82746670   # auto: cSearchLight; RuffKing cSearchLight.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FFB9B0
   atexit 0x83041A50
 
-src/Prop/cSlidingDoor.cpp
+src/Prop/Custom/cSlidingDoor.cpp
   text 0x827468E8 0x82746964   # auto: cSlidingDoor; RuffKing cSlidingDoor.obj; 2 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FFBC90
   atexit 0x83041A80
 
-src/Prop/cTODSlidingDoor.cpp
+src/Prop/Custom/cTODSlidingDoor.cpp
   text 0x82746ED8 0x827472FC   # auto: cTODSlidingDoor; RuffKing cTODSlidingDoor.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FFC078
   atexit 0x83041AC0
 
-src/Prop/cTrafficLight.cpp
+src/Prop/Custom/cTrafficLight.cpp
   text 0x827473C0 0x82747C70   # auto: cTrafficLight; RuffKing cTrafficlight.obj; 12 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FFC358
   atexit 0x83041AF0
 
-src/Prop/cTurretBase.cpp
+src/Prop/Custom/cTurretBase.cpp
   text 0x82747F68 0x8274BC94   # auto: cTurretBase; RuffKing cTurretBase.obj; 16 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FFC790
   atexit 0x83041B20
@@ -1568,7 +1568,7 @@ src/VFX/cPostProcessControl.cpp
   init 0x83009120
   atexit 0x83042890
 
-src/VFX/cParticleEffectManager.cpp
+src/VFX/ParticleSystem/cParticleEffectManager.cpp
   text 0x827DEDB0 0x827DEE04   # auto: cParticleEffectManager; RuffKing cParticleEffectManager.obj; 2 markers (RetClassName, MakeNew, own vtable slots)
   init 0x83009850
   atexit 0x83042958
