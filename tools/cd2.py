@@ -362,7 +362,12 @@ def compare_file(src, funcs, ltcg=False):
     lt = None
     if ltcg:
         consts = verify_ltcg.direct_constants(read, funcs)
-        lt = verify_ltcg.build_ltcg(os.path.join(ROOT, src), obj, consts, scratch_dir('ltcg', os.path.basename(src)), env())
+        d = scratch_dir('ltcg', os.path.basename(src))
+        try:
+            lt = verify_ltcg.build_ltcg(os.path.join(ROOT, src), obj, consts, d, env(),
+                                        deps=verify_ltcg.dependencies(src, obj, d, env(), man))
+        except RuntimeError as e:
+            raise Fail('%s: %s' % (src, str(e)[-3000:]))
     for f in funcs:
         va, size = int(f['address'], 16), f['size']
         target = read(va, size)

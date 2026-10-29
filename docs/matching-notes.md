@@ -425,3 +425,27 @@ in a `.cpp` are no longer needed.
   550/550 LTCG matched functions, and four WIPs. ConsoleOutput independently
   remains EXACT, 23/23 words, in plain and LTCG checks. Facts were regenerated;
   verify_ltcg.py has no Git diff and git diff --check passes.
+
+### LTCG model sees matched callees (2026-10-29)
+
+- CD2 was linked as one program, so LTCG saw the body of every callee. The LTCG
+  model used to replace every external function with an opaque stub, which hid
+  bodies the real build could see. ShowRopeSegments (0x82806D40) shows the
+  effect: its frame is 16 bytes larger only when LTCG sees
+  GDb::ConsoleOutput's body.
+- The model now follows one rule for every file (`verify_ltcg.dependencies`,
+  used by verify, `check --ltcg` and the facts gate): another repository file
+  is compiled with /GL and linked in when this file calls functions that file
+  has matched, and only if every symbol this file takes from it is such a
+  function. LTCG therefore sees only bodies the gates prove exact. Data,
+  unmatched functions and everything else stay stubs. Nothing is listed by
+  hand, and it goes one level deep.
+- `verify_ltcg.py --self-test` proves it: ShowRopeSegments matches with
+  ConsoleOutput matched, and stops matching when ConsoleOutput's entry is
+  marked work in progress.
+- Result: no matched function changed; ShowRopeSegments is matched again,
+  with `"ltcg": true`. Two files currently pick up dependencies: cRopes
+  (ConsoleOutput) and cCHordeArena.
+- If a function differs only in its frame size or in which registers survive a
+  call, and it calls a function that is not matched yet, match that callee
+  first: its body may be what the caller's code depends on.

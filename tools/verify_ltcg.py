@@ -15,6 +15,9 @@ LTCG output depends on the rest of the program, so for each source file this bui
     its constant pool) in this file's functions, read by a function compiled first, so that the compiler loads
     those literals from a global instead of pooling them, as in CD2.
   - a pool seed, so that no real constant lands at offset 0 of the constant pool (offset 0 is addressed differently).
+  - matched callees: another repository file is compiled with /GL and linked in when this file calls functions that
+    file has matched, so that LTCG sees their bodies as it did in CD2's whole-program build (dependencies()). Only
+    functions the gates prove exact are seen; every other external symbol is a stub.
 
 Comparison masks address immediates only: halves derived from a `lis`, loads/stores through such registers, and
 calls that leave the function. Everything else (offsets, registers, opcodes, intra-function branches) must match.
@@ -145,11 +148,12 @@ def data_symbols(obj):
     return sorted(names)
 
 
-def map_funcs(path):
+def map_funcs(path, exclude=()):
+    """The functions of a link map: sorted [(address, symbol)], without those of the objects named in exclude."""
     fs = []
     for l in open(path):
         m = re.match(r'\s*[0-9a-f]{4}:[0-9a-f]+\s+(\S+)\s+([0-9a-f]{8})\s+f\s', l)
-        if m:
+        if m and l.split()[-1] not in exclude:
             fs.append((int(m.group(2), 16), m.group(1)))
     return sorted(fs)
 
@@ -174,6 +178,49 @@ def image_reader(path):
 def undefined_symbols(plain_obj):
     o = relocs.Obj(plain_obj)
     return {x['name'] for x in o.symbols.values() if x['sec'] == 0 and x['cls'] == 2 and x['value'] == 0 and x['name']}
+
+
+def defined_symbols(plain_obj):
+    o = relocs.Obj(plain_obj)
+    return {x['name'] for x in o.symbols.values() if x['sec'] > 0 and x['cls'] == 2 and x['name']}
+
+
+def dependencies(src, plain_obj, d, env, manifest=None, override=None):
+    """The other repository files linked with /GL into src's model: [(/GL object, symbols src takes from it)].
+
+    CD2 was linked as one program, so LTCG saw the body of every function a file calls, and a callee's body can change
+    the caller's code (VFX::cRopes::ShowRopeSegments has a 16-byte larger frame because LTCG sees GDb::ConsoleOutput's
+    body). A file is linked in when src calls a function that file has matched (a manifest entry not marked work in
+    progress, identified as the gates identify it), and only if every symbol src takes from it is such a function. So
+    LTCG sees only bodies that the gates prove identical to CD2's; a file's data, unmatched functions and everything
+    else stay stubs. The rule is the same for every file and nothing is listed by hand. It goes one level deep: the
+    dependency's own calls are stubs. override: {repository path: path of a modified copy} (a branch under review)."""
+    if manifest is None:
+        manifest = json.load(open(os.path.join(ROOT, 'config', 'matched_functions.json')))
+    override = override or {}
+    needed = undefined_symbols(plain_obj)
+    os.makedirs(d, exist_ok=True)
+    deps = []
+    for other, funcs in sorted(manifest['files'].items()):
+        prefixes = [f['symbol'] for f in funcs if f.get('matching', True)]
+        if other == src or not any(p in n for p in prefixes for n in needed):
+            continue
+        tag = 'dep_' + re.sub(r'\W', '_', os.path.splitext(other)[0])
+
+        def cl(extra, out):
+            r = subprocess.run([os.path.join(BIN, 'cl.exe')] + FLAGS + ['/I' + os.path.dirname(os.path.join(ROOT, other))]
+                               + extra + ['/Fo' + out, override.get(other) or os.path.join(ROOT, other)],
+                               env=env, capture_output=True, text=True)
+            if r.returncode:
+                raise RuntimeError('%s (a dependency): compile error\n%s' % (other, r.stdout + r.stderr))
+            return out
+        plain = cl([], os.path.join(d, tag + '_plain.obj'))
+        compiled = [n for n, _, _ in coff.functions(plain)]
+        proven = {hit[0] for hit in ([n for n in compiled if p in n] for p in prefixes) if hit}
+        taken = needed & defined_symbols(plain)
+        if taken and taken <= proven:
+            deps.append((cl(['/GL'], os.path.join(d, tag + '.obj')), taken))
+    return deps
 
 
 def write_stubs(names, path):
@@ -302,10 +349,12 @@ def check_references(ours, cd2, symbols, our_read, cd2_read, src, fname, cd2_byt
     return entries, problems
 
 
-def build_ltcg(srcpath, plain_obj, consts, d, env, extra_flags=()):
+def build_ltcg(srcpath, plain_obj, consts, d, env, extra_flags=(), deps=()):
     """Build an LTCG image of one source file with the generated program model (escapes, constant registrations,
-    pool seed) in directory d. plain_obj is the file's plain-compiled object (for its data symbols).
-    Returns (read function for the image, sorted [(address, symbol)], number of escaped globals)."""
+    pool seed, and deps: the matched callees' files from dependencies()) in directory d. plain_obj is the file's
+    plain-compiled object (for its data symbols).
+    Returns (read function for the image, sorted [(address, symbol)] of the file's functions, number of escaped
+    globals)."""
     flags = FLAGS + ['/I' + os.path.dirname(os.path.abspath(srcpath))] + list(extra_flags)
 
     def cl(extra, out, path):
@@ -340,9 +389,10 @@ def build_ltcg(srcpath, plain_obj, consts, d, env, extra_flags=()):
     for stale in ('t.pe', 't.map'):
         if os.path.exists(os.path.join(d, stale)):
             os.remove(os.path.join(d, stale))
-    # the file's external symbols get stubs; the linker reports which of them the LTCG build defines itself (drop
-    # those) and what else it needs (add those), so link at most three times
-    names = undefined_symbols(plain_obj)
+    # the file's external symbols get stubs, except what the dependencies define; the linker reports which of them the
+    # LTCG build defines itself (drop those) and what else it needs (add those), so link at most three times. The
+    # dependencies come after src.obj, so src.obj keeps the inline and template functions both define.
+    names = undefined_symbols(plain_obj) - set().union(*[taken for _, taken in deps])
     for attempt in range(3):
         for stale in ('t.pe', 't.map'):
             if os.path.exists(os.path.join(d, stale)):
@@ -351,7 +401,7 @@ def build_ltcg(srcpath, plain_obj, consts, d, env, extra_flags=()):
         r = subprocess.run([os.path.join(BIN, 'link.exe'), '/nologo', '/LTCG', '/NODEFAULTLIB', '/FORCE:UNRESOLVED',
                             '/ENTRY:VerifyLtcgStub', '/OPT:NOREF', '/OPT:NOICF', '/MAP:' + os.path.join(d, 't.map'),
                             '/OUT:' + os.path.join(d, 't.exe'), os.path.join(d, 'env.obj'), os.path.join(d, 'src.obj')]
-                           + ([stubs] if stubs else []), env=env, capture_output=True, text=True)
+                           + [obj for obj, _ in deps] + ([stubs] if stubs else []), env=env, capture_output=True, text=True)
         dup = set(re.findall(r'stubs\.obj : error LNK2005: .*?\((\S+)\) already defined', r.stdout))
         unres = set(re.findall(r'error LNK20(?:01|19): unresolved external symbol .*?\((\S+)\)', r.stdout))
         if not dup and not unres:
@@ -360,7 +410,8 @@ def build_ltcg(srcpath, plain_obj, consts, d, env, extra_flags=()):
     image = os.path.join(d, 't.pe')
     if not os.path.exists(image):
         raise RuntimeError('LTCG link failed\n%s' % r.stdout[-2000:])
-    return image_reader(image), map_funcs(os.path.join(d, 't.map')), len(globs)
+    return (image_reader(image), map_funcs(os.path.join(d, 't.map'), {os.path.basename(obj) for obj, _ in deps}),
+            len(globs))
 
 
 def compare_ltcg(ltcg_read, fs, symbol, target, va, absolute_offsets=()):
@@ -404,8 +455,9 @@ def ends_function(ws):
     return True
 
 
-def check_file(src, funcs, read, env, d, srcpath=None, out=print):
+def check_file(src, funcs, read, env, d, srcpath=None, out=print, manifest=None):
     """Build one source file under LTCG (srcpath: a modified copy, for the self-test) and compare its functions.
+    manifest: the one dependencies() reads (default: config/matched_functions.json).
     Returns dict(results [(entry, plain_exact, ltcg_exact)], entries, problems, known, nref) or None on a build error;
     entries/problems: the reference check of the functions exact only under LTCG."""
     os.makedirs(d, exist_ok=True)
@@ -418,8 +470,9 @@ def check_file(src, funcs, read, env, d, srcpath=None, out=print):
         return None
     consts = direct_constants(read, funcs)
     try:
+        deps = dependencies(src, plain, d, env, manifest)
         ltcg_read, fs, nglobs = build_ltcg(srcpath, plain, consts, d, env,
-                                           extra_flags=['/I' + os.path.dirname(os.path.join(ROOT, src))])
+                                           extra_flags=['/I' + os.path.dirname(os.path.join(ROOT, src))], deps=deps)
     except RuntimeError as e:
         out('%s: %s' % (src, e))
         return None
@@ -430,7 +483,8 @@ def check_file(src, funcs, read, env, d, srcpath=None, out=print):
         hit = [n for n, _, _ in compiled if f['symbol'] in n]
         if hit and f.get('matching', True):
             res['known'][hit[0]] = int(f['address'], 16)
-    out('%s  (%d globals escaped, %d constants registered)' % (src, nglobs, len(consts)))
+    out('%s  (%d globals escaped, %d constants registered, %d matched callee(s) from %d file(s))'
+        % (src, nglobs, len(consts), sum(len(taken) for _, taken in deps), len(deps)))
     for f in funcs:
         va, size = int(f['address'], 16), f['size']
         target = read(va, size)
@@ -490,6 +544,18 @@ def self_test(read, env):
     res = check_file(src, funcs, read, env, os.path.join(work, 'clean'), out=lambda m: None)
     clean = res is not None and not res['problems'] and not relocs.check_consistency(res['entries'], read, aliases, res['known'])
     print('self-test %-30s %s' % ('the unmodified file', 'accepted' if clean else 'WRONGLY REJECTED'))
+    # dependencies(): ShowRopeSegments is exact only when LTCG sees GDb::ConsoleOutput's body, so it must match while
+    # ConsoleOutput is a matched function and must not once ConsoleOutput is work in progress (then it is a stub)
+    rope, callee = 'src/VFX/cRopes.cpp', 'src/GDb/ConsoleOutput.cpp'
+    unproven = dict(manifest, files=dict(manifest['files'], **{callee: [dict(f, matching=False)
+                                                                        for f in manifest['files'][callee]]}))
+    for what, man, want in (('a matched callee is seen', manifest, True), ('an unmatched callee is a stub', unproven, False)):
+        res = check_file(rope, manifest['files'][rope], read, env, os.path.join(work, 'dep_%d' % want), out=lambda m: None,
+                         manifest=man)
+        exact = bool(res) and any(lt for f, _, lt in res['results'] if 'ShowRopeSegments' in f['symbol'])
+        ok &= exact == want
+        print('self-test %-30s %s' % (what, 'ok' if exact == want else 'WRONG (ShowRopeSegments %s)'
+                                      % ('exact' if exact else 'differs')))
     shutil.rmtree(work, ignore_errors=True)
     return ok and clean
 

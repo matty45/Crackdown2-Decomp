@@ -223,7 +223,8 @@ def verify(override=None, ltcg=True, out=print):
         plain = compile_plain(src, tmp, override.get(src))
         consts = [(op, struct.unpack('>d', bytes.fromhex(h))[0]) for op, h in facts['files'].get(src, {}).get('direct_constants', [])]
         lread, fs, _ = verify_ltcg.build_ltcg(override.get(src) or os.path.join(ROOT, src), plain, consts, d, env(),
-                                              extra_flags=['/I' + os.path.dirname(os.path.join(ROOT, src))])
+                                              extra_flags=['/I' + os.path.dirname(os.path.join(ROOT, src))],
+                                              deps=verify_ltcg.dependencies(src, plain, d, env(), man, override))
         syms = verify_ltcg.map_symbols(os.path.join(d, 't.map'))
         for f in funcs:
             if not f.get('matching', True):

@@ -297,8 +297,8 @@
         "address": "0x82806D40",
         "size": 136,
         "symbol": "?ShowRopeSegments@cRopes@VFX@@",
-        "matching": false,
-        "note": "29/34 words with the standard verifier; stack frame differs by 16 bytes"
+        "ltcg": true,
+        "note": "exact only under LTCG: its frame depends on GDb::ConsoleOutput's body, which LTCG sees (verify_ltcg.dependencies)"
       },
       {
         "address": "0x82807380",
