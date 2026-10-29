@@ -147,7 +147,7 @@ namespace Fun_Runtime
             {
                 if (m_dAvailable[i] != 0)
                 {
-                    int nIndex = (int)((unsigned char *)m_dAvailable[i] - m_pObjects) / (int)sizeof(T);
+                    int nIndex = (int)(static_cast<T *>(m_dAvailable[i]) - reinterpret_cast<T *>(m_pObjects));
                     bFree[nIndex] = false;
                 }
             }

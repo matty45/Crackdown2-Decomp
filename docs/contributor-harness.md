@@ -218,6 +218,11 @@ from this repository are checked. `cd2.py lint` runs it and `cd2.py lint --self-
   optimize` or `inline_depth` would change code generation for one function.
 - Not allowed: `#line`, which would disguise where code comes from, and including files from outside the repository
   and the XDK.
+- Not allowed: pointer arithmetic to reach memory: a cast to a byte pointer followed by an offset or an index, a
+  pointer converted to an integer, a hard-coded address, an address computed from an integer, and raw memory indexed
+  through a cast. Fields are declared members (checked by `CD2_OFFSET`), globals are declared with a name and a type.
+  A hard-coded address emits no relocation, so the relocation-target check could not see which global it is. The
+  `offsetof` expansion inside the layout checks is exempt.
 - Matched functions must be in an ordinary code section (`.text`, or the compiler's own `.text$yc`/`.text$yd` for
   static initializers and at-exit destructors).
 - Flagged for review: `goto`. It is rarely what the original source did.

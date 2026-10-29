@@ -100,7 +100,7 @@ namespace RWS
 
     public:
         unsigned int GetCommandId() const;
-        const char *GetAs_char_ptr() const;
+        const char *GetAs_char_ptr() const { return (const char *)&chunk_.data_; } // inline in CD2
         const char GetAs_char() const;
         const unsigned short GetAs_unsigned_short() const;
         const short GetAs_short() const;

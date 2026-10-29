@@ -34,7 +34,9 @@ natural source) are checked in review.
   - no inline assembly, `__emit`, naked functions or custom sections;
   - no `#pragma` other than `pack`, `warning` or `once`;
   - no `#line`;
-  - no includes from outside the repository and the XDK.
+  - no includes from outside the repository and the XDK;
+  - no pointer arithmetic to reach memory (a cast to `char *` plus an offset, a pointer turned into an integer, a
+    hard-coded address): declare the member or global with its type and use it by name.
 
   These are checked on the preprocessed source.
 - **The right file.** A function belongs to the source file whose address range in `config/splits.txt` holds it, even

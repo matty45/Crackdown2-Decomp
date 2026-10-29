@@ -20,9 +20,15 @@ search for either.
    (it rewrites `config/target_facts.json` from the game; never edit that file by hand).
 3. **No tricks:**
    - no inline assembly, `__emit`, `__declspec(naked)` or `__declspec(allocate)`, or `#line`;
-   - no `#pragma` other than `pack`, `warning` or `once`.
+   - no `#pragma` other than `pack`, `warning` or `once`;
+   - **no pointer arithmetic to reach memory**: no cast to `char *` plus an offset, no pointer turned into an integer,
+     no hard-coded address, no raw memory indexed through a cast. When CD2 reads offset 0x50C of an object, declare the
+     member at 0x50C in the class's header (with its `CD2_OFFSET` check) and use it by name, even if all you can call it
+     is `m_word50C`. Declare a global with a name and a type. Reach a base or derived class with `static_cast`.
+     Typed pointer code the developers would have written is fine: walking an array with `p + i` or `++p`, `end - begin`.
 
-   `check` rejects them on the preprocessed source.
+   `check` rejects them on the preprocessed source. Pointer arithmetic gives the same instructions, but it proves nothing
+   about the layout, and a hard-coded address has no relocation, so `check` cannot tell whether it is the right global.
 4. **Use the shared headers** in `include/`. Game classes derive from `cNonGameBase` (`include/gom/non_game_base.h`);
    prototypes derive from `GOM::cObjectPrototype` (`include/gom/object_prototype.h`). Never define a second copy of a
    type that already exists: search `include/` first. A missing type gets its own header, one class per header, at

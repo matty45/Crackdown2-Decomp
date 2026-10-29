@@ -26,9 +26,6 @@ namespace Net
     cFieldWriter *AddFloat(cFieldWriter *w, int id, int flags, float f);
 }
 
-// CAttributeCommand::GetAs_char_ptr is inline in CD2 (address of the data word).
-inline const char *RWS::CAttributeCommand::GetAs_char_ptr() const { return (const char *)&chunk_.data_; }
-
 namespace Equip
 {
     // Resolves a light name to its table index (sub_827FBF30 in CD2); name is ours.

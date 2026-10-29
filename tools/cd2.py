@@ -275,13 +275,49 @@ def tier(ft):
 
 # ---------------------------------------------------------------------------------------------------- source policy
 
+# the operand of a cast in the pointer-arithmetic patterns: a name followed by any member accesses, calls and
+# subscripts, or a parenthesised expression
+POLICY_OPERAND = r'(?:\w+(?:\s*(?:\.|->)\s*(?:operator\s*->|\w+)|\s*\([^()]*\)|\s*\[[^\[\]]*\])*|\([^()]*\))'
 POLICY_ERRORS = [
     (re.compile(r'\b_{0,2}asm\b'), 'inline assembly'),
     (re.compile(r'\b__emit\b'), '__emit (raw machine code)'),
     (re.compile(r'__declspec\s*\(\s*(naked|allocate)\b'), '__declspec(naked/allocate)'),
     (re.compile(r'\b__pragma\b'), '__pragma'),
-]
+] + [(re.compile(p.replace('OPERAND', POLICY_OPERAND)), 'pointer arithmetic: %s (declare the member, array or global '
+                                                          'with its real type and use it by name; see AGENTS.md)' % what)
+       for p, what in (
+    # a cast to a byte pointer, then an offset or an index: reaching a field by its address instead of its member
+    (r'\(\s*(?:const\s+)?(?:(?:un)?signed\s+)?char\s*(?:const\s*)?\*\s*\)\s*&?\s*OPERAND\s*[-+\[]',
+     'a byte-pointer cast used to reach memory by offset'),
+    (r'_cast\s*<\s*(?:const\s+)?(?:(?:un)?signed\s+)?char\s*(?:const\s*)?\*\s*>\s*\([^()]*\)\s*[-+\[]',
+     'a byte-pointer cast used to reach memory by offset'),
+    # a pointer turned into a number
+    (r'reinterpret_cast\s*<\s*(?:const\s+)?(?:(?:un)?signed\s+)?(?:int|long|short|__int64|size_t|uintptr_t|intptr_t|'
+     r'DWORD|UINT|u32|s32|uint32_t|int32_t)\s*>', 'a pointer converted to an integer'),
+    (r'\(\s*(?:(?:un)?signed\s+)?(?:int|long|__int64|size_t|uintptr_t|intptr_t|DWORD|UINT|u32|uint32_t)\s*\)\s*'
+     r'(?:this\b|&)', 'a pointer converted to an integer'),
+    # an address written as a number (a global read this way has no relocation, so its target is never checked)
+    (r'_cast\s*<[^<>;]*\*\s*>\s*\(\s*(?:0x0*[1-9A-Fa-f][0-9A-Fa-f]*|[1-9]\d*)\s*\)', 'a hard-coded address'),
+    (r'\(\s*(?:const\s+)?[\w:]+(?:\s+\w+)?\s*\*+\s*\)\s*\(?\s*0x[0-9A-Fa-f]{5,}', 'a hard-coded address'),
+    # an address computed from an integer, or raw memory indexed through a cast
+    (r'reinterpret_cast\s*<[^<>;]*\*\s*>\s*\([^()]*[-+][^()]*\)', 'an address computed with integer arithmetic'),
+    (r'_cast\s*<[^<>;]*\*\s*>\s*\([^()]*\)\s*\[', 'raw memory indexed through a cast'),
+    (r'\(\s*\(\s*(?:const\s+)?[\w:]+\s*\*\s*\)\s*OPERAND\s*\)\s*\[', 'raw memory indexed through a cast'),
+)]
 PRAGMA_ALLOWED = ('pack', 'warning', 'once')
+OFFSETOF = '(size_t)&reinterpret_cast<const volatile char&>('  # what offsetof (CD2_LAYOUT_CHECKS) expands to
+
+
+def without_offsetof(text):
+    """The line with every offsetof expansion replaced by 0: the language's own offset query, not pointer arithmetic."""
+    while OFFSETOF in text:
+        i = text.index(OFFSETOF)
+        j, depth = i + len(OFFSETOF), 1
+        while j < len(text) and depth:
+            depth += {'(': 1, ')': -1}.get(text[j], 0)
+            j += 1
+        text = text[:i] + '0' + text[j:]
+    return text
 
 
 def policy(src, extra_roots=(), roots=None, include=None):
@@ -327,7 +363,7 @@ def policy(src, extra_roots=(), roots=None, include=None):
         if not ours:
             continue
         where = '%s:%d' % (rel(origin), lineno)
-        text = line.split('//', 1)[0]
+        text = without_offsetof(line.split('//', 1)[0])
         for pat, what in POLICY_ERRORS:
             if pat.search(text):
                 errors.append('%s: %s' % (where, what))
@@ -1080,6 +1116,24 @@ def policy_self_test():
         ('#pragma optimize', '#pragma optimize("", off)\nint f(int a) { return a; }\n', True),
         ('#line disguise', '#line 1 "C:/xdk/include/xbox/xtl.h"\nint f(int a) { return a; }\n', True),
         ('include from outside', '#include "%s"\n' % os.path.join(outside, 'outside.h').replace('\\', '/'), True),
+        ('clean casts and indexing', 'struct B { int x; }; struct D : B { int y; };\n'
+                                     'int g(B *b) { return b ? static_cast<D *>(b)->y : 0; }\n'
+                                     'int h(int (&a)[4], int i) { return a[i]; }\n'
+                                     'int *n() { return static_cast<int *>(0); }\n', False),
+        ('byte offset from this', 'struct S { int a, b; int f() const { return *(const int *)((const char *)this + 4); } };\n',
+         True),
+        ('byte offset via reinterpret_cast', 'struct S { int a, b; int f() const {\n'
+                                             '  return *reinterpret_cast<const int *>(reinterpret_cast<const char *>(this) + 4); } };\n',
+         True),
+        ('byte offset from a member call', 'struct I { const int *operator->() const; };\n'
+                                           'int f(const I &it) { return *(const int *)((const char *)it.operator->() + 8); }\n',
+         True),
+        ('pointer to integer', 'unsigned int f(void *p) { return reinterpret_cast<unsigned int>(p); }\n', True),
+        ('hard-coded address', 'int f() { return *reinterpret_cast<const int *>(0x83803420); }\n', True),
+        ('address from integer arithmetic', 'int f(unsigned int p) { return *reinterpret_cast<const int *>(p + 0x9C); }\n',
+         True),
+        ('raw memory indexed through a cast', 'int f(unsigned int p) { return reinterpret_cast<const int *>(p)[1]; }\n',
+         True),
     ]
     ok = True
     out = []

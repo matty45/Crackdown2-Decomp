@@ -39,8 +39,9 @@ Each of your replies must do exactly one of these:
 2. Give the function's body: ONLY the code between the function's braces, in one ```cpp code block. It replaces the \
 body, is compiled and compared, and you get the result back.
 
-Rules: no inline assembly, no __emit, no #pragma, no #line, no #include: the check rejects them. Write code a \
-developer would have written. If you cannot improve further, reply STOP."""
+Rules: no inline assembly, no __emit, no #pragma, no #line, no #include, and no pointer arithmetic (a cast to \
+char * plus an offset, a pointer turned into an integer, a hard-coded address): the check rejects them. Use the members \
+and globals the headers declare, by name. Write code a developer would have written. If you cannot improve further, reply STOP."""
 
 MAX_FILE = 60000  # characters of one file sent back
 

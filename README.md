@@ -72,7 +72,8 @@ the main branch's tools (`cd2.py review`), and it is merged only when they pass.
   calls the wrong function fails even if its bytes match.
 - **Ownership:** every function is in the source file whose address range holds it, and no function or type is defined
   twice.
-- **Source policy:** no inline assembly, no pragmas, nothing that makes code match without being source. It is checked
+- **Source policy:** no inline assembly, no pragmas, no pointer arithmetic in place of declared members and globals,
+  nothing that makes code match without being source. It is checked
   on the preprocessed source.
 - **Self-tests:** each gate is shown, by planting errors, to catch what it claims to catch.
 - **Without the game:** `verify --facts` reaches the same verdicts from recorded hashes and addresses, on a machine

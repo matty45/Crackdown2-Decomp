@@ -146,7 +146,9 @@ def prepare(file, entry, brief, model=None):
             'Check your work with this command, exactly as written (each run counts as an attempt):', '',
             '    ' + check_cmd, '',
             'It reports EXACT, or how many of the instruction words match. Read `docs/matching-notes.md` for the '
-            'compiler\'s habits. No inline assembly, `__emit` or pragmas: the check rejects them.', '',
+            'compiler\'s habits. No inline assembly, `__emit`, pragmas or pointer arithmetic (a cast to `char *` plus '
+            'an offset, a pointer turned into an integer, a hard-coded address): the check rejects them. Use members '
+            'and globals by name; declare a missing member in its class\'s header at its offset.', '',
             '## Hints', ''] + ['- ' + h for h in brief.get('hints', [])] + (['- none'] if not brief.get('hints') else []) + [
             '', '## Crackdown 2\'s code', '', '```', brief.get('assembly') or '(not available)', '```', '']
     open(os.path.join(d, 'TASK.md'), 'w', newline='\n').write('\n'.join(task))

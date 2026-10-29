@@ -59,7 +59,7 @@ namespace GameManagement
             {
             case 0:
                 {
-                    const unsigned int *list = (const unsigned int *)((const char *)it.operator->() + 8);
+                    const unsigned int *list = (const unsigned int *)it->GetAs_char_ptr();
                     unsigned int count = rwSwap32(*list);
                     for (unsigned int i = 0; i < count; i++)
                     {
@@ -78,7 +78,7 @@ namespace GameManagement
                 {
                     const RWS::CAttributeCommand *cmd = it.operator->();
                     cLocStringManager *mgr = RetLocStringManager();
-                    m_nStringID = mgr->GetStringID((const char *)cmd + 8);
+                    m_nStringID = mgr->GetStringID(cmd->GetAs_char_ptr());
                 }
                 break;
             case 2:
