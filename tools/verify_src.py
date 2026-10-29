@@ -15,7 +15,7 @@ symbol stands for, consistently across the whole repository (one name, one addre
 declared in config/symbol_aliases.txt; constants and strings by content). A function that calls the wrong function
 or reads the wrong global fails here even though its bytes match.
 """
-import json, os, struct, subprocess, sys, tempfile
+import atexit, json, os, shutil, struct, subprocess, sys, tempfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, 'tools'))
@@ -110,6 +110,7 @@ def self_test(read, env):
     """Prove the relocation check catches what the byte comparison cannot. Returns True if every case is caught."""
     ok = True
     tmp = tempfile.mkdtemp(prefix='cd2verify_selftest_')
+    atexit.register(shutil.rmtree, tmp, ignore_errors=True)  # removed when the process exits
     # 1. end to end: a tail call to the wrong function with the same signature
     src = os.path.join(ROOT, 'src', 'VFX', 'cAmbientVFXSpawner.cpp')
     text = open(src).read()
@@ -180,6 +181,7 @@ def main():
     env = dict(os.environ, PATH=BIN + ';' + os.environ['PATH'],
                INCLUDE=os.path.join(XDK, 'include', 'xbox') + ';' + os.path.join(ROOT, 'include'))
     tmp = tempfile.mkdtemp(prefix='cd2verify_')
+    atexit.register(shutil.rmtree, tmp, ignore_errors=True)  # removed when the process exits
     total = ok = pending = 0
     entries, problems, known, nfuncs = [], [], {}, 0
     for src, funcs in manifest['files'].items():

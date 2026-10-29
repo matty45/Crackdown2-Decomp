@@ -19,7 +19,7 @@ it). All checks must pass:
 
 The same CD2 function declared under two names is caught by the relocation-target check (tools/verify_src.py).
 """
-import collections, json, os, re, struct, subprocess, sys, tempfile
+import atexit, collections, json, os, re, shutil, struct, subprocess, sys, tempfile
 
 TOOLS = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, TOOLS)
@@ -224,6 +224,7 @@ def run(manifest, splits, extra_type_roots=(), extra_sources=(), skip_compile=Fa
         env = dict(os.environ, PATH=BIN + ';' + os.environ['PATH'],
                    INCLUDE=os.path.join(XDK, 'include', 'xbox') + ';' + os.path.join(ROOT, 'include'))
         tmp = tempfile.mkdtemp(prefix='cd2integrity_')
+        atexit.register(shutil.rmtree, tmp, ignore_errors=True)  # removed when the process exits
         owners = collections.defaultdict(list)
         sources = [os.path.join(ROOT, f) for f in manifest] + list(extra_sources)
         for n, path in enumerate(sources):
@@ -251,6 +252,7 @@ def self_test(no_compile=False):
     a_file, b_file = files[0], files[1]
     b_addr = '0x%08X' % splits[b_file]['text'][0]
     tmp = tempfile.mkdtemp(prefix='cd2integrity_selftest_')
+    atexit.register(shutil.rmtree, tmp, ignore_errors=True)  # removed when the process exits
     cases = []
     m = copy.deepcopy(manifest)
     m['src/SelfTest/NotInSplits.cpp'] = [{'address': b_addr, 'size': 4, 'symbol': 'SelfTest'}]
