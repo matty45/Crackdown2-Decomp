@@ -26,6 +26,8 @@ search for either.
      member at 0x50C in the class's header (with its `CD2_OFFSET` check) and use it by name, even if all you can call it
      is `m_word50C`. Declare a global with a name and a type. Reach a base or derived class with `static_cast`.
      Typed pointer code the developers would have written is fine: walking an array with `p + i` or `++p`, `end - begin`.
+     Spreading the arithmetic over statements (`const char *p = reinterpret_cast<const char *>(this); p += 0x38;`),
+     keeping a pointer in an integer field, or casting through `void *` is the same thing, and `check` rejects it too.
 
    `check` rejects them on the preprocessed source. Pointer arithmetic gives the same instructions, but it proves nothing
    about the layout, and a hard-coded address has no relocation, so `check` cannot tell whether it is the right global.

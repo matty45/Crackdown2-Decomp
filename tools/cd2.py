@@ -49,7 +49,8 @@ Nothing a contributor writes decides what counts as matched: check and verify co
 extracted copy of the game, with the pinned compiler (config/toolchain.txt) and the maintainers' symbol table
 (config/matched_functions.json). docs/contributor-harness.md explains the workflow and the rules.
 """
-import argparse, collections, concurrent.futures, datetime, hashlib, json, os, re, shutil, struct, subprocess, sys, tempfile
+import argparse, bisect, collections, concurrent.futures, datetime, hashlib, json, os, re, shutil, struct, subprocess, sys
+import tempfile
 import time
 
 TOOLS = os.path.dirname(os.path.abspath(__file__))
@@ -309,6 +310,52 @@ PRAGMA_ALLOWED = ('pack', 'warning', 'once')
 OFFSETOF = '(size_t)&reinterpret_cast<const volatile char&>('  # what offsetof (CD2_LAYOUT_CHECKS) expands to
 
 
+# patterns of the whole-file pass (pointer arithmetic spread over several statements)
+POINTER_CAST = (r'(?:(?:reinterpret|static|const)_cast\s*<[^<>;]*\*\s*>|'
+                r'\(\s*(?:const\s+|volatile\s+)*[\w:]+(?:\s+\w+)?(?:\s*const)?\s*\*+\s*\))')
+LITERAL = r'(?:0[xX][0-9a-fA-F]+|\d+)[uUlL]*'
+INTEGER_DECL = (r'\b(?:unsigned|signed|int|long|short|__int64|size_t|uintptr_t|intptr_t|DWORD|UINT|u32|s32|uint32_t|'
+                r'int32_t)\s+(?:const\s+)?(\w+)\s*(?=[;=,)\[])')
+NOT_NAMES = {'int', 'long', 'short', 'char', 'const', 'unsigned', 'signed', 'volatile'}
+
+
+def block_end(code, i):
+    """The offset of the brace that closes the block containing offset i (or the end of the text)."""
+    depth = 0
+    for j in range(i, len(code)):
+        depth += {'{': 1, '}': -1}.get(code[j], 0)
+        if depth < 0:
+            return j
+    return len(code)
+
+
+def spread_pointer_arithmetic(code):
+    """[(offset, what)]: pointer arithmetic split over statements, which the line patterns cannot see. code is one
+    file's own preprocessed lines. A pointer made by a cast and then moved by a constant (`p = (char *)this; p += 8`),
+    an integer variable or field used as a pointer, a cast laundered through void *, and `this` reinterpreted."""
+    found = []
+    for m in re.finditer(r'\b(\w+)\s*=\s*' + POINTER_CAST, code):
+        name = re.escape(m.group(1))
+        body = code[m.end():block_end(code, m.end())]
+        moved = re.search(r'\b%s\s*(?:[-+]=\s*%s|[-+]\s*%s\b|\[\s*%s\s*\]|\+\+|--)|(?:\+\+|--)\s*%s\b'
+                          % (name, LITERAL, LITERAL, LITERAL, name), body)
+        if moved:
+            found.append((m.end() + moved.start(), 'a pointer made by a cast, then moved by a constant'))
+    ints = set(re.findall(INTEGER_DECL, code)) - NOT_NAMES
+    for m in re.finditer(r'(?:reinterpret_cast\s*<[^<>;]*\*\s*>|\(\s*(?:const\s+|volatile\s+)*[\w:]+(?:\s+\w+)?'
+                         r'(?:\s*const)?\s*\*+\s*\))\s*\(?\s*(\w+)\b(?!\s*(?:\(|\.|->|\[|::))', code):
+        if m.group(1) in ints:
+            found.append((m.start(), 'an integer used as a pointer (give the field or variable its pointer type)'))
+    for m in re.finditer(r'static_cast\s*<[^<>;]*\*\s*>\s*\(\s*static_cast\s*<[^<>;]*\bvoid\s*\*\s*>|'
+                         r'\*\s*\)\s*\(\s*(?:const\s+)?void\s*\*\s*\)', code):
+        found.append((m.start(), 'a pointer converted through void * (a disguised reinterpret_cast)'))
+    for m in re.finditer(r'reinterpret_cast\s*<(?![^<>;]*\bvoid\b)[^<>;]*\*\s*>\s*\(\s*this\s*\)|'
+                         r'\(\s*(?:const\s+)?(?!void\b)[\w:]+\s*\*\s*\)\s*this\b', code):
+        found.append((m.start(), '`this` reinterpreted as another type (declare the member; use static_cast for a base '
+                                 'or derived class)'))
+    return found
+
+
 def without_offsetof(text):
     """The line with every offsetof expansion replaced by 0: the language's own offset query, not pointer arithmetic."""
     while OFFSETOF in text:
@@ -351,6 +398,7 @@ def policy(src, extra_roots=(), roots=None, include=None):
     xdk = os.path.normcase(XDK)
     origin, lineno, ours = path, 0, True
     seen_outside = set()
+    own = []  # (where, text) of every line from the repository, for the whole-file pass
     for line in preprocessed:
         m = re.match(r'#line (\d+) "(.*)"', line)
         if m:
@@ -365,6 +413,7 @@ def policy(src, extra_roots=(), roots=None, include=None):
             continue
         where = '%s:%d' % (rel(origin), lineno)
         text = without_offsetof(line.split('//', 1)[0])
+        own.append((where, text.rstrip('\n')))
         for pat, what in POLICY_ERRORS:
             if pat.search(text):
                 errors.append('%s: %s' % (where, what))
@@ -373,6 +422,14 @@ def policy(src, extra_roots=(), roots=None, include=None):
             errors.append('%s: #pragma %s (allowed: %s)' % (where, pm.group(1), ', '.join(PRAGMA_ALLOWED)))
         if re.search(r'\bgoto\b', text):
             warnings.append('%s: goto (needs review: rarely what the original source did)' % where)
+    starts, at = [], 0
+    for _, text in own:
+        starts.append(at)
+        at += len(text) + 1
+    for off, what in spread_pointer_arithmetic('\n'.join(text for _, text in own)):
+        e = '%s: pointer arithmetic: %s (see AGENTS.md)' % (own[bisect.bisect_right(starts, off) - 1][0], what)
+        if e not in errors:
+            errors.append(e)
     return errors, warnings
 
 
@@ -1157,6 +1214,27 @@ def policy_self_test():
          True),
         ('raw memory indexed through a cast', 'int f(unsigned int p) { return reinterpret_cast<const int *>(p)[1]; }\n',
          True),
+        # the same, spread over statements (seen in agents' code once the one-line forms were rejected)
+        ('byte offset in two statements', 'struct S { int a, b; int f() const {\n'
+                                          '  const char *p = reinterpret_cast<const char *>(this);\n  p += 4;\n'
+                                          '  return *reinterpret_cast<const int *>(p); } };\n', True),
+        ('int pointer stepped off a cast', 'struct S { int a, b; int f() const {\n'
+                                           '  const int *ip = reinterpret_cast<const int *>(this);\n  ip += 1;\n'
+                                           '  return *ip; } };\n', True),
+        ('pointer stored as an integer', 'struct S { unsigned int m_p; float f() const {\n'
+                                         '  return *reinterpret_cast<const float *>(m_p); } };\n', True),
+        ('cast laundered through void *', 'struct S { int a, b; int f() const {\n'
+                                          '  return static_cast<const int *>(static_cast<const void *>(this))[1]; } };\n',
+         True),
+        ('this punned to a scalar', 'struct S { int a; void f(int v) { *reinterpret_cast<int *>(this) = v; } };\n', True),
+        ('clean typed pointer code', 'struct T { int v; };\n'
+                                     'int sum(const int (&a)[4]) { const int *p = a; int s = 0;\n'
+                                     '  for (int i = 0; i < 4; ++i) s += p[i]; return s; }\n'
+                                     'unsigned hash(const void *data, int n) {\n'
+                                     '  const unsigned char *b = static_cast<const unsigned char *>(data); unsigned h = 0;\n'
+                                     '  for (int i = 0; i < n; ++i) h = h * 31 + b[i]; return h; }\n'
+                                     'int count(T *begin, T *end) { return (int)(end - begin); }\n'
+                                     'float pun(const unsigned int &w) { return *(const float *)&w; }\n', False),
     ]
     ok = True
     out = []
