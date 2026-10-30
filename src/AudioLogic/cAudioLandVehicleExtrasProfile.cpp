@@ -4,7 +4,8 @@
 // address range and the evidence for it are in config/splits.txt; RuffKing's object for it is
 // cAudioLandVehicleExtrasProfile.obj.
 //
-// Reference layout from a later build of the same codebase (a starting point, not CD2's: verify it against CD2's code):
+// Reference layout from a later build of the same codebase (a starting point, not CD2's: verify it against CD2's code;
+// refs/ is not in the public repository: maintainers provide it on request; see AGENTS.md):
 // refs/ruffking_pdb_ref/DevBranches/Kingdoms/Source/Code/Libraries/Shared/Audio/cAudioLandVehicleExtrasProfile.h.
 //
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in

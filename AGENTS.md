@@ -34,9 +34,8 @@ search for either.
 4. **Use the shared headers** in `include/`. Game classes derive from `cNonGameBase` (`include/gom/non_game_base.h`);
    prototypes derive from `GOM::cObjectPrototype` (`include/gom/object_prototype.h`). Never define a second copy of a
    type that already exists: search `include/` first. A missing type gets its own header, one class per header, at
-   `include/<Namespace>/<Class>.h`, marked as a stand-in with your evidence (see `include/README.md`). Start from the
-   reference layout the source file's top comment names (`refs/...`): it comes from a later build of the same
-   codebase, so check every size and offset against CD2's code.
+   `include/<Namespace>/<Class>.h`, marked as a stand-in with your evidence (see `include/README.md`). Names and
+   layouts need evidence: see "Finding names and layouts" below.
 5. **Stay in the file.** Write a function in the source file that owns its address (`config/splits.txt`).
 6. **Nothing from the game in the repository.** Never paste the game's bytes or assembly into a committed file.
 
@@ -70,6 +69,29 @@ How to work:
 
 `WRONG TARGET` means the bytes match but a call or global goes elsewhere than in the game: you called the wrong
 function, or used the wrong global or constant.
+
+## Finding names and layouts
+
+Every name and every field needs evidence. Use the strongest you have:
+
+1. **Crackdown 2 itself.** `show` prints what the game says about a function: `name` lines are the script-method
+   names it is registered under (CD2 builds the function's address, then the name), `vtable` lines are the virtual
+   slots that point at it, and `callers` counts the direct calls. A script name is the method's real name, and the field
+   a getter or setter touches is named after it (`SetFriendlyFireTolerance` stores `m_fFriendlyFireTolerance`).
+2. **The reference builds in `refs/`**, later builds of the same codebase: RuffKing for names, Burn for virtual order
+   (Burn's vtable slots line up with CD2's). Headers give layouts and member names; each `.cpp` lists the functions
+   and globals its object defined, with their addresses in that build. Search them for any class or name, not only the
+   one the source file's top comment names. Sizes and offsets often differ: check every one against CD2's code.
+   `refs/` is not in the public repository; maintainers have it and provide it on request.
+3. **An IDA MCP server, if the person you work for has one**, with CD2's database and the reference builds'
+   (RuffKing's and Burn's carry their PDB names): use it for callers, vtables and the reference builds' code. The names
+   in CD2's own database were assigned by hand and may be wrong.
+
+A function in your file whose `this` does not fit your class (it reads another class's fields, or several classes
+register it under different names) is another class's code that the linker folded into your file: name it after that
+class. Where nothing names a function or field, give it a descriptive name and say in the header that the name is ours.
+`refs/` and IDA are evidence for names and layouts, never for a match (only `check` is), and nothing from them goes
+into the repository (rule 6).
 
 ## MCP
 

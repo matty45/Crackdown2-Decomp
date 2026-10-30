@@ -160,6 +160,94 @@ def read(va, n):
     return _reader(va, n)
 
 
+_references = None
+SCRIPT_NAME = re.compile(r'^[A-Za-z_][A-Za-z0-9_]{2,63}$')
+
+
+def game_references():
+    """Where the game itself refers to each function: {'names': {fn: [[site, string]]}, 'vtables': {fn: [[table,
+    slot, installed_at]]}, 'callers': {fn: n}} (hex strings). names: the function's address is built (lis/addi) and the
+    next string built within 16 instructions is identifier-like, which is how CD2 registers script methods (the string is
+    the method's name; only the function built last gets it). vtables: a word in read-only data points at the function; the table starts at the nearest earlier
+    word of the same run of code pointers whose address code builds (a constructor installing the vtable). Computed once
+    from the extracted game and cached in build/cd2/references.json (keyed by the executable's size and time)."""
+    global _references
+    if _references is not None:
+        return _references
+    path = os.path.join(WORK, 'references.json')
+    key = '%d:%d' % (os.path.getsize(EXE), int(os.path.getmtime(EXE)))
+    if os.path.exists(path):
+        cached = json.load(open(path))
+        if cached.get('key') == key:
+            _references = cached
+            return cached
+    exe = open(EXE, 'rb').read()
+    pe = struct.unpack_from('<I', exe, 0x3C)[0]
+    nsec = struct.unpack_from('<H', exe, pe + 6)[0]
+    opt = struct.unpack_from('<H', exe, pe + 20)[0]
+    base = struct.unpack_from('<I', exe, pe + 24 + 28)[0]
+    secs = []
+    for i in range(nsec):
+        name, vs, va, rs, rp = struct.unpack_from('<8sIIII', exe, pe + 24 + opt + 40 * i)
+        secs.append((name.rstrip(b'\0').decode('latin-1'), base + va, min(vs, rs), rp))
+    starts = jeff_symbols()
+
+    def cstr(a):
+        try:
+            b = read(a, 64).split(b'\0')[0]
+        except Exception:
+            return None
+        s = b.decode('latin-1')
+        return s if SCRIPT_NAME.match(s) else None
+    names, callers, built = {}, collections.Counter(), {}
+    for name, va, size, rp in secs:
+        if name != '.text':
+            continue
+        ws = struct.unpack('>%dI' % (size // 4), exe[rp:rp + size // 4 * 4])
+        hi, pending = {}, []  # pending: [(function address, site, instructions left)] for the last function built
+        for i, w in enumerate(ws):
+            op, at = w >> 26, va + 4 * i
+            pending = [(f, s, n - 1) for f, s, n in pending if n > 1]
+            if op == 15 and (w >> 16) & 31 == 0:
+                hi[(w >> 21) & 31] = (w & 0xFFFF) << 16
+            elif op == 14 and (w >> 16) & 31 in hi:
+                lo = w & 0xFFFF
+                a = (hi[(w >> 16) & 31] + (lo - 0x10000 if lo & 0x8000 else lo)) & 0xFFFFFFFF
+                built.setdefault(a, at)
+                if a in starts:
+                    pending = [(a, at, 16)]
+                elif pending:
+                    s = cstr(a)
+                    if s:
+                        f, site, _ = pending[-1]
+                        names.setdefault('0x%08X' % f, []).append(['0x%08X' % site, s])
+                        pending = []
+            elif op == 18 and w & 3 == 1:
+                d = w & 0x03FFFFFC
+                t = (at + (d - 0x04000000 if d & 0x02000000 else d)) & 0xFFFFFFFF
+                if t in starts:
+                    callers['0x%08X' % t] += 1
+    vtables = {}
+    for name, va, size, rp in secs:
+        if name in ('.text', '.pdata') or not size:
+            continue
+        ws = struct.unpack('>%dI' % (size // 4), exe[rp:rp + size // 4 * 4])
+        run = None  # index where the current run of code pointers starts
+        for i, w in enumerate(ws):
+            if w not in starts:
+                run = None
+                continue
+            if run is None:
+                run = i
+            table = next((k for k in range(i, run - 1, -1) if va + 4 * k in built), None)
+            if table is not None:
+                vtables.setdefault('0x%08X' % w, []).append(['0x%08X' % (va + 4 * table), i - table,
+                                                             '0x%08X' % built[va + 4 * table]])
+    _references = dict(key=key, names=names, vtables=vtables, callers=dict(callers))
+    json.dump(_references, open(path, 'w'))
+    return _references
+
+
 def jeff_symbols():
     """{address: (name, size)} of the functions jeff found (build/cd2/symbols.txt)."""
     out = {}
@@ -734,9 +822,14 @@ def cmd_show(a):
             e = man.get(x)
             neighbours.append(dict(address='0x%08X' % x, symbol=e['symbol'] if e else None,
                                    status='exact' if e and e.get('matching', True) else 'in progress' if e else 'open'))
+    refs = game_references()
+    key = '0x%08X' % start
+    evidence = dict(script_names=[dict(name=s, site=site) for site, s in refs['names'].get(key, [])],
+                    vtable_slots=[dict(table=t, slot=n, installed_at=at) for t, n, at in refs['vtables'].get(key, [])],
+                    callers=refs['callers'].get(key, 0))
     return dict(ok=True, address='0x%08X' % start, size=size, file=f, unit=unit_of(start, f, splits) if f else None,
                 status=status, symbol=(entry or c or {}).get('symbol'), tier=tier(ft), features=ft, hints=hints,
-                neighbours=neighbours, notes='docs/matching-notes.md',
+                evidence=evidence, neighbours=neighbours, notes='docs/matching-notes.md',
                 assembly=target_asm(unit_of(start, f, splits), start) if f else None)
 
 
@@ -1397,6 +1490,13 @@ def show_text(cmd, res):
         print('%-10s %s' % ('features', ', '.join('%s %s' % kv for kv in res['features'].items())))
         for h in res['hints']:
             print('hint       ' + h)
+        ev = res.get('evidence') or {}
+        for s in ev.get('script_names', []):
+            print('name       "%s": registered as a script method at %s (its address, then this string)' % (s['name'], s['site']))
+        for v in ev.get('vtable_slots', []):
+            print('vtable     slot %d of the table at %s (installed by code at %s)' % (v['slot'], v['table'], v['installed_at']))
+        if ev:
+            print('callers    %d direct call(s)' % ev.get('callers', 0))
         for n in res['neighbours']:
             print('neighbour  %s %-12s %s' % (n['address'], n['status'], n['symbol'] or ''))
         print('notes      ' + res['notes'])

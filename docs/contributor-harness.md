@@ -27,12 +27,13 @@ py -I tools\cd2.py doctor                              # everything "ok"
 
 `local.json` holds machine-specific settings and is ignored by git. The environment variable `XDK_DIR` overrides it.
 
-You need no debug databases (PDBs) and no disassembler. Everything contributors use is in the repository:
-- the reference types are in `refs/`;
+You need no debug databases (PDBs) and no disassembler. Everything contributors need is in the repository:
 - the curated headers are in `include/`;
-- each task's assembly comes from your own copy of the game, through `show`.
+- each task's assembly, and what the game says about the function (script-method names, vtable slots, callers), come
+  from your own copy of the game, through `show`.
 
-Reference material is in the `refs/` folder.
+The reference types dumped from the later builds' PDBs (`refs/`) are not in the public repository. Maintainers have them
+and provide them on request; AGENTS.md ("Finding names and layouts") says how to use them.
 
 `setup` extracts the executable and splits the game with jeff, into one target object per source file
 (`config/splits.txt`), under `build/cd2` (ignored by git). Nothing from the game ever enters the repository.

@@ -22,11 +22,13 @@ XDK headers are real and come from the XDK itself (`XDK\include\xbox`), so they 
 
 Most source files were set up automatically (see `config/splits.txt`) and their classes have no header yet. The first
 person to work on such a class adds `<Namespace>/<Class>.h` following the conventions below. Most of these classes have
-a reference dump in `refs/` (the type only: its bases are named, not expanded); the source file names it. Classes in
-neither later build have none, and their layout comes from CD2's code alone.
+a reference dump in `refs/` (the type only: its bases are named, not expanded); the source file names it. `refs/` is
+not in the public repository: maintainers have it and provide it on request. Classes in neither later build have none,
+and their layout comes from CD2's code alone (`show` prints the script-method names and vtable slots CD2 gives a
+function).
 
 ## Conventions for curated headers
-- Source: the reference dumps in `refs/` (RuffKing first, Burn second). Treat a dump as a starting point, never as truth for CD2. A type that is not dumped yet can be requested from a maintainer: dumping needs the reference PDBs, contributing never does.
+- Source: CD2's own evidence first (`show`: script-method names, vtable slots), then the reference dumps in `refs/` (RuffKing first for names, Burn for virtual order). Treat a dump as a starting point, never as truth for CD2. `refs/` is not in the public repository, and a type that is not dumped yet can also be requested from a maintainer: dumping needs the reference PDBs, contributing never does.
 - Keep the member order, the access specifiers and the order of virtual functions exactly as in the PDB. Access is encoded in mangled names, and virtual order *is* the vtable.
 - Drop compiler-generated members (`__vecDelDtor`, `__local_vftable_ctor_closure`); the compiler regenerates them.
 - End every class with `CD2_LAYOUT_CHECKS` covering its size and its key field offsets. A wrong layout then fails the build (C2118).
