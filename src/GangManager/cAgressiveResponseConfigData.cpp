@@ -1,4 +1,5 @@
 #include "GangManager/cAgressiveResponseConfigData.h"
+#include "rws/classfactory.h"
 
 namespace GangManager
 {
@@ -6,4 +7,10 @@ namespace GangManager
     {
         return "cAgressiveResponseConfigData";
     }
+}
+
+namespace GangManager
+{
+    static RWS::CClassFactory::CRegistrar cAgressiveResponseConfigDataRegistrar(
+        "cAgressiveResponseConfigData", cAgressiveResponseConfigData::MakeNew, 0x60, false);
 }

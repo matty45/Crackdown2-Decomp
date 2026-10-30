@@ -1,4 +1,5 @@
 #include "Anim/cWingSuitAnimationProfile.h"
+#include "rws/classfactory.h"
 
 namespace Anim
 {
@@ -6,4 +7,10 @@ namespace Anim
     {
         return "cWingSuitAnimationProfile";
     }
+}
+
+namespace Anim
+{
+    static RWS::CClassFactory::CRegistrar cWingSuitAnimationProfileRegistrar(
+        "cWingSuitAnimationProfile", cWingSuitAnimationProfile::MakeNew, 0xDC, false);
 }

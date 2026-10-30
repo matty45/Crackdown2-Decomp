@@ -1,4 +1,5 @@
 #include "AI/cTrainingTrigger.h"
+#include "rws/classfactory.h"
 
 namespace AI
 {
@@ -6,4 +7,10 @@ namespace AI
     {
         return "cTrainingTrigger";
     }
+}
+
+namespace AI
+{
+    static RWS::CClassFactory::CRegistrar cTrainingTriggerRegistrar(
+        "cTrainingTrigger", cTrainingTrigger::MakeNew, 0x110, false);
 }

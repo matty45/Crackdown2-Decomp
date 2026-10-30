@@ -1,4 +1,5 @@
 #include "GangManager/cVehicleDataPrototype.h"
+#include "rws/classfactory.h"
 
 namespace GangManager
 {
@@ -6,4 +7,10 @@ namespace GangManager
     {
         return "cVehicleDataPrototype";
     }
+}
+
+namespace GangManager
+{
+    static RWS::CClassFactory::CRegistrar cVehicleDataPrototypeRegistrar(
+        "cVehicleDataPrototype", cVehicleDataPrototype::MakeNew, 0x58, false);
 }

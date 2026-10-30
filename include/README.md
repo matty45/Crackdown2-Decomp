@@ -28,7 +28,7 @@ and their layout comes from CD2's code alone (`show` prints the script-method na
 function).
 
 ## Conventions for curated headers
-- Source: CD2's own evidence first (`show`: script-method names, vtable slots), then the reference dumps in `refs/` (RuffKing first for names, Burn for virtual order). Treat a dump as a starting point, never as truth for CD2. `refs/` is not in the public repository, and a type that is not dumped yet can also be requested from a maintainer: dumping needs the reference PDBs, contributing never does.
+- Source: CD2's own evidence first (`show`: script-method names, vtable slots), then the reference dumps in `refs/` (RuffKing first for names, Burn second; vtable slot numbers differ between the builds). Treat a dump as a starting point, never as truth for CD2. `refs/` is not in the public repository, and a type that is not dumped yet can also be requested from a maintainer: dumping needs the reference PDBs, contributing never does.
 - Keep the member order, the access specifiers and the order of virtual functions exactly as in the PDB. Access is encoded in mangled names, and virtual order *is* the vtable.
 - Drop compiler-generated members (`__vecDelDtor`, `__local_vftable_ctor_closure`); the compiler regenerates them.
 - End every class with `CD2_LAYOUT_CHECKS` covering its size and its key field offsets. A wrong layout then fails the build (C2118).

@@ -1,4 +1,5 @@
 #include "Anim/cBeaconPulseHoverAnimationProfile.h"
+#include "rws/classfactory.h"
 
 namespace Anim
 {
@@ -6,4 +7,10 @@ namespace Anim
     {
         return "cBeaconPulseHoverAnimationProfile";
     }
+}
+
+namespace Anim
+{
+    static RWS::CClassFactory::CRegistrar cBeaconPulseHoverAnimationProfileRegistrar(
+        "cBeaconPulseHoverAnimationProfile", cBeaconPulseHoverAnimationProfile::MakeNew, 0x40, false);
 }

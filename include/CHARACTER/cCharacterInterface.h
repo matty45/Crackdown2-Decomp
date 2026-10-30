@@ -8,10 +8,11 @@
 //     so the safe pointer is laid out flat here until it exposes it.
 //   - RetCharacter is inline (no out-of-line copy in RuffKing or CD2): PLAYER::cPlayer::SetAITargeting reads 0x88,
 //     null-tests it, subtracts 0x1C (cSafeDeletable's offset in cNonGameBase) and null-tests again.
-//   - The sound-event times (RuffKing names; RuffKing has them at 0xD0..0xD8): ShouldTriggerVocalEvent,
-//     ShouldTriggerFootStepEvent and ShouldTriggerBulletSoundEvent are vtable slots 111..113 in CD2 as in Burn, and
-//     CD2's versions (0x8237B148, cAiPlayer's 0x823EB518 and 0x823EB570) update 0xA4, 0xA0 and 0xA8; RuffKing's update
-//     m_fLastVocalSoundTime, m_fLastFootStepSoundTime and m_fLastBulletSoundTime, declared in that field order.
+//   - The sound-event times (RuffKing names; RuffKing has them at 0xD0..0xD8): cAiPlayer's primary vtable slots 112 and
+//     113 (0x823EB518, 0x823EB570) do what RuffKing's cAiPlayer::ShouldTriggerFootStepEvent (LOD level at most 1, 10 s)
+//     and ShouldTriggerBulletSoundEvent (3 s) do, on 0xA0 and 0xA8; slot 111 (0x8237B148, its own interval) updates
+//     0xA4. RuffKing declares the three virtuals as Vocal, FootStep, BulletSound and the fields as FootStep, Vocal,
+//     BulletSound, which fits.
 //   - RetLODLevel is inline in CD2 (cAiPlayer::ShouldTriggerFootStepEvent reads the character's level directly); its
 //     out-of-line copy 0x8254E8C8 is the script method "RetLODLevel".
 #ifndef CHARACTER_CCHARACTERINTERFACE_H

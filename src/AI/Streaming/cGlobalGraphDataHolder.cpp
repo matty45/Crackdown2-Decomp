@@ -1,4 +1,5 @@
 #include "AI/cGlobalGraphDataHolder.h"
+#include "rws/classfactory.h"
 
 namespace AI
 {
@@ -6,4 +7,10 @@ namespace AI
     {
         return "cGlobalGraphDataHolder";
     }
+}
+
+namespace AI
+{
+    static RWS::CClassFactory::CRegistrar cGlobalGraphDataHolderRegistrar(
+        "cGlobalGraphDataHolder", cGlobalGraphDataHolder::MakeNew, 0x18, false);
 }

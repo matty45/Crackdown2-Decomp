@@ -1,4 +1,5 @@
 #include "unknown/cDefenderActivationZone.h"
+#include "rws/classfactory.h"
 
 namespace unknown
 {
@@ -6,4 +7,10 @@ namespace unknown
     {
         return "cDefenderActivationZone";
     }
+}
+
+namespace unknown
+{
+    static RWS::CClassFactory::CRegistrar cDefenderActivationZoneRegistrar(
+        "cDefenderActivationZone", cDefenderActivationZone::MakeNew, 0x100, false);
 }

@@ -1,4 +1,5 @@
 #include "PHYSICS/cSurfaceProfile.h"
+#include "rws/classfactory.h"
 
 namespace PHYSICS
 {
@@ -6,4 +7,10 @@ namespace PHYSICS
     {
         return "cSurfaceProfile";
     }
+}
+
+namespace PHYSICS
+{
+    static RWS::CClassFactory::CRegistrar cSurfaceProfileRegistrar(
+        "cSurfaceProfile", cSurfaceProfile::MakeNew, 0x80, false);
 }

@@ -1,4 +1,5 @@
 #include "AI/Pedestrian.h"
+#include "rws/classfactory.h"
 
 namespace AI
 {
@@ -18,4 +19,10 @@ namespace AI
     {
         return "Pedestrian";
     }
+}
+
+namespace AI
+{
+    static RWS::CClassFactory::CRegistrar PedestrianRegistrar(
+        "Pedestrian", Pedestrian::MakeNew, 0x120, false);
 }

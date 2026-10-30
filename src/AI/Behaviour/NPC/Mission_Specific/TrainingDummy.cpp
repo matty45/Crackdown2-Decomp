@@ -30,3 +30,9 @@ namespace AI
 
 static RWS::CClassFactory::CRegistrar TrainingDummyRegistrar(
     "TrainingDummy", AI::TrainingDummy::MakeNew, 0x7C, false);
+
+namespace AI
+{
+    static RWS::CClassFactory::CRegistrar TrainingDummyRegistrar(
+        "TrainingDummy", TrainingDummy::MakeNew, 0xD0, false);
+}

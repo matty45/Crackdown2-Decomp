@@ -1,4 +1,5 @@
 #include "Anim/cPropCarryNPCAnimationProfile.h"
+#include "rws/classfactory.h"
 
 namespace Anim
 {
@@ -6,4 +7,10 @@ namespace Anim
     {
         return "cPropCarryNPCAnimationProfile";
     }
+}
+
+namespace Anim
+{
+    static RWS::CClassFactory::CRegistrar cPropCarryNPCAnimationProfileRegistrar(
+        "cPropCarryNPCAnimationProfile", cPropCarryNPCAnimationProfile::MakeNew, 0x4C, false);
 }

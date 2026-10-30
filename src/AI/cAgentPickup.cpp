@@ -30,3 +30,9 @@ namespace AI
 
 static RWS::CClassFactory::CRegistrar cAgentPickupRegistrar(
     "cAgentPickup", AI::cAgentPickup::MakeNew, 0x7C, false);
+
+namespace AI
+{
+    static RWS::CClassFactory::CRegistrar cAgentPickupRegistrar(
+        "cAgentPickup", cAgentPickup::MakeNew, 0x140, false);
+}

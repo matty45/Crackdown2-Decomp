@@ -30,3 +30,9 @@ namespace AI
 
 static RWS::CClassFactory::CRegistrar cAgressiveResponseChaseBehaviourRegistrar(
     "cAgressiveResponseChaseBehaviour", AI::cAgressiveResponseChaseBehaviour::MakeNew, 0x7C, false);
+
+namespace AI
+{
+    static RWS::CClassFactory::CRegistrar cAgressiveResponseChaseBehaviourRegistrar(
+        "cAgressiveResponseChaseBehaviour", cAgressiveResponseChaseBehaviour::MakeNew, 0x140, false);
+}

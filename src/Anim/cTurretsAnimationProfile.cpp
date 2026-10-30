@@ -1,4 +1,5 @@
 #include "Anim/cTurretsAnimationProfile.h"
+#include "rws/classfactory.h"
 
 namespace Anim
 {
@@ -6,4 +7,10 @@ namespace Anim
     {
         return "cTurretsAnimationProfile";
     }
+}
+
+namespace Anim
+{
+    static RWS::CClassFactory::CRegistrar cTurretsAnimationProfileRegistrar(
+        "cTurretsAnimationProfile", cTurretsAnimationProfile::MakeNew, 0x48, false);
 }

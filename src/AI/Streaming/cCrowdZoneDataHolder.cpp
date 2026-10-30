@@ -8,3 +8,9 @@ namespace AI
         return "cCrowdZoneDataHolder";
     }
 }
+
+namespace AI
+{
+    static RWS::CClassFactory::CRegistrar cCrowdZoneDataHolderRegistrar(
+        "cCrowdZoneDataHolder", cCrowdZoneDataHolder::MakeNew, 0x7C, false);
+}

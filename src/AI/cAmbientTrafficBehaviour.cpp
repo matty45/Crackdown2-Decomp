@@ -30,3 +30,9 @@ namespace AI
 
 static RWS::CClassFactory::CRegistrar cAmbientTrafficBehaviourRegistrar(
     "cAmbientTrafficBehaviour", AI::cAmbientTrafficBehaviour::MakeNew, 0x7C, false);
+
+namespace AI
+{
+    static RWS::CClassFactory::CRegistrar cAmbientTrafficBehaviourRegistrar(
+        "cAmbientTrafficBehaviour", cAmbientTrafficBehaviour::MakeNew, 0x140, false);
+}

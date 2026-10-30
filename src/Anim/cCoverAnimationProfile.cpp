@@ -1,4 +1,5 @@
 #include "Anim/cCoverAnimationProfile.h"
+#include "rws/classfactory.h"
 
 namespace Anim
 {
@@ -6,4 +7,10 @@ namespace Anim
     {
         return "cCoverAnimationProfile";
     }
+}
+
+namespace Anim
+{
+    static RWS::CClassFactory::CRegistrar cCoverAnimationProfileRegistrar(
+        "cCoverAnimationProfile", cCoverAnimationProfile::MakeNew, 0x40, false);
 }

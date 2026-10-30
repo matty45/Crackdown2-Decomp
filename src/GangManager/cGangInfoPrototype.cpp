@@ -1,4 +1,5 @@
 #include "GangManager/cGangInfoPrototype.h"
+#include "rws/classfactory.h"
 
 namespace GangManager
 {
@@ -6,4 +7,10 @@ namespace GangManager
     {
         return "cGangInfoPrototype";
     }
+}
+
+namespace GangManager
+{
+    static RWS::CClassFactory::CRegistrar cGangInfoPrototypeRegistrar(
+        "cGangInfoPrototype", cGangInfoPrototype::MakeNew, 0xD0, false);
 }

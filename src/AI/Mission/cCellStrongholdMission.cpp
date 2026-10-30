@@ -30,3 +30,9 @@ namespace AI
 
 static RWS::CClassFactory::CRegistrar cCellStrongholdMissionRegistrar(
     "cCellStrongholdMission", AI::cCellStrongholdMission::MakeNew, 0x7C, false);
+
+namespace AI
+{
+    static RWS::CClassFactory::CRegistrar cCellStrongholdMissionRegistrar(
+        "cCellStrongholdMission", cCellStrongholdMission::MakeNew, 0x410, false);
+}

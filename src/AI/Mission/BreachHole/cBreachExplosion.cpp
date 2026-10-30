@@ -1,4 +1,5 @@
 #include "AI/cBreachExplosion.h"
+#include "rws/classfactory.h"
 
 namespace AI
 {
@@ -6,4 +7,10 @@ namespace AI
     {
         return "cBreachExplosion";
     }
+}
+
+namespace AI
+{
+    static RWS::CClassFactory::CRegistrar cBreachExplosionRegistrar(
+        "cBreachExplosion", cBreachExplosion::MakeNew, 0x90, false);
 }

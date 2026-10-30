@@ -1,4 +1,5 @@
 #include "AI/cPedestrianBase.h"
+#include "rws/classfactory.h"
 
 namespace AI
 {
@@ -18,4 +19,10 @@ namespace AI
     {
         return "cPedestrianBase";
     }
+}
+
+namespace AI
+{
+    static RWS::CClassFactory::CRegistrar cPedestrianBaseRegistrar(
+        "cPedestrianBase", cPedestrianBase::MakeNew, 0x120, false);
 }

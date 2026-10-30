@@ -1,4 +1,5 @@
 #include "Equip/cBulletData.h"
+#include "rws/classfactory.h"
 
 namespace Equip
 {
@@ -6,4 +7,10 @@ namespace Equip
     {
         return "cBulletData";
     }
+}
+
+namespace Equip
+{
+    static RWS::CClassFactory::CRegistrar cBulletDataRegistrar(
+        "cBulletData", cBulletData::MakeNew, 0x138, false);
 }

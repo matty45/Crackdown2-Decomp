@@ -1,4 +1,5 @@
 #include "Vehicle/cCarDamageProfile.h"
+#include "rws/classfactory.h"
 
 namespace Vehicle
 {
@@ -6,4 +7,10 @@ namespace Vehicle
     {
         return "cCarDamageProfile";
     }
+}
+
+namespace Vehicle
+{
+    static RWS::CClassFactory::CRegistrar cCarDamageProfileRegistrar(
+        "cCarDamageProfile", cCarDamageProfile::MakeNew, 0x230, false);
 }

@@ -30,3 +30,9 @@ namespace AI
 
 static RWS::CClassFactory::CRegistrar cPilotRespawnRegistrar(
     "cPilotRespawn", AI::cPilotRespawn::MakeNew, 0x7C, false);
+
+namespace AI
+{
+    static RWS::CClassFactory::CRegistrar cPilotRespawnRegistrar(
+        "cPilotRespawn", cPilotRespawn::MakeNew, 0x130, false);
+}

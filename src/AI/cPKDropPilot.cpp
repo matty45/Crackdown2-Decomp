@@ -30,3 +30,9 @@ namespace AI
 
 static RWS::CClassFactory::CRegistrar cPKDropPilotRegistrar(
     "cPKDropPilot", AI::cPKDropPilot::MakeNew, 0x7C, false);
+
+namespace AI
+{
+    static RWS::CClassFactory::CRegistrar cPKDropPilotRegistrar(
+        "cPKDropPilot", cPKDropPilot::MakeNew, 0x150, false);
+}

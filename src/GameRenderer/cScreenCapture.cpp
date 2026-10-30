@@ -1,4 +1,5 @@
 #include "GameRenderer/cScreenCapture.h"
+#include "rws/classfactory.h"
 
 namespace GameRenderer
 {
@@ -6,4 +7,10 @@ namespace GameRenderer
     {
         return "cScreenCapture";
     }
+}
+
+namespace GameRenderer
+{
+    static RWS::CClassFactory::CRegistrar cScreenCaptureRegistrar(
+        "cScreenCapture", cScreenCapture::MakeNew, 0x1F0, false);
 }

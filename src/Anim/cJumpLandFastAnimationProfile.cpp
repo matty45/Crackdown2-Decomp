@@ -1,4 +1,5 @@
 #include "Anim/cJumpLandFastAnimationProfile.h"
+#include "rws/classfactory.h"
 
 namespace Anim
 {
@@ -6,4 +7,10 @@ namespace Anim
     {
         return "cJumpLandFastAnimationProfile";
     }
+}
+
+namespace Anim
+{
+    static RWS::CClassFactory::CRegistrar cJumpLandFastAnimationProfileRegistrar(
+        "cJumpLandFastAnimationProfile", cJumpLandFastAnimationProfile::MakeNew, 0x40, false);
 }

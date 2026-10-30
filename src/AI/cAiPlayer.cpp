@@ -11,6 +11,7 @@
 //     as "RetInstigator" (0x8243DA44) and as "RetObject", "RetCarrier", "RetKiller" and a dozen more. Which event
 //     classes they belong to is not known, so they still read cNonGameBase fields.
 #include "AI/cAiPlayer.h"
+#include "rws/classfactory.h"
 #include "AI/AIUtil.h"
 #include "AI/cAiTargetInfo.h"
 #include "AI/cAIEvent.h"
@@ -183,4 +184,10 @@ namespace AI
         }
         return false;
     }
+}
+
+namespace AI
+{
+    static RWS::CClassFactory::CRegistrar cAiPlayerRegistrar(
+        "cAiPlayer", cAiPlayer::MakeNew, 0x620, false);
 }

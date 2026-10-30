@@ -1,4 +1,5 @@
 #include "PHYSICS/cOnlineOrb.h"
+#include "rws/classfactory.h"
 
 namespace PHYSICS
 {
@@ -6,4 +7,10 @@ namespace PHYSICS
     {
         return "cOnlineOrb";
     }
+}
+
+namespace PHYSICS
+{
+    static RWS::CClassFactory::CRegistrar cOnlineOrbRegistrar(
+        "cOnlineOrb", cOnlineOrb::MakeNew, 0x170, false);
 }

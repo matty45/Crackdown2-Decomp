@@ -30,3 +30,9 @@ namespace AI
 
 static RWS::CClassFactory::CRegistrar cBreachHoleMissionRegistrar(
     "cBreachHoleMission", AI::cBreachHoleMission::MakeNew, 0x7C, false);
+
+namespace AI
+{
+    static RWS::CClassFactory::CRegistrar cBreachHoleMissionRegistrar(
+        "cBreachHoleMission", cBreachHoleMission::MakeNew, 0x530, false);
+}

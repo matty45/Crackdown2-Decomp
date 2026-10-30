@@ -28,6 +28,7 @@ namespace PLAYER
         unsigned char m_padD92[0x1160 - 0xD92];
 
     public:
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         void SetAITargeting(bool bAITargeting);
 
         CD2_LAYOUT_CHECKS(cPlayer,

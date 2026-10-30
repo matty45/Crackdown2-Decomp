@@ -1,4 +1,5 @@
 #include "PHYSICS/cRigidBodyProfile.h"
+#include "rws/classfactory.h"
 
 namespace PHYSICS
 {
@@ -6,4 +7,10 @@ namespace PHYSICS
     {
         return "cRigidBodyProfile";
     }
+}
+
+namespace PHYSICS
+{
+    static RWS::CClassFactory::CRegistrar cRigidBodyProfileRegistrar(
+        "cRigidBodyProfile", cRigidBodyProfile::MakeNew, 0x300, false);
 }

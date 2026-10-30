@@ -1,4 +1,5 @@
 #include "AI/cMissionActivationCylinder.h"
+#include "rws/classfactory.h"
 
 namespace AI
 {
@@ -6,4 +7,10 @@ namespace AI
     {
         return "cMissionActivationCylinder";
     }
+}
+
+namespace AI
+{
+    static RWS::CClassFactory::CRegistrar cMissionActivationCylinderRegistrar(
+        "cMissionActivationCylinder", cMissionActivationCylinder::MakeNew, 0x110, false);
 }

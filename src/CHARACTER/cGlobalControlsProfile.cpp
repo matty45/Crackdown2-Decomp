@@ -1,4 +1,5 @@
 #include "CHARACTER/cGlobalControlsProfile.h"
+#include "rws/classfactory.h"
 
 namespace CHARACTER
 {
@@ -6,4 +7,10 @@ namespace CHARACTER
     {
         return "cGlobalControlsProfile";
     }
+}
+
+namespace CHARACTER
+{
+    static RWS::CClassFactory::CRegistrar cGlobalControlsProfileRegistrar(
+        "cGlobalControlsProfile", cGlobalControlsProfile::MakeNew, 0x18C, false);
 }

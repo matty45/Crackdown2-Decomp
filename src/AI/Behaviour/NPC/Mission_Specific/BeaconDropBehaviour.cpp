@@ -30,3 +30,9 @@ namespace AI
 
 static RWS::CClassFactory::CRegistrar BeaconDropBehaviourRegistrar(
     "BeaconDropBehaviour", AI::BeaconDropBehaviour::MakeNew, 0x7C, false);
+
+namespace AI
+{
+    static RWS::CClassFactory::CRegistrar BeaconDropBehaviourRegistrar(
+        "BeaconDropBehaviour", BeaconDropBehaviour::MakeNew, 0x150, false);
+}

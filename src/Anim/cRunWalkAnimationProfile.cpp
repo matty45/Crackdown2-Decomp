@@ -1,4 +1,5 @@
 #include "Anim/cRunWalkAnimationProfile.h"
+#include "rws/classfactory.h"
 
 namespace Anim
 {
@@ -6,4 +7,10 @@ namespace Anim
     {
         return "cRunWalkAnimationProfile";
     }
+}
+
+namespace Anim
+{
+    static RWS::CClassFactory::CRegistrar cRunWalkAnimationProfileRegistrar(
+        "cRunWalkAnimationProfile", cRunWalkAnimationProfile::MakeNew, 0x1B0, false);
 }

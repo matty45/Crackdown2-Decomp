@@ -78,8 +78,9 @@ Every name and every field needs evidence. Use the strongest you have:
    names it is registered under (CD2 builds the function's address, then the name), `vtable` lines are the virtual
    slots that point at it, and `callers` counts the direct calls. A script name is the method's real name, and the field
    a getter or setter touches is named after it (`SetFriendlyFireTolerance` stores `m_fFriendlyFireTolerance`).
-2. **The reference builds in `refs/`**, later builds of the same codebase: RuffKing for names, Burn for virtual order
-   (Burn's vtable slots line up with CD2's). Headers give layouts and member names; each `.cpp` lists the functions
+2. **The reference builds in `refs/`**, later builds of the same codebase: RuffKing has the most names, Burn's base
+   order and offsets are closest to CD2's. Vtable slot numbers differ between the builds: match virtuals by what their
+   code does, not by slot. Headers give layouts and member names; each `.cpp` lists the functions
    and globals its object defined, with their addresses in that build. Search them for any class or name, not only the
    one the source file's top comment names. Sizes and offsets often differ: check every one against CD2's code.
    `refs/` is not in the public repository; maintainers have it and provide it on request.

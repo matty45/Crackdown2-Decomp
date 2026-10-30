@@ -30,3 +30,9 @@ namespace AI
 
 static RWS::CClassFactory::CRegistrar ScroungerKamikazeRegistrar(
     "ScroungerKamikaze", AI::ScroungerKamikaze::MakeNew, 0x7C, false);
+
+namespace AI
+{
+    static RWS::CClassFactory::CRegistrar ScroungerKamikazeRegistrar(
+        "ScroungerKamikaze", ScroungerKamikaze::MakeNew, 0x140, false);
+}

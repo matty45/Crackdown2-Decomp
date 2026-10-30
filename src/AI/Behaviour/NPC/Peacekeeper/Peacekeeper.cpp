@@ -30,3 +30,9 @@ namespace AI
 
 static RWS::CClassFactory::CRegistrar PeacekeeperRegistrar(
     "Peacekeeper", AI::Peacekeeper::MakeNew, 0x7C, false);
+
+namespace AI
+{
+    static RWS::CClassFactory::CRegistrar PeacekeeperRegistrar(
+        "Peacekeeper", Peacekeeper::MakeNew, 0x1E0, false);
+}

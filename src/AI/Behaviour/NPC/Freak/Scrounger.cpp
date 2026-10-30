@@ -1,4 +1,5 @@
 #include "AI/Scrounger.h"
+#include "rws/classfactory.h"
 
 namespace AI
 {
@@ -6,4 +7,10 @@ namespace AI
     {
         return "Scrounger";
     }
+}
+
+namespace AI
+{
+    static RWS::CClassFactory::CRegistrar ScroungerRegistrar(
+        "Scrounger", Scrounger::MakeNew, 0x130, false);
 }

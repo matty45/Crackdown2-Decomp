@@ -1,4 +1,5 @@
 #include "GangManager/cTurretDataPrototype.h"
+#include "rws/classfactory.h"
 
 namespace GangManager
 {
@@ -6,4 +7,10 @@ namespace GangManager
     {
         return "cTurretDataPrototype";
     }
+}
+
+namespace GangManager
+{
+    static RWS::CClassFactory::CRegistrar cTurretDataPrototypeRegistrar(
+        "cTurretDataPrototype", cTurretDataPrototype::MakeNew, 0x40, false);
 }

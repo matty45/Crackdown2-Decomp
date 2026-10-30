@@ -30,3 +30,9 @@ namespace AI
 
 static RWS::CClassFactory::CRegistrar cReaperJumpEventRegistrar(
     "cReaperJumpEvent", AI::cReaperJumpEvent::MakeNew, 0x7C, false);
+
+namespace AI
+{
+    static RWS::CClassFactory::CRegistrar cReaperJumpEventRegistrar(
+        "cReaperJumpEvent", cReaperJumpEvent::MakeNew, 0x90, false);
+}

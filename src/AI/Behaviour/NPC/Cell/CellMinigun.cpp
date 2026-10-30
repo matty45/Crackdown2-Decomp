@@ -30,3 +30,9 @@ namespace AI
 
 static RWS::CClassFactory::CRegistrar CellMinigunRegistrar(
     "CellMinigun", AI::CellMinigun::MakeNew, 0x7C, false);
+
+namespace AI
+{
+    static RWS::CClassFactory::CRegistrar CellMinigunRegistrar(
+        "CellMinigun", CellMinigun::MakeNew, 0x100, false);
+}

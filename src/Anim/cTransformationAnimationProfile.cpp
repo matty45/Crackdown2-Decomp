@@ -1,4 +1,5 @@
 #include "Anim/cTransformationAnimationProfile.h"
+#include "rws/classfactory.h"
 
 namespace Anim
 {
@@ -6,4 +7,10 @@ namespace Anim
     {
         return "cTransformationAnimationProfile";
     }
+}
+
+namespace Anim
+{
+    static RWS::CClassFactory::CRegistrar cTransformationAnimationProfileRegistrar(
+        "cTransformationAnimationProfile", cTransformationAnimationProfile::MakeNew, 0x40, false);
 }

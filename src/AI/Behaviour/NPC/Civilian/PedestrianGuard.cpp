@@ -1,4 +1,5 @@
 #include "AI/PedestrianGuard.h"
+#include "rws/classfactory.h"
 
 namespace AI
 {
@@ -6,4 +7,10 @@ namespace AI
     {
         return "PedestrianGuard";
     }
+}
+
+namespace AI
+{
+    static RWS::CClassFactory::CRegistrar PedestrianGuardRegistrar(
+        "PedestrianGuard", PedestrianGuard::MakeNew, 0x130, false);
 }

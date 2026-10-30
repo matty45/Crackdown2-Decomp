@@ -12,6 +12,7 @@
 //     py -I tools/cd2.py tasks src/PLAYER/cPlayer.cpp
 
 #include "PLAYER/cPlayer.h"
+#include "rws/classfactory.h"
 
 namespace PLAYER
 {
@@ -25,4 +26,10 @@ namespace PLAYER
         }
         m_bIsAITargeting = bAITargeting;
     }
+}
+
+namespace PLAYER
+{
+    static RWS::CClassFactory::CRegistrar cPlayerRegistrar(
+        "cPlayer", cPlayer::MakeNew, 0x1160, false);
 }

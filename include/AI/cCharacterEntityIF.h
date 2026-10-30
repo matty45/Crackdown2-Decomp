@@ -48,6 +48,7 @@ namespace AI
         unsigned char m_pad53A[0x540 - 0x53A];
 
     public:
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         void *GetStorage480();
         void *GetStorage4B0();
         unsigned char GetWord50CLowByte() const;

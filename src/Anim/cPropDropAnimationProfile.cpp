@@ -1,4 +1,5 @@
 #include "Anim/cPropDropAnimationProfile.h"
+#include "rws/classfactory.h"
 
 namespace Anim
 {
@@ -6,4 +7,10 @@ namespace Anim
     {
         return "cPropDropAnimationProfile";
     }
+}
+
+namespace Anim
+{
+    static RWS::CClassFactory::CRegistrar cPropDropAnimationProfileRegistrar(
+        "cPropDropAnimationProfile", cPropDropAnimationProfile::MakeNew, 0x40, false);
 }

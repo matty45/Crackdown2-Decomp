@@ -30,3 +30,9 @@ namespace AI
 
 static RWS::CClassFactory::CRegistrar cVehicleCollectionBehaviourRegistrar(
     "cVehicleCollectionBehaviour", AI::cVehicleCollectionBehaviour::MakeNew, 0x7C, false);
+
+namespace AI
+{
+    static RWS::CClassFactory::CRegistrar cVehicleCollectionBehaviourRegistrar(
+        "cVehicleCollectionBehaviour", cVehicleCollectionBehaviour::MakeNew, 0x160, false);
+}

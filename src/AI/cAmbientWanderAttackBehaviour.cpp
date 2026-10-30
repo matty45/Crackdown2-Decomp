@@ -1,4 +1,5 @@
 #include "AI/cAmbientWanderAttackBehaviour.h"
+#include "rws/classfactory.h"
 
 namespace AI
 {
@@ -6,4 +7,10 @@ namespace AI
     {
         return "cAmbientWanderAttackBehaviour";
     }
+}
+
+namespace AI
+{
+    static RWS::CClassFactory::CRegistrar cAmbientWanderAttackBehaviourRegistrar(
+        "cAmbientWanderAttackBehaviour", cAmbientWanderAttackBehaviour::MakeNew, 0x150, false);
 }

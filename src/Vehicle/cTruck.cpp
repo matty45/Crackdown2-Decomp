@@ -12,6 +12,7 @@
 //     py -I tools/cd2.py tasks src/Vehicle/cTruck.cpp
 
 #include "Vehicle/cTruck.h"
+#include "rws/classfactory.h"
 
 namespace Vehicle
 {
@@ -23,3 +24,8 @@ namespace Vehicle
     }
 }
 
+namespace Vehicle
+{
+    static RWS::CClassFactory::CRegistrar cTruckRegistrar(
+        "cTruck", cTruck::MakeNew, 0x3290, false);
+}

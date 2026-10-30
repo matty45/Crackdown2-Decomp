@@ -1,4 +1,5 @@
 #include "Cam/cCameraMarker.h"
+#include "rws/classfactory.h"
 
 namespace Cam
 {
@@ -6,4 +7,10 @@ namespace Cam
     {
         return "cCameraMarker";
     }
+}
+
+namespace Cam
+{
+    static RWS::CClassFactory::CRegistrar cCameraMarkerRegistrar(
+        "cCameraMarker", cCameraMarker::MakeNew, 0x80, false);
 }

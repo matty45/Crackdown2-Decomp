@@ -12,6 +12,7 @@
 //     py -I tools/cd2.py tasks src/AI/cCharacterEntityIF.cpp
 
 #include "AI/cCharacterEntityIF.h"
+#include "rws/classfactory.h"
 
 namespace AI
 {
@@ -168,4 +169,10 @@ namespace AI
             return 180.0f;
         return t->m_fViewingAngle;
     }
+}
+
+namespace AI
+{
+    static RWS::CClassFactory::CRegistrar cCharacterEntityIFRegistrar(
+        "cCharacterEntityIF", cCharacterEntityIF::MakeNew, 0x540, false);
 }

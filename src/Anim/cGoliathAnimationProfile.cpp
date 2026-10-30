@@ -1,4 +1,5 @@
 #include "Anim/cGoliathAnimationProfile.h"
+#include "rws/classfactory.h"
 
 namespace Anim
 {
@@ -6,4 +7,10 @@ namespace Anim
     {
         return "cGoliathAnimationProfile";
     }
+}
+
+namespace Anim
+{
+    static RWS::CClassFactory::CRegistrar cGoliathAnimationProfileRegistrar(
+        "cGoliathAnimationProfile", cGoliathAnimationProfile::MakeNew, 0x4C, false);
 }

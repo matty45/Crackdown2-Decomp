@@ -9,6 +9,7 @@ namespace Vehicle
     class cTruck : public cNonGameBase
     {
     public:
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcTruckClass;
 
         virtual const Fun_Runtime::cClass &RetClass() const;

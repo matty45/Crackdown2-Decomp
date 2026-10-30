@@ -9,6 +9,7 @@ namespace AI
     class cPedestrianBase : public cNonGameBase
     {
     public:
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcPedestrianBaseClass;
 
         virtual const Fun_Runtime::cClass &RetClass() const;

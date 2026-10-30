@@ -14,8 +14,8 @@
 //   - The constructor stores safe-pointer vptrs at 0x5D8 and 0x5E8; matched code uses only the first.
 //   - Virtuals: RetName is slot 4 of the cScriptHost table at +0x1C (0x823EB508; RuffKing's cAiPlayer::RetName returns
 //     m_pAIEntity's name); ShouldTriggerFootStepEvent and ShouldTriggerBulletSoundEvent are primary slots 112 and 113
-//     (as in Burn; see CHARACTER/cCharacterInterface.h). Slot 125 (0x823E92B8) is the first virtual cAiPlayer adds; Burn's
-//     cAiPlayer has 116 slots and RuffKing's fewer, so its name is unknown: SetFields4F8 is ours.
+//     (see CHARACTER/cCharacterInterface.h). Slot 125 (0x823E92B8) is the first virtual cAiPlayer adds (cCharacterEntityIF's
+//     primary vtable has 125 slots); RuffKing's and Burn's cAiPlayer have no counterpart, so SetFields4F8 is ours.
 //   - cAiPlayerPrototype: MakeNew (0x823E78A8) builds it on GOM::cObjectPrototype's constructor and installs the vtable
 //     0x820FB0BC; its slot 5, CAttributeHandler::Init(const CAttributePacket &), is 0x823EB490, which returns Ret_OK.
 #ifndef AI_CAIPLAYER_H
@@ -33,6 +33,7 @@ namespace AI
     class cAiPlayer : public cCharacterEntityIF
     {
     public:
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         class cAiPlayerPrototype : public GOM::cObjectPrototype
         {
         public:
