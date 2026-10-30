@@ -7,7 +7,7 @@
 
 0x820FC01C ??_7cFactionConfigData@GangManager@@6BcRegisteredClass@Fun_Runtime@@@ ??_7cScriptHost@Fun_Runtime@@6BcRegisteredClass@1@@   # identical registered-class vtables folded: faction MakeNew 0x826761B0 stores this address for both the script-host base and final derived interface; cScriptHost destructor 0x8276F0C0 restores the same table
 
-0x82139BA8 ??_7?$cGUIDEventHandler@VcAmbientVFXPrototype@VFX@@@Editor@@6B@ ??_7?$cGUIDEventHandler@VcNPCTintProfile@CHARACTER@@@Editor@@6B@ ??_7cGUIDEventHandlerBase@Editor@@6B@   # identical vtables folded: the constructors of several unrelated classes store this one address; cGUIDEventHandler<T> overrides nothing, so its vtable equals its base's
+0x82139BA8 ??_7?$cGUIDEventHandler@VcAITargetingProfile@AI@@@Editor@@6B@ ??_7?$cGUIDEventHandler@VcFactionTargetingProfile@AI@@@Editor@@6B@ ??_7?$cGUIDEventHandler@VcAmbientVFXPrototype@VFX@@@Editor@@6B@ ??_7?$cGUIDEventHandler@VcNPCTintProfile@CHARACTER@@@Editor@@6B@ ??_7cGUIDEventHandlerBase@Editor@@6B@   # identical vtables folded: the constructors of several unrelated classes store this one address; cGUIDEventHandler<T> overrides nothing, so its vtable equals its base's
 
 0x82580578 ??1cEventId@GameManagement@@QAA@XZ ?HandleAttributes@cNonGameBase@@UAAXABVCAttributePacket@RWS@@@Z   # empty functions folded: the code at 0x82580578 is a single blr
 

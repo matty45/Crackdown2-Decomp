@@ -116,33 +116,33 @@ namespace AI
 
     void *cCharacterEntityIF::GetPtr504A0() const
     {
-        return reinterpret_cast<void *>(m_ptr504 + 0xA0);
+        return &m_pAIEntity->m_vecHeadDirection;
     }
 
     void *cCharacterEntityIF::GetPtr504B0() const
     {
-        return reinterpret_cast<void *>(m_ptr504 + 0xB0);
+        return &m_pAIEntity->m_vecEyePosition;
     }
 
     float cCharacterEntityIF::GetFloat504_90() const
     {
-        return *reinterpret_cast<const float *>(m_ptr504 + 0x90);
+        return m_pAIEntity->m_fViewingDistance;
     }
 
     float cCharacterEntityIF::GetFloat504_98() const
     {
-        return *reinterpret_cast<const float *>(m_ptr504 + 0x98);
+        return m_pAIEntity->m_fThreatObjectViewingDistance;
     }
 
     float cCharacterEntityIF::GetFloat504_9C() const
     {
-        return *reinterpret_cast<const float *>(m_ptr504 + 0x9C);
+        return m_pAIEntity->m_fHearingAcuteness;
     }
 
     unsigned char cCharacterEntityIF::GetBool38_50() const
     {
-        bool result = *reinterpret_cast<const unsigned int *>((const char *)this + 0x38) != 0 &&
-            *reinterpret_cast<const unsigned int *>((const char *)this + 0x50) != 0;
+        bool result = (unsigned int)(&m_eNetRole)[-1] != 0 &&
+            m_p50 != 0;
         return result;
     }
 
@@ -151,7 +151,7 @@ namespace AI
         const CHARACTER::cCharacter *character = RetCharacter();
         if (character)
         {
-            const unsigned int v = *reinterpret_cast<const unsigned int *>((const char *)character + 0x548);
+            const unsigned int v = character->m_field548;
             return (0x30000 - (v & 0xFFFF0000)) == 0;
         }
         return 0;
@@ -159,12 +159,12 @@ namespace AI
 
     float cCharacterEntityIF::GetFloatConditional() const
     {
-        const unsigned int t = m_ptr504;
-        const unsigned int owner = *reinterpret_cast<const unsigned int *>((const char *)t + 0xC8);
-        Fun_Runtime::cSafeDeletable *safe = *reinterpret_cast<Fun_Runtime::cSafeDeletable *const *>((const char *)owner + 0x88);
+        cCharacterEntity *t = m_pAIEntity;
+        cCharacterEntityIF *owner = t->m_pOwner;
+        Fun_Runtime::cSafeDeletable *safe = owner->m_pCharacterPtr;
         const CHARACTER::cCharacter *p = static_cast<const CHARACTER::cCharacter *>(safe);
-        if ((*reinterpret_cast<const unsigned char *>((const char *)p + 0x1681) & 0x40) != 0)
+        if ((p->m_byte1681 & 0x40) != 0)
             return 180.0f;
-        return *reinterpret_cast<const float *>((const char *)t + 0x88);
+        return t->m_fViewingAngle;
     }
 }

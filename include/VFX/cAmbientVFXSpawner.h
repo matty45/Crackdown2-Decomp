@@ -17,6 +17,7 @@
 #include "fun_runtime/class.h"
 #include "fun_runtime/randgen.h"
 #include "fun_runtime/vec3.h"
+#include "Sim/cTimeOfDay.h"
 
 namespace Fun_Runtime
 {
@@ -34,17 +35,6 @@ namespace RWS
         unsigned int CalcGameTime();
         inline unsigned int RetGameTime() { return g_bUseStoredTime ? g_nStoredTime : CalcGameTime(); }
     }
-}
-
-namespace Sim
-{
-    class cTimeOfDay
-    {
-    public:
-        unsigned char m_pad[0x278];
-        float m_fPhase;
-        static cTimeOfDay *ms_pInstance;
-    };
 }
 
 namespace VFX

@@ -8,6 +8,12 @@
 //     so the safe pointer is laid out flat here until it exposes it.
 //   - RetCharacter is inline (no out-of-line copy in RuffKing or CD2): PLAYER::cPlayer::SetAITargeting reads 0x88,
 //     null-tests it, subtracts 0x1C (cSafeDeletable's offset in cNonGameBase) and null-tests again.
+//   - The sound-event times (RuffKing names; RuffKing has them at 0xD0..0xD8): ShouldTriggerVocalEvent,
+//     ShouldTriggerFootStepEvent and ShouldTriggerBulletSoundEvent are vtable slots 111..113 in CD2 as in Burn, and
+//     CD2's versions (0x8237B148, cAiPlayer's 0x823EB518 and 0x823EB570) update 0xA4, 0xA0 and 0xA8; RuffKing's update
+//     m_fLastVocalSoundTime, m_fLastFootStepSoundTime and m_fLastBulletSoundTime, declared in that field order.
+//   - RetLODLevel is inline in CD2 (cAiPlayer::ShouldTriggerFootStepEvent reads the character's level directly); its
+//     out-of-line copy 0x8254E8C8 is the script method "RetLODLevel".
 #ifndef CHARACTER_CCHARACTERINTERFACE_H
 #define CHARACTER_CCHARACTERINTERFACE_H
 
@@ -24,7 +30,13 @@ namespace CHARACTER
         unsigned char m_pCharacterLink[0xC];                // 0x7C: m_pCharacter's vptr and list links
         Fun_Runtime::cSafeDeletable *m_pCharacterPtr;       // 0x88: m_pCharacter's object pointer
     private:
-        unsigned char m_pad8C[0xC0 - 0x8C];
+        unsigned char m_pad8C[0xA0 - 0x8C];
+    protected:
+        float m_fLastFootStepSoundTime;                     // 0xA0
+        float m_fLastVocalSoundTime;                        // 0xA4
+        float m_fLastBulletSoundTime;                       // 0xA8
+    private:
+        unsigned char m_padAC[0xC0 - 0xAC];
 
     public:
         cCharacter *RetCharacter() const
@@ -32,9 +44,14 @@ namespace CHARACTER
             return m_pCharacterPtr ? static_cast<cCharacter *>(m_pCharacterPtr) : 0;
         }
 
+        unsigned char RetLODLevel() const { return RetCharacter()->RetLODLevel(); }
+
         CD2_LAYOUT_CHECKS(cCharacterInterface,
             CD2_SIZE(cCharacterInterface, 0xC0)
-            CD2_OFFSET(cCharacterInterface, m_pCharacterPtr, 0x88))
+            CD2_OFFSET(cCharacterInterface, m_pCharacterPtr, 0x88)
+            CD2_OFFSET(cCharacterInterface, m_fLastFootStepSoundTime, 0xA0)
+            CD2_OFFSET(cCharacterInterface, m_fLastVocalSoundTime, 0xA4)
+            CD2_OFFSET(cCharacterInterface, m_fLastBulletSoundTime, 0xA8))
     };
 }
 

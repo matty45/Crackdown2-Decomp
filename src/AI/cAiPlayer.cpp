@@ -1,4 +1,20 @@
+// AI/cAiPlayer.cpp. Names and layouts: include/AI/cAiPlayer.h. Some functions in this file's range belong to other
+// classes: the linker folded identical getters and kept the copies from this object (Sim::cTimeOfDay::RetPhase,
+// AI::cAiTargetInfo::IsPrimaryFireBlocked / IsTargetVisible, AI::cAIEvent::RetSource; their headers give the evidence).
+// Not named yet:
+//   - RetTriggerEventFlags / RetEnemyStatus / RetMapStatus (0x823E7988 / 0x823E7998 / 0x823E79A8) return the names of
+//     script enums. They are slot 1 of three small registrar vtables (0x820FB0F0, 0x820FB0FC, 0x820FB108), not
+//     cAiPlayer methods; the registrar classes have no known name.
+//   - RetConstantC8 (0x823E7B30) is slot 26 of the vtable 0x820FB114, whose object 0x82377190 builds; its class is not
+//     known.
+//   - GetField60 / GetField50 (0x823E7A88 / 0x823E7C18) are AI event getters: CD2's event script registrations use them
+//     as "RetInstigator" (0x8243DA44) and as "RetObject", "RetCarrier", "RetKiller" and a dozen more. Which event
+//     classes they belong to is not known, so they still read cNonGameBase fields.
 #include "AI/cAiPlayer.h"
+#include "AI/AIUtil.h"
+#include "AI/cAiTargetInfo.h"
+#include "AI/cAIEvent.h"
+#include "Sim/cTimeOfDay.h"
 
 namespace AI
 {
@@ -12,113 +28,6 @@ namespace AI
     const char *cAiPlayer::RetClassName() const
     {
         return "cAiPlayer";
-    }
-
-    void cAiPlayer::SetF5F8(float v)
-    {
-        m_f5F8 = v;
-    }
-
-    void cAiPlayer::SetF5FC(float v)
-    {
-        m_f5FC = v;
-    }
-
-    int cAiPlayer::GetField60C() const
-    {
-        return m_field60C;
-    }
-
-    void cAiPlayer::SetField60C(int v)
-    {
-        m_field60C = v;
-    }
-
-    void cAiPlayer::SetS614(short v)
-    {
-        m_s614 = v;
-    }
-
-    unsigned char cAiPlayer::GetB616() const
-    {
-        return m_b616;
-    }
-
-    void cAiPlayer::SetB616(unsigned char v)
-    {
-        m_b616 = v;
-    }
-
-    unsigned char cAiPlayer::GetB617() const
-    {
-        return m_b617;
-    }
-
-    void cAiPlayer::SetB617(unsigned char v)
-    {
-        m_b617 = v;
-    }
-
-    int cAiPlayer::RetConstantC8()
-    {
-        return 0xC8;
-    }
-
-    int cAiPlayer::GetField38() const
-    {
-        return *reinterpret_cast<const int *>((const char *)this + 0x38);
-    }
-
-    unsigned char cAiPlayer::GetByte20() const
-    {
-        return *reinterpret_cast<const unsigned char *>((const char *)this + 0x20);
-    }
-
-    unsigned char cAiPlayer::GetByte2E() const
-    {
-        return *reinterpret_cast<const unsigned char *>((const char *)this + 0x2E);
-    }
-
-    float cAiPlayer::GetFloat278() const
-    {
-        return m_f278;
-    }
-
-    int cAiPlayer::GetField4E8_4() const
-    {
-        const unsigned int p = m_field4E8;
-        return reinterpret_cast<const int *>(p)[1];
-    }
-
-    void cAiPlayer::SetFields4F8(int v, int w)
-    {
-        m_field4F8 = v;
-        m_field4FC = v;
-        m_field500 = w;
-    }
-
-    void *cAiPlayer::GetField5E4() const
-    {
-        const unsigned int p = m_field5E4;
-        if (p != 0)
-            return reinterpret_cast<void *>(p - 0x1C);
-        return 0;
-    }
-
-    void *cAiPlayer::GetField60() const
-    {
-        const unsigned int p = *reinterpret_cast<const unsigned int *>((const char *)this + 0x60);
-        if (p != 0)
-            return reinterpret_cast<void *>(p - 0x1C);
-        return 0;
-    }
-
-    void *cAiPlayer::GetField50() const
-    {
-        const unsigned int p = *reinterpret_cast<const unsigned int *>((const char *)this + 0x50);
-        if (p != 0)
-            return reinterpret_cast<void *>(p - 0x1C);
-        return 0;
     }
 
     const char *cAiPlayer::RetTriggerEventFlags() const
@@ -136,53 +45,142 @@ namespace AI
         return "eMapStatus";
     }
 
-    void cAiPlayer::StoreGlobal83803420()
+    void cAiPlayer::SetMapStatus(unsigned int nMapStatus)
     {
-        *reinterpret_cast<int *>((char *)this) = *reinterpret_cast<const int *>(0x83803420);
+        m_nMapStatus = (etMapStatus)nMapStatus;
     }
 
-    int cAiPlayer::FuncEB518()
+    void cAiPlayer::SetFriendlyFireTolerance(float fTolerance)
     {
-        unsigned int p = m_field88;
-        if (p == 0)
-            p = 0;
-        else
-            p -= 0x1C;
-        const unsigned char b = *reinterpret_cast<unsigned char *>((char *)p + 0x2812);
-        if (b > 1)
-            return 0;
-        const float f12 = m_fA0;
-        const float f0 = 0.0f;
-        const float f13 = 10.0f;
-        if (f12 >= f0 - f13)
-            return 0;
-        m_fA0 = f0;
-        return 1;
+        m_fFriendlyFireTolerance = fTolerance;
     }
 
-    int cAiPlayer::FuncEB570()
+    void cAiPlayer::SetCombatFriendlyFireTolerance(float fTolerance)
     {
-        const float f12 = m_fA8;
-        const float f0 = 0.0f;
-        const float f13 = 3.0f;
-        if (f12 >= f0 - f13)
-            return 0;
-        m_fA8 = f0;
-        return 1;
+        m_fCombatFriendlyFireTolerance = fTolerance;
     }
 
-    float cAiPlayer::FuncE8DC8(const void *arg) const
+    bool cAiPlayer::IsInterestingObjectReactionEnabled() const
     {
-        const char *base = (const char *)this + 0x540;
-        for (unsigned int i = 0; i < 4; i++)
+        return m_bInterestingObjectReactionEnabled;
+    }
+
+    void cAiPlayer::SetInterestingObjectReactionEnabled(bool bEnabled)
+    {
+        m_bInterestingObjectReactionEnabled = bEnabled;
+    }
+
+    unsigned char cAiPlayer::RetInterestingObjectPriority() const
+    {
+        return m_nInterestingObjectPriority;
+    }
+
+    void cAiPlayer::SetInterestingObjectPriority(unsigned char nPriority)
+    {
+        m_nInterestingObjectPriority = nPriority;
+    }
+
+    void cAiPlayer::SetShotsRemaining(short nShots)
+    {
+        m_nShotsRemaining = nShots;
+    }
+
+    cNonGameBase *cAiPlayer::RetOwnedVehicle() const
+    {
+        return m_pOwnedVehicle.m_pPtr ? static_cast<cNonGameBase *>(m_pOwnedVehicle.m_pPtr) : 0;
+    }
+
+    cNonGameBase *cAIEvent::RetSource() const
+    {
+        return m_pSource;
+    }
+
+    void *cAiPlayer::GetField60() const
+    {
+        char *p = m_p60;
+        if (p != 0)
+            return p - 0x1C;
+        return 0;
+    }
+
+    int cAiPlayer::RetConstantC8()
+    {
+        return 0xC8;
+    }
+
+    void *cAiPlayer::GetField50() const
+    {
+        char *p = m_p50;
+        if (p != 0)
+            return p - 0x1C;
+        return 0;
+    }
+
+    bool cAiTargetInfo::IsPrimaryFireBlocked() const
+    {
+        return m_bPrimaryFireBlocked;
+    }
+
+    bool cAiTargetInfo::IsTargetVisible() const
+    {
+        return m_bVisible;
+    }
+}
+
+namespace Sim
+{
+    float cTimeOfDay::RetPhase()
+    {
+        return m_fPhase;
+    }
+}
+
+namespace AI
+{
+    float cAiPlayer::RecallDamageCaused(CHARACTER::cCharacter *pCharacter)
+    {
+        return m_DamageCache.Read(pCharacter);
+    }
+
+    void cAiPlayer::SetFields4F8(int v, int w)
+    {
+        m_n4F8 = v;
+        m_n4FC = v;
+        m_n500 = w;
+    }
+
+    Fun_Runtime::RetVal cAiPlayer::cAiPlayerPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
+
+    const char *cAiPlayer::RetName() const
+    {
+        return m_pAIEntity->m_name;
+    }
+
+    bool cAiPlayer::ShouldTriggerFootStepEvent()
+    {
+        if (RetLODLevel() <= 1)
         {
-            const char *r9 = base + (i + i * 2) * 8;
-            unsigned int p = *reinterpret_cast<const unsigned int *>(r9 + 0xC);
-            if (p != 0)
-                p -= 0x1C;
-            if (p == reinterpret_cast<unsigned int>(arg))
-                return *reinterpret_cast<const float *>(r9 + 0x14);
+            float fTime = RetGameTime();
+            if (m_fLastFootStepSoundTime < fTime - 10.0f)
+            {
+                m_fLastFootStepSoundTime = fTime;
+                return true;
+            }
         }
-        return 0.0f;
+        return false;
+    }
+
+    bool cAiPlayer::ShouldTriggerBulletSoundEvent()
+    {
+        float fTime = RetGameTime();
+        if (m_fLastBulletSoundTime < fTime - 3.0f)
+        {
+            m_fLastBulletSoundTime = fTime;
+            return true;
+        }
+        return false;
     }
 }

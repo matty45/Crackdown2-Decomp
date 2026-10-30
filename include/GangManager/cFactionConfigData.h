@@ -15,20 +15,10 @@
 #include "rws/attributes.h"
 #include "cd2/layout.h"
 #include "fun_runtime/scripthost.h"
+#include "GangManager/eFactions.h"
 
 namespace GangManager
 {
-    enum eFactions
-    {
-        FACTION_CIVILIANS = 0,
-        FACTION_FREAKS = 1,
-        FACTION_AGENCY = 2,
-        FACTION_CELL = 3,
-        FACTION_AGENT = 4,
-        FACTION_AGENT_ROGUE = 5,
-        FACTION_NUM = 6
-    };
-
     // Historical stand-in notes, superseded by the shared hierarchy:
     // Circular list head (vptr, next, prev, count); inline constructor in CD2.
     // Destructor of cConfigBase is out of line in CD2. B2 must have no constructor of its own (flag set in cConfigBase's
@@ -40,12 +30,7 @@ namespace GangManager
 
 namespace AI
 {
-    class cFactionTargetingProfile : public RWS::CAttributeHandler
-    {
-    public:
-        virtual const char *RetClassName() const;
-        GangManager::cConfigBase m_ConfigBase;
-    };
+    class cFactionTargetingProfile;
 }
 
 namespace GangManager

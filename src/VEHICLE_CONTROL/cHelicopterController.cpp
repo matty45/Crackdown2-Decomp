@@ -184,14 +184,16 @@ namespace VEHICLE_CONTROL
         out[1] = z;
         if (normalise)
         {
-            if (x * x + z * z < 0.01f)
+            if (z * z + x * x < 0.01f)
             {
                 out[0] = 0.0f;
                 out[1] = 0.0f;
             }
             else
             {
-                float inv = 1.0f / sqrtf(z * z + x * x);
+                float one = 1.0f;
+                float s = sqrtf(x * x + z * z);
+                float inv = one / s;
                 out[0] = x * inv;
                 out[1] = inv * z;
             }

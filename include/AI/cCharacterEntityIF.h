@@ -5,10 +5,14 @@
 // bytes at 0x534..0x537; 0x823EC028 writes the byte at 0x539. Their semantic names are not established.
 // 0x823EBF90 and 0x823EBF88 return addresses within the object at 0x480 and 0x4B0; those regions remain
 // untyped storage. 0x823EC038 reads a word at 0x50C and returns its least-significant byte.
+// m_pAIEntity (0x504; RuffKing's name and type, at 0xF8 there): cAiPlayer::RetName (0x823EB508) returns its m_name, as
+// RuffKing's cAiPlayer::RetName returns m_pAIEntity's; the accessors below read the entity's script-named fields
+// (AI/cCharacterEntity.h).
 #ifndef AI_CCHARACTERENTITYIF_H
 #define AI_CCHARACTERENTITYIF_H
 
 #include "CHARACTER/cCharacterInterface.h"
+#include "AI/cCharacterEntity.h"
 
 namespace AI
 {
@@ -18,8 +22,11 @@ namespace AI
         unsigned char m_padC0[0x480 - 0xC0];
     protected:
         unsigned char m_storage480[0x4B0 - 0x480];
-        unsigned char m_storage4B0[0x504 - 0x4B0];
-        unsigned int m_ptr504;
+        unsigned char m_storage4B0[0x4F8 - 0x4B0];
+        int m_n4F8;                             // 0x4F8..0x500: written by cAiPlayer's slot 125 (0x823E92B8);
+        int m_n4FC;                             // nothing names them
+        int m_n500;
+        cCharacterEntity *m_pAIEntity;          // 0x504
         unsigned char m_pad508[0x50C - 0x508];
         unsigned int m_word50C;
     private:
@@ -74,6 +81,8 @@ namespace AI
             CD2_SIZE(cCharacterEntityIF, 0x540)
             CD2_OFFSET(cCharacterEntityIF, m_storage480, 0x480)
             CD2_OFFSET(cCharacterEntityIF, m_storage4B0, 0x4B0)
+            CD2_OFFSET(cCharacterEntityIF, m_n4F8, 0x4F8)
+            CD2_OFFSET(cCharacterEntityIF, m_pAIEntity, 0x504)
             CD2_OFFSET(cCharacterEntityIF, m_word50C, 0x50C)
             CD2_OFFSET(cCharacterEntityIF, m_word51C, 0x51C)
             CD2_OFFSET(cCharacterEntityIF, m_byte534, 0x534)

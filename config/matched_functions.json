@@ -866,42 +866,42 @@
       {
         "address": "0x823E79B8",
         "size": 8,
-        "symbol": "?SetField60C@cAiPlayer@AI@@"
+        "symbol": "?SetMapStatus@cAiPlayer@AI@@"
       },
       {
         "address": "0x823E79C0",
         "size": 8,
-        "symbol": "?SetF5F8@cAiPlayer@AI@@"
+        "symbol": "?SetFriendlyFireTolerance@cAiPlayer@AI@@"
       },
       {
         "address": "0x823E79C8",
         "size": 8,
-        "symbol": "?SetF5FC@cAiPlayer@AI@@"
+        "symbol": "?SetCombatFriendlyFireTolerance@cAiPlayer@AI@@"
       },
       {
         "address": "0x823E79D0",
         "size": 8,
-        "symbol": "?GetB616@cAiPlayer@AI@@"
+        "symbol": "?IsInterestingObjectReactionEnabled@cAiPlayer@AI@@"
       },
       {
         "address": "0x823E79D8",
         "size": 8,
-        "symbol": "?SetB616@cAiPlayer@AI@@"
+        "symbol": "?SetInterestingObjectReactionEnabled@cAiPlayer@AI@@"
       },
       {
         "address": "0x823E79E0",
         "size": 8,
-        "symbol": "?GetB617@cAiPlayer@AI@@"
+        "symbol": "?RetInterestingObjectPriority@cAiPlayer@AI@@"
       },
       {
         "address": "0x823E79E8",
         "size": 8,
-        "symbol": "?SetB617@cAiPlayer@AI@@"
+        "symbol": "?SetInterestingObjectPriority@cAiPlayer@AI@@"
       },
       {
         "address": "0x823E79F0",
         "size": 8,
-        "symbol": "?SetS614@cAiPlayer@AI@@"
+        "symbol": "?SetShotsRemaining@cAiPlayer@AI@@"
       },
       {
         "address": "0x823E7B30",
@@ -911,27 +911,27 @@
       {
         "address": "0x823E7A80",
         "size": 8,
-        "symbol": "?GetField38@cAiPlayer@AI@@"
+        "symbol": "?RetSource@cAIEvent@AI@@"
       },
       {
         "address": "0x823E7C30",
         "size": 8,
-        "symbol": "?GetByte20@cAiPlayer@AI@@"
+        "symbol": "?IsPrimaryFireBlocked@cAiTargetInfo@AI@@"
       },
       {
         "address": "0x823E7C38",
         "size": 8,
-        "symbol": "?GetByte2E@cAiPlayer@AI@@"
+        "symbol": "?IsTargetVisible@cAiTargetInfo@AI@@"
       },
       {
         "address": "0x823E7C40",
         "size": 8,
-        "symbol": "?GetFloat278@cAiPlayer@AI@@"
+        "symbol": "?RetPhase@cTimeOfDay@Sim@@"
       },
       {
         "address": "0x823E79F8",
         "size": 24,
-        "symbol": "?GetField5E4@cAiPlayer@AI@@"
+        "symbol": "?RetOwnedVehicle@cAiPlayer@AI@@"
       },
       {
         "address": "0x823E7A88",
@@ -951,7 +951,27 @@
       {
         "address": "0x823EB508",
         "size": 12,
-        "symbol": "?GetField4E8_4@cAiPlayer@AI@@"
+        "symbol": "?RetName@cAiPlayer@AI@@"
+      },
+      {
+        "address": "0x823E8DC8",
+        "size": 88,
+        "symbol": "?RecallDamageCaused@cAiPlayer@AI@@"
+      },
+      {
+        "address": "0x823EB490",
+        "size": 16,
+        "symbol": "?Init@cAiPlayerPrototype@cAiPlayer@AI@@"
+      },
+      {
+        "address": "0x823EB518",
+        "size": 84,
+        "symbol": "?ShouldTriggerFootStepEvent@cAiPlayer@AI@@"
+      },
+      {
+        "address": "0x823EB570",
+        "size": 52,
+        "symbol": "?ShouldTriggerBulletSoundEvent@cAiPlayer@AI@@"
       }
     ],
     "src/AI/cCharacterEntityIF.cpp": [
@@ -1307,6 +1327,36 @@
         "address": "0x82451CB8",
         "size": 12,
         "symbol": "?RetClassName@cAITargetingProfile@AI@@"
+      },
+      {
+        "address": "0x82451C60",
+        "size": 88,
+        "symbol": "?MakeNew@cAITargetingProfile@AI@@"
+      },
+      {
+        "address": "0x82451CC8",
+        "size": 240,
+        "symbol": "??0cAITargetingProfile@AI@@"
+      },
+      {
+        "address": "0x82451DB8",
+        "size": 92,
+        "symbol": "??_GcAITargetingProfile@AI@@"
+      },
+      {
+        "address": "0x82451E18",
+        "size": 388,
+        "symbol": "?HandleAttributes@cAITargetingProfile@AI@@"
+      },
+      {
+        "address": "0x82F841B8",
+        "size": 76,
+        "symbol": "??__EcAITargetingProfileRegistrar@AI@@"
+      },
+      {
+        "address": "0x8303AD80",
+        "size": 12,
+        "symbol": "??__FcAITargetingProfileRegistrar@AI@@"
       }
     ],
     "src/AI/cAmbientWanderAttackBehaviour.cpp": [
@@ -1349,6 +1399,36 @@
         "address": "0x82451FF8",
         "size": 12,
         "symbol": "?RetClassName@cFactionTargetingProfile@AI@@"
+      },
+      {
+        "address": "0x82451FA0",
+        "size": 88,
+        "symbol": "?MakeNew@cFactionTargetingProfile@AI@@"
+      },
+      {
+        "address": "0x82452008",
+        "size": 244,
+        "symbol": "??0cFactionTargetingProfile@AI@@"
+      },
+      {
+        "address": "0x82452100",
+        "size": 92,
+        "symbol": "??_GcFactionTargetingProfile@AI@@"
+      },
+      {
+        "address": "0x82452160",
+        "size": 656,
+        "symbol": "?HandleAttributes@cFactionTargetingProfile@AI@@"
+      },
+      {
+        "address": "0x82F84518",
+        "size": 76,
+        "symbol": "??__EcFactionTargetingProfileRegistrar@AI@@"
+      },
+      {
+        "address": "0x8303AD98",
+        "size": 12,
+        "symbol": "??__FcFactionTargetingProfileRegistrar@AI@@"
       }
     ],
     "src/AI/Mission/Training/cForceFieldProfile.cpp": [

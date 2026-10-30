@@ -8,6 +8,7 @@
 // register allocation needs r31 where CD2 fits in r4-r11 (instruction-scheduling puzzle).
 // Class names cConfigBase / cConfigB1 / cConfigB2 / cConfigList (see the header) are ours; the real names are unknown.
 #include "GangManager/cFactionConfigData.h"
+#include "AI/cFactionTargetingProfile.h"
 #include "editor/guid_event_handler.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
@@ -32,7 +33,7 @@ namespace GangManager
         unsigned char pad0[0x1C];
         unsigned int m_nField1C;
         unsigned char pad1[0x98 - 0x20];
-        cConfigBase *m_pLink;
+        const AI::tAIFactionTargetData *m_pTargetingData;   // RuffKing: cFactionInfo::m_pTargetingData
         unsigned char pad2[0xA4 - 0x9C];
         unsigned int m_anLevelTriggers[6];
     };
@@ -102,9 +103,9 @@ namespace GangManager
                 for (unsigned char i = 1; i < 6; ++i)
                     pFaction->m_anLevelTriggers[i] = (unsigned int)m_afLevelTriggers[i - 1];
                 pFaction->m_nField1C = pFaction->m_anLevelTriggers[5];
-                cConfigBase *pLink = &m_pTargetingProfile->m_ConfigBase;
-                if (pLink)
-                    pFaction->m_pLink = pLink;
+                const AI::tAIFactionTargetData *pData = m_pTargetingProfile->RetFactionTargetData();
+                if (pData)
+                    pFaction->m_pTargetingData = pData;
             }
         }
     }

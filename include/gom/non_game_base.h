@@ -40,7 +40,13 @@ private:
 protected:
     GOM::cObjectPrototype *m_pPrototype;    // 0x44
 private:
-    unsigned char m_pad48[0x64 - 0x48];
+    unsigned char m_pad48[0x50 - 0x48];
+protected:
+    char *m_p50;
+private:
+    unsigned char m_pad54[0x60 - 0x54];
+protected:
+    char *m_p60;
 protected:
     int m_nUniqueID;                        // 0x64
 private:
@@ -121,6 +127,8 @@ public:
     CD2_LAYOUT_CHECKS(cNonGameBase,
         CD2_SIZE(cNonGameBase, 0x7C)
         CD2_OFFSET(cNonGameBase, m_pPrototype, 0x44)
+        CD2_OFFSET(cNonGameBase, m_p50, 0x50)
+        CD2_OFFSET(cNonGameBase, m_p60, 0x60)
         CD2_OFFSET(cNonGameBase, m_nUniqueID, 0x64))
 };
 
