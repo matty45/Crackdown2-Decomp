@@ -226,7 +226,9 @@ from this repository are checked. `cd2.py lint` runs it and `cd2.py lint --self-
   `offsetof` expansion inside the layout checks is exempt.
 - Matched functions must be in an ordinary code section (`.text`, or the compiler's own `.text$yc`/`.text$yd` for
   static initializers and at-exit destructors).
-- Flagged for review: `goto`. It is rarely what the original source did.
+- Flagged for review (warnings, not failures): `goto`, which is rarely what the original source did; `volatile`, which
+  holds a value in a register only in a fake match; and placeholder names (`GetField50`, `m_word50C`, `Slot12`),
+  listed per file and per header so they get named from evidence.
 - No invented duplicates of shared bases. Game classes derive from `cNonGameBase`, prototypes from
   `GOM::cObjectPrototype` (`include/README.md`).
 

@@ -444,6 +444,17 @@ def spread_pointer_arithmetic(code):
     return found
 
 
+# names that stand in for an unknown real name (advisory: lint lists them so they get named from evidence)
+PLACEHOLDER = re.compile(r'\b(?:Slot\d+\b|(?:Func|sub_|fn_)[0-9A-Fa-f]{5,}\w*|'
+                         r'(?:Get|Set|Ret|Is|Check)(?:Fields?|Byte|Word|Float|Ptr|Bool|Storage|Constant|[BSF])'
+                         r'[0-9A-F]{2,}(?![a-z])\w*|'
+                         r'm_(?:unk|word|byte|field|storage|ptr|at|[nfbps])[0-9A-F]{2,}(?![a-z])\w*)')
+
+
+def placeholder_names(text):
+    return {m.group(0) for m in PLACEHOLDER.finditer(text)}
+
+
 def without_offsetof(text):
     """The line with every offsetof expansion replaced by 0: the language's own offset query, not pointer arithmetic."""
     while OFFSETOF in text:
@@ -487,6 +498,7 @@ def policy(src, extra_roots=(), roots=None, include=None):
     origin, lineno, ours = path, 0, True
     seen_outside = set()
     own = []  # (where, text) of every line from the repository, for the whole-file pass
+    placeholders = set()  # placeholder names in the file's own lines (its headers are listed by lint once)
     for line in preprocessed:
         m = re.match(r'#line (\d+) "(.*)"', line)
         if m:
@@ -510,6 +522,10 @@ def policy(src, extra_roots=(), roots=None, include=None):
             errors.append('%s: #pragma %s (allowed: %s)' % (where, pm.group(1), ', '.join(PRAGMA_ALLOWED)))
         if re.search(r'\bgoto\b', text):
             warnings.append('%s: goto (needs review: rarely what the original source did)' % where)
+        if re.search(r'\bvolatile\b', text):
+            warnings.append('%s: volatile (needs review: holding a value in a register this way is a fake match)' % where)
+        if origin == os.path.normcase(os.path.abspath(path)):
+            placeholders.update(placeholder_names(text))
     starts, at = [], 0
     for _, text in own:
         starts.append(at)
@@ -518,6 +534,9 @@ def policy(src, extra_roots=(), roots=None, include=None):
         e = '%s: pointer arithmetic: %s (see AGENTS.md)' % (own[bisect.bisect_right(starts, off) - 1][0], what)
         if e not in errors:
             errors.append(e)
+    if placeholders:
+        warnings.append('%s: %d placeholder name(s), to be named from evidence (AGENTS.md, "Finding names and '
+                        'layouts"): %s' % (src, len(placeholders), ', '.join(sorted(placeholders))))
     return errors, warnings
 
 
@@ -1356,6 +1375,16 @@ def cmd_lint(a):
             continue
         e, w = policy(src)
         res.append(dict(file=src, errors=e, warnings=w))
+    if not a.files:  # the headers once: their placeholder names (the files' own are listed with each file)
+        for dp, _, fs in os.walk(os.path.join(ROOT, 'include')):
+            for f in sorted(fs):
+                if f.endswith('.h'):
+                    path = os.path.join(dp, f)
+                    names = placeholder_names(''.join(l.split('//', 1)[0] for l in open(path, errors='replace')))
+                    if names:
+                        res.append(dict(file=rel(path), errors=[], warnings=[
+                            '%s: %d placeholder name(s), to be named from evidence (AGENTS.md, "Finding names and '
+                            'layouts"): %s' % (rel(path), len(names), ', '.join(sorted(names)))]))
     return dict(ok=not any(r['errors'] for r in res), files=res, without_code=empty)
 
 

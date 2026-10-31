@@ -31,6 +31,13 @@ search for either.
 
    `check` rejects them on the preprocessed source. Pointer arithmetic gives the same instructions, but it proves nothing
    about the layout, and a hard-coded address has no relocation, so `check` cannot tell whether it is the right global.
+
+   Beyond what `check` can see, ask of every line: would a programmer on the original team have typed this? Matching
+   bytes produced by code nobody would write is a fake match, and it does not count: dummy locals, `volatile` to hold a
+   value in a register, padding members or extra fields that only shift the layout, empty blocks, casts that do nothing.
+   When you choose an unusual construct because only it reproduces CD2's code (`__forceinline`, a `memset` instead of
+   assignments, an odd statement order), say why in a one-line comment next to it, so the next person does not
+   "clean it up". `lint` warns about `volatile` and about placeholder names such as `GetField50` or `m_word50C`.
 4. **Use the shared headers** in `include/`. Game classes derive from `cNonGameBase` (`include/gom/non_game_base.h`);
    prototypes derive from `GOM::cObjectPrototype` (`include/gom/object_prototype.h`). Never define a second copy of a
    type that already exists: search `include/` first. A missing type gets its own header, one class per header, at
@@ -61,8 +68,10 @@ How to work:
 4. Floats: the game was built with link-time code generation. If a finding says "float constants: CD2 loads them the
    LTCG way", run `check --ltcg`; a function that is exact only there gets `"ltcg": true` in its manifest entry.
 5. When only register numbering or ordering differs, run `search`. Use `--apply` to keep its result.
-6. Stop when the function is exact, or when you run out of ideas. Leave a short note on what you tried in
-   `docs/matching-notes.md` if it would help the next person.
+6. Stop when the function is exact, or when you run out of ideas. Do not distort correct source to raise a score: a
+   change that improves the percentage without reproducing what CD2 does is not progress. If you showed a reusable
+   mechanism (a source shape that controls the code, with an A/B test), add it to `docs/matching-notes.md`; for a
+   function you could not finish, add one line to its "Open functions" list saying what is ruled out.
 7. When it is exact, add its entry to `config/matched_functions.json` (address, size, mangled symbol prefix;
    `"ltcg": true` if it is exact only under `--ltcg`), then run `py -I tools/cd2.py facts record`.
 8. Before finishing, run `py -I tools/cd2.py verify`. It must pass.

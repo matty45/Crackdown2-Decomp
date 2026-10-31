@@ -174,14 +174,14 @@ def classify(rows):
                 add('inline-missing', 'a call where CD2 has the code inline', a,
                     'CD2 inlines this callee. Under /Ob1 only functions declared inline (or defined in the class body) are '
                     'inlined: make it inline in the header, or __forceinline for chained in-class constructors.',
-                    'Codegen idioms, "Template helpers need inline under /Ob1"; cNPCTintProfile findings')
+                    'Codegen idioms, "Inlining: the game code is built with /Ob1"')
     if sum(lcalls.values()) > sum(rcalls.values()):
         for l, r, k, a in rows:
             if r is None and l is not None and l['call']:
                 add('inline-extra', 'CD2 calls out of line where ours is inline', a,
                     'CD2 calls this function: in the original it is not inline (or too big to inline). Declare it out of '
                     'line instead of defining it in the header.',
-                    'cNPCTintProfile findings (accessors inline or not)')
+                    'Codegen idioms, "Inlining: the game code is built with /Ob1" (accessors inline or not)')
     # LTCG gathers float constants and loads them through one base register (addi r30, anchor; lfs f0, 0x84(r30));
     # a plain build loads each from its own __real@ constant. A plain-style load of CD2's (lis + lfs lbl_...) is no
     # sign of LTCG: it compiles to the same bytes. Field reads through the address of a global count on both sides.
