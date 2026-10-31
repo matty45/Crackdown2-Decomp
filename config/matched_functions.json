@@ -1117,6 +1117,41 @@
         "address": "0x82F604A8",
         "size": 40,
         "symbol": "??__E?ms_pcAiPlayerClass@cAiPlayer@AI@@"
+      },
+      {
+        "address": "0x823E7978",
+        "size": 12,
+        "symbol": "?GetPtr83803448@cAiPlayer@AI@@"
+      },
+      {
+        "address": "0x823E7AA0",
+        "size": 12,
+        "symbol": "?GetPtr83817824@cAiPlayer@AI@@"
+      },
+      {
+        "address": "0x823E7AB0",
+        "size": 12,
+        "symbol": "?GetPtr8381798C@cAiPlayer@AI@@"
+      },
+      {
+        "address": "0x823E7B20",
+        "size": 12,
+        "symbol": "?GetPtr83818B7C@cAiPlayer@AI@@"
+      },
+      {
+        "address": "0x823E7BE8",
+        "size": 12,
+        "symbol": "?GetPtr83818BA0@cAiPlayer@AI@@"
+      },
+      {
+        "address": "0x823E7BF8",
+        "size": 12,
+        "symbol": "?GetPtr83818BC4@cAiPlayer@AI@@"
+      },
+      {
+        "address": "0x823E7C08",
+        "size": 12,
+        "symbol": "?GetPtr83818BE8@cAiPlayer@AI@@"
       }
     ],
     "src/AI/cCharacterEntityIF.cpp": [
@@ -1284,6 +1319,76 @@
         "address": "0x82F60D30",
         "size": 40,
         "symbol": "??__E?ms_pcCharacterEntityIFClass@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823EBF28",
+        "size": 12,
+        "symbol": "?GetPtr838035CC@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823EC368",
+        "size": 12,
+        "symbol": "?GetPtr8381764C@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823EC518",
+        "size": 12,
+        "symbol": "?GetPtr83817728@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823EC528",
+        "size": 12,
+        "symbol": "?GetPtr83817770@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823EC608",
+        "size": 12,
+        "symbol": "?GetPtr83817890@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823EC618",
+        "size": 12,
+        "symbol": "?GetPtr838178B4@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823EC780",
+        "size": 12,
+        "symbol": "?GetPtr83818CE0@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823EC830",
+        "size": 12,
+        "symbol": "?GetPtr83818D04@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823EC840",
+        "size": 12,
+        "symbol": "?GetPtr83818D94@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823EC850",
+        "size": 12,
+        "symbol": "?GetPtr83818DB8@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823EC860",
+        "size": 12,
+        "symbol": "?GetPtr83818E00@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823EC870",
+        "size": 12,
+        "symbol": "?GetPtr83818E24@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823EC880",
+        "size": 12,
+        "symbol": "?GetPtr83818940@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823EC890",
+        "size": 12,
+        "symbol": "?GetPtr83818964@cCharacterEntityIF@AI@@"
       }
     ],
     "src/cAgencyGarageDoor.cpp": [
@@ -3604,6 +3709,26 @@
         "address": "0x82897B28",
         "size": 12,
         "symbol": "?RetClassName@cUIControl@UI@@"
+      },
+      {
+        "address": "0x82897AE0",
+        "size": 68,
+        "symbol": "?MakeNew@cUIControl@UI@@"
+      },
+      {
+        "address": "0x82898078",
+        "size": 232,
+        "symbol": "?ApplyOptions@cUIControl@UI@@"
+      },
+      {
+        "address": "0x830226E8",
+        "size": 76,
+        "symbol": "??__EcUIControlRegistrar@UI@@"
+      },
+      {
+        "address": "0x83044A80",
+        "size": 12,
+        "symbol": "??__FcUIControlRegistrar@UI@@"
       }
     ],
     "src/Vehicle/cCarDamageProfile.cpp": [
@@ -5100,6 +5225,16 @@
         "address": "0x82FADBF0",
         "size": 40,
         "symbol": "??__E?ms_pcCharacterInterfaceClass@cCharacterInterface@CHARACTER@@"
+      },
+      {
+        "address": "0x8254E8A8",
+        "size": 12,
+        "symbol": "?GetPtr838241E0@cCharacterInterface@CHARACTER@@"
+      },
+      {
+        "address": "0x8254E8B8",
+        "size": 12,
+        "symbol": "?GetPtrELODLevel@cCharacterInterface@CHARACTER@@"
       }
     ],
     "src/Prop/cProp.cpp": [
@@ -5161,6 +5296,28 @@
         "address": "0x8303CEE0",
         "size": 12,
         "symbol": "??__FcCharacterRegistrar@CHARACTER@@"
+      }
+    ],
+    "src/Sim/cTimeOfDay.cpp": [
+      {
+        "address": "0x82773C00",
+        "size": 12,
+        "symbol": "?GetPtr838518A0@cTimeOfDay@Sim@@"
+      },
+      {
+        "address": "0x82773C10",
+        "size": 12,
+        "symbol": "?GetPtr83851758@cTimeOfDay@Sim@@"
+      },
+      {
+        "address": "0x82773C20",
+        "size": 12,
+        "symbol": "?GetPtr8385177C@cTimeOfDay@Sim@@"
+      },
+      {
+        "address": "0x82773C30",
+        "size": 12,
+        "symbol": "?GetPtr838517A0@cTimeOfDay@Sim@@"
       }
     ]
   }

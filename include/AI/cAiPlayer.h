@@ -98,6 +98,13 @@ namespace AI
         void *GetField60() const;
         void *GetField50() const;
 
+        void *GetPtr83803448() const;
+        void *GetPtr83817824() const;
+        void *GetPtr8381798C() const;
+        void *GetPtr83818B7C() const;
+        void *GetPtr83818BA0() const;
+        void *GetPtr83818BC4() const;
+        void *GetPtr83818BE8() const;
         CD2_LAYOUT_CHECKS(cAiPlayer,
             CD2_SIZE(cAiPlayer, 0x620)
             CD2_OFFSET(cAiPlayer, m_DamageCache, 0x540)

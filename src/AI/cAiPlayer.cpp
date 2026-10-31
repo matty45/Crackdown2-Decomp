@@ -20,6 +20,14 @@
 
 inline void *operator new(size_t, void *memory) { return memory; }
 
+unsigned char g_83803448;     // global at 0x83803448
+unsigned char g_83817824;     // global at 0x83817824
+unsigned char g_8381798C;     // global at 0x8381798C
+unsigned char g_83818B7C;     // global at 0x83818B7C
+unsigned char g_83818BA0;     // global at 0x83818BA0
+unsigned char g_83818BC4;     // global at 0x83818BC4
+unsigned char g_83818BE8;     // global at 0x83818BE8
+
 namespace AI
 {
     AIDamageCache::AIDamageCache()
@@ -66,6 +74,41 @@ namespace AI
     const char *cAiPlayer::RetMapStatus() const
     {
         return "eMapStatus";
+    }
+
+    void *cAiPlayer::GetPtr83803448() const
+    {
+        return &g_83803448;
+    }
+
+    void *cAiPlayer::GetPtr83817824() const
+    {
+        return &g_83817824;
+    }
+
+    void *cAiPlayer::GetPtr8381798C() const
+    {
+        return &g_8381798C;
+    }
+
+    void *cAiPlayer::GetPtr83818B7C() const
+    {
+        return &g_83818B7C;
+    }
+
+    void *cAiPlayer::GetPtr83818BA0() const
+    {
+        return &g_83818BA0;
+    }
+
+    void *cAiPlayer::GetPtr83818BC4() const
+    {
+        return &g_83818BC4;
+    }
+
+    void *cAiPlayer::GetPtr83818BE8() const
+    {
+        return &g_83818BE8;
     }
 
     void cAiPlayer::SetMapStatus(unsigned int nMapStatus)

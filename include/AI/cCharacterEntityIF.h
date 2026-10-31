@@ -52,6 +52,7 @@ namespace AI
         static Fun_Runtime::cClass &StaticCreateClass();
         // CD2 0x823EF240 is the no-argument constructor called by 0x823EBF10.
         cCharacterEntityIF();
+        virtual ~cCharacterEntityIF();
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *memory);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         void *GetStorage480();
@@ -68,6 +69,20 @@ namespace AI
         unsigned char GetByte536() const;
         unsigned char GetByte537() const;
         void SetByte539(unsigned char value);
+        void *GetPtr838035CC() const;
+        void *GetPtr8381764C() const;
+        void *GetPtr83817728() const;
+        void *GetPtr83817770() const;
+        void *GetPtr83817890() const;
+        void *GetPtr838178B4() const;
+        void *GetPtr83818CE0() const;
+        void *GetPtr83818D04() const;
+        void *GetPtr83818D94() const;
+        void *GetPtr83818DB8() const;
+        void *GetPtr83818E00() const;
+        void *GetPtr83818E24() const;
+        void *GetPtr83818940() const;
+        void *GetPtr83818964() const;
         virtual const char *RetClassName() const;
         const char *RetMovementType() const;
         const char *RetPerceptionOptions() const;

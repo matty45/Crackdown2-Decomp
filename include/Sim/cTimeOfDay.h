@@ -20,6 +20,11 @@ namespace Sim
 
         float RetPhase();
 
+        void *GetPtr838518A0() const;
+        void *GetPtr83851758() const;
+        void *GetPtr8385177C() const;
+        void *GetPtr838517A0() const;
+
         CD2_LAYOUT_CHECKS(cTimeOfDay,
             CD2_OFFSET(cTimeOfDay, m_fPhase, 0x278))
     };

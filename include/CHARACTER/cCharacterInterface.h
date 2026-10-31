@@ -71,6 +71,8 @@ namespace CHARACTER
 
         unsigned char RetLODLevel() const { return RetCharacter()->RetLODLevel(); }
 
+        void *GetPtr838241E0() const;
+        const char *GetPtrELODLevel() const;
         CD2_LAYOUT_CHECKS(cCharacterInterface,
             CD2_SIZE(cCharacterInterface, 0xC0)
             CD2_OFFSET(cCharacterInterface, m_pCharacter, 0x7C)

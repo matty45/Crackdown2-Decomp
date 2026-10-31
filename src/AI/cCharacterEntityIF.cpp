@@ -17,6 +17,21 @@
 
 inline void *operator new(size_t, void *memory) { return memory; }
 
+unsigned char g_838035CC;     // global at 0x838035CC
+unsigned char g_8381764C;     // global at 0x8381764C
+unsigned char g_83817728;     // global at 0x83817728
+unsigned char g_83817770;     // global at 0x83817770
+unsigned char g_83817890;     // global at 0x83817890
+unsigned char g_838178B4;     // global at 0x838178B4
+unsigned char g_83818CE0;     // global at 0x83818CE0
+unsigned char g_83818D04;     // global at 0x83818D04
+unsigned char g_83818D94;     // global at 0x83818D94
+unsigned char g_83818DB8;     // global at 0x83818DB8
+unsigned char g_83818E00;     // global at 0x83818E00
+unsigned char g_83818E24;     // global at 0x83818E24
+unsigned char g_83818940;     // global at 0x83818940
+unsigned char g_83818964;     // global at 0x83818964
+
 namespace AI
 {
     // CD2 0x82F60D30 initializes the descriptor at 0x838035C0 through StaticCreateClass.
@@ -45,6 +60,76 @@ namespace AI
     void *cCharacterEntityIF::GetStorage4B0()
     {
         return m_storage4B0;
+    }
+
+    void *cCharacterEntityIF::GetPtr838035CC() const
+    {
+        return &g_838035CC;
+    }
+
+    void *cCharacterEntityIF::GetPtr8381764C() const
+    {
+        return &g_8381764C;
+    }
+
+    void *cCharacterEntityIF::GetPtr83817728() const
+    {
+        return &g_83817728;
+    }
+
+    void *cCharacterEntityIF::GetPtr83817770() const
+    {
+        return &g_83817770;
+    }
+
+    void *cCharacterEntityIF::GetPtr83817890() const
+    {
+        return &g_83817890;
+    }
+
+    void *cCharacterEntityIF::GetPtr838178B4() const
+    {
+        return &g_838178B4;
+    }
+
+    void *cCharacterEntityIF::GetPtr83818CE0() const
+    {
+        return &g_83818CE0;
+    }
+
+    void *cCharacterEntityIF::GetPtr83818D04() const
+    {
+        return &g_83818D04;
+    }
+
+    void *cCharacterEntityIF::GetPtr83818D94() const
+    {
+        return &g_83818D94;
+    }
+
+    void *cCharacterEntityIF::GetPtr83818DB8() const
+    {
+        return &g_83818DB8;
+    }
+
+    void *cCharacterEntityIF::GetPtr83818E00() const
+    {
+        return &g_83818E00;
+    }
+
+    void *cCharacterEntityIF::GetPtr83818E24() const
+    {
+        return &g_83818E24;
+    }
+
+    void *cCharacterEntityIF::GetPtr83818940() const
+    {
+        return &g_83818940;
+    }
+
+    void *cCharacterEntityIF::GetPtr83818964() const
+    {
+        return &g_83818964;
     }
 
     unsigned char cCharacterEntityIF::GetWord50CLowByte() const

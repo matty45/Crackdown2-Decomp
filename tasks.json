@@ -1,0 +1,869 @@
+﻿{
+ "ok": true,
+ "tasks": [
+  {
+   "address": "0x823EC030",
+   "size": 8,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 1,
+   "features": {
+    "instructions": 2,
+    "calls": 0,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 1
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EBF28",
+   "size": 12,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 1,
+   "features": {
+    "instructions": 3,
+    "calls": 0,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EC368",
+   "size": 12,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 1,
+   "features": {
+    "instructions": 3,
+    "calls": 0,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EC518",
+   "size": 12,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 1,
+   "features": {
+    "instructions": 3,
+    "calls": 0,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EC528",
+   "size": 12,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 1,
+   "features": {
+    "instructions": 3,
+    "calls": 0,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EC608",
+   "size": 12,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 1,
+   "features": {
+    "instructions": 3,
+    "calls": 0,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EC618",
+   "size": 12,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 1,
+   "features": {
+    "instructions": 3,
+    "calls": 0,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EC780",
+   "size": 12,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 1,
+   "features": {
+    "instructions": 3,
+    "calls": 0,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EC830",
+   "size": 12,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 1,
+   "features": {
+    "instructions": 3,
+    "calls": 0,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EC840",
+   "size": 12,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 1,
+   "features": {
+    "instructions": 3,
+    "calls": 0,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EC850",
+   "size": 12,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 1,
+   "features": {
+    "instructions": 3,
+    "calls": 0,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EC860",
+   "size": 12,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 1,
+   "features": {
+    "instructions": 3,
+    "calls": 0,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EC870",
+   "size": 12,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 1,
+   "features": {
+    "instructions": 3,
+    "calls": 0,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EC880",
+   "size": 12,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 1,
+   "features": {
+    "instructions": 3,
+    "calls": 0,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EC890",
+   "size": 12,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 1,
+   "features": {
+    "instructions": 3,
+    "calls": 0,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EC048",
+   "size": 36,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 1,
+   "features": {
+    "instructions": 9,
+    "calls": 0,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EC170",
+   "size": 72,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 1,
+   "features": {
+    "instructions": 18,
+    "calls": 1,
+    "float_ops": 6,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EC238",
+   "size": 72,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 1,
+   "features": {
+    "instructions": 18,
+    "calls": 1,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823ECA48",
+   "size": 72,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 1,
+   "features": {
+    "instructions": 18,
+    "calls": 0,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823ECA90",
+   "size": 72,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 1,
+   "features": {
+    "instructions": 18,
+    "calls": 0,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823ECBA8",
+   "size": 72,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 1,
+   "features": {
+    "instructions": 18,
+    "calls": 0,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x82F60E10",
+   "size": 72,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 1,
+   "features": {
+    "instructions": 18,
+    "calls": 3,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EF490",
+   "size": 80,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 1,
+   "features": {
+    "instructions": 20,
+    "calls": 2,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x82F60D58",
+   "size": 104,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 2,
+   "features": {
+    "instructions": 26,
+    "calls": 5,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EBE90",
+   "size": 112,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 2,
+   "features": {
+    "instructions": 28,
+    "calls": 2,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EC070",
+   "size": 116,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 2,
+   "features": {
+    "instructions": 29,
+    "calls": 2,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EC0E8",
+   "size": 116,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 2,
+   "features": {
+    "instructions": 29,
+    "calls": 2,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EF4E0",
+   "size": 148,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 2,
+   "features": {
+    "instructions": 37,
+    "calls": 3,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EC790",
+   "size": 160,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 2,
+   "features": {
+    "instructions": 40,
+    "calls": 2,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EC468",
+   "size": 176,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 2,
+   "features": {
+    "instructions": 44,
+    "calls": 1,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EF068",
+   "size": 184,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 2,
+   "features": {
+    "instructions": 46,
+    "calls": 9,
+    "float_ops": 3,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EC3A0",
+   "size": 196,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 2,
+   "features": {
+    "instructions": 49,
+    "calls": 2,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EC978",
+   "size": 204,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 2,
+   "features": {
+    "instructions": 51,
+    "calls": 0,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823ECAD8",
+   "size": 204,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 2,
+   "features": {
+    "instructions": 51,
+    "calls": 0,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823ECBF0",
+   "size": 204,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 2,
+   "features": {
+    "instructions": 51,
+    "calls": 0,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EC538",
+   "size": 208,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 2,
+   "features": {
+    "instructions": 52,
+    "calls": 1,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EF860",
+   "size": 208,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 2,
+   "features": {
+    "instructions": 52,
+    "calls": 4,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EC280",
+   "size": 228,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 2,
+   "features": {
+    "instructions": 57,
+    "calls": 2,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EEF80",
+   "size": 232,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 2,
+   "features": {
+    "instructions": 58,
+    "calls": 12,
+    "float_ops": 4,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EECB0",
+   "size": 240,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 2,
+   "features": {
+    "instructions": 60,
+    "calls": 12,
+    "float_ops": 4,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EF740",
+   "size": 284,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 2,
+   "features": {
+    "instructions": 71,
+    "calls": 4,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EF120",
+   "size": 288,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 2,
+   "features": {
+    "instructions": 72,
+    "calls": 15,
+    "float_ops": 5,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EFA60",
+   "size": 296,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 2,
+   "features": {
+    "instructions": 74,
+    "calls": 4,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EF930",
+   "size": 300,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 2,
+   "features": {
+    "instructions": 75,
+    "calls": 4,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EFB88",
+   "size": 332,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 3,
+   "features": {
+    "instructions": 83,
+    "calls": 4,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EC628",
+   "size": 344,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 3,
+   "features": {
+    "instructions": 86,
+    "calls": 3,
+    "float_ops": 20,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EFCD8",
+   "size": 384,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 3,
+   "features": {
+    "instructions": 96,
+    "calls": 4,
+    "float_ops": 3,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EF578",
+   "size": 452,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 3,
+   "features": {
+    "instructions": 113,
+    "calls": 5,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EEDA0",
+   "size": 480,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 3,
+   "features": {
+    "instructions": 120,
+    "calls": 27,
+    "float_ops": 9,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EF240",
+   "size": 592,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 3,
+   "features": {
+    "instructions": 148,
+    "calls": 3,
+    "float_ops": 31,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 2
+   },
+   "status": "claimed",
+   "symbol": "??0cCharacterEntityIF@AI@@"
+  },
+  {
+   "address": "0x823EFE58",
+   "size": 804,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 3,
+   "features": {
+    "instructions": 201,
+    "calls": 12,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823ECCC0",
+   "size": 148,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 4,
+   "features": {
+    "instructions": 37,
+    "calls": 0,
+    "float_ops": 18,
+    "vmx": 4,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823EC8A0",
+   "size": 212,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 4,
+   "features": {
+    "instructions": 53,
+    "calls": 0,
+    "float_ops": 1,
+    "vmx": 2,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  },
+  {
+   "address": "0x823ECDF0",
+   "size": 7872,
+   "file": "src/AI/cCharacterEntityIF.cpp",
+   "tier": 4,
+   "features": {
+    "instructions": 1968,
+    "calls": 244,
+    "float_ops": 0,
+    "vmx": 0,
+    "jump_table": false,
+    "loops": 0
+   },
+   "status": "open",
+   "symbol": null
+  }
+ ]
+}

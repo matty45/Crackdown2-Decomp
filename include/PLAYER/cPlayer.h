@@ -34,11 +34,15 @@ namespace PLAYER
         bool m_bIsAITargeting;      // 0xD91
         bool m_bAutomaticAIBreakout; // 0xD92
     private:
-        unsigned char m_padD93[0xDC0 - 0xD93];
+        unsigned char m_padD93[0xD99 - 0xD93];
+        unsigned char m_byteD99; // 0xD99
+        unsigned char m_padD9A[0xDC0 - 0xD9A];
     protected:
         char m_strName[255]; // 0xDC0; RuffKing name and size, CD2 RetName address adjusted from cScriptHost
     private:
-        unsigned char m_padEBF[0xF18 - 0xEBF];
+        unsigned char m_padEBF[0xEC4 - 0xEBF];
+        float m_fEC4; // 0xEC4
+        unsigned char m_padEC8[0xF18 - 0xEC8];
         void *m_pCamera; // 0xF18, returned by the script method RetCameraPtr
         unsigned char m_padF1C[0x1160 - 0xF1C];
 
@@ -65,6 +69,10 @@ namespace PLAYER
         bool IsAutomaticAIBreakout() const;
         int RetAutomaticAIBreakoutFlags() const;
         void *RetCameraPtr() const;
+        unsigned char GetByteD99() const;
+        bool ShouldTriggerBulletSoundEvent();
+        bool IsLODLevelAtMost1();
+        void ResetFloatEC4();
         void SetAITargeting(bool bAITargeting);
 
         CD2_LAYOUT_CHECKS(cPlayer,
@@ -74,6 +82,8 @@ namespace PLAYER
             CD2_OFFSET(cPlayer, m_bAutomaticAIBreakout, 0xD92)
             CD2_OFFSET(cPlayer, m_nAutomaticAIBreakoutFlags, 0x858)
             CD2_OFFSET(cPlayer, m_strName, 0xDC0)
+            CD2_OFFSET(cPlayer, m_byteD99, 0xD99)
+            CD2_OFFSET(cPlayer, m_fEC4, 0xEC4)
             CD2_OFFSET(cPlayer, m_pCamera, 0xF18))
     };
 }

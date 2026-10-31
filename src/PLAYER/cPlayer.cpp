@@ -12,6 +12,7 @@
 //     py -I tools/cd2.py tasks src/PLAYER/cPlayer.cpp
 
 #include "PLAYER/cPlayer.h"
+#include "GMan/cGameManager.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
 #include <stddef.h>
@@ -86,6 +87,33 @@ namespace PLAYER
     void *cPlayer::RetCameraPtr() const
     {
         return m_pCamera;
+    }
+
+    unsigned char cPlayer::GetByteD99() const
+    {
+        return m_byteD99;
+    }
+
+    bool cPlayer::ShouldTriggerBulletSoundEvent()
+    {
+        float timer = GMan::cGameManager::ms_fGameTimerSecs;
+        if (m_fLastBulletSoundTime < timer - 1.0f)
+        {
+            m_fLastBulletSoundTime = timer;
+            return true;
+        }
+        return false;
+    }
+
+    bool cPlayer::IsLODLevelAtMost1()
+    {
+        CHARACTER::cCharacter *p = static_cast<CHARACTER::cCharacter *>(m_pCharacter.m_pPtr);
+        return p->RetLODLevel() <= 1;
+    }
+
+    void cPlayer::ResetFloatEC4()
+    {
+        m_fEC4 = 0.0f;
     }
 
     void cPlayer::SetAITargeting(bool bAITargeting)
