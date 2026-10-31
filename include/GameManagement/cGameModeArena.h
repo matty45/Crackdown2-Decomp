@@ -102,7 +102,7 @@ namespace GameManagement
             }
         }
         unsigned int size() const { return (unsigned int)(m_pLast - m_pFirst); }
-        T &operator[](unsigned int i) const { return m_pFirst[i]; }
+        const T &operator[](unsigned int i) const { return m_pFirst[i]; }
     private:
         int m_nAlloc;
         T *m_pFirst;

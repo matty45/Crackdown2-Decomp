@@ -9,7 +9,8 @@
 //   index times 4); they and the rest up to 0xE60 are not modelled yet.
 // - The prototype's word at 0x4F0 is the number of lights: unsigned (cmplw against the loop index), read through
 //   m_pPrototype (0x44). AddLight picks one of the words at 0x4F4, 0x4F8 and 0x4FC by colour. MakeNew sets byte 0x500
-//   to -1.
+//   to -1. RuffKing names this byte m_nTrafficLightType; CD2 HandleAttributes (0x82747C80, command 1) fills it
+//   with the configured light name's VFX light-definition index (lookup 0x827FBF30 returns -1 if not found).
 // - Primary vtable 0x8200F530: UpdateRenderMatrix is slot 26 (see Prop/cProp.h). Only the functions matched so far are
 //   declared.
 // - The colours are AI::cJunctionNodeController::eSignalColour (AI/cJunctionNodeController.h).
@@ -25,6 +26,10 @@ namespace Prop
     class cTrafficLight : public cProp
     {
     public:
+        // RuffKing signature and CD2 placement factory 0x82747450.
+        cTrafficLight(GOM::cObjectPrototype *prototype);
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *prototype, void *memory);
+
         class cTrafficLightPrototype : public cProp::cPropPrototype
         {
         public:
@@ -33,7 +38,7 @@ namespace Prop
         private:
             unsigned int m_unk4F4[3];
         public:
-            signed char m_unk500;
+            signed char m_nTrafficLightType; // 0x500: VFX light-definition index; -1 means unset or not found
         private:
             unsigned char m_pad501[0x510 - 0x501];
 
@@ -41,7 +46,7 @@ namespace Prop
             CD2_LAYOUT_CHECKS(cTrafficLightPrototype,
                 CD2_SIZE(cTrafficLightPrototype, 0x510)
             CD2_OFFSET(cTrafficLightPrototype, m_nNumLights, 0x4F0)
-            CD2_OFFSET(cTrafficLightPrototype, m_unk500, 0x500))
+            CD2_OFFSET(cTrafficLightPrototype, m_nTrafficLightType, 0x500))
         };
 
     protected:

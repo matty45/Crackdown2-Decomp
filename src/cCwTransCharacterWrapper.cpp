@@ -8,3 +8,13 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/cCwTransCharacterWrapper.cpp
+
+#include "CHARACTER/cCwTransCharacterWrapper.h"
+#include "rws/classfactory.h"
+
+namespace CHARACTER
+{
+    // CD2 0x82FAC1A0 registers the prototype factory 0x8253ED68 for this 0x5B40-byte character.
+    static RWS::CClassFactory::CRegistrar cCwTransCharacterWrapperRegistrar(
+        "cCwTransCharacterWrapper", cCwTransCharacterWrapper::MakeNew, 0x5B40, false);
+}

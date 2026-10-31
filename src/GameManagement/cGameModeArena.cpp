@@ -3,6 +3,8 @@
 // Work in progress: GetRandSpawnPointInList<T> (87.3%; register allocation in the modulo sequence).
 #include <string.h>
 #include "GameManagement/cGameModeArena.h"
+#include "GameManagement/cNetGamePlayerSpawnPoint.h"
+#include "GameManagement/cNetGamePickupSpawnPoint.h"
 #include "editor/guid_event_handler.h"
 #include "rws/classfactory.h"
 #include "rw/rwmem.h"
@@ -134,8 +136,7 @@ namespace GameManagement
         static Fun_Runtime::cRandGen s_RandGen(GetTime_msec());
         if (list.size() > 0)
         {
-            unsigned int index = s_RandGen.Rand(list.size());
-            return (T *)list[index];
+            return static_cast<T *>(list[s_RandGen.Rand(list.size())]);
         }
         return 0;
     }

@@ -1,11 +1,8 @@
 // CHARACTER::cCharacterInterface (Crackdown 2): STAND-IN, sized to CD2; only what matched code needs so far. Evidence:
 //   - Size 0xC0: cClass(0x5ED, "cCharacterInterface", 0xC0). Base cNonGameBase: its constructor 0x8254EC78 calls
 //     cNonGameBase's.
-//   - The constructor stores the vptr of Fun_Runtime::cSafeDeletablePointer<CHARACTER::cCharacter> m_pCharacter
-//     (RuffKing name and type) at 0x7C and nulls that pointer's object pointer at 0x88 (RuffKing's
-//     cSafeDeletablePointerBase:
-//     cLinkedListItem, then m_pPtr at +0xC). The shared Fun_Runtime::cSafeDeletablePointerBase keeps that word private,
-//     so the safe pointer is laid out flat here until it exposes it.
+//   - m_pCharacter (0x7C) is a Fun_Runtime::cSafeDeletablePointer<cCharacter> (RuffKing's type): its constructor installs the pointer-list vptr,
+//     its object pointer is at 0x88, and its destructor unlinks it from the pointed-to object's list.
 //   - RetCharacter is inline (no out-of-line copy in RuffKing or CD2): PLAYER::cPlayer::SetAITargeting reads 0x88,
 //     null-tests it, subtracts 0x1C (cSafeDeletable's offset in cNonGameBase) and null-tests again.
 //   - The sound-event times (RuffKing names; RuffKing has them at 0xD0..0xD8): cAiPlayer's primary vtable slots 112 and
@@ -23,6 +20,7 @@
 #include "gom/non_game_base.h"
 #include "gom/object_prototype.h"
 #include "fun_runtime/safedeletable.h"
+#include "fun_runtime/safedeletablepointer.h"
 #include "CHARACTER/cCharacter.h"
 #include "cd2/layout.h"
 
@@ -31,25 +29,34 @@ namespace CHARACTER
     class cCharacterInterface : public cNonGameBase
     {
     protected:
-        unsigned char m_pCharacterLink[0xC];                // 0x7C: m_pCharacter's vptr and list links
-        Fun_Runtime::cSafeDeletable *m_pCharacterPtr;       // 0x88: m_pCharacter's object pointer
+        Fun_Runtime::cSafeDeletablePointer<cCharacter> m_pCharacter; // 0x7C
     private:
-        unsigned char m_pad8C[0xA0 - 0x8C];
+        unsigned char m_pad8C[0x90 - 0x8C];
+        Fun_Runtime::Vec3 m_vecCentre;                    // 0x90
     protected:
         float m_fLastFootStepSoundTime;                     // 0xA0
         float m_fLastVocalSoundTime;                        // 0xA4
         float m_fLastBulletSoundTime;                       // 0xA8
     private:
-        unsigned char m_padAC[0xAE - 0xAC];
+        unsigned char m_padAC;
+        bool m_bInitialState;                               // 0xAD: name ours; initialized false by the constructor
+    protected:
         bool m_bCanShareVehicleWithPlayer;
         bool m_bCanBePickedUpWhenAlive;
-        unsigned char m_padB0[0xC0 - 0xB0];
+        bool m_bAlive;                                      // 0xB0 (RuffKing name)
+    private:
+        unsigned char m_padB1[0xC0 - 0xB1];
 
     public:
+        static const Fun_Runtime::cClass *ms_pcCharacterInterfaceClass;
+
         // CD2 0x8254EC78 takes no prototype argument; 0x8254E890 is its placement factory.
         cCharacterInterface();
+        virtual ~cCharacterInterface();
+        static Fun_Runtime::cClass &StaticCreateClass();
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *memory);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
+        virtual const Fun_Runtime::cClass &RetClass() const;
         virtual const char *RetClassName() const;
         void SetCanShareVehicleWithPlayer(bool enabled);
         void SetCanBePickedUpWhenAlive(bool enabled);
@@ -59,19 +66,21 @@ namespace CHARACTER
 
         cCharacter *RetCharacter() const
         {
-            return m_pCharacterPtr ? static_cast<cCharacter *>(m_pCharacterPtr) : 0;
+            return m_pCharacter.m_pPtr ? static_cast<cCharacter *>(m_pCharacter.m_pPtr) : 0;
         }
 
         unsigned char RetLODLevel() const { return RetCharacter()->RetLODLevel(); }
 
         CD2_LAYOUT_CHECKS(cCharacterInterface,
             CD2_SIZE(cCharacterInterface, 0xC0)
-            CD2_OFFSET(cCharacterInterface, m_pCharacterPtr, 0x88)
+            CD2_OFFSET(cCharacterInterface, m_pCharacter, 0x7C)
+            CD2_OFFSET(cCharacterInterface, m_vecCentre, 0x90)
             CD2_OFFSET(cCharacterInterface, m_fLastFootStepSoundTime, 0xA0)
             CD2_OFFSET(cCharacterInterface, m_fLastVocalSoundTime, 0xA4)
             CD2_OFFSET(cCharacterInterface, m_fLastBulletSoundTime, 0xA8)
             CD2_OFFSET(cCharacterInterface, m_bCanShareVehicleWithPlayer, 0xAE)
-            CD2_OFFSET(cCharacterInterface, m_bCanBePickedUpWhenAlive, 0xAF))
+            CD2_OFFSET(cCharacterInterface, m_bCanBePickedUpWhenAlive, 0xAF)
+            CD2_OFFSET(cCharacterInterface, m_bAlive, 0xB0))
     };
 }
 

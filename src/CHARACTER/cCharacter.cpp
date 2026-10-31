@@ -14,9 +14,15 @@
 #include "CHARACTER/cCharacter.h"
 #include "CHARACTER/cCharacterInterface.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
 
 namespace CHARACTER
 {
+    RWS::CAttributeHandler *cCharacter::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cCharacterPrototype(packet);
+    }
+
     const char *cCharacter::RetClassName() const
     {
         return "cCharacter";

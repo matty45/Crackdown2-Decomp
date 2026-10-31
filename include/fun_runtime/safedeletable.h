@@ -14,18 +14,18 @@
 
 #include "cd2/layout.h"
 #include "fun_runtime/vec3.h"
+#include "fun_runtime/linkedlistitem.h"
 
 namespace Fun_Runtime
 {
     class cSafeDeletable;
-    class cSafeDeletablePointerBase
+    class cSafeDeletablePointerBase : public cLinkedListItem
     {
     public:
-        cSafeDeletablePointerBase();
+        cSafeDeletablePointerBase() : m_pPtr(0) {}
+        cSafeDeletablePointerBase(cSafeDeletable *pointer);
         virtual ~cSafeDeletablePointerBase();
         // CD2 0x8264B328 initializes the payload before linking this sentinel.
-        cSafeDeletablePointerBase *m_pNext;
-        cSafeDeletablePointerBase *m_pPrev;
         cSafeDeletable *m_pPtr;
 
         CD2_LAYOUT_CHECKS(cSafeDeletablePointerBase,
@@ -49,6 +49,22 @@ namespace Fun_Runtime
             CD2_SIZE(cSafeDeletable, 0x14)
             CD2_OFFSET(cSafeDeletable, m_SafeDeletablePointerListHead, 0x4))
     };
+
+    inline cSafeDeletablePointerBase::cSafeDeletablePointerBase(cSafeDeletable *pointer) : m_pPtr(pointer)
+    {
+        if (m_pPtr)
+        {
+            cSafeDeletablePointerBase *head = &m_pPtr->m_SafeDeletablePointerListHead;
+            m_pPrev = head;
+            m_pNext = head->m_pNext;
+            head->m_pNext = this;
+            m_pNext->m_pPrev = this;
+        }
+    }
+
+    inline cSafeDeletablePointerBase::~cSafeDeletablePointerBase()
+    {
+    }
 }
 
 #endif // FUN_RUNTIME_SAFEDELETABLE_H

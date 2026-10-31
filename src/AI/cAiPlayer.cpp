@@ -22,6 +22,11 @@ inline void *operator new(size_t, void *memory) { return memory; }
 
 namespace AI
 {
+    AIDamageCache::AIDamageCache()
+    {
+        Flush();
+    }
+
     RWS::CAttributeHandler *cAiPlayer::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
     {
         if (memory)
@@ -29,7 +34,14 @@ namespace AI
         return 0;
     }
 
-    const Fun_Runtime::cClass *cAiPlayer::ms_pcAiPlayerClass = 0;
+    // CD2 0x82F604A8 initializes the descriptor at 0x8380343C through StaticCreateClass.
+    const Fun_Runtime::cClass *cAiPlayer::ms_pcAiPlayerClass = &cAiPlayer::StaticCreateClass();
+
+    Fun_Runtime::cClass &cAiPlayer::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cAiPlayerClass = new Fun_Runtime::cClass(5, "cAiPlayer", 0x620);
+        return *cAiPlayerClass;
+    }
 
     const Fun_Runtime::cClass &cAiPlayer::RetClass() const
     {

@@ -28,6 +28,10 @@ end, in one line, and is removed when the function matches. History belongs in g
   4. Name slots from the reference builds only where CD2's bodies agree (`RetUniqueID` returns `m_nUniqueID`).
 - **Slot numbers** come from `lwz rX, N(vptr)` (N/4). RetClass and IsA are not primary slots: they are the
   cRegisteredClass vtable at +0x30, which the linker places right after the primary one.
+- **Secondary-base virtual bodies use subobject-relative offsets.** `cPlayer::RetName` is called through the
+  cScriptHost base at +0x1C. Placing its name buffer at complete-object offset 0xDA4 produced a body offset of
+  0xD88; moving the member to 0xDC0 produced CD2's 0xDA4 and checked EXACT. Account for the incoming base pointer
+  before declaring a field from a virtual body's offset.
 - `Fun_Runtime::RetVal` results (`Init`, `Term`, ...) come back through the hidden pointer, r3, with `this` in r4.
   `Ret_OK` (0) and `Ret_FAIL` (-1) are namespace-scope `const RetVal` objects, one copy per file: Ret_OK in .bss,
   Ret_FAIL in .data, no initializer code. The compiler loads them rather than folding (`include/fun_runtime/retval.h`),
@@ -35,6 +39,10 @@ end, in one line, and is removed when the function matches. History belongs in g
   with internal linkage per file.
 
 ## Codegen idioms
+- **A typed safe-pointer assignment can create a temporary.** The reference `cSafeDeletablePointer<T>` has a
+  converting `T *` constructor and copy assignment, with no raw-pointer assignment overload. Thus `pAttacker = 0`
+  in `AIDamageCache::Flush` constructs, assigns and destroys a temporary. The real `cLinkedListItem` base puts its
+  final vtable store after unlinking; restoring that base changes the cache constructor from 71.4% to EXACT.
 - `x ? true : false` and `x != 0` compile identically. A *materialised* bool (`addic/subfe` or `subfic/subfe/and`) comes
   from a bool local kept live across calls: `bool ret = true; ... if (!f()) ret = false; return ret;`.
 - Constants used after calls get hoisted into non-volatile registers (e.g. `li r29,1`). That changes the save helper
@@ -261,6 +269,9 @@ end, in one line, and is removed when the function matches. History belongs in g
 
 ## Open functions
 One line each: what is ruled out. Remove the line when the function matches.
+- `cCharacterInterface::cCharacterInterface` (0x8254EC78): shared CONST_FLOAT_0 timestamp loads improve 24% to
+  60%; typed safe-pointer construction and body assignments preserve 60%. Member offsets agree; remaining
+  differences are vtable/member-store scheduling. The standard source search found no further improvement.
 - `cGameModeArena::GetRandSpawnPointInList<T>` (0x8284EC80, 0x8284ED60; 48/55 words): CD2 tests the size with
   `srawi. r8,r10,2; beq`, then recomputes it for the `Rand` argument. Ruled out: a size local, const-reference or
   64-bit bounds and indices, real `std::vector` indexing, modulo and Rand-local variants.
@@ -271,5 +282,8 @@ One line each: what is ruled out. Remove the line when the function matches.
 - `CHARACTER::cCharacterInterface`'s prototype `MakeNew` (0x8254E810): exact with a nested
   `cCharacterInterfacePrototype : GOM::cObjectPrototype` and `return new cCharacterInterfacePrototype(attr);`, but its
   secondary vtable is another name for the shared 0x821327A4 table and needs an alias entry.
+- `PLAYER::cPlayer::MakeNew` (0x8271F0A8) and `AI::cCharacterEntityIF::MakeNew` (0x823EBE90): the natural nested
+  prototype construction checks EXACT individually, but their shared resource-client vtable at 0x821327A4 needs
+  maintainer-owned alias entries before the standard verifier can accept them; the factory promotions were removed.
 - `cPedestrianBase::IsA` (0x824A90F0) and `Pedestrian::IsA` (0x824A8D60): exact in a plain build, 21/23 words in the
   LTCG model (see "The LTCG model can drop an unused `this`").

@@ -29,6 +29,7 @@ namespace CHARACTER
         unsigned char m_pad3620[0x5B40 - 0x3620];
 
     public:
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcCwTransCharacterWrapperClass;     // 0x83823D4C
 
         void SetAITargeting(bool bAITargeting)

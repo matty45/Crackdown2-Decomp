@@ -19,6 +19,37 @@ inline void *operator new(size_t, void *memory) { return memory; }
 
 namespace CHARACTER
 {
+    const Fun_Runtime::cClass *cCharacterInterface::ms_pcCharacterInterfaceClass =
+        &cCharacterInterface::StaticCreateClass();
+
+    cCharacterInterface::cCharacterInterface()
+    {
+        // CD2 reloads CONST_FLOAT_0 for each timestamp; the centre vector uses literal zero instead.
+        m_fLastFootStepSoundTime = Fun_Runtime::g_GlobalConstants.CONST_FLOAT_0;
+        m_fLastVocalSoundTime = Fun_Runtime::g_GlobalConstants.CONST_FLOAT_0;
+        m_fLastBulletSoundTime = Fun_Runtime::g_GlobalConstants.CONST_FLOAT_0;
+        m_bInitialState = false;
+        m_bCanShareVehicleWithPlayer = false;
+        m_bCanBePickedUpWhenAlive = false;
+        m_bAlive = true;
+    }
+
+    cCharacterInterface::~cCharacterInterface()
+    {
+    }
+
+    Fun_Runtime::cClass &cCharacterInterface::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cCharacterInterfaceClass =
+            new Fun_Runtime::cClass(0x5ED, "cCharacterInterface", 0xC0);
+        return *cCharacterInterfaceClass;
+    }
+
+    const Fun_Runtime::cClass &cCharacterInterface::RetClass() const
+    {
+        return *ms_pcCharacterInterfaceClass;
+    }
+
     RWS::CAttributeHandler *cCharacterInterface::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
     {
         if (memory)

@@ -1,8 +1,18 @@
 #include "Prop/cTrafficLight.h"
 #include "rws/classfactory.h"
+#include <stddef.h>
+
+inline void *operator new(size_t, void *memory) { return memory; }
 
 namespace Prop
 {
+    RWS::CAttributeHandler *cTrafficLight::SpawnFromPrototype(GOM::cObjectPrototype *prototype, void *memory)
+    {
+        if (memory)
+            return new (memory) cTrafficLight(prototype);
+        return 0;
+    }
+
     const char *cTrafficLight::RetClassName() const
     {
         return "cTrafficLight";
@@ -41,7 +51,7 @@ namespace Prop
         if (p)
         {
             p->m_nNumLights = 0;
-            p->m_unk500 = -1;
+            p->m_nTrafficLightType = -1;
             return p;
         }
         return 0;

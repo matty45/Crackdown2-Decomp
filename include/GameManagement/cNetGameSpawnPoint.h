@@ -1,11 +1,12 @@
 #ifndef GameManagement_cNetGameSpawnPoint_H
 #define GameManagement_cNetGameSpawnPoint_H
 
-#include "rws/attributes.h"
+#include "GameManagement/cGameModeSpawnPoint.h"
 
 namespace GameManagement
 {
-    class cNetGameSpawnPoint : public RWS::CAttributeHandler
+    // Base relationship from RuffKing's PDB; this stand-in models no additional fields yet.
+    class cNetGameSpawnPoint : public cGameModeSpawnPoint
     {
     public:
         virtual const char *RetClassName() const;

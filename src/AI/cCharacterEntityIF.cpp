@@ -19,6 +19,17 @@ inline void *operator new(size_t, void *memory) { return memory; }
 
 namespace AI
 {
+    // CD2 0x82F60D30 initializes the descriptor at 0x838035C0 through StaticCreateClass.
+    const Fun_Runtime::cClass *cCharacterEntityIF::ms_pcCharacterEntityIFClass =
+        &cCharacterEntityIF::StaticCreateClass();
+
+    Fun_Runtime::cClass &cCharacterEntityIF::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cCharacterEntityIFClass =
+            new Fun_Runtime::cClass(0x5F1, "cCharacterEntityIF", 0x540);
+        return *cCharacterEntityIFClass;
+    }
+
     RWS::CAttributeHandler *cCharacterEntityIF::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
     {
         if (memory)
@@ -173,7 +184,7 @@ namespace AI
     {
         cCharacterEntity *t = m_pAIEntity;
         cCharacterEntityIF *owner = t->m_pOwner;
-        Fun_Runtime::cSafeDeletable *safe = owner->m_pCharacterPtr;
+        Fun_Runtime::cSafeDeletable *safe = owner->m_pCharacter.m_pPtr;
         const CHARACTER::cCharacter *p = static_cast<const CHARACTER::cCharacter *>(safe);
         if ((p->m_byte1681 & 0x40) != 0)
             return 180.0f;

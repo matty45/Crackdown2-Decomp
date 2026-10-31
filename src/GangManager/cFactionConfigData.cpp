@@ -18,7 +18,6 @@ namespace Fun_Runtime
 {
     // CD2's inlined sentinel initializes only its payload. The owning
     // cSafeDeletable constructor supplies both circular links afterward.
-    inline cSafeDeletablePointerBase::cSafeDeletablePointerBase() : m_pPtr(0) {}
     inline cSafeDeletable::cSafeDeletable()
     {
         m_SafeDeletablePointerListHead.m_pNext = &m_SafeDeletablePointerListHead;

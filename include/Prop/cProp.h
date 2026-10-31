@@ -26,6 +26,7 @@ namespace Prop
     class cProp : public cNonGameBase
     {
     public:
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         class cPropPrototype : public GOM::cObjectPrototype
         {
         private:

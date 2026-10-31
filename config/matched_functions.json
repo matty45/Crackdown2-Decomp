@@ -792,6 +792,11 @@
         "address": "0x82747898",
         "size": 12,
         "symbol": "?EnterRenderableState@cTrafficLight@Prop@@"
+      },
+      {
+        "address": "0x82747450",
+        "size": 32,
+        "symbol": "?SpawnFromPrototype@cTrafficLight@Prop@@"
       }
     ],
     "src/PLAYER/cPlayer.cpp": [
@@ -809,6 +814,71 @@
         "address": "0x83041330",
         "size": 12,
         "symbol": "??__FcPlayerRegistrar@PLAYER@@"
+      },
+      {
+        "address": "0x82724920",
+        "size": 8,
+        "symbol": "?RetCameraPtr@cPlayer@PLAYER@@"
+      },
+      {
+        "address": "0x82724980",
+        "size": 12,
+        "symbol": "?SetAIActive@cPlayer@PLAYER@@"
+      },
+      {
+        "address": "0x82724990",
+        "size": 8,
+        "symbol": "?IsAIActive@cPlayer@PLAYER@@"
+      },
+      {
+        "address": "0x82724A28",
+        "size": 8,
+        "symbol": "?IsAITargeting@cPlayer@PLAYER@@"
+      },
+      {
+        "address": "0x82724B40",
+        "size": 12,
+        "symbol": "?SetAutomaticAIBreakout@cPlayer@PLAYER@@"
+      },
+      {
+        "address": "0x82724B50",
+        "size": 8,
+        "symbol": "?IsAutomaticAIBreakout@cPlayer@PLAYER@@"
+      },
+      {
+        "address": "0x82724B58",
+        "size": 8,
+        "symbol": "?RetAutomaticAIBreakoutFlags@cPlayer@PLAYER@@"
+      },
+      {
+        "address": "0x8271F118",
+        "size": 12,
+        "symbol": "?RetClassName@cPlayer@PLAYER@@"
+      },
+      {
+        "address": "0x8271F128",
+        "size": 24,
+        "symbol": "?SpawnFromPrototype@cPlayer@PLAYER@@"
+      },
+      {
+        "address": "0x82724808",
+        "size": 8,
+        "symbol": "?RetName@cPlayer@PLAYER@@"
+      },
+      {
+        "address": "0x8271F198",
+        "size": 152,
+        "symbol": "?StaticCreateClass@cPlayer@PLAYER@@"
+      },
+      {
+        "address": "0x82725740",
+        "size": 16,
+        "symbol": "?Init@cPlayerPrototype@cPlayer@PLAYER@@"
+      },
+      {
+        "address": "0x82FF3C38",
+        "size": 40,
+        "symbol": "??__E?ms_pcPlayerClass@cPlayer@PLAYER@@"
       }
     ],
     "src/CHARACTER/cCharacterVFXProfile.cpp": [
@@ -883,6 +953,11 @@
       }
     ],
     "src/AI/cAiPlayer.cpp": [
+      {
+        "address": "0x823E77C8",
+        "size": 224,
+        "symbol": "??0AIDamageCache@AI@@"
+      },
       {
         "address": "0x823E7940",
         "size": 12,
@@ -1032,6 +1107,16 @@
         "address": "0x823E7950",
         "size": 24,
         "symbol": "?SpawnFromPrototype@cAiPlayer@AI@@"
+      },
+      {
+        "address": "0x823E7C48",
+        "size": 152,
+        "symbol": "?StaticCreateClass@cAiPlayer@AI@@"
+      },
+      {
+        "address": "0x82F604A8",
+        "size": 40,
+        "symbol": "??__E?ms_pcAiPlayerClass@cAiPlayer@AI@@"
       }
     ],
     "src/AI/cCharacterEntityIF.cpp": [
@@ -1189,6 +1274,16 @@
         "address": "0x823EBF10",
         "size": 24,
         "symbol": "?SpawnFromPrototype@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823ECD58",
+        "size": 152,
+        "symbol": "?StaticCreateClass@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x82F60D30",
+        "size": 40,
+        "symbol": "??__E?ms_pcCharacterEntityIFClass@cCharacterEntityIF@AI@@"
       }
     ],
     "src/cAgencyGarageDoor.cpp": [
@@ -4890,6 +4985,11 @@
     ],
     "src/cCwTransCharacter.cpp": [
       {
+        "address": "0x825380E8",
+        "size": 88,
+        "symbol": "?MakeNew@cCwTransCharacter@CHARACTER@@"
+      },
+      {
         "address": "0x82538140",
         "size": 12,
         "symbol": "?RetClassName@cCwTransCharacter@CHARACTER@@"
@@ -4947,6 +5047,16 @@
     ],
     "src/CHARACTER/cCharacterInterface.cpp": [
       {
+        "address": "0x8254ED40",
+        "size": 80,
+        "symbol": "??_GcCharacterInterface@CHARACTER@@"
+      },
+      {
+        "address": "0x8254E7A0",
+        "size": 12,
+        "symbol": "?RetClass@cCharacterInterface@CHARACTER@@"
+      },
+      {
         "address": "0x8254E880",
         "size": 12,
         "symbol": "?RetClassName@cCharacterInterface@CHARACTER@@"
@@ -4980,9 +5090,48 @@
         "address": "0x8254E938",
         "size": 32,
         "symbol": "?RetIsOnFire@cCharacterInterface@CHARACTER@@"
+      },
+      {
+        "address": "0x8254EA90",
+        "size": 152,
+        "symbol": "?StaticCreateClass@cCharacterInterface@CHARACTER@@"
+      },
+      {
+        "address": "0x82FADBF0",
+        "size": 40,
+        "symbol": "??__E?ms_pcCharacterInterfaceClass@cCharacterInterface@CHARACTER@@"
+      }
+    ],
+    "src/Prop/cProp.cpp": [
+      {
+        "address": "0x82FF5298",
+        "size": 76,
+        "symbol": "??__EcPropRegistrar@Prop@@"
+      },
+      {
+        "address": "0x830413F0",
+        "size": 12,
+        "symbol": "??__FcPropRegistrar@Prop@@"
+      }
+    ],
+    "src/cCwTransCharacterWrapper.cpp": [
+      {
+        "address": "0x82FAC1A0",
+        "size": 76,
+        "symbol": "??__EcCwTransCharacterWrapperRegistrar@CHARACTER@@"
+      },
+      {
+        "address": "0x8303CDE8",
+        "size": 12,
+        "symbol": "??__FcCwTransCharacterWrapperRegistrar@CHARACTER@@"
       }
     ],
     "src/CHARACTER/cCharacter.cpp": [
+      {
+        "address": "0x82542FE0",
+        "size": 88,
+        "symbol": "?MakeNew@cCharacter@CHARACTER@@"
+      },
       {
         "address": "0x82543038",
         "size": 12,

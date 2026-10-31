@@ -45,6 +45,19 @@ namespace CHARACTER
         unsigned char m_pad2816[0x2CC0 - 0x2816];
 
     public:
+        // STAND-IN: RuffKing names this nested prototype; CD2 MakeNew (0x82542FE0) allocates 0x330 bytes
+        // and calls its out-of-line packet constructor at 0x8254D4C8. Additional fields remain unmodelled.
+        class cCharacterPrototype : public GOM::cObjectPrototype
+        {
+        private:
+            unsigned char m_unmodelled70[0x330 - 0x70];
+        public:
+            cCharacterPrototype(const RWS::CAttributePacket &);
+
+            CD2_LAYOUT_CHECKS(cCharacterPrototype,
+                CD2_SIZE(cCharacterPrototype, 0x330))
+        };
+
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
         bool IsInGodMode() const;

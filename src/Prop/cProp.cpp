@@ -10,3 +10,13 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Prop/cProp.cpp
+
+#include "Prop/cProp.h"
+#include "rws/classfactory.h"
+
+namespace Prop
+{
+    // CD2 0x82FF5298 registers the prototype factory 0x82729378 for a 0xE30-byte cProp.
+    static RWS::CClassFactory::CRegistrar cPropRegistrar(
+        "cProp", cProp::MakeNew, 0xE30, false);
+}

@@ -30,6 +30,19 @@ namespace CHARACTER
         unsigned char m_pad2DD4[0x2E00 - 0x2DD4];
 
     public:
+        // STAND-IN, name follows this class's prototype factory. CD2 0x825380E8 allocates 0x460 bytes;
+        // constructor 0x82312E00 calls cCharacterPrototype's constructor (0x8254D4C8) first.
+        class cCwTransCharacterPrototype : public cCharacter::cCharacterPrototype
+        {
+        private:
+            unsigned char m_unmodelled330[0x460 - 0x330];
+        public:
+            cCwTransCharacterPrototype(const RWS::CAttributePacket &);
+
+            CD2_LAYOUT_CHECKS(cCwTransCharacterPrototype,
+                CD2_SIZE(cCwTransCharacterPrototype, 0x460))
+        };
+
         // CD2 0x82538150 forwards the prototype to constructor 0x82231358.
         cCwTransCharacter(GOM::cObjectPrototype *prototype);
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *prototype, void *memory);

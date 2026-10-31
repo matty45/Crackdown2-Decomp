@@ -8,7 +8,7 @@
 #ifndef AI_AIDAMAGECACHE_H
 #define AI_AIDAMAGECACHE_H
 
-#include "fun_runtime/safedeletable.h"
+#include "fun_runtime/safedeletablepointer.h"
 #include "CHARACTER/cCharacter.h"
 #include "cd2/layout.h"
 
@@ -19,7 +19,7 @@ namespace AI
     public:
         struct tCacheEntry
         {
-            Fun_Runtime::cSafeDeletablePointerBase pAttacker;  // RuffKing: cSafeDeletablePointer<CHARACTER::cCharacter>
+            Fun_Runtime::cSafeDeletablePointer<CHARACTER::cCharacter> pAttacker;
             unsigned int nTimeStamp;
             float fDamage;
 
@@ -28,6 +28,19 @@ namespace AI
                 return pAttacker.m_pPtr ? static_cast<CHARACTER::cCharacter *>(pAttacker.m_pPtr) : 0;
             }
         };
+
+        AIDamageCache();
+
+        // CD2 expands Flush, including safe-pointer assignment, into the constructor at 0x823E77C8.
+        __forceinline void Flush()
+        {
+            for (unsigned char i = 0; i < nMAX_ATTACKER_CACHE_ENTRIES; ++i)
+            {
+                m_Cache[i].pAttacker = 0;
+                m_Cache[i].fDamage = 0.0f;
+                m_Cache[i].nTimeStamp = 0;
+            }
+        }
 
         __forceinline float Read(const CHARACTER::cCharacter *pCharacter) const
         {

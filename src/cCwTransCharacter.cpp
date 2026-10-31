@@ -17,6 +17,11 @@ inline void *operator new(size_t, void *memory) { return memory; }
 
 namespace CHARACTER
 {
+    RWS::CAttributeHandler *cCwTransCharacter::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cCwTransCharacterPrototype(packet);
+    }
+
     RWS::CAttributeHandler *cCwTransCharacter::SpawnFromPrototype(GOM::cObjectPrototype *prototype, void *memory)
     {
         if (memory)

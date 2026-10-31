@@ -53,6 +53,7 @@ namespace AI
         };
 
         static const Fun_Runtime::cClass *ms_pcAiPlayerClass;
+        static Fun_Runtime::cClass &StaticCreateClass();
 
     private:
         AIDamageCache m_DamageCache;                            // 0x540
