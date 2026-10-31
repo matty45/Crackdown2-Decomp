@@ -1027,6 +1027,11 @@
         "address": "0x83039758",
         "size": 12,
         "symbol": "??__FcAiPlayerRegistrar@AI@@"
+      },
+      {
+        "address": "0x823E7950",
+        "size": 24,
+        "symbol": "?SpawnFromPrototype@cAiPlayer@AI@@"
       }
     ],
     "src/AI/cCharacterEntityIF.cpp": [
@@ -1179,6 +1184,11 @@
         "address": "0x83039840",
         "size": 12,
         "symbol": "??__FcCharacterEntityIFRegistrar@AI@@"
+      },
+      {
+        "address": "0x823EBF10",
+        "size": 24,
+        "symbol": "?SpawnFromPrototype@cCharacterEntityIF@AI@@"
       }
     ],
     "src/cAgencyGarageDoor.cpp": [
@@ -4876,6 +4886,132 @@
         "address": "0x830408E8",
         "size": 12,
         "symbol": "??__FcTruckRegistrar@Vehicle@@"
+      }
+    ],
+    "src/cCwTransCharacter.cpp": [
+      {
+        "address": "0x82538140",
+        "size": 12,
+        "symbol": "?RetClassName@cCwTransCharacter@CHARACTER@@"
+      },
+      {
+        "address": "0x82538170",
+        "size": 8,
+        "symbol": "?GetByte2D20@cCwTransCharacter@CHARACTER@@"
+      },
+      {
+        "address": "0x825381F0",
+        "size": 28,
+        "symbol": "?TestFlag2D64@cCwTransCharacter@CHARACTER@@"
+      },
+      {
+        "address": "0x82538218",
+        "size": 8,
+        "symbol": "?GetByte2DA4@cCwTransCharacter@CHARACTER@@"
+      },
+      {
+        "address": "0x82538220",
+        "size": 8,
+        "symbol": "?GetByte2DA6@cCwTransCharacter@CHARACTER@@"
+      },
+      {
+        "address": "0x82538228",
+        "size": 8,
+        "symbol": "?SetByte2DA6@cCwTransCharacter@CHARACTER@@"
+      },
+      {
+        "address": "0x82538230",
+        "size": 8,
+        "symbol": "?SetByte2DA5@cCwTransCharacter@CHARACTER@@"
+      },
+      {
+        "address": "0x82538238",
+        "size": 8,
+        "symbol": "?GetWord2DD0@cCwTransCharacter@CHARACTER@@"
+      },
+      {
+        "address": "0x82FABD30",
+        "size": 76,
+        "symbol": "??__EcCwTransCharacterRegistrar@CHARACTER@@"
+      },
+      {
+        "address": "0x8303CDA8",
+        "size": 12,
+        "symbol": "??__FcCwTransCharacterRegistrar@CHARACTER@@"
+      },
+      {
+        "address": "0x82538150",
+        "size": 32,
+        "symbol": "?SpawnFromPrototype@cCwTransCharacter@CHARACTER@@"
+      }
+    ],
+    "src/CHARACTER/cCharacterInterface.cpp": [
+      {
+        "address": "0x8254E880",
+        "size": 12,
+        "symbol": "?RetClassName@cCharacterInterface@CHARACTER@@"
+      },
+      {
+        "address": "0x8254EA80",
+        "size": 8,
+        "symbol": "?SetCanShareVehicleWithPlayer@cCharacterInterface@CHARACTER@@"
+      },
+      {
+        "address": "0x8254EA88",
+        "size": 8,
+        "symbol": "?SetCanBePickedUpWhenAlive@cCharacterInterface@CHARACTER@@"
+      },
+      {
+        "address": "0x82FADC80",
+        "size": 76,
+        "symbol": "??__EcCharacterInterfaceRegistrar@CHARACTER@@"
+      },
+      {
+        "address": "0x8303CF50",
+        "size": 12,
+        "symbol": "??__FcCharacterInterfaceRegistrar@CHARACTER@@"
+      },
+      {
+        "address": "0x8254E890",
+        "size": 24,
+        "symbol": "?SpawnFromPrototype@cCharacterInterface@CHARACTER@@"
+      },
+      {
+        "address": "0x8254E938",
+        "size": 32,
+        "symbol": "?RetIsOnFire@cCharacterInterface@CHARACTER@@"
+      }
+    ],
+    "src/CHARACTER/cCharacter.cpp": [
+      {
+        "address": "0x82543038",
+        "size": 12,
+        "symbol": "?RetClassName@cCharacter@CHARACTER@@"
+      },
+      {
+        "address": "0x825430B0",
+        "size": 12,
+        "symbol": "?IsInGodMode@cCharacter@CHARACTER@@"
+      },
+      {
+        "address": "0x825430C0",
+        "size": 12,
+        "symbol": "?IsInfiniteAmmo@cCharacter@CHARACTER@@"
+      },
+      {
+        "address": "0x825430D8",
+        "size": 8,
+        "symbol": "?CanBePickedUpWhenAlive@cCharacterInterface@CHARACTER@@"
+      },
+      {
+        "address": "0x82FAD758",
+        "size": 76,
+        "symbol": "??__EcCharacterRegistrar@CHARACTER@@"
+      },
+      {
+        "address": "0x8303CEE0",
+        "size": 12,
+        "symbol": "??__FcCharacterRegistrar@CHARACTER@@"
       }
     ]
   }

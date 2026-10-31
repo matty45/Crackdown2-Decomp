@@ -15,10 +15,13 @@
 //     BulletSound, which fits.
 //   - RetLODLevel is inline in CD2 (cAiPlayer::ShouldTriggerFootStepEvent reads the character's level directly); its
 //     out-of-line copy 0x8254E8C8 is the script method "RetLODLevel".
+//   - Script setters 0x8254EA80 and 0x8254EA88 name the flags at 0xAE and 0xAF:
+//     SetCanShareVehicleWithPlayer and SetCanBePickedUpWhenAlive, respectively.
 #ifndef CHARACTER_CCHARACTERINTERFACE_H
 #define CHARACTER_CCHARACTERINTERFACE_H
 
 #include "gom/non_game_base.h"
+#include "gom/object_prototype.h"
 #include "fun_runtime/safedeletable.h"
 #include "CHARACTER/cCharacter.h"
 #include "cd2/layout.h"
@@ -37,9 +40,23 @@ namespace CHARACTER
         float m_fLastVocalSoundTime;                        // 0xA4
         float m_fLastBulletSoundTime;                       // 0xA8
     private:
-        unsigned char m_padAC[0xC0 - 0xAC];
+        unsigned char m_padAC[0xAE - 0xAC];
+        bool m_bCanShareVehicleWithPlayer;
+        bool m_bCanBePickedUpWhenAlive;
+        unsigned char m_padB0[0xC0 - 0xB0];
 
     public:
+        // CD2 0x8254EC78 takes no prototype argument; 0x8254E890 is its placement factory.
+        cCharacterInterface();
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *memory);
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
+        virtual const char *RetClassName() const;
+        void SetCanShareVehicleWithPlayer(bool enabled);
+        void SetCanBePickedUpWhenAlive(bool enabled);
+        // Script getter 0x825430D8 is folded into cCharacter.cpp, and reads this interface's flag.
+        bool CanBePickedUpWhenAlive() const;
+        bool RetIsOnFire() const;
+
         cCharacter *RetCharacter() const
         {
             return m_pCharacterPtr ? static_cast<cCharacter *>(m_pCharacterPtr) : 0;
@@ -52,7 +69,9 @@ namespace CHARACTER
             CD2_OFFSET(cCharacterInterface, m_pCharacterPtr, 0x88)
             CD2_OFFSET(cCharacterInterface, m_fLastFootStepSoundTime, 0xA0)
             CD2_OFFSET(cCharacterInterface, m_fLastVocalSoundTime, 0xA4)
-            CD2_OFFSET(cCharacterInterface, m_fLastBulletSoundTime, 0xA8))
+            CD2_OFFSET(cCharacterInterface, m_fLastBulletSoundTime, 0xA8)
+            CD2_OFFSET(cCharacterInterface, m_bCanShareVehicleWithPlayer, 0xAE)
+            CD2_OFFSET(cCharacterInterface, m_bCanBePickedUpWhenAlive, 0xAF))
     };
 }
 

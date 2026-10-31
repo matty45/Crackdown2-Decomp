@@ -33,6 +33,9 @@ namespace AI
     class cAiPlayer : public cCharacterEntityIF
     {
     public:
+        // CD2 0x823E7950 placement-constructs this class through 0x823E8650.
+        cAiPlayer();
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *memory);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         class cAiPlayerPrototype : public GOM::cObjectPrototype
         {

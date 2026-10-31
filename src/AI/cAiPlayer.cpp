@@ -16,9 +16,19 @@
 #include "AI/cAiTargetInfo.h"
 #include "AI/cAIEvent.h"
 #include "Sim/cTimeOfDay.h"
+#include "cd2/memory.h"
+
+inline void *operator new(size_t, void *memory) { return memory; }
 
 namespace AI
 {
+    RWS::CAttributeHandler *cAiPlayer::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cAiPlayer;
+        return 0;
+    }
+
     const Fun_Runtime::cClass *cAiPlayer::ms_pcAiPlayerClass = 0;
 
     const Fun_Runtime::cClass &cAiPlayer::RetClass() const

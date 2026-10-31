@@ -1,5 +1,15 @@
 # Shared notes: non-obvious compiler behaviour and traps (Crackdown 2, XDK 15.00.8153)
 
+### Character-interface prototype factory (2026-10-30)
+
+- A nested `cCharacterInterfacePrototype` derived directly from `GOM::cObjectPrototype`,
+  with an inline packet constructor and declared destructor/HandleAttributes/Init overrides,
+  gives `MakeNew` (0x8254E810) strict plain and LTCG EXACT via `return new cCharacterInterfacePrototype(attr);`.
+  Full verification rejects its secondary vtable as another name for the shared streaming-client
+  table at 0x821327A4. The current task does not permit editing symbol_aliases.txt, so the
+  candidate and manifest entry were removed. Revisit only with an authorized ICF-alias update;
+  do not treat the per-file EXACT result as a passing repository verification.
+
 Append to this file whenever you learn something that wasn't obvious. Keep each entry short: pattern, then cause or fix.
 These notes are shared knowledge for every agent and person working on the decomp. Read them before starting a file.
 

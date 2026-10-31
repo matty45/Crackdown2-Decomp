@@ -48,6 +48,9 @@ namespace AI
         unsigned char m_pad53A[0x540 - 0x53A];
 
     public:
+        // CD2 0x823EF240 is the no-argument constructor called by 0x823EBF10.
+        cCharacterEntityIF();
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *memory);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         void *GetStorage480();
         void *GetStorage4B0();

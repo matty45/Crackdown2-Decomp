@@ -20,7 +20,10 @@ namespace CHARACTER
     class cCharacter : public cNonGameBase
     {
     private:
-        unsigned char m_pad7C[0x548 - 0x7C];
+        unsigned char m_pad7C[0x261 - 0x7C];
+        // CD2's script-named cCharacterInterface::RetIsOnFire (0x8254E938) reads this byte.
+        bool m_bIsOnFire;
+        unsigned char m_pad262[0x548 - 0x262];
     public:
         unsigned int m_field548;
     private:
@@ -36,17 +39,27 @@ namespace CHARACTER
     protected:
         unsigned char m_eLODLevel;              // 0x2812
     private:
-        unsigned char m_pad2813[0x2CC0 - 0x2813];
+        unsigned char m_pad2813[0x2815 - 0x2813];
+        // CD2 script getters 0x825430B0/0x825430C0 read bits 5/4. Byte name is ours.
+        unsigned char m_flags2815;
+        unsigned char m_pad2816[0x2CC0 - 0x2816];
 
     public:
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
+        virtual const char *RetClassName() const;
+        bool IsInGodMode() const;
+        bool IsInfiniteAmmo() const;
+        bool RetIsOnFire() const { return m_bIsOnFire; }
         unsigned char RetLODLevel() const { return m_eLODLevel; }
 
         CD2_LAYOUT_CHECKS(cCharacter,
             CD2_SIZE(cCharacter, 0x2CC0)
+            CD2_OFFSET(cCharacter, m_bIsOnFire, 0x261)
             CD2_OFFSET(cCharacter, m_field548, 0x548)
             CD2_OFFSET(cCharacter, m_pTargeting, 0x1524)
             CD2_OFFSET(cCharacter, m_byte1681, 0x1681)
-            CD2_OFFSET(cCharacter, m_eLODLevel, 0x2812))
+            CD2_OFFSET(cCharacter, m_eLODLevel, 0x2812)
+            CD2_OFFSET(cCharacter, m_flags2815, 0x2815))
     };
 }
 

@@ -13,9 +13,19 @@
 
 #include "AI/cCharacterEntityIF.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
+
+inline void *operator new(size_t, void *memory) { return memory; }
 
 namespace AI
 {
+    RWS::CAttributeHandler *cCharacterEntityIF::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cCharacterEntityIF;
+        return 0;
+    }
+
     void *cCharacterEntityIF::GetStorage480()
     {
         return m_storage480;
