@@ -29,8 +29,10 @@ search for either.
      name, even if all you can call it is `m_word50C`. Declare a global with a name and a type. Reach a base or derived
      class with `static_cast`. Typed pointer code the developers would have written is fine: walking an array with
      `p + i` or `++p`, `end - begin`. Spreading the arithmetic over statements
-     (`const char *p = reinterpret_cast<const char *>(this); p += 0x38;`), keeping a pointer in an integer field, or
-     casting through `void *` is the same thing. Pointer arithmetic gives the same instructions, but it proves nothing
+     (`const char *p = reinterpret_cast<const char *>(this); p += 0x38;`), keeping a pointer in an integer field,
+     declaring a member `char *` so that it can be moved by an offset without a cast (`return m_p60 - 0x1C;` is
+     `static_cast<cNonGameBase *>(m_pInstigator)` with the member's real type), or casting through `void *` is the
+     same thing. Pointer arithmetic gives the same instructions, but it proves nothing
      about the layout, and a hard-coded address has no relocation, so `check` cannot tell whether it is the right global.
    - **R17, no fake code:** no `volatile` local (a `volatile` member or global needs a `// volatile: <evidence>` note on
      its line), no unused local, no empty `if`/`else` body or bare `;` statement (empty loop bodies and `case X: ;` are

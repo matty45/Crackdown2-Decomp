@@ -1041,12 +1041,12 @@
       {
         "address": "0x823E7A88",
         "size": 24,
-        "symbol": "?GetField60@cAiPlayer@AI@@"
+        "symbol": "?RetInstigator@cObjectInstigatorEvent@AI@@"
       },
       {
         "address": "0x823E7C18",
         "size": 24,
-        "symbol": "?GetField50@cAiPlayer@AI@@"
+        "symbol": "?RetInstigator@cDamageTakenEvent@AI@@"
       },
       {
         "address": "0x823E92B8",

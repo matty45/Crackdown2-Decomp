@@ -44,9 +44,7 @@ private:
 protected:
     char *m_p50;
 private:
-    unsigned char m_pad54[0x60 - 0x54];
-protected:
-    char *m_p60;
+    unsigned char m_pad54[0x64 - 0x54];
 protected:
     int m_nUniqueID;                        // 0x64
 private:
@@ -128,7 +126,6 @@ public:
         CD2_SIZE(cNonGameBase, 0x7C)
         CD2_OFFSET(cNonGameBase, m_pPrototype, 0x44)
         CD2_OFFSET(cNonGameBase, m_p50, 0x50)
-        CD2_OFFSET(cNonGameBase, m_p60, 0x60)
         CD2_OFFSET(cNonGameBase, m_nUniqueID, 0x64))
 };
 

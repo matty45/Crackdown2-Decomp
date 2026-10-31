@@ -95,8 +95,6 @@ namespace AI
         const char *RetTriggerEventFlags() const;
         const char *RetEnemyStatus() const;
         const char *RetMapStatus() const;
-        void *GetField60() const;
-        void *GetField50() const;
 
         void *GetPtr83803448() const;
         void *GetPtr83817824() const;

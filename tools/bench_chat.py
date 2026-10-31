@@ -40,7 +40,8 @@ Each of your replies must do exactly one of these:
 body, is compiled and compared, and you get the result back.
 
 Rules: no inline assembly, no __emit, no #pragma, no #line, no #include, and no pointer arithmetic (a cast to \
-char * plus an offset, a pointer turned into an integer, a hard-coded address): the check rejects them. Use the members \
+char * plus an offset, a pointer turned into an integer, a hard-coded address), and no fake code (volatile or unused \
+locals, empty statements or blocks, do {} while (0), self-assignments, + 0): the check rejects them. Use the members \
 and globals the headers declare, by name. Write code a developer would have written. If you cannot improve further, reply STOP."""
 
 MAX_FILE = 60000  # characters of one file sent back

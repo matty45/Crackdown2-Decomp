@@ -1,20 +1,20 @@
 // AI/cAiPlayer.cpp. Names and layouts: include/AI/cAiPlayer.h. Some functions in this file's range belong to other
 // classes: the linker folded identical getters and kept the copies from this object (Sim::cTimeOfDay::RetPhase,
-// AI::cAiTargetInfo::IsPrimaryFireBlocked / IsTargetVisible, AI::cAIEvent::RetSource; their headers give the evidence).
+// AI::cAiTargetInfo::IsPrimaryFireBlocked / IsTargetVisible, AI::cAIEvent::RetSource, AI::cObjectInstigatorEvent::
+// RetInstigator, AI::cDamageTakenEvent::RetInstigator; their headers give the evidence).
 // Not named yet:
 //   - RetTriggerEventFlags / RetEnemyStatus / RetMapStatus (0x823E7988 / 0x823E7998 / 0x823E79A8) return the names of
 //     script enums. They are slot 1 of three small registrar vtables (0x820FB0F0, 0x820FB0FC, 0x820FB108), not
 //     cAiPlayer methods; the registrar classes have no known name.
 //   - RetConstantC8 (0x823E7B30) is slot 26 of the vtable 0x820FB114, whose object 0x82377190 builds; its class is not
 //     known.
-//   - GetField60 / GetField50 (0x823E7A88 / 0x823E7C18) are AI event getters: CD2's event script registrations use them
-//     as "RetInstigator" (0x8243DA44) and as "RetObject", "RetCarrier", "RetKiller" and a dozen more. Which event
-//     classes they belong to is not known, so they still read cNonGameBase fields.
 #include "AI/cAiPlayer.h"
 #include "rws/classfactory.h"
 #include "AI/AIUtil.h"
 #include "AI/cAiTargetInfo.h"
 #include "AI/cAIEvent.h"
+#include "AI/cDamageTakenEvent.h"
+#include "AI/cObjectInstigatorEvent.h"
 #include "Sim/cTimeOfDay.h"
 #include "cd2/memory.h"
 
@@ -161,12 +161,9 @@ namespace AI
         return m_pSource;
     }
 
-    void *cAiPlayer::GetField60() const
+    cCharacterEntityIF *cObjectInstigatorEvent::RetInstigator()
     {
-        char *p = m_p60;
-        if (p != 0)
-            return p - 0x1C;
-        return 0;
+        return m_pInstigator;
     }
 
     int cAiPlayer::RetConstantC8()
@@ -174,12 +171,9 @@ namespace AI
         return 0xC8;
     }
 
-    void *cAiPlayer::GetField50() const
+    cCharacterEntityIF *cDamageTakenEvent::RetInstigator()
     {
-        char *p = m_p50;
-        if (p != 0)
-            return p - 0x1C;
-        return 0;
+        return m_pInstigator;
     }
 
     bool cAiTargetInfo::IsPrimaryFireBlocked() const

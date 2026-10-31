@@ -229,7 +229,10 @@ Matching rules (on the preprocessed source, so macros cannot hide them, and on e
   `__pragma`.
 - **R4, typed members, not offsets:** pointer arithmetic to reach memory: a cast to a byte pointer followed by an
   offset or an index, a pointer converted to an integer, a hard-coded address, an address computed from an integer,
-  raw memory indexed through a cast, and the same spread over statements. Fields are declared members (checked by
+  raw memory indexed through a cast, and the same spread over statements. A byte pointer (a member or local declared
+  `char *` and the like) moved by a constant counts too when the result leaves as another type: cast to another
+  pointer, returned from a function that does not return a byte pointer, or stored in another pointer. String and
+  buffer code that stays in byte pointers passes. Fields are declared members (checked by
   `CD2_OFFSET`), globals are declared with a name and a type. A hard-coded address emits no relocation, so the
   relocation-target check could not see which global it is. The `offsetof` expansion inside the layout checks is exempt.
 - **R17, no fake code:** a `volatile` local; a `volatile` member or global without a `// volatile: <evidence>` note on

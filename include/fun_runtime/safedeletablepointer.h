@@ -3,6 +3,8 @@
 // additional storage (0x10 bytes). CD2's cCharacterInterface constructor stores its null payload at +0xC
 // before installing the typed pointer's vtable. The converting constructor and copy assignment follow the
 // reference declarations; assigning a raw pointer uses an implicit temporary, not a raw-pointer assignment overload.
+// operator T *() is Burn's (inline, const); it converts the stored cSafeDeletable * down to T, so a null pointer stays
+// null (CD2's event getters such as AI::cDamageTakenEvent::RetInstigator).
 #ifndef FUN_RUNTIME_SAFEDELETABLEPOINTER_H
 #define FUN_RUNTIME_SAFEDELETABLEPOINTER_H
 
@@ -43,6 +45,11 @@ namespace Fun_Runtime
                 m_pNext->m_pPrev = this;
             }
             return *this;
+        }
+
+        operator T *() const
+        {
+            return static_cast<T *>(m_pPtr);
         }
 
         CD2_LAYOUT_CHECKS(cSafeDeletablePointer,

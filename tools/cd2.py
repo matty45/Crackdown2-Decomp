@@ -441,6 +441,108 @@ def spread_pointer_arithmetic(code):
                          r'\(\s*(?:const\s+)?(?!void\b)[\w:]+\s*\*\s*\)\s*this\b', code):
         found.append((m.start(), '`this` reinterpreted as another type (declare the member; use static_cast for a base '
                                  'or derived class)'))
+    found += byte_pointer_moves(code)
+    return found
+
+
+BYTE_TYPES = ('char', 'BYTE', 'UCHAR', 'u8', 'uint8_t', 'uint8')
+POINTER_DECL = re.compile(r'\b([A-Za-z_][\w:]*)\s*(?:const\s*)?\*+\s*(?:const\s+)?([A-Za-z_]\w*)\s*(?=[;=,)\[])')
+BYTE_MOVED = 'a byte pointer moved by a constant and used as another type (give the member or variable its real ' \
+             'pointer type; a base or derived class is reached with static_cast)'
+
+
+def enclosing_function_head(code, off):
+    """The header of the function whose body holds offset off (the text before its opening brace), or ''."""
+    depth, i = 0, off
+    while i > 0:
+        i -= 1
+        if code[i] == '}':
+            depth += 1
+        elif code[i] == '{':
+            if depth:
+                depth -= 1
+                continue
+            head = code[max(0, i - 800):i]
+            head = head[max(head.rfind(';'), head.rfind('}'), head.rfind('{')) + 1:].strip()
+            if re.search(r'\)\s*(?:const\s*)?$', head) and not re.match(r'(?:else\s+)?(?:if|while|for|switch|catch)\b',
+                                                                       head):
+                return head
+    return ''
+
+
+def byte_pointer_moves(code):
+    """[(offset, what)]: a byte pointer (a name declared `char *` and the like, a member or a local) moved by a
+    constant whose result leaves as another type: cast to another pointer type, returned from a function that does not
+    return a byte pointer, or stored in another pointer. That is a field or a base reached by its offset through a
+    member declared with the wrong type. Byte pointers that stay byte pointers (string and buffer code) pass."""
+    decls = collections.defaultdict(list)  # name: [(offset, declared as a byte pointer)]
+    for m in POINTER_DECL.finditer(code):
+        decls[m.group(2)].append((m.start(2), m.group(1).split('::')[-1] in BYTE_TYPES))
+
+    def kind(name, off):  # the nearest declaration before off: True (byte pointer), False (another pointer), None
+        k = None
+        for o, b in decls.get(name, ()):
+            if o >= off:
+                break
+            k = b
+        return k
+
+    def leaves(start, end, name):
+        """Whether the expression code[start:end] is converted to another pointer type where it stands."""
+        s = max(code.rfind(';', 0, start), code.rfind('{', 0, start), code.rfind('}', 0, start)) + 1
+        before = re.sub(r'(?:[A-Za-z_]\w*\s*(?:\.|->)\s*)+$', '', code[s:start])  # `this->m_p`, `obj.m_p`
+        while True:  # a statement under a braceless `if (...)`, `else`, `while (...)`: the statement itself
+            c = re.match(r'\s*(?:else\b|(?:if|while|for|switch)\s*\()', before)
+            if not c:
+                break
+            j, d = c.end(), 1 if c.group(0).rstrip().endswith('(') else 0
+            while d and j < len(before):
+                d += {'(': 1, ')': -1}.get(before[j], 0)
+                j += 1
+            if d:
+                break  # the expression is inside the condition
+            before = before[j:]
+        after = code[end:end + 40].lstrip()[:1]
+        cast = re.search(POINTER_CAST + r'\s*\(?\s*$', before)
+        if cast:
+            return not any(re.search(r'\b%s\b' % t, cast.group(0)) for t in BYTE_TYPES)
+        if after not in (';', ':', ')', ',') or re.search(r'[*&\[]\s*\(?\s*$', before):
+            return False  # part of a larger expression, or dereferenced
+        stack = []  # the open parentheses of `before`: True for a call's
+        for t in re.finditer(r'[()]', before):
+            if t.group(0) == ')':
+                if stack:
+                    stack.pop()
+                continue
+            w = re.search(r'([A-Za-z_]\w*|[\])])\s*$', before[:t.start()])
+            stack.append(bool(w) and w.group(1) not in ('return', 'if', 'while', 'for', 'switch', 'sizeof'))
+        if any(stack):
+            return False  # an argument of a call
+        if re.match(r'\s*return\b', before):
+            head = enclosing_function_head(code, start)
+            prefix = head.split('(', 1)[0]
+            return bool(head) and not re.search(r'\b(?:%s)\s*(?:const\s*)?\*\s*[\w:~]+\s*$' % '|'.join(BYTE_TYPES),
+                                                prefix)
+        d = re.match(r'\s*(?:const\s+)?([\w:]+)\s*(?:const\s*)?\*+\s*(?:const\s+)?\w+\s*=', before)
+        if d:
+            return d.group(1).split('::')[-1] not in BYTE_TYPES
+        a = re.match(r'\s*(?:this\s*->\s*)?(\w+)\s*=(?!=)', before)
+        return bool(a) and a.group(1) != name and kind(a.group(1), start) is False
+
+    found = []
+    lit = r'(?:0[xX][0-9a-fA-F]+|\d+)[uUlL]*\b'
+    for m in re.finditer(r'\b([A-Za-z_]\w*)\s*[-+]\s*%s' % lit, code):
+        if kind(m.group(1), m.start()) and leaves(m.start(), m.end(), m.group(1)):
+            found.append((m.start(), BYTE_MOVED))
+    for m in re.finditer(r'\b([A-Za-z_]\w*)\s*[-+]=\s*%s' % lit, code):  # moved in place, then used
+        name = m.group(1)
+        if not kind(name, m.start()):
+            continue
+        for u in re.finditer(r'\b%s\b(?!\s*(?:[-+]?=|\(|\.|->|\[))' % re.escape(name), code[m.end():block_end(code, m.end())]):
+            at = m.end() + u.start()
+            if leaves(at, at + len(name), name):
+                found.append((at, BYTE_MOVED))
+                break
     return found
 
 
@@ -482,7 +584,8 @@ MATCH_RULES = {
 RULE_OF_WARNING = {'C4101': ('R17', 'an unused local variable'),
                    'C4189': ('R17', 'a local variable initialized but never used'),
                    'C4099': ('R1', 'a type first declared with class and then with struct, or the reverse')}
-ADDRESS_NAME = re.compile(r'\b[A-Za-z_]\w*?_?(?=[0-9a-fA-F]*[0-9])[0-9a-fA-F]{6,8}\b')
+# a name holding a CD2 address (0x82000000-0x83FFFFFF: g_830BBDB4, GetPtr83818BE8), not an offset (m_pad1528)
+ADDRESS_NAME = re.compile(r'\b[A-Za-z_]\w*?(?<![0-9A-Fa-f])8[23][0-9A-Fa-f]{6}\b')
 RULE_EXCEPTION = re.compile(r'//\s*RULE-EXCEPTION:\s*(R\d+)\s*,\s*(\S.*)$')
 
 
@@ -1580,6 +1683,19 @@ def policy_self_test():
                                           '  return static_cast<const int *>(static_cast<const void *>(this))[1]; } };\n',
          True),
         ('this punned to a scalar', 'struct S { int a; void f(int v) { *reinterpret_cast<int *>(this) = v; } };\n', True),
+        # a member declared as a byte pointer, so no cast is needed to move it by an offset (seen in agents' code)
+        ('byte member moved and returned', 'struct S { char *m_p; void *f() const {\n'
+                                           '  char *p = m_p; if (p != 0) return p - 0x1C; return 0; } };\n', True),
+        ('byte member moved and cast', 'struct T { int v; };\n'
+                                       'struct S { unsigned char *m_p; T *f() const { return (T *)(this->m_p + 8); } };\n',
+         True),
+        ('byte member moved in place', 'struct S { char *m_p; void *f() const {\n'
+                                       '  char *p = m_p; p -= 0x1C; return p; } };\n', True),
+        ('clean byte pointers', 'int len(const char *s) { const char *p = s; while (*p) ++p; return (int)(p - s); }\n'
+                                'const char *skip(const char *s) { return s + 1; }\n'
+                                'char at(const char *s) { return *(s + 2); }\n'
+                                'int f(const char *s) { return len(s + 4); }\n'
+                                'char *next(char *p) { p += 2; return p; }\n', False),
         ('clean typed pointer code', 'struct T { int v; };\n'
                                      'int sum(const int (&a)[4]) { const int *p = a; int s = 0;\n'
                                      '  for (int i = 0; i < 4; ++i) s += p[i]; return s; }\n'
