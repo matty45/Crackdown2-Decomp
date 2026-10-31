@@ -122,6 +122,22 @@ end, in one line, and is removed when the function matches. History belongs in g
   safe-pointer downcast, call the inline `RetCharacter()`-style accessor; integer arithmetic does not reproduce it.
 - **Subobject pointer null test:** `&p->m_member` followed by `if (ptr)` gives the single `addic. r11,r9,0x18; beq`. A
   derived-to-base pointer conversion adds a second null test.
+- **`Fun_Runtime::g_GlobalConstants` is per object file**: a `static` object defined in `fun_runtime/class.h`, as in RuffKing
+  (one per object in its symbol lists). CD2 has a copy at a different address for each file (0x830ACBD8, 0x830C0E04, ...),
+  so one external declaration makes the relocation check see one name at several addresses. Its constructor keeps
+  the members opaque: with a visible aggregate initializer the compiler folds `CONST_FLOAT_0` into a literal, where CD2
+  loads it.
+- **A safe-pointer member initialised from null (`m_pCharacter(0)`)** goes through the converting constructor: the
+  null payload is stored before the typed pointer's vptr, and the whole constructor schedules differently. The
+  default constructor stores the vptr first. Read which store comes first in CD2 (cCharacterInterface's constructor:
+  60% with the default constructor, exact with `(0)`).
+- **Zeroed words: an array value-initialised in the list (`m_a()`) schedules differently from separate scalars**
+  (`m_a(0), m_b(0), m_c(0)`); zeroing the array in the body moves the stores after every list member. cPedestrianBase's
+  constructor matches only with three scalars.
+- **`Fun_Runtime::ZeroVec` is an `OldVec3` in CD2** (three floats; every read is +0, +4 or +8), and a `Vec3` built from
+  it goes through `Vec3(const OldVec3 &)`: each component is reloaded after the previous store, then w = 1.0.
+- **Two safe pointers with the same pointee type share one vtable-address load; CD2 building it twice means two types**
+  (the linker folds the tables later). cAiPlayer's constructor matches only with different pointee types.
 - **Member initialization order.** Members with default constructors (e.g. `Vec3`) are initialized in declaration order
   before the body. To match CD2's interleaving, put scalar fields in the mem-initializer list too; body assignments come
   after all of them. Inline constructor store order follows the order of assignments in the BODY, not member
@@ -238,8 +254,12 @@ end, in one line, and is removed when the function matches. History belongs in g
   once they are matched. If a function differs only in its frame size or in which registers survive a call, match the
   callee first. Conversely, declare a template instantiation that another file owns (the `std::vector` reserve at
   0x826104B8) as external, or the single-file model specializes it.
-- **The LTCG model can drop an unused `this`.** A virtual that never uses `this` (some `IsA` overrides) can come out of
-  the model with its argument in r3 instead of r4 (21/23 words): a limitation of the model, not of the source.
+- **The LTCG model can drop an unused `this`.** A virtual that never uses `this` (some `IsA` overrides) comes out of
+  the model with its argument in r3 instead of r4 (21/23 words) when nothing in its file installs the class's vtable:
+  LTCG then treats the virtual as a function whose callers it knows. In CD2 some constructor always installs it. The
+  remedy is the file's own code: once a constructor or placement factory that installs the vtable is matched in the
+  file (`Pedestrian::SpawnFromPrototype` for `Pedestrian::IsA`), the virtual comes out exact. Keeping the vtable as a
+  link root (`/INCLUDE`) does not help. `check --ltcg` shows such a function as `PLAIN ONLY`.
 - **Which file a function belongs to is decided by its address, not by what it looks like.** Outside the order-list
   region the linker lays out each object's functions contiguously, so every function inside a file's range
   (`config/splits.txt`) was emitted by that file's object. That includes another class's inline or template functions
@@ -269,21 +289,16 @@ end, in one line, and is removed when the function matches. History belongs in g
 
 ## Open functions
 One line each: what is ruled out. Remove the line when the function matches.
-- `cCharacterInterface::cCharacterInterface` (0x8254EC78): shared CONST_FLOAT_0 timestamp loads improve 24% to
-  60%; typed safe-pointer construction and body assignments preserve 60%. Member offsets agree; remaining
-  differences are vtable/member-store scheduling. The standard source search found no further improvement.
 - `cGameModeArena::GetRandSpawnPointInList<T>` (0x8284EC80, 0x8284ED60; 48/55 words): CD2 tests the size with
   `srawi. r8,r10,2; beq`, then recomputes it for the `Rand` argument. Ruled out: a size local, const-reference or
   64-bit bounds and indices, real `std::vector` indexing, modulo and Rand-local variants.
 - `VEHICLE_CONTROL::Flatten2D` (0x82782D70; 16/29 words under LTCG): the `fmadds`/`fmuls` operand order. Ruled out:
-  square temporaries, sqrt and powf variants, signed products, double intermediates, /fp:precise and /fp:strict.
+  square temporaries, sqrt and powf variants, signed products, double intermediates, /fp:precise and /fp:strict. The
+  written order of the two sums makes no difference (/fp:fast reorders them and merges the second into the first),
+  nor does testing the stored `out[]` values; CD2 computes the two sums separately, in opposite orders.
 - `AI::cChaseBehaviour::Update` (99%): one compare, `cmpwi` in CD2 against our `cmplwi` on the word at `+0x4E4`; the
   field's type is the lead. Chase F37 (0x824CEB38) needs a shared float-constant base register (LTCG limit).
-- `CHARACTER::cCharacterInterface`'s prototype `MakeNew` (0x8254E810): exact with a nested
-  `cCharacterInterfacePrototype : GOM::cObjectPrototype` and `return new cCharacterInterfacePrototype(attr);`, but its
-  secondary vtable is another name for the shared 0x821327A4 table and needs an alias entry.
-- `PLAYER::cPlayer::MakeNew` (0x8271F0A8) and `AI::cCharacterEntityIF::MakeNew` (0x823EBE90): the natural nested
-  prototype construction checks EXACT individually, but their shared resource-client vtable at 0x821327A4 needs
-  maintainer-owned alias entries before the standard verifier can accept them; the factory promotions were removed.
-- `cPedestrianBase::IsA` (0x824A90F0) and `Pedestrian::IsA` (0x824A8D60): exact in a plain build, 21/23 words in the
-  LTCG model (see "The LTCG model can drop an unused `this`").
+- `cCrowdZoneDataHolder::MakeNew` (0x8244A770) and `cStreamingDataHolder::MakeNew` (0x8244C010): `new` of a
+  field-less cNonGameBase whose constructor CD2 inlines, then stores the vptrs through r3, the base constructor's
+  return value. That is cross-module LTCG inlining (CD2 knows the constructor returns `this`); a plain compile keeps
+  `this` in r31 even with `__forceinline`, and the LTCG model does not inline the constructor.

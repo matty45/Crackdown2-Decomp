@@ -806,6 +806,31 @@
         "symbol": "?SetAITargeting@cPlayer@PLAYER@@"
       },
       {
+        "address": "0x8271F0A8",
+        "size": 112,
+        "symbol": "?MakeNew@cPlayer@PLAYER@@"
+      },
+      {
+        "address": "0x8271F160",
+        "size": 8,
+        "symbol": "?GetByteD99@cPlayer@PLAYER@@"
+      },
+      {
+        "address": "0x82720AC0",
+        "size": 16,
+        "symbol": "?ResetFloatEC4@cPlayer@PLAYER@@"
+      },
+      {
+        "address": "0x82725750",
+        "size": 44,
+        "symbol": "?ShouldTriggerFootStepEvent@cPlayer@PLAYER@@"
+      },
+      {
+        "address": "0x82725780",
+        "size": 52,
+        "symbol": "?ShouldTriggerBulletSoundEvent@cPlayer@PLAYER@@"
+      },
+      {
         "address": "0x82FF3D30",
         "size": 76,
         "symbol": "??__EcPlayerRegistrar@PLAYER@@"
@@ -915,6 +940,16 @@
         "symbol": "?RetClassName@Pedestrian@AI@@"
       },
       {
+        "address": "0x824A8D60",
+        "size": 92,
+        "symbol": "?IsA@Pedestrian@AI@@"
+      },
+      {
+        "address": "0x824A8CC0",
+        "size": 144,
+        "symbol": "?SpawnFromPrototype@Pedestrian@AI@@"
+      },
+      {
         "address": "0x824A8D50",
         "size": 12,
         "symbol": "?RetClass@Pedestrian@AI@@"
@@ -937,6 +972,21 @@
         "symbol": "?RetClassName@cPedestrianBase@AI@@"
       },
       {
+        "address": "0x824A90C8",
+        "size": 24,
+        "symbol": "?SpawnFromPrototype@cPedestrianBase@AI@@"
+      },
+      {
+        "address": "0x824A90F0",
+        "size": 92,
+        "symbol": "?IsA@cPedestrianBase@AI@@"
+      },
+      {
+        "address": "0x824A91F8",
+        "size": 280,
+        "symbol": "??0cPedestrianBase@AI@@"
+      },
+      {
         "address": "0x824A90E0",
         "size": 12,
         "symbol": "?RetClass@cPedestrianBase@AI@@"
@@ -953,6 +1003,11 @@
       }
     ],
     "src/AI/cAiPlayer.cpp": [
+      {
+        "address": "0x823E8650",
+        "size": 420,
+        "symbol": "??0cAiPlayer@AI@@"
+      },
       {
         "address": "0x823E77C8",
         "size": 224,
@@ -1155,6 +1210,11 @@
       }
     ],
     "src/AI/cCharacterEntityIF.cpp": [
+      {
+        "address": "0x823EBE90",
+        "size": 112,
+        "symbol": "?MakeNew@cCharacterEntityIF@AI@@"
+      },
       {
         "address": "0x823EBF88",
         "size": 8,
@@ -5171,6 +5231,16 @@
       }
     ],
     "src/CHARACTER/cCharacterInterface.cpp": [
+      {
+        "address": "0x8254E810",
+        "size": 112,
+        "symbol": "?MakeNew@cCharacterInterface@CHARACTER@@"
+      },
+      {
+        "address": "0x8254EC78",
+        "size": 200,
+        "symbol": "??0cCharacterInterface@CHARACTER@@"
+      },
       {
         "address": "0x8254ED40",
         "size": 80,

@@ -1,11 +1,14 @@
-﻿#ifndef AI_cCrowdZoneDataHolder_H
+﻿// AI::cCrowdZoneDataHolder (Crackdown 2): STAND-IN. Evidence: MakeNew (0x8244A770) allocates 0x7C bytes (the size its
+// registrar gives), calls cNonGameBase's constructor (0x82653588) and installs the five vtables of a cNonGameBase
+// (at 0, 0x18, 0x1C, 0x30, 0x38): a cNonGameBase with no fields of its own.
+#ifndef AI_cCrowdZoneDataHolder_H
 #define AI_cCrowdZoneDataHolder_H
 
-#include "rws/attributes.h"
+#include "gom/non_game_base.h"
 
 namespace AI
 {
-    class cCrowdZoneDataHolder : public RWS::CAttributeHandler
+    class cCrowdZoneDataHolder : public cNonGameBase
     {
     public:
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);

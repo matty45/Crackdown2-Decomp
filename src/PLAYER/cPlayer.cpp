@@ -31,6 +31,11 @@ namespace PLAYER
         return *cPlayerClass;
     }
 
+    RWS::CAttributeHandler *cPlayer::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cPlayerPrototype(packet);
+    }
+
     Fun_Runtime::RetVal cPlayer::cPlayerPrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;
@@ -106,7 +111,7 @@ namespace PLAYER
         return false;
     }
 
-    bool cPlayer::IsLODLevelAtMost1()
+    bool cPlayer::ShouldTriggerFootStepEvent()
     {
         CHARACTER::cCharacter *p = static_cast<CHARACTER::cCharacter *>(m_pCharacter.m_pPtr);
         return p->RetLODLevel() <= 1;

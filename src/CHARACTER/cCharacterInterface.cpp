@@ -25,8 +25,11 @@ namespace CHARACTER
         &cCharacterInterface::StaticCreateClass();
 
     cCharacterInterface::cCharacterInterface()
+        : m_pCharacter(0)
     {
-        // CD2 reloads CONST_FLOAT_0 for each timestamp; the centre vector uses literal zero instead.
+        // m_pCharacter(0): CD2 stores the null payload before the typed pointer's vptr, as the converting constructor
+        // does (the default one leaves the vptr first). CD2 reloads CONST_FLOAT_0 for each timestamp; the centre
+        // vector uses literal zero instead.
         m_fLastFootStepSoundTime = Fun_Runtime::g_GlobalConstants.CONST_FLOAT_0;
         m_fLastVocalSoundTime = Fun_Runtime::g_GlobalConstants.CONST_FLOAT_0;
         m_fLastBulletSoundTime = Fun_Runtime::g_GlobalConstants.CONST_FLOAT_0;
@@ -50,6 +53,11 @@ namespace CHARACTER
     const Fun_Runtime::cClass &cCharacterInterface::RetClass() const
     {
         return *ms_pcCharacterInterfaceClass;
+    }
+
+    RWS::CAttributeHandler *cCharacterInterface::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cCharacterInterfacePrototype(packet);
     }
 
     RWS::CAttributeHandler *cCharacterInterface::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)

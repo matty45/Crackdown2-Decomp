@@ -14,6 +14,11 @@
 //   - RetName (0x82724808) is slot 4 of the cScriptHost vtable at +0x1C and returns this+0xDA4. RuffKing's
 //     cPlayer::RetName returns m_strName, a 255-byte buffer at 0x41E; the CD2 buffer is at 0xDC0 after the +0x1C
 //     subobject adjustment.
+//   - Primary vtable 0x8200C0E0 (installed by the constructor): slots 112 and 113 are ShouldTriggerFootStepEvent
+//     (0x82725750, true while the character's LOD level is at most 1) and ShouldTriggerBulletSoundEvent (0x82725780,
+//     a 1 s interval), the slots cAiPlayer's overrides have; RuffKing's and Burn's cPlayer override both. Slot 94
+//     (0x82720FD0) is HasRecentlyHadH2HContact by its code (RuffKing's m_nH2HContactFrame test). Slot 97 (GetByteD99,
+//     0x8271F160) and slot 130 (ResetFloatEC4, 0x82720AC0, the 5th virtual cPlayer adds) have no reference counterpart.
 #ifndef PLAYER_CPLAYER_H
 #define PLAYER_CPLAYER_H
 
@@ -47,10 +52,15 @@ namespace PLAYER
         unsigned char m_padF1C[0x1160 - 0xF1C];
 
     public:
-        // CD2's prototype allocation is 0x70 bytes; its slot 5 (0x82725740) is Init, as in RuffKing.
-        class cPlayerPrototype : public GOM::cObjectPrototype
+        // CD2's prototype allocation is 0x70 bytes; its slot 5 (0x82725740) is Init, as in RuffKing. Base as in RuffKing.
+        // MakeNew (0x8271F0A8) calls GOM::cObjectPrototype's constructor with the packet and installs the vtables
+        // 0x8213D518 (at 0) and 0x821327A4 (at 0x18, shared by every prototype).
+        class cPlayerPrototype : public AI::cCharacterEntityIF::cCharacterEntityIFPrototype
         {
         public:
+            // __forceinline: CD2 inlines the constructor chain into MakeNew (as cCharacterInterfacePrototype's).
+            __forceinline cPlayerPrototype(const RWS::CAttributePacket &packet)
+                : AI::cCharacterEntityIF::cCharacterEntityIFPrototype(packet) {}
             virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
 
             CD2_LAYOUT_CHECKS(cPlayerPrototype,
@@ -71,7 +81,7 @@ namespace PLAYER
         void *RetCameraPtr() const;
         unsigned char GetByteD99() const;
         bool ShouldTriggerBulletSoundEvent();
-        bool IsLODLevelAtMost1();
+        bool ShouldTriggerFootStepEvent();
         void ResetFloatEC4();
         void SetAITargeting(bool bAITargeting);
 

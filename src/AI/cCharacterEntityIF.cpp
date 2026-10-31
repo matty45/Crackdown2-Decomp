@@ -46,6 +46,11 @@ namespace AI
         return *cCharacterEntityIFClass;
     }
 
+    RWS::CAttributeHandler *cCharacterEntityIF::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cCharacterEntityIFPrototype(packet);
+    }
+
     RWS::CAttributeHandler *cCharacterEntityIF::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
     {
         if (memory)

@@ -33,8 +33,32 @@
 #include "fun_runtime/retval.h"
 #include "cd2/layout.h"
 
+namespace Vehicle { class cVehicle; }
+
 namespace AI
 {
+    class cAiPlayer;
+
+    // What the cAiPlayer constructor (0x823E8650) calls after its fields. Nothing in CD2 or the reference builds names
+    // these; the names are ours, from their addresses:
+    //   - Ext_82223708(type, owner) returns whether the per-type list at 0x83A023C8 holds an entry for owner;
+    //   - Ext_82887CB8(type, object) adds object to the per-type lists at 0x83A01CBC and 0x83A023C8;
+    //   - cUnknown828891A0 is the 0x280-byte object the constructor registers under type 0x18 (its constructor,
+    //     0x828891A0, stores the owner at 0x27C);
+    //   - Ext_828396F8 is called with the address of a copy of `this` while the counter g_838015E0 is raised.
+    class cUnknown828891A0
+    {
+    public:
+        explicit cUnknown828891A0(cAiPlayer *pOwner);
+
+    private:
+        unsigned char m_pad[0x280];
+    };
+    bool Ext_82223708(int nType, cNonGameBase *pOwner);
+    void Ext_82887CB8(int nType, cUnknown828891A0 *pObject);
+    void Ext_828396F8(cAiPlayer *const &pPlayer);
+    extern int g_838015E0;
+
     class cAiPlayer : public cCharacterEntityIF
     {
     public:
@@ -61,19 +85,42 @@ namespace AI
         static Fun_Runtime::cClass &StaticCreateClass();
 
     private:
+        // The constructor (0x823E8650) zeroes 0x5A0..0x5D4 word by word, builds the two safe pointers, and sets the
+        // floats to 0.3, 1.0, 20.0, 20.0 and 0.0, then 0x60C..0x61B; the unnamed fields' names are ours.
         AIDamageCache m_DamageCache;                            // 0x540
-        unsigned char m_pad5A0[0x5D8 - 0x5A0];
-        Fun_Runtime::cSafeDeletablePointerBase m_pOwnedVehicle; // 0x5D8 (object pointer at 0x5E4)
-        unsigned char m_pad5E8[0x5F8 - 0x5E8];
+        unsigned int m_nUnknown5A0;
+        unsigned int m_nUnknown5A4;
+        unsigned int m_nUnknown5A8;
+        unsigned int m_nUnknown5AC;
+        unsigned int m_nUnknown5B0;
+        unsigned int m_nUnknown5B4;
+        unsigned int m_nUnknown5B8;
+        unsigned int m_nUnknown5BC;
+        unsigned int m_nUnknown5C0;
+        unsigned int m_nUnknown5C4;
+        unsigned int m_nUnknown5C8;
+        unsigned int m_nUnknown5CC;
+        unsigned int m_nUnknown5D0;
+        unsigned int m_nUnknown5D4;
+        // Two pointee types: CD2 builds the safe-pointer vtable address separately for each (one folded table,
+        // 0x82155680). Vehicle::cVehicle is RuffKing's vehicle class; the second pointer's type is not known.
+        Fun_Runtime::cSafeDeletablePointer<Vehicle::cVehicle> m_pOwnedVehicle; // 0x5D8 (object pointer at 0x5E4)
+        Fun_Runtime::cSafeDeletablePointer<cNonGameBase> m_pUnknown5E8;        // 0x5E8
         float m_fFriendlyFireTolerance;                         // 0x5F8
         float m_fCombatFriendlyFireTolerance;                   // 0x5FC
-        unsigned char m_pad600[0x60C - 0x600];
+        float m_fUnknown600;
+        float m_fUnknown604;
+        float m_fUnknown608;
         etMapStatus m_nMapStatus;                               // 0x60C
-        unsigned char m_pad610[0x614 - 0x610];
+        unsigned int m_nUnknown610;
         short m_nShotsRemaining;                                // 0x614
         bool m_bInterestingObjectReactionEnabled;               // 0x616
         unsigned char m_nInterestingObjectPriority;             // 0x617
-        unsigned char m_pad618[0x620 - 0x618];
+        bool m_bUnknown618;
+        bool m_bUnknown619;
+        bool m_bUnknown61A;
+        bool m_bUnknown61B;
+        unsigned char m_pad61C[0x620 - 0x61C];
 
     protected:
         virtual const Fun_Runtime::cClass &RetClass() const;

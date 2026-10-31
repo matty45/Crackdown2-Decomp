@@ -169,11 +169,23 @@
     ],
     [
      48,
+     "3fd3333340000000"
+    ],
+    [
+     48,
+     "3ff0000000000000"
+    ],
+    [
+     48,
      "4008000000000000"
     ],
     [
      48,
      "4024000000000000"
+    ],
+    [
+     48,
+     "4034000000000000"
     ]
    ]
   },
@@ -223,7 +235,16 @@
    "direct_constants": []
   },
   "src/AI/cPedestrianBase.cpp": {
-   "direct_constants": []
+   "direct_constants": [
+    [
+     48,
+     "3ff0000000000000"
+    ],
+    [
+     48,
+     "4020000000000000"
+    ]
+   ]
   },
   "src/AI/cPilotBase.cpp": {
    "direct_constants": []
@@ -427,7 +448,12 @@
    "direct_constants": []
   },
   "src/CHARACTER/cCharacterInterface.cpp": {
-   "direct_constants": []
+   "direct_constants": [
+    [
+     48,
+     "0000000000000000"
+    ]
+   ]
   },
   "src/CHARACTER/cCharacterProfile.cpp": {
    "direct_constants": []
@@ -638,7 +664,16 @@
    "direct_constants": []
   },
   "src/PLAYER/cPlayer.cpp": {
-   "direct_constants": []
+   "direct_constants": [
+    [
+     48,
+     "0000000000000000"
+    ],
+    [
+     48,
+     "3ff0000000000000"
+    ]
+   ]
   },
   "src/Prop/Custom/cHingedDoor.cpp": {
    "direct_constants": []
@@ -1666,6 +1701,171 @@
    },
    "size": 152
   },
+  "0x823E8650": {
+   "ltcg": {
+    "ends": true,
+    "sha": "142465a189cae036d9c6ff8b221490d9fbbc5438a92480f9fb080628ed12b648"
+   },
+   "plain": {
+    "constants": {
+     "0x82077294": "3e99999a",
+     "0x8208E84C": "3f800000",
+     "0x820F7680": "00000000",
+     "0x8210B740": "41a00000"
+    },
+    "relocations": [
+     24,
+     28,
+     32,
+     36,
+     40,
+     44,
+     48,
+     52,
+     56,
+     64,
+     72,
+     92,
+     96,
+     100,
+     104,
+     108,
+     112,
+     116,
+     124,
+     128,
+     132,
+     160,
+     168,
+     176,
+     292,
+     312,
+     328,
+     348,
+     352,
+     364,
+     372,
+     376,
+     380,
+     392
+    ],
+    "sha": "24cfbd3fab6215dd468ae6d86278813b7cd71acc1d23f57ef09876eb79bdafb0",
+    "strings": {},
+    "targets": [
+     [
+      24,
+      "call",
+      "0x823EF240"
+     ],
+     [
+      48,
+      "data",
+      "0x8200B930"
+     ],
+     [
+      52,
+      "data",
+      "0x820FB09C"
+     ],
+     [
+      56,
+      "data",
+      "0x82001C58"
+     ],
+     [
+      64,
+      "data",
+      "0x82001798"
+     ],
+     [
+      72,
+      "data",
+      "0x820FB0A4"
+     ],
+     [
+      92,
+      "call",
+      "0x823E77C8"
+     ],
+     [
+      124,
+      "data",
+      "0x82155680"
+     ],
+     [
+      128,
+      "data",
+      "0x82077294"
+     ],
+     [
+      132,
+      "data",
+      "0x82155680"
+     ],
+     [
+      160,
+      "data",
+      "0x8210B740"
+     ],
+     [
+      168,
+      "data",
+      "0x8208E84C"
+     ],
+     [
+      176,
+      "data",
+      "0x820F7680"
+     ],
+     [
+      292,
+      "call",
+      "0x82223708"
+     ],
+     [
+      312,
+      "call",
+      "0x8264DDA0"
+     ],
+     [
+      328,
+      "call",
+      "0x828891A0"
+     ],
+     [
+      348,
+      "call",
+      "0x82887CB8"
+     ],
+     [
+      364,
+      "data",
+      "0x838015E0"
+     ],
+     [
+      372,
+      "data",
+      "0x838015E0"
+     ],
+     [
+      376,
+      "call",
+      "0x828396F8"
+     ],
+     [
+      380,
+      "data",
+      "0x838015E0"
+     ],
+     [
+      392,
+      "data",
+      "0x838015E0"
+     ]
+    ]
+   },
+   "size": 420
+  },
   "0x823E8DC8": {
    "ltcg": {
     "ends": true,
@@ -1805,6 +2005,48 @@
     ]
    },
    "size": 52
+  },
+  "0x823EBE90": {
+   "ltcg": {
+    "ends": true,
+    "sha": "a2fd57b79e5d863ce831440c00b089565af15294e38bb151f81870ef8fbca196"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     28,
+     48,
+     52,
+     56,
+     60,
+     64
+    ],
+    "sha": "c7d8c7f2db75ef3a6f40049f4808e8c8ac812ae23ea5b4fef2d7aaadbaa39d6a",
+    "strings": {},
+    "targets": [
+     [
+      28,
+      "call",
+      "0x8264DDA0"
+     ],
+     [
+      48,
+      "call",
+      "0x82654118"
+     ],
+     [
+      60,
+      "data",
+      "0x820FBEF4"
+     ],
+     [
+      64,
+      "data",
+      "0x821327A4"
+     ]
+    ]
+   },
+   "size": 112
   },
   "0x823EBF00": {
    "ltcg": {
@@ -4738,6 +4980,63 @@
    },
    "size": 12
   },
+  "0x824A8CC0": {
+   "ltcg": {
+    "ends": true,
+    "sha": "a3fe605eea81963f9ae2c04671bc64cb27761c3b3594ed84bd7512e9ee611f3e"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     32,
+     36,
+     40,
+     44,
+     48,
+     52,
+     56,
+     60,
+     64,
+     72,
+     80
+    ],
+    "sha": "8d26089fd682f1287a730dad6a2bfcec394edb9592fa04cd406f540d2ae425b7",
+    "strings": {},
+    "targets": [
+     [
+      32,
+      "call",
+      "0x824A91F8"
+     ],
+     [
+      56,
+      "data",
+      "0x82108DB0"
+     ],
+     [
+      60,
+      "data",
+      "0x82108FA0"
+     ],
+     [
+      64,
+      "data",
+      "0x82108F70"
+     ],
+     [
+      72,
+      "data",
+      "0x82108F88"
+     ],
+     [
+      80,
+      "data",
+      "0x82108FC0"
+     ]
+    ]
+   },
+   "size": 144
+  },
   "0x824A8D50": {
    "ltcg": {
     "ends": true,
@@ -4760,6 +5059,42 @@
     ]
    },
    "size": 12
+  },
+  "0x824A8D60": {
+   "ltcg": {
+    "ends": true,
+    "sha": "9e5ebf8c1e365b476996993edeea6bb8998224117faac58a164c7c9442a8a08c"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     0,
+     8,
+     28,
+     36,
+     48
+    ],
+    "sha": "6c04bf758f3e9695903a0369cd90b66e834177d8a7d157d0a5ddb4ab4099beb7",
+    "strings": {},
+    "targets": [
+     [
+      8,
+      "data",
+      "0x8381EA00"
+     ],
+     [
+      36,
+      "data",
+      "0x830ACBD8"
+     ],
+     [
+      48,
+      "data",
+      "0x830ACBD8"
+     ]
+    ]
+   },
+   "size": 92
   },
   "0x824A90B8": {
    "ltcg": {
@@ -4786,6 +5121,28 @@
    },
    "size": 12
   },
+  "0x824A90C8": {
+   "ltcg": {
+    "ends": true,
+    "sha": "8c7c04ff41ab07b25e316104d95b6a1b333f054c33559a74799b3edf4cf5b080"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     12
+    ],
+    "sha": "8c7c04ff41ab07b25e316104d95b6a1b333f054c33559a74799b3edf4cf5b080",
+    "strings": {},
+    "targets": [
+     [
+      12,
+      "branch",
+      "0x824A91F8"
+     ]
+    ]
+   },
+   "size": 24
+  },
   "0x824A90E0": {
    "ltcg": {
     "ends": true,
@@ -4808,6 +5165,148 @@
     ]
    },
    "size": 12
+  },
+  "0x824A90F0": {
+   "ltcg": {
+    "ends": true,
+    "sha": "9e5ebf8c1e365b476996993edeea6bb8998224117faac58a164c7c9442a8a08c"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     0,
+     8,
+     28,
+     36,
+     48
+    ],
+    "sha": "6c04bf758f3e9695903a0369cd90b66e834177d8a7d157d0a5ddb4ab4099beb7",
+    "strings": {},
+    "targets": [
+     [
+      8,
+      "data",
+      "0x8381EAA8"
+     ],
+     [
+      36,
+      "data",
+      "0x830ACBD8"
+     ],
+     [
+      48,
+      "data",
+      "0x830ACBD8"
+     ]
+    ]
+   },
+   "size": 92
+  },
+  "0x824A91F8": {
+   "ltcg": {
+    "ends": true,
+    "sha": "098105d1ffc66df0969c061aa3e8edb9407d93a70ded716e1a6bde4cb31d168c"
+   },
+   "plain": {
+    "constants": {
+     "0x8208E84C": "3f800000"
+    },
+    "relocations": [
+     20,
+     24,
+     28,
+     32,
+     36,
+     40,
+     44,
+     52,
+     56,
+     64,
+     68,
+     72,
+     84,
+     92,
+     104,
+     112,
+     120,
+     132,
+     140,
+     168,
+     192,
+     200,
+     236
+    ],
+    "sha": "105a0b3462e6cecf2b8bb60f351a5060931754c3af83cca2b0be7b2fdb1d0320",
+    "strings": {},
+    "targets": [
+     [
+      20,
+      "call",
+      "0x824A89C8"
+     ],
+     [
+      36,
+      "data",
+      "0x8200B1F8"
+     ],
+     [
+      44,
+      "data",
+      "0x82108F70"
+     ],
+     [
+      64,
+      "data",
+      "0x82108F88"
+     ],
+     [
+      72,
+      "data",
+      "0x82108FB8"
+     ],
+     [
+      92,
+      "data",
+      "0x82108FC0"
+     ],
+     [
+      104,
+      "data",
+      "0x82155680"
+     ],
+     [
+      112,
+      "data",
+      "0x82155680"
+     ],
+     [
+      120,
+      "data",
+      "0x8383A850"
+     ],
+     [
+      168,
+      "data",
+      "0x8383A850"
+     ],
+     [
+      192,
+      "data",
+      "0x8208E84C"
+     ],
+     [
+      200,
+      "data",
+      "0x8383A850"
+     ],
+     [
+      236,
+      "data",
+      "0x82050014"
+     ]
+    ]
+   },
+   "size": 280
   },
   "0x824AB0A0": {
    "ltcg": {
@@ -8618,6 +9117,48 @@
    },
    "size": 12
   },
+  "0x8254E810": {
+   "ltcg": {
+    "ends": true,
+    "sha": "a2fd57b79e5d863ce831440c00b089565af15294e38bb151f81870ef8fbca196"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     28,
+     48,
+     52,
+     56,
+     60,
+     64
+    ],
+    "sha": "c7d8c7f2db75ef3a6f40049f4808e8c8ac812ae23ea5b4fef2d7aaadbaa39d6a",
+    "strings": {},
+    "targets": [
+     [
+      28,
+      "call",
+      "0x8264DDA0"
+     ],
+     [
+      48,
+      "call",
+      "0x82654118"
+     ],
+     [
+      60,
+      "data",
+      "0x82113E2C"
+     ],
+     [
+      64,
+      "data",
+      "0x821327A4"
+     ]
+    ]
+   },
+   "size": 112
+  },
   "0x8254E880": {
    "ltcg": {
     "ends": true,
@@ -8825,6 +9366,86 @@
     ]
    },
    "size": 152
+  },
+  "0x8254EC78": {
+   "ltcg": {
+    "ends": true,
+    "sha": "20708f102d21111b7bec1d70c9981de52f5770cd6044550f46d39d8d1292c210"
+   },
+   "plain": {
+    "constants": {
+     "0x820F7680": "00000000"
+    },
+    "relocations": [
+     20,
+     24,
+     28,
+     32,
+     36,
+     40,
+     48,
+     52,
+     56,
+     60,
+     64,
+     68,
+     72,
+     76,
+     84,
+     100,
+     112
+    ],
+    "sha": "2833def38046937884d7686856329321df0e9efa9c7d6e0729c52cd707b9e7c4",
+    "strings": {},
+    "targets": [
+     [
+      20,
+      "call",
+      "0x82653588"
+     ],
+     [
+      32,
+      "data",
+      "0x82113C10"
+     ],
+     [
+      64,
+      "data",
+      "0x830C0E04"
+     ],
+     [
+      68,
+      "data",
+      "0x82113DDC"
+     ],
+     [
+      72,
+      "data",
+      "0x82113DF4"
+     ],
+     [
+      76,
+      "data",
+      "0x82113E0C"
+     ],
+     [
+      84,
+      "data",
+      "0x82113E14"
+     ],
+     [
+      100,
+      "data",
+      "0x82155680"
+     ],
+     [
+      112,
+      "data",
+      "0x820F7680"
+     ]
+    ]
+   },
+   "size": 200
   },
   "0x8254ED40": {
    "ltcg": {
@@ -11474,6 +12095,48 @@
    },
    "size": 12
   },
+  "0x8271F0A8": {
+   "ltcg": {
+    "ends": true,
+    "sha": "a2fd57b79e5d863ce831440c00b089565af15294e38bb151f81870ef8fbca196"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     28,
+     48,
+     52,
+     56,
+     60,
+     64
+    ],
+    "sha": "c7d8c7f2db75ef3a6f40049f4808e8c8ac812ae23ea5b4fef2d7aaadbaa39d6a",
+    "strings": {},
+    "targets": [
+     [
+      28,
+      "call",
+      "0x8264DDA0"
+     ],
+     [
+      48,
+      "call",
+      "0x82654118"
+     ],
+     [
+      60,
+      "data",
+      "0x8213D518"
+     ],
+     [
+      64,
+      "data",
+      "0x821327A4"
+     ]
+    ]
+   },
+   "size": 112
+  },
   "0x8271F118": {
    "ltcg": {
     "ends": true,
@@ -11520,6 +12183,20 @@
     ]
    },
    "size": 24
+  },
+  "0x8271F160": {
+   "ltcg": {
+    "ends": true,
+    "sha": "0339b7d30f5f5469eeb2ca165f4d99da77ecc151cc4b9e872b02097403211e37"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [],
+    "sha": "0339b7d30f5f5469eeb2ca165f4d99da77ecc151cc4b9e872b02097403211e37",
+    "strings": {},
+    "targets": []
+   },
+   "size": 8
   },
   "0x8271F198": {
    "ltcg": {
@@ -11591,6 +12268,31 @@
     ]
    },
    "size": 152
+  },
+  "0x82720AC0": {
+   "ltcg": {
+    "ends": true,
+    "sha": "299475630ce8bd1b8b38aa3f5b15ba507ac373c12782635abd9572bf971e1e43"
+   },
+   "plain": {
+    "constants": {
+     "0x820F7680": "00000000"
+    },
+    "relocations": [
+     0,
+     4
+    ],
+    "sha": "3110099bc1d2c67e5108b654bd102d2c333e26a8e7b57d984d1bcf82e3022cb8",
+    "strings": {},
+    "targets": [
+     [
+      4,
+      "data",
+      "0x820F7680"
+     ]
+    ]
+   },
+   "size": 16
   },
   "0x82724808": {
    "ltcg": {
@@ -11769,6 +12471,52 @@
     ]
    },
    "size": 16
+  },
+  "0x82725750": {
+   "ltcg": {
+    "ends": true,
+    "sha": "7d558392b5a941ecade728433a0f32b5fcf670898c75e73126eeac22d2fbdc1a"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [],
+    "sha": "7d558392b5a941ecade728433a0f32b5fcf670898c75e73126eeac22d2fbdc1a",
+    "strings": {},
+    "targets": []
+   },
+   "size": 44
+  },
+  "0x82725780": {
+   "ltcg": {
+    "ends": true,
+    "sha": "138a5cfb130c8ac8189426b14b51ebb05252055e8e827fdd4610aea42f089670"
+   },
+   "plain": {
+    "constants": {
+     "0x8208E84C": "3f800000"
+    },
+    "relocations": [
+     0,
+     8,
+     12,
+     16
+    ],
+    "sha": "2d03fbcf0b5448d146b7a8424f25fd2d95f9daa4401d5b5d400192c1e37c1abe",
+    "strings": {},
+    "targets": [
+     [
+      12,
+      "data",
+      "0x8383A974"
+     ],
+     [
+      16,
+      "data",
+      "0x8208E84C"
+     ]
+    ]
+   },
+   "size": 52
   },
   "0x82730CA8": {
    "ltcg": {

@@ -6,6 +6,7 @@
 #define FUN_RUNTIME_VEC3_H
 
 #include <ppcintrinsics.h>
+#include "fun_runtime/oldvec3.h"
 
 namespace Fun_Runtime
 {
@@ -20,6 +21,10 @@ namespace Fun_Runtime
 
         Vec3() : x(0.0f), y(0.0f), z(0.0f) {}
         Vec3(const Vec3 &o) : v(o.v) { x = o.x; w = 0.0f; y = o.y; z = o.z; }
+        // RuffKing declares Vec3(const OldVec3 &); w = 1.0 as in RuffKing's Vec3(float, float, float). CD2's
+        // AI::cPedestrianBase constructor builds two members from ZeroVec this way: each component read after the
+        // previous store (a reference source), then w = 1.0.
+        Vec3(const OldVec3 &o) : x(o.x), y(o.y), z(o.z), w(1.0f) {}
     };
 }
 

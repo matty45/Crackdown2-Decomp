@@ -52,6 +52,18 @@ namespace CHARACTER
     public:
         static const Fun_Runtime::cClass *ms_pcCharacterInterfaceClass;
 
+        // RuffKing: cCharacterInterfacePrototype : cNonGameBase::cNonGameBasePrototype (: GOM::cObjectPrototype), 0x70
+        // bytes. CD2's MakeNew (0x8254E810) allocates 0x70 bytes, calls GOM::cObjectPrototype's constructor (0x82654118)
+        // with the packet and installs the vtables 0x82113E2C (at 0) and 0x821327A4 (at 0x18, shared by every
+        // prototype): no fields of its own, and cNonGameBasePrototype adds none either, so it is not modelled.
+        class cCharacterInterfacePrototype : public GOM::cObjectPrototype
+        {
+        public:
+            // __forceinline: CD2 inlines this into MakeNew, which this compiler does only when forced
+            // (docs/matching-notes.md, "Inlining").
+            __forceinline cCharacterInterfacePrototype(const RWS::CAttributePacket &packet) : GOM::cObjectPrototype(packet) {}
+        };
+
         // CD2 0x8254EC78 takes no prototype argument; 0x8254E890 is its placement factory.
         cCharacterInterface();
         virtual ~cCharacterInterface();

@@ -28,9 +28,6 @@ namespace AI
     }
 }
 
-static RWS::CClassFactory::CRegistrar cMissionTierRegistrar(
-    "cMissionTier", AI::cMissionTier::MakeNew, 0x7C, false);
-
 namespace AI
 {
     static RWS::CClassFactory::CRegistrar cMissionTierRegistrar(

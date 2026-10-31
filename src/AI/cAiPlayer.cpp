@@ -36,6 +36,21 @@ namespace AI
         Flush();
     }
 
+    cAiPlayer::cAiPlayer()
+        : m_nUnknown5A0(0), m_nUnknown5A4(0), m_nUnknown5A8(0), m_nUnknown5AC(0), m_nUnknown5B0(0), m_nUnknown5B4(0),
+          m_nUnknown5B8(0), m_nUnknown5BC(0), m_nUnknown5C0(0), m_nUnknown5C4(0), m_nUnknown5C8(0), m_nUnknown5CC(0),
+          m_nUnknown5D0(0), m_nUnknown5D4(0), m_fFriendlyFireTolerance(0.3f), m_fCombatFriendlyFireTolerance(1.0f),
+          m_fUnknown600(20.0f), m_fUnknown604(20.0f), m_fUnknown608(0.0f), m_nMapStatus(kMS_Passive), m_nUnknown610(0),
+          m_nShotsRemaining(0), m_bInterestingObjectReactionEnabled(true), m_nInterestingObjectPriority(2),
+          m_bUnknown618(false), m_bUnknown619(false), m_bUnknown61A(false), m_bUnknown61B(false)
+    {
+        if (!Ext_82223708(0x18, this))
+            Ext_82887CB8(0x18, new cUnknown828891A0(this));
+        ++g_838015E0;
+        Ext_828396F8(this);
+        --g_838015E0;
+    }
+
     RWS::CAttributeHandler *cAiPlayer::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
     {
         if (memory)

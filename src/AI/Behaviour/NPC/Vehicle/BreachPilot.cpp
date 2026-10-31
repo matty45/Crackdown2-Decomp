@@ -28,9 +28,6 @@ namespace AI
     }
 }
 
-static RWS::CClassFactory::CRegistrar BreachPilotRegistrar(
-    "BreachPilot", AI::BreachPilot::MakeNew, 0x7C, false);
-
 namespace AI
 {
     static RWS::CClassFactory::CRegistrar BreachPilotRegistrar(

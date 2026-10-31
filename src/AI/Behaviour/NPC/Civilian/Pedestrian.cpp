@@ -1,9 +1,18 @@
 #include "AI/Pedestrian.h"
 #include "rws/classfactory.h"
 
+inline void *operator new(size_t, void *memory) { return memory; }
+
 namespace AI
 {
     const Fun_Runtime::cClass *Pedestrian::ms_pcPedestrianClass = 0;
+
+    RWS::CAttributeHandler *Pedestrian::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) Pedestrian;
+        return 0;
+    }
 
     const Fun_Runtime::cClass &Pedestrian::RetClass() const
     {

@@ -175,7 +175,7 @@ def game_references():
     if _references is not None:
         return _references
     path = os.path.join(WORK, 'references.json')
-    key = '%d:%d' % (os.path.getsize(EXE), int(os.path.getmtime(EXE)))
+    key = '%d:%d:2' % (os.path.getsize(EXE), int(os.path.getmtime(EXE)))  # :2 = registers forgotten when overwritten
     if os.path.exists(path):
         cached = json.load(open(path))
         if cached.get('key') == key:
@@ -208,20 +208,30 @@ def game_references():
         for i, w in enumerate(ws):
             op, at = w >> 26, va + 4 * i
             pending = [(f, s, n - 1) for f, s, n in pending if n > 1]
-            if op == 15 and (w >> 16) & 31 == 0:
-                hi[(w >> 21) & 31] = (w & 0xFFFF) << 16
-            elif op == 14 and (w >> 16) & 31 in hi:
-                lo = w & 0xFFFF
-                a = (hi[(w >> 16) & 31] + (lo - 0x10000 if lo & 0x8000 else lo)) & 0xFFFFFFFF
-                built.setdefault(a, at)
-                if a in starts:
-                    pending = [(a, at, 16)]
-                elif pending:
-                    s = cstr(a)
-                    if s:
-                        f, site, _ = pending[-1]
-                        names.setdefault('0x%08X' % f, []).append(['0x%08X' % site, s])
-                        pending = []
+            rd, ra = (w >> 21) & 31, (w >> 16) & 31
+            if op == 15:  # lis rD (an address's high half), or addis rD, rA: rD no longer holds one
+                if ra == 0:
+                    hi[rd] = (w & 0xFFFF) << 16
+                else:
+                    hi.pop(rd, None)
+            elif op == 14:  # addi rD, rA: an address if rA holds a high half; either way rD is overwritten
+                if ra in hi:
+                    lo = w & 0xFFFF
+                    a = (hi[ra] + (lo - 0x10000 if lo & 0x8000 else lo)) & 0xFFFFFFFF
+                    built.setdefault(a, at)
+                    if a in starts:
+                        pending = [(a, at, 16)]
+                    elif pending:
+                        s = cstr(a)
+                        if s:
+                            f, site, _ = pending[-1]
+                            names.setdefault('0x%08X' % f, []).append(['0x%08X' % site, s])
+                            pending = []
+                hi.pop(rd, None)
+            elif op in (32, 33, 34, 35, 40, 41, 42, 43):  # integer loads overwrite rD
+                hi.pop(rd, None)
+            elif op in (24, 25) or (op == 31 and (w >> 1) & 0x3FF == 444):  # ori, oris, or (mr) overwrite rA
+                hi.pop(ra, None)
             elif op == 18 and w & 3 == 1:
                 d = w & 0x03FFFFFC
                 t = (at + (d - 0x04000000 if d & 0x02000000 else d)) & 0xFFFFFFFF
@@ -930,7 +940,10 @@ def compare_file(src, funcs, ltcg=False):
             entries += [(src, name, s, a, k, o, robj) for s, a, k, o in rs]
             problems += probs
             known[name] = va
-        if exact:
+        if exact and lt and not res['ltcg_exact']:
+            # verify's LTCG gate requires every matched function to be exact in the LTCG build too
+            res['status'] = 'PLAIN ONLY (LTCG %s)' % res['ltcg']
+        elif exact:
             res['status'] = 'EXACT'
         elif res.get('ltcg_exact'):
             res['status'] = 'LTCG EXACT'

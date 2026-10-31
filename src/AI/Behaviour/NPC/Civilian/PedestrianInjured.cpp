@@ -28,9 +28,6 @@ namespace AI
     }
 }
 
-static RWS::CClassFactory::CRegistrar PedestrianInjuredRegistrar(
-    "PedestrianInjured", AI::PedestrianInjured::MakeNew, 0x7C, false);
-
 namespace AI
 {
     static RWS::CClassFactory::CRegistrar PedestrianInjuredRegistrar(

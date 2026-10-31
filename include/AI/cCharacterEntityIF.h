@@ -58,6 +58,16 @@ namespace AI
         // CD2 0x823EF240 is the no-argument constructor called by 0x823EBF10.
         cCharacterEntityIF();
         virtual ~cCharacterEntityIF();
+        // RuffKing: cCharacterEntityIFPrototype : cCharacterInterface::cCharacterInterfacePrototype, 0x70 bytes. CD2's
+        // MakeNew (0x823EBE90) allocates 0x70 bytes, calls GOM::cObjectPrototype's constructor (0x82654118) with the
+        // packet and installs the vtables 0x820FBEF4 (at 0) and 0x821327A4 (at 0x18, shared by every prototype).
+        class cCharacterEntityIFPrototype : public CHARACTER::cCharacterInterface::cCharacterInterfacePrototype
+        {
+        public:
+            // __forceinline: CD2 inlines the constructor chain into MakeNew (as cCharacterInterfacePrototype's).
+            __forceinline cCharacterEntityIFPrototype(const RWS::CAttributePacket &packet)
+                : CHARACTER::cCharacterInterface::cCharacterInterfacePrototype(packet) {}
+        };
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *memory);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         void *RetUpperbodyAnimationParams();

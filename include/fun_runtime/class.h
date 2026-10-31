@@ -9,9 +9,15 @@
 
 namespace Fun_Runtime
 {
-    // Only CONST_INT_0 and CONST_INT_1 are confirmed in CD2 (HasAncestor); the rest is RuffKing's layout.
+    // RuffKing's layout and constructor; the values are those CD2's copies hold (see g_GlobalConstants).
     struct tGlobalConstants
     {
+        tGlobalConstants()
+            : CONST_INT_0(0), CONST_INT_1(1), CONST_INT_2(2), CONST_INT_100(100), CONST_FLOAT_0(0.0f),
+              CONST_FLOAT_1(1.0f), CONST_FLOAT_2(2.0f), CONST_FLOAT_100(100.0f), CONST_FLOAT_PI(3.14159265f),
+              CONST_FLOAT_0d000001(0.000001f), CONST_FLOAT_0d25(0.25f)
+        {
+        }
         const int CONST_INT_0;
         const int CONST_INT_1;
         const int CONST_INT_2;
@@ -24,7 +30,11 @@ namespace Fun_Runtime
         const float CONST_FLOAT_0d000001;
         const float CONST_FLOAT_0d25;
     };
-    extern const tGlobalConstants g_GlobalConstants;
+    // A static object defined in this header, so every object file has its own copy: RuffKing's per-object symbol lists
+    // show one in each file, and CD2 has copies at 0x830ACBD8 (read by cAmbientVFXSpawner's and cRopes' IsA) and
+    // 0x830C0E04 (read by cCharacterInterface's constructor), both holding these values in initialised data. CD2 loads
+    // the members from the copy rather than folding them: the constructor (RuffKing declares one) keeps them opaque.
+    static tGlobalConstants g_GlobalConstants;
 
     class cClass
     {
