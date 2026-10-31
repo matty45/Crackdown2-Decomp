@@ -15,14 +15,11 @@ unsigned int Ext_8243F860(void *, unsigned int);
 void Ext_824A8848(void *proto, AI::NPCHost *host);
 void Ext_823E97B8(AI::NPCHost *host, int id);
 void Ext_823F1610(AI::NPCHost *host, int handle, int flag);
-extern int g_nBehaviourClassID;   // 0x832B6A4C
-extern const Fun_Runtime::cClass *const g_pTargetClass;   // 0x838240F8
 void Ext_8244CF18(AI::NPCRegistry *, AI::TgtSubA *, const AI::TargetInfo &, int);
 void Ext_823E9640(AI::NPCHost *, AI::NPCTarget *, int);
 void Ext_823F16E8(AI::NPCHost *, void *);
 void Ext_823E9738(AI::NPCHost *);
 void Ext_8244D038(AI::NPCRegistry *);
-extern void *g_p830BBDB4;
 unsigned int Ext_8276F1B8(Fun_Runtime::cSafeDeletable *, int, AI::XSub *, void *);
 
 namespace AI

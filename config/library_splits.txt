@@ -1,0 +1,5389 @@
+# config/library_splits.txt: which addresses of Crackdown 2 belong to which library (or other non-source) object.
+# Maintainer-owned, like config/splits.txt, but for code that is linked from libraries rather than decompiled:
+# the XDK (d3d9, d3dx9, xgraphics, xaudio2, xapi, CRT, ...), Havok, Wwise, Scaleform, XLSP and so on.
+#
+# <library>(<object>)      the object, as RuffKing's PDB names it
+#   text <start> <end>      a block [start, end) of its functions
+#   hot <addr>              one of its functions that the link order list moved into 0x821D0000-0x823D0000
+#   init <addr>             one of its functions in the initializer region (from 0x82F00000)
+#
+# Evidence (method: tools/research/splits_libs/README.md). A CD2 function is identified with a RuffKing function
+# of at least 64 bytes when their code, with address immediates masked, is identical and unique in both builds
+# (or all copies lie in one RuffKing object), or when the RuffKing name table (data/symbols) names it. Its
+# object is the RuffKing PDB section contribution holding that function. Unidentified functions between two
+# identified functions of one object belong to it (the linker lays out each object contiguously); at a
+# boundary between two objects, functions are assigned while their sizes repeat the RuffKing functions after
+# the first object's last match or before the second's first. Short runs of an object that has a longer run
+# elsewhere are template/inline copies kept from another object and are not used as evidence. Game files
+# (config/splits.txt) take precedence: nothing inside them is assigned here.
+# Counts per block: identified / contiguity / boundary-size. Objects with more than one block are marked
+# "several blocks: review": both cannot be right unless the linker split the object.
+
+d3d9i.lib(ring.obj)
+  text 0x82919140 0x829191B4   # 1 functions: 1 / 0 / 0
+
+d3d9i.lib(shader.obj)
+  text 0x8291DB40 0x82921AC8   # 40 functions: 2 / 38 / 0
+
+d3d9i.lib(blocks.obj)
+  text 0x829275A0 0x82927640   # 1 functions: 1 / 0 / 0
+
+d3d9i.lib(initialize.obj)
+  text 0x82927E58 0x82927F60   # 2 functions: 2 / 0 / 0
+
+d3d9i.lib(hsio.obj)
+  text 0x8292E538 0x8292E61C   # 1 functions: 1 / 0 / 0
+
+Xmcore.lib(lf.obj)
+  text 0x82930BC8 0x82932A0C   # 19 functions: 5 / 14 / 0
+
+xmahal.lib(xmahal.obj)
+  text 0x82932CD8 0x829337FC   # 15 functions: 13 / 1 / 1
+
+Xapilibi.lib(createfile.obj)
+  text 0x829553B0 0x829555A4   # 1 functions: 1 / 0 / 0
+
+Xapilibi.lib(getsystemtime.obj)
+  text 0x82956C10 0x82956C8C   # 1 functions: 1 / 0 / 0
+
+Xapilibi.lib(pathmisc.obj)
+  text 0x82956D70 0x829578F0   # 13 functions: 5 / 8 / 0
+
+Xapilibi.lib(xapi0.obj)
+  hot 0x823892F8   # identified (code, >= 64 bytes)
+  text 0x82958888 0x82958940   # 1 functions: 1 / 0 / 0
+
+Xapilibi.lib(writecombinedstreaming.obj)
+  text 0x82958A30 0x82959220   # 2 functions: 2 / 0 / 0
+
+Xapilibi.lib(cachedstreaming.obj)
+  text 0x82959220 0x82959AD0   # 2 functions: 2 / 0 / 0
+
+Xapilibi.lib(copycachelines.obj)
+  text 0x82959AD0 0x82959B90   # 1 functions: 1 / 0 / 0
+
+Xapilibi.lib(stfc.obj)
+  hot 0x82361A50   # identified (code, >= 64 bytes)
+  text 0x8295A898 0x8295AE10   # 7 functions: 3 / 4 / 0
+
+Xapilibi.lib(xapipgettimezonebias.obj)
+  text 0x82960A10 0x82960A90   # 1 functions: 1 / 0 / 0
+
+Xapilibi.lib(xapiinit.obj)
+  text 0x82960ED8 0x82960F30   # 1 functions: 1 / 0 / 0
+
+Xapilibi.lib(xapithreadstartup.obj)
+  text 0x82960F38 0x82960FB8   # 1 functions: 1 / 0 / 0
+
+Xapilibi.lib(rtlheap.obj)
+  text 0x82962D88 0x82963644   # 1 functions: 1 / 0 / 0
+
+d3dx9i.lib(d3dx9tex.obj)
+  text 0x82964978 0x82967E70   # 24 functions: 13 / 11 / 0
+
+d3dx9i.lib(d3dx9shader.obj)
+  text 0x82967E90 0x82969320   # 18 functions: 9 / 8 / 1
+
+d3dx9i.lib(d3dxmath.obj)
+  hot 0x82204D48   # identified (code, >= 64 bytes)
+  text 0x82969320 0x829695F4   # 6 functions: 6 / 0 / 0
+
+d3dx9i.lib(cimage.obj)
+  text 0x8296A058 0x8296EEA0   # 27 functions: 16 / 11 / 0
+
+d3dx9i.lib(d3dx9dbg.obj)
+  text 0x8296FE78 0x8296FF58   # 1 functions: 1 / 0 / 0
+
+d3dx9i.lib(cfile.obj)
+  text 0x82970000 0x82970174   # 3 functions: 2 / 0 / 1
+
+d3dx9i.lib(cblt.obj)
+  text 0x82970178 0x829736EC   # 23 functions: 21 / 2 / 0
+
+d3dx9i.lib(clock.obj)
+  text 0x829736F0 0x829741D8   # 7 functions: 5 / 2 / 0
+
+d3dx9i.lib(ccodec.obj)
+  text 0x829741D8 0x8297F780   # 88 functions: 28 / 59 / 1
+
+d3dx9i.lib(d3dx9shader2.obj)
+  text 0x8297F780 0x8297F8C4   # 1 functions: 1 / 0 / 0
+
+d3dx9i.lib(cpreprocessor.obj)
+  text 0x8297F8C8 0x82984D14   # 53 functions: 46 / 7 / 0
+
+d3dx9i.lib(cbuffer.obj)
+  text 0x82984D30 0x82985044   # 7 functions: 4 / 2 / 1
+
+d3dx9i.lib(ctokenize.obj)
+  text 0x82985048 0x82987200   # 29 functions: 25 / 3 / 1
+
+d3dx9i.lib(cassembler.obj)
+  text 0x82987200 0x8298D190   # 35 functions: 31 / 4 / 0
+
+d3dx9i.lib(ccompiler.obj)
+  text 0x8298D190 0x829A2B68   # 61 functions: 54 / 5 / 2
+
+d3dx9i.lib(cconstanttable.obj)
+  text 0x829A2B68 0x829A7B2C   # 72 functions: 61 / 11 / 0
+
+d3dx9i.lib(pngerror.obj)
+  text 0x829A7B30 0x829A7D28   # 6 functions: 3 / 3 / 0
+
+d3dx9i.lib(png.obj)
+  text 0x829A7D28 0x829A7F20   # 8 functions: 4 / 4 / 0
+
+d3dx9i.lib(jdapimin.obj)
+  text 0x829A7F20 0x829A85BC   # 5 functions: 5 / 0 / 0
+
+d3dx9i.lib(jdapistd.obj)
+  text 0x829A85C0 0x829A88F0   # 3 functions: 3 / 0 / 0
+
+d3dx9i.lib(jdmarker.obj)
+  text 0x829A88F0 0x829AA95C   # 17 functions: 15 / 2 / 0
+
+d3dx9i.lib(jerror.obj)
+  text 0x829AA960 0x829AAC18   # 6 functions: 4 / 2 / 0
+
+d3dx9i.lib(pngset.obj)
+  text 0x829AC768 0x829AC994   # 6 functions: 2 / 3 / 1
+
+d3dx9i.lib(pngread.obj)
+  text 0x829AC998 0x829AD550   # 7 functions: 7 / 0 / 0
+
+d3dx9i.lib(pngget.obj)
+  text 0x829AD550 0x829AD744   # 6 functions: 1 / 0 / 5
+
+d3dx9i.lib(pngtrans.obj)
+  text 0x829AD748 0x829AD97C   # 7 functions: 2 / 1 / 4
+
+d3dx9i.lib(pngrtran.obj)
+  text 0x829AD980 0x829AF5C8   # 14 functions: 13 / 1 / 0
+
+d3dx9i.lib(pngrio.obj)
+  text 0x829AF5C8 0x829AF654   # 2 functions: 1 / 0 / 1
+
+d3dx9i.lib(dxtn.obj)
+  text 0x829AF7E0 0x829B1758   # 9 functions: 7 / 2 / 0
+
+d3dx9i.lib(calloc.obj)
+  text 0x829B1948 0x829B1AA4   # 3 functions: 3 / 0 / 0
+
+d3dx9i.lib(cnode.obj)
+  text 0x829B1AA8 0x829B5974   # 88 functions: 63 / 24 / 1
+
+d3dx9i.lib(threadlocaldata.obj)
+  text 0x829B5978 0x829B5C1C   # 3 functions: 2 / 0 / 1
+
+d3dx9i.lib(d3dx9fragment.obj)
+  text 0x829B5C20 0x829B6640   # 5 functions: 5 / 0 / 0
+
+d3dx9i.lib(cnodeasm.obj)
+  text 0x829B6640 0x829B6A24   # 6 functions: 6 / 0 / 0
+
+d3dx9i.lib(ccommentblock.obj)
+  text 0x829B6A28 0x829B6DC8   # 7 functions: 3 / 0 / 4
+
+d3dx9i.lib(cuassembler.obj)
+  text 0x829B6DE0 0x829C1278   # 69 functions: 63 / 6 / 0
+
+d3dx9i.lib(c30swprogram.obj)
+  text 0x829C1278 0x829CBEFC   # 186 functions: 111 / 75 / 0
+
+d3dx9i.lib(cshaderprogram.obj)
+  hot 0x822CA418   # identified (code, >= 64 bytes)
+  text 0x829CBF00 0x829E0E04   # 163 functions: 136 / 23 / 4
+
+d3dx9i.lib(c30program.obj)
+  text 0x829E0E08 0x829E3C48   # 23 functions: 18 / 5 / 0
+
+d3dx9i.lib(cinstruction.obj)
+  text 0x829E3C48 0x829E48C8   # 20 functions: 16 / 4 / 0
+
+d3dx9i.lib(cargument.obj)
+  text 0x829E48C8 0x829E4B68   # 6 functions: 5 / 1 / 0
+
+d3dx9i.lib(cbaseprogram.obj)
+  text 0x829E4B68 0x829E5658   # 15 functions: 12 / 0 / 3
+
+d3dx9i.lib(cprogram.obj)
+  text 0x829E5658 0x829FFA74   # 112 functions: 105 / 7 / 0
+
+d3dx9i.lib(cparse.obj)
+  text 0x829FFA78 0x82A13390   # 97 functions: 94 / 2 / 1
+
+d3dx9i.lib(cpsprogram.obj)
+  text 0x82A13390 0x82A170F0   # 26 functions: 25 / 1 / 0
+
+d3dx9i.lib(cpslegacyprogram.obj)
+  text 0x82A17330 0x82A26AD0   # 82 functions: 80 / 2 / 0
+
+d3dx9i.lib(cvsprogram.obj)
+  text 0x82A26AD0 0x82A2A1E4   # 20 functions: 18 / 2 / 0
+
+d3dx9i.lib(cfxlprogram.obj)
+  text 0x82A2A1E8 0x82A2B7A0   # 9 functions: 8 / 1 / 0
+
+d3dx9i.lib(pngmem.obj)
+  text 0x82A2B7A0 0x82A2B8E8   # 6 functions: 2 / 1 / 3
+
+d3dx9i.lib(crc32.obj)
+  text 0x82A2B8E8 0x82A2BA1C   # 1 functions: 1 / 0 / 0
+
+d3dx9i.lib(jdinput.obj)
+  text 0x82A2BA20 0x82A2C228   # 8 functions: 7 / 1 / 0
+
+d3dx9i.lib(jmemmgr.obj)
+  text 0x82A2C228 0x82A2D310   # 14 functions: 14 / 0 / 0
+
+d3dx9i.lib(jcomapi.obj)
+  init 0x82F42008   # initializer region: its code references only this object's functions
+  text 0x82A2D310 0x82A2D444   # 4 functions: 2 / 0 / 2; several blocks: review
+  text 0x82F47780 0x82F4784C   # 3 functions: 1 / 0 / 2; several blocks: review
+
+d3dx9i.lib(jdmaster.obj)
+  text 0x82A2D448 0x82A2DDC8   # 6 functions: 6 / 0 / 0
+
+d3dx9i.lib(jutils.obj)
+  init 0x82F45E60   # initializer region: its code references only this object's functions
+  init 0x82F460D8   # initializer region: its code references only this object's functions
+  init 0x82F47018   # initializer region: its code references only this object's functions
+  init 0x82F47208   # initializer region: its code references only this object's functions
+  init 0x82F48400   # initializer region: its code references only this object's functions
+  init 0x82F48B28   # initializer region: its code references only this object's functions
+  init 0x82F4DD78   # initializer region: its code references only this object's functions
+  init 0x82F4E5F8   # initializer region: its code references only this object's functions
+  init 0x82F50008   # initializer region: its code references only this object's functions
+  init 0x82F50148   # initializer region: its code references only this object's functions
+  init 0x82F50978   # initializer region: its code references only this object's functions
+  init 0x82F50E50   # initializer region: its code references only this object's functions
+  init 0x82F52508   # initializer region: its code references only this object's functions
+  init 0x82F52FA8   # initializer region: its code references only this object's functions
+  init 0x82F53170   # initializer region: its code references only this object's functions
+  init 0x82F53358   # initializer region: its code references only this object's functions
+  init 0x82F53858   # initializer region: its code references only this object's functions
+  init 0x82F53C78   # initializer region: its code references only this object's functions
+  init 0x82F547F8   # initializer region: its code references only this object's functions
+  init 0x82F54A10   # initializer region: its code references only this object's functions
+  init 0x82F550C0   # initializer region: its code references only this object's functions
+  text 0x82A2DDC8 0x82A2DE9C   # 5 functions: 1 / 0 / 4; several blocks: review
+  text 0x82F47850 0x82F47924   # 5 functions: 1 / 0 / 4; several blocks: review
+
+d3dx9i.lib(deflate.obj)
+  text 0x82A30C38 0x82A320C8   # 8 functions: 6 / 2 / 0
+
+d3dx9i.lib(inflate.obj)
+  text 0x82A32480 0x82A32C44   # 5 functions: 4 / 1 / 0
+
+d3dx9i.lib(pngrutil.obj)
+  text 0x82A32C48 0x82A3476C   # 17 functions: 16 / 0 / 1
+
+d3dx9i.lib(cnodeuasm.obj)
+  text 0x82A34770 0x82A34D80   # 12 functions: 8 / 1 / 3
+
+d3dx9i.lib(cpool.obj)
+  text 0x82A34D80 0x82A34E60   # 2 functions: 2 / 0 / 0
+
+d3dx9i.lib(ctransform.obj)
+  text 0x82A34E60 0x82A3607C   # 8 functions: 8 / 0 / 0
+
+d3dx9i.lib(effecthll.obj)
+  text 0x82A36080 0x82A365A4   # 4 functions: 4 / 0 / 0
+
+d3dx9i.lib(jmemansi.obj)
+  text 0x82A365A8 0x82A36814   # 8 functions: 4 / 3 / 1
+
+d3dx9i.lib(jdmainct.obj)
+  text 0x82A36818 0x82A37040   # 8 functions: 8 / 0 / 0
+
+d3dx9i.lib(jdcoefct.obj)
+  text 0x82A37040 0x82A382D8   # 9 functions: 8 / 1 / 0
+
+d3dx9i.lib(jdhuff.obj)
+  text 0x82A382D8 0x82A38FC8   # 6 functions: 6 / 0 / 0
+
+d3dx9i.lib(jdphuff.obj)
+  text 0x82A38FC8 0x82A39E34   # 7 functions: 7 / 0 / 0
+
+d3dx9i.lib(jddctmgr.obj)
+  text 0x82A39E38 0x82A3A2C8   # 2 functions: 2 / 0 / 0
+
+d3dx9i.lib(jdpostct.obj)
+  text 0x82A3A2C8 0x82A3A4D8   # 3 functions: 3 / 0 / 0
+
+d3dx9i.lib(jdsample.obj)
+  text 0x82A3A4D8 0x82A3AD68   # 12 functions: 7 / 4 / 1
+
+d3dx9i.lib(jdcolor.obj)
+  text 0x82A3AD68 0x82A3BB88   # 10 functions: 9 / 1 / 0
+
+d3dx9i.lib(jdmerge.obj)
+  text 0x82A3BB88 0x82A3C240   # 8 functions: 6 / 2 / 0
+
+d3dx9i.lib(adler32.obj)
+  text 0x82A43248 0x82A433C8   # 1 functions: 1 / 0 / 0
+
+d3dx9i.lib(trees.obj)
+  text 0x82A433C8 0x82A44FF0   # 11 functions: 9 / 2 / 0
+
+d3dx9i.lib(zutil.obj)
+  text 0x82A44FF0 0x82A4505C   # 2 functions: 1 / 0 / 1
+
+d3dx9i.lib(infblock.obj)
+  text 0x82A45060 0x82A45ADC   # 4 functions: 4 / 0 / 0
+
+d3dx9i.lib(jidctflt.obj)
+  text 0x82A45AE0 0x82A45F30   # 1 functions: 1 / 0 / 0
+
+d3dx9i.lib(jidctfst.obj)
+  text 0x82A45F30 0x82A463BC   # 1 functions: 1 / 0 / 0
+
+d3dx9i.lib(jidctint.obj)
+  text 0x82A463C0 0x82A46864   # 1 functions: 1 / 0 / 0
+
+d3dx9i.lib(jidctred.obj)
+  text 0x82A46868 0x82A471B4   # 3 functions: 2 / 0 / 1
+
+d3dx9i.lib(infcodes.obj)
+  text 0x82A485C8 0x82A48C70   # 3 functions: 2 / 0 / 1
+
+d3dx9i.lib(inftrees.obj)
+  text 0x82A48C70 0x82A493FC   # 4 functions: 3 / 0 / 1
+
+d3dx9i.lib(infutil.obj)
+  text 0x82A49400 0x82A49568   # 1 functions: 1 / 0 / 0
+
+d3dx9i.lib(inffast.obj)
+  text 0x82A49568 0x82A49998   # 1 functions: 1 / 0 / 0
+
+xgraphics.lib(header.obj)
+  text 0x82A49998 0x82A4A0A4   # 11 functions: 7 / 4 / 0
+
+xgraphics.lib(desc.obj)
+  text 0x82A4A0A8 0x82A4AD08   # 8 functions: 6 / 2 / 0
+
+xgraphics.lib(surface.obj)
+  text 0x82A4AF38 0x82A4B6DC   # 3 functions: 2 / 0 / 1
+
+xgraphics.lib(convert.obj)
+  text 0x82A4BBA0 0x82A4E468   # 42 functions: 37 / 5 / 0
+
+xgraphics.lib(endian.obj)
+  text 0x82A4E5A8 0x82A4F0D0   # 8 functions: 7 / 1 / 0
+
+xgraphics.lib(volume.obj)
+  text 0x82A4F0D0 0x82A4FA28   # 3 functions: 2 / 0 / 1
+
+xgraphics.lib(shaderpdbbuilder.obj)
+  text 0x82A50050 0x82A55E2C   # 138 functions: 97 / 39 / 2
+
+xgraphics.lib(r500assembler.obj)
+  text 0x82A55E30 0x82A5B9D8   # 68 functions: 59 / 5 / 4
+
+xgraphics.lib(main.obj)
+  text 0x82A5B9D8 0x82A5CE7C   # 28 functions: 24 / 4 / 0
+
+xgraphics.lib(xtc.obj)
+  text 0x82A5CE80 0x82A5D6FC   # 1 functions: 1 / 0 / 0
+
+xgraphics.lib(r400psilutil.obj)
+  text 0x82A5D720 0x82A611A8   # 30 functions: 30 / 0 / 0
+
+xgraphics.lib(r400psil.obj)
+  text 0x82A611A8 0x82A624A8   # 14 functions: 14 / 0 / 0
+
+xgraphics.lib(bitfield.obj)
+  text 0x82A624A8 0x82A6259C   # 2 functions: 2 / 0 / 0
+
+xgraphics.lib(ssmdebug.obj)
+  text 0x82A625A0 0x82A628B8   # 4 functions: 3 / 1 / 0
+
+xgraphics.lib(disasm.obj)
+  text 0x82A628B8 0x82A65530   # 15 functions: 15 / 0 / 0
+
+xgraphics.lib(ssmcallbacks.obj)
+  text 0x82A65530 0x82A65A50   # 6 functions: 6 / 0 / 0
+
+xgraphics.lib(linkedlist.obj)
+  text 0x82A65A50 0x82A67A18   # 43 functions: 42 / 1 / 0
+
+xgraphics.lib(compiledshader.obj)
+  text 0x82A67A18 0x82A690AC   # 31 functions: 30 / 1 / 0
+
+xgraphics.lib(internalconstallocator.obj)
+  text 0x82A690B0 0x82A69598   # 9 functions: 4 / 3 / 2
+
+xgraphics.lib(ssmdevice.obj)
+  text 0x82A69598 0x82A69FB8   # 16 functions: 5 / 0 / 11
+
+xgraphics.lib(ssmobject.obj)
+  text 0x82A69FB8 0x82A6A3A0   # 5 functions: 4 / 1 / 0
+
+xgraphics.lib(shaderstore.obj)
+  text 0x82A6A3A0 0x82A6AD68   # 10 functions: 10 / 0 / 0
+
+xgraphics.lib(ssmstatecompiler.obj)
+  text 0x82A6AD68 0x82A6B7B4   # 6 functions: 6 / 0 / 0
+
+xgraphics.lib(r400vs.obj)
+  text 0x82A6B7B8 0x82A6D884   # 10 functions: 10 / 0 / 0
+
+xgraphics.lib(shadercost.obj)
+  text 0x82A6D888 0x82A6EA5C   # 8 functions: 8 / 0 / 0
+
+xgraphics.lib(emit.obj)
+  text 0x82A6EA60 0x82A743C0   # 46 functions: 45 / 1 / 0
+
+xgraphics.lib(litevalr500.obj)
+  text 0x82A743C0 0x82A77174   # 32 functions: 30 / 2 / 0
+
+xgraphics.lib(execopts.obj)
+  text 0x82A77300 0x82A79620   # 17 functions: 16 / 1 / 0
+
+xgraphics.lib(finalopts.obj)
+  text 0x82A79620 0x82A7AE50   # 18 functions: 17 / 1 / 0
+
+xgraphics.lib(optautoz.obj)
+  text 0x82A7AE50 0x82A7B4BC   # 6 functions: 6 / 0 / 0
+
+xgraphics.lib(regopt.obj)
+  text 0x82A7B4C0 0x82A80FB0   # 59 functions: 59 / 0 / 0
+
+xgraphics.lib(localreg.obj)
+  text 0x82A80FB0 0x82A822C0   # 7 functions: 7 / 0 / 0
+
+xgraphics.lib(predication.obj)
+  text 0x82A822C0 0x82A8DFE8   # 78 functions: 75 / 3 / 0
+
+xgraphics.lib(globreg.obj)
+  text 0x82A8DFE8 0x82A95C7C   # 48 functions: 41 / 7 / 0
+
+xgraphics.lib(constreg.obj)
+  text 0x82A95C80 0x82A9A1A0   # 56 functions: 54 / 2 / 0
+
+xgraphics.lib(scheduler.obj)
+  text 0x82A9A1A0 0x82AA09A0   # 47 functions: 45 / 1 / 1
+
+xgraphics.lib(peeps.obj)
+  text 0x82AA09A0 0x82AA5898   # 16 functions: 15 / 1 / 0
+
+xgraphics.lib(vectorize.obj)
+  text 0x82AA5898 0x82AC0B34   # 118 functions: 110 / 7 / 1
+
+xgraphics.lib(clean.obj)
+  text 0x82AC0B38 0x82AC7644   # 23 functions: 20 / 2 / 1
+
+xgraphics.lib(optimize.obj)
+  text 0x82AC7648 0x82AF16A4   # 190 functions: 183 / 7 / 0
+
+xgraphics.lib(xenosem.obj)
+  text 0x82AF16A8 0x82AF2BE0   # 7 functions: 6 / 0 / 1
+
+xgraphics.lib(buildssa.obj)
+  text 0x82AF2BE0 0x82AF477C   # 11 functions: 9 / 2 / 0
+
+xgraphics.lib(buildcfg.obj)
+  text 0x82AF4780 0x82AF6164   # 12 functions: 10 / 2 / 0
+
+xgraphics.lib(import.obj)
+  text 0x82AF6168 0x82B14388   # 259 functions: 241 / 18 / 0
+
+xgraphics.lib(xenoncompress.obj)
+  text 0x82B14388 0x82B14FC8   # 7 functions: 7 / 0 / 0
+
+xgraphics.lib(cblt.obj)
+  text 0x82B15388 0x82B18658   # 17 functions: 17 / 0 / 0
+
+xgraphics.lib(ssmrenderstate.obj)
+  text 0x82B18658 0x82B18870   # 1 functions: 1 / 0 / 0
+
+xgraphics.lib(as_object.obj)
+  text 0x82B18870 0x82B18EE8   # 3 functions: 3 / 0 / 0
+
+xgraphics.lib(statepostprocessor.obj)
+  text 0x82B18EE8 0x82B19794   # 5 functions: 5 / 0 / 0
+
+xgraphics.lib(hashstatecache.obj)
+  text 0x82B19798 0x82B19B54   # 5 functions: 5 / 0 / 0
+
+xgraphics.lib(statepreprocessor.obj)
+  text 0x82B19B58 0x82B1A020   # 7 functions: 6 / 1 / 0
+
+xgraphics.lib(ssmregistry.obj)
+  text 0x82B1A020 0x82B1A2D4   # 4 functions: 4 / 0 / 0
+
+xgraphics.lib(mem.obj)
+  text 0x82B1A2D8 0x82B1A568   # 4 functions: 4 / 0 / 0
+
+xgraphics.lib(linkedlistfactories.obj)
+  text 0x82B1A568 0x82B1B100   # 12 functions: 12 / 0 / 0
+
+xgraphics.lib(fetchconstallocator.obj)
+  text 0x82B1B100 0x82B1BA84   # 8 functions: 7 / 1 / 0
+
+xgraphics.lib(compilewithqueries.obj)
+  text 0x82B1BA88 0x82B1BB2C   # 1 functions: 1 / 0 / 0
+
+xgraphics.lib(shaderrecycler.obj)
+  text 0x82B1BB30 0x82B1C6C8   # 6 functions: 6 / 0 / 0
+
+xgraphics.lib(programstore.obj)
+  text 0x82B1C6C8 0x82B1D14C   # 7 functions: 6 / 1 / 0
+
+xgraphics.lib(txserver.obj)
+  text 0x82B1D150 0x82B1D4C0   # 4 functions: 4 / 0 / 0
+
+xgraphics.lib(hashtable.obj)
+  text 0x82B1D4C0 0x82B1DD18   # 11 functions: 11 / 0 / 0
+
+xgraphics.lib(xltconvert.obj)
+  text 0x82B1DD18 0x82B2AEA0   # 57 functions: 57 / 0 / 0
+
+xgraphics.lib(compilerinc.obj)
+  init 0x82F06B68   # initializer region: its code references only this object's functions
+  text 0x82B2AEA0 0x82B2D0E4   # 46 functions: 35 / 10 / 1
+
+xgraphics.lib(cp_compiler.obj)
+  text 0x82B2D0E8 0x82B2E450   # 5 functions: 5 / 0 / 0
+
+xgraphics.lib(compiledprogram.obj)
+  text 0x82B2E450 0x82B2F4E0   # 21 functions: 21 / 0 / 0
+
+xgraphics.lib(instr.obj)
+  init 0x8302D2A0   # initializer region: its code references only this object's functions
+  init 0x8302D2B0   # initializer region: its code references only this object's functions
+  text 0x82B2F4E0 0x82B3E478   # 129 functions: 122 / 7 / 0
+
+xgraphics.lib(cfgimpl.obj)
+  text 0x82B3E478 0x82B3EA48   # 15 functions: 7 / 8 / 0
+
+xgraphics.lib(ccodec.obj)
+  text 0x82B3EA98 0x82B49DEC   # 82 functions: 22 / 59 / 1
+
+xgraphics.lib(compilertossm.obj)
+  text 0x82B49DF8 0x82B4EC80   # 92 functions: 76 / 15 / 1
+
+xgraphics.lib(ternary.obj)
+  text 0x82B4EC80 0x82B4F1C4   # 7 functions: 6 / 1 / 0
+
+xgraphics.lib(hash32.obj)
+  text 0x82B4F1C8 0x82B4F360   # 1 functions: 1 / 0 / 0
+
+xgraphics.lib(cp_common.obj)
+  text 0x82B4F410 0x82B4FC9C   # 4 functions: 4 / 0 / 0
+
+xgraphics.lib(cfg.obj)
+  text 0x82B4FCA0 0x82B56A98   # 60 functions: 54 / 6 / 0
+
+xgraphics.lib(arena.obj)
+  text 0x82B56A98 0x82B56BC4   # 3 functions: 3 / 0 / 0
+
+xgraphics.lib(ilprogram.obj)
+  text 0x82B56BC8 0x82B56CFC   # 3 functions: 2 / 0 / 1
+
+xgraphics.lib(ilinstiterator.obj)
+  text 0x82B56D00 0x82B57470   # 11 functions: 11 / 0 / 0
+
+xgraphics.lib(asm.obj)
+  text 0x82B57528 0x82B5EBAC   # 65 functions: 65 / 0 / 0
+
+xgraphics.lib(vregtable.obj)
+  text 0x82B5EBB0 0x82B615D0   # 40 functions: 21 / 14 / 5
+
+xgraphics.lib(globalregs.obj)
+  text 0x82B615D0 0x82B62680   # 12 functions: 9 / 3 / 0
+
+xgraphics.lib(ssa.obj)
+  text 0x82B62680 0x82B64858   # 15 functions: 14 / 0 / 1
+
+xgraphics.lib(sched.obj)
+  text 0x82B64858 0x82B698A8   # 46 functions: 40 / 6 / 0
+
+xgraphics.lib(opt.obj)
+  text 0x82B698A8 0x82B6B77C   # 18 functions: 14 / 4 / 0
+
+xgraphics.lib(linkageinfo.obj)
+  text 0x82B6B780 0x82B6C9B4   # 14 functions: 14 / 0 / 0
+
+xgraphics.lib(r400_addrenum.obj)
+  text 0x82B6C9B8 0x82B6D5E0   # 11 functions: 10 / 1 / 0
+
+xgraphics.lib(dxtn.obj)
+  text 0x82B6E3E8 0x82B6F488   # 15 functions: 11 / 4 / 0
+
+xgraphics.lib(dlist.obj)
+  text 0x82B6F590 0x82B6F62C   # 3 functions: 1 / 0 / 2
+
+xgraphics.lib(vector.obj)
+  text 0x82B6F630 0x82B6FE30   # 12 functions: 10 / 1 / 1
+
+xgraphics.lib(vreginfo.obj)
+  text 0x82B6FE30 0x82B7193C   # 35 functions: 29 / 5 / 1
+
+xgraphics.lib(irinst.obj)
+  text 0x82B71940 0x82B74248   # 107 functions: 77 / 30 / 0
+
+xgraphics.lib(dominator.obj)
+  text 0x82B74248 0x82B74BBC   # 8 functions: 8 / 0 / 0
+
+xgraphics.lib(block.obj)
+  text 0x82B74BC0 0x82B75E04   # 48 functions: 26 / 21 / 1
+
+xgraphics.lib(expansion.obj)
+  text 0x82B75E08 0x82B7EFB0   # 23 functions: 23 / 0 / 0
+
+xgraphics.lib(liveness.obj)
+  text 0x82B7EFB0 0x82B7F700   # 6 functions: 5 / 1 / 0
+
+xgraphics.lib(vregprops.obj)
+  text 0x82B7F700 0x82B7FC80   # 16 functions: 16 / 0 / 0
+
+xgraphics.lib(interference.obj)
+  text 0x82B7FC80 0x82B8106C   # 21 functions: 18 / 3 / 0
+
+xgraphics.lib(compress.obj)
+  text 0x82B81070 0x82B81F58   # 10 functions: 10 / 0 / 0
+
+xgraphics.lib(schedmodel.obj)
+  text 0x82B82050 0x82B82A08   # 12 functions: 9 / 3 / 0
+
+xgraphics.lib(unionfind.obj)
+  text 0x82B82A08 0x82B82A74   # 2 functions: 1 / 0 / 1
+
+xgraphics.lib(ilformatdecode.obj)
+  text 0x82B82A78 0x82B82C58   # 4 functions: 3 / 1 / 0
+
+xgraphics.lib(liveset.obj)
+  text 0x82B82C58 0x82B82CB0   # 1 functions: 1 / 0 / 0
+
+xonline.lib(sockapi.obj)
+  text 0x82B82CB0 0x82B82FA0   # 20 functions: 3 / 17 / 0
+
+xonline.lib(xnetapi.obj)
+  text 0x82B82FB8 0x82B83224   # 20 functions: 2 / 15 / 3
+
+xonline.lib(xoncore.obj)
+  text 0x82B83228 0x82B8356C   # 7 functions: 5 / 1 / 1
+
+xonline.lib(profile.obj)
+  text 0x82B83570 0x82B835D4   # 1 functions: 1 / 0 / 0
+
+xonline.lib(xliveimp.obj)
+  text 0x82B83648 0x82B83908   # 3 functions: 2 / 0 / 1
+
+xonline.lib(session.obj)
+  hot 0x82205D80   # identified (code, >= 64 bytes)
+  text 0x82B83908 0x82B842A8   # 12 functions: 11 / 1 / 0
+
+xonline.lib(livebase.obj)
+  text 0x82B842A8 0x82B842F0   # 1 functions: 1 / 0 / 0
+
+xonline.lib(sessionsplit.obj)
+  text 0x82B842F0 0x82B843E8   # 1 functions: 1 / 0 / 0
+
+xonline.lib(xbosfall06.obj)
+  text 0x82B843E8 0x82B8468C   # 2 functions: 2 / 0 / 0
+
+xonline.lib(schema.obj)
+  text 0x82B84690 0x82B847AC   # 2 functions: 2 / 0 / 0
+
+xonline.lib(xontask.obj)
+  text 0x82B847B0 0x82B84890   # 1 functions: 1 / 0 / 0
+
+xonline.lib(sessiondetails.obj)
+  text 0x82B84890 0x82B848F0   # 1 functions: 1 / 0 / 0
+
+hkbase.lib(hkMemory.obj)
+  hot 0x822DD518   # identified (code, >= 64 bytes)
+  text 0x82BA3FE0 0x82BA4058   # 4 functions: 1 / 0 / 3
+
+hkbase.lib(hkThreadMemory.obj)
+  text 0x82BA4090 0x82BA46BC   # 9 functions: 7 / 2 / 0
+
+hkbase.lib(hkString.obj)
+  init 0x82FB1210   # initializer region: its code references only this object's functions
+  text 0x82BA46F0 0x82BA4A8C   # 11 functions: 4 / 6 / 1
+
+hkbase.lib(hkArray.obj)
+  text 0x82BA4A90 0x82BA4C6C   # 3 functions: 3 / 0 / 0
+
+hkbase.lib(hkMonitorStream.obj)
+  text 0x82BA4CA8 0x82BA4DE0   # 2 functions: 2 / 0 / 0
+
+hkbase.lib(hkPointerMapBase.obj)
+  hot 0x822DC130   # identified (code, >= 64 bytes)
+  hot 0x823AD690   # identified (code, >= 64 bytes)
+  text 0x82BA4E38 0x82BA5650   # 25 functions: 10 / 10 / 5
+
+hkbase.lib(hkOstream.obj)
+  hot 0x822978E0   # identified (code, >= 64 bytes)
+  hot 0x822AD278   # identified (code, >= 64 bytes)
+  hot 0x822EE290   # identified (code, >= 64 bytes)
+  text 0x82BA5690 0x82BA5BD8   # 15 functions: 11 / 3 / 1
+
+hkbase.lib(hkPoolMemory.obj)
+  hot 0x822AD028   # identified (code, >= 64 bytes)
+  hot 0x822EE718   # identified (code, >= 64 bytes)
+  text 0x82BA5BD8 0x82BA6550   # 10 functions: 7 / 3 / 0
+
+hkbase.lib(hkBaseSystem.obj)
+  text 0x82BA65E8 0x82BA72C4   # 29 functions: 19 / 10 / 0
+
+hkbase.lib(hkMonitorStreamAnalyzer.obj)
+  text 0x82BA72C8 0x82BA8ADC   # 19 functions: 15 / 3 / 1
+
+hkbase.lib(hkError.obj)
+  text 0x82BA8AE0 0x82BA8B70   # 1 functions: 1 / 0 / 0
+
+hkbase.lib(hkOArchive.obj)
+  text 0x82BA8B70 0x82BA8D7C   # 2 functions: 1 / 0 / 1; several blocks: review
+  text 0x82BA8DE0 0x82BA8FF0   # 8 functions: 2 / 5 / 1; several blocks: review
+
+hkbase.lib(hkSocket.obj)
+  text 0x82BA8D98 0x82BA8DD8   # 1 functions: 1 / 0 / 0; several blocks: review
+  text 0x82F3ACF8 0x82F3AE18   # 3 functions: 3 / 0 / 0; several blocks: review
+  text 0x82F3AE80 0x82F3AF3C   # 2 functions: 2 / 0 / 0; several blocks: review
+
+hkbase.lib(hkSystemClock.obj)
+  text 0x82BA8FF0 0x82BA9158   # 3 functions: 1 / 0 / 2
+
+hkbase.lib(hkBufferedStreamWriter.obj)
+  text 0x82BA9168 0x82BA9370   # 4 functions: 4 / 0 / 0; several blocks: review
+  text 0x82BA93B0 0x82BA96B0   # 6 functions: 5 / 0 / 1; several blocks: review
+
+hkserialize.lib(hkBinaryPackfileWriter.obj)
+  text 0x82BA9370 0x82BA93B0   # 1 functions: 1 / 0 / 0; several blocks: review
+  text 0x82F3AE18 0x82F3AE7C   # 1 functions: 1 / 0 / 0; several blocks: review
+  text 0x82F3F398 0x82F3F404   # 1 functions: 1 / 0 / 0; several blocks: review
+
+hkbase.lib(hkClass.obj)
+  text 0x82BA9790 0x82BA9918   # 7 functions: 2 / 3 / 2
+
+hkbase.lib(hkStreamReader.obj)
+  text 0x82BA9918 0x82BA997C   # 1 functions: 1 / 0 / 0
+
+hkbase.lib(hkBufferedStreamReader.obj)
+  text 0x82BA9980 0x82BA9FE0   # 15 functions: 10 / 4 / 1
+
+hkbase.lib(hkClassMember.obj)
+  init 0x82F3F1F8   # initializer region: its code references only this object's functions
+  text 0x82BA9FE0 0x82BAA1B8   # 3 functions: 2 / 0 / 1
+
+hkcollide.lib(hkAllCdBodyPairCollector.obj)
+  text 0x82BAA1F8 0x82BAA2A0   # 1 functions: 1 / 0 / 0
+
+hkcollide.lib(hkBoxShape.obj)
+  hot 0x8222A220   # identified (code, >= 64 bytes)
+  text 0x82BAA318 0x82BAA5F4   # 7 functions: 5 / 2 / 0
+
+hkcollide.lib(hkConvexShape.obj)
+  text 0x82BAA5F8 0x82BAA744   # 2 functions: 2 / 0 / 0
+
+hkcollide.lib(hkCylinderShape.obj)
+  hot 0x821D0B88   # identified (code, >= 64 bytes)
+  hot 0x82219080   # identified (code, >= 64 bytes)
+  hot 0x822A5498   # identified (code, >= 64 bytes)
+  hot 0x82311280   # identified (code, >= 64 bytes)
+  hot 0x82347BC0   # identified (code, >= 64 bytes)
+  text 0x82BAA750 0x82BAABDC   # 4 functions: 3 / 1 / 0; several blocks: review
+  text 0x8302E190 0x8302E1E8   # 1 functions: 1 / 0 / 0; several blocks: review
+
+hkcollide.lib(hkAllCdPointCollector.obj)
+  hot 0x82347AE8   # identified (code, >= 64 bytes)
+  text 0x82BAABE0 0x82BAADC0   # 2 functions: 2 / 0 / 0
+
+hkcollide.lib(hkCapsuleShape.obj)
+  hot 0x821D0260   # identified (code, >= 64 bytes)
+  hot 0x821D0AD8   # identified (code, >= 64 bytes)
+  hot 0x822A4848   # identified (code, >= 64 bytes)
+  hot 0x82325218   # identified (code, >= 64 bytes)
+  text 0x82BAADC0 0x82BAAEF8   # 5 functions: 2 / 0 / 3; several blocks: review
+  text 0x82BAF908 0x82BAF96C   # 1 functions: 1 / 0 / 0; several blocks: review
+
+hkcollide.lib(hkListShape.obj)
+  hot 0x8225A2E0   # identified (code, >= 64 bytes)
+  hot 0x82326DC8   # identified (code, >= 64 bytes)
+  text 0x82BAAF78 0x82BAB208   # 5 functions: 2 / 1 / 2
+
+hkcollide.lib(hkConvexTransformShape.obj)
+  hot 0x822A6C00   # identified (code, >= 64 bytes)
+  hot 0x823B95F8   # identified (code, >= 64 bytes)
+  init 0x8302E2A8   # initializer region: its code references only this object's functions
+  text 0x82BAB3C8 0x82BABB6C   # 11 functions: 6 / 3 / 2
+
+hkcollide.lib(hkConvexListShape.obj)
+  text 0x82BABB70 0x82BABC08   # 2 functions: 1 / 0 / 1
+
+hkcollide.lib(hkNullCollisionFilter.obj)
+  text 0x82BABCB0 0x82BABD30   # 1 functions: 1 / 0 / 0; several blocks: review
+  text 0x82C04FD8 0x82C0507C   # 2 functions: 1 / 0 / 1; several blocks: review
+
+hkcollide.lib(hkGroupFilter.obj)
+  hot 0x822A9B78   # identified (code, >= 64 bytes)
+  hot 0x822B8588   # identified (code, >= 64 bytes)
+  text 0x82BABD30 0x82BAC0AC   # 9 functions: 4 / 2 / 3
+
+hkcollide.lib(hkBvShape.obj)
+  text 0x82BAC0B0 0x82BAC3DC   # 5 functions: 3 / 1 / 1
+
+hkcollide.lib(hkCollisionFilterList.obj)
+  text 0x82BAC448 0x82BAC864   # 9 functions: 5 / 4 / 0
+
+hkcollide.lib(hkConvexPieceMeshShape.obj)
+  text 0x82BAC8D0 0x82BACEDC   # 8 functions: 5 / 2 / 1
+
+hkcollide.lib(hkConvexTranslateShape.obj)
+  hot 0x822CDAB0   # identified (code, >= 64 bytes)
+  text 0x82BACEE0 0x82BAD47C   # 12 functions: 8 / 4 / 0
+
+hkcollide.lib(hkConvexVerticesShape.obj)
+  hot 0x822554E8   # identified (code, >= 64 bytes)
+  hot 0x8229F2A8   # identified (code, >= 64 bytes)
+  hot 0x822FEB78   # identified (code, >= 64 bytes)
+  text 0x82BAD480 0x82BADAAC   # 8 functions: 5 / 0 / 3
+
+hkcollide.lib(hkFastMeshShape.obj)
+  text 0x82BADCE8 0x82BADDEC   # 2 functions: 1 / 0 / 1; several blocks: review
+  text 0x8302E510 0x8302E58C   # 1 functions: 1 / 0 / 0; several blocks: review
+
+hkcollide.lib(hkMeshShape.obj)
+  hot 0x82228938   # identified (code, >= 64 bytes)
+  hot 0x822E1290   # identified (code, >= 64 bytes)
+  hot 0x822EC338   # identified (code, >= 64 bytes)
+  init 0x8302E590   # initializer region: its code references only this object's functions
+  text 0x82BADDF0 0x82BAE2D0   # 9 functions: 7 / 0 / 2
+
+hkcollide.lib(hkMoppBvTreeShape.obj)
+  text 0x82BAE3B8 0x82BAE8B0   # 8 functions: 6 / 0 / 2
+
+hkcollide.lib(hkMultiRayShape.obj)
+  text 0x82BAE8B0 0x82BAED04   # 6 functions: 3 / 3 / 0
+
+hkcollide.lib(hkMultiSphereShape.obj)
+  text 0x82BAEDA8 0x82BAF1D4   # 3 functions: 3 / 0 / 0
+
+hkcollide.lib(hkPlaneShape.obj)
+  text 0x82BAF338 0x82BAF908   # 4 functions: 4 / 0 / 0
+
+hkcollide.lib(hkSimpleMeshShape.obj)
+  text 0x82BAF998 0x82BAFD38   # 5 functions: 4 / 1 / 0
+
+hkcollide.lib(hkStorageMeshShape.obj)
+  init 0x8302E780   # initializer region: its code references only this object's functions
+  text 0x82BAFDC0 0x82BB0804   # 6 functions: 5 / 1 / 0
+
+hkcollide.lib(hkTransformShape.obj)
+  init 0x8302E830   # initializer region: its code references only this object's functions
+  text 0x82BB0928 0x82BB1190   # 12 functions: 6 / 3 / 3
+
+hkcollide.lib(hkTriSampledHeightFieldBvTreeShape.obj)
+  hot 0x8227C288   # identified (code, >= 64 bytes)
+  text 0x82BB1190 0x82BB17A0   # 6 functions: 3 / 3 / 0
+
+hkcollide.lib(hkTriSampledHeightFieldCollection.obj)
+  hot 0x82311448   # identified (code, >= 64 bytes)
+  text 0x82BB17A0 0x82BB1860   # 3 functions: 1 / 0 / 2; several blocks: review
+  text 0x8302E8E0 0x8302E958   # 1 functions: 1 / 0 / 0; several blocks: review
+
+hkcollide.lib(hkTriangleShape.obj)
+  text 0x82BB19C0 0x82BB1E74   # 4 functions: 4 / 0 / 0
+
+hkcollide.lib(hkShapeType.obj)
+  text 0x82BB1E78 0x82BB2148   # 2 functions: 2 / 0 / 0
+
+hkcollide.lib(hkBvAgent.obj)
+  text 0x82BB2148 0x82BB3934   # 26 functions: 15 / 11 / 0
+
+hkcollide.lib(hkMultiSphereAgent.obj)
+  text 0x82BB3A08 0x82BB4EDC   # 19 functions: 10 / 9 / 0
+
+hkcollide.lib(hkCollisionDispatcher.obj)
+  hot 0x82235750   # identified (code, >= 64 bytes)
+  hot 0x82244118   # identified (code, >= 64 bytes)
+  hot 0x823181A8   # identified (code, >= 64 bytes)
+  hot 0x82370CC8   # identified (code, >= 64 bytes)
+  text 0x82BB4EF8 0x82BB5B70   # 10 functions: 8 / 1 / 1
+
+hkcollide.lib(hkMoppAgent.obj)
+  text 0x82BB5D28 0x82BB5D94   # 1 functions: 1 / 0 / 0; several blocks: review
+  text 0x82BB8BF8 0x82BB9350   # 10 functions: 3 / 7 / 0; several blocks: review
+
+hkcollide.lib(hkBvTreeAgent.obj)
+  hot 0x82261F40   # identified (code, >= 64 bytes)
+  hot 0x8226AE08   # identified (code, >= 64 bytes)
+  hot 0x82271BC0   # identified (code, >= 64 bytes)
+  hot 0x823155F8   # identified (code, >= 64 bytes)
+  text 0x82BB5D98 0x82BB8B58   # 20 functions: 16 / 4 / 0
+
+hkcollide.lib(hkBvTreeStreamAgent.obj)
+  hot 0x8221C260   # identified (code, >= 64 bytes)
+  hot 0x82228AB8   # identified (code, >= 64 bytes)
+  hot 0x822BED10   # identified (code, >= 64 bytes)
+  text 0x82BB9350 0x82BB985C   # 16 functions: 8 / 5 / 3
+
+hkcollide.lib(hkMoppBvTreeStreamAgent.obj)
+  text 0x82BB9860 0x82BB9960   # 1 functions: 1 / 0 / 0
+
+hkcollide.lib(hkShapeCollectionAgent.obj)
+  hot 0x8229D828   # identified (code, >= 64 bytes)
+  hot 0x822D4290   # identified (code, >= 64 bytes)
+  text 0x82BB9960 0x82BBAA2C   # 18 functions: 8 / 10 / 0
+
+hkcollide.lib(hkTransformAgent.obj)
+  hot 0x82274A00   # identified (code, >= 64 bytes)
+  hot 0x82385858   # identified (code, >= 64 bytes)
+  hot 0x823BF080   # identified (code, >= 64 bytes)
+  text 0x82BBAA30 0x82BBB84C   # 21 functions: 7 / 14 / 0
+
+hkcollide.lib(hkPhantomAgent.obj)
+  text 0x82BBB850 0x82BBBB98   # 6 functions: 4 / 2 / 0
+
+hkcollide.lib(hkGskBaseAgent.obj)
+  hot 0x82252740   # identified (code, >= 64 bytes)
+  hot 0x82262FE0   # identified (code, >= 64 bytes)
+  hot 0x822DB810   # identified (code, >= 64 bytes)
+  text 0x82BBBB98 0x82BBBBFC   # 1 functions: 1 / 0 / 0; several blocks: review
+  text 0x82BC9210 0x82BC994C   # 3 functions: 3 / 0 / 0; several blocks: review
+
+hkcollide.lib(hkListAgent.obj)
+  hot 0x822B82C8   # identified (code, >= 64 bytes)
+  text 0x82BBBC00 0x82BBC8F4   # 18 functions: 9 / 9 / 0
+
+hkcollide.lib(hkConvexListAgent.obj)
+  hot 0x82342940   # identified (code, >= 64 bytes)
+  hot 0x82362E48   # identified (code, >= 64 bytes)
+  text 0x82BBC8F8 0x82BBDCD0   # 30 functions: 16 / 13 / 1
+
+hkcollide.lib(hkHeightFieldAgent.obj)
+  hot 0x8237DC38   # identified (code, >= 64 bytes)
+  hot 0x82387838   # identified (code, >= 64 bytes)
+  text 0x82BBDDD8 0x82BBF314   # 20 functions: 9 / 11 / 0
+
+hkcollide.lib(hkPredGskfAgent.obj)
+  hot 0x822F2C28   # identified (code, >= 64 bytes)
+  text 0x82BBF318 0x82BBF424   # 2 functions: 2 / 0 / 0
+
+hkcollide.lib(hkBoxBoxAgent.obj)
+  text 0x82BBF428 0x82BBFE30   # 9 functions: 7 / 2 / 0
+
+hkcollide.lib(hkSphereSphereAgent.obj)
+  hot 0x821FCF90   # identified (code, >= 64 bytes)
+  hot 0x821FD190   # identified (code, >= 64 bytes)
+  text 0x82BBFE30 0x82BC03D8   # 6 functions: 5 / 1 / 0
+
+hkcollide.lib(hkSphereCapsuleAgent.obj)
+  hot 0x8234ADF8   # identified (code, >= 64 bytes)
+  text 0x82BC03D8 0x82BC0FEC   # 13 functions: 3 / 10 / 0
+
+hkcollide.lib(hkSphereTriangleAgent.obj)
+  hot 0x82375EA0   # identified (code, >= 64 bytes)
+  text 0x82BC0FF0 0x82BC1DE4   # 14 functions: 8 / 6 / 0
+
+hkcollide.lib(hkSphereBoxAgent.obj)
+  text 0x82BC1FB0 0x82BC2FB4   # 11 functions: 3 / 8 / 0
+
+hkcollide.lib(hkCapsuleCapsuleAgent.obj)
+  hot 0x82250FA8   # identified (code, >= 64 bytes)
+  text 0x82BC2FB8 0x82BC3688   # 6 functions: 5 / 1 / 0
+
+hkcollide.lib(hkCapsuleTriangleAgent.obj)
+  hot 0x8230EF30   # identified (code, >= 64 bytes)
+  text 0x82BC3688 0x82BC43D4   # 12 functions: 8 / 4 / 0
+
+hkcollide.lib(hkMultiSphereTriangleAgent.obj)
+  hot 0x823116B0   # identified (code, >= 64 bytes)
+  text 0x82BC43D8 0x82BC5234   # 13 functions: 8 / 5 / 0
+
+hkcollide.lib(hkMultiRayConvexAgent.obj)
+  hot 0x82224480   # identified (code, >= 64 bytes)
+  hot 0x822B4B00   # identified (code, >= 64 bytes)
+  hot 0x822B4B78   # identified (code, >= 64 bytes)
+  hot 0x8231F960   # identified (code, >= 64 bytes)
+  text 0x82BC5238 0x82BC5A18   # 6 functions: 3 / 3 / 0
+
+hkcollide.lib(hkAgentRegisterUtil.obj)
+  text 0x82BC5C30 0x82BC5DD4   # 1 functions: 1 / 0 / 0
+
+hkcollide.lib(hkWorldRayCaster.obj)
+  text 0x82BC5DD8 0x82BC6088   # 2 functions: 2 / 0 / 0
+
+hkcollide.lib(hkShapeCollection.obj)
+  hot 0x82252940   # identified (code, >= 64 bytes)
+  hot 0x822FD560   # identified (code, >= 64 bytes)
+  hot 0x82368BE8   # identified (code, >= 64 bytes)
+  text 0x82BC6088 0x82BC63D8   # 4 functions: 2 / 2 / 0
+
+hkcollide.lib(hkConvexPieceShape.obj)
+  text 0x82BC63D8 0x82BC68F4   # 8 functions: 5 / 0 / 3
+
+hkcollide.lib(hkAabbUtil.obj)
+  text 0x82BC68F8 0x82BC69C0   # 1 functions: 1 / 0 / 0
+
+hkcollide.lib(hkTriangleUtil.obj)
+  text 0x82BC69C0 0x82BC6A54   # 1 functions: 1 / 0 / 0
+
+hkcollide.lib(hkSampledHeightFieldShape.obj)
+  text 0x82BC6AE8 0x82BC8DCC   # 6 functions: 4 / 0 / 2
+
+hkcollide.lib(hkSymmetricAgent.obj)
+  text 0x82BC8DD0 0x82BC8F64   # 3 functions: 3 / 0 / 0
+
+hkcollide.lib(hkSimpleClosestContactCollector.obj)
+  text 0x82BC8F78 0x82BC8FD4   # 1 functions: 1 / 0 / 0
+
+hkcollide.lib(hkAgent3Bridge.obj)
+  hot 0x8229C210   # identified (code, >= 64 bytes)
+  text 0x82BC8FD8 0x82BC91A4   # 9 functions: 2 / 7 / 0
+
+hkcollide.lib(hkGskfAgent.obj)
+  hot 0x821D0978   # identified (code, >= 64 bytes)
+  hot 0x82224438   # identified (code, >= 64 bytes)
+  hot 0x823BF210   # identified (code, >= 64 bytes)
+  text 0x82BC9950 0x82BCA024   # 5 functions: 5 / 0 / 0
+
+hkcollide.lib(hkIterativeLinearCastAgent.obj)
+  hot 0x8229BEE8   # identified (code, >= 64 bytes)
+  text 0x82BCA0C0 0x82BCA444   # 1 functions: 1 / 0 / 0
+
+hkcollide.lib(hkBoxBoxManifold.obj)
+  hot 0x821D0A80   # identified (code, >= 64 bytes)
+  hot 0x82286FE8   # identified (code, >= 64 bytes)
+  text 0x82BCA448 0x82BCA49C   # 1 functions: 1 / 0 / 0
+
+hkconstraintsolver.lib(hkSimplexSolver.obj)
+  hot 0x82204FE0   # identified (code, >= 64 bytes)
+  text 0x82BCA4A0 0x82BCB4A0   # 5 functions: 3 / 2 / 0
+
+hkconstraintsolver.lib(hkVehicleFrictionSolver.obj)
+  hot 0x82283950   # identified (code, >= 64 bytes)
+  hot 0x823211A0   # identified (code, >= 64 bytes)
+  text 0x82BCB4A0 0x82BCB674   # 2 functions: 2 / 0 / 0
+
+hkconstraintsolver.lib(hkSolverCheck.obj)
+  text 0x82BCB678 0x82BCB950   # 1 functions: 1 / 0 / 0
+
+hkdynamics.lib(hkWorld.obj)
+  hot 0x82319F58   # identified (code, >= 64 bytes)
+  hot 0x82368DB8   # identified (code, >= 64 bytes)
+  hot 0x8239F0D0   # identified (code, >= 64 bytes)
+  hot 0x823AD398   # identified (code, >= 64 bytes)
+  text 0x82BCB950 0x82BD13B0   # 54 functions: 49 / 5 / 0
+
+hkdynamics.lib(hkEntity.obj)
+  hot 0x821F5770   # identified (code, >= 64 bytes)
+  hot 0x822CDCF8   # identified (code, >= 64 bytes)
+  hot 0x8238E298   # identified (code, >= 64 bytes)
+  init 0x8302FC58   # initializer region: its code references only this object's functions
+  text 0x82BD13B0 0x82BD1B64   # 15 functions: 11 / 3 / 1
+
+hkdynamics.lib(hkAabbPhantom.obj)
+  hot 0x82208290   # identified (code, >= 64 bytes)
+  hot 0x822138B8   # identified (code, >= 64 bytes)
+  hot 0x82264A58   # identified (code, >= 64 bytes)
+  hot 0x82344950   # identified (code, >= 64 bytes)
+  hot 0x823A76C0   # identified (code, >= 64 bytes)
+  text 0x82BD1C38 0x82BD2288   # 10 functions: 6 / 2 / 2
+
+hkdynamics.lib(hkWorldObject.obj)
+  init 0x8303D1A0   # initializer region: its code references only this object's functions
+  text 0x82BD2288 0x82BD260C   # 7 functions: 5 / 2 / 0
+
+hkdynamics.lib(hkRigidBody.obj)
+  hot 0x82308BE0   # identified (code, >= 64 bytes)
+  text 0x82BD2610 0x82BD347C   # 21 functions: 15 / 5 / 1
+
+hkdynamics.lib(hkShapePhantom.obj)
+  hot 0x8229DE30   # identified (code, >= 64 bytes)
+  text 0x82BD3488 0x82BD3678   # 5 functions: 3 / 2 / 0
+
+hkdynamics.lib(hkSimpleShapePhantom.obj)
+  hot 0x8222D588   # identified (code, >= 64 bytes)
+  hot 0x8230C578   # identified (code, >= 64 bytes)
+  hot 0x8233FB20   # identified (code, >= 64 bytes)
+  hot 0x82345CF8   # identified (code, >= 64 bytes)
+  text 0x82BD36E0 0x82BD3A64   # 3 functions: 3 / 0 / 0
+
+hkdynamics.lib(hkRigidMotion.obj)
+  hot 0x8235B000   # identified (code, >= 64 bytes)
+  hot 0x823A7950   # identified (code, >= 64 bytes)
+  text 0x82BD3EA0 0x82BD3F00   # 1 functions: 1 / 0 / 0
+
+hkdynamics.lib(hkPhysicsSystem.obj)
+  hot 0x822ACE40   # identified (code, >= 64 bytes)
+  text 0x82BD3F00 0x82BD4210   # 7 functions: 5 / 0 / 2
+
+hkdynamics.lib(hkPositionConstraintMotor.obj)
+  text 0x82BD4210 0x82BD4428   # 4 functions: 3 / 0 / 1
+
+hkdynamics.lib(hkConstraintInstance.obj)
+  hot 0x822D3510   # identified (code, >= 64 bytes)
+  text 0x82BD4428 0x82BD48EC   # 11 functions: 7 / 4 / 0
+
+hkdynamics.lib(hkLimitedHingeConstraintData.obj)
+  hot 0x82328EE0   # identified (code, >= 64 bytes)
+  text 0x82BD4918 0x82BD4FDC   # 6 functions: 5 / 0 / 1
+
+hkdynamics.lib(hkBreakableConstraintData.obj)
+  text 0x82BD4FE0 0x82BD5368   # 8 functions: 4 / 3 / 1
+
+hkdynamics.lib(hkUnaryAction.obj)
+  text 0x82BD5368 0x82BD553C   # 5 functions: 4 / 1 / 0
+
+hkdynamics.lib(hkPhantom.obj)
+  hot 0x822A84B0   # identified (code, >= 64 bytes)
+  hot 0x822E1228   # identified (code, >= 64 bytes)
+  text 0x82BD5540 0x82BD5A38   # 10 functions: 10 / 0 / 0
+
+hkdynamics.lib(hkWorldCinfo.obj)
+  init 0x82FE13F8   # initializer region: its code references only this object's functions
+  text 0x82BD5A38 0x82BD5CC8   # 4 functions: 4 / 0 / 0
+
+hkdynamics.lib(hkBoxMotion.obj)
+  hot 0x82262848   # identified (code, >= 64 bytes)
+  hot 0x822AD350   # identified (code, >= 64 bytes)
+  text 0x82BD5D48 0x82BD6548   # 15 functions: 8 / 4 / 3
+
+hkdynamics.lib(hkCachingShapePhantom.obj)
+  hot 0x823A7568   # identified (code, >= 64 bytes)
+  text 0x82BD6548 0x82BD6DE8   # 12 functions: 8 / 1 / 3
+
+hkdynamics.lib(hkFakeRigidBodyDeactivator.obj)
+  text 0x82BD6DE8 0x82BD6E70   # 2 functions: 1 / 0 / 1; several blocks: review
+  text 0x83030008 0x83030054   # 2 functions: 1 / 0 / 1; several blocks: review
+
+hkdynamics.lib(hkFixedRigidMotion.obj)
+  text 0x82BD6EB8 0x82BD700C   # 4 functions: 3 / 1 / 0
+
+hkdynamics.lib(hkGenericConstraintData.obj)
+  text 0x82BD7010 0x82BD8270   # 20 functions: 16 / 0 / 4
+
+hkdynamics.lib(hkHingeConstraintData.obj)
+  hot 0x82246D48   # identified (code, >= 64 bytes)
+  hot 0x82344B58   # identified (code, >= 64 bytes)
+  text 0x82BD8270 0x82BD84A0   # 5 functions: 2 / 0 / 3
+
+hkdynamics.lib(hkKeyframedRigidMotion.obj)
+  text 0x82BD84A0 0x82BD88D8   # 5 functions: 3 / 2 / 0
+
+hkdynamics.lib(hkLinearParametricCurve.obj)
+  text 0x82BD88D8 0x82BD9360   # 11 functions: 7 / 3 / 1
+
+hkdynamics.lib(hkMalleableConstraintData.obj)
+  text 0x82BD9360 0x82BD944C   # 3 functions: 2 / 1 / 0
+
+hkdynamics.lib(hkPointToPathConstraintData.obj)
+  hot 0x822E1498   # identified (code, >= 64 bytes)
+  text 0x82BD95F0 0x82BD9668   # 3 functions: 1 / 0 / 2
+
+hkdynamics.lib(hkPointToPlaneConstraintData.obj)
+  text 0x82BD9690 0x82BD979C   # 4 functions: 1 / 0 / 3
+
+hkdynamics.lib(hkPoweredHingeConstraintData.obj)
+  text 0x82BD97A0 0x82BD9DC8   # 9 functions: 4 / 4 / 1
+
+hkdynamics.lib(hkPrismaticConstraintData.obj)
+  hot 0x82317DA0   # identified (code, >= 64 bytes)
+  hot 0x823A7C98   # identified (code, >= 64 bytes)
+  text 0x82BD9DC8 0x82BDA178   # 7 functions: 3 / 2 / 2
+
+hkdynamics.lib(hkSpatialRigidBodyDeactivator.obj)
+  text 0x82BDA178 0x82BDA3A0   # 4 functions: 3 / 0 / 1
+
+hkdynamics.lib(hkSphereMotion.obj)
+  hot 0x822AD710   # identified (code, >= 64 bytes)
+  hot 0x822E3A88   # identified (code, >= 64 bytes)
+  hot 0x82308568   # identified (code, >= 64 bytes)
+  text 0x82BDA3A0 0x82BDAA40   # 9 functions: 4 / 1 / 4
+
+hkdynamics.lib(hkSpringDamperConstraintMotor.obj)
+  text 0x82BDAA40 0x82BDABCC   # 3 functions: 2 / 0 / 1
+
+hkdynamics.lib(hkStabilizedSphereMotion.obj)
+  text 0x82BDAC50 0x82BDAF98   # 1 functions: 1 / 0 / 0
+
+hkdynamics.lib(hkStiffSpringConstraintData.obj)
+  text 0x82BDAF98 0x82BDB0C0   # 2 functions: 1 / 0 / 1
+
+hkdynamics.lib(hkVelocityConstraintMotor.obj)
+  text 0x82BDB0C0 0x82BDB1E4   # 3 functions: 1 / 0 / 2
+
+hkdynamics.lib(hkBroadPhaseBorder.obj)
+  hot 0x82270DE0   # identified (code, >= 64 bytes)
+  hot 0x82296898   # identified (code, >= 64 bytes)
+  hot 0x822FA2B8   # identified (code, >= 64 bytes)
+  text 0x82BDB230 0x82BDB3C8   # 6 functions: 3 / 3 / 0
+
+hkdynamics.lib(hkDiscreteSimulation.obj)
+  hot 0x821FCE68   # identified (code, >= 64 bytes)
+  hot 0x82276118   # identified (code, >= 64 bytes)
+  text 0x82BDB3C8 0x82BDC7EC   # 9 functions: 7 / 2 / 0
+
+hkdynamics.lib(hkBackstepSimulation.obj)
+  text 0x82BDC7F0 0x82BDC998   # 1 functions: 1 / 0 / 0
+
+hkdynamics.lib(hkWorldOperationQueue.obj)
+  text 0x82BDC998 0x82BDD7A8   # 4 functions: 3 / 1 / 0
+
+hkdynamics.lib(hkPhantomBroadPhaseListener.obj)
+  text 0x82BDD7A8 0x82BDD908   # 2 functions: 2 / 0 / 0
+
+hkdynamics.lib(hkWorldOperationUtil.obj)
+  hot 0x821D6E00   # identified (code, >= 64 bytes)
+  hot 0x821F19E8   # identified (code, >= 64 bytes)
+  hot 0x8220DEC0   # identified (code, >= 64 bytes)
+  hot 0x8220E0A8   # identified (code, >= 64 bytes)
+  hot 0x8220E1C0   # identified (code, >= 64 bytes)
+  hot 0x82319818   # identified (code, >= 64 bytes)
+  hot 0x8235AED0   # identified (code, >= 64 bytes)
+  hot 0x82370F68   # identified (code, >= 64 bytes)
+  hot 0x823A7778   # identified (code, >= 64 bytes)
+  hot 0x823A79D0   # identified (code, >= 64 bytes)
+  text 0x82BDD908 0x82BDF59C   # 20 functions: 19 / 1 / 0
+
+hkdynamics.lib(hkAsynchronousSimulation.obj)
+  hot 0x823087C8   # identified (code, >= 64 bytes)
+  text 0x82BDF5A0 0x82BDF688   # 1 functions: 1 / 0 / 0
+
+hkdynamics.lib(hkReportContactMgr.obj)
+  text 0x82BDF688 0x82BDFB20   # 7 functions: 6 / 1 / 0
+
+hkdynamics.lib(hkSimpleConstraintContactMgr.obj)
+  hot 0x82254EB8   # identified (code, >= 64 bytes)
+  hot 0x8232DFB8   # identified (code, >= 64 bytes)
+  hot 0x8237A5B0   # identified (code, >= 64 bytes)
+  hot 0x82387EA0   # identified (code, >= 64 bytes)
+  hot 0x823A4538   # identified (code, >= 64 bytes)
+  text 0x82BDFB20 0x82BE0128   # 12 functions: 7 / 4 / 1
+
+hkdynamics.lib(hkEntityCallbackUtil.obj)
+  hot 0x822988B8   # identified (code, >= 64 bytes)
+  hot 0x8229CD10   # identified (code, >= 64 bytes)
+  hot 0x822ADA78   # identified (code, >= 64 bytes)
+  text 0x82BE0198 0x82BE0450   # 5 functions: 5 / 0 / 0
+
+hkdynamics.lib(hkWorldCallbackUtil.obj)
+  hot 0x82225F88   # identified (code, >= 64 bytes)
+  hot 0x82260760   # identified (code, >= 64 bytes)
+  hot 0x822A89A8   # identified (code, >= 64 bytes)
+  hot 0x822DDCE0   # identified (code, >= 64 bytes)
+  hot 0x823185D0   # identified (code, >= 64 bytes)
+  hot 0x8231A618   # identified (code, >= 64 bytes)
+  hot 0x8232E020   # identified (code, >= 64 bytes)
+  hot 0x823477C0   # identified (code, >= 64 bytes)
+  hot 0x82376170   # identified (code, >= 64 bytes)
+  hot 0x8237A630   # identified (code, >= 64 bytes)
+  text 0x82BE0450 0x82BE0A88   # 13 functions: 13 / 0 / 0
+
+hkdynamics.lib(hkSimulationIsland.obj)
+  hot 0x82223820   # identified (code, >= 64 bytes)
+  hot 0x8222D428   # identified (code, >= 64 bytes)
+  hot 0x822859A0   # identified (code, >= 64 bytes)
+  hot 0x822A8450   # identified (code, >= 64 bytes)
+  hot 0x8237E568   # identified (code, >= 64 bytes)
+  hot 0x823A7EF8   # identified (code, >= 64 bytes)
+  text 0x82BE0AD8 0x82BE0DF0   # 5 functions: 5 / 0 / 0
+
+hkdynamics.lib(hkDefaultWorldMaintenanceMgr.obj)
+  hot 0x823A7A90   # identified (code, >= 64 bytes)
+  text 0x82BE0EC0 0x82BE1134   # 2 functions: 2 / 0 / 0
+
+hkdynamics.lib(hkHalfstepSimulation.obj)
+  hot 0x822854A0   # identified (code, >= 64 bytes)
+  text 0x82BE1138 0x82BE1244   # 1 functions: 1 / 0 / 0
+
+hkdynamics.lib(hkEntityEntityBroadPhaseListener.obj)
+  text 0x82BE1288 0x82BE133C   # 2 functions: 2 / 0 / 0; several blocks: review
+  text 0x82F3B528 0x82F3B58C   # 1 functions: 1 / 0 / 0; several blocks: review
+
+hkdynamics.lib(hkWorldAgentUtil.obj)
+  text 0x82BE1340 0x82BE1770   # 5 functions: 5 / 0 / 0
+
+hkdynamics.lib(hkInternalConstraintUtils.obj)
+  text 0x82BE1790 0x82BE18B0   # 1 functions: 1 / 0 / 0
+
+hkdynamics.lib(hkConstraintSolverSetup.obj)
+  hot 0x8220DDC0   # identified (code, >= 64 bytes)
+  hot 0x822754F8   # identified (code, >= 64 bytes)
+  hot 0x8227BAE0   # identified (code, >= 64 bytes)
+  hot 0x82309880   # identified (code, >= 64 bytes)
+  hot 0x823BC780   # identified (code, >= 64 bytes)
+  text 0x82BE18B0 0x82BE1B24   # 3 functions: 3 / 0 / 0
+
+hkdynamics.lib(hkWorldConstraintUtil.obj)
+  hot 0x822E2498   # identified (code, >= 64 bytes)
+  hot 0x822E38E0   # identified (code, >= 64 bytes)
+  text 0x82BE1B28 0x82BE1C10   # 1 functions: 1 / 0 / 0
+
+hkdynamics.lib(hkSimpleContactConstraintData.obj)
+  hot 0x821D74E0   # identified (code, >= 64 bytes)
+  hot 0x822E2888   # identified (code, >= 64 bytes)
+  hot 0x8236A940   # identified (code, >= 64 bytes)
+  text 0x82BE1C10 0x82BE1EB8   # 4 functions: 3 / 0 / 1
+
+hkmath.lib(hkRotation.obj)
+  text 0x82BE1EB8 0x82BE2004   # 2 functions: 2 / 0 / 0
+
+hkmath.lib(hkQuaternion.obj)
+  hot 0x822AB508   # identified (code, >= 64 bytes)
+  hot 0x822CDB10   # identified (code, >= 64 bytes)
+  text 0x82BE2008 0x82BE2440   # 4 functions: 4 / 0 / 0
+
+hkmath.lib(hkVector4.obj)
+  text 0x82BE2440 0x82BE2654   # 6 functions: 6 / 0 / 0
+
+hkmath.lib(hkTransform.obj)
+  hot 0x822DBC40   # identified (code, >= 64 bytes)
+  text 0x82BE2690 0x82BE2970   # 4 functions: 4 / 0 / 0
+
+hkmath.lib(hkQsTransform.obj)
+  hot 0x822A5AF8   # identified (code, >= 64 bytes)
+  hot 0x822BE368   # identified (code, >= 64 bytes)
+  hot 0x822CFE78   # identified (code, >= 64 bytes)
+  hot 0x822DBAF0   # identified (code, >= 64 bytes)
+  text 0x82BE2970 0x82BE2A24   # 2 functions: 2 / 0 / 0
+
+hkmath.lib(hkMatrix3.obj)
+  hot 0x82254C88   # identified (code, >= 64 bytes)
+  hot 0x822BD208   # identified (code, >= 64 bytes)
+  hot 0x82338150   # identified (code, >= 64 bytes)
+  hot 0x82338500   # identified (code, >= 64 bytes)
+  text 0x82BE2A28 0x82BE2E7C   # 7 functions: 6 / 1 / 0
+
+hkmath.lib(hkSweptTransformUtil.obj)
+  hot 0x822071D8   # identified (code, >= 64 bytes)
+  hot 0x82231FE8   # identified (code, >= 64 bytes)
+  hot 0x8229E2A0   # identified (code, >= 64 bytes)
+  hot 0x8230A960   # identified (code, >= 64 bytes)
+  text 0x82BE2E80 0x82BE33F0   # 6 functions: 4 / 0 / 2
+
+hkmath.lib(hkSweptTransform.obj)
+  text 0x82BE33F0 0x82BE358C   # 2 functions: 2 / 0 / 0
+
+hkmath.lib(hkMotionState.obj)
+  text 0x82BE3590 0x82BE35EC   # 1 functions: 1 / 0 / 0
+
+hkmath.lib(hkMathTypes.obj)
+  text 0x82BE35F0 0x82BE3724   # 2 functions: 2 / 0 / 0
+
+hkinternal.lib(hkRagdollConstraintData.obj)
+  hot 0x8229E080   # identified (code, >= 64 bytes)
+  hot 0x822A5A30   # identified (code, >= 64 bytes)
+  hot 0x822FE4D0   # identified (code, >= 64 bytes)
+  hot 0x823091F0   # identified (code, >= 64 bytes)
+  init 0x83031DA0   # initializer region: its code references only this object's functions
+  text 0x82BE3728 0x82BE3AE4   # 9 functions: 4 / 0 / 5
+
+hkinternal.lib(hkPoweredRagdollConstraintData.obj)
+  hot 0x822FE648   # identified (code, >= 64 bytes)
+  hot 0x822FE6E0   # identified (code, >= 64 bytes)
+  text 0x82BE3B30 0x82BE440C   # 11 functions: 5 / 5 / 1
+
+hkinternal.lib(hkPredGskAgent3.obj)
+  hot 0x822BC228   # identified (code, >= 64 bytes)
+  text 0x82BE4410 0x82BE47D0   # 8 functions: 7 / 1 / 0
+
+hkinternal.lib(hkPredGskCylinderAgent3.obj)
+  text 0x82BE47D0 0x82BE5778   # 3 functions: 3 / 0 / 0
+
+hkinternal.lib(hkBoxBoxAgent3.obj)
+  text 0x82BE5778 0x82BE5BD4   # 7 functions: 5 / 2 / 0
+
+hkinternal.lib(hkCapsuleTriangleAgent3.obj)
+  hot 0x8229E4D8   # identified (code, >= 64 bytes)
+  hot 0x822E7008   # identified (code, >= 64 bytes)
+  hot 0x823090A8   # identified (code, >= 64 bytes)
+  hot 0x823094E0   # identified (code, >= 64 bytes)
+  text 0x82BE5BD8 0x82BE5CBC   # 3 functions: 1 / 0 / 2
+
+hkinternal.lib(hkGeometryUtility.obj)
+  hot 0x822A2538   # identified (code, >= 64 bytes)
+  hot 0x8232E500   # identified (code, >= 64 bytes)
+  text 0x82BE5CD0 0x82BE5D40   # 1 functions: 1 / 0 / 0
+
+hkinternal.lib(hkMoppSphereVirtualMachine.obj)
+  hot 0x82302788   # identified (code, >= 64 bytes)
+  text 0x82BE5D40 0x82BE5ED0   # 2 functions: 2 / 0 / 0
+
+hkinternal.lib(hkMoppObbVirtualMachine.obj)
+  hot 0x822B16A0   # identified (code, >= 64 bytes)
+  hot 0x822E6C68   # identified (code, >= 64 bytes)
+  text 0x82BE5ED0 0x82BE606C   # 1 functions: 1 / 0 / 0
+
+hkinternal.lib(hkMoppLongRayVirtualMachine.obj)
+  hot 0x822C3988   # identified (code, >= 64 bytes)
+  text 0x82BE6070 0x82BE62A8   # 2 functions: 2 / 0 / 0
+
+hkinternal.lib(hkMoppAabbCastVirtualMachine.obj)
+  hot 0x822A5C70   # identified (code, >= 64 bytes)
+  text 0x82BE62A8 0x82BE6460   # 1 functions: 1 / 0 / 0
+
+hkinternal.lib(hkAgent1nMachine.obj)
+  hot 0x822A9C28   # identified (code, >= 64 bytes)
+  hot 0x822ACD80   # identified (code, >= 64 bytes)
+  hot 0x822BD3D8   # identified (code, >= 64 bytes)
+  hot 0x82347CF0   # identified (code, >= 64 bytes)
+  text 0x82BE6460 0x82BE6C84   # 5 functions: 5 / 0 / 0
+
+hkinternal.lib(hkAgentMachineUtil.obj)
+  text 0x82BE6C98 0x82BE6FA4   # 3 functions: 3 / 0 / 0
+
+hkinternal.lib(hkGskManifoldUtil.obj)
+  hot 0x82277920   # identified (code, >= 64 bytes)
+  hot 0x822DA060   # identified (code, >= 64 bytes)
+  hot 0x8232E088   # identified (code, >= 64 bytes)
+  text 0x82BE6FA8 0x82BE771C   # 4 functions: 4 / 0 / 0
+
+hkinternal.lib(hkGskCache.obj)
+  text 0x82BE7720 0x82BE7A28   # 2 functions: 2 / 0 / 0
+
+hkinternal.lib(hkGsk.obj)
+  hot 0x82283148   # identified (code, >= 64 bytes)
+  hot 0x8229C5F8   # identified (code, >= 64 bytes)
+  hot 0x822DAAD8   # identified (code, >= 64 bytes)
+  hot 0x822E71D0   # identified (code, >= 64 bytes)
+  hot 0x822F0BA0   # identified (code, >= 64 bytes)
+  hot 0x822F1018   # identified (code, >= 64 bytes)
+  text 0x82BE7A28 0x82BE84E8   # 5 functions: 4 / 1 / 0
+
+hkinternal.lib(hkContinuousGsk.obj)
+  hot 0x821E5908   # identified (code, >= 64 bytes)
+  hot 0x821F96D8   # identified (code, >= 64 bytes)
+  hot 0x822A15C8   # identified (code, >= 64 bytes)
+  text 0x82BE8650 0x82BE88A0   # 1 functions: 1 / 0 / 0
+
+hkinternal.lib(hkBoxBoxCollisionDetection.obj)
+  hot 0x82342BF8   # identified (code, >= 64 bytes)
+  text 0x82BE88A0 0x82BEBE0C   # 22 functions: 22 / 0 / 0
+
+hkinternal.lib(hkCollideTriangleUtil.obj)
+  hot 0x8229DAB0   # identified (code, >= 64 bytes)
+  text 0x82BEBE10 0x82BEC40C   # 5 functions: 5 / 0 / 0
+
+hkinternal.lib(hkCollideCapsuleUtil.obj)
+  hot 0x8225EEC0   # identified (code, >= 64 bytes)
+  hot 0x8231B578   # identified (code, >= 64 bytes)
+  text 0x82BEC410 0x82BEC660   # 1 functions: 1 / 0 / 0
+
+hkinternal.lib(hkContinuousSimulation.obj)
+  hot 0x8220DA80   # identified (code, >= 64 bytes)
+  hot 0x82240FB0   # identified (code, >= 64 bytes)
+  hot 0x82271C28   # identified (code, >= 64 bytes)
+  hot 0x822A72E0   # identified (code, >= 64 bytes)
+  hot 0x822BBB58   # identified (code, >= 64 bytes)
+  hot 0x822D6848   # identified (code, >= 64 bytes)
+  hot 0x82318140   # identified (code, >= 64 bytes)
+  hot 0x82326B68   # identified (code, >= 64 bytes)
+  hot 0x82347700   # identified (code, >= 64 bytes)
+  text 0x82BEC660 0x82BEEBF4   # 22 functions: 20 / 2 / 0
+
+hkinternal.lib(hkMultithreadedSimulation (1).obj)
+  hot 0x82264F88   # identified (code, >= 64 bytes)
+  text 0x82BEEC08 0x82BEFB80   # 14 functions: 12 / 0 / 2
+
+hkinternal.lib(hk3AxisSweep.obj)
+  hot 0x82241E68   # identified (code, >= 64 bytes)
+  hot 0x82256FC8   # identified (code, >= 64 bytes)
+  hot 0x82258B58   # identified (code, >= 64 bytes)
+  hot 0x82258C20   # identified (code, >= 64 bytes)
+  hot 0x822593B8   # identified (code, >= 64 bytes)
+  hot 0x822698E8   # identified (code, >= 64 bytes)
+  hot 0x82269D78   # identified (code, >= 64 bytes)
+  hot 0x822ADAD8   # identified (code, >= 64 bytes)
+  hot 0x822AEAB0   # identified (code, >= 64 bytes)
+  hot 0x822B84B0   # identified (code, >= 64 bytes)
+  hot 0x822C15F0   # identified (code, >= 64 bytes)
+  hot 0x822C1BA0   # identified (code, >= 64 bytes)
+  hot 0x822C1F58   # identified (code, >= 64 bytes)
+  hot 0x82343278   # identified (code, >= 64 bytes)
+  text 0x82BEFB80 0x82BF2D08   # 26 functions: 23 / 3 / 0
+
+hkinternal.lib(hkAgentNnMachine.obj)
+  hot 0x822BCB38   # identified (code, >= 64 bytes)
+  hot 0x823BC650   # identified (code, >= 64 bytes)
+  text 0x82BF2D08 0x82BF3A3C   # 10 functions: 10 / 0 / 0
+
+hkinternal.lib(hkPlaneEquationUtil.obj)
+  text 0x82BF3A40 0x82BF4C98   # 8 functions: 8 / 0 / 0
+
+hkinternal.lib(hkGeomConvexHullBuilder.obj)
+  text 0x82BF4C98 0x82BFBB68   # 40 functions: 37 / 3 / 0
+
+hkinternal.lib(hkGeomHull.obj)
+  text 0x82BFBB68 0x82BFC0C0   # 4 functions: 4 / 0 / 0
+
+hkinternal.lib(hkConvexPenetrationUtil.obj)
+  hot 0x82216340   # identified (code, >= 64 bytes)
+  hot 0x82270670   # identified (code, >= 64 bytes)
+  hot 0x8229E960   # identified (code, >= 64 bytes)
+  hot 0x822A4D68   # identified (code, >= 64 bytes)
+  hot 0x822A5170   # identified (code, >= 64 bytes)
+  hot 0x822A53B0   # identified (code, >= 64 bytes)
+  text 0x82BFC0C0 0x82BFCD9C   # 8 functions: 8 / 0 / 0
+
+hkinternal.lib(hkDefaultToiResourceMgr.obj)
+  text 0x82BFCDA0 0x82BFCE48   # 1 functions: 1 / 0 / 0
+
+hkinternal.lib(hkMtSimulationJobQueue.obj)
+  hot 0x82252B60   # identified (code, >= 64 bytes)
+  text 0x82BFCE80 0x82BFD74C   # 7 functions: 7 / 0 / 0
+
+hkinternal.lib(hkGeomConvexHullTester.obj)
+  text 0x82BFD750 0x82BFE198   # 5 functions: 5 / 0 / 0
+
+hkinternal.lib(hkWingedEdge.obj)
+  hot 0x8227CB78   # identified (code, >= 64 bytes)
+  hot 0x8229C800   # identified (code, >= 64 bytes)
+  hot 0x8229EAF8   # identified (code, >= 64 bytes)
+  hot 0x8236B138   # identified (code, >= 64 bytes)
+  hot 0x8236B260   # identified (code, >= 64 bytes)
+  text 0x82BFE198 0x82BFE660   # 6 functions: 6 / 0 / 0
+
+hkinternal.lib(hkCvxCvxDistByHeuristicSampling.obj)
+  hot 0x8229ED20   # identified (code, >= 64 bytes)
+  text 0x82BFE660 0x82BFE77C   # 1 functions: 1 / 0 / 0
+
+hkutilities.lib(hkCharacterProxy.obj)
+  hot 0x821FCA20   # identified (code, >= 64 bytes)
+  hot 0x823560E8   # identified (code, >= 64 bytes)
+  hot 0x8238DB28   # identified (code, >= 64 bytes)
+  hot 0x8238FA08   # identified (code, >= 64 bytes)
+  hot 0x823AFDC0   # identified (code, >= 64 bytes)
+  hot 0x823B36D0   # identified (code, >= 64 bytes)
+  text 0x82BFE780 0x82BFFF18   # 25 functions: 20 / 5 / 0
+
+hkutilities.lib(hkKeyFrameUtility.obj)
+  text 0x82BFFF18 0x82C001B0   # 1 functions: 1 / 0 / 0
+
+hkutilities.lib(hkConstraintUtils.obj)
+  text 0x82C001B0 0x82C00430   # 1 functions: 1 / 0 / 0
+
+hkutilities.lib(hkInertiaTensorComputer.obj)
+  text 0x82C00430 0x82C0382C   # 17 functions: 16 / 1 / 0
+
+hkutilities.lib(hkMotorAction.obj)
+  text 0x82C03830 0x82C03AC4   # 4 functions: 3 / 1 / 0
+
+hkutilities.lib(hkAngularDashpotAction.obj)
+  text 0x82C03AC8 0x82C03EC8   # 4 functions: 3 / 0 / 1; several blocks: review
+  text 0x83032298 0x83032338   # 1 functions: 1 / 0 / 0; several blocks: review
+
+hkutilities.lib(hkConstrainedSystemFilter.obj)
+  text 0x82C03EC8 0x82C04384   # 10 functions: 5 / 3 / 2
+
+hkutilities.lib(hkDashpotAction.obj)
+  text 0x82C04388 0x82C04830   # 6 functions: 4 / 2 / 0
+
+hkutilities.lib(hkDisableEntityCollisionFilter.obj)
+  init 0x830323E8   # initializer region: its code references only this object's functions
+  text 0x82C04830 0x82C04B48   # 9 functions: 4 / 5 / 0
+
+hkutilities.lib(hkGroupCollisionFilter.obj)
+  text 0x82C04BB0 0x82C04FD8   # 6 functions: 3 / 1 / 2
+
+hkutilities.lib(hkMouseSpringAction.obj)
+  init 0x83032498   # initializer region: its code references only this object's functions
+  text 0x82C05108 0x82C059E8   # 10 functions: 6 / 4 / 0
+
+hkutilities.lib(hkPairwiseCollisionFilter.obj)
+  init 0x83032508   # initializer region: its code references only this object's functions
+  text 0x82C059E8 0x82C05D70   # 8 functions: 3 / 5 / 0
+
+hkutilities.lib(hkPhysicsData.obj)
+  text 0x82C05DF8 0x82C05EF4   # 1 functions: 1 / 0 / 0
+
+hkutilities.lib(hkReorientAction.obj)
+  text 0x82C05F60 0x82C06548   # 4 functions: 4 / 0 / 0
+
+hkutilities.lib(hkSerializedDisplayMarker.obj)
+  init 0x830325F8   # initializer region: its code references only this object's functions
+  text 0x82C06548 0x82C0667C   # 3 functions: 2 / 0 / 1
+
+hkutilities.lib(hkSerializedDisplayRbTransforms.obj)
+  text 0x82C067E8 0x82C0686C   # 1 functions: 1 / 0 / 0
+
+hkutilities.lib(hkSpringAction.obj)
+  text 0x82C06870 0x82C06DA8   # 5 functions: 4 / 0 / 1
+
+hkutilities.lib(hkPhysicsContext.obj)
+  text 0x82C06DA8 0x82C07AC4   # 30 functions: 13 / 16 / 1
+
+hkutilities.lib(hkWorldMemoryViewer.obj)
+  text 0x82C07B30 0x82C07C18   # 4 functions: 2 / 2 / 0; several blocks: review
+  text 0x82C07C88 0x82C07E78   # 4 functions: 2 / 0 / 2; several blocks: review
+
+hkutilities.lib(hkContactPointViewer.obj)
+  text 0x82C07C18 0x82C07C88   # 1 functions: 1 / 0 / 0; several blocks: review
+  text 0x82C0EA88 0x82C0EF58   # 8 functions: 1 / 0 / 7; several blocks: review
+
+hkutilities.lib(hkMousePickingViewer.obj)
+  text 0x82C07E78 0x82C083A0   # 12 functions: 6 / 5 / 1
+
+hkutilities.lib(hkSimulationIslandViewer.obj)
+  text 0x82C08428 0x82C09144   # 11 functions: 5 / 6 / 0
+
+hkutilities.lib(hkRigidBodyInertiaViewer.obj)
+  text 0x82C09148 0x82C09CE0   # 12 functions: 5 / 7 / 0
+
+hkutilities.lib(hkSweptTransformDisplayViewer.obj)
+  text 0x82C09CE0 0x82C0AC5C   # 13 functions: 5 / 8 / 0
+
+hkutilities.lib(hkConvexRadiusViewer.obj)
+  text 0x82C0AFB0 0x82C0B9B8   # 12 functions: 4 / 8 / 0
+
+hkutilities.lib(hkShapeDisplayViewer.obj)
+  text 0x82C0BBE8 0x82C0C85C   # 15 functions: 8 / 7 / 0
+
+hkutilities.lib(hkRigidBodyCentreOfMassViewer.obj)
+  text 0x82C0CA88 0x82C0D538   # 17 functions: 5 / 9 / 3
+
+hkutilities.lib(hkPhantomDisplayViewer.obj)
+  text 0x82C0D538 0x82C0E160   # 20 functions: 5 / 15 / 0
+
+hkutilities.lib(hkForcedContactPointViewer.obj)
+  text 0x82C0E180 0x82C0EA88   # 12 functions: 2 / 0 / 10
+
+hkutilities.lib(hkConstraintViewer.obj)
+  text 0x82C0F128 0x82C0F82C   # 8 functions: 4 / 4 / 0
+
+hkutilities.lib(hkBroadphaseViewer.obj)
+  text 0x82C0FA20 0x82C0FFB8   # 5 functions: 2 / 3 / 0
+
+hkutilities.lib(hkWorldViewerBase.obj)
+  text 0x82C0FFB8 0x82C10258   # 6 functions: 2 / 1 / 3
+
+hkutilities.lib(hkShapeDisplayBuilder.obj)
+  text 0x82C102A0 0x82C11B24   # 7 functions: 4 / 3 / 0
+
+hkutilities.lib(hkConvexRadiusBuilder.obj)
+  text 0x82C11B28 0x82C12FB4   # 7 functions: 3 / 1 / 3
+
+hkutilities.lib(hkConstraintDrawer.obj)
+  text 0x82C12FB8 0x82C13404   # 4 functions: 4 / 0 / 0
+
+hkutilities.lib(hkRagdollDrawer.obj)
+  text 0x82C13408 0x82C139F8   # 1 functions: 1 / 0 / 0
+
+hkutilities.lib(hkPointToPlaneDrawer.obj)
+  text 0x82C139F8 0x82C13DF0   # 1 functions: 1 / 0 / 0
+
+hkutilities.lib(hkPointToPathDrawer.obj)
+  text 0x82C13DF0 0x82C14118   # 1 functions: 1 / 0 / 0
+
+hkutilities.lib(hkWheelDrawer.obj)
+  text 0x82C14118 0x82C14680   # 1 functions: 1 / 0 / 0
+
+hkutilities.lib(hkStiffSpringDrawer.obj)
+  text 0x82C14680 0x82C148B0   # 1 functions: 1 / 0 / 0
+
+hkutilities.lib(hkPrismaticDrawer.obj)
+  text 0x82C148B0 0x82C14CFC   # 1 functions: 1 / 0 / 0
+
+hkutilities.lib(hkLimitedHingeDrawer.obj)
+  text 0x82C14D00 0x82C15170   # 1 functions: 1 / 0 / 0
+
+hkutilities.lib(hkHingeDrawer.obj)
+  text 0x82C15170 0x82C153C8   # 1 functions: 1 / 0 / 0
+
+hkutilities.lib(hkBallSocketDrawer.obj)
+  text 0x82C153C8 0x82C15544   # 1 functions: 1 / 0 / 0
+
+hkutilities.lib(hkPrimitiveDrawer.obj)
+  text 0x82C15558 0x82C15A5C   # 3 functions: 2 / 0 / 1
+
+hkvehicle.lib(hkVehicleRaycastWheelCollide.obj)
+  text 0x82C15A60 0x82C16488   # 15 functions: 11 / 2 / 2
+
+hkvehicle.lib(hkTyremarksInfo.obj)
+  text 0x82C16488 0x82C16BD8   # 10 functions: 4 / 3 / 3
+
+hkvehicle.lib(hkVehicleData.obj)
+  hot 0x8227D870   # identified (code, >= 64 bytes)
+  text 0x82C16BD8 0x82C16E90   # 4 functions: 3 / 0 / 1; several blocks: review
+  text 0x830330D0 0x83033110   # 1 functions: 1 / 0 / 0; several blocks: review
+
+hkvehicle.lib(hkVehicleDefaultAerodynamics.obj)
+  hot 0x822629C0   # identified (code, >= 64 bytes)
+  text 0x82C16E90 0x82C16F18   # 2 functions: 1 / 0 / 1
+
+hkvehicle.lib(hkVehicleDefaultAnalogDriverInput.obj)
+  text 0x82C16F50 0x82C174B4   # 9 functions: 6 / 3 / 0
+
+hkvehicle.lib(hkVehicleDefaultBrake.obj)
+  text 0x82C174B8 0x82C17738   # 4 functions: 1 / 0 / 3
+
+hkvehicle.lib(hkVehicleDefaultSteering.obj)
+  hot 0x82262B48   # identified (code, >= 64 bytes)
+  text 0x82C17758 0x82C17804   # 1 functions: 1 / 0 / 0
+
+hkvehicle.lib(hkVehicleDefaultSuspension.obj)
+  text 0x82C178D0 0x82C179D0   # 2 functions: 1 / 0 / 1
+
+hkvehicle.lib(hkVehicleDefaultTransmission.obj)
+  hot 0x821D12D0   # identified (code, >= 64 bytes)
+  hot 0x823BC5A0   # identified (code, >= 64 bytes)
+  hot 0x823BC608   # identified (code, >= 64 bytes)
+  text 0x82C179D0 0x82C17C08   # 5 functions: 3 / 1 / 1
+
+hkvehicle.lib(hkVehicleDefaultVelocityDamper.obj)
+  hot 0x82325A10   # identified (code, >= 64 bytes)
+  text 0x82C17C08 0x82C17CF4   # 2 functions: 1 / 0 / 1
+
+hkvehicle.lib(hkVehicleInstance.obj)
+  hot 0x82264AD8   # identified (code, >= 64 bytes)
+  hot 0x82264BD0   # identified (code, >= 64 bytes)
+  text 0x82C17D38 0x82C1A204   # 10 functions: 8 / 2 / 0
+
+hkvisualize.lib(hkDebugDisplay.obj)
+  text 0x82C1A208 0x82C1A6D8   # 9 functions: 7 / 1 / 1
+
+hkvisualize.lib(hkColor.obj)
+  init 0x83032DE8   # initializer region: its code references only this object's functions
+  init 0x83032E20   # initializer region: its code references only this object's functions
+  init 0x83032E58   # initializer region: its code references only this object's functions
+  init 0x83032E90   # initializer region: its code references only this object's functions
+  init 0x83032EC8   # initializer region: its code references only this object's functions
+  init 0x83032F00   # initializer region: its code references only this object's functions
+  init 0x83032F38   # initializer region: its code references only this object's functions
+  text 0x82C1A6D8 0x82C1A788   # 2 functions: 1 / 0 / 1
+
+hkvisualize.lib(hkVisualDebugger.obj)
+  hot 0x8226ABA0   # identified (code, >= 64 bytes)
+  hot 0x822F2A80   # identified (code, >= 64 bytes)
+  hot 0x8230B7F8   # identified (code, >= 64 bytes)
+  hot 0x82378878   # identified (code, >= 64 bytes)
+  text 0x82C1A788 0x82C1B558   # 12 functions: 11 / 0 / 1
+
+hkvisualize.lib(hkProcessFactory.obj)
+  text 0x82C1B558 0x82C1BC1C   # 9 functions: 8 / 1 / 0
+
+hkvisualize.lib(hkDisplaySerializeIStream.obj)
+  text 0x82C1BC70 0x82C1BCB0   # 1 functions: 1 / 0 / 0
+
+hkvisualize.lib(hkDisplayGeometry.obj)
+  text 0x82C1BCB0 0x82C1BD74   # 2 functions: 2 / 0 / 0
+
+hkvisualize.lib(hkDisplayAABB.obj)
+  text 0x82C1BD78 0x82C1CB98   # 5 functions: 3 / 0 / 2
+
+hkvisualize.lib(hkDisplayBox.obj)
+  text 0x82C1CB98 0x82C1D744   # 5 functions: 5 / 0 / 0
+
+hkvisualize.lib(hkDisplayConvex.obj)
+  text 0x82C1D748 0x82C1D9DC   # 2 functions: 2 / 0 / 0
+
+hkvisualize.lib(hkDisplaySemiCircle.obj)
+  text 0x82C1DA40 0x82C1DEC8   # 6 functions: 4 / 0 / 2
+
+hkvisualize.lib(hkDisplayPlane.obj)
+  text 0x82C1DEC8 0x82C1E56C   # 9 functions: 6 / 1 / 2
+
+hkvisualize.lib(hkDisplayCone.obj)
+  text 0x82C1E5B0 0x82C1EC44   # 4 functions: 4 / 0 / 0
+
+hkvisualize.lib(hkDisplayCylinder.obj)
+  text 0x82C1EC48 0x82C1F484   # 2 functions: 2 / 0 / 0
+
+hkvisualize.lib(hkDisplayCapsule.obj)
+  text 0x82C1F488 0x82C22514   # 3 functions: 2 / 0 / 1
+
+hkvisualize.lib(hkDisplaySphere.obj)
+  text 0x82C22518 0x82C225AC   # 1 functions: 1 / 0 / 0
+
+hkvisualize.lib(hkServerProcessHandler.obj)
+  text 0x82C225D8 0x82C22F78   # 19 functions: 11 / 5 / 3
+
+hkvisualize.lib(hkVersionReporter.obj)
+  text 0x82C22F78 0x82C23084   # 1 functions: 1 / 0 / 0
+
+hkvisualize.lib(hkInspectProcess.obj)
+  text 0x82C23088 0x82C23ED8   # 16 functions: 10 / 5 / 1
+
+hkvisualize.lib(hkStatisticsProcess.obj)
+  text 0x82C23ED8 0x82C24820   # 8 functions: 4 / 3 / 1
+
+hkvisualize.lib(hkDebugDisplayProcess.obj)
+  text 0x82C24820 0x82C24C28   # 21 functions: 3 / 3 / 15
+
+hkvisualize.lib(hkCommandRouter.obj)
+  text 0x82C24C28 0x82C24E74   # 3 functions: 3 / 0 / 0
+
+hkvisualize.lib(hkServerDebugDisplayHandler.obj)
+  text 0x82C24E78 0x82C25880   # 16 functions: 14 / 2 / 0
+
+hkvisualize.lib(hkDisplaySerializeOStream.obj)
+  text 0x82C25880 0x82C25ED4   # 9 functions: 6 / 2 / 1
+
+hkvisualize.lib(hkObjectSerialize.obj)
+  text 0x82C25ED8 0x82C26378   # 2 functions: 2 / 0 / 0
+
+hkragdoll.lib(hkRagdollUtils.obj)
+  text 0x82C266E8 0x82C26D88   # 5 functions: 5 / 0 / 0
+
+hkragdoll.lib(hkRagdollInstance.obj)
+  hot 0x82254D18   # identified (code, >= 64 bytes)
+  hot 0x823A4CA0   # identified (code, >= 64 bytes)
+  text 0x82C26D90 0x82C28344   # 10 functions: 8 / 2 / 0
+
+hkragdoll.lib(hkRagdollRigidBodyController.obj)
+  text 0x82C28348 0x82C28700   # 6 functions: 3 / 0 / 3
+
+hkragdoll.lib(hkRagdollPoweredConstraintController.obj)
+  text 0x82C28700 0x82C28BB4   # 3 functions: 3 / 0 / 0
+
+hkragdoll.lib(hkKeyFrameHierarchyUtility.obj)
+  text 0x82C28BB8 0x82C28C40   # 1 functions: 1 / 0 / 0
+
+rwaiagents.lib(kyfleeingtraversal.cpp.o)
+  text 0x82C2BEA8 0x82C2BF9C   # 1 functions: 1 / 0 / 0
+
+rwaiagents.lib(kyShootAgent.cpp.o)
+  text 0x82C2F1A0 0x82C2FFAC   # 9 functions: 2 / 7 / 0
+
+rwaiagents.lib(kyHideAgent.cpp.o)
+  text 0x82C31B58 0x82C31D50   # 6 functions: 2 / 4 / 0
+
+rwaiagents.lib(kyFollowAgent.cpp.o)
+  text 0x82C32F08 0x82C33B38   # 9 functions: 2 / 7 / 0
+
+rwaiagents.lib(kyFleeAgent.cpp.o)
+  text 0x82C34180 0x82C341EC   # 1 functions: 1 / 0 / 0
+
+rwaicore.lib(kyworld.cpp.o)
+  hot 0x82280CD0   # identified (code, >= 64 bytes)
+  text 0x82C39360 0x82C398DC   # 7 functions: 3 / 4 / 0
+
+rwaicore.lib(kyentityinfomanager.cpp.o)
+  text 0x82C3A0E0 0x82C3A754   # 9 functions: 2 / 7 / 0
+
+rwaicore.lib(kytimemanager.cpp.o)
+  hot 0x823891E8   # identified (code, >= 64 bytes)
+  text 0x82C3B9E8 0x82C3BA38   # 1 functions: 1 / 0 / 0
+
+rwaicore.lib(kyconfig.cpp.o)
+  text 0x82C3CBD8 0x82C3D1B0   # 11 functions: 6 / 5 / 0
+
+rwaicore.lib(kyengine.cpp.o)
+  text 0x82C3DA58 0x82C3DBB4   # 1 functions: 1 / 0 / 0
+
+rwaicore.lib(kybitarray.cpp.o)
+  text 0x82C3DC38 0x82C3DCC8   # 1 functions: 1 / 0 / 0
+
+rwaicore.lib(kyentity.cpp.o)
+  hot 0x8225BC98   # identified (code, >= 64 bytes)
+  text 0x82C3DF68 0x82C3E028   # 2 functions: 2 / 0 / 0
+
+rwaicore.lib(kyentityinfo.cpp.o)
+  init 0x83035AF8   # initializer region: its code references only this object's functions
+  init 0x83035B60   # initializer region: its code references only this object's functions
+  text 0x82C3EBF0 0x82C3F788   # 14 functions: 3 / 11 / 0
+
+rwaicore.lib(kyapi.cpp.o)
+  text 0x82C3FD40 0x82C3FDA8   # 1 functions: 1 / 0 / 0
+
+rwaicore.lib(kyaction.cpp.o)
+  text 0x82C40518 0x82C405AC   # 1 functions: 1 / 0 / 0
+
+rwaicore.lib(kybrain.cpp.o)
+  text 0x82C41308 0x82C415D0   # 1 functions: 1 / 0 / 0
+
+rwaicore.lib(kyfrustumfilter.cpp.o)
+  text 0x82C43CB8 0x82C43E58   # 2 functions: 1 / 0 / 1
+
+rwaicore.lib(kyteam.cpp.o)
+  text 0x82C445C8 0x82C448C0   # 7 functions: 3 / 4 / 0
+
+rwaigraph.lib(kyGraphManager.cpp.o)
+  text 0x82C45058 0x82C45AB0   # 13 functions: 4 / 9 / 0
+
+rwaigraph.lib(kyastar.cpp.o)
+  text 0x82C46200 0x82C46360   # 1 functions: 1 / 0 / 0
+
+rwaigraph.lib(kygraphconstraints.cpp.o)
+  text 0x82C49950 0x82C499D0   # 1 functions: 1 / 0 / 0
+
+rwaigraph.lib(kyPathObject.cpp.o)
+  text 0x82C4A7F0 0x82C4AB6C   # 4 functions: 2 / 2 / 0
+
+rwaigraph.lib(KySpatialGraph.cpp.o)
+  text 0x82C4E030 0x82C4F47C   # 15 functions: 2 / 13 / 0
+
+rwaigraph.lib(kysmarttraversal.cpp.o)
+  text 0x82C50EE0 0x82C51480   # 6 functions: 6 / 0 / 0
+
+rwaigraph.lib(kypropagationtraversal.cpp.o)
+  text 0x82C518E8 0x82C51954   # 1 functions: 1 / 0 / 0
+
+rwaigraph.lib(kyPathObjectManager.cpp.o)
+  text 0x82C538F8 0x82C53DC0   # 4 functions: 2 / 2 / 0
+
+rwaigraph.lib(kyaccesswaysdata.cpp.o)
+  init 0x830362D8   # initializer region: its code references only this object's functions
+  text 0x82C54730 0x82C552E0   # 14 functions: 2 / 12 / 0
+
+rwaigraphgen.lib(kyGraphGeneratorAgent.cpp.o)
+  text 0x82C57170 0x82C58304   # 9 functions: 2 / 7 / 0
+
+rwaigraphgen.lib(kyDenseGraphCreateEdgesAgent.cpp.o)
+  text 0x82C58ED8 0x82C59000   # 1 functions: 1 / 0 / 0
+
+rwaipathfinding.lib(kyNextMoveManager.cpp.o)
+  init 0x83036588   # initializer region: its code references only this object's functions
+  init 0x830365D0   # initializer region: its code references only this object's functions
+  init 0x83036618   # initializer region: its code references only this object's functions
+  init 0x830367C8   # initializer region: its code references only this object's functions
+  text 0x82C5DC18 0x82C5E790   # 16 functions: 3 / 13 / 0; several blocks: review
+  text 0x830364A0 0x830364F4   # 1 functions: 1 / 0 / 0; several blocks: review
+
+rwaipathfinding.lib(kygapdynamicavoidance.cpp.o)
+  text 0x82C60C08 0x82C61264   # 1 functions: 1 / 0 / 0
+
+rwaipathfinding.lib(kygapda_action.cpp.o)
+  hot 0x8225BB18   # identified (code, >= 64 bytes)
+  text 0x82C624B8 0x82C62518   # 1 functions: 1 / 0 / 0
+
+rwaiperceptions.lib(kydistanceentityinfo.cpp.o)
+  text 0x82C64C38 0x82C6526C   # 4 functions: 3 / 1 / 0; several blocks: review
+  text 0x82C661B8 0x82C66288   # 2 functions: 1 / 0 / 1; several blocks: review
+
+rwaiperceptions.lib(kynearestseenentityentityinfo.cpp.o)
+  text 0x82C65970 0x82C65B64   # 1 functions: 1 / 0 / 0; several blocks: review
+  text 0x82C664E8 0x82C66550   # 1 functions: 1 / 0 / 0; several blocks: review
+
+xmp.lib(xmp.obj)
+  text 0x82C68250 0x82C68598   # 6 functions: 5 / 1 / 0
+
+rwaiapi.lib(rwai.cpp.o)
+  hot 0x821D0908   # identified (code, >= 64 bytes)
+  hot 0x821FDF58   # identified (code, >= 64 bytes)
+  hot 0x821FDFC0   # identified (code, >= 64 bytes)
+  text 0x82C68930 0x82C689B0   # 1 functions: 1 / 0 / 0; several blocks: review
+  text 0x83036F30 0x83036F70   # 1 functions: 1 / 0 / 0; several blocks: review
+
+xhv2.lib(loopback.obj)
+  text 0x82C68DA0 0x82C69314   # 10 functions: 7 / 1 / 2
+
+xhv2.lib(voicechat.obj)
+  text 0x82C69318 0x82C69F34   # 14 functions: 11 / 1 / 2
+
+xhv2.lib(xhv.obj)
+  text 0x82C69F38 0x82C6A114   # 4 functions: 3 / 0 / 1
+
+xhv2.lib(apoxhv.obj)
+  text 0x82C6A198 0x82C6A670   # 6 functions: 6 / 0 / 0
+
+xhv2.lib(procmode.obj)
+  text 0x82C6A670 0x82C6A74C   # 3 functions: 1 / 0 / 2
+
+xhv2.lib(codec.obj)
+  text 0x82C6A750 0x82C6AB5C   # 5 functions: 4 / 0 / 1
+
+xhv2.lib(remotetalker.obj)
+  text 0x82C6AB60 0x82C6BC50   # 16 functions: 15 / 1 / 0
+
+xhv2.lib(codecnci.obj)
+  text 0x82C6BC50 0x82C6C324   # 11 functions: 5 / 0 / 6
+
+xhv2.lib(engine.obj)
+  hot 0x8237B478   # identified (code, >= 64 bytes)
+  hot 0x823BE4D0   # identified (code, >= 64 bytes)
+  text 0x82C6C328 0x82C6DACC   # 32 functions: 28 / 4 / 0
+
+xhv2.lib(packets.obj)
+  text 0x82C6DAF0 0x82C6DEA4   # 6 functions: 6 / 0 / 0
+
+xhv2.lib(jitter.obj)
+  text 0x82C6DEA8 0x82C6EB88   # 11 functions: 11 / 0 / 0
+
+xhv2.lib(localtalker.obj)
+  hot 0x823A8618   # identified (code, >= 64 bytes)
+  text 0x82C6EBA8 0x82C6FBA4   # 14 functions: 13 / 0 / 1
+
+xhv2.lib(ncisaseenc3200.obj)
+  text 0x82C6FBA8 0x82C6FF80   # 6 functions: 4 / 1 / 1
+
+xhv2.lib(ncisasedec3200.obj)
+  text 0x82C6FF80 0x82C70394   # 7 functions: 4 / 2 / 1
+
+xhv2.lib(xhvsrc.obj)
+  text 0x82C70428 0x82C70594   # 1 functions: 1 / 0 / 0
+
+xhv2.lib(codectypes.obj)
+  text 0x82C70598 0x82C70794   # 1 functions: 1 / 0 / 0
+
+xhv2.lib(g726adpcm.obj)
+  text 0x82C70798 0x82C71A10   # 1 functions: 1 / 0 / 0
+
+xhv2.lib(micproxy.obj)
+  text 0x82C71A10 0x82C7271C   # 9 functions: 9 / 0 / 0
+
+xhv2.lib(packsc.obj)
+  text 0x82C72720 0x82C72788   # 1 functions: 1 / 0 / 0
+
+xhv2.lib(coder.obj)
+  text 0x82C72788 0x82C7281C   # 1 functions: 1 / 0 / 0
+
+xhv2.lib(encsc.obj)
+  text 0x82C72820 0x82C7310C   # 6 functions: 6 / 0 / 0
+
+xhv2.lib(decsc.obj)
+  text 0x82C73110 0x82C737CC   # 4 functions: 4 / 0 / 0
+
+xhv2.lib(fftsmcos.obj)
+  text 0x82C737D0 0x82C73A84   # 1 functions: 1 / 0 / 0
+
+xhv2.lib(bitpackc.obj)
+  text 0x82C73A88 0x82C73B80   # 1 functions: 1 / 0 / 0
+
+xhv2.lib(libquan.obj)
+  text 0x82C73B80 0x82C740F8   # 4 functions: 3 / 0 / 1
+
+xhv2.lib(codegain.obj)
+  text 0x82C740F8 0x82C7414C   # 1 functions: 1 / 0 / 0
+
+xhv2.lib(qp0sc3.obj)
+  text 0x82C74150 0x82C7423C   # 2 functions: 2 / 0 / 0
+
+xhv2.lib(codepv.obj)
+  text 0x82C74240 0x82C74318   # 2 functions: 2 / 0 / 0
+
+xhv2.lib(estonset.obj)
+  text 0x82C74318 0x82C74620   # 3 functions: 3 / 0 / 0
+
+xhv2.lib(decvcfry.obj)
+  text 0x82C74620 0x82C74738   # 2 functions: 2 / 0 / 0
+
+xhv2.lib(ldpda.obj)
+  text 0x82C74738 0x82C74F44   # 7 functions: 5 / 2 / 0
+
+xhv2.lib(libsnd.obj)
+  text 0x82C74F48 0x82C75204   # 4 functions: 4 / 0 / 0
+
+xhv2.lib(fftif.obj)
+  text 0x82C75208 0x82C753D0   # 3 functions: 1 / 0 / 2
+
+xhv2.lib(libvect.obj)
+  text 0x82C753D0 0x82C756C4   # 4 functions: 2 / 2 / 0
+
+xhv2.lib(libsigproc.obj)
+  text 0x82C756C8 0x82C758C0   # 1 functions: 1 / 0 / 0
+
+xhv2.lib(window.obj)
+  text 0x82C758C0 0x82C75968   # 1 functions: 1 / 0 / 0
+
+xhv2.lib(log2.obj)
+  text 0x82C75968 0x82C759C8   # 1 functions: 1 / 0 / 0
+
+xhv2.lib(voicing.obj)
+  text 0x82C75AB0 0x82C75E68   # 2 functions: 2 / 0 / 0
+
+xhv2.lib(midpitch.obj)
+  text 0x82C75E68 0x82C760E8   # 2 functions: 2 / 0 / 0
+
+xhv2.lib(libtran.obj)
+  text 0x82C760E8 0x82C762BC   # 2 functions: 2 / 0 / 0
+
+xhv2.lib(libspeech.obj)
+  text 0x82C762C0 0x82C76AD8   # 8 functions: 7 / 1 / 0
+
+xhv2.lib(ncivad.obj)
+  text 0x82C76AD8 0x82C76C30   # 1 functions: 1 / 0 / 0
+
+xhv2.lib(midframe.obj)
+  text 0x82C76C30 0x82C76DB8   # 1 functions: 1 / 0 / 0
+
+xhv2.lib(msvqpredinline.obj)
+  text 0x82C76DB8 0x82C77018   # 1 functions: 1 / 0 / 0
+
+xhv2.lib(subfmsyn.obj)
+  text 0x82C77018 0x82C770C0   # 1 functions: 1 / 0 / 0
+
+xhv2.lib(asktoenvinline.obj)
+  text 0x82C770C0 0x82C7750C   # 1 functions: 1 / 0 / 0
+
+xhv2.lib(bitunpackc.obj)
+  text 0x82C77510 0x82C775FC   # 1 functions: 1 / 0 / 0
+
+xhv2.lib(swsynth.obj)
+  text 0x82C77600 0x82C77B34   # 3 functions: 3 / 0 / 0
+
+xhv2.lib(voicld.obj)
+  text 0x82C77B38 0x82C77D60   # 2 functions: 2 / 0 / 0
+
+xhv2.lib(ptchcand.obj)
+  text 0x82C77D60 0x82C78384   # 3 functions: 3 / 0 / 0
+
+xhv2.lib(fft4cfg.obj)
+  text 0x82C78388 0x82C7865C   # 1 functions: 1 / 0 / 0
+
+xhv2.lib(rfft2g.obj)
+  text 0x82C78660 0x82C788A8   # 2 functions: 2 / 0 / 0
+
+xhv2.lib(refinec0.obj)
+  text 0x82C788A8 0x82C78AF4   # 1 functions: 1 / 0 / 0
+
+xhv2.lib(warp.obj)
+  text 0x82C78AF8 0x82C78B6C   # 1 functions: 1 / 0 / 0
+
+xhv2.lib(nemagc.obj)
+  text 0x82C78B70 0x82C78E10   # 3 functions: 3 / 0 / 0
+
+xhv2.lib(nemvad.obj)
+  text 0x82C78E10 0x82C791D8   # 5 functions: 5 / 0 / 0
+
+xhv2.lib(postfilt.obj)
+  text 0x82C791D8 0x82C7938C   # 1 functions: 1 / 0 / 0
+
+xhv2.lib(setamps.obj)
+  text 0x82C79390 0x82C794F4   # 1 functions: 1 / 0 / 0
+
+xhv2.lib(calccost.obj)
+  text 0x82C794F8 0x82C79638   # 1 functions: 1 / 0 / 0
+
+xhv2.lib(corrfunc.obj)
+  text 0x82C79638 0x82C796DC   # 1 functions: 1 / 0 / 0
+
+xrnm.lib(xrnm.obj)
+  text 0x82C796E0 0x82C79994   # 21 functions: 3 / 9 / 9
+
+xrnm.lib(xrnmendpoint.obj)
+  hot 0x821E7D98   # identified (code, >= 64 bytes)
+  text 0x82C79998 0x82C7BAF8   # 39 functions: 32 / 7 / 0
+
+xrnm.lib(xrnmlink.obj)
+  hot 0x821E96D8   # identified (code, >= 64 bytes)
+  hot 0x8238B3D8   # identified (code, >= 64 bytes)
+  text 0x82C7BB20 0x82C82AEC   # 100 functions: 93 / 7 / 0
+
+xrnm.lib(xrnmglobal.obj)
+  text 0x82C82AF0 0x82C830F0   # 5 functions: 5 / 0 / 0
+
+xrnm.lib(xrnmpktparse.obj)
+  text 0x82C83140 0x82C83B1C   # 21 functions: 13 / 6 / 2
+
+xrnm.lib(xrneglobal.obj)
+  text 0x82C83B20 0x82C83D84   # 5 functions: 4 / 1 / 0
+
+xrnm.lib(nwmio.obj)
+  text 0x82C83D88 0x82C83DFC   # 1 functions: 1 / 0 / 0
+
+xrnm.lib(xrnmrecvpkt.obj)
+  text 0x82C83E00 0x82C83F90   # 3 functions: 3 / 0 / 0
+
+xrnm.lib(xrnmsendpkt.obj)
+  hot 0x8238B430   # identified (code, >= 64 bytes)
+  text 0x82C83FB0 0x82C84B20   # 17 functions: 15 / 2 / 0
+
+xrnm.lib(xrnmsendchanneltracker.obj)
+  text 0x82C84B20 0x82C84F20   # 8 functions: 5 / 1 / 2
+
+xrnm.lib(xrnmrecvchanneltracker.obj)
+  text 0x82C84F20 0x82C85230   # 8 functions: 6 / 1 / 1
+
+xrnm.lib(xrnmlinktimer.obj)
+  text 0x82C85230 0x82C85464   # 5 functions: 4 / 1 / 0
+
+xrnm.lib(xrnmalerttracker.obj)
+  text 0x82C85468 0x82C8578C   # 8 functions: 5 / 3 / 0
+
+xrnm.lib(xrnmrecvchannel.obj)
+  text 0x82C85790 0x82C86648   # 16 functions: 15 / 1 / 0
+
+xrnm.lib(xrnmsendthrottle.obj)
+  text 0x82C86648 0x82C86E20   # 13 functions: 10 / 0 / 3
+
+xrnm.lib(xrnmsendchannel.obj)
+  text 0x82C86E20 0x82C889F0   # 39 functions: 31 / 5 / 3
+
+xrnm.lib(xrnmsyncpoint.obj)
+  text 0x82C889F0 0x82C88CD8   # 4 functions: 3 / 0 / 1
+
+xrnm.lib(xrnmacktracker.obj)
+  text 0x82C88CD8 0x82C88FE0   # 6 functions: 5 / 0 / 1
+
+xrnm.lib(xrnmgaptracker.obj)
+  text 0x82C88FE0 0x82C894BC   # 7 functions: 7 / 0 / 0
+
+xrnm.lib(xrnmsubpktparse.obj)
+  text 0x82C894C0 0x82C8996C   # 14 functions: 4 / 1 / 9
+
+xrnm.lib(xrnmsubchain.obj)
+  text 0x82C89970 0x82C89EBC   # 8 functions: 6 / 1 / 1
+
+xrnm.lib(xrnmsyncdependency.obj)
+  text 0x82C89EC0 0x82C89F74   # 1 functions: 1 / 0 / 0
+
+xrnm.lib(xrnmsend.obj)
+  text 0x82C89F78 0x82C8B5A0   # 22 functions: 18 / 4 / 0
+
+xrnm.lib(nwm.obj)
+  init 0x83037038   # initializer region: its code references only this object's functions
+  init 0x830470C0   # initializer region: its code references only this object's functions
+  text 0x82C8B5A0 0x82C8B8C0   # 8 functions: 4 / 0 / 4
+
+xrnm.lib(nwmtimer.obj)
+  text 0x82C8B8C0 0x82C8BA28   # 2 functions: 2 / 0 / 0
+
+xrnm.lib(xrnmcreationblock.obj)
+  text 0x82C8BA28 0x82C8BB38   # 4 functions: 3 / 1 / 0
+
+xrnm.lib(nwmworkqueue.obj)
+  text 0x82C8BB38 0x82C8BD34   # 1 functions: 1 / 0 / 0
+
+MSModalSynthSource.lib(MsSrcModalSynthManager.obj)
+  init 0x83037098   # initializer region: its code references only this object's functions
+  init 0x830470D0   # initializer region: its code references only this object's functions
+  text 0x82C8BD38 0x82C8F49C   # 43 functions: 36 / 7 / 0
+
+MSModalSynthSource.lib(MsSrcModalSynth.obj)
+  text 0x82C8F4A0 0x82C9012C   # 17 functions: 9 / 8 / 0
+
+MSModalSynthSource.lib(ModalSynthesizer.obj)
+  init 0x830370D0   # initializer region: its code references only this object's functions
+  text 0x82C90130 0x82C94020   # 48 functions: 34 / 14 / 0
+
+MSModalSynthSource.lib(MsSrcModalSynthParams.obj)
+  text 0x82C94020 0x82C95C14   # 41 functions: 27 / 14 / 0
+
+MSModalSynthSource.lib(SharedSynthesisDataRef.obj)
+  text 0x82C95C18 0x82C963EC   # 12 functions: 7 / 5 / 0
+
+MSModalSynthSource.lib(util.obj)
+  text 0x82C964E8 0x82C96668   # 3 functions: 3 / 0 / 0
+
+MSModalSynthSource.lib(synAllocator.obj)
+  text 0x82C966D0 0x82C96750   # 2 functions: 2 / 0 / 0
+
+MSModalSynthSource.lib(SynthesisData.obj)
+  text 0x82C96750 0x82C9B4B0   # 62 functions: 50 / 12 / 0
+
+MSModalSynthSource.lib(ModeMixerXbox.obj)
+  text 0x82C9B4B0 0x82CA3E44   # 7 functions: 7 / 0 / 0
+
+MSModalSynthSource.lib(synLoader.obj)
+  text 0x82CA3E48 0x82CA5124   # 15 functions: 13 / 2 / 0
+
+MSModalSynthSource.lib(synStream.obj)
+  text 0x82CA57A0 0x82CA6054   # 16 functions: 10 / 6 / 0
+
+MSModalSynthSource.lib(ModeMixerRef.obj)
+  text 0x82CA63B8 0x82CA6DC8   # 3 functions: 3 / 0 / 0
+
+MsVariationFX.lib(MsVariationFX.obj)
+  text 0x82CA6DF0 0x82CA71DC   # 9 functions: 7 / 2 / 0
+
+MsVariationFX.lib(MsVariationFXParams.obj)
+  text 0x82CA71F0 0x82CA756C   # 6 functions: 5 / 1 / 0
+
+MsVariationFX.lib(VariationFilterImpl.obj)
+  text 0x82CA75D8 0x82CA996C   # 15 functions: 10 / 5 / 0
+
+AkCompressorFX.lib(AkCompressorFX.obj)
+  text 0x82CA9980 0x82CAA7F0   # 11 functions: 4 / 7 / 0
+
+AkDelayFX.lib(AkDelayFX.obj)
+  text 0x82CAB2E8 0x82CAB83C   # 7 functions: 2 / 5 / 0
+
+AkMatrixReverbFX.lib(AkFDNReverbFX.obj)
+  text 0x82CAC0B8 0x82CAC150   # 1 functions: 1 / 0 / 0
+
+AkRoomVerbFX.lib(AkRoomVerbFX.obj)
+  text 0x82CB6080 0x82CB91A0   # 34 functions: 6 / 28 / 0
+
+AkRoomVerbFX.lib(BiquadFilter.obj)
+  text 0x82CBA438 0x82CBA8F0   # 1 functions: 1 / 0 / 0
+
+AkRoomVerbFX.lib(DelayLine.obj)
+  text 0x82CBAB00 0x82CBABA4   # 2 functions: 1 / 0 / 1
+
+AkRoomVerbFX.lib(ERUnitDual.obj)
+  text 0x82CBAD30 0x82CBB028   # 1 functions: 1 / 0 / 0
+
+AkRoomVerbFX.lib(FDN4.obj)
+  text 0x82CBB420 0x82CBBE6C   # 9 functions: 8 / 1 / 0
+
+AkRoomVerbFX.lib(AllpassFilter.obj)
+  text 0x82CBBE70 0x82CBBF74   # 3 functions: 2 / 0 / 1; several blocks: review
+  text 0x82D3FEA0 0x82D3FEFC   # 1 functions: 1 / 0 / 0; several blocks: review
+
+AkMemoryMgr.lib(AkMemoryMgrBase.obj)
+  text 0x82CBCD50 0x82CBCDE4   # 1 functions: 1 / 0 / 0
+
+AkMemoryMgr.lib(AkMemoryMgr.obj)
+  text 0x82CBCDE8 0x82CBCE48   # 1 functions: 1 / 0 / 0
+
+AkMemoryMgr.lib(tlsf.obj)
+  text 0x82CBDD08 0x82CBE41C   # 10 functions: 6 / 4 / 0
+
+AkMotionGenerator.lib(AkMotionGenerator.obj)
+  text 0x82CBE5A8 0x82CBF4A0   # 20 functions: 16 / 3 / 1
+
+AkMusicEngine.lib(AkMusicRenderer.obj)
+  text 0x82CBF4F0 0x82CC04BC   # 24 functions: 17 / 7 / 0
+
+AkMusicEngine.lib(AkMusicPBI.obj)
+  text 0x82CC06B0 0x82CC0B04   # 19 functions: 3 / 16 / 0
+
+AkMusicEngine.lib(AkMusicCtx.obj)
+  text 0x82CC13E0 0x82CC1698   # 8 functions: 5 / 2 / 1
+
+AkMusicEngine.lib(AkMatrixSequencer.obj)
+  text 0x82CC1848 0x82CC3D4C   # 57 functions: 23 / 34 / 0
+
+AkMusicEngine.lib(AkMatrixAwareCtx.obj)
+  text 0x82CC3E70 0x82CC402C   # 9 functions: 4 / 5 / 0
+
+AkMusicEngine.lib(AkMusicBank.obj)
+  text 0x82CC40B8 0x82CC422C   # 1 functions: 1 / 0 / 0
+
+AkMusicEngine.lib(AkSegmentCtx.obj)
+  text 0x82CC4670 0x82CC4DC8   # 13 functions: 3 / 10 / 0; several blocks: review
+  text 0x82CE17F0 0x82CE185C   # 1 functions: 1 / 0 / 0; several blocks: review
+
+AkMusicEngine.lib(AkSegmentChain.obj)
+  text 0x82CC5258 0x82CC5828   # 12 functions: 6 / 6 / 0
+
+AkMusicEngine.lib(AkMusicSegment.obj)
+  text 0x82CC5C68 0x82CC6FE8   # 37 functions: 11 / 26 / 0
+
+AkMusicEngine.lib(AkMusicNode.obj)
+  text 0x82CC7550 0x82CC7ED4   # 14 functions: 10 / 4 / 0
+
+AkSoundEngine.lib(AkFXContext.obj)
+  text 0x82CC7ED8 0x82CC837C   # 7 functions: 2 / 5 / 0; several blocks: review
+  text 0x82D2BD08 0x82D2BE4C   # 6 functions: 2 / 3 / 1; several blocks: review
+
+AkMusicEngine.lib(AkMusicTrack.obj)
+  text 0x82CC84E0 0x82CC987C   # 26 functions: 12 / 14 / 0
+
+AkMusicEngine.lib(AkMusicSwitchCntr.obj)
+  text 0x82CC98D8 0x82CCA2E0   # 16 functions: 10 / 6 / 0
+
+AkMusicEngine.lib(AkMusicRanSeqCntr.obj)
+  text 0x82CCA518 0x82CCAD90   # 14 functions: 7 / 7 / 0
+
+AkMusicEngine.lib(AkContextualMusicSequencer.obj)
+  text 0x82CCADE8 0x82CCB138   # 7 functions: 6 / 1 / 0
+
+AkMusicEngine.lib(AkSequencableSegmentCtx.obj)
+  text 0x82CCB1E8 0x82CCB334   # 2 functions: 2 / 0 / 0
+
+AkMusicEngine.lib(AkMusicSwitchCtx.obj)
+  text 0x82CCB5C0 0x82CCD818   # 57 functions: 22 / 35 / 0
+
+AkMusicEngine.lib(AkMusicTransAware.obj)
+  text 0x82CCDDF0 0x82CCE49C   # 6 functions: 3 / 3 / 0
+
+AkMusicEngine.lib(AkSequenceCtx.obj)
+  text 0x82CCE4F0 0x82CCEDB8   # 18 functions: 5 / 13 / 0
+
+AkMusicEngine.lib(AkRSIterator.obj)
+  text 0x82CCEE18 0x82CD0D74   # 40 functions: 30 / 10 / 0
+
+AkParametricEQFX.lib(AkParametricEQFX.obj)
+  text 0x82CD0F50 0x82CD1BE4   # 11 functions: 5 / 6 / 0
+
+AkParametricEQFX.lib(AkParametricEQFXParams.obj)
+  text 0x82CD1D20 0x82CD2100   # 6 functions: 5 / 1 / 0
+
+AkPeakLimiterFX.lib(AkPeakLimiterFX.obj)
+  text 0x82CD2110 0x82CD21B8   # 1 functions: 1 / 0 / 0
+
+AkRoomVerbFX.lib(AkRoomVerbFXParams.obj)
+  text 0x82CD3CF0 0x82CD4A5C   # 32 functions: 6 / 26 / 0
+
+AkSilenceSource.lib(AkFXSrcSilence.obj)
+  text 0x82CD4B10 0x82CD4EB8   # 7 functions: 6 / 1 / 0
+
+AkSineSource.lib(AkFXSrcSine.obj)
+  text 0x82CD4EC8 0x82CD53A0   # 9 functions: 5 / 4 / 0
+
+AkSineSource.lib(AkFXSrcSineParams.obj)
+  text 0x82CD5490 0x82CD5688   # 6 functions: 4 / 2 / 0
+
+AkSoundEngine.lib(AkAudioLib.obj)
+  text 0x82CD5770 0x82CD9EB8   # 145 functions: 50 / 95 / 0
+
+AkSoundEngine.lib(AkInterpolationTable.obj)
+  text 0x82CD9F98 0x82CDA354   # 10 functions: 4 / 6 / 0
+
+AkSoundEngine.lib(AkPBI.obj)
+  text 0x82CDB338 0x82CDDF88   # 51 functions: 9 / 42 / 0
+
+AkSoundEngine.lib(AkEvent.obj)
+  text 0x82CDDF88 0x82CDDFE8   # 1 functions: 1 / 0 / 0; several blocks: review
+  text 0x82D13CA0 0x82D140B8   # 10 functions: 2 / 8 / 0; several blocks: review
+
+AkSoundEngine.lib(AkURenderer.obj)
+  text 0x82CDE040 0x82CDF7A4   # 31 functions: 8 / 23 / 0
+
+AkSoundEngine.lib(AkSoundBase.obj)
+  text 0x82CDFB88 0x82CE0320   # 17 functions: 10 / 6 / 1
+
+AkSoundEngine.lib(ProxyFrameworkConnected.obj)
+  text 0x82CE05D8 0x82CE061C   # 1 functions: 1 / 0 / 0
+
+AkSoundEngine.lib(AkPlayingMgr.obj)
+  text 0x82CE0820 0x82CE0D88   # 10 functions: 4 / 6 / 0
+
+AkSoundEngine.lib(AkMonitor.obj)
+  text 0x82CE0EC8 0x82CE0F94   # 1 functions: 1 / 0 / 0; several blocks: review
+  text 0x82CE4AD8 0x82CE4B7C   # 1 functions: 1 / 0 / 0; several blocks: review
+  text 0x82D04830 0x82D04888   # 1 functions: 1 / 0 / 0; several blocks: review
+  text 0x82D04BC8 0x82D04C24   # 1 functions: 1 / 0 / 0; several blocks: review
+  text 0x82D08950 0x82D089A4   # 1 functions: 1 / 0 / 0; several blocks: review
+
+AkSoundEngine.lib(AkTransitionManager.obj)
+  text 0x82CE1190 0x82CE17EC   # 9 functions: 7 / 2 / 0
+
+AkSoundEngine.lib(AkStateMgr.obj)
+  text 0x82CE1D20 0x82CE3EA4   # 47 functions: 38 / 9 / 0
+
+AkSoundEngine.lib(AkBankReader.obj)
+  text 0x82CE4068 0x82CE44C0   # 9 functions: 6 / 3 / 0
+
+AkSoundEngine.lib(AkBankMgr.obj)
+  text 0x82CE4CB0 0x82CEAC18   # 98 functions: 45 / 53 / 0
+
+AkSoundEngine.lib(AkAudioNode.obj)
+  text 0x82CEAC18 0x82CEB324   # 29 functions: 9 / 20 / 0
+
+AkSoundEngine.lib(AkParameterNode.obj)
+  text 0x82CEB4D0 0x82CEFBD0   # 82 functions: 41 / 41 / 0
+
+AkSoundEngine.lib(AkParameterNodeBase.obj)
+  text 0x82CEFD38 0x82CF3B10   # 88 functions: 35 / 52 / 1
+
+AkSoundEngine.lib(AkBus.obj)
+  text 0x82CF3BA0 0x82CF7714   # 95 functions: 36 / 59 / 0
+
+AkSoundEngine.lib(AkPreparationAware.obj)
+  text 0x82CF8088 0x82CF814C   # 2 functions: 2 / 0 / 0
+
+AkSoundEngine.lib(AkSwitchAware.obj)
+  text 0x82CF8170 0x82CF8254   # 2 functions: 2 / 0 / 0
+
+AkSoundEngine.lib(AkRanSeqBaseInfo.obj)
+  text 0x82CF8500 0x82CF8760   # 7 functions: 5 / 2 / 0
+
+AkSoundEngine.lib(AkFeedbackMgr.obj)
+  text 0x82CF8938 0x82CF9B7C   # 23 functions: 16 / 6 / 1
+
+AkSoundEngine.lib(AkLEngine_Common.obj)
+  text 0x82CF9D18 0x82CFA200   # 16 functions: 2 / 14 / 0
+
+AkSoundEngine.lib(AkLEngine_SoftwarePipeline.obj)
+  text 0x82CFA218 0x82CFA7D4   # 11 functions: 5 / 6 / 0
+
+AkSoundEngine.lib(AkVPLSrcCbxNode.obj)
+  text 0x82CFCD60 0x82CFCDC0   # 1 functions: 1 / 0 / 0; several blocks: review
+  text 0x82D0C3F8 0x82D0C458   # 1 functions: 1 / 0 / 0; several blocks: review
+
+AkSoundEngine.lib(AkBankCallbackMgr.obj)
+  text 0x82CFD578 0x82CFD9C4   # 7 functions: 7 / 0 / 0
+
+AkSoundEngine.lib(AkAudioMgr.obj)
+  text 0x82CFDBF8 0x82D01BF8   # 54 functions: 8 / 46 / 0
+
+AkSoundEngine.lib(AkEffectsMgr.obj)
+  text 0x82D01D30 0x82D02390   # 8 functions: 5 / 3 / 0
+
+AkSoundEngine.lib(AkPositionRepository.obj)
+  text 0x82D02428 0x82D02BBC   # 14 functions: 8 / 6 / 0
+
+AkSoundEngine.lib(AkDynamicSequence.obj)
+  text 0x82D02C20 0x82D035E4   # 18 functions: 3 / 15 / 0
+
+AkSoundEngine.lib(AkEnvironmentsMgr.obj)
+  text 0x82D04220 0x82D04260   # 1 functions: 1 / 0 / 0
+
+AkSoundEngine.lib(AkAudioLibIndex.obj)
+  text 0x82D04980 0x82D04BC4   # 6 functions: 4 / 2 / 0
+
+AkSoundEngine.lib(AkRTPCMgr.obj)
+  text 0x82D04F28 0x82D0874C   # 56 functions: 26 / 30 / 0
+
+AkSoundEngine.lib(AkRegistryMgr.obj)
+  text 0x82D08A18 0x82D09680   # 23 functions: 13 / 10 / 0
+
+AkSoundEngine.lib(AkPathManager.obj)
+  text 0x82D09920 0x82D09E60   # 12 functions: 7 / 5 / 0
+
+AkSoundEngine.lib(AkMath.obj)
+  text 0x82D0C558 0x82D0C9C4   # 10 functions: 6 / 4 / 0
+
+AkSoundEngine.lib(AkDialogueEvent.obj)
+  text 0x82D0CAB8 0x82D0CE38   # 8 functions: 4 / 4 / 0
+
+AkSoundEngine.lib(Ak3DListener.obj)
+  text 0x82D0CE38 0x82D0D3E4   # 11 functions: 8 / 3 / 0
+
+AkSoundEngine.lib(AkGen3DParams.obj)
+  text 0x82D0F368 0x82D0F960   # 23 functions: 5 / 18 / 0
+
+AkSoundEngine.lib(AkFeedbackStructs.obj)
+  text 0x82D100B0 0x82D1012C   # 1 functions: 1 / 0 / 0
+
+AkSoundEngine.lib(AkAttenuationMgr.obj)
+  text 0x82D10138 0x82D108B0   # 8 functions: 3 / 5 / 0
+
+AkSoundEngine.lib(AkFeedbackNode.obj)
+  text 0x82D10D98 0x82D1191C   # 19 functions: 6 / 13 / 0
+
+AkSoundEngine.lib(AkPath.obj)
+  text 0x82D11BB8 0x82D12388   # 21 functions: 7 / 14 / 0
+
+AkSoundEngine.lib(AkTransition.obj)
+  text 0x82D12628 0x82D12844   # 5 functions: 3 / 2 / 0
+
+AkSoundEngine.lib(AkState.obj)
+  text 0x82D129D8 0x82D1315C   # 29 functions: 11 / 18 / 0
+
+AkSoundEngine.lib(AkBankList.obj)
+  text 0x82D131B8 0x82D13298   # 2 functions: 2 / 0 / 0; several blocks: review
+  text 0x82D16C70 0x82D16CC8   # 1 functions: 1 / 0 / 0; several blocks: review
+
+AkSoundEngine.lib(AkAction.obj)
+  text 0x82D135B0 0x82D13BD0   # 14 functions: 7 / 7 / 0
+
+AkSoundEngine.lib(AkSound.obj)
+  text 0x82D14370 0x82D144B4   # 3 functions: 2 / 1 / 0
+
+AkSoundEngine.lib(AkRanSeqCntr.obj)
+  text 0x82D148A0 0x82D16AF0   # 53 functions: 23 / 30 / 0
+
+AkSoundEngine.lib(AkSwitchCntr.obj)
+  text 0x82D16F60 0x82D196B0   # 51 functions: 30 / 21 / 0
+
+AkSoundEngine.lib(AkLayerCntr.obj)
+  text 0x82D19A98 0x82D1A060   # 7 functions: 4 / 3 / 0
+
+AkSoundEngine.lib(AkActorMixer.obj)
+  text 0x82D1A120 0x82D1A31C   # 4 functions: 2 / 2 / 0
+
+AkSoundEngine.lib(AkFeedbackBus.obj)
+  text 0x82D1A388 0x82D1AAF4   # 14 functions: 6 / 8 / 0
+
+AkSoundEngine.lib(AkContinuationList.obj)
+  text 0x82D1AC48 0x82D1ADE0   # 3 functions: 3 / 0 / 0
+
+AkSoundEngine.lib(AkActionPlayAndContinue.obj)
+  text 0x82D1AE40 0x82D1B7E0   # 24 functions: 8 / 16 / 0
+
+AkSoundEngine.lib(AkContinuousPBI.obj)
+  text 0x82D1B7E0 0x82D1B83C   # 1 functions: 1 / 0 / 0; several blocks: review
+  text 0x82D254E0 0x82D25980   # 5 functions: 3 / 2 / 0; several blocks: review
+
+AkSoundEngine.lib(AkMultiPlayNode.obj)
+  text 0x82D1B8B8 0x82D1C2C8   # 18 functions: 13 / 5 / 0
+
+AkSoundEngine.lib(AkSIS.obj)
+  text 0x82D1C450 0x82D1C50C   # 1 functions: 1 / 0 / 0
+
+AkSoundEngine.lib(AkRegisteredObj.obj)
+  text 0x82D1C9F0 0x82D1CD7C   # 7 functions: 6 / 1 / 0
+
+AkSoundEngine.lib(AkLayer.obj)
+  text 0x82D1CDD0 0x82D1E330   # 41 functions: 22 / 18 / 1
+
+AkSoundEngine.lib(AkActionDuck.obj)
+  text 0x82D1E3E8 0x82D1E448   # 1 functions: 1 / 0 / 0
+
+AkSoundEngine.lib(AkDuckItem.obj)
+  text 0x82D1E4A8 0x82D1E5CC   # 3 functions: 2 / 1 / 0
+
+AkSoundEngine.lib(AkSplitterBus.obj)
+  text 0x82D1E6C8 0x82D1F468   # 13 functions: 5 / 8 / 0
+
+AkSoundEngine.lib(AkCommon.obj)
+  text 0x82D1F478 0x82D1F56C   # 2 functions: 2 / 0 / 0
+
+AkSoundEngine.lib(AkSrcLpFilter.obj)
+  text 0x82D1F750 0x82D1F9E4   # 4 functions: 4 / 0 / 0
+
+AkSoundEngine.lib(AkVPLLPFNode.obj)
+  text 0x82D1FB38 0x82D1FBF0   # 3 functions: 2 / 1 / 0
+
+AkSoundEngine.lib(AkMixerSimd.obj)
+  text 0x82D1FD98 0x82D20B04   # 13 functions: 2 / 11 / 0
+
+AkSoundEngine.lib(AkSink.obj)
+  text 0x82D20D98 0x82D21160   # 10 functions: 4 / 6 / 0
+
+AkSoundEngine.lib(AkVPLMixBusNode.obj)
+  text 0x82D222F0 0x82D22AC8   # 12 functions: 5 / 7 / 0
+
+AkSoundEngine.lib(AkSpeakerPan.obj)
+  text 0x82D22DD0 0x82D23AD8   # 9 functions: 6 / 3 / 0
+
+AkSoundEngine.lib(AkVPLPitchNode.obj)
+  text 0x82D23F40 0x82D24950   # 12 functions: 2 / 10 / 0
+
+AkSoundEngine.lib(AkAudioThread1.obj)
+  text 0x82D24998 0x82D24C18   # 4 functions: 3 / 1 / 0
+
+AkSoundEngine.lib(AkChunkRing.obj)
+  text 0x82D24C18 0x82D25048   # 10 functions: 8 / 2 / 0
+
+AkSoundEngine.lib(AkDynamicSequencePBI.obj)
+  text 0x82D26718 0x82D2682C   # 3 functions: 2 / 1 / 0
+
+AkSoundEngine.lib(AkResampler.obj)
+  text 0x82D27218 0x82D27640   # 9 functions: 4 / 5 / 0
+
+AkSoundEngine.lib(AkVPLSrcNode.obj)
+  text 0x82D27A40 0x82D27AC4   # 1 functions: 1 / 0 / 0
+
+AkSoundEngine.lib(AkActionSetRTPC.obj)
+  text 0x82D27DF8 0x82D27EEC   # 4 functions: 2 / 2 / 0
+
+AkSoundEngine.lib(AkActionBypassFX.obj)
+  text 0x82D27FA0 0x82D28218   # 8 functions: 3 / 5 / 0
+
+AkSoundEngine.lib(AkActionMute.obj)
+  text 0x82D2A1F0 0x82D2A274   # 1 functions: 1 / 0 / 0
+
+AkSoundEngine.lib(AkActionPause.obj)
+  text 0x82D2A668 0x82D2A6D8   # 1 functions: 1 / 0 / 0
+
+AkSoundEngine.lib(AkPlaylist.obj)
+  text 0x82D2A8B8 0x82D2AD30   # 20 functions: 4 / 16 / 0
+
+AkSoundEngine.lib(AkLPFCommon.obj)
+  text 0x82D2B258 0x82D2B6D8   # 4 functions: 4 / 0 / 0
+
+AkSoundEngine.lib(AkActionExcept.obj)
+  text 0x82D2C2C8 0x82D2C5AC   # 7 functions: 4 / 3 / 0
+
+AkSoundEngine.lib(AkResamplerCommon.obj)
+  text 0x82D33A08 0x82D33B3C   # 1 functions: 1 / 0 / 0
+
+AkSoundEngine.lib(AkSrcBankPCM.obj)
+  text 0x82D351A0 0x82D35438   # 5 functions: 2 / 3 / 0
+
+AkSoundEngine.lib(AkSrcBankXMA.obj)
+  text 0x82D360C8 0x82D36B9C   # 14 functions: 4 / 10 / 0
+
+AkSoundEngine.lib(AkSrcFileXMA.obj)
+  text 0x82D37928 0x82D379A0   # 1 functions: 1 / 0 / 0
+
+AkSoundEngine.lib(AkSrcBankADPCM.obj)
+  text 0x82D383E8 0x82D38488   # 2 functions: 2 / 0 / 0
+
+AkSoundEngine.lib(AkSrcFileADPCM.obj)
+  text 0x82D38D28 0x82D395AC   # 8 functions: 3 / 5 / 0
+
+AkSoundEngine.lib(AkSrcPhysModel.obj)
+  text 0x82D399A8 0x82D39A18   # 1 functions: 1 / 0 / 0
+
+AkSoundEngine.lib(AkSrcBase.obj)
+  text 0x82D3A6D0 0x82D3A7F4   # 3 functions: 3 / 0 / 0
+
+AkSoundEngine.lib(AkADPCMCodec.obj)
+  text 0x82D3B5B8 0x82D3B608   # 1 functions: 1 / 0 / 0
+
+AkSoundEngine.lib(AkMarkers.obj)
+  text 0x82D3B858 0x82D3B9EC   # 3 functions: 3 / 0 / 0
+
+AkSoundSeedWind.lib(AkSoundSeedWind.obj)
+  text 0x82D3BE08 0x82D3CA6C   # 18 functions: 13 / 5 / 0
+
+AkSoundSeedWind.lib(AkSoundSeedWindParams.obj)
+  text 0x82D3CB68 0x82D3D238   # 9 functions: 5 / 4 / 0
+
+AkSoundSeedWind.lib(AkGustManager.obj)
+  text 0x82D3D8D8 0x82D3D924   # 1 functions: 1 / 0 / 0
+
+AkSoundSeedWind.lib(AkSoundSeedWindProcess.obj)
+  text 0x82D3DB38 0x82D3F324   # 20 functions: 7 / 13 / 0
+
+AkSoundSeedWind.lib(AkVelocityDelayLine.obj)
+  text 0x82D3FDB0 0x82D3FE9C   # 1 functions: 1 / 0 / 0
+
+AkSoundSeedWind.lib(AkPinkNoise.obj)
+  text 0x82D3FF00 0x82D3FF5C   # 1 functions: 1 / 0 / 0
+
+AkSoundSeedWoosh.lib(AkSoundSeedWoosh.obj)
+  text 0x82D402B8 0x82D40940   # 15 functions: 10 / 5 / 0
+
+AkSoundSeedWoosh.lib(AkSoundSeedWooshParams.obj)
+  text 0x82D41590 0x82D41E60   # 11 functions: 7 / 4 / 0
+
+AkSoundSeedWoosh.lib(AkSoundSeedWooshProcess.obj)
+  text 0x82D423E8 0x82D441C4   # 23 functions: 16 / 7 / 0
+
+AkSoundSeedWoosh.lib(AkColoredNoise.obj)
+  text 0x82D44CF8 0x82D44E00   # 1 functions: 1 / 0 / 0
+
+AkStreamMgr.lib(AkStreamMgr.obj)
+  text 0x82D45310 0x82D45DB8   # 11 functions: 5 / 6 / 0
+
+AkStreamMgr.lib(AkDeviceBase.obj)
+  text 0x82D45EF0 0x82D48F74   # 68 functions: 20 / 46 / 2
+
+AkStreamMgr.lib(AkDeviceDeferredLinedUp.obj)
+  text 0x82D49318 0x82D4ADF4   # 45 functions: 16 / 29 / 0
+
+AkStreamMgr.lib(AkDeviceBlocking.obj)
+  text 0x82D4B440 0x82D4BD14   # 18 functions: 6 / 12 / 0
+
+AkStreamMgr.lib(AkIOThread.obj)
+  text 0x82D4BFC0 0x82D4C71C   # 18 functions: 12 / 6 / 0
+
+AkToneSource.lib(AkToneGen.obj)
+  text 0x82D4C720 0x82D4D270   # 10 functions: 7 / 3 / 0
+
+AkToneSource.lib(AkToneGenParams.obj)
+  text 0x82D4D3B0 0x82D4D768   # 6 functions: 5 / 1 / 0
+
+AkToneSource.lib(AkLpFilter.obj)
+  text 0x82D4D770 0x82D4D810   # 1 functions: 1 / 0 / 0
+
+xaudio2.lib(x2engine.obj)
+  hot 0x823BA9F0   # identified (code, >= 64 bytes)
+  text 0x82D4F098 0x82D51F24   # 68 functions: 50 / 16 / 2
+
+xaudio2.lib(xapobase.obj)
+  text 0x82D51F28 0x82D53C04   # 19 functions: 18 / 1 / 0
+
+xaudio2.lib(leaplib.obj)
+  text 0x82D53C08 0x82D53CC8   # 1 functions: 1 / 0 / 0
+
+xaudio2.lib(x2bufferpool.obj)
+  text 0x82D53CC8 0x82D543EC   # 10 functions: 9 / 1 / 0
+
+xaudio2.lib(leapfxlib.obj)
+  text 0x82D543F0 0x82D546C0   # 5 functions: 5 / 0 / 0
+
+xaudio2.lib(x2xmahal.obj)
+  text 0x82D546C0 0x82D556C8   # 18 functions: 16 / 1 / 1
+
+xaudio2.lib(x2voicesource.obj)
+  text 0x82D55768 0x82D56E24   # 48 functions: 23 / 24 / 1
+
+xaudio2.lib(x2voicewma.obj)
+  text 0x82D57030 0x82D58448   # 18 functions: 10 / 8 / 0
+
+xaudio2.lib(x2voicexma.obj)
+  text 0x82D58448 0x82D5A6FC   # 46 functions: 38 / 8 / 0
+
+xaudio2.lib(waveutils.obj)
+  text 0x82D5A700 0x82D5AD64   # 9 functions: 8 / 1 / 0
+
+xaudio2.lib(x2voiceoutput.obj)
+  text 0x82D5AD68 0x82D5B468   # 8 functions: 3 / 0 / 5
+
+xaudio2.lib(x2voicesubmix.obj)
+  text 0x82D5B540 0x82D5B718   # 13 functions: 3 / 0 / 10
+
+xaudio2.lib(oapmatrixmix.obj)
+  text 0x82D5B7E0 0x82D5F16C   # 20 functions: 19 / 1 / 0
+
+xaudio2.lib(system.obj)
+  text 0x82D5F170 0x82D60B14   # 52 functions: 33 / 18 / 1
+
+xaudio2.lib(src_fast.obj)
+  text 0x82D60B18 0x82D61614   # 21 functions: 10 / 10 / 1
+
+xaudio2.lib(clipper.obj)
+  text 0x82D61618 0x82D61860   # 4 functions: 3 / 0 / 1; several blocks: review
+  text 0x830376D8 0x83037768   # 1 functions: 1 / 0 / 0; several blocks: review
+
+xaudio2.lib(filter.obj)
+  text 0x82D61860 0x82D61F74   # 13 functions: 8 / 4 / 1
+
+xaudio2.lib(apofiltermatrixmix.obj)
+  text 0x82D61F78 0x82D63C2C   # 15 functions: 10 / 3 / 2
+
+xaudio2.lib(adpcm.obj)
+  text 0x82D63C30 0x82D64134   # 13 functions: 6 / 4 / 3
+
+xaudio2.lib(x2effectchain.obj)
+  text 0x82D64138 0x82D647A8   # 11 functions: 10 / 0 / 1
+
+xaudio2.lib(x2voicebase.obj)
+  text 0x82D648D0 0x82D66A40   # 44 functions: 40 / 4 / 0
+
+xaudio2.lib(msaudiodec.obj)
+  text 0x82D66A40 0x82D6E3EC   # 46 functions: 45 / 1 / 0
+
+xaudio2.lib(config.obj)
+  text 0x82D6E3F0 0x82D6F644   # 10 functions: 10 / 0 / 0
+
+xaudio2.lib(encinit.obj)
+  text 0x82D6F648 0x82D6F6D4   # 1 functions: 1 / 0 / 0
+
+xaudio2.lib(wmafmt.obj)
+  text 0x82D6F6D8 0x82D6F764   # 2 functions: 2 / 0 / 0
+
+xaudio2.lib(buffermgr.obj)
+  text 0x82D6F8E0 0x82D6FB9C   # 5 functions: 5 / 0 / 0
+
+xaudio2.lib(graphmgr.obj)
+  text 0x82D6FBA0 0x82D710F8   # 30 functions: 25 / 4 / 1
+
+xaudio2.lib(filterskin.obj)
+  text 0x82D71240 0x82D71484   # 7 functions: 1 / 0 / 6
+
+xaudio2.lib(voiceskin.obj)
+  text 0x82D71500 0x82D72144   # 26 functions: 14 / 12 / 0
+
+xaudio2.lib(baseskin.obj)
+  text 0x82D72148 0x82D727FC   # 14 functions: 9 / 1 / 4
+
+xaudio2.lib(commandmanager.obj)
+  text 0x82D72800 0x82D72D7C   # 11 functions: 8 / 2 / 1
+
+xaudio2.lib(outputskin.obj)
+  text 0x82D72D80 0x82D73150   # 15 functions: 4 / 11 / 0
+
+xaudio2.lib(xboxrendererconnection.obj)
+  text 0x82D73150 0x82D73934   # 18 functions: 11 / 7 / 0
+
+xaudio2.lib(oapresamplelinear.obj)
+  text 0x82D73938 0x82D76974   # 16 functions: 12 / 4 / 0
+
+xaudio2.lib(oapclip.obj)
+  text 0x82D76978 0x82D7767C   # 9 functions: 9 / 0 / 0
+
+xaudio2.lib(oapfilter.obj)
+  text 0x82D77690 0x82D7794C   # 4 functions: 3 / 0 / 1
+
+xaudio2.lib(adpcm_codec.obj)
+  text 0x82D77950 0x82D77A4C   # 3 functions: 2 / 1 / 0
+
+xaudio2.lib(x2mixmatrix.obj)
+  text 0x82D77A50 0x82D77CA4   # 3 functions: 2 / 0 / 1
+
+xaudio2.lib(wmamalloc.obj)
+  text 0x82D77CA8 0x82D77DA0   # 4 functions: 1 / 0 / 3
+
+xaudio2.lib(msaudio.obj)
+  text 0x82D77DA0 0x82D7A960   # 34 functions: 28 / 6 / 0
+
+xaudio2.lib(wmaltrt.obj)
+  text 0x82D7A960 0x82D7B390   # 5 functions: 5 / 0 / 0
+
+xaudio2.lib(msaudiopro.obj)
+  text 0x82D7B390 0x82D7C7AC   # 17 functions: 17 / 0 / 0
+
+xaudio2.lib(strmdec_wma.obj)
+  text 0x82D7C7B0 0x82D7D4D0   # 14 functions: 12 / 2 / 0
+
+xaudio2.lib(entropydecprolsl.obj)
+  text 0x82D7D4D0 0x82D7DB4C   # 3 functions: 3 / 0 / 0
+
+xaudio2.lib(msaudiostdpro.obj)
+  text 0x82D7DB50 0x82D7F7AC   # 9 functions: 9 / 0 / 0
+
+xaudio2.lib(entropydec.obj)
+  text 0x82D7F7B0 0x82D81144   # 2 functions: 2 / 0 / 0
+
+xaudio2.lib(wmaxenon_stub.obj)
+  text 0x82D81148 0x82D81984   # 1 functions: 1 / 0 / 0
+
+xaudio2.lib(losslessdecpro.obj)
+  text 0x82D81988 0x82D821C0   # 4 functions: 4 / 0 / 0
+
+xaudio2.lib(msaudiostd.obj)
+  text 0x82D821C0 0x82D82220   # 1 functions: 1 / 0 / 0
+
+xaudio2.lib(drccommonpro.obj)
+  text 0x82D82220 0x82D84314   # 14 functions: 14 / 0 / 0
+
+xaudio2.lib(entropydecstd.obj)
+  text 0x82D84318 0x82D84AD8   # 6 functions: 6 / 0 / 0
+
+xaudio2.lib(entropydecpro.obj)
+  text 0x82D84AD8 0x82D86BE8   # 16 functions: 15 / 0 / 1
+
+xaudio2.lib(configcommon.obj)
+  text 0x82D86BE8 0x82D86E00   # 3 functions: 2 / 0 / 1
+
+xaudio2.lib(strmdec_wma_xenon.obj)
+  text 0x82D86E00 0x82D87B8C   # 4 functions: 4 / 0 / 0
+
+xaudio2.lib(buffer.obj)
+  text 0x82D87B90 0x82D87F38   # 6 functions: 6 / 0 / 0
+
+xaudio2.lib(swoutput.obj)
+  text 0x82D87F38 0x82D88464   # 13 functions: 9 / 4 / 0
+
+xaudio2.lib(swfilter.obj)
+  text 0x82D88468 0x82D88A90   # 7 functions: 6 / 1 / 0
+
+xaudio2.lib(swvoice.obj)
+  text 0x82D88A90 0x82D8A480   # 38 functions: 32 / 6 / 0
+
+xaudio2.lib(msadpcm.obj)
+  text 0x82D8A480 0x82D8E20C   # 18 functions: 18 / 0 / 0
+
+xaudio2.lib(lowrate_commonstd.obj)
+  text 0x82D8E210 0x82D8FA50   # 6 functions: 6 / 0 / 0
+
+xaudio2.lib(fft.obj)
+  text 0x82D8FA50 0x82D9059C   # 2 functions: 2 / 0 / 0
+
+xaudio2.lib(aureconsample_xenon.obj)
+  text 0x82D905A0 0x82D91390   # 3 functions: 3 / 0 / 0
+
+xaudio2.lib(fft_xenon.obj)
+  text 0x82D91390 0x82D91DBC   # 2 functions: 2 / 0 / 0
+
+xaudio2.lib(float.obj)
+  text 0x82D91DC0 0x82D92B80   # 1 functions: 1 / 0 / 0
+
+xaudio2.lib(wmabuffilt.obj)
+  text 0x82D92B80 0x82D9332C   # 8 functions: 6 / 1 / 1
+
+xaudio2.lib(losslessdecprolsl.obj)
+  text 0x82D93330 0x82D93590   # 1 functions: 1 / 0 / 0
+
+xaudio2.lib(baseswfilter.obj)
+  text 0x82D935B8 0x82D93904   # 10 functions: 3 / 0 / 7
+
+libgrenderer.lib(GRendererXbox360Impl.obj)
+  hot 0x821D8F20   # identified (code, >= 64 bytes)
+  hot 0x821E5510   # identified (code, >= 64 bytes)
+  hot 0x821F2E78   # identified (code, >= 64 bytes)
+  hot 0x821F4428   # identified (code, >= 64 bytes)
+  hot 0x821F4470   # identified (code, >= 64 bytes)
+  hot 0x82209218   # identified (code, >= 64 bytes)
+  hot 0x82360470   # identified (code, >= 64 bytes)
+  hot 0x82385610   # identified (code, >= 64 bytes)
+  hot 0x823A0D48   # identified (code, >= 64 bytes)
+  text 0x82D93908 0x82D97414   # 86 functions: 55 / 31 / 0
+
+libgrenderer.lib(GRendererCommonImpl.obj)
+  hot 0x821D0478   # identified (code, >= 64 bytes)
+  hot 0x821F4588   # identified (code, >= 64 bytes)
+  hot 0x821F4CE0   # identified (code, >= 64 bytes)
+  text 0x82D97460 0x82D979D4   # 10 functions: 7 / 2 / 1
+
+libgfx.lib(GSysAllocStatic.obj)
+  text 0x82D97A08 0x82D97DF4   # 12 functions: 5 / 7 / 0
+
+libgfx.lib(GSysAllocWinAPI.obj)
+  text 0x82D97E98 0x82D980A0   # 10 functions: 2 / 0 / 8
+
+libgfx.lib(GMemoryHeap.obj)
+  hot 0x82246B20   # identified (code, >= 64 bytes)
+  hot 0x8225BDE8   # identified (code, >= 64 bytes)
+  hot 0x82317D00   # identified (code, >= 64 bytes)
+  hot 0x823388C0   # identified (code, >= 64 bytes)
+  hot 0x823970A8   # identified (code, >= 64 bytes)
+  init 0x83047350   # initializer region: its code references only this object's functions
+  text 0x82D980A0 0x82D98D5C   # 33 functions: 22 / 11 / 0
+
+libgfx.lib(GRefCount.obj)
+  init 0x82F57910   # initializer region: its code references only this object's functions
+  init 0x82F57940   # initializer region: its code references only this object's functions
+  init 0x83044F90   # initializer region: its code references only this object's functions
+  init 0x83044FB8   # initializer region: its code references only this object's functions
+  init 0x83044FD0   # initializer region: its code references only this object's functions
+  init 0x83044FE8   # initializer region: its code references only this object's functions
+  init 0x83045000   # initializer region: its code references only this object's functions
+  text 0x82D98D60 0x82D98F9C   # 7 functions: 4 / 0 / 3
+
+libgfx.lib(GSystem.obj)
+  text 0x82D98FA0 0x82D99048   # 2 functions: 2 / 0 / 0
+
+libgfx.lib(GThreads_win32.obj)
+  hot 0x821D64E0   # identified (code, >= 64 bytes)
+  hot 0x821E7E78   # identified (code, >= 64 bytes)
+  hot 0x821E7F88   # identified (code, >= 64 bytes)
+  hot 0x821ED2B8   # identified (code, >= 64 bytes)
+  hot 0x8239F558   # identified (code, >= 64 bytes)
+  text 0x82D99048 0x82D9A5D4   # 69 functions: 38 / 28 / 3
+
+libgfx.lib(GThreads.obj)
+  hot 0x821E7EF0   # identified (code, >= 64 bytes)
+  hot 0x821E8088   # identified (code, >= 64 bytes)
+  hot 0x822DF5B8   # identified (code, >= 64 bytes)
+  text 0x82D9A5D8 0x82D9BFF0   # 61 functions: 39 / 18 / 4
+
+libgfx.lib(GImage.obj)
+  hot 0x821F4630   # identified (code, >= 64 bytes)
+  text 0x82D9BFF0 0x82D9D384   # 16 functions: 16 / 0 / 0
+
+libgfx.lib(GString.obj)
+  hot 0x8225DA00   # identified (code, >= 64 bytes)
+  text 0x82D9D388 0x82D9F16C   # 51 functions: 39 / 12 / 0
+
+libgfx.lib(GFxValueImpl.obj)
+  hot 0x821E5758   # identified (code, >= 64 bytes)
+  hot 0x82231B98   # identified (code, >= 64 bytes)
+  hot 0x8225E190   # identified (code, >= 64 bytes)
+  hot 0x8226C640   # identified (code, >= 64 bytes)
+  hot 0x82304160   # identified (code, >= 64 bytes)
+  hot 0x82340618   # identified (code, >= 64 bytes)
+  hot 0x82398480   # identified (code, >= 64 bytes)
+  hot 0x823A1570   # identified (code, >= 64 bytes)
+  hot 0x823B3E48   # identified (code, >= 64 bytes)
+  init 0x830450F0   # initializer region: its code references only this object's functions
+  init 0x83045148   # initializer region: its code references only this object's functions
+  init 0x830451A0   # initializer region: its code references only this object's functions
+  init 0x830451F8   # initializer region: its code references only this object's functions
+  init 0x83045528   # initializer region: its code references only this object's functions
+  text 0x82D9F170 0x82DA0D8C   # 42 functions: 34 / 8 / 0
+
+libgfx.lib(GFxResource.obj)
+  text 0x82DA0D90 0x82DA2B14   # 45 functions: 36 / 7 / 2
+
+libgfx.lib(GFxLoader.obj)
+  hot 0x823770C8   # identified (code, >= 64 bytes)
+  hot 0x823AF4C0   # identified (code, >= 64 bytes)
+  text 0x82DA2B18 0x82DA36C4   # 21 functions: 19 / 2 / 0
+
+libgfx.lib(GFxRenderConfig.obj)
+  text 0x82DA36C8 0x82DA38BC   # 5 functions: 4 / 1 / 0
+
+libgfx.lib(GFxFontLib.obj)
+  hot 0x821F70C8   # identified (code, >= 64 bytes)
+  text 0x82DA3A58 0x82DA4768   # 17 functions: 12 / 5 / 0
+
+libgfx.lib(GFxFontMap.obj)
+  text 0x82DA4768 0x82DA546C   # 19 functions: 16 / 2 / 1
+
+libgfx.lib(GFxJpegSupport.obj)
+  text 0x82DA5470 0x82DA58D0   # 6 functions: 4 / 2 / 0
+
+libgfx.lib(GFxMeshCacheManager.obj)
+  text 0x82DA5950 0x82DA6564   # 25 functions: 17 / 7 / 1
+
+libgfx.lib(GFxDrawText.obj)
+  hot 0x821D0540   # identified (code, >= 64 bytes)
+  hot 0x822085D8   # identified (code, >= 64 bytes)
+  text 0x82DA6568 0x82DA8704   # 71 functions: 43 / 28 / 0
+
+libgfx.lib(GFxLoaderImpl.obj)
+  hot 0x822D8010   # identified (code, >= 64 bytes)
+  text 0x82DA8708 0x82DA90FC   # 18 functions: 13 / 4 / 1; several blocks: review
+  text 0x82DA97D0 0x82DAC3BC   # 45 functions: 33 / 12 / 0; several blocks: review
+
+libgfx.lib(GFxLog.obj)
+  text 0x82DA9768 0x82DA97CC   # 1 functions: 1 / 0 / 0
+
+libgfx.lib(GFxFileOpener.obj)
+  text 0x82DAC3C0 0x82DAC598   # 3 functions: 3 / 0 / 0
+
+libgfx.lib(GFxZlibSupport.obj)
+  hot 0x822D4190   # identified (code, >= 64 bytes)
+  hot 0x822D7F98   # identified (code, >= 64 bytes)
+  text 0x82DAC598 0x82DAC6AC   # 1 functions: 1 / 0 / 0
+
+libgfx.lib(GRenderer.obj)
+  text 0x82DAC6B0 0x82DACBA0   # 9 functions: 8 / 1 / 0
+
+libgfx.lib(GMatrix2D.obj)
+  hot 0x821E55A0   # identified (code, >= 64 bytes)
+  hot 0x8235ACB8   # identified (code, >= 64 bytes)
+  text 0x82DACBA0 0x82DAD308   # 19 functions: 10 / 9 / 0
+
+libgfx.lib(GStats.obj)
+  hot 0x821D8E90   # identified (code, >= 64 bytes)
+  text 0x82DAD308 0x82DAD990   # 24 functions: 9 / 15 / 0
+
+libgfx.lib(GHeapAllocLite.obj)
+  text 0x82DAD990 0x82DAEB60   # 28 functions: 26 / 2 / 0
+
+libgfx.lib(GSysAllocMemoryMap.obj)
+  text 0x82DAEB60 0x82DAFA94   # 20 functions: 17 / 2 / 1
+
+libgfx.lib(GHeapFreeBin.obj)
+  hot 0x821D1180   # identified (code, >= 64 bytes)
+  text 0x82DAFA98 0x82DB07C8   # 14 functions: 11 / 2 / 1
+
+libgfx.lib(GHeapBookkeeper.obj)
+  hot 0x821F1EA8   # identified (code, >= 64 bytes)
+  text 0x82DB07C8 0x82DB0AA0   # 4 functions: 4 / 0 / 0
+
+libgfx.lib(GHeapAllocEngine.obj)
+  hot 0x821F7990   # identified (code, >= 64 bytes)
+  hot 0x8225BE88   # identified (code, >= 64 bytes)
+  hot 0x8225C190   # identified (code, >= 64 bytes)
+  hot 0x823A3168   # identified (code, >= 64 bytes)
+  text 0x82DB0AF0 0x82DB1B14   # 19 functions: 17 / 0 / 2
+
+libgfx.lib(GSysAllocGranulator.obj)
+  text 0x82DB1B18 0x82DB1D60   # 14 functions: 2 / 4 / 8
+
+libgfx.lib(GHeapPageTable.obj)
+  text 0x82DB1D60 0x82DB213C   # 7 functions: 6 / 1 / 0
+
+libgfx.lib(GTimer.obj)
+  text 0x82DB2140 0x82DB2208   # 2 functions: 1 / 0 / 1
+
+libgfx.lib(GSysFile.obj)
+  hot 0x822E0A28   # identified (code, >= 64 bytes)
+  text 0x82DB2208 0x82DB2788   # 25 functions: 6 / 17 / 2
+
+libgfx.lib(GUTF8Util.obj)
+  hot 0x82230BA0   # identified (code, >= 64 bytes)
+  text 0x82DB2788 0x82DB2F6C   # 7 functions: 7 / 0 / 0
+
+libgfx.lib(GStd.obj)
+  text 0x82DB2F70 0x82DB3188   # 7 functions: 4 / 0 / 3
+
+libgfx.lib(GFxASString.obj)
+  hot 0x82225B88   # identified (code, >= 64 bytes)
+  hot 0x82229A88   # identified (code, >= 64 bytes)
+  hot 0x82229B08   # identified (code, >= 64 bytes)
+  hot 0x8222B478   # identified (code, >= 64 bytes)
+  hot 0x8222B4E0   # identified (code, >= 64 bytes)
+  hot 0x82230C28   # identified (code, >= 64 bytes)
+  hot 0x82237008   # identified (code, >= 64 bytes)
+  hot 0x8225DB08   # identified (code, >= 64 bytes)
+  hot 0x82262E48   # identified (code, >= 64 bytes)
+  hot 0x82262F30   # identified (code, >= 64 bytes)
+  hot 0x82305620   # identified (code, >= 64 bytes)
+  hot 0x82305770   # identified (code, >= 64 bytes)
+  hot 0x823294A8   # identified (code, >= 64 bytes)
+  hot 0x82338910   # identified (code, >= 64 bytes)
+  hot 0x82338990   # identified (code, >= 64 bytes)
+  hot 0x82344EC8   # identified (code, >= 64 bytes)
+  hot 0x8235ADC0   # identified (code, >= 64 bytes)
+  hot 0x8236AF80   # identified (code, >= 64 bytes)
+  text 0x82DB3188 0x82DB3970   # 15 functions: 14 / 1 / 0
+
+libgfx.lib(GASValue.obj)
+  hot 0x821D63C8   # identified (code, >= 64 bytes)
+  hot 0x8221E8E0   # identified (code, >= 64 bytes)
+  hot 0x822331F8   # identified (code, >= 64 bytes)
+  hot 0x82243FB8   # identified (code, >= 64 bytes)
+  hot 0x82255748   # identified (code, >= 64 bytes)
+  hot 0x82272938   # identified (code, >= 64 bytes)
+  hot 0x82274B48   # identified (code, >= 64 bytes)
+  hot 0x8227CE48   # identified (code, >= 64 bytes)
+  hot 0x82298928   # identified (code, >= 64 bytes)
+  hot 0x8229E358   # identified (code, >= 64 bytes)
+  hot 0x822F52C8   # identified (code, >= 64 bytes)
+  hot 0x822FC908   # identified (code, >= 64 bytes)
+  hot 0x822FCA80   # identified (code, >= 64 bytes)
+  hot 0x82319330   # identified (code, >= 64 bytes)
+  hot 0x82345D80   # identified (code, >= 64 bytes)
+  hot 0x8237A968   # identified (code, >= 64 bytes)
+  hot 0x823BEED0   # identified (code, >= 64 bytes)
+  hot 0x823BF258   # identified (code, >= 64 bytes)
+  init 0x830472A0   # initializer region: its code references only this object's functions
+  init 0x830472B0   # initializer region: its code references only this object's functions
+  init 0x83047398   # initializer region: its code references only this object's functions
+  init 0x830473E8   # initializer region: its code references only this object's functions
+  init 0x83047438   # initializer region: its code references only this object's functions
+  init 0x83047488   # initializer region: its code references only this object's functions
+  text 0x82DB3970 0x82DB5638   # 42 functions: 33 / 9 / 0
+
+libgfx.lib(GFxDlist.obj)
+  hot 0x823130C8   # identified (code, >= 64 bytes)
+  hot 0x8237F4F0   # identified (code, >= 64 bytes)
+  hot 0x823A3BA0   # identified (code, >= 64 bytes)
+  hot 0x823A3D38   # identified (code, >= 64 bytes)
+  hot 0x823A3DB8   # identified (code, >= 64 bytes)
+  text 0x82DB5638 0x82DB65C4   # 21 functions: 16 / 4 / 1
+
+libgfx.lib(GFxCharacter.obj)
+  hot 0x821DAFD8   # identified (code, >= 64 bytes)
+  hot 0x821E57B8   # identified (code, >= 64 bytes)
+  hot 0x821E5868   # identified (code, >= 64 bytes)
+  hot 0x821FACB8   # identified (code, >= 64 bytes)
+  hot 0x821FFAD8   # identified (code, >= 64 bytes)
+  hot 0x82224258   # identified (code, >= 64 bytes)
+  hot 0x822242D0   # identified (code, >= 64 bytes)
+  hot 0x82225A90   # identified (code, >= 64 bytes)
+  hot 0x82226BC0   # identified (code, >= 64 bytes)
+  hot 0x82255190   # identified (code, >= 64 bytes)
+  hot 0x82266440   # identified (code, >= 64 bytes)
+  hot 0x82271448   # identified (code, >= 64 bytes)
+  hot 0x82271AC0   # identified (code, >= 64 bytes)
+  hot 0x8227A058   # identified (code, >= 64 bytes)
+  hot 0x82305820   # identified (code, >= 64 bytes)
+  hot 0x8232D410   # identified (code, >= 64 bytes)
+  hot 0x8233E5E8   # identified (code, >= 64 bytes)
+  hot 0x823450B8   # identified (code, >= 64 bytes)
+  hot 0x823B4750   # identified (code, >= 64 bytes)
+  hot 0x823BEF78   # identified (code, >= 64 bytes)
+  hot 0x823BF2D8   # identified (code, >= 64 bytes)
+  text 0x82DB65C8 0x82DBA9D4   # 129 functions: 83 / 46 / 0
+
+libgfx.lib(GASArrayObject.obj)
+  hot 0x82303A40   # identified (code, >= 64 bytes)
+  text 0x82DBA9D8 0x82DBF8A4   # 108 functions: 84 / 24 / 0
+
+libgfx.lib(GFxAction.obj)
+  hot 0x821D31D8   # identified (code, >= 64 bytes)
+  hot 0x821D9C58   # identified (code, >= 64 bytes)
+  hot 0x821E6EE8   # identified (code, >= 64 bytes)
+  hot 0x821F1D90   # identified (code, >= 64 bytes)
+  hot 0x821F5BD0   # identified (code, >= 64 bytes)
+  hot 0x821FBC80   # identified (code, >= 64 bytes)
+  hot 0x8220ED70   # identified (code, >= 64 bytes)
+  hot 0x8220F0C0   # identified (code, >= 64 bytes)
+  hot 0x82217248   # identified (code, >= 64 bytes)
+  hot 0x82224078   # identified (code, >= 64 bytes)
+  hot 0x8222B3B8   # identified (code, >= 64 bytes)
+  hot 0x8222B750   # identified (code, >= 64 bytes)
+  hot 0x82232558   # identified (code, >= 64 bytes)
+  hot 0x822330E8   # identified (code, >= 64 bytes)
+  hot 0x82233360   # identified (code, >= 64 bytes)
+  hot 0x82244A78   # identified (code, >= 64 bytes)
+  hot 0x82244BE0   # identified (code, >= 64 bytes)
+  hot 0x82255AE0   # identified (code, >= 64 bytes)
+  hot 0x822741E0   # identified (code, >= 64 bytes)
+  hot 0x82279520   # identified (code, >= 64 bytes)
+  hot 0x8227B320   # identified (code, >= 64 bytes)
+  hot 0x82286958   # identified (code, >= 64 bytes)
+  hot 0x822F55E0   # identified (code, >= 64 bytes)
+  hot 0x822FA038   # identified (code, >= 64 bytes)
+  hot 0x822FA0D0   # identified (code, >= 64 bytes)
+  hot 0x822FFDA0   # identified (code, >= 64 bytes)
+  hot 0x82303918   # identified (code, >= 64 bytes)
+  hot 0x82303B48   # identified (code, >= 64 bytes)
+  hot 0x82308008   # identified (code, >= 64 bytes)
+  hot 0x823179F0   # identified (code, >= 64 bytes)
+  hot 0x8231F250   # identified (code, >= 64 bytes)
+  hot 0x82320908   # identified (code, >= 64 bytes)
+  hot 0x8232A830   # identified (code, >= 64 bytes)
+  hot 0x8232AA70   # identified (code, >= 64 bytes)
+  hot 0x8235AD20   # identified (code, >= 64 bytes)
+  hot 0x8235B1F8   # identified (code, >= 64 bytes)
+  hot 0x82368AB8   # identified (code, >= 64 bytes)
+  hot 0x82368B70   # identified (code, >= 64 bytes)
+  hot 0x82388EB0   # identified (code, >= 64 bytes)
+  hot 0x82399460   # identified (code, >= 64 bytes)
+  hot 0x8239FC40   # identified (code, >= 64 bytes)
+  hot 0x823B3D00   # identified (code, >= 64 bytes)
+  hot 0x823B8B30   # identified (code, >= 64 bytes)
+  hot 0x823BECF0   # identified (code, >= 64 bytes)
+  hot 0x823BEDF0   # identified (code, >= 64 bytes)
+  text 0x82DBF910 0x82DCC88C   # 251 functions: 189 / 62 / 0
+
+libgfx.lib(GASNumberUtil.obj)
+  init 0x83038060   # initializer region: its code references only this object's functions
+  init 0x830380C8   # initializer region: its code references only this object's functions
+  text 0x82DCC890 0x82DCCD20   # 11 functions: 6 / 5 / 0
+
+libgfx.lib(GASObject.obj)
+  hot 0x821DB108   # identified (code, >= 64 bytes)
+  hot 0x82248910   # identified (code, >= 64 bytes)
+  hot 0x8229B880   # identified (code, >= 64 bytes)
+  hot 0x82312D48   # identified (code, >= 64 bytes)
+  hot 0x8231ED30   # identified (code, >= 64 bytes)
+  hot 0x8231EDF0   # identified (code, >= 64 bytes)
+  hot 0x8231F728   # identified (code, >= 64 bytes)
+  hot 0x823452C8   # identified (code, >= 64 bytes)
+  hot 0x8236E5D0   # identified (code, >= 64 bytes)
+  hot 0x82399D28   # identified (code, >= 64 bytes)
+  hot 0x8239DA20   # identified (code, >= 64 bytes)
+  hot 0x8239F5D8   # identified (code, >= 64 bytes)
+  hot 0x823A69D0   # identified (code, >= 64 bytes)
+  hot 0x823B8C18   # identified (code, >= 64 bytes)
+  text 0x82DCCD20 0x82DD0D58   # 91 functions: 64 / 27 / 0
+
+libgfx.lib(GASFunction.obj)
+  hot 0x821E5D98   # identified (code, >= 64 bytes)
+  hot 0x821E6790   # identified (code, >= 64 bytes)
+  hot 0x821F0FB8   # identified (code, >= 64 bytes)
+  hot 0x821F1FC8   # identified (code, >= 64 bytes)
+  hot 0x821F41C0   # identified (code, >= 64 bytes)
+  hot 0x822299F8   # identified (code, >= 64 bytes)
+  hot 0x82230B00   # identified (code, >= 64 bytes)
+  hot 0x82355E10   # identified (code, >= 64 bytes)
+  hot 0x823619E0   # identified (code, >= 64 bytes)
+  hot 0x8236DAB0   # identified (code, >= 64 bytes)
+  hot 0x823A4938   # identified (code, >= 64 bytes)
+  hot 0x823A5020   # identified (code, >= 64 bytes)
+  text 0x82DD0D58 0x82DD1B10   # 33 functions: 18 / 15 / 0
+
+libgfx.lib(GFxSprite.obj)
+  hot 0x821D4AF0   # identified (code, >= 64 bytes)
+  hot 0x821DAE90   # identified (code, >= 64 bytes)
+  hot 0x821E67E8   # identified (code, >= 64 bytes)
+  hot 0x821E9EE0   # identified (code, >= 64 bytes)
+  hot 0x821F0E70   # identified (code, >= 64 bytes)
+  hot 0x821F0F58   # identified (code, >= 64 bytes)
+  hot 0x8220EDD0   # identified (code, >= 64 bytes)
+  hot 0x8221B6B8   # identified (code, >= 64 bytes)
+  hot 0x8222C498   # identified (code, >= 64 bytes)
+  hot 0x8224FBF8   # identified (code, >= 64 bytes)
+  hot 0x82255E20   # identified (code, >= 64 bytes)
+  hot 0x82255F60   # identified (code, >= 64 bytes)
+  hot 0x82266540   # identified (code, >= 64 bytes)
+  hot 0x8226A4F8   # identified (code, >= 64 bytes)
+  hot 0x8226C6D0   # identified (code, >= 64 bytes)
+  hot 0x8229B900   # identified (code, >= 64 bytes)
+  hot 0x8229BBF8   # identified (code, >= 64 bytes)
+  hot 0x82304218   # identified (code, >= 64 bytes)
+  hot 0x823053E8   # identified (code, >= 64 bytes)
+  hot 0x8230DDA0   # identified (code, >= 64 bytes)
+  hot 0x82311088   # identified (code, >= 64 bytes)
+  hot 0x8231EBD0   # identified (code, >= 64 bytes)
+  hot 0x8232D238   # identified (code, >= 64 bytes)
+  hot 0x82336618   # identified (code, >= 64 bytes)
+  hot 0x82340DC0   # identified (code, >= 64 bytes)
+  hot 0x823410D8   # identified (code, >= 64 bytes)
+  hot 0x82343648   # identified (code, >= 64 bytes)
+  hot 0x82345278   # identified (code, >= 64 bytes)
+  hot 0x8236A148   # identified (code, >= 64 bytes)
+  hot 0x82379988   # identified (code, >= 64 bytes)
+  hot 0x823940C8   # identified (code, >= 64 bytes)
+  hot 0x82395710   # identified (code, >= 64 bytes)
+  text 0x82DD1B10 0x82DDE214   # 256 functions: 185 / 70 / 1
+
+libgfx.lib(GFxMovieDef.obj)
+  hot 0x8231F148   # identified (code, >= 64 bytes)
+  text 0x82DDE218 0x82DE6700   # 210 functions: 130 / 79 / 1
+
+libgfx.lib(GMsgFormat.obj)
+  text 0x82DE6728 0x82DEA464   # 65 functions: 50 / 12 / 3
+
+libgfx.lib(GFxTagLoaders.obj)
+  hot 0x8239DCE0   # identified (code, >= 64 bytes)
+  init 0x83047520   # initializer region: its code references only this object's functions
+  text 0x82DEA468 0x82DEEF10   # 96 functions: 70 / 26 / 0
+
+libgfx.lib(GImageInfo.obj)
+  text 0x82DEEF58 0x82DEF964   # 27 functions: 17 / 6 / 4
+
+libgfx.lib(GFxResourceHandle.obj)
+  text 0x82DEF968 0x82DEFC44   # 5 functions: 4 / 0 / 1
+
+libgfx.lib(GFxLoadProcess.obj)
+  text 0x82DEFC80 0x82DF2198   # 40 functions: 33 / 6 / 1
+
+libgfx.lib(GJPEGUtil_jpeglib.obj)
+  text 0x82DF2198 0x82DF33CC   # 47 functions: 31 / 14 / 2
+
+libgfx.lib(GFxMesh.obj)
+  text 0x82DF33E8 0x82DF6B34   # 48 functions: 38 / 10 / 0
+
+libgfx.lib(GFxRenderGen.obj)
+  text 0x82DF6B38 0x82DF730C   # 9 functions: 8 / 0 / 1
+
+libgfx.lib(GFxWWHelper.obj)
+  text 0x82DF7310 0x82DF747C   # 2 functions: 2 / 0 / 0; several blocks: review
+  text 0x82E1B728 0x82E1B79C   # 1 functions: 1 / 0 / 0; several blocks: review
+
+libgfx.lib(GFxTextDocView.obj)
+  text 0x82DF7560 0x82E00A14   # 139 functions: 121 / 18 / 0
+
+libgfx.lib(GFxFontManager.obj)
+  hot 0x82286638   # identified (code, >= 64 bytes)
+  text 0x82E00A68 0x82E03204   # 36 functions: 31 / 5 / 0
+
+libgfx.lib(GFxTextCore.obj)
+  text 0x82E03208 0x82E0685C   # 61 functions: 49 / 12 / 0
+
+libgfx.lib(GFxStyledText.obj)
+  text 0x82E068B8 0x82E10584   # 148 functions: 125 / 21 / 2
+
+libgfx.lib(GFxDisplayContext.obj)
+  text 0x82E10588 0x82E10A14   # 6 functions: 6 / 0 / 0
+
+libgfx.lib(GFxTextLineBuffer.obj)
+  hot 0x821F4FF8   # identified (code, >= 64 bytes)
+  hot 0x822255E0   # identified (code, >= 64 bytes)
+  text 0x82E10AA8 0x82E14484   # 38 functions: 30 / 8 / 0
+
+libgfx.lib(GFxFontCacheManager.obj)
+  hot 0x821EFF80   # identified (code, >= 64 bytes)
+  text 0x82E14658 0x82E19470   # 59 functions: 52 / 7 / 0
+
+libgfx.lib(GFxStream.obj)
+  text 0x82E19470 0x82E1B728   # 42 functions: 36 / 2 / 4
+
+libgfx.lib(GFxString.obj)
+  text 0x82E1B7A0 0x82E1B96C   # 4 functions: 3 / 0 / 1
+
+libgfx.lib(GFxTextField.obj)
+  hot 0x82308618   # identified (code, >= 64 bytes)
+  text 0x82E1B9B8 0x82E2CCB0   # 217 functions: 176 / 41 / 0
+
+libgfx.lib(GFile_FILE.obj)
+  text 0x82E2CCB0 0x82E2D544   # 21 functions: 16 / 5 / 0
+
+libgfx.lib(GZLibFile.obj)
+  hot 0x822817C0   # identified (code, >= 64 bytes)
+  text 0x82E2D558 0x82E2DED4   # 22 functions: 12 / 7 / 3
+
+libgfx.lib(GResizeImage.obj)
+  text 0x82E2DED8 0x82E2E70C   # 8 functions: 8 / 0 / 0
+
+libgfx.lib(GHeapAllocBitSet1.obj)
+  text 0x82E2E710 0x82E2EA28   # 3 functions: 3 / 0 / 0; several blocks: review
+  text 0x82E2FA48 0x82E2FA90   # 1 functions: 1 / 0 / 0; several blocks: review
+
+libgfx.lib(GHeapGranulator.obj)
+  text 0x82E2EA28 0x82E2F6D0   # 14 functions: 13 / 1 / 0
+
+libgfx.lib(GHeapAllocBitSet2.obj)
+  hot 0x821F7840   # identified (code, >= 64 bytes)
+  hot 0x821F7A88   # identified (code, >= 64 bytes)
+  hot 0x8221BFA0   # identified (code, >= 64 bytes)
+  hot 0x82379670   # identified (code, >= 64 bytes)
+  text 0x82E2F6D0 0x82E2FA44   # 2 functions: 2 / 0 / 0; several blocks: review
+  text 0x82E2FA90 0x82E2FC98   # 4 functions: 3 / 1 / 0; several blocks: review
+
+libgfx.lib(GFile.obj)
+  hot 0x821D1278   # identified (code, >= 64 bytes)
+  hot 0x8236A0A0   # identified (code, >= 64 bytes)
+  text 0x82E2FC98 0x82E308D4   # 20 functions: 20 / 0 / 0
+
+libgfx.lib(GFxPlayerImpl.obj)
+  hot 0x821D4B90   # identified (code, >= 64 bytes)
+  hot 0x821E7158   # identified (code, >= 64 bytes)
+  hot 0x821E82A0   # identified (code, >= 64 bytes)
+  hot 0x821E8910   # identified (code, >= 64 bytes)
+  hot 0x821EB858   # identified (code, >= 64 bytes)
+  hot 0x821F4F68   # identified (code, >= 64 bytes)
+  hot 0x8222B2C0   # identified (code, >= 64 bytes)
+  hot 0x822335A0   # identified (code, >= 64 bytes)
+  hot 0x82286740   # identified (code, >= 64 bytes)
+  hot 0x822869E0   # identified (code, >= 64 bytes)
+  hot 0x82286B00   # identified (code, >= 64 bytes)
+  hot 0x82286B40   # identified (code, >= 64 bytes)
+  hot 0x82287278   # identified (code, >= 64 bytes)
+  hot 0x82291EE8   # identified (code, >= 64 bytes)
+  hot 0x8229C8A8   # identified (code, >= 64 bytes)
+  hot 0x822DF640   # identified (code, >= 64 bytes)
+  hot 0x822FE268   # identified (code, >= 64 bytes)
+  hot 0x822FE3C0   # identified (code, >= 64 bytes)
+  hot 0x82340510   # identified (code, >= 64 bytes)
+  hot 0x82368A58   # identified (code, >= 64 bytes)
+  hot 0x8236E9F0   # identified (code, >= 64 bytes)
+  hot 0x82395688   # identified (code, >= 64 bytes)
+  hot 0x823B8B98   # identified (code, >= 64 bytes)
+  hot 0x823B97C8   # identified (code, >= 64 bytes)
+  hot 0x823B9ED8   # identified (code, >= 64 bytes)
+  hot 0x823BDC10   # identified (code, >= 64 bytes)
+  text 0x82E308D8 0x82E408A4   # 261 functions: 189 / 71 / 1
+
+libgfx.lib(GFxScale9Grid.obj)
+  text 0x82E408A8 0x82E41B7C   # 11 functions: 10 / 1 / 0
+
+libgfx.lib(GFxEvent.obj)
+  text 0x82E41B80 0x82E41F24   # 11 functions: 8 / 3 / 0
+
+libgfx.lib(GASTimers.obj)
+  text 0x82E41F28 0x82E42A10   # 11 functions: 7 / 2 / 2
+
+libgfx.lib(GASStringObject.obj)
+  text 0x82E42A10 0x82E449D8   # 39 functions: 28 / 11 / 0
+
+libgfx.lib(GFxIMEManager.obj)
+  text 0x82E449D8 0x82E452BC   # 8 functions: 8 / 0 / 0
+
+libgfx.lib(GFxStringBuiltins.obj)
+  text 0x82E45370 0x82E454EC   # 4 functions: 2 / 0 / 2
+
+libgfx.lib(GASMath.obj)
+  hot 0x821E9C38   # identified (code, >= 64 bytes)
+  hot 0x8220D148   # identified (code, >= 64 bytes)
+  hot 0x8237AB68   # identified (code, >= 64 bytes)
+  text 0x82E454F0 0x82E45E10   # 20 functions: 18 / 2 / 0
+
+libgfx.lib(GASNumberObject.obj)
+  text 0x82E45E10 0x82E468A8   # 25 functions: 12 / 13 / 0
+
+libgfx.lib(GASBooleanObject.obj)
+  text 0x82E468A8 0x82E47210   # 23 functions: 8 / 15 / 0
+
+libgfx.lib(GASColor.obj)
+  text 0x82E472C8 0x82E480B8   # 16 functions: 9 / 6 / 1
+
+libgfx.lib(GFxButton.obj)
+  hot 0x821F14C0   # identified (code, >= 64 bytes)
+  hot 0x8236ED70   # identified (code, >= 64 bytes)
+  hot 0x82397308   # identified (code, >= 64 bytes)
+  hot 0x8239DC78   # identified (code, >= 64 bytes)
+  text 0x82E480B8 0x82E4C228   # 72 functions: 54 / 18 / 0
+
+libgfx.lib(GASMovieClipLoader.obj)
+  text 0x82E4C228 0x82E4D8DC   # 29 functions: 19 / 8 / 2; several blocks: review
+  text 0x82E4DBB8 0x82E4E0F0   # 8 functions: 4 / 4 / 0; several blocks: review
+
+libgfx_video.lib(GASVideoObject.obj)
+  hot 0x821E8110   # identified (code, >= 64 bytes)
+  hot 0x82293BE0   # identified (code, >= 64 bytes)
+  text 0x82E4D8E0 0x82E4DB80   # 6 functions: 5 / 0 / 1; several blocks: review
+  text 0x82EC3898 0x82EC4E10   # 37 functions: 14 / 23 / 0; several blocks: review
+
+libgfx.lib(GASLoadVars.obj)
+  text 0x82E4E0F0 0x82E4F598   # 29 functions: 18 / 11 / 0; several blocks: review
+  text 0x82E78D88 0x82E790D0   # 6 functions: 6 / 0 / 0; several blocks: review
+
+libgfx.lib(GASStage.obj)
+  hot 0x821FBCE8   # identified (code, >= 64 bytes)
+  hot 0x821FF6C8   # identified (code, >= 64 bytes)
+  hot 0x822261C8   # identified (code, >= 64 bytes)
+  text 0x82E4F598 0x82E4FF44   # 10 functions: 6 / 4 / 0
+
+libgfx.lib(GASSelection.obj)
+  text 0x82E4FF48 0x82E515A8   # 18 functions: 15 / 3 / 0
+
+libgfx.lib(GASAsBroadcaster.obj)
+  text 0x82E517A0 0x82E52548   # 20 functions: 14 / 6 / 0
+
+libgfx.lib(GASMouse.obj)
+  text 0x82E52598 0x82E54184   # 37 functions: 25 / 12 / 0
+
+libgfx.lib(GASTextFormat.obj)
+  text 0x82E54188 0x82E57540   # 31 functions: 21 / 10 / 0
+
+libgfx.lib(GASTextSnapshot.obj)
+  text 0x82E57540 0x82E592A8   # 36 functions: 17 / 18 / 1
+
+libgfx.lib(GASDate.obj)
+  text 0x82E592A8 0x82E5C600   # 68 functions: 58 / 10 / 0
+
+libgfx.lib(GASSharedObject.obj)
+  text 0x82E5C600 0x82E5FB9C   # 72 functions: 48 / 24 / 0
+
+libgfx.lib(GASTransformObject.obj)
+  text 0x82E5FBA0 0x82E614E0   # 36 functions: 19 / 17 / 0
+
+libgfx.lib(GASMatrixObject.obj)
+  text 0x82E61598 0x82E63430   # 25 functions: 19 / 4 / 2
+
+libgfx.lib(GASPointObject.obj)
+  hot 0x822E4E38   # identified (code, >= 64 bytes)
+  text 0x82E63430 0x82E64BD0   # 29 functions: 20 / 9 / 0
+
+libgfx.lib(GASRectangleObject.obj)
+  hot 0x822533F8   # identified (code, >= 64 bytes)
+  text 0x82E64C30 0x82E67DF8   # 38 functions: 30 / 6 / 2
+
+libgfx.lib(GASColorTransform.obj)
+  text 0x82E67DF8 0x82E699A8   # 28 functions: 19 / 9 / 0
+
+libgfx.lib(GASCapabilities.obj)
+  text 0x82E699A8 0x82E6B870   # 8 functions: 8 / 0 / 0
+
+libgfx.lib(GASIme.obj)
+  text 0x82E6B870 0x82E6BEB8   # 8 functions: 7 / 1 / 0
+
+libgfx.lib(GASExternalInterface.obj)
+  hot 0x82271218   # identified (code, >= 64 bytes)
+  text 0x82E6BF18 0x82E6C5D8   # 11 functions: 6 / 5 / 0
+
+libgfx.lib(GASBitmapData.obj)
+  hot 0x8232AC50   # identified (code, >= 64 bytes)
+  text 0x82E6C5D8 0x82E6D780   # 24 functions: 11 / 13 / 0
+
+libgfx.lib(GASDropShadowFilter.obj)
+  text 0x82E6DC98 0x82E6E6F4   # 11 functions: 2 / 1 / 8; several blocks: review
+  text 0x82E6E990 0x82E6F69C   # 8 functions: 3 / 4 / 1; several blocks: review
+  text 0x82E70CA8 0x82E70D4C   # 2 functions: 1 / 0 / 1; several blocks: review
+
+libgfx.lib(GASBitmapFilter.obj)
+  text 0x82E6E6F8 0x82E6E990   # 5 functions: 5 / 0 / 0
+
+libgfx.lib(GASGlowFilter.obj)
+  text 0x82E6F6A0 0x82E70A04   # 19 functions: 6 / 13 / 0
+
+libgfx.lib(GASBlurFilter.obj)
+  text 0x82E70D50 0x82E71694   # 10 functions: 4 / 6 / 0
+
+libgfx.lib(GASKeyObject.obj)
+  hot 0x8237ACB0   # identified (code, >= 64 bytes)
+  text 0x82E71698 0x82E71A8C   # 15 functions: 4 / 9 / 2
+
+libgfx.lib(GFxStaticText.obj)
+  text 0x82E71C30 0x82E747AC   # 41 functions: 31 / 9 / 1
+
+libgfx.lib(GFxDrawingContext.obj)
+  text 0x82E747B0 0x82E753AC   # 28 functions: 18 / 8 / 2
+
+libgfx.lib(GFxCharacterDef.obj)
+  text 0x82E753B0 0x82E75478   # 2 functions: 2 / 0 / 0
+
+libgfx.lib(GFxStyles.obj)
+  text 0x82E75478 0x82E77F84   # 43 functions: 35 / 8 / 0
+
+libgfx.lib(GASSoundObject.obj)
+  text 0x82E77FC0 0x82E78D84   # 19 functions: 15 / 3 / 1; several blocks: review
+  text 0x82E790D0 0x82E7A044   # 16 functions: 7 / 9 / 0; several blocks: review
+
+libgfx.lib(GFxShape.obj)
+  text 0x82E7A048 0x82E83568   # 151 functions: 85 / 61 / 5
+
+libgfx.lib(GFxFontResource.obj)
+  hot 0x82279340   # identified (code, >= 64 bytes)
+  text 0x82E835A8 0x82E8C400   # 143 functions: 109 / 34 / 0
+
+libgfx.lib(GFxFontGlyphPacker.obj)
+  text 0x82E8C458 0x82E8DF68   # 25 functions: 19 / 6 / 0
+
+libgfx.lib(GFxMorphCharacter.obj)
+  hot 0x821F5E20   # identified (code, >= 64 bytes)
+  text 0x82E8DF68 0x82E8FCB8   # 24 functions: 21 / 3 / 0
+
+libgfx.lib(GFxImageResource.obj)
+  text 0x82E8FCB8 0x82E90024   # 9 functions: 5 / 4 / 0
+
+libgfx.lib(GStroker.obj)
+  text 0x82E90058 0x82E917C8   # 10 functions: 9 / 1 / 0
+
+libgfx.lib(GFxVertex.obj)
+  text 0x82E918D0 0x82E91F08   # 13 functions: 8 / 1 / 4
+
+libgfx.lib(GTessellator.obj)
+  text 0x82E92140 0x82E99020   # 83 functions: 78 / 5 / 0
+
+libgfx.lib(GFxEdgeAAGen.obj)
+  text 0x82E99020 0x82E9A48C   # 12 functions: 10 / 2 / 0
+
+libgfx.lib(GCompoundShape.obj)
+  text 0x82E9A490 0x82E9AEE8   # 16 functions: 13 / 2 / 1
+
+libgfx.lib(GStrokerAA.obj)
+  text 0x82E9AEE8 0x82E9EC98   # 16 functions: 15 / 1 / 0
+
+libgfx.lib(GEdgeAA.obj)
+  text 0x82E9EC98 0x82EA120C   # 31 functions: 27 / 4 / 0
+
+libgfx.lib(GFxTextHighlight.obj)
+  text 0x82EA1270 0x82EA2B84   # 34 functions: 22 / 10 / 2
+
+libgfx.lib(GFxTextEditorKit.obj)
+  text 0x82EA2B88 0x82EA59B4   # 43 functions: 38 / 4 / 1
+
+libgfx.lib(GFxStyleSheet.obj)
+  text 0x82EA5EA0 0x82EA8868   # 45 functions: 42 / 3 / 0
+
+libgfx.lib(GFxGlyphCache.obj)
+  text 0x82EA8868 0x82EAD484   # 70 functions: 62 / 8 / 0
+
+libgfx.lib(GColor.obj)
+  text 0x82EAD488 0x82EAE190   # 13 functions: 10 / 3 / 0
+
+libgfx.lib(GFxFilterDesc.obj)
+  text 0x82EAE190 0x82EAF270   # 3 functions: 3 / 0 / 0
+
+libgfx.lib(GASStyleSheet.obj)
+  text 0x82EAF270 0x82EB2194   # 33 functions: 20 / 13 / 0
+
+libgfx.lib(GFxRandom.obj)
+  text 0x82EB2198 0x82EB2204   # 2 functions: 1 / 0 / 1; several blocks: review
+  text 0x83038210 0x8303828C   # 2 functions: 1 / 0 / 1; several blocks: review
+
+libgfx.lib(GFxFontCompactor.obj)
+  text 0x82EB2230 0x82EB5588   # 50 functions: 46 / 4 / 0
+
+libgfx.lib(GRasterizer.obj)
+  text 0x82EB5588 0x82EB6770   # 17 functions: 14 / 0 / 3
+
+libgfx.lib(GRectPacker.obj)
+  text 0x82EB67A0 0x82EB7074   # 8 functions: 8 / 0 / 0
+
+libgfx.lib(GFxGlyphFitter.obj)
+  text 0x82EB7078 0x82EB7F38   # 14 functions: 11 / 3 / 0
+
+libgfx_video.lib(GFxVideoXbox360.obj)
+  text 0x82EB7F38 0x82EB80FC   # 5 functions: 4 / 0 / 1
+
+libgfx_video.lib(GFxVideo.obj)
+  text 0x82EB8100 0x82EB8B44   # 20 functions: 13 / 6 / 1
+
+libgfx_video.lib(GFxSystemSoundInterface.obj)
+  text 0x82EB8B70 0x82EB8D64   # 7 functions: 2 / 4 / 1
+
+libgfx_video.lib(crimveasy_player.obj)
+  hot 0x821EF2F0   # identified (code, >= 64 bytes)
+  hot 0x821EF3B8   # identified (code, >= 64 bytes)
+  hot 0x8222C810   # identified (code, >= 64 bytes)
+  hot 0x82230F20   # identified (code, >= 64 bytes)
+  hot 0x82369F20   # identified (code, >= 64 bytes)
+  hot 0x8238AF48   # identified (code, >= 64 bytes)
+  hot 0x823C02C0   # identified (code, >= 64 bytes)
+  text 0x82EB8D68 0x82EBB4A0   # 54 functions: 40 / 14 / 0
+
+libgfx_video.lib(GASNetStream.obj)
+  hot 0x821EA2D0   # identified (code, >= 64 bytes)
+  hot 0x82216850   # identified (code, >= 64 bytes)
+  hot 0x8222E2D8   # identified (code, >= 64 bytes)
+  hot 0x82375930   # identified (code, >= 64 bytes)
+  hot 0x823A4F40   # identified (code, >= 64 bytes)
+  text 0x82EBB510 0x82EBF568   # 88 functions: 63 / 24 / 1
+
+libgfx_video.lib(cri_heap.obj)
+  text 0x82EBF568 0x82EC0424   # 26 functions: 22 / 4 / 0
+
+libgfx_video.lib(GFxVideoPlayerImpl.obj)
+  hot 0x821F9938   # identified (code, >= 64 bytes)
+  hot 0x8236BCF8   # identified (code, >= 64 bytes)
+  hot 0x823BA140   # identified (code, >= 64 bytes)
+  text 0x82EC0490 0x82EC29BC   # 65 functions: 41 / 23 / 1
+
+libgfx_video.lib(GFxCriMvFileReader.obj)
+  hot 0x821F10C8   # identified (code, >= 64 bytes)
+  hot 0x823B8278   # identified (code, >= 64 bytes)
+  text 0x82EC29C0 0x82EC3834   # 39 functions: 21 / 9 / 9
+
+libgfx_video.lib(GASNetConnection.obj)
+  text 0x82EC4E10 0x82EC5470   # 14 functions: 4 / 10 / 0
+
+libgfx_video.lib(crimveasy_frame.obj)
+  hot 0x821F7BE8   # identified (code, >= 64 bytes)
+  hot 0x82314E50   # identified (code, >= 64 bytes)
+  text 0x82EC5470 0x82EC5930   # 7 functions: 5 / 2 / 0
+
+libgfx_video.lib(crimvply_lib.obj)
+  hot 0x821EF368   # identified (code, >= 64 bytes)
+  hot 0x82231238   # identified (code, >= 64 bytes)
+  hot 0x8236B640   # identified (code, >= 64 bytes)
+  hot 0x8236B7A0   # identified (code, >= 64 bytes)
+  hot 0x8236B958   # identified (code, >= 64 bytes)
+  hot 0x8236BD68   # identified (code, >= 64 bytes)
+  hot 0x8238AF08   # identified (code, >= 64 bytes)
+  hot 0x8238AFE8   # identified (code, >= 64 bytes)
+  hot 0x823C1CD8   # identified (code, >= 64 bytes)
+  text 0x82EC5930 0x82EC9180   # 63 functions: 46 / 17 / 0
+
+libgfx_video.lib(cri_error.obj)
+  text 0x82EC9180 0x82EC92E0   # 3 functions: 2 / 1 / 0
+
+libgfx_video.lib(crimveasy_memreader.obj)
+  text 0x82EC92F0 0x82EC96D0   # 12 functions: 5 / 5 / 2
+
+libgfx_video.lib(crivmpv_lib.obj)
+  hot 0x822048D0   # identified (code, >= 64 bytes)
+  hot 0x8236B460   # identified (code, >= 64 bytes)
+  text 0x82EC96D0 0x82ECBA10   # 37 functions: 25 / 10 / 2
+
+libgfx_video.lib(cri_cs_win.obj)
+  text 0x82ECBA10 0x82ECBA7C   # 2 functions: 1 / 0 / 1
+
+libgfx_video.lib(GFxCriMvSystemTimer.obj)
+  hot 0x821F1058   # identified (code, >= 64 bytes)
+  hot 0x82349B88   # identified (code, >= 64 bytes)
+  hot 0x823987C8   # identified (code, >= 64 bytes)
+  text 0x82ECBBF8 0x82ECBD04   # 3 functions: 2 / 1 / 0
+
+libgfx_video.lib(GFxCriMvSoundGateway.obj)
+  hot 0x821F5458   # identified (code, >= 64 bytes)
+  hot 0x8236B7E0   # identified (code, >= 64 bytes)
+  hot 0x823BA0E0   # identified (code, >= 64 bytes)
+  hot 0x823BEC70   # identified (code, >= 64 bytes)
+  text 0x82ECBDF0 0x82ECBE78   # 3 functions: 1 / 0 / 2
+
+libgfx_video.lib(GFxCriHeap.obj)
+  text 0x82ECBF00 0x82ECBFE0   # 4 functions: 1 / 0 / 3
+
+libgfx_video.lib(cri_usfdmx.obj)
+  hot 0x8236B828   # identified (code, >= 64 bytes)
+  text 0x82ECBFE0 0x82ECC710   # 12 functions: 5 / 5 / 2
+
+libgfx_video.lib(crimvply_amng.obj)
+  hot 0x8238ACC0   # identified (code, >= 64 bytes)
+  text 0x82ECCB30 0x82ECD9DC   # 24 functions: 17 / 2 / 5
+
+libgfx_video.lib(cri_sj.obj)
+  text 0x82ECDD90 0x82ECDED8   # 7 functions: 2 / 1 / 4
+
+libgfx_video.lib(cri_utfrtv_obj_heap.obj)
+  text 0x82ECDED8 0x82ECE128   # 3 functions: 2 / 0 / 1
+
+libgfx_video.lib(cri_utfrtv.obj)
+  hot 0x8236B588   # identified (code, >= 64 bytes)
+  text 0x82ECE128 0x82ECE684   # 6 functions: 6 / 0 / 0
+
+libgfx_video.lib(cri_utfrtv_obj_criheap.obj)
+  text 0x82ECE688 0x82ECE7B8   # 4 functions: 2 / 1 / 1
+
+libgfx_video.lib(cri_usfcmn.obj)
+  text 0x82ECE7B8 0x82ECEA5C   # 3 functions: 3 / 0 / 0
+
+libgfx_video.lib(cft_argb8888.obj)
+  text 0x82ECEA80 0x82ECF52C   # 3 functions: 3 / 0 / 0
+
+libgfx_video.lib(cftfx.obj)
+  text 0x82ECF570 0x82ECF6FC   # 3 functions: 3 / 0 / 0
+
+libgfx_video.lib(cri_sjrbf_criheap.obj)
+  text 0x82ECF7E8 0x82ECF91C   # 3 functions: 2 / 1 / 0
+
+libgfx_video.lib(cri_crw.obj)
+  text 0x82ECF920 0x82ECF9BC   # 2 functions: 2 / 0 / 0
+
+libgfx_video.lib(mpv_lib.obj)
+  text 0x82ECF9C0 0x82ED01DC   # 19 functions: 14 / 4 / 1
+
+libgfx_video.lib(sj_uni.obj)
+  text 0x82ED01E0 0x82ED0AFC   # 15 functions: 11 / 4 / 0
+
+libgfx_video.lib(sj_mem.obj)
+  text 0x82ED0B10 0x82ED1370   # 15 functions: 12 / 3 / 0
+
+libgfx_video.lib(sj_rbf.obj)
+  text 0x82ED1370 0x82ED1E9C   # 16 functions: 11 / 5 / 0
+
+libgfx_video.lib(mpv_multi.obj)
+  text 0x82ED1EA0 0x82ED2898   # 15 functions: 13 / 2 / 0
+
+libgfx_video.lib(mpv_frm.obj)
+  text 0x82ED2898 0x82ED2A14   # 2 functions: 2 / 0 / 0
+
+libgfx_video.lib(mpv_err.obj)
+  text 0x82ED2A18 0x82ED2B20   # 4 functions: 2 / 0 / 2
+
+libgfx_video.lib(mpv_hdec.obj)
+  text 0x82ED2B20 0x82ED4C80   # 23 functions: 17 / 6 / 0
+
+libgfx_video.lib(mpv_get.obj)
+  text 0x82ED4C80 0x82ED4CE8   # 1 functions: 1 / 0 / 0
+
+libgfx_video.lib(mpv_deli.obj)
+  text 0x82ED4CE8 0x82ED4E94   # 4 functions: 4 / 0 / 0
+
+libgfx_video.lib(cri_sjuni.obj)
+  text 0x82ED4E98 0x82ED5438   # 8 functions: 7 / 0 / 1
+
+libgfx_video.lib(cri_adec.obj)
+  hot 0x82357AA8   # identified (code, >= 64 bytes)
+  text 0x82ED5438 0x82ED59DC   # 10 functions: 5 / 4 / 1
+
+libgfx_video.lib(cri_utfrtv_index.obj)
+  text 0x82ED59E0 0x82ED5A60   # 1 functions: 1 / 0 / 0
+
+libgfx_video.lib(cri_utfrtv_obj.obj)
+  text 0x82ED5A60 0x82ED5C64   # 1 functions: 1 / 0 / 0
+
+libgfx_video.lib(cri_utfcmn.obj)
+  text 0x82ED5C68 0x82ED5E28   # 4 functions: 2 / 0 / 2
+
+libgfx_video.lib(cri_sjrbf.obj)
+  text 0x82ED5E28 0x82ED6470   # 8 functions: 6 / 1 / 1
+
+libgfx_video.lib(mpv_vlc.obj)
+  text 0x82ED6470 0x82ED7FA4   # 25 functions: 19 / 6 / 0
+
+libgfx_video.lib(memcpyd.obj)
+  text 0x82ED7FA8 0x82ED8074   # 1 functions: 1 / 0 / 0
+
+libgfx_video.lib(memsetd.obj)
+  text 0x82ED8080 0x82ED80F8   # 1 functions: 1 / 0 / 0
+
+libgfx_video.lib(mpv_slice.obj)
+  text 0x82ED80F8 0x82ED878C   # 9 functions: 6 / 1 / 2
+
+libgfx_video.lib(mpv_umc.obj)
+  text 0x82ED8790 0x82ED89CC   # 3 functions: 2 / 0 / 1
+
+libgfx_video.lib(dct_fz_xbox360.obj)
+  text 0x82ED89D0 0x82ED8B94   # 3 functions: 3 / 0 / 0
+
+libgfx_video.lib(mpv_cdec.obj)
+  text 0x82ED8B98 0x82ED8CB4   # 7 functions: 1 / 0 / 6
+
+libgfx_video.lib(mpv_bdec.obj)
+  text 0x82ED8CB8 0x82ED9198   # 5 functions: 4 / 0 / 1
+
+libgfx_video.lib(mpv_cmc.obj)
+  text 0x82ED9198 0x82ED92BC   # 4 functions: 3 / 1 / 0
+
+libgfx_video.lib(sj_utl.obj)
+  text 0x82ED9358 0x82ED93B0   # 1 functions: 1 / 0 / 0
+
+libgfx_video.lib(sj_crs.obj)
+  text 0x82ED93B0 0x82ED950C   # 4 functions: 2 / 0 / 2
+
+libgfx_video.lib(cri_dlg_win.obj)
+  text 0x82ED9510 0x82ED9C8C   # 12 functions: 11 / 1 / 0
+
+libgfx_video.lib(cri_crs_win.obj)
+  text 0x82ED9C98 0x82ED9E00   # 2 functions: 2 / 0 / 0
+
+libgfx_video.lib(cri_adxdec.obj)
+  text 0x82ED9F68 0x82EDAD84   # 12 functions: 9 / 3 / 0
+
+libgfx_video.lib(svm.obj)
+  text 0x82EE62F8 0x82EE6390   # 1 functions: 1 / 0 / 0
+
+transport.lib(EntryPoints.obj)
+  text 0x82EE63C0 0x82EE64A4   # 3 functions: 2 / 0 / 1
+
+transport.lib(PrivateEntryPoints.obj)
+  text 0x82EE64A8 0x82EE7124   # 23 functions: 12 / 11 / 0
+
+transport.lib(SafeConfig.obj)
+  text 0x82EE7128 0x82EE9BB4   # 56 functions: 31 / 25 / 0; several blocks: review
+  text 0x82EE9C30 0x82EEA25C   # 13 functions: 7 / 6 / 0; several blocks: review
+
+transport.lib(UnsafeConfig.obj)
+  text 0x82EE9BB8 0x82EE9C2C   # 2 functions: 1 / 0 / 1
+
+transport.lib(Handles.obj)
+  text 0x82EEA4E8 0x82EEA584   # 2 functions: 2 / 0 / 0
+
+transport.lib(BoundServiceCall.obj)
+  text 0x82EEA5C0 0x82EEA900   # 6 functions: 5 / 1 / 0
+
+transport.lib(ServiceCall.obj)
+  text 0x82EEA900 0x82EEB46C   # 17 functions: 10 / 7 / 0
+
+transport.lib(Transport.obj)
+  text 0x82EEB5D8 0x82EEE16C   # 60 functions: 26 / 33 / 1
+
+transport.lib(DebugOptions.obj)
+  text 0x82EEE170 0x82EEE44C   # 4 functions: 2 / 1 / 1
+
+transport.lib(TransportConfig.obj)
+  text 0x82EEE450 0x82EF111C   # 82 functions: 41 / 40 / 1
+
+transport.lib(BinaryReader.obj)
+  text 0x82EF1130 0x82EF228C   # 10 functions: 10 / 0 / 0
+
+transport.lib(MemStream.obj)
+  text 0x82EF2290 0x82EF25C4   # 8 functions: 4 / 0 / 4
+
+transport.lib(MemBlock.obj)
+  text 0x82EF25C8 0x82EF290C   # 7 functions: 6 / 1 / 0
+
+transport.lib(CallTracker.obj)
+  text 0x82EF2910 0x82EF2B28   # 8 functions: 3 / 4 / 1
+
+transport.lib(BinaryWriter.obj)
+  text 0x82EF2B28 0x82EF33F8   # 11 functions: 10 / 0 / 1
+
+transport.lib(ChunkReader.obj)
+  text 0x82EF33F8 0x82EF3494   # 2 functions: 1 / 0 / 1
+
+transport.lib(MemRef.obj)
+  text 0x82EF3498 0x82EF35A0   # 4 functions: 3 / 0 / 1
+
+transport.lib(HighResTimeSpan.obj)
+  text 0x82EF3648 0x82EF3754   # 4 functions: 3 / 1 / 0
+
+transport.lib(PumpSet.obj)
+  text 0x82EF3998 0x82EF4944   # 18 functions: 8 / 9 / 1
+
+transport.lib(RouteParser.obj)
+  text 0x82EF4948 0x82EF4EAC   # 5 functions: 4 / 1 / 0
+
+transport.lib(Envelope.obj)
+  text 0x82EF4EB0 0x82EF52A0   # 16 functions: 6 / 10 / 0
+
+transport.lib(SgConnection.obj)
+  init 0x83047640   # initializer region: its code references only this object's functions
+  text 0x82EF5338 0x82EF6588   # 23 functions: 15 / 8 / 0
+
+transport.lib(Utils.obj)
+  text 0x82EF6588 0x82EF6768   # 4 functions: 3 / 1 / 0; several blocks: review
+  text 0x82EFAAC8 0x82EFAB18   # 1 functions: 1 / 0 / 0; several blocks: review
+
+transport.lib(ResultCodes.obj)
+  text 0x82EF6768 0x82EF6CE4   # 2 functions: 1 / 0 / 1
+
+transport.lib(Socket.obj)
+  init 0x830382C8   # initializer region: its code references only this object's functions
+  init 0x83038438   # initializer region: its code references only this object's functions
+  init 0x830384C0   # initializer region: its code references only this object's functions
+  init 0x83038548   # initializer region: its code references only this object's functions
+  init 0x830475F0   # initializer region: its code references only this object's functions
+  init 0x83047690   # initializer region: its code references only this object's functions
+  init 0x830476E0   # initializer region: its code references only this object's functions
+  init 0x83047730   # initializer region: its code references only this object's functions
+  text 0x82EF6E00 0x82EF9080   # 38 functions: 26 / 12 / 0
+
+transport.lib(LogonProvider.obj)
+  text 0x82EF9080 0x82EF9AC8   # 15 functions: 9 / 6 / 0
+
+transport.lib(DataLogger.obj)
+  text 0x82EF9AC8 0x82EFA004   # 8 functions: 7 / 0 / 1
+
+transport.lib(LspProvider.obj)
+  text 0x82EFA098 0x82EFAAC8   # 11 functions: 7 / 4 / 0
+
+transport.lib(BaseLspProvider.obj)
+  text 0x82EFADB8 0x82EFB954   # 13 functions: 7 / 5 / 1
+
+transport.lib(DataFileProvider.obj)
+  text 0x82EFB958 0x82EFC384   # 23 functions: 14 / 9 / 0
+
+transport.lib(BasicLogger.obj)
+  text 0x82EFC388 0x82EFC468   # 3 functions: 1 / 0 / 2
+
+transport.lib(TestLogonProvider.obj)
+  text 0x82EFC468 0x82EFCA94   # 8 functions: 8 / 0 / 0
+
+transport.lib(HttpTransport.obj)
+  text 0x82EFCA98 0x82EFD0EC   # 9 functions: 7 / 2 / 0
+
+transport.lib(HttpProtocolFactory.obj)
+  text 0x82EFD120 0x82EFEA88   # 43 functions: 22 / 19 / 2
+
+transport.lib(BindingStack.obj)
+  text 0x82EFEA88 0x82EFEDCC   # 13 functions: 5 / 0 / 8
+
+transport.lib(BaseBinarySerializer.obj)
+  text 0x82EFEDD0 0x82EFEFC0   # 6 functions: 4 / 2 / 0
+
+transport.lib(DataFile.obj)
+  text 0x82EFF018 0x82EFFDB4   # 15 functions: 12 / 1 / 2
+
+transport.lib(HttpProtocol.obj)
+  text 0x82EFFE10 0x82F0010C   # 8 functions: 6 / 2 / 0
+
+transport.lib(HttpRequest.obj)
+  text 0x82F00110 0x82F010AC   # 15 functions: 14 / 1 / 0
+
+transport.lib(Overlapped.obj)
+  text 0x82F010B0 0x82F01220   # 5 functions: 1 / 0 / 4
+
+xparty.lib(partylib.obj)
+  init 0x83038598   # initializer region: its code references only this object's functions
+  init 0x83047768   # initializer region: its code references only this object's functions
+  text 0x82F01220 0x82F013D0   # 4 functions: 2 / 2 / 0
+
+gfcore.lib(cclassfactory.obj)
+  text 0x82F02E30 0x82F02ECC   # 1 functions: 1 / 0 / 0
+
+gfcore.lib(cresourcehandler.obj)
+  init 0x82F04C00   # initializer region: its code references only this object's functions
+  init 0x82F04C08   # initializer region: its code references only this object's functions
+  text 0x82F06E48 0x82F06F18   # 2 functions: 2 / 0 / 0
+
+gfcore.lib(resourcemanagerstrfunc.obj)
+  text 0x82F07598 0x82F075E4   # 1 functions: 1 / 0 / 0
+
+gfcore.lib(streamhandler.obj)
+  init 0x82F07128   # initializer region: its code references only this object's functions
+  init 0x82F08588   # initializer region: its code references only this object's functions
+  init 0x82F08650   # initializer region: its code references only this object's functions
+  text 0x82F083B8 0x82F0840C   # 1 functions: 1 / 0 / 0
+
+gfcore.lib(attributehandlerstrfuncs.obj)
+  text 0x82F08898 0x82F089A4   # 3 functions: 2 / 0 / 1
+
+xlip.lib(XLipMem.obj)
+  init 0x830387F8   # initializer region: its code references only this object's functions
+  init 0x83038868   # initializer region: its code references only this object's functions
+  init 0x830388E8   # initializer region: its code references only this object's functions
+  init 0x83038968   # initializer region: its code references only this object's functions
+  init 0x830389E8   # initializer region: its code references only this object's functions
+  init 0x83038A68   # initializer region: its code references only this object's functions
+  text 0x82F089A8 0x82F08B64   # 3 functions: 2 / 0 / 1
+
+xlip.lib(XLip.obj)
+  init 0x830479C0   # initializer region: its code references only this object's functions
+  init 0x830479D0   # initializer region: its code references only this object's functions
+  init 0x83047A18   # initializer region: its code references only this object's functions
+  init 0x83047A60   # initializer region: its code references only this object's functions
+  init 0x83047AA8   # initializer region: its code references only this object's functions
+  init 0x83047AF0   # initializer region: its code references only this object's functions
+  text 0x82F08BD0 0x82F0AC68   # 47 functions: 29 / 18 / 0
+
+xlip.lib(XLipCultures.obj)
+  text 0x82F0AF68 0x82F0D01C   # 28 functions: 19 / 9 / 0
+
+xlip.lib(XLipComponent.obj)
+  text 0x82F0D020 0x82F10518   # 48 functions: 35 / 12 / 1
+
+xlip.lib(XLipSettings.obj)
+  init 0x83038AE8   # initializer region: its code references only this object's functions
+  init 0x83038B28   # initializer region: its code references only this object's functions
+  init 0x83038B68   # initializer region: its code references only this object's functions
+  init 0x83038BA8   # initializer region: its code references only this object's functions
+  text 0x82F10518 0x82F13BB4   # 51 functions: 39 / 12 / 0
+
+xlip.lib(XLipDebug.obj)
+  init 0x82F0AC68   # initializer region: its code references only this object's functions
+  text 0x82F13BB8 0x82F13CFC   # 2 functions: 2 / 0 / 0
+
+xlip.lib(XLipDiskAssetMgr.obj)
+  text 0x82F13D00 0x82F15DB4   # 41 functions: 36 / 5 / 0
+
+xlip.lib(XLipUtil.obj)
+  init 0x82F0AD50   # initializer region: its code references only this object's functions
+  text 0x82F15DB8 0x82F15E00   # 1 functions: 1 / 0 / 0
+
+libcpMT.lib(string.obj)
+  init 0x82F160C0   # initializer region: its code references only this object's functions
+  text 0x82F16050 0x82F160BC   # 1 functions: 1 / 0 / 0
+
+libcpMT.lib(stdthrow.obj)
+  text 0x82F16100 0x82F161C4   # 2 functions: 1 / 0 / 1
+
+libcpMT.lib(ios.obj)
+  text 0x82F161C8 0x82F162D0   # 2 functions: 2 / 0 / 0
+
+libcpMT.lib(xlock.obj)
+  init 0x83038BE8   # initializer region: its code references only this object's functions
+  init 0x83038C30   # initializer region: its code references only this object's functions
+  init 0x83047C18   # initializer region: its code references only this object's functions
+  init 0x83047C78   # initializer region: its code references only this object's functions
+  text 0x82F162D0 0x82F16434   # 4 functions: 3 / 0 / 1
+
+libcpMT.lib(locale0.obj)
+  text 0x82F164C0 0x82F16BB0   # 14 functions: 11 / 3 / 0
+
+libcpMT.lib(_tolower.obj)
+  text 0x82F16BB0 0x82F16C84   # 2 functions: 2 / 0 / 0
+
+libcpMT.lib(_toupper.obj)
+  text 0x82F16C88 0x82F16CCC   # 1 functions: 1 / 0 / 0
+
+libcpMT.lib(xwctomb.obj)
+  text 0x82F16CD0 0x82F16D54   # 2 functions: 1 / 0 / 1
+
+libcpMT.lib(fiopen.obj)
+  text 0x82F16D58 0x82F16ECC   # 2 functions: 2 / 0 / 0
+
+libcpMT.lib(xtowupper.obj)
+  text 0x82F16EF0 0x82F16F30   # 1 functions: 1 / 0 / 0
+
+libcpMT.lib(xgetwctype.obj)
+  text 0x82F16F70 0x82F16FE0   # 2 functions: 1 / 0 / 1
+
+libcpMT.lib(xstoul.obj)
+  text 0x82F16FE0 0x82F17234   # 1 functions: 1 / 0 / 0
+
+libcpMT.lib(xstol.obj)
+  text 0x82F17238 0x82F17360   # 1 functions: 1 / 0 / 0
+
+libcpMT.lib(xstoll.obj)
+  text 0x82F17360 0x82F1748C   # 1 functions: 1 / 0 / 0
+
+libcpMT.lib(xstoull.obj)
+  text 0x82F17490 0x82F176E8   # 1 functions: 1 / 0 / 0
+
+libcpMT.lib(xstod.obj)
+  init 0x82F176E8   # initializer region: its code references only this object's functions
+  init 0x82F177C0   # initializer region: its code references only this object's functions
+  text 0x82F17710 0x82F177BC   # 1 functions: 1 / 0 / 0
+
+libcpMT.lib(xfdtest.obj)
+  text 0x82F177C8 0x82F1782C   # 1 functions: 1 / 0 / 0
+
+libcpMT.lib(xfexp.obj)
+  text 0x82F17830 0x82F17978   # 1 functions: 1 / 0 / 0
+
+libcpMT.lib(iosptrs.obj)
+  init 0x83047C88   # initializer region: its code references only this object's functions
+  text 0x82F17990 0x82F17A3C   # 2 functions: 1 / 0 / 1
+
+libcMT.lib(sincos.obj)
+  hot 0x822047D0   # identified (code, >= 64 bytes)
+  init 0x83007CB0   # initializer region: its code references only this object's functions
+  text 0x82F17A40 0x82F17B20   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(memmove_s.obj)
+  init 0x82F07160   # initializer region: its code references only this object's functions
+  text 0x82F17B20 0x82F17BDC   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(memcpy_s.obj)
+  text 0x82F17BE0 0x82F17CB4   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(onexit.obj)
+  hot 0x822B89C8   # identified (code, >= 64 bytes)
+  init 0x82F17DC8   # initializer region: its code references only this object's functions
+  text 0x82F17CC0 0x82F17DC4   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(purevirt.obj)
+  text 0x82F17DF0 0x82F17E3C   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(pow.obj)
+  hot 0x822B87A8   # identified (code, >= 64 bytes)
+  hot 0x82324AF0   # identified (code, >= 64 bytes)
+  text 0x82F17EB0 0x82F17F1C   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(memmovep.obj)
+  text 0x82F17F20 0x82F17FDC   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(atan.obj)
+  text 0x82F18058 0x82F18270   # 2 functions: 2 / 0 / 0
+
+libcMT.lib(asincos.obj)
+  hot 0x822EC1F0   # identified (code, >= 64 bytes)
+  init 0x82F18368   # initializer region: its code references only this object's functions
+  text 0x82F18270 0x82F18368   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(splitpath_s.obj)
+  text 0x82F18370 0x82F18670   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(abort.obj)
+  text 0x82F18670 0x82F1873C   # 2 functions: 1 / 0 / 1
+
+libcMT.lib(free.obj)
+  init 0x82F15E00   # initializer region: its code references only this object's functions
+  init 0x82F15E40   # initializer region: its code references only this object's functions
+  init 0x82F4ECA0   # initializer region: its code references only this object's functions
+  init 0x82F4ECB0   # initializer region: its code references only this object's functions
+  text 0x82F18740 0x82F1879C   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(rand.obj)
+  text 0x82F187C0 0x82F18830   # 2 functions: 1 / 0 / 1
+
+libcMT.lib(vsnprnc.obj)
+  hot 0x8232C318   # identified (code, >= 64 bytes)
+  text 0x82F18830 0x82F18A04   # 3 functions: 2 / 0 / 1
+
+libcMT.lib(strncpy.obj)
+  init 0x82F04CA0   # initializer region: its code references only this object's functions
+  init 0x82F04D68   # initializer region: its code references only this object's functions
+  init 0x82F405B0   # initializer region: its code references only this object's functions
+  text 0x82F18A08 0x82F18A64   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(strupr.obj)
+  text 0x82F18A68 0x82F18AF0   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(fmod.obj)
+  text 0x82F18B08 0x82F18C30   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(fopen.obj)
+  init 0x82F18E08   # initializer region: its code references only this object's functions
+  init 0x82F18E10   # initializer region: its code references only this object's functions
+  text 0x82F18C98 0x82F18E08   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(fclose.obj)
+  init 0x82F4EDF8   # initializer region: its code references only this object's functions
+  text 0x82F18E98 0x82F19060   # 2 functions: 2 / 0 / 0
+
+libcMT.lib(feoferr.obj)
+  text 0x82F19060 0x82F190B8   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(fgets.obj)
+  text 0x82F19118 0x82F19374   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(fwrite.obj)
+  text 0x82F19378 0x82F196F8   # 2 functions: 2 / 0 / 0
+
+libcMT.lib(fread.obj)
+  init 0x82F19AC0   # initializer region: its code references only this object's functions
+  text 0x82F196F8 0x82F19AC0   # 2 functions: 2 / 0 / 0
+
+libcMT.lib(fseek.obj)
+  init 0x82F4ECC8   # initializer region: its code references only this object's functions
+  text 0x82F19AD8 0x82F19CA8   # 2 functions: 2 / 0 / 0
+
+libcMT.lib(ftell.obj)
+  text 0x82F19CA8 0x82F19FD8   # 2 functions: 2 / 0 / 0
+
+libcMT.lib(mbstowcs.obj)
+  text 0x82F19FD8 0x82F1A1F0   # 3 functions: 2 / 0 / 1
+
+libcMT.lib(atof.obj)
+  text 0x82F1A1F0 0x82F1A2F0   # 2 functions: 1 / 0 / 1
+
+libcMT.lib(sprintf.obj)
+  init 0x82F43790   # initializer region: its code references only this object's functions
+  text 0x82F1A300 0x82F1A474   # 3 functions: 1 / 0 / 2
+
+libcMT.lib(strcspn.obj)
+  text 0x82F1A4C0 0x82F1A570   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(fputc.obj)
+  text 0x82F1A578 0x82F1A7A4   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(ungetc.obj)
+  text 0x82F1A7A8 0x82F1AA48   # 2 functions: 2 / 0 / 0
+
+libcMT.lib(fgetc.obj)
+  text 0x82F1AA50 0x82F1AC2C   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(fgetpos.obj)
+  text 0x82F1AC30 0x82F1ACA8   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(fsetpos.obj)
+  text 0x82F1ACA8 0x82F1AD0C   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(setvbuf.obj)
+  text 0x82F1AD18 0x82F1AEA0   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(fflush.obj)
+  init 0x82F1B290   # initializer region: its code references only this object's functions
+  text 0x82F1AEA0 0x82F1B28C   # 4 functions: 3 / 1 / 0
+
+libcMT.lib(modf.obj)
+  text 0x82F1B298 0x82F1B3C8   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(swscanf.obj)
+  text 0x82F1B3C8 0x82F1B53C   # 3 functions: 1 / 0 / 2
+
+libcMT.lib(wcstombs.obj)
+  hot 0x8232AB00   # identified (code, >= 64 bytes)
+  text 0x82F1B540 0x82F1B808   # 2 functions: 1 / 0 / 1
+
+libcMT.lib(wcsncmp.obj)
+  text 0x82F1B910 0x82F1B960   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(sscanf.obj)
+  text 0x82F1B960 0x82F1BA7C   # 2 functions: 1 / 0 / 1
+
+libcMT.lib(snprintf.obj)
+  text 0x82F1BA80 0x82F1BB90   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(ieeemisc.obj)
+  text 0x82F1BBB8 0x82F1BD5C   # 5 functions: 2 / 0 / 3
+
+libcMT.lib(wcscmp.obj)
+  init 0x82F241D0   # initializer region: its code references only this object's functions
+  text 0x82F1BD60 0x82F1BDA8   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(wcsncpy.obj)
+  text 0x82F1BDA8 0x82F1BE04   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(wcsstr.obj)
+  text 0x82F1BE30 0x82F1BEA4   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(wcsnicmp.obj)
+  text 0x82F1BEA8 0x82F1BF80   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(wfopen.obj)
+  init 0x82F1C0F8   # initializer region: its code references only this object's functions
+  init 0x82F1C100   # initializer region: its code references only this object's functions
+  text 0x82F1BF88 0x82F1C0F8   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(fgetwc.obj)
+  text 0x82F1C188 0x82F1C3FC   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(wtof.obj)
+  text 0x82F1C400 0x82F1C4C0   # 2 functions: 1 / 0 / 1
+
+libcMT.lib(vsprintf.obj)
+  text 0x82F1C4C0 0x82F1C584   # 2 functions: 1 / 0 / 1
+
+libcMT.lib(strcat_s.obj)
+  init 0x82F08BC0   # initializer region: its code references only this object's functions
+  text 0x82F1C588 0x82F1C698   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(strncat.obj)
+  text 0x82F1C698 0x82F1C6E8   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(bsearch.obj)
+  text 0x82F1C6E8 0x82F1C800   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(crt0dat.obj)
+  init 0x82F377A0   # initializer region: its code references only this object's functions
+  text 0x82F1C800 0x82F1CB14   # 10 functions: 3 / 7 / 0
+
+libcMT.lib(wcsncat.obj)
+  text 0x82F1CBA8 0x82F1CBF8   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(exp.obj)
+  hot 0x82212428   # identified (code, >= 64 bytes)
+  text 0x82F1CBF8 0x82F1CCD4   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(wcstod.obj)
+  text 0x82F1CCD8 0x82F1CE40   # 2 functions: 1 / 0 / 1
+
+libcMT.lib(_file.obj)
+  hot 0x822C8428   # identified (code, >= 64 bytes)
+  text 0x82F1CE50 0x82F1CFB4   # 5 functions: 4 / 0 / 1
+
+libcMT.lib(fwprintf.obj)
+  text 0x82F1CFC0 0x82F1D0C8   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(malloc.obj)
+  init 0x82F15EA8   # initializer region: its code references only this object's functions
+  init 0x82F23270   # initializer region: its code references only this object's functions
+  init 0x82F4EC98   # initializer region: its code references only this object's functions
+  init 0x82F4ECA8   # initializer region: its code references only this object's functions
+  text 0x82F1D0C8 0x82F1D190   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(vswprnc.obj)
+  hot 0x82338AD0   # identified (code, >= 64 bytes)
+  text 0x82F1D190 0x82F1D3AC   # 3 functions: 2 / 0 / 1
+
+libcMT.lib(vswprint.obj)
+  text 0x82F1D3C0 0x82F1D560   # 4 functions: 2 / 1 / 1
+
+libcMT.lib(mdsstrncmp.obj)
+  text 0x82F1D560 0x82F1D5AC   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(strlwr.obj)
+  text 0x82F1D5B0 0x82F1D708   # 3 functions: 2 / 1 / 0
+
+libcMT.lib(stricmpp.obj)
+  init 0x82F38BB0   # initializer region: its code references only this object's functions
+  text 0x82F1D770 0x82F1D7C4   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(printf.obj)
+  text 0x82F1D7D0 0x82F1D8D8   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(strncpy_s.obj)
+  text 0x82F1D900 0x82F1DA6C   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(time64.obj)
+  text 0x82F1DA70 0x82F1DAF0   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(strnicmp.obj)
+  hot 0x82205628   # identified (code, >= 64 bytes)
+  text 0x82F1DAF0 0x82F1DB58   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(splitpat.obj)
+  hot 0x822123C8   # identified (code, >= 64 bytes)
+  text 0x82F1DB58 0x82F1DE5C   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(xtoa.obj)
+  text 0x82F1DE60 0x82F1DF5C   # 3 functions: 2 / 0 / 1
+
+libcMT.lib(strrchrp.obj)
+  init 0x82F32798   # initializer region: its code references only this object's functions
+  text 0x82F1DF60 0x82F1DFB8   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(strncat_s.obj)
+  text 0x82F1E000 0x82F1E190   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(float.obj)
+  text 0x82F1E1B0 0x82F1E3C8   # 3 functions: 2 / 0 / 1
+
+libcMT.lib(memcpyp.obj)
+  init 0x82F38A00   # initializer region: its code references only this object's functions
+  init 0x82F395E8   # initializer region: its code references only this object's functions
+  init 0x82F462C0   # initializer region: its code references only this object's functions
+  init 0x82F54C30   # initializer region: its code references only this object's functions
+  text 0x82F1E480 0x82F1E9B0   # 2 functions: 2 / 0 / 0
+
+libcMT.lib(dosmap.obj)
+  init 0x82F202C8   # initializer region: its code references only this object's functions
+  init 0x82F20318   # initializer region: its code references only this object's functions
+  init 0x82F32938   # initializer region: its code references only this object's functions
+  init 0x82F332F8   # initializer region: its code references only this object's functions
+  text 0x82F1EAA8 0x82F1EBF8   # 4 functions: 2 / 2 / 0
+
+libcMT.lib(fputs.obj)
+  text 0x82F1EC10 0x82F1EDF4   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(strtol.obj)
+  init 0x82F187A0   # initializer region: its code references only this object's functions
+  text 0x82F1EDF8 0x82F1F0F8   # 3 functions: 1 / 0 / 2
+
+libcMT.lib(tmpfile.obj)
+  init 0x82F20290   # initializer region: its code references only this object's functions
+  text 0x82F1FC00 0x82F2028C   # 4 functions: 2 / 2 / 0
+
+libcMT.lib(strpbrk.obj)
+  init 0x82F34918   # initializer region: its code references only this object's functions
+  text 0x82F212B8 0x82F21338   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(ldexp.obj)
+  text 0x82F21470 0x82F21644   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(realloc.obj)
+  text 0x82F21648 0x82F21738   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(longjmp.obj)
+  text 0x82F21740 0x82F21A54   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(setjmp.obj)
+  text 0x82F21A60 0x82F21D2C   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(strtod.obj)
+  text 0x82F21DC0 0x82F21F60   # 2 functions: 1 / 0 / 1
+
+libcMT.lib(memsetp.obj)
+  init 0x82F019F8   # initializer region: its code references only this object's functions
+  init 0x82F04E80   # initializer region: its code references only this object's functions
+  init 0x82F1F150   # initializer region: its code references only this object's functions
+  init 0x8300FC18   # initializer region: its code references only this object's functions
+  init 0x8302C488   # initializer region: its code references only this object's functions
+  init 0x8302D2C8   # initializer region: its code references only this object's functions
+  text 0x82F21F60 0x82F22000   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(tidtable.obj)
+  text 0x82F22028 0x82F223B4   # 10 functions: 5 / 2 / 3
+
+libcMT.lib(vsnprint.obj)
+  text 0x82F22990 0x82F22A8C   # 2 functions: 1 / 0 / 1
+
+libcMT.lib(tanh.obj)
+  text 0x82F22CA8 0x82F22DA8   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(sincosh.obj)
+  text 0x82F22DA8 0x82F231D8   # 2 functions: 2 / 0 / 0
+
+libcMT.lib(calloc.obj)
+  text 0x82F23208 0x82F2326C   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(align.obj)
+  text 0x82F23328 0x82F233D0   # 2 functions: 1 / 0 / 1
+
+libcMT.lib(trnsctrl.obj)
+  text 0x82F23590 0x82F23BF0   # 13 functions: 8 / 1 / 4
+
+libcMT.lib(wcsncpy_s.obj)
+  text 0x82F23BF0 0x82F23D60   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(memcmpp.obj)
+  text 0x82F23D60 0x82F23DF0   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(threadex.obj)
+  text 0x82F23E80 0x82F23FFC   # 2 functions: 2 / 0 / 0
+
+libcMT.lib(wcscat_s.obj)
+  init 0x82F08BB8   # initializer region: its code references only this object's functions
+  text 0x82F24000 0x82F24110   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(wcsicoll.obj)
+  text 0x82F24110 0x82F241D0   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(strspn.obj)
+  text 0x82F24230 0x82F242E4   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(stati32.obj)
+  text 0x82F242E8 0x82F24574   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(rewind.obj)
+  text 0x82F24580 0x82F246C0   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(strtoq.obj)
+  init 0x82F187B0   # initializer region: its code references only this object's functions
+  text 0x82F246C0 0x82F249A0   # 3 functions: 1 / 0 / 2
+
+libcMT.lib(ftime64.obj)
+  text 0x82F249A0 0x82F24B04   # 2 functions: 1 / 0 / 1
+
+libcMT.lib(strcatp.obj)
+  text 0x82F24B78 0x82F24BBC   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(strlenp.obj)
+  text 0x82F24BC0 0x82F24C3C   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(snwscanf.obj)
+  text 0x82F24C40 0x82F24D4C   # 2 functions: 2 / 0 / 0
+
+libcMT.lib(throw.obj)
+  init 0x82F15F50   # initializer region: its code references only this object's functions
+  init 0x82F15FD0   # initializer region: its code references only this object's functions
+  text 0x82F24D50 0x82F24DD4   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(wcstok_s.obj)
+  init 0x82F08BA8   # initializer region: its code references only this object's functions
+  text 0x82F24E30 0x82F24F60   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(strtok_s.obj)
+  init 0x82F08BB0   # initializer region: its code references only this object's functions
+  text 0x82F24F60 0x82F250B0   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(wcstol.obj)
+  init 0x82F18048   # initializer region: its code references only this object's functions
+  text 0x82F250B0 0x82F25360   # 3 functions: 1 / 0 / 2
+
+libcMT.lib(wcslwr.obj)
+  text 0x82F25360 0x82F25428   # 2 functions: 1 / 0 / 1
+
+libcMT.lib(strdup.obj)
+  text 0x82F254B0 0x82F25540   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(util.obj)
+  text 0x82F25540 0x82F25734   # 5 functions: 2 / 0 / 3
+
+libcMT.lib(invarg.obj)
+  text 0x82F25738 0x82F25818   # 3 functions: 2 / 0 / 1
+
+libcMT.lib(msize.obj)
+  text 0x82F25818 0x82F25884   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(crt0msg.obj)
+  text 0x82F25888 0x82F258FC   # 2 functions: 1 / 0 / 1
+
+libcMT.lib(winsig.obj)
+  text 0x82F25928 0x82F25C24   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(_flsbuf.obj)
+  text 0x82F25C28 0x82F25DFC   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(outputs.obj)
+  text 0x82F25E00 0x82F25E9C   # 1 functions: 1 / 0 / 0; several blocks: review
+  text 0x82F26A80 0x82F275DC   # 1 functions: 1 / 0 / 0; several blocks: review
+
+libcMT.lib(output.obj)
+  text 0x82F25EA0 0x82F26A7C   # 2 functions: 2 / 0 / 0
+
+libcMT.lib(_open.obj)
+  text 0x82F27610 0x82F2785C   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(stream.obj)
+  text 0x82F27868 0x82F27A18   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(close.obj)
+  text 0x82F27A18 0x82F27C74   # 2 functions: 2 / 0 / 0
+
+libcMT.lib(fileno.obj)
+  text 0x82F27C78 0x82F27CCC   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(_freebuf.obj)
+  text 0x82F27CD0 0x82F27D38   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(_filbuf.obj)
+  text 0x82F27D38 0x82F27EF8   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(ioinit.obj)
+  text 0x82F27EF8 0x82F28028   # 2 functions: 2 / 0 / 0
+
+libcMT.lib(write.obj)
+  text 0x82F28028 0x82F2827C   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(read.obj)
+  text 0x82F28418 0x82F28C0C   # 2 functions: 2 / 0 / 0
+
+libcMT.lib(lseek.obj)
+  text 0x82F28C10 0x82F28CC8   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(cfin.obj)
+  text 0x82F28E60 0x82F28F14   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(strgtold.obj)
+  text 0x82F28F18 0x82F29874   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(_getbuf.obj)
+  text 0x82F29878 0x82F29900   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(ftelli64.obj)
+  text 0x82F29900 0x82F29D14   # 2 functions: 2 / 0 / 0
+
+libcMT.lib(fseeki64.obj)
+  text 0x82F29D18 0x82F29EB4   # 2 functions: 2 / 0 / 0
+
+libcMT.lib(commit.obj)
+  text 0x82F29EC0 0x82F2A044   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(mlock.obj)
+  text 0x82F2A048 0x82F2A2F8   # 5 functions: 4 / 1 / 0
+
+libcMT.lib(frnd.obj)
+  text 0x82F2A300 0x82F2A344   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(fpexcept.obj)
+  hot 0x821D3000   # identified (code, >= 64 bytes)
+  text 0x82F2A348 0x82F2AD2C   # 8 functions: 8 / 0 / 0
+
+libcMT.lib(winput.obj)
+  text 0x82F2ADD8 0x82F2BED0   # 2 functions: 2 / 0 / 0
+
+libcMT.lib(winputs.obj)
+  text 0x82F2BED0 0x82F2D050   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(input.obj)
+  init 0x82F1D708   # initializer region: its code references only this object's functions
+  text 0x82F2D050 0x82F2E30C   # 2 functions: 2 / 0 / 0
+
+libcMT.lib(_wopen.obj)
+  text 0x82F2E310 0x82F2E550   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(_filwbuf.obj)
+  text 0x82F2E550 0x82F2E71C   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(mbtowc.obj)
+  text 0x82F2E720 0x82F2E768   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(_sftbuf.obj)
+  text 0x82F2E768 0x82F2E8A4   # 2 functions: 2 / 0 / 0
+
+libcMT.lib(wcfin.obj)
+  text 0x82F2E8A8 0x82F2E960   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(wstrgtold.obj)
+  text 0x82F2E960 0x82F2F2A4   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(hooks.obj)
+  init 0x82F2F360   # initializer region: its code references only this object's functions
+  text 0x82F2F2B0 0x82F2F360   # 2 functions: 2 / 0 / 0
+
+libcMT.lib(winxfltr.obj)
+  text 0x82F2F378 0x82F2F568   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(initcrit.obj)
+  text 0x82F2F580 0x82F2F614   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(handler.obj)
+  text 0x82F2F618 0x82F2F66C   # 2 functions: 1 / 0 / 1
+
+libcMT.lib(woutputs.obj)
+  text 0x82F2F670 0x82F2F6D4   # 1 functions: 1 / 0 / 0; several blocks: review
+  text 0x82F30148 0x82F30C70   # 2 functions: 2 / 0 / 0; several blocks: review
+
+libcMT.lib(woutput.obj)
+  text 0x82F2F6D8 0x82F30148   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(vsnwprnt.obj)
+  text 0x82F30C78 0x82F30DB4   # 2 functions: 1 / 0 / 1
+
+libcMT.lib(cvt.obj)
+  text 0x82F30DB8 0x82F31BC4   # 16 functions: 11 / 5 / 0
+
+libcMT.lib(tzset.obj)
+  init 0x82F204F0   # initializer region: its code references only this object's functions
+  text 0x82F31E20 0x82F324A0   # 4 functions: 4 / 0 / 0
+
+libcMT.lib(xtoas.obj)
+  init 0x82F32790   # initializer region: its code references only this object's functions
+  text 0x82F32618 0x82F3278C   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(rmtmp.obj)
+  text 0x82F327A8 0x82F32934   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(open.obj)
+  text 0x82F32A00 0x82F32F30   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(stricmp.obj)
+  init 0x82F20B70   # initializer region: its code references only this object's functions
+  text 0x82F330F0 0x82F331A0   # 2 functions: 1 / 0 / 1
+
+libcMT.lib(thread.obj)
+  text 0x82F331B8 0x82F33220   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(calloc_impl.obj)
+  text 0x82F33220 0x82F332F4   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(ehstate.obj)
+  text 0x82F333D8 0x82F334F0   # 3 functions: 1 / 0 / 2
+
+libcMT.lib(frame.obj)
+  init 0x82F37C1C   # initializer region: its code references only this object's functions
+  init 0x82F37C40   # initializer region: its code references only this object's functions
+  text 0x82F334F0 0x82F344F4   # 12 functions: 11 / 1 / 0
+
+libcMT.lib(stat.obj)
+  text 0x82F344F8 0x82F34624   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(dtoxtm64.obj)
+  text 0x82F34628 0x82F348CC   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(mbtolwr.obj)
+  text 0x82F348D0 0x82F34914   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(typname.obj)
+  init 0x82F24DD8   # initializer region: its code references only this object's functions
+  text 0x82F34928 0x82F349F4   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(wchtodig.obj)
+  text 0x82F349F8 0x82F34BB8   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(lseeki64.obj)
+  text 0x82F34BF8 0x82F34E5C   # 2 functions: 2 / 0 / 0
+
+libcMT.lib(wctomb.obj)
+  text 0x82F34E60 0x82F34F88   # 2 functions: 1 / 0 / 1
+
+libcMT.lib(osfinfo.obj)
+  text 0x82F34FB8 0x82F35550   # 6 functions: 5 / 1 / 0
+
+libcMT.lib(intrncvt.obj)
+  text 0x82F35550 0x82F3637C   # 2 functions: 2 / 0 / 0
+
+libcMT.lib(mantold.obj)
+  text 0x82F36380 0x82F36614   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(recalloc.obj)
+  text 0x82F36618 0x82F366C4   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(ungetwc.obj)
+  text 0x82F366C8 0x82F3694C   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(wopen.obj)
+  text 0x82F36950 0x82F36E80   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(fputwc.obj)
+  text 0x82F37040 0x82F37298   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(mbsnbcpy_s_l.obj)
+  init 0x82F30C70   # initializer region: its code references only this object's functions
+  text 0x82F37298 0x82F37344   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(atodbl.obj)
+  text 0x82F37348 0x82F37498   # 2 functions: 2 / 0 / 0
+
+libcMT.lib(_fptostr.obj)
+  text 0x82F37498 0x82F37620   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(cfout.obj)
+  text 0x82F37620 0x82F3779C   # 2 functions: 2 / 0 / 0
+
+libcMT.lib(chsize.obj)
+  text 0x82F377A8 0x82F37938   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(setmode.obj)
+  text 0x82F37938 0x82F37A2C   # 2 functions: 1 / 0 / 1
+
+libcMT.lib(handlers.obj)
+  text 0x82F37A30 0x82F37B4C   # 2 functions: 2 / 0 / 0
+
+libcMT.lib(unwind.obj)
+  text 0x82F37B70 0x82F37C14   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(mbsicmp.obj)
+  text 0x82F37C68 0x82F37CD8   # 2 functions: 1 / 0 / 1
+
+libcMT.lib(filecrea.obj)
+  text 0x82F37CD8 0x82F37D40   # 1 functions: 1 / 0 / 0
+
+libcMT.lib(x10fout.obj)
+  text 0x82F37D40 0x82F388F0   # 1 functions: 1 / 0 / 0
+
+Xapilibi.lib(getlocaltime.obj)
+  init 0x82F22A90   # initializer region: its code references only this object's functions
+  init 0x82F22B98   # initializer region: its code references only this object's functions
+  text 0x82F39550 0x82F395E4   # 1 functions: 1 / 0 / 0
+
+xonline.lib(lsp.obj)
+  text 0x82F39BA8 0x82F39D08   # 1 functions: 1 / 0 / 0
+
+hkbase.lib(hkTraceStream.obj)
+  text 0x82F3A030 0x82F3A170   # 3 functions: 1 / 0 / 2
+
+hkbase.lib(hkUnionFind.obj)
+  hot 0x821D6FF8   # identified (code, >= 64 bytes)
+  text 0x82F3A170 0x82F3A330   # 4 functions: 3 / 1 / 0
+
+hkbase.lib(hkSemaphore.obj)
+  text 0x82F3A330 0x82F3A394   # 4 functions: 1 / 0 / 3
+
+hkbase.lib(hkStreamStatisticsCollector.obj)
+  text 0x82F3A398 0x82F3AA90   # 11 functions: 8 / 2 / 1
+
+hkbase.lib(hkIArchive.obj)
+  init 0x82F3AC90   # initializer region: its code references only this object's functions
+  text 0x82F3AA90 0x82F3AC90   # 3 functions: 2 / 1 / 0
+
+hkbase.lib(hkBsdSocket.obj)
+  hot 0x8228C908   # identified (code, >= 64 bytes)
+  text 0x82F3AF40 0x82F3B4B4   # 10 functions: 9 / 0 / 1
+
+hkcollide.lib(hkTypedBroadPhaseDispatcher.obj)
+  hot 0x822C8550   # identified (code, >= 64 bytes)
+  hot 0x823613F0   # identified (code, >= 64 bytes)
+  text 0x82F3B4B8 0x82F3B524   # 1 functions: 1 / 0 / 0; several blocks: review
+  text 0x82F3B590 0x82F3B624   # 1 functions: 1 / 0 / 0; several blocks: review
+
+hkcollide.lib(hkSimpleWorldRayCaster.obj)
+  hot 0x82291D90   # identified (code, >= 64 bytes)
+  text 0x82F3B628 0x82F3B7B8   # 1 functions: 1 / 0 / 0
+
+hkconstraintsolver.lib(hk1dBilateralConstraintBuildJacobian.obj)
+  hot 0x822C6248   # identified (code, >= 64 bytes)
+  hot 0x822E12F8   # identified (code, >= 64 bytes)
+  hot 0x822E1938   # identified (code, >= 64 bytes)
+  hot 0x82308F30   # identified (code, >= 64 bytes)
+  text 0x82F3B7B8 0x82F3C26C   # 11 functions: 8 / 3 / 0
+
+hkconstraintsolver.lib(hkSolver.obj)
+  hot 0x82298F60   # identified (code, >= 64 bytes)
+  hot 0x822F1820   # identified (code, >= 64 bytes)
+  text 0x82F3C270 0x82F3C528   # 1 functions: 1 / 0 / 0
+
+hkconstraintsolver.lib(hkSimpleContactConstraintInfo.obj)
+  text 0x82F3C528 0x82F3CFF8   # 1 functions: 1 / 0 / 0
+
+hkconstraintsolver.lib(hkSimpleConstraintUtil.obj)
+  text 0x82F3CFF8 0x82F3D788   # 4 functions: 4 / 0 / 0
+
+hkdynamics.lib(hkBinaryAction.obj)
+  text 0x82F3D788 0x82F3D970   # 4 functions: 4 / 0 / 0
+
+hkutilities.lib(hkCollapseTransforms.obj)
+  text 0x82F3D970 0x82F3DFF0   # 2 functions: 2 / 0 / 0
+
+hkserialize.lib(hkStructureLayout.obj)
+  text 0x82F3DFF0 0x82F3E94C   # 5 functions: 3 / 1 / 1
+
+hkserialize.lib(hkPlatformObjectWriter.obj)
+  text 0x82F3E950 0x82F3ED48   # 7 functions: 6 / 0 / 1
+
+hkserialize.lib(hkRelocationInfo.obj)
+  text 0x82F3ED48 0x82F3EE34   # 1 functions: 1 / 0 / 0
+
+hkserialize.lib(hkDeepCopier.obj)
+  text 0x82F3EE38 0x82F3F1F4   # 1 functions: 1 / 0 / 0
+
+hkserialize.lib(hkObjectCopier.obj)
+  text 0x82F3F408 0x82F4058C   # 7 functions: 6 / 1 / 0
+
+libjpeg.lib(jdapimin.obj)
+  text 0x82F40CA0 0x82F4139C   # 9 functions: 6 / 3 / 0
+
+libjpeg.lib(jdmarker.obj)
+  text 0x82F43310 0x82F43690   # 5 functions: 4 / 1 / 0
+
+libjpeg.lib(jerror.obj)
+  text 0x82F438C8 0x82F43938   # 1 functions: 1 / 0 / 0
+
+libjpeg.lib(jdapistd.obj)
+  text 0x82F43A70 0x82F43F88   # 5 functions: 5 / 0 / 0
+
+libjpeg.lib(jdtrans.obj)
+  text 0x82F440A8 0x82F441E8   # 1 functions: 1 / 0 / 0
+
+libjpeg.lib(jcapistd.obj)
+  text 0x82F441E8 0x82F44538   # 3 functions: 3 / 0 / 0
+
+libjpeg.lib(jcparam.obj)
+  text 0x82F44538 0x82F4519C   # 13 functions: 7 / 6 / 0
+
+libjpeg.lib(jcapimin.obj)
+  text 0x82F451A0 0x82F456DC   # 9 functions: 6 / 3 / 0
+
+libjpeg.lib(jctrans.obj)
+  text 0x82F456E0 0x82F45E60   # 7 functions: 2 / 5 / 0
+
+libjpeg.lib(jdinput.obj)
+  text 0x82F465B0 0x82F46638   # 1 functions: 1 / 0 / 0
+
+libjpeg.lib(jmemmgr.obj)
+  text 0x82F475E8 0x82F47714   # 1 functions: 1 / 0 / 0
+
+libjpeg.lib(jcomapi.obj)
+  text 0x82F47718 0x82F47780   # 1 functions: 1 / 0 / 0
+
+libjpeg.lib(jdmaster.obj)
+  text 0x82F479F0 0x82F483A0   # 7 functions: 3 / 4 / 0
+
+libjpeg.lib(jdcoefct.obj)
+  text 0x82F49330 0x82F49490   # 1 functions: 1 / 0 / 0
+
+libjpeg.lib(jdhuff.obj)
+  init 0x82F4A248   # initializer region: its code references only this object's functions
+  init 0x82F4A490   # initializer region: its code references only this object's functions
+  init 0x82F4A6E8   # initializer region: its code references only this object's functions
+  init 0x82F4A7F8   # initializer region: its code references only this object's functions
+  init 0x82F4AC00   # initializer region: its code references only this object's functions
+  text 0x82F49490 0x82F4A1A0   # 7 functions: 4 / 3 / 0
+
+libjpeg.lib(jdphuff.obj)
+  text 0x82F4AEE8 0x82F4AFB8   # 1 functions: 1 / 0 / 0
+
+libjpeg.lib(jcinit.obj)
+  text 0x82F4AFB8 0x82F4B0C8   # 1 functions: 1 / 0 / 0
+
+libjpeg.lib(jcmarker.obj)
+  text 0x82F4BB88 0x82F4BC28   # 1 functions: 1 / 0 / 0
+
+libjpeg.lib(jchuff.obj)
+  text 0x82F4BC28 0x82F4CE84   # 14 functions: 3 / 11 / 0
+
+libjpeg.lib(jcphuff.obj)
+  text 0x82F4DD08 0x82F4DD78   # 1 functions: 1 / 0 / 0
+
+libjpeg.lib(jcmaster.obj)
+  text 0x82F4EBA8 0x82F4EC98   # 1 functions: 1 / 0 / 0
+
+libjpeg.lib(jmemansi.obj)
+  init 0x82F46C30   # initializer region: its code references only this object's functions
+  text 0x82F4EE00 0x82F4EEA0   # 1 functions: 1 / 0 / 0
+
+libjpeg.lib(jdmainct.obj)
+  text 0x82F4F5D0 0x82F4F710   # 1 functions: 1 / 0 / 0
+
+libjpeg.lib(jddctmgr.obj)
+  text 0x82F4F968 0x82F4FA08   # 1 functions: 1 / 0 / 0
+
+libjpeg.lib(jdpostct.obj)
+  text 0x82F4FDC0 0x82F4FEA0   # 1 functions: 1 / 0 / 0
+
+libjpeg.lib(jdsample.obj)
+  text 0x82F50400 0x82F506F0   # 1 functions: 1 / 0 / 0
+
+libjpeg.lib(jdcolor.obj)
+  text 0x82F50AF8 0x82F50D10   # 1 functions: 1 / 0 / 0
+
+libjpeg.lib(jdmerge.obj)
+  text 0x82F512D8 0x82F513B8   # 1 functions: 1 / 0 / 0
+
+libjpeg.lib(jquant2.obj)
+  text 0x82F526B0 0x82F5288C   # 1 functions: 1 / 0 / 0
+
+libjpeg.lib(jquant1.obj)
+  text 0x82F534D0 0x82F535D8   # 1 functions: 1 / 0 / 0
+
+libjpeg.lib(jcmainct.obj)
+  text 0x82F53730 0x82F53804   # 1 functions: 1 / 0 / 0
+
+libjpeg.lib(jccoefct.obj)
+  text 0x82F53F98 0x82F540AC   # 1 functions: 1 / 0 / 0
+
+libjpeg.lib(jcdctmgr.obj)
+  text 0x82F54690 0x82F54780   # 1 functions: 1 / 0 / 0
+
+libjpeg.lib(jcprepct.obj)
+  text 0x82F54D68 0x82F54E80   # 1 functions: 1 / 0 / 0
+
+libjpeg.lib(jcsample.obj)
+  text 0x82F55758 0x82F55988   # 1 functions: 1 / 0 / 0
+
+libjpeg.lib(jccolor.obj)
+  text 0x82F55E38 0x82F5611C   # 1 functions: 1 / 0 / 0
+
+libjpeg.lib(jidctred.obj)
+  text 0x82F56120 0x82F56614   # 2 functions: 2 / 0 / 0
+
+libjpeg.lib(jidctint.obj)
+  text 0x82F56650 0x82F56AAC   # 1 functions: 1 / 0 / 0
+
+libjpeg.lib(jidctfst.obj)
+  text 0x82F56AB0 0x82F56E68   # 1 functions: 1 / 0 / 0
+
+libjpeg.lib(jidctflt.obj)
+  text 0x82F56E68 0x82F572C8   # 1 functions: 1 / 0 / 0
+
+libjpeg.lib(jfdctint.obj)
+  text 0x82F572C8 0x82F5754C   # 1 functions: 1 / 0 / 0
+
+libjpeg.lib(jfdctfst.obj)
+  text 0x82F57550 0x82F57734   # 1 functions: 1 / 0 / 0
+
+libjpeg.lib(jfdctflt.obj)
+  text 0x82F57738 0x82F5790C   # 1 functions: 1 / 0 / 0
+
+hkbase.lib(hkClassMemberClass.obj)
+  text 0x8302E0A8 0x8302E10C   # 1 functions: 1 / 0 / 0
+
+hkcollide.lib(hkBvShapeClass.obj)
+  text 0x8302EA00 0x8302EA64   # 1 functions: 1 / 0 / 0
+
+hkcollide.lib(hkCollisionFilterListClass.obj)
+  text 0x8302EAD0 0x8302EB34   # 1 functions: 1 / 0 / 0
+
+hkcollide.lib(hkConvexVerticesShapeClass.obj)
+  text 0x8302ECD8 0x8302ED9C   # 2 functions: 1 / 0 / 1
+
+hkcollide.lib(hkCylinderShapeClass.obj)
+  text 0x8302EDA0 0x8302EE08   # 1 functions: 1 / 0 / 0
+
+hkcollide.lib(hkFastMeshShapeClass.obj)
+  text 0x8302EE08 0x8302EE64   # 1 functions: 1 / 0 / 0
+
+hkcollide.lib(hkMeshShapeClass.obj)
+  text 0x8302EF98 0x8302F080   # 3 functions: 2 / 0 / 1
+
+hkcollide.lib(hkMultiRayShapeClass.obj)
+  text 0x8302F0E8 0x8302F1AC   # 2 functions: 1 / 0 / 1
+
+hkcollide.lib(hkMultiSphereShapeClass.obj)
+  text 0x8302F1B0 0x8302F218   # 1 functions: 1 / 0 / 0
+
+hkcollide.lib(hkNullCollisionFilterClass.obj)
+  text 0x8302F218 0x8302F274   # 1 functions: 1 / 0 / 0
+
+hkcollide.lib(hkSimpleMeshShapeClass.obj)
+  text 0x8302F2E0 0x8302F3A4   # 2 functions: 1 / 0 / 1
+
+hkcollide.lib(hkSphereShapeClass.obj)
+  text 0x8302F3A8 0x8302F404   # 1 functions: 1 / 0 / 0
+
+hkcollide.lib(hkStorageMeshShapeClass.obj)
+  text 0x8302F408 0x8302F4CC   # 2 functions: 1 / 0 / 1
+
+hkcollide.lib(hkStorageSampledHeightFieldShapeClass.obj)
+  text 0x8302F4D0 0x8302F534   # 1 functions: 1 / 0 / 0
+
+hkcollide.lib(hkTransformShapeClass.obj)
+  text 0x8302F538 0x8302F59C   # 1 functions: 1 / 0 / 0
+
+hkcollide.lib(hkShapeRayCastInputClass.obj)
+  text 0x8302F800 0x8302F860   # 1 functions: 1 / 0 / 0
+
+hkcollide.lib(hkTypedBroadPhaseHandleClass.obj)
+  text 0x8302F860 0x8302F8C4   # 1 functions: 1 / 0 / 0
+
+hkcollide.lib(hkCollisionFilterClass.obj)
+  text 0x8302F998 0x8302F9F4   # 1 functions: 1 / 0 / 0
+
+hkcollide.lib(hkSampledHeightFieldShapeClass.obj)
+  text 0x8302FB88 0x8302FBEC   # 1 functions: 1 / 0 / 0
+
+hkdynamics.lib(hkAabbPhantomClass.obj)
+  text 0x830304D8 0x8303053C   # 1 functions: 1 / 0 / 0
+
+hkdynamics.lib(hkBoxMotionClass.obj)
+  text 0x830305A8 0x8303060C   # 1 functions: 1 / 0 / 0
+
+hkdynamics.lib(hkBreakableConstraintDataClass.obj)
+  text 0x83030610 0x83030674   # 1 functions: 1 / 0 / 0
+
+hkdynamics.lib(hkConstraintInstanceClass.obj)
+  text 0x830306E0 0x83030760   # 2 functions: 1 / 0 / 1
+
+hkdynamics.lib(hkEntityClass.obj)
+  text 0x83030760 0x830307C4   # 1 functions: 1 / 0 / 0
+
+hkdynamics.lib(hkGenericConstraintDataClass.obj)
+  text 0x83030888 0x830308EC   # 1 functions: 1 / 0 / 0
+
+hkdynamics.lib(hkKeyframedRigidMotionClass.obj)
+  text 0x83030A18 0x83030A7C   # 1 functions: 1 / 0 / 0
+
+hkdynamics.lib(hkLimitedHingeConstraintDataClass.obj)
+  text 0x83030A80 0x83030BA4   # 3 functions: 2 / 1 / 0
+
+hkdynamics.lib(hkLinearParametricCurveClass.obj)
+  text 0x83030BA8 0x83030C0C   # 1 functions: 1 / 0 / 0
+
+hkdynamics.lib(hkMalleableConstraintDataClass.obj)
+  text 0x83030C10 0x83030C74   # 1 functions: 1 / 0 / 0
+
+hkdynamics.lib(hkPhysicsSystemClass.obj)
+  text 0x83030C78 0x83030CDC   # 1 functions: 1 / 0 / 0
+
+hkdynamics.lib(hkPointToPathConstraintDataClass.obj)
+  text 0x83030CE0 0x83030D60   # 2 functions: 1 / 0 / 1
+
+hkdynamics.lib(hkPositionConstraintMotorClass.obj)
+  text 0x83030DC8 0x83030E2C   # 1 functions: 1 / 0 / 0
+
+hkdynamics.lib(hkPoweredHingeConstraintDataClass.obj)
+  text 0x83030E30 0x83030E94   # 1 functions: 1 / 0 / 0
+
+hkdynamics.lib(hkPrismaticConstraintDataClass.obj)
+  text 0x83030E98 0x83030FBC   # 3 functions: 2 / 1 / 0
+
+hkdynamics.lib(hkRigidBodyClass.obj)
+  text 0x83030FC0 0x8303101C   # 1 functions: 1 / 0 / 0
+
+hkdynamics.lib(hkSpatialRigidBodyDeactivatorClass.obj)
+  text 0x83031088 0x8303114C   # 2 functions: 1 / 0 / 1
+
+hkdynamics.lib(hkStiffSpringConstraintDataClass.obj)
+  text 0x830312D8 0x8303133C   # 1 functions: 1 / 0 / 0
+
+hkdynamics.lib(hkWheelConstraintDataClass.obj)
+  text 0x830313A8 0x830314CC   # 3 functions: 2 / 0 / 1
+
+hkdynamics.lib(hkWorldCinfoClass.obj)
+  text 0x830314D0 0x83031568   # 2 functions: 1 / 0 / 1
+
+hkdynamics.lib(hkGenericConstraintSchemeClass.obj)
+  text 0x83031630 0x83031690   # 1 functions: 1 / 0 / 0
+
+hkdynamics.lib(hkMaterialClass.obj)
+  text 0x83031690 0x8303170C   # 2 functions: 1 / 0 / 1
+
+hkdynamics.lib(hkPhantomClass.obj)
+  text 0x830317D0 0x83031834   # 1 functions: 1 / 0 / 0
+
+hkdynamics.lib(hkRigidMotionClass.obj)
+  text 0x83031838 0x8303189C   # 1 functions: 1 / 0 / 0
+
+hkdynamics.lib(hkShapePhantomClass.obj)
+  text 0x830318A0 0x83031904   # 1 functions: 1 / 0 / 0
+
+hkdynamics.lib(hkMotionClass.obj)
+  text 0x83031968 0x830319D0   # 1 functions: 1 / 0 / 0
+
+hkdynamics.lib(hkWorldObjectClass.obj)
+  text 0x830319D0 0x83031A38   # 1 functions: 1 / 0 / 0
+
+hkdynamics.lib(hkRigidBodyDeactivatorClass.obj)
+  text 0x83031A38 0x83031A98   # 1 functions: 1 / 0 / 0
+
+hkmath.lib(hkMotionStateClass.obj)
+  text 0x83031CE0 0x83031D40   # 1 functions: 1 / 0 / 0
+
+hkmath.lib(hkSweptTransformClass.obj)
+  text 0x83031D40 0x83031DA0   # 1 functions: 1 / 0 / 0
+
+hkinternal.lib(hkMoppCodeClass.obj)
+  text 0x83031ED0 0x83031F94   # 2 functions: 1 / 0 / 1
+
+hkinternal.lib(hkPoweredRagdollConstraintDataClass.obj)
+  text 0x83031F98 0x83031FFC   # 1 functions: 1 / 0 / 0
+
+hkinternal.lib(hkRagdollConstraintDataClass.obj)
+  text 0x83032000 0x83032124   # 3 functions: 1 / 0 / 2
+
+hkinternal.lib(hkLinkedCollidableClass.obj)
+  text 0x83032188 0x830321EC   # 1 functions: 1 / 0 / 0
+
+hkinternal.lib(hkConvexPieceStreamDataClass.obj)
+  text 0x830321F0 0x83032254   # 1 functions: 1 / 0 / 0
+
+hkutilities.lib(hkDashpotActionClass.obj)
+  text 0x830327F8 0x8303285C   # 1 functions: 1 / 0 / 0
+
+hkutilities.lib(hkMotorActionClass.obj)
+  text 0x83032928 0x8303298C   # 1 functions: 1 / 0 / 0
+
+hkutilities.lib(hkMouseSpringActionClass.obj)
+  text 0x83032990 0x830329F4   # 1 functions: 1 / 0 / 0
+
+hkutilities.lib(hkReorientActionClass.obj)
+  text 0x83032B20 0x83032B84   # 1 functions: 1 / 0 / 0
+
+hkutilities.lib(hkSerializedDisplayRbTransformsClass.obj)
+  text 0x83032C58 0x83032D1C   # 2 functions: 1 / 0 / 1
+
+hkutilities.lib(hkSpringActionClass.obj)
+  text 0x83032D20 0x83032D84   # 1 functions: 1 / 0 / 0
+
+hkutilities.lib(hkCharacterProxyCinfoClass.obj)
+  text 0x83032D88 0x83032DE8   # 1 functions: 1 / 0 / 0
+
+hkvehicle.lib(hkVehicleRaycastWheelCollideClass.obj)
+  text 0x83033390 0x83033454   # 2 functions: 1 / 0 / 1
+
+hkvehicle.lib(hkVehicleDataClass.obj)
+  text 0x83033588 0x8303364C   # 2 functions: 2 / 0 / 0
+
+hkvehicle.lib(hkVehicleDefaultAerodynamicsClass.obj)
+  text 0x83033650 0x830336B4   # 1 functions: 1 / 0 / 0
+
+hkvehicle.lib(hkVehicleDefaultAnalogDriverInputClass.obj)
+  text 0x830336B8 0x83033784   # 2 functions: 1 / 0 / 1
+
+hkvehicle.lib(hkVehicleDefaultEngineClass.obj)
+  text 0x83033850 0x830338B4   # 1 functions: 1 / 0 / 0
+
+hkvehicle.lib(hkVehicleDefaultTransmissionClass.obj)
+  text 0x830339E8 0x83033A4C   # 1 functions: 1 / 0 / 0
+
+hkvehicle.lib(hkVehicleDefaultVelocityDamperClass.obj)
+  text 0x83033A50 0x83033AB4   # 1 functions: 1 / 0 / 0
+
+hkvehicle.lib(hkVehicleInstanceClass.obj)
+  text 0x83033AB8 0x83033B7C   # 2 functions: 2 / 0 / 0
+
+hkscenedata.lib(hkxCameraClass.obj)
+  text 0x83034070 0x830340D0   # 1 functions: 1 / 0 / 0
+
+hkscenedata.lib(hkxIndexBufferClass.obj)
+  text 0x830340D0 0x8303414C   # 2 functions: 1 / 0 / 1
+
+hkscenedata.lib(hkxLightClass.obj)
+  text 0x83034150 0x830341CC   # 2 functions: 1 / 0 / 1
+
+hkscenedata.lib(hkxMaterialClass.obj)
+  text 0x830341D0 0x83034294   # 2 functions: 1 / 0 / 1
+
+hkscenedata.lib(hkxNodeClass.obj)
+  text 0x83034358 0x83034418   # 2 functions: 1 / 0 / 1
+
+hkscenedata.lib(hkxSceneClass.obj)
+  text 0x83034418 0x83034478   # 1 functions: 1 / 0 / 0
+
+hkscenedata.lib(hkxSkinBindingClass.obj)
+  text 0x83034478 0x830344D8   # 1 functions: 1 / 0 / 0
+
+hkscenedata.lib(hkxVertexFormatClass.obj)
+  text 0x830345F8 0x83034658   # 1 functions: 1 / 0 / 0
+
+hkscenedata.lib(hkxVertexP4N4C1T2Class.obj)
+  text 0x83034658 0x830346B8   # 1 functions: 1 / 0 / 0
+
+hkscenedata.lib(hkxVertexP4N4T4B4W4I4C1Q2Class.obj)
+  text 0x83034718 0x83034778   # 1 functions: 1 / 0 / 0
+
+hkscenedata.lib(hkxVertexP4N4W4I4C1Q2Class.obj)
+  text 0x830347D8 0x83034838   # 1 functions: 1 / 0 / 0
+
+rwaicore.lib(kyINextMoveManager.cpp.o)
+  text 0x83035BC8 0x83035C14   # 1 functions: 1 / 0 / 0
+
+rwaiperceptions.lib(kySoundManager.cpp.o)
+  text 0x83036EA8 0x83036EF8   # 1 functions: 1 / 0 / 0
+
+xaudio2.lib(volumemeter.obj)
+  text 0x83037918 0x830379A8   # 1 functions: 1 / 0 / 0
+
+xaudio2.lib(reverb.obj)
+  text 0x830379A8 0x83037A38   # 1 functions: 1 / 0 / 0
+
+hkbase.lib(hkReferencedObjectClass.obj)
+  text 0x83038D18 0x83038D7C   # 1 functions: 1 / 0 / 0
+
+hkbase.lib(hkMonitorStreamAnalyzerClass.obj)
+  text 0x83038D80 0x83038EBC   # 4 functions: 2 / 1 / 1
+
+hkdynamics.lib(hkBinaryActionClass.obj)
+  text 0x83038F18 0x83038F7C   # 1 functions: 1 / 0 / 0
+
+hkdynamics.lib(hkVehicleFrictionSolverClass.obj)
+  text 0x83038FE8 0x830392E8   # 8 functions: 6 / 1 / 1
+
+hkdynamics.lib(hkRigidAccumulatorClass.obj)
+  text 0x830392E8 0x8303934C   # 1 functions: 1 / 0 / 0
+
+hkdynamics.lib(hkVelocityAccumulatorClass.obj)
+  text 0x83039350 0x830393CC   # 2 functions: 1 / 0 / 1
+
+libcMT.lib(fscanf.obj)
+  hot 0x821D05C8   # identified (code, >= 64 bytes)
+
+d3d9i.lib(pix.obj)
+  hot 0x821D07B0   # identified (code, >= 64 bytes)
+  hot 0x822173E0   # identified (code, >= 64 bytes)
+
+Xapilibi.lib(verify.obj)
+  hot 0x821D0D60   # identified (code, >= 64 bytes)
+
+libcMT.lib(snwprint.obj)
+  hot 0x821D2DD0   # identified (code, >= 64 bytes)
+
+libcMT.lib(wcscpy_s.obj)
+  hot 0x821D2F20   # identified (code, >= 64 bytes)
+
+libgfx_video.lib(cri_allocator.obj)
+  hot 0x821F15E8   # identified (code, >= 64 bytes)
+
+libcMT.lib(closeall.obj)
+  hot 0x82212508   # identified (code, >= 64 bytes)
+
+hkdynamics.lib(hkSimpleCollisionResponse.obj)
+  hot 0x82223B58   # identified (code, >= 64 bytes)
+  hot 0x82298B80   # identified (code, >= 64 bytes)
+
+libgfx_video.lib(mpv_dec.obj)
+  hot 0x8223C598   # identified (code, >= 64 bytes)
+
+hkdynamics.lib(hkBallAndSocketConstraintData.obj)
+  hot 0x8223F2D8   # identified (code, >= 64 bytes)
+
+libcMT.lib(strtok.obj)
+  hot 0x82246890   # identified (code, >= 64 bytes)
+
+libcMT.lib(strcpy_s.obj)
+  hot 0x822472B0   # identified (code, >= 64 bytes)
+
+libcMT.lib(tan.obj)
+  hot 0x8224B5D8   # identified (code, >= 64 bytes)
+
+hkvehicle.lib(hkVehicleDefaultEngine.obj)
+  hot 0x82262BF0   # identified (code, >= 64 bytes)
+  hot 0x82307360   # identified (code, >= 64 bytes)
+
+hkcollide.lib(hkShape.obj)
+  hot 0x82296910   # identified (code, >= 64 bytes)
+
+libcpMT.lib(xfdnorm.obj)
+  hot 0x822AB418   # identified (code, >= 64 bytes)
+
+libcpMT.lib(xfdscale.obj)
+  hot 0x822AB680   # identified (code, >= 64 bytes)
+
+hkcollide.lib(hkStorageSampledHeightFieldShape.obj)
+  hot 0x822BE5B8   # identified (code, >= 64 bytes)
+
+libcMT.lib(fpinit.obj)
+  hot 0x822C1010   # identified (code, >= 64 bytes)
+
+hkcollide.lib(hkSphereShape.obj)
+  hot 0x822C9988   # identified (code, >= 64 bytes)
+
+hkdynamics.lib(hkWheelConstraintData.obj)
+  hot 0x822D3798   # identified (code, >= 64 bytes)
+  hot 0x822E1E50   # identified (code, >= 64 bytes)
+
+hkdynamics.lib(hkStabilizedBoxMotion.obj)
+  hot 0x822DBD38   # identified (code, >= 64 bytes)
+
+libcMT.lib(qsort.obj)
+  hot 0x822E0A78   # identified (code, >= 64 bytes)
+
+hkdynamics.lib(hkRigidBodyCinfo.obj)
+  hot 0x8230B260   # identified (code, >= 64 bytes)
+
+libcMT.lib(iswctype.obj)
+  hot 0x82324AA8   # identified (code, >= 64 bytes)
+
+libcMT.lib(log.obj)
+  hot 0x82324FD8   # identified (code, >= 64 bytes)
+
+libcMT.lib(strstr.obj)
+  hot 0x823251A0   # identified (code, >= 64 bytes)
+
+VinceXe.lib(UploadFileEx.obj)
+  hot 0x82344E28   # identified (code, >= 64 bytes)
+
+libcMT.lib(fprintf.obj)
+  hot 0x8238A750   # identified (code, >= 64 bytes)
+
+libcMT.lib(_flswbuf.obj)
+  hot 0x823A8BD8   # identified (code, >= 64 bytes)

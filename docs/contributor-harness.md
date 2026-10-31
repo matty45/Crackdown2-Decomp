@@ -211,24 +211,44 @@ forges its result.
 
 ## Rules
 
-The source policy is enforced on the **preprocessed** source (`cl /P`), so macros cannot hide anything. Only lines
-from this repository are checked. `cd2.py lint` runs it and `cd2.py lint --self-test` proves it works.
+A function counts as **matched** only when its bytes match (`EXACT`, with every relocation target right) **and** no
+matching rule fires in it. A function whose bytes match but that breaks a rule is `MATCH-PENDING`. `check` reports
+both figures per file ("byte-exact" and "matched under the rules"); `lint` and `verify` report them for the manifest,
+and `verify` fails while any manifest entry is MATCH-PENDING. Rule numbers follow the decomp-code-rules catalogue
+(github.com/lemiur/Game-Decompilation-Skill-For-Claude); each check is deliberately narrow, so ordinary original code
+passes. `cd2.py lint` runs them and `cd2.py lint --self-test` plants a violation of each and a file of legitimate
+idioms that must pass.
 
-- Not allowed: inline assembly (`__asm`), `__emit`, `__declspec(naked)` and `__declspec(allocate)`, `__pragma`, and
-  any `#pragma` other than `pack`, `warning` and `once`. These would let code match without being source; `#pragma
-  optimize` or `inline_depth` would change code generation for one function.
-- Not allowed: `#line`, which would disguise where code comes from, and including files from outside the repository
-  and the XDK.
-- Not allowed: pointer arithmetic to reach memory: a cast to a byte pointer followed by an offset or an index, a
-  pointer converted to an integer, a hard-coded address, an address computed from an integer, and raw memory indexed
-  through a cast. Fields are declared members (checked by `CD2_OFFSET`), globals are declared with a name and a type.
-  A hard-coded address emits no relocation, so the relocation-target check could not see which global it is. The
-  `offsetof` expansion inside the layout checks is exempt.
+File-level errors (the policy cannot vouch for anything in the file):
+- `#line`, which would disguise where code comes from; including files from outside the repository and the XDK;
+- any `#pragma` other than `pack`, `warning` and `once` (`#pragma optimize` or `inline_depth` would change code
+  generation for one function); a file that does not preprocess.
+
+Matching rules (on the preprocessed source, so macros cannot hide them, and on each repository file's own text):
+- **R18, assembly is not source:** inline assembly (`__asm`), `__emit`, `__declspec(naked)` and `__declspec(allocate)`,
+  `__pragma`.
+- **R4, typed members, not offsets:** pointer arithmetic to reach memory: a cast to a byte pointer followed by an
+  offset or an index, a pointer converted to an integer, a hard-coded address, an address computed from an integer,
+  raw memory indexed through a cast, and the same spread over statements. Fields are declared members (checked by
+  `CD2_OFFSET`), globals are declared with a name and a type. A hard-coded address emits no relocation, so the
+  relocation-target check could not see which global it is. The `offsetof` expansion inside the layout checks is exempt.
+- **R17, no fake code:** a `volatile` local; a `volatile` member or global without a `// volatile: <evidence>` note on
+  its line; an unused local (the compiler's C4101 and C4189, from a syntax-only pass); an empty `if`/`else` body; a bare
+  `;` statement (empty loop bodies and `case X: ;` are allowed); `do { } while (0)` outside a macro; a self-assignment;
+  `+ 0`, `- 0` or `* 1`.
+- **R2, globals declared once, in their header:** an `extern` variable in a `.cpp`.
+- **R13, vtables from evidence:** a virtual named `pad`, `dummy` or `unused`.
+- **R1, one declaration per type:** a `class`/`struct` keyword mismatch (C4099); duplicate definitions are the
+  integrity gate's.
+
+A finding inside a function's body makes that function MATCH-PENDING; one at file scope or in a header makes every
+function of the file MATCH-PENDING. `// RULE-EXCEPTION: R<n>, <reason>` comments are listed; they record a
+byte-forced deviation from a style rule and never excuse a matching rule.
 - Matched functions must be in an ordinary code section (`.text`, or the compiler's own `.text$yc`/`.text$yd` for
   static initializers and at-exit destructors).
-- Flagged for review (warnings, not failures): `goto`, which is rarely what the original source did; `volatile`, which
-  holds a value in a register only in a fake match; and placeholder names (`GetField50`, `m_word50C`, `Slot12`),
-  listed per file and per header so they get named from evidence.
+- Advisory (listed, never blocking): `goto`, which is rarely what the original source did; `#if 0` blocks; `!!x`;
+  placeholder names (`GetField50`, `m_word50C`, `Slot12`) and address-like names (`g_830BBDB4`), listed per file and
+  per header so they get named from evidence.
 - No invented duplicates of shared bases. Game classes derive from `cNonGameBase`, prototypes from
   `GOM::cObjectPrototype` (`include/README.md`).
 

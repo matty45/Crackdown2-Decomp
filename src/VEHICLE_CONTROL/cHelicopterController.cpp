@@ -9,7 +9,6 @@
 #include <new>
 #include <math.h>
 
-extern int g_nVehicleTypeTag;      // 0x83847CA8
 // Ret_OK and Ret_FAIL (fun_runtime/retval.h): this file's copies are at 0x8385253C and 0x8320731C
 
 namespace VEHICLE_CONTROL
@@ -100,7 +99,6 @@ namespace VEHICLE_CONTROL
 
 
 
-extern float g_fCrossLimit;         // 0x83207580
 
 namespace VEHICLE_CONTROL
 {

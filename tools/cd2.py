@@ -467,12 +467,239 @@ def without_offsetof(text):
     return text
 
 
-def policy(src, extra_roots=(), roots=None, include=None):
+# ---------------------------------------------------------------------------------------------------- matching rules
+# A function counts as matched only when its bytes match AND no [match] rule fires in it: otherwise it is MATCH-PENDING.
+# Rule numbers follow the decomp-code-rules catalogue (github.com/lemiur/Game-Decompilation-Skill-For-Claude); each
+# check is deliberately narrow, so ordinary original code passes. AGENTS.md lists them.
+MATCH_RULES = {
+    'R1': 'one declaration per type',
+    'R2': 'globals declared once, in their header',
+    'R4': 'typed members, not offsets',
+    'R13': 'vtables from evidence',
+    'R17': 'no fake code',
+    'R18': 'assembly is not source',
+}
+RULE_OF_WARNING = {'C4101': ('R17', 'an unused local variable'),
+                   'C4189': ('R17', 'a local variable initialized but never used'),
+                   'C4099': ('R1', 'a type first declared with class and then with struct, or the reverse')}
+ADDRESS_NAME = re.compile(r'\b[A-Za-z_]\w*?_?(?=[0-9a-fA-F]*[0-9])[0-9a-fA-F]{6,8}\b')
+RULE_EXCEPTION = re.compile(r'//\s*RULE-EXCEPTION:\s*(R\d+)\s*,\s*(\S.*)$')
+
+
+def blank_code(text):
+    """text with comments and string/character literals replaced by spaces (newlines kept, so offsets and lines
+    stay)."""
+    out, i, n = list(text), 0, len(text)
+    while i < n:
+        c = text[i]
+        if text.startswith('//', i):
+            j = text.find('\n', i)
+            j = n if j < 0 else j
+        elif text.startswith('/*', i):
+            j = text.find('*/', i + 2)
+            j = n if j < 0 else j + 2
+        elif c in '"\'':
+            j = i + 1
+            while j < n and text[j] != c and text[j] != '\n':
+                j += 2 if text[j] == '\\' else 1
+            j += 1
+        else:
+            i += 1
+            continue
+        for k in range(i, min(j, n)):
+            if out[k] != '\n':
+                out[k] = ' '
+        i = j
+    return ''.join(out)
+
+
+_raw_cache = {}
+
+
+def raw_rules(path, spans=()):
+    """raw_rules_uncached, cached per file and spans (headers are scanned once per process)."""
+    key = (os.path.normcase(path), tuple(spans), os.path.getmtime(path))
+    if key not in _raw_cache:
+        _raw_cache[key] = raw_rules_uncached(path, spans)
+    return _raw_cache[key]
+
+
+def raw_rules_uncached(path, spans=()):
+    """Checks on a repository file's own text (macros unexpanded, comments available):
+    findings [(line, rule, message)] for [match] rules, advisory [(line, message)], exceptions [(line, text)].
+    spans: [(first line, last line)] of function bodies in this file (for locals)."""
+    text = open(path, errors='replace').read()
+    raw_lines = text.split('\n')
+    code = blank_code(text)
+    lines = code.split('\n')
+    starts = [0]
+    for l in lines:
+        starts.append(starts[-1] + len(l) + 1)
+    line_of = lambda off: bisect.bisect_right(starts, off)
+    in_body = lambda ln: any(a <= ln <= b for a, b in spans)
+    header = path.endswith('.h')
+    macro = set()  # lines of #define bodies (with continuations)
+    cont = False
+    for ln, l in enumerate(lines, 1):
+        if cont or re.match(r'\s*#\s*define\b', l):
+            macro.add(ln)
+        cont = (cont or re.match(r'\s*#\s*define\b', l)) and l.rstrip().endswith('\\')
+    found, advisory, exceptions = [], [], []
+    for ln, (l, raw) in enumerate(zip(lines, raw_lines), 1):
+        m = RULE_EXCEPTION.search(raw)
+        if m:
+            exceptions.append((ln, raw.strip()))
+            if m.group(1) in MATCH_RULES:
+                advisory.append((ln, 'RULE-EXCEPTION for %s: a [match] rule cannot be excepted (fake code never '
+                                     'is allowed)' % m.group(1)))
+        if ln in macro:
+            continue
+        if re.search(r'\bvolatile\b', l):
+            if in_body(ln):
+                found.append((ln, 'R17', 'a volatile local (it holds a value in a register only in a fake match)'))
+            elif '// volatile:' not in raw:
+                found.append((ln, 'R17', 'volatile without a `// volatile: <evidence>` note on the line'))
+        if re.search(r'\bwhile\s*\(\s*(?:0|false)\s*\)\s*;', l):
+            found.append((ln, 'R17', '`do { } while (0)` outside a macro'))
+        sm = re.search(r'(?<![\w.>=!<+\-*/%&|^])((?:this->)?[A-Za-z_]\w*(?:(?:\.|->)[A-Za-z_]\w*)*)\s*=\s*\1\s*;', l)
+        if sm:
+            found.append((ln, 'R17', 'a self-assignment (%s = %s)' % (sm.group(1), sm.group(1))))
+        if re.search(r'(?:[\w)\]]\s*)(?:[+\-]\s*0(?![\w.])|\*\s*1(?![\w.]))', l):
+            found.append((ln, 'R17', 'an identity operation (+ 0, - 0 or * 1)'))
+        if re.search(r'\bvirtual\b[^;(]*\b(?:pad|dummy|unused|Pad|Dummy|Unused)\w*\s*\(', l):
+            found.append((ln, 'R13', 'a virtual named pad/dummy/unused: declare the slots the binary has, by evidence'))
+        if not header and re.match(r'\s*extern\s+(?!"C")[^(;]*;', l):
+            found.append((ln, 'R2', 'a global declared extern in a .cpp: declare it once, in its header'))
+        if re.match(r'\s*#\s*if\s+0\b', l):
+            advisory.append((ln, '#if 0 block (only real build variants belong in conditional compilation)'))
+        if '!!' in l:
+            advisory.append((ln, '`!!x` (write the comparison the original would have written)'))
+    # empty if/else blocks and bare `;` statements, on the blanked code
+    toks = [(m.group(), m.start()) for m in re.finditer(r'[A-Za-z_]\w*|\S', code)]
+    depth = 0
+    for i, (t, off) in enumerate(toks):
+        if t == '(':
+            depth += 1
+        elif t == ')':
+            depth -= 1
+        if line_of(off) in macro:
+            continue
+        if t == ';' and depth == 0 and i and toks[i - 1][0] in (';', '{'):
+            found.append((line_of(off), 'R17', 'an empty statement `;`'))
+        if t in ('if', 'else'):
+            j = i + 1
+            if t == 'if' and j < len(toks) and toks[j][0] == '(':
+                d = 0
+                while j < len(toks):
+                    d += {'(': 1, ')': -1}.get(toks[j][0], 0)
+                    j += 1
+                    if d == 0:
+                        break
+            if t == 'else' and j < len(toks) and toks[j][0] == 'if':
+                continue
+            if j < len(toks) and (toks[j][0] == ';' or (toks[j][0] == '{' and j + 1 < len(toks) and toks[j + 1][0] == '}')):
+                found.append((line_of(toks[j][1]), 'R17', 'an empty `%s` body' % t))
+    for ln, l in enumerate(lines, 1):
+        for m in ADDRESS_NAME.finditer(l):
+            if not re.match(r'0[xX]', m.group(0)) and not m.group(0).isdigit():
+                advisory.append((ln, 'an address-like name `%s` (name it from evidence)' % m.group(0)))
+    return found, advisory, exceptions
+
+
+def warning_findings(src, path, e, roots):
+    """[match] findings from the compiler's own diagnostics (a syntax-only pass with C4189 enabled): unused locals
+    (R17) and class/struct keyword mismatches (R1), in repository files. [(file, line, rule, message)]"""
+    r = run_compiler([os.path.join(BIN, 'cl.exe')] + FLAGS + ['/Zs', '/w34189', '/I' + os.path.dirname(path), path],
+                     env=e, cwd=scratch_dir('pp'))
+    out = []
+    for m in re.finditer(r'^(.*?)\((\d+)\) : warning (C\d{4}): (.*)$', r.stdout, re.M):
+        if m.group(3) not in RULE_OF_WARNING:
+            continue
+        f = os.path.normcase(os.path.abspath(m.group(1)))
+        if not any(f.startswith(p) for p in roots):
+            continue
+        rule, what = RULE_OF_WARNING[m.group(3)]
+        out.append((f, int(m.group(2)), rule, '%s (%s %s)' % (what, m.group(3), m.group(4).strip())))
+    return out
+
+
+def function_spans(src, symbols):
+    """{symbol prefix: (first line, last line)} of the function bodies the file defines (search.find_body)."""
+    text = open(os.path.join(ROOT, src), errors='replace').read()
+    out = {}
+    for s in symbols:
+        try:
+            b = srch.find_body(text, s)
+        except Exception:
+            b = None
+        if b:
+            out[s] = (text.count('\n', 0, b[0]) + 1, text.count('\n', 0, b[1]) + 1)
+    return out
+
+
+def rules(src, extra_roots=(), roots=None, include=None, symbols=()):
+    """The source policy and the matching rules for one file: dict(hard=[...] (file-level errors: the policy cannot
+    vouch for anything), findings=[dict(rule, file, line, message)] ([match] rules), advisory=[...],
+    exceptions=[...]). symbols: the file's function symbol prefixes, for telling locals from members."""
+    hard, advisory, exceptions = [], [], []
+    findings = []
+    e_text, w = policy(src, extra_roots, roots, include, _structured=True)
+    hard, structured, pwarn = e_text
+    advisory += pwarn
+    findings += structured
+    path = os.path.join(ROOT, src)
+    if hard:
+        return dict(hard=hard, findings=findings, advisory=advisory, exceptions=exceptions)
+    rts = [os.path.normcase(os.path.abspath(r)) for r in list(roots or [os.path.join(ROOT, 'src'),
+                                                                        os.path.join(ROOT, 'include')]) + list(extra_roots)]
+    e = env()
+    if include is not None:
+        e['INCLUDE'] = ';'.join([os.path.join(XDK, 'include', 'xbox')] + list(include))
+    spans = list(function_spans(src, symbols).values()) if symbols else []
+    for f in w:  # the repository files this one pulls in (and itself)
+        fs, adv, exc = raw_rules(f, spans if os.path.normcase(f) == os.path.normcase(os.path.abspath(path)) else ())
+        findings += [dict(rule=r, file=rel(f), line=ln, message=m) for ln, r, m in fs]
+        advisory += ['%s:%d: %s' % (rel(f), ln, m) for ln, m in adv]
+        exceptions += ['%s:%d: %s' % (rel(f), ln, t) for ln, t in exc]
+    for f, ln, r, m in warning_findings(src, path, e, rts):
+        findings.append(dict(rule=r, file=rel(f), line=ln, message=m))
+    seen, uniq = set(), []
+    for x in findings:
+        k = (x['rule'], x['file'], x['line'], x['message'])
+        if k not in seen:
+            seen.add(k)
+            uniq.append(x)
+    return dict(hard=hard, findings=uniq, advisory=advisory, exceptions=exceptions)
+
+
+def pending_functions(src, results_symbols, findings):
+    """{symbol prefix: [findings]}: functions a [match] finding blocks. A finding inside a function's body blocks that
+    function; one elsewhere in the file (file scope) or in a header blocks every function of the file."""
+    spans = function_spans(src, results_symbols)
+    me = os.path.normcase(rel(os.path.join(ROOT, src)))
+    out = collections.defaultdict(list)
+    for x in findings:
+        hit = [s for s, (a, b) in spans.items() if os.path.normcase(x['file']) == me and a <= x['line'] <= b]
+        for s in (hit or results_symbols):
+            out[s].append(x)
+    return out
+
+
+def finding_text(x):
+    return '%s:%d: %s (%s): %s' % (x['file'], x['line'], x['rule'], MATCH_RULES[x['rule']], x['message'])
+
+
+def policy(src, extra_roots=(), roots=None, include=None, _structured=False):
     """(errors, warnings) of the source policy for one file. Checked on the preprocessed source, so macros cannot hide
     anything; only lines that come from this repository count, and every included file must come from the repository
     or the XDK. extra_roots: more directories that count as the repository (for the self-test). roots and include
-    replace the repository's src/ and include/ (a benchmark workspace counts only itself)."""
-    errors, warnings = [], []
+    replace the repository's src/ and include/ (a benchmark workspace counts only itself).
+    Errors are file-level problems plus every [match]-rule finding (see rules()); the benchmark rejects on either."""
+    if not _structured:
+        r = rules(src, extra_roots, roots, include)
+        return r['hard'] + [finding_text(x) for x in r['findings']], r['advisory']
+    errors, warnings, structured = [], [], []
+    repo_files = set()
     path = os.path.join(ROOT, src)
     for n, line in enumerate(open(path, errors='replace'), 1):
         if re.match(r'\s*#\s*line\b', line):
@@ -486,6 +713,8 @@ def policy(src, extra_roots=(), roots=None, include=None):
     try:
         r = run_compiler([os.path.join(BIN, 'cl.exe')] + FLAGS + ['/P', '/I' + os.path.dirname(path), path], env=e, cwd=pp)
         if r.returncode:
+            if _structured:
+                return (['%s: preprocessor error\n%s' % (src, (r.stdout + r.stderr)[-2000:])], [], warnings), []
             return ['%s: preprocessor error\n%s' % (src, (r.stdout + r.stderr)[-2000:])], warnings
         preprocessed = open(os.path.join(pp, os.path.splitext(os.path.basename(src))[0] + '.i'), errors='replace').readlines()
     finally:
@@ -511,33 +740,34 @@ def policy(src, extra_roots=(), roots=None, include=None):
         lineno += 1
         if not ours:
             continue
+        repo_files.add(origin)
         where = '%s:%d' % (rel(origin), lineno)
         text = without_offsetof(line.split('//', 1)[0])
-        own.append((where, text.rstrip('\n')))
+        own.append((where, text.rstrip('\n'), rel(origin), lineno))
         for pat, what in POLICY_ERRORS:
             if pat.search(text):
-                errors.append('%s: %s' % (where, what))
+                rule = 'R4' if what.startswith('pointer arithmetic') else 'R18'
+                structured.append(dict(rule=rule, file=rel(origin), line=lineno, message=what))
         pm = re.match(r'\s*#\s*pragma\s+(\w+)', text)
         if pm and pm.group(1) not in PRAGMA_ALLOWED:
             errors.append('%s: #pragma %s (allowed: %s)' % (where, pm.group(1), ', '.join(PRAGMA_ALLOWED)))
         if re.search(r'\bgoto\b', text):
             warnings.append('%s: goto (needs review: rarely what the original source did)' % where)
-        if re.search(r'\bvolatile\b', text):
-            warnings.append('%s: volatile (needs review: holding a value in a register this way is a fake match)' % where)
         if origin == os.path.normcase(os.path.abspath(path)):
             placeholders.update(placeholder_names(text))
     starts, at = [], 0
-    for _, text in own:
+    for _, text, _, _ in own:
         starts.append(at)
         at += len(text) + 1
-    for off, what in spread_pointer_arithmetic('\n'.join(text for _, text in own)):
-        e = '%s: pointer arithmetic: %s (see AGENTS.md)' % (own[bisect.bisect_right(starts, off) - 1][0], what)
-        if e not in errors:
-            errors.append(e)
+    for off, what in spread_pointer_arithmetic('\n'.join(text for _, text, _, _ in own)):
+        _, _, f, ln = own[bisect.bisect_right(starts, off) - 1]
+        x = dict(rule='R4', file=f, line=ln, message='pointer arithmetic: ' + what)
+        if x not in structured:
+            structured.append(x)
     if placeholders:
         warnings.append('%s: %d placeholder name(s), to be named from evidence (AGENTS.md, "Finding names and '
                         'layouts"): %s' % (src, len(placeholders), ', '.join(sorted(placeholders))))
-    return errors, warnings
+    return (errors, structured, warnings), sorted(repo_files)
 
 
 # ---------------------------------------------------------------------------------------------------- compile/compare
@@ -886,20 +1116,31 @@ def cmd_check(a):
     src = rel(a.file)
     if src not in load_splits(SPLITS):
         raise Fail('%s is not a scaffolded source file (config/splits.txt)' % src)
-    errors, warnings = policy(src)
-    if errors:
-        return dict(ok=False, file=src, policy_errors=errors, policy_warnings=warnings, functions=[])
     funcs = mapped(src)
+    ru = rules(src, symbols=[f['symbol'] for f in funcs])
+    warnings = ru['advisory']
+    if ru['hard']:
+        return dict(ok=False, file=src, policy_errors=ru['hard'], policy_warnings=warnings, functions=[])
     results, problems = compare_file(src, funcs, ltcg=a.ltcg)
     if a.explain:
         explain(src, results)
+    pending = pending_functions(src, [r['symbol'] for r in results], ru['findings'])
+    for r in results:
+        blocked = pending.get(r['symbol'])
+        if blocked:
+            r['rules'] = [finding_text(x) for x in blocked]
+            r['bytes_exact'] = r['status'] in ('EXACT', 'LTCG EXACT')
+            if r['bytes_exact']:
+                r['status'] = 'MATCH-PENDING'
     log_attempt('check --ltcg' if a.ltcg else 'check', src, results)
     tracked = [r for r in results if r['tracked']]
     ok = not problems and all(r['status'] == 'EXACT' or (r['ltcg_only'] and r['status'] in ('LTCG EXACT', 'needs --ltcg'))
                               for r in tracked)
+    exact = sum(r['status'] in ('EXACT', 'LTCG EXACT') or r.get('bytes_exact', False) for r in results)
+    clean = sum(r['status'] in ('EXACT', 'LTCG EXACT') for r in results)
     return dict(ok=ok, file=src, functions=results, relocation_problems=problems, policy_errors=[], policy_warnings=warnings,
-                summary='%d of %d functions exact' % (sum(r['status'] in ('EXACT', 'LTCG EXACT') for r in results),
-                                                     len(results)))
+                rule_findings=[finding_text(x) for x in ru['findings']], rule_exceptions=ru['exceptions'],
+                summary='%d of %d functions byte-exact; %d matched under the rules' % (exact, len(results), clean))
 
 
 def objdiff_unit(src, obj, unit, mappings):
@@ -1347,6 +1588,27 @@ def policy_self_test():
                                      '  for (int i = 0; i < n; ++i) h = h * 31 + b[i]; return h; }\n'
                                      'int count(T *begin, T *end) { return (int)(end - begin); }\n'
                                      'float pun(const unsigned int &w) { return *(const float *)&w; }\n', False),
+        # the matching rules (R1, R2, R13, R17): fake code that matching bytes do not excuse
+        ('R17 volatile local', 'int f() { volatile int x = 1; return x; }\n', True),
+        ('R17 empty if body', 'int f(int a) { if (a) { } return a; }\n', True),
+        ('R17 empty statement', 'int f(int a) { ; return a; }\n', True),
+        ('R17 do-while(0) outside a macro', 'void f(int &a) { do { a++; } while (0); }\n', True),
+        ('R17 self-assignment', 'void f(int &a) { a = a; }\n', True),
+        ('R17 identity operation', 'int f(int a) { return a + 0; }\n', True),
+        ('R17 unused local', 'int f(int a) { int spare; return a; }\n', True),
+        ('R2 global declared in a .cpp', 'extern int g_x;\nint f() { return g_x; }\n', True),
+        ('R13 dummy virtual', 'struct S { virtual void dummy0(); virtual void f(); };\nvoid g(S *s) { s->f(); }\n', True),
+        ('R1 class/struct mismatch', 'class C;\nstruct C { int v; };\nint f(C *c) { return c->v; }\n', True),
+        ('clean idioms', '#define WRAP(x) do { x; } while (0)\n'
+                         'struct T { int v; };\n'
+                         'struct H { volatile int reg; // volatile: a hardware register (evidence)\n};\n'
+                         'int table[] = { 1, 2 };\n'
+                         'int f(int *p, int n) { int s = 0;\n'
+                         '  for (;;) { if (n-- == 0) break; s += *p++; }\n'
+                         '  while (n > 0) n--;\n'
+                         '  switch (s) { case 0: ; default: break; }\n'
+                         '  WRAP(s++);\n'
+                         '  return s == s ? s + 0x10 : s * 2; }\n', False),
     ]
     ok = True
     out = []
@@ -1369,12 +1631,28 @@ def cmd_lint(a):
     files = [rel(p) for p in a.files] or sorted(rel(os.path.join(dp, f)) for dp, _, fs in os.walk(os.path.join(ROOT, 'src'))
                                                   for f in fs if f.endswith('.cpp'))
     res, empty = [], 0
+    man = manifest()['files']
+    todo = []
     for src in files:
         if not has_code(os.path.join(ROOT, src)):  # set up, nothing written yet: nothing to check
             empty += 1
             continue
-        e, w = policy(src)
-        res.append(dict(file=src, errors=e, warnings=w))
+        todo.append(src)
+
+    def one(src):
+        entries = [e for e in man.get(src, []) if e.get('matching', True)]
+        ru = rules(src, symbols=[e['symbol'] for e in entries])
+        pending = pending_functions(src, [e['symbol'] for e in entries], ru['findings']) if not ru['hard'] else {}
+        return dict(file=src, errors=ru['hard'], findings=[finding_text(x) for x in ru['findings']],
+                    pending=sorted(pending), warnings=ru['advisory'], exceptions=ru['exceptions'],
+                    matched=len(entries))
+    pool = concurrent.futures.ThreadPoolExecutor(max_workers=verify_ltcg.WORKERS)
+    res = list(pool.map(one, todo))
+    pool.shutdown()
+    matched = sum(r['matched'] for r in res)
+    pending = sum(len(r['pending']) for r in res)
+    figures = ('%d matched functions in the manifest: %d matched under the rules, %d MATCH-PENDING (a [match] rule '
+               'fires in them)' % (matched, matched - pending, pending))
     if not a.files:  # the headers once: their placeholder names (the files' own are listed with each file)
         for dp, _, fs in os.walk(os.path.join(ROOT, 'include')):
             for f in sorted(fs):
@@ -1385,7 +1663,8 @@ def cmd_lint(a):
                         res.append(dict(file=rel(path), errors=[], warnings=[
                             '%s: %d placeholder name(s), to be named from evidence (AGENTS.md, "Finding names and '
                             'layouts"): %s' % (rel(path), len(names), ', '.join(sorted(names)))]))
-    return dict(ok=not any(r['errors'] for r in res), files=res, without_code=empty)
+    return dict(ok=not any(r['errors'] or r.get('pending') for r in res), files=res, without_code=empty,
+                figures=figures, matched=matched, pending=pending)
 
 
 def has_code(path):
@@ -1446,8 +1725,11 @@ def cmd_verify(a):
         if name == 'source policy':
             lint = cmd_lint(argparse.Namespace(files=[], self_test=False))
             bad = [e for f in lint['files'] for e in f['errors']]
-            out.append(dict(gate=name, ok=not bad, detail='; '.join(bad[:5]) or '%d files clean (%d set up, nothing written yet)' % (
-                len(lint['files']), lint['without_code'])))
+            bad += ['%s: %s is MATCH-PENDING (%s)' % (f['file'], s, '; '.join(x for x in f['findings'])[:200])
+                    for f in lint['files'] for s in f.get('pending', [])]
+            out.append(dict(gate=name, ok=not bad, detail='; '.join(bad[:5]) or '%s | %d files checked (%d set up, nothing '
+                                                                              'written yet)' % (
+                lint['figures'], len(lint['files']), lint['without_code'])))
             continue
         if name == 'self-test: source policy':
             ok, cases = policy_self_test()
@@ -1536,12 +1818,16 @@ def show_text(cmd, res):
         for f in res['functions']:
             print('%s %5d bytes  %-12s %s%s' % (f['address'], f['size'], f['status'], f.get('name', f['symbol'])[:90],
                   '' if f['tracked'] else '   [%s]' % ('claim' if f['source'] == 'claim' else 'work in progress')))
+            for rl in f.get('rules', []):
+                print('             rule: %s' % rl)
             for fd in f.get('findings', []):
                 print('             finding: %s%s' % (fd['title'], '  at ' + ', '.join(fd['rows'][:4]) if fd['rows'] else ''))
         for p in res.get('relocation_problems', []):
             print('PROBLEM ' + p)
         for w in res.get('policy_warnings', []):
             print('warning ' + w)
+        for x in res.get('rule_exceptions', []):
+            print('exception ' + x)
         if 'summary' in res:
             print(res['summary'])
     elif cmd == 'lint' and 'self_test' in res:
@@ -1551,10 +1837,16 @@ def show_text(cmd, res):
         for f in res['files']:
             for e in f['errors']:
                 print('ERROR ' + e)
+            for x in f.get('findings', []):
+                print('MATCH-RULE ' + x)
+            for s in f.get('pending', []):
+                print('MATCH-PENDING %s: %s' % (f['file'], s))
             for w in f['warnings']:
                 print('warning ' + w)
         print('%d files, %s%s' % (len(res['files']), 'policy OK' if res['ok'] else 'POLICY VIOLATIONS',
                                   ' (%d without code yet, skipped)' % res['without_code'] if res.get('without_code') else ''))
+        if 'figures' in res:
+            print(res['figures'])
     elif cmd == 'search':
         print('%s %s: %d of %d words match before, %d of %d after (%d compiles)%s' % (
             res['address'], res['symbol'], res['baseline']['words'], res['baseline']['of'], res['best']['words'],

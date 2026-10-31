@@ -33,27 +33,35 @@ src/Activity/Persistence/cPersistenceProfile.cpp
   atexit 0x83039600
 
 src/Activity/LongDistanceProps/cLongDistancePropManager.cpp
-  text 0x823DA790 0x823DAA5C   # auto: cLongDistancePropManager; RuffKing cLongDistancePropManager.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x823DA720 0x823DAA90   # auto: cLongDistancePropManager; RuffKing cLongDistancePropManager.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 6 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82F5C6B0
   atexit 0x83039648
 
 src/AI/cAiPlayer.cpp
-  text 0x823E78A8 0x823EB5D4   # auto: cAiPlayer; RuffKing cAiPlayer.obj; 20 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x823E77C8 0x823EB638   # auto: cAiPlayer; RuffKing cAiPlayer.obj; 20 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 1 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82F60538
   atexit 0x83039758
+  init 0x82F604A8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F604D0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F60588   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/cCharacterEntityIF.cpp
   text 0x823EBE90 0x823F017C   # auto: cCharacterEntityIF; RuffKing cCharacterEntityIF.obj; 6 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F60DC0
   atexit 0x83039840
+  init 0x82F60D30   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F60D58   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F60E10   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/Animation/cAIAnimEventProfile.cpp
-  text 0x8243D218 0x8243D5C8   # auto: cAIAnimEventProfile; RuffKing cAIAnimEventProfile.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8243D1A8 0x8243D5C8   # auto: cAIAnimEventProfile; RuffKing cAIAnimEventProfile.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82F769F0
   atexit 0x8303A0A8
+  init 0x82F76960   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F76988   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/Streaming/cCrowdZoneDataHolder.cpp
-  text 0x8244A770 0x8244A7FC   # auto: cCrowdZoneDataHolder; RuffKing cCrowdZoneDataHolder.obj; 2 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8244A770 0x8244A86C   # auto: cCrowdZoneDataHolder; RuffKing cCrowdZoneDataHolder.obj; 2 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82F7F490
   atexit 0x8303AA58
 
@@ -63,9 +71,11 @@ src/AI/Streaming/cGlobalGraphDataHolder.cpp
   atexit 0x8303AA90
 
 src/AI/Streaming/cStreamingDataHolder.cpp
-  text 0x8244C010 0x8244C2BC   # auto: cStreamingDataHolder; RuffKing cStreamingDataHolder.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8244C010 0x8244C500   # auto: cStreamingDataHolder; RuffKing cStreamingDataHolder.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 4 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82F80F20
   atexit 0x8303AAE8
+  init 0x82F80E90   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F80EB8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/Targeting/cAITargetingProfile.cpp
   text 0x82451C60 0x82451F9C   # auto: cAITargetingProfile; RuffKing cAITargetingProfile.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
@@ -73,7 +83,7 @@ src/AI/Targeting/cAITargetingProfile.cpp
   atexit 0x8303AD80
 
 src/AI/Targeting/cFactionTargetingProfile.cpp
-  text 0x82451FA0 0x824523F0   # auto: cFactionTargetingProfile; RuffKing cFactionTargetingProfile.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82451FA0 0x82452474   # auto: cFactionTargetingProfile; RuffKing cFactionTargetingProfile.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82F84518
   atexit 0x8303AD98
 
@@ -81,6 +91,8 @@ src/cStaticInterestingObject.cpp
   text 0x824556F8 0x82455FF4   # auto: cStaticInterestingObject; not in RuffKing; 6 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F85F18
   atexit 0x8303AE80
+  init 0x82F85E88   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F85EB0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/Mission/cRefineryMission.cpp
   text 0x82456A10 0x82457270   # auto: cRefineryMission; RuffKing cRefineryMission.obj; 12 markers (RetClassName, MakeNew, own vtable slots)
@@ -91,41 +103,59 @@ src/AI/Mission/cSupplyValve.cpp
   text 0x82457BA0 0x82458624   # auto: cSupplyValve; RuffKing cSupplyValve.obj; 11 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F86680
   atexit 0x8303AEC0
+  init 0x82F865F0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F86618   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F866D0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/Mission/cMissionCriticalProp.cpp
   text 0x8245AEC0 0x8245B3A4   # auto: cMissionCriticalProp; RuffKing cMissionCriticalProp.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F87350
   atexit 0x8303AF40
+  init 0x82F872C0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F872E8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F873A0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/cBeaconProp.cpp
-  text 0x8245C200 0x8245C670   # auto: cBeaconProp; RuffKing BeaconProp.obj; 6 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8245C190 0x8245C6D8   # auto: cBeaconProp; RuffKing BeaconProp.obj; 6 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 13 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82F87C58
   atexit 0x8303AF98
+  init 0x82F87BC8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F87BF0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F87CA8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/Mission/AU/cAgencyTowerSegmentMission.cpp
   text 0x8245C6D8 0x8245D110   # auto: cAgencyTowerSegmentMission; RuffKing cAgencyTowerSegmentMission.obj; 10 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F88090
   atexit 0x8303AFC8
+  init 0x82F88000   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F88028   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/Mission/AU/cAUMission.cpp
   text 0x8245D490 0x8245F548   # auto: cAUMission; RuffKing cAUMission.obj; 20 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F88480
   atexit 0x8303AFE0
+  init 0x82F883F0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F88418   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/Mission/AU/cBeaconMission.cpp
   text 0x824611B8 0x824685FC   # auto: cBeaconMission; RuffKing cBeaconMission.obj; 17 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F88C88
   atexit 0x8303B010
+  init 0x82F88BF8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F88C20   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/Mission/AU/cFinalMission.cpp
   text 0x8246A7C0 0x8246E644   # auto: cFinalMission; RuffKing cFinalMission.obj; 14 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F89398
   atexit 0x8303B038
+  init 0x82F89308   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F89330   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/cBreachHole.cpp
   text 0x8246E6E8 0x82470274   # auto: cBreachHole; RuffKing cBreach.obj; 10 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F89720
   atexit 0x8303B050
+  init 0x82F896F8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/Mission/BreachHole/cBreachExplosion.cpp
   text 0x82470E18 0x82471204   # auto: cBreachExplosion; RuffKing cBreachExplosion.obj; 7 markers (RetClassName, MakeNew, own vtable slots)
@@ -136,29 +166,37 @@ src/AI/Mission/BreachHole/cBreachHoleMission.cpp
   text 0x82471300 0x82473370   # auto: cBreachHoleMission; RuffKing cBreachHoleMission.obj; 15 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F89EA0
   atexit 0x8303B080
+  init 0x82F89E10   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F89E38   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/cGoliathBreachHole.cpp
-  text 0x82473D58 0x82474374   # auto: cGoliathBreachHole; RuffKing cGoliathBreach.obj; 10 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82473D58 0x82474380   # auto: cGoliathBreachHole; RuffKing cGoliathBreach.obj; 10 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82F8A0F8
   atexit 0x8303B090
+  init 0x82F8A068   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F8A090   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/Mission/cDocksMission.cpp
-  text 0x82474380 0x82474DE4   # auto: cDocksMission; RuffKing cDocksMission.obj; 15 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82474380 0x82474E10   # auto: cDocksMission; RuffKing cDocksMission.obj; 15 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 5 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82F8A4E8
   atexit 0x8303B0A8
+  init 0x82F8A458   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F8A480   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/Mission/cCellStrongholdMission.cpp
   text 0x82474E10 0x82475548   # auto: cCellStrongholdMission; RuffKing cCellStrongholdMission.obj; 10 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F8A8D8
   atexit 0x8303B0C0
+  init 0x82F8A848   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F8A870   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/Mission/Delivery_Manager/cAgencyGarage.cpp
-  text 0x82479B80 0x8247A53C   # auto: cAgencyGarage; RuffKing cAgencyGarage.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82479B10 0x8247A560   # auto: cAgencyGarage; RuffKing cAgencyGarage.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82F8B1E8
   atexit 0x8303B100
 
 src/AI/Mission/Training/cTrainingMission.cpp
-  text 0x8247EF78 0x82484C2C   # auto: cTrainingMission; RuffKing cTrainingMission.obj; 12 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8247EE78 0x82484EE4   # auto: cTrainingMission; RuffKing cTrainingMission.obj; 12 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 1 function(s) before and 4 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82F8BC88
   atexit 0x8303B148
 
@@ -193,7 +231,7 @@ src/AI/Mission/Training/cForceFieldVFXProfile.cpp
   atexit 0x8303B1F8
 
 src/AI/Mission/AchievementMissions/cBaseJumperMission.cpp
-  text 0x82488F40 0x82489578   # auto: cBaseJumperMission; RuffKing cBaseJumperMission.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82488F40 0x824895A0   # auto: cBaseJumperMission; RuffKing cBaseJumperMission.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 5 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82F8DE78
   atexit 0x8303B210
 
@@ -236,14 +274,16 @@ src/AI/Mission/cAmbientEventMission.cpp
   text 0x8248DA90 0x8248DEE0   # auto: cAmbientEventMission; RuffKing cAmbientEventMission.obj; 6 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F90148
   atexit 0x8303B310
+  init 0x82F900B8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F900E0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/Mission/cMissionTier.cpp
-  text 0x8248E3D8 0x8248E854   # auto: cMissionTier; RuffKing cMissionTier.obj; 6 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8248E3D8 0x8248E918   # auto: cMissionTier; RuffKing cMissionTier.obj; 6 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82F90268
   atexit 0x8303B340
 
 src/AI/Behaviour/AIBehaviour.cpp
-  text 0x824A4A10 0x824A4A8C   # auto: AIBehaviour; RuffKing AIBehaviour.obj; 2 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x824A4A00 0x824A4A8C   # auto: AIBehaviour; RuffKing AIBehaviour.obj; 2 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 1 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82F90CB8
   atexit 0x8303B3A8
 
@@ -251,56 +291,130 @@ src/AI/Behaviour/NPC/NPCBehaviour.cpp
   text 0x824A7DD0 0x824A8330   # auto: NPCBehaviour; RuffKing NPCArmedBehaviour.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F91D70
   atexit 0x8303B6B0
+  init 0x82F91630   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F91658   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F916C0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F916E8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F91710   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F91728   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F91740   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F91750   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F91768   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F91780   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F917A0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F917C0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F917E0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F91800   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F91858   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F91878   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F918B0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F918E8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F91920   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F91948   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F91980   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F919B8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F919D0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F919F8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F91A20   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F91A38   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F91A50   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F91A60   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F91A78   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F91A90   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F91AB0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F91AD0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F91AF0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F91B10   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F91B68   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F91B88   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F91BC0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F91BF8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F91C30   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F91C58   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F91C90   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F91CC8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F91CE0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F91D08   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/Behaviour/NPC/Civilian/Pedestrian.cpp
-  text 0x824A8CB0 0x824A90A4   # auto: Pedestrian; RuffKing Pedestrian.obj; 8 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x824A8CB0 0x824A90B0   # auto: Pedestrian; RuffKing Pedestrian.obj; 8 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82F925E0
   atexit 0x8303B710
+  init 0x82F92550   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F92578   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F92630   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/cPedestrianBase.cpp
   text 0x824A90B8 0x824AA3D4   # auto: cPedestrianBase; RuffKing PedestrianBase.obj; 6 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F92A18
   atexit 0x8303B740
+  init 0x82F92988   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F929B0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F92A68   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/Behaviour/NPC/Civilian/PedestrianGuard.cpp
-  text 0x824AB020 0x824AB4CC   # auto: PedestrianGuard; RuffKing PedestrianGuard.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x824AB020 0x824AB558   # auto: PedestrianGuard; RuffKing PedestrianGuard.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82F92E50
   atexit 0x8303B770
+  init 0x82F92DC0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F92DE8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F92EA0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/Behaviour/NPC/Civilian/PedestrianInjured.cpp
   text 0x824AB6F0 0x824AB9B8   # auto: PedestrianInjured; RuffKing PedestrianInjured.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F93298
   atexit 0x8303B7A8
+  init 0x82F93208   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F93230   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F932E8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/Behaviour/NPC/Freak/FreakBase.cpp
-  text 0x824ABC10 0x824B0B74   # auto: FreakBase; RuffKing FreakBase.obj; 12 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x824ABBA0 0x824B0B74   # auto: FreakBase; RuffKing FreakBase.obj; 12 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82F936D0
   atexit 0x8303B7D8
+  init 0x82F93640   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F93668   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F93720   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/Behaviour/NPC/Freak/Goliath.cpp
-  text 0x824B0EA8 0x824B1E7C   # auto: Goliath; RuffKing Goliath.obj; 11 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x824B0E38 0x824B1F5C   # auto: Goliath; RuffKing Goliath.obj; 11 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82F93B08
   atexit 0x8303B818
+  init 0x82F93A78   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F93AA0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F93B58   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/Behaviour/NPC/Freak/Reaper.cpp
-  text 0x824B2640 0x824B80A4   # auto: Reaper; RuffKing Reaper.obj; 33 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x824B2640 0x824B8300   # auto: Reaper; RuffKing Reaper.obj; 33 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82F93F40
   atexit 0x8303B848
+  init 0x82F93EB0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F93ED8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F93F90   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/Behaviour/NPC/Freak/Scrounger.cpp
   text 0x824BAA18 0x824BB53C   # auto: Scrounger; RuffKing Scrounger.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F94378
   atexit 0x8303B878
+  init 0x82F942E8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F94310   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F943C8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/Behaviour/NPC/Freak/ScroungerKamikaze.cpp
-  text 0x824BDD58 0x824BE49C   # auto: ScroungerKamikaze; RuffKing ScroungerKamikaze.obj; 7 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x824BDD58 0x824BE5A0   # auto: ScroungerKamikaze; RuffKing ScroungerKamikaze.obj; 7 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82F947B0
   atexit 0x8303B8A8
+  init 0x82F94720   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F94748   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F94800   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/Behaviour/NPC/Freak/ScroungerSlinger.cpp
-  text 0x824BE5A0 0x824BF860   # auto: ScroungerSlinger; RuffKing ScroungerSlinger.obj; 16 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x824BE5A0 0x824BF99C   # auto: ScroungerSlinger; RuffKing ScroungerSlinger.obj; 16 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82F94BE8
   atexit 0x8303B8D8
+  init 0x82F94B58   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F94B80   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F94C38   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/Behaviour/NPC/Freak/cBasePatrolRouteEvent.cpp
   text 0x824BF9B8 0x824BFA7C   # auto: cBasePatrolRouteEvent; RuffKing cBasePatrolRouteEvent.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
@@ -313,6 +427,7 @@ src/AI/cFreakSniperEvent.cpp
   init 0x82F94F48
   atexit 0x8303B910
   atexit 0x8303B920
+  init 0x82F94E90   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/Behaviour/NPC/Freak/cGoliathPatrolRouteEvent.cpp
   text 0x824C0028 0x824C02DC   # auto: cGoliathPatrolRouteEvent; RuffKing cGoliathPatrolRouteEvent.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
@@ -325,66 +440,99 @@ src/AI/cReaperJumpEvent.cpp
   init 0x82F953D8
   atexit 0x8303B940
   atexit 0x8303B950
+  init 0x82F95320   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/Behaviour/NPC/Cell/CellGuard.cpp
   text 0x824C0B08 0x824C3154   # auto: CellGuard; RuffKing CellGuard.obj; 7 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F95B38
   atexit 0x8303B9B0
+  init 0x82F95B88   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/Behaviour/NPC/Cell/CellMinigun.cpp
   text 0x824C3170 0x824C3D80   # auto: CellMinigun; RuffKing CellMinigun.obj; 13 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F95F70
   atexit 0x8303B9E0
+  init 0x82F95EE0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F95F08   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F95FC0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/Behaviour/NPC/Cell/CellRocket.cpp
-  text 0x824C3D80 0x824C4ED0   # auto: CellRocket; RuffKing CellRocket.obj; 15 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x824C3D80 0x824C51B8   # auto: CellRocket; RuffKing CellRocket.obj; 15 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 3 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82F963A8
   atexit 0x8303BA10
+  init 0x82F96318   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F96340   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F963F8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/Behaviour/NPC/Cell/CellTurret.cpp
-  text 0x824C51B8 0x824C5DF4   # auto: CellTurret; RuffKing CellTurret.obj; 12 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x824C51B8 0x824C5E78   # auto: CellTurret; RuffKing CellTurret.obj; 12 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 4 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82F967E0
   atexit 0x8303BA40
+  init 0x82F96750   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F96778   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F96830   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/Behaviour/NPC/Peacekeeper/Peacekeeper.cpp
-  text 0x824C6790 0x824C76A4   # auto: Peacekeeper; RuffKing Peacekeeper.obj; 11 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x824C6790 0x824C7798   # auto: Peacekeeper; RuffKing Peacekeeper.obj; 11 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82F97858
   atexit 0x8303BA90
+  init 0x82F978A8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/Behaviour/NPC/Mission_Specific/BeaconDropBehaviour.cpp
   text 0x824C77B8 0x824C7BF4   # auto: BeaconDropBehaviour; RuffKing BeaconDropBehaviour.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F97FB0
   atexit 0x8303BAD0
+  init 0x82F97F20   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F97F48   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F98000   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/Behaviour/NPC/Mission_Specific/TrainingAmbient.cpp
   text 0x824C7C50 0x824C8214   # auto: TrainingAmbient; RuffKing TrainingAmbient.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F983E8
   atexit 0x8303BB00
+  init 0x82F98358   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F98380   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F98438   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/Behaviour/NPC/Mission_Specific/TrainingDummy.cpp
   text 0x824C8218 0x824C8D98   # auto: TrainingDummy; RuffKing TrainingDummy.obj; 6 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F98820
   atexit 0x8303BB30
+  init 0x82F98790   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F987B8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F98870   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/Behaviour/NPC/Mission_Specific/TrainingPilot.cpp
   text 0x824C8D98 0x824C9098   # auto: TrainingPilot; RuffKing TrainingPilot.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F98C58
   atexit 0x8303BB60
+  init 0x82F98BC8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F98BF0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F98CA8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/cAgressiveResponseChaseBehaviour.cpp
-  text 0x824C9210 0x824CC6F4   # auto: cAgressiveResponseChaseBehaviour; RuffKing AgressiveResponseChaseBehaviour.obj; 52 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x824C9210 0x824CC9A4   # auto: cAgressiveResponseChaseBehaviour; RuffKing AgressiveResponseChaseBehaviour.obj; 52 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82F994C8
   atexit 0x8303BBC0
+  init 0x82F99438   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F99460   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F99518   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/cAmbientTrafficBehaviour.cpp
   text 0x824CCAA8 0x824CD740   # auto: cAmbientTrafficBehaviour; RuffKing AmbientTrafficBehaviour.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F99900
   atexit 0x8303BBF0
+  init 0x82F99870   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F99898   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F99950   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/cAmbientWanderAttackBehaviour.cpp
-  text 0x824CDCB0 0x824CE30C   # auto: cAmbientWanderAttackBehaviour; RuffKing AmbientWanderAttackBehaviour.obj; 7 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x824CDCB0 0x824CE510   # auto: cAmbientWanderAttackBehaviour; RuffKing AmbientWanderAttackBehaviour.obj; 7 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82F99D38
   atexit 0x8303BC20
+  init 0x82F99CA8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F99CD0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F99D88   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/cChaseBehaviour.cpp
   text 0x824CE570 0x824CF6C8   # RetClassName .. start of cVehicleAttackedRockingBehaviour's code
@@ -393,56 +541,89 @@ src/AI/cChaseBehaviour.cpp
                                # the surviving copy lies between BreachPilot's and cChaseAndAttackPilotBehaviour's code
   init 0x82F9A170
   atexit 0x8303BC50
+  init 0x82F9A0E0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F9A108   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F9A1C0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/cVehicleAttackedRockingBehaviour.cpp
-  text 0x824CF6C8 0x824CFAB0   # auto: cVehicleAttackedRockingBehaviour; RuffKing VehicleAttackedRockingBehaviour.obj; 6 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x824CF6C8 0x824D0004   # auto: cVehicleAttackedRockingBehaviour; RuffKing VehicleAttackedRockingBehaviour.obj; 6 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82F9A5A8
   atexit 0x8303BC80
+  init 0x82F9A518   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F9A540   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F9A5F8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/cAgentPickup.cpp
-  text 0x824D0008 0x824D079C   # auto: cAgentPickup; RuffKing AgentPickup.obj; 6 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x824D0008 0x824D0B1C   # auto: cAgentPickup; RuffKing AgentPickup.obj; 6 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82F9A9E0
   atexit 0x8303BCB0
+  init 0x82F9A950   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F9A978   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F9AA30   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/Behaviour/NPC/Vehicle/BreachPilot.cpp
-  text 0x824D16D0 0x824D2708   # auto: BreachPilot; RuffKing BreachPilot.obj; 12 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x824D16D0 0x824D284C   # auto: BreachPilot; RuffKing BreachPilot.obj; 12 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82F9B250
   atexit 0x8303BD10
+  init 0x82F9B1C0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F9B1E8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F9B2A0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/Behaviour/NPC/Vehicle/EquipmentDropBehaviour.cpp
   text 0x824D2B50 0x824D319C   # auto: EquipmentDropBehaviour; RuffKing EquipmentDropBehaviour.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F9B9B0
   atexit 0x8303BD68
+  init 0x82F9B920   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F9B948   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F9BA00   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/cPilotBase.cpp
   text 0x824D31A0 0x824D3740   # auto: cPilotBase; RuffKing PilotBase.obj; 2 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F9BDE8
   atexit 0x8303BD98
+  init 0x82F9BD58   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F9BD80   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F9BE38   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/cPilotRespawn.cpp
   text 0x824D4210 0x824D456C   # auto: cPilotRespawn; RuffKing PilotRespawn.obj; 6 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F9C220
   atexit 0x8303BDC8
+  init 0x82F9C190   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F9C1B8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F9C270   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/cPKDropPilot.cpp
   text 0x824D4B78 0x824D52B8   # auto: cPKDropPilot; RuffKing PKDropPilot.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F9C658
   atexit 0x8303BDF8
+  init 0x82F9C5C8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F9C5F0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F9C6A8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/cTrainingHeliPilot.cpp
   text 0x824D52C0 0x824D62E4   # auto: cTrainingHeliPilot; RuffKing TrainingHeliPilot.obj; 12 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F9CA90
   atexit 0x8303BE28
+  init 0x82F9CA00   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F9CA28   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F9CAE0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/cVehicleCollectionBehaviour.cpp
-  text 0x824D68A8 0x824D791C   # auto: cVehicleCollectionBehaviour; RuffKing VehicleCollectionBehaviour.obj; 12 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x824D68A8 0x824D81A0   # auto: cVehicleCollectionBehaviour; RuffKing VehicleCollectionBehaviour.obj; 12 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 0 function(s) before and 5 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82F9CEC8
   atexit 0x8303BE58
+  init 0x82F9CE38   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F9CE60   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F9CF18   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/Squad/Squad.cpp
   text 0x824D81A0 0x824D8B78   # auto: Squad; RuffKing Squad.obj; 6 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F9D300
   atexit 0x8303BE88
+  init 0x82F9D270   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F9D298   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F9D350   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/cDefenderActivationZone.cpp
   text 0x824DEE98 0x824DF170   # auto: cDefenderActivationZone; not in RuffKing; 5 markers (RetClassName, MakeNew, own vtable slots)
@@ -455,14 +636,16 @@ src/AI/cAnimParams.cpp
   atexit 0x8303C320
 
 src/Anim/cCharacterAnimSetManager.cpp
-  text 0x824E4338 0x824E4FA8   # auto: cCharacterAnimSetManager; RuffKing cCharacterAnimSetManager.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x824E42C8 0x824E50EC   # auto: cCharacterAnimSetManager; RuffKing cCharacterAnimSetManager.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FA01E8
   atexit 0x8303C3A8
 
 src/Anim/cSkeletonProfile.cpp
-  text 0x824E6810 0x824E6B40   # auto: cSkeletonProfile; RuffKing cSkeletonProfile.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x824E67A0 0x824E6B40   # auto: cSkeletonProfile; RuffKing cSkeletonProfile.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FA0998
   atexit 0x8303C440
+  init 0x82FA0908   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FA0930   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Anim/cCoverAnimationProfile.cpp
   text 0x824E7A30 0x824E7B18   # auto: cCoverAnimationProfile; RuffKing cAnimHandlerCover.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
@@ -490,7 +673,7 @@ src/Anim/cPropThrowNPCAnimationProfile.cpp
   atexit 0x8303C4C8
 
 src/Anim/cBeaconPulseHoverAnimationProfile.cpp
-  text 0x824EC1A0 0x824EC288   # auto: cBeaconPulseHoverAnimationProfile; RuffKing cAnimHandlerBeaconPulseHover.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x824EC1A0 0x824EC5F8   # auto: cBeaconPulseHoverAnimationProfile; RuffKing cAnimHandlerBeaconPulseHover.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FA1AE0
   atexit 0x8303C4E0
 
@@ -550,7 +733,7 @@ src/Anim/cWingSuitAnimationProfile.cpp
   atexit 0x8303C5E8
 
 src/Anim/cReaperJumpAnimationProfile.cpp
-  text 0x824F66A0 0x824F6788   # auto: cReaperJumpAnimationProfile; RuffKing cAnimHandlerReaperJump.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x824F66A0 0x824F73AC   # auto: cReaperJumpAnimationProfile; RuffKing cAnimHandlerReaperJump.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FA3D00
   atexit 0x8303C600
 
@@ -680,7 +863,7 @@ src/Anim/cCrouchAnimationProfile.cpp
   atexit 0x8303C870
 
 src/Anim/cSprintAnimationProfile.cpp
-  text 0x825218B8 0x825219A0   # auto: cSprintAnimationProfile; RuffKing cAnimHandlerSprint.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x825218B0 0x825219A0   # auto: cSprintAnimationProfile; RuffKing cAnimHandlerSprint.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 1 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FA8E88
   atexit 0x8303C888
 
@@ -700,34 +883,42 @@ src/Anim/cTransformationAnimationProfile.cpp
   atexit 0x8303C8D0
 
 src/Anim/cBasePoseAnimationProfile.cpp
-  text 0x82524AF0 0x82524BD0   # auto: cBasePoseAnimationProfile; RuffKing cAnimHandlerBasePose.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82524AF0 0x82524D88   # auto: cBasePoseAnimationProfile; RuffKing cAnimHandlerBasePose.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FA99E8
   atexit 0x8303C8E8
 
 src/Anim/cCrowdAnimationProfile.cpp
-  text 0x82524D88 0x82524E70   # auto: cCrowdAnimationProfile; RuffKing cAnimHandlerCrowd.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82524D88 0x82525538   # auto: cCrowdAnimationProfile; RuffKing cAnimHandlerCrowd.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FA9CC0
   atexit 0x8303C900
 
 src/AudioLogic/cAudioBaseProfile.cpp
-  text 0x82527770 0x82527B70   # auto: cAudioBaseProfile; RuffKing cAudioBaseProfile.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82527700 0x82527B70   # auto: cAudioBaseProfile; RuffKing cAudioBaseProfile.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FA9F40
   atexit 0x8303C988
+  init 0x82FA9EB0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FA9ED8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AudioLogic/cAudioLandVehicleExtrasProfile.cpp
-  text 0x82527CF8 0x82527FCC   # auto: cAudioLandVehicleExtrasProfile; RuffKing cAudioLandVehicleExtrasProfile.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82527C88 0x82527FE0   # auto: cAudioLandVehicleExtrasProfile; RuffKing cAudioLandVehicleExtrasProfile.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FAA058
   atexit 0x8303C9A8
+  init 0x82FA9FC8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FA9FF0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AudioLogic/cAudioLandVehicleProfile.cpp
-  text 0x82528050 0x82528498   # auto: cAudioLandVehicleProfile; RuffKing cAudioLandVehicleProfile.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82527FE0 0x825284A8   # auto: cAudioLandVehicleProfile; RuffKing cAudioLandVehicleProfile.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FAA138
   atexit 0x8303C9B8
+  init 0x82FAA0A8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FAA0D0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Cam/Camera_Manager/cCameraManager.cpp
-  text 0x8252BFD0 0x8252C418   # auto: cCameraManager; not in RuffKing; 3 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8252BF60 0x8252C498   # auto: cCameraManager; not in RuffKing; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FAB0C8
   atexit 0x8303CBC8
+  init 0x82FAB038   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FAB060   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Cam/General/cCameraMarker.cpp
   text 0x8252C9D8 0x8252CB50   # auto: cCameraMarker; RuffKing cCameraMarker.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
@@ -738,16 +929,25 @@ src/cVirtualCamera.cpp
   text 0x8252CD78 0x82536ACC   # auto: cVirtualCamera; not in RuffKing; 5 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FAB778
   atexit 0x8303CC10
+  init 0x82FAB680   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FAB6A8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FAB710   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/cCwTransCharacter.cpp
   text 0x825380E8 0x825383A0   # auto: cCwTransCharacter; not in RuffKing; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FABD30
   atexit 0x8303CDA8
+  init 0x82FABCA0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FABCC8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FABD80   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/cCwTransCharacterWrapper.cpp
-  text 0x8253ED68 0x8253EF08   # auto: cCwTransCharacterWrapper; not in RuffKing; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8253ED68 0x8253EF20   # auto: cCwTransCharacterWrapper; not in RuffKing; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FAC1A0
   atexit 0x8303CDE8
+  init 0x82FAC110   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FAC138   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FAC1F0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/CHARACTER/cCwCharacter.cpp
   text 0x8253F438 0x8253F49C   # auto: cCwCharacter; RuffKing cCwCharacter.obj; 2 markers (RetClassName, MakeNew, own vtable slots)
@@ -755,7 +955,7 @@ src/CHARACTER/cCwCharacter.cpp
   atexit 0x8303CE20
 
 src/CHARACTER/cCwCharacterStateProfile.cpp
-  text 0x825402D8 0x82540900   # auto: cCwCharacterStateProfile; RuffKing cCwCharacterStateProfile.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x825402D8 0x82540A30   # auto: cCwCharacterStateProfile; RuffKing cCwCharacterStateProfile.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 5 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FACB38
   atexit 0x8303CE50
 
@@ -763,21 +963,33 @@ src/CHARACTER/cCwCharacterWrapper.cpp
   text 0x82540AA0 0x82542050   # auto: cCwCharacterWrapper; RuffKing cCwCharacterWrapper.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FACEE8
   atexit 0x8303CE80
+  init 0x82FACE58   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FACE80   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FACF38   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/CHARACTER/cCwGoliathCharacterWrapper.cpp
   text 0x82542198 0x82542EB4   # auto: cCwGoliathCharacterWrapper; RuffKing cCwGoliathCharacterWrapper.obj; 8 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FAD320
   atexit 0x8303CEB0
+  init 0x82FAD290   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FAD2B8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FAD370   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/CHARACTER/cCharacter.cpp
   text 0x82542FE0 0x82544014   # auto: cCharacter; RuffKing cCharacter.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FAD758
   atexit 0x8303CEE0
+  init 0x82FAD6C8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FAD6F0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FAD7A8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/CHARACTER/cCharacterInterface.cpp
-  text 0x8254E810 0x8254F16C   # auto: cCharacterInterface; RuffKing cCharacterInterface.obj; 7 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8254E7A0 0x8254F16C   # auto: cCharacterInterface; RuffKing cCharacterInterface.obj; 7 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FADC80
   atexit 0x8303CF50
+  init 0x82FADBF0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FADC18   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FADCD0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/cCharacterDLCVFXProfile.cpp
   text 0x825521F8 0x8255248C   # auto: cCharacterDLCVFXProfile; not in RuffKing; 3 markers (RetClassName, MakeNew, own vtable slots)
@@ -790,7 +1002,7 @@ src/CHARACTER/cCharacterGlobalDlcProfile.cpp
   atexit 0x8303D070
 
 src/CHARACTER/cCharacterProfile.cpp
-  text 0x82553190 0x825552D4   # auto: cCharacterProfile; RuffKing cCharacterProfile.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82553190 0x82555310   # auto: cCharacterProfile; RuffKing cCharacterProfile.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 4 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FAECB0
   atexit 0x8303D098
 
@@ -808,6 +1020,8 @@ src/CHARACTER/cGenCharProfile.cpp
   text 0x82556318 0x82558640   # auto: cGenCharProfile; RuffKing cGenCharProfile.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FAEF28
   atexit 0x8303D0E0
+  init 0x82FAEE98   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FAEEC0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/CHARACTER/cGlobalControlsProfile.cpp
   text 0x82558778 0x8255A5E8   # auto: cGlobalControlsProfile; RuffKing cGlobalControlsProfile.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
@@ -832,12 +1046,14 @@ src/CHARACTER/cNPCTintProfile.cpp
   atexit 0x8303D140
 
 src/CHARACTER/cRagdollProfile.cpp
-  text 0x82575E48 0x82578010   # auto: cRagdollProfile; RuffKing cRagdollProfile.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82575DD8 0x82578028   # auto: cRagdollProfile; RuffKing cRagdollProfile.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 3 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FB1D30
   atexit 0x8303D240
+  init 0x82FB1CA0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FB1CC8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/cCrowdManager.cpp
-  text 0x825EC290 0x825ECA10   # auto: cCrowdManager; RuffKing CrowdManager.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x825EC290 0x825ECA54   # auto: cCrowdManager; RuffKing CrowdManager.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FC5D18
   atexit 0x8303ECE8
 
@@ -845,46 +1061,69 @@ src/Equip/cEquipment.cpp
   text 0x82604650 0x82604CA8   # auto: cEquipment; RuffKing cEquipment.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FCB250
   atexit 0x8303F2E0
+  init 0x82FCB1C0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FCB1E8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FCB2A0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Equip/Weapon/cCWWeapon.cpp
   text 0x82607B50 0x82608168   # auto: cCWWeapon; RuffKing cCWWeapon.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FCB840
   atexit 0x8303F320
+  init 0x82FCB7B0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FCB7D8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FCB890   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Equip/cWeaponProjectile.cpp
   text 0x82609578 0x82609820   # auto: cWeaponProjectile; RuffKing cWeapon.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FCBF68
   atexit 0x8303F3A8
+  init 0x82FCBFB8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/cBoostPack.cpp
-  text 0x8260ABB0 0x8260AED4   # auto: cBoostPack; not in RuffKing; 12 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8260ABB0 0x8260B110   # auto: cBoostPack; not in RuffKing; 12 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FCC318
   atexit 0x8303F3D8
+  init 0x82FCC288   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FCC2B0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FCC368   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Equip/Gadget/cCloakingDevice.cpp
-  text 0x8260B1E8 0x8260B97C   # auto: cCloakingDevice; RuffKing cCloakingDevice.obj; 9 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8260B1E8 0x8260BA90   # auto: cCloakingDevice; RuffKing cCloakingDevice.obj; 9 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FCC720
   atexit 0x8303F418
+  init 0x82FCC770   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Equip/Weapon/cMag.cpp
-  text 0x8260BB80 0x8260DA54   # auto: cMag; RuffKing cMag.obj; 13 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8260BB80 0x8260DD18   # auto: cMag; RuffKing cMag.obj; 13 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 3 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FCCBB0
   atexit 0x8303F458
+  init 0x82FCCB20   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FCCB48   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FCCC00   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Equip/Gadget/cPortableLaunchPad.cpp
   text 0x8260DDD0 0x8260E8B0   # auto: cPortableLaunchPad; RuffKing cPortableLaunchPad.obj; 10 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FCCE50
   atexit 0x8303F480
+  init 0x82FCCDC0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FCCDE8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FCCEA0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Equip/Gadget/cPulseRifle.cpp
-  text 0x8260ECE0 0x8260FEA4   # auto: cPulseRifle; RuffKing cPulseRifle.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8260ECE0 0x826104B4   # auto: cPulseRifle; RuffKing cPulseRifle.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FCD288
   atexit 0x8303F4B0
+  init 0x82FCD1F8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FCD220   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FCD2D8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Equip/Gadget/Refractor/cRefractor.cpp
-  text 0x82610650 0x82610B7C   # auto: cRefractor; RuffKing cRefractor.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x826105E0 0x82610BD8   # auto: cRefractor; RuffKing cRefractor.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 11 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FCD6C0
   atexit 0x8303F4E0
+  init 0x82FCD630   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FCD658   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FCD710   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Equip/Attachments/cLightAttachmentData.cpp
   text 0x826159C0 0x82615D64   # auto: cLightAttachmentData; RuffKing cLightAttachmentData.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
@@ -892,24 +1131,33 @@ src/Equip/Attachments/cLightAttachmentData.cpp
   atexit 0x8303F538
 
 src/Equip/Attachments/cUVLightAttachmentData.cpp
-  text 0x826162B0 0x826164AC   # auto: cUVLightAttachmentData; RuffKing cUVLightAttachmentData.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x826162B0 0x826164B8   # auto: cUVLightAttachmentData; RuffKing cUVLightAttachmentData.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FCE250
   atexit 0x8303F550
 
 src/Equip/DLCWeapons/cChainGun.cpp
-  text 0x82616550 0x82616EAC   # auto: cChainGun; RuffKing cChainGun.obj; 6 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82616550 0x82616FD0   # auto: cChainGun; RuffKing cChainGun.obj; 6 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FCE5B8
   atexit 0x8303F568
+  init 0x82FCE528   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FCE550   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FCE608   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Equip/Weapon/cCWFirearm.cpp
   text 0x82617D50 0x82617EB8   # auto: cCWFirearm; RuffKing cCWFirearm.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FCE9F0
   atexit 0x8303F598
+  init 0x82FCE960   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FCE988   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FCEA40   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Equip/Weapon/cClusterGrenade.cpp
-  text 0x82619728 0x82619F50   # auto: cClusterGrenade; RuffKing cClusterGrenade.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82619728 0x8261A128   # auto: cClusterGrenade; RuffKing cClusterGrenade.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 6 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FCF1E0
   atexit 0x8303F630
+  init 0x82FCF150   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FCF178   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FCF230   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Equip/Weapon/cCWSatchelCharge.cpp
   text 0x8261A1B8 0x8261A21C   # auto: cCWSatchelCharge; RuffKing cCWSatchelCharge.obj; 2 markers (RetClassName, MakeNew, own vtable slots)
@@ -925,31 +1173,47 @@ src/Equip/Weapon/cGrenade.cpp
   text 0x8261DF40 0x8261E380   # auto: cGrenade; RuffKing cGrenade.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FCFF38
   atexit 0x8303F6F0
+  init 0x82FCFF88   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Equip/DLCWeapons/cProxMine.cpp
-  text 0x8261F8E0 0x8262136C   # auto: cProxMine; RuffKing cProxMine.obj; 13 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8261F870 0x826217C0   # auto: cProxMine; RuffKing cProxMine.obj; 13 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 0 function(s) before and 13 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FD0420
   atexit 0x8303F730
+  init 0x82FD0390   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FD03B8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FD0470   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Equip/Weapon/cShrapnelGrenade.cpp
-  text 0x82621AD0 0x82622468   # auto: cShrapnelGrenade; RuffKing cShrapnelGrenade.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82621A60 0x826225D0   # auto: cShrapnelGrenade; RuffKing cShrapnelGrenade.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 13 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FD0948
   atexit 0x8303F760
+  init 0x82FD08B8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FD08E0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FD0998   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Equip/Weapon/cSmokeGrenade.cpp
-  text 0x82622640 0x82622C84   # auto: cSmokeGrenade; RuffKing cSmokeGrenade.obj; 8 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x826225D0 0x82622DE8   # auto: cSmokeGrenade; RuffKing cSmokeGrenade.obj; 8 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 13 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FD0C20
   atexit 0x8303F7A8
+  init 0x82FD0B90   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FD0BB8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FD0C70   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/cStickler.cpp
-  text 0x82622E58 0x826230B8   # auto: cStickler; not in RuffKing; 3 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82622E58 0x82623128   # auto: cStickler; not in RuffKing; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FD1058
   atexit 0x8303F7D8
+  init 0x82FD0FC8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FD0FF0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FD10A8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/cSticklerGrenade.cpp
   text 0x826231C0 0x82623BBC   # auto: cSticklerGrenade; not in RuffKing; 11 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FD1490
   atexit 0x8303F808
+  init 0x82FD1400   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FD1428   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FD14E0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Equip/Weapon/cBulletData.cpp
   text 0x82623E60 0x826253DC   # auto: cBulletData; RuffKing cBulletData.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
@@ -961,61 +1225,95 @@ src/Equip/DLCWeapons/cFlocket.cpp
                                # emitted by this object (still unmatched)
   init 0x82FD1A60
   atexit 0x8303F858
+  init 0x82FD19D0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FD19F8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FD1AB0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Equip/Weapon/cHarpoonBolt.cpp
   text 0x82627168 0x82628288   # auto: cHarpoonBolt; RuffKing cHarpoonBolt.obj; 12 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FD1E98
   atexit 0x8303F890
+  init 0x82FD1E08   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FD1E30   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FD1EE8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Equip/Weapon/cHWGrenadeProjectile.cpp
-  text 0x826292F0 0x8262A1F4   # auto: cHWGrenadeProjectile; RuffKing cHWGrenadeProjectile.obj; 11 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x826292F0 0x8262A658   # auto: cHWGrenadeProjectile; RuffKing cHWGrenadeProjectile.obj; 11 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 10 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FD22D0
   atexit 0x8303F8C0
+  init 0x82FD2240   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FD2268   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FD2320   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Equip/Weapon/cHWProjectile.cpp
   text 0x8262A778 0x8262BD30   # auto: cHWProjectile; RuffKing cHWProjectile.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FD2760
   atexit 0x8303F900
+  init 0x82FD26D0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FD26F8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FD27B0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Equip/Weapon/cCWHeavyWeapon.cpp
   text 0x8262FC20 0x8262FDA8   # auto: cCWHeavyWeapon; RuffKing cCWHeavyWeapon.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FD2F58
   atexit 0x8303F9A0
+  init 0x82FD2FA8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Equip/DLCWeapons/cFlocketLauncher.cpp
-  text 0x82630D60 0x826317A4   # auto: cFlocketLauncher; RuffKing cFlocketLauncher.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82630CF0 0x82631A38   # auto: cFlocketLauncher; RuffKing cFlocketLauncher.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 14 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FD3360
   atexit 0x8303F9E0
+  init 0x82FD32D0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FD32F8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FD33B0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/cGrappler.cpp
-  text 0x82631AA8 0x82634800   # auto: cGrappler; not in RuffKing; 6 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82631A38 0x82634928   # auto: cGrappler; not in RuffKing; 6 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 0 function(s) before and 13 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FD36F0
   atexit 0x8303FA10
+  init 0x82FD3680   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FD36A8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FD3740   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Equip/Gadget/cRealNadeLauncher.cpp
-  text 0x82634998 0x82634FD8   # auto: cRealNadeLauncher; RuffKing cRealNadeLauncher.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82634928 0x82635480   # auto: cRealNadeLauncher; RuffKing cRealNadeLauncher.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 15 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FD3B30
   atexit 0x8303FA68
+  init 0x82FD3AA0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FD3AC8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FD3B80   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/cSucknBlowGun.cpp
-  text 0x826354F0 0x82639020   # auto: cSucknBlowGun; not in RuffKing; 10 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x826354F0 0x82639CE0   # auto: cSucknBlowGun; not in RuffKing; 10 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 9 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FD3F68
   atexit 0x8303FA98
+  init 0x82FD3ED8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FD3F00   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FD3FB8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Equip/Weapon/cFlakCannon.cpp
   text 0x8263A718 0x8263ACCC   # auto: cFlakCannon; RuffKing cFlakCannon.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FD4318
   atexit 0x8303FAC8
+  init 0x82FD4288   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FD42B0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FD4368   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Equip/Weapon/cMiniGun.cpp
   text 0x8263B168 0x8263B4FC   # auto: cMiniGun; RuffKing cMiniGun.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FD46C8
   atexit 0x8303FAF8
+  init 0x82FD4638   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FD4660   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FD4718   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Equip/Weapon/cUVTurret.cpp
-  text 0x8263BAD8 0x8263BD10   # auto: cUVTurret; RuffKing cUVTurret.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8263BA68 0x8263BE88   # auto: cUVTurret; RuffKing cUVTurret.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 14 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FD4B00
   atexit 0x8303FB28
+  init 0x82FD4A70   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FD4A98   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FD4B50   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/ExplosionManager/cExplosionLevelInfo.cpp
   text 0x8263E5E0 0x8263E73C   # auto: cExplosionLevelInfo; RuffKing cExplosionLevelInfo.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
@@ -1023,12 +1321,12 @@ src/ExplosionManager/cExplosionLevelInfo.cpp
   atexit 0x8303FB68
 
 src/ExplosionManager/cExplosionManager.cpp
-  text 0x8263EB50 0x8263EBF8   # auto: cExplosionManager; RuffKing cExplosionManager.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8263EB50 0x8263ECE8   # auto: cExplosionManager; RuffKing cExplosionManager.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FD5840
   atexit 0x8303FBD8
 
 src/GameRenderer/cCD2Lighting.cpp
-  text 0x8265A1A8 0x8265A250   # auto: cCD2Lighting; RuffKing cCD2Lighting.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8265A1A8 0x8265A31C   # auto: cCD2Lighting; RuffKing cCD2Lighting.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FD8300
   atexit 0x8303FF70
 
@@ -1038,12 +1336,12 @@ src/GameRenderer/CNonEntity.cpp
   atexit 0x8303FFA0
 
 src/GameRenderer/cScreenCapture.cpp
-  text 0x826657A0 0x82666B3C   # auto: cScreenCapture; RuffKing cScreenCapture.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x826657A0 0x82666C94   # auto: cScreenCapture; RuffKing cScreenCapture.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FD9EB8
   atexit 0x83040028
 
 src/GangManager/cAgressiveResponseConfigData.cpp
-  text 0x8266F888 0x8266F9F8   # auto: cAgressiveResponseConfigData; RuffKing cAgressiveResponseConfigData.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8266F888 0x8266FA60   # auto: cAgressiveResponseConfigData; RuffKing cAgressiveResponseConfigData.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FDADE0
   atexit 0x830401E0
 
@@ -1062,7 +1360,7 @@ src/GangManager/cFactionConfigData.cpp
   atexit 0x83040248
 
 src/GangManager/cGangInfoPrototype.cpp
-  text 0x82676D60 0x826775A8   # auto: cGangInfoPrototype; RuffKing cGangInfo.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82676D60 0x8267790C   # auto: cGangInfoPrototype; RuffKing cGangInfo.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 5 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FDD220
   atexit 0x83040268
 
@@ -1085,26 +1383,64 @@ src/PHYSICS/cBody.cpp
   text 0x82683298 0x82683B64   # auto: cBody; RuffKing cBody.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FDF6E0
   atexit 0x83040358
+  init 0x82FDF5E8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FDF610   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FDF678   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FDF730   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FDF778   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FDF7D0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FDF7F8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FDF820   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FDF838   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FDF850   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FDF870   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FDF890   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FDF8B0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FDF8D0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FDF928   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FDF948   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FDF958   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FDF970   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FDF988   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FDF9C0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FDF9F8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FDFA30   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FDFA58   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FDFA90   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FDFAC8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FDFAE0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FDFB08   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/cPhantomBody.cpp
-  text 0x8268A368 0x8268AA7C   # auto: cPhantomBody; not in RuffKing; 6 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8268A2F8 0x8268AA7C   # auto: cPhantomBody; not in RuffKing; 6 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FE00C8
   atexit 0x830403E8
+  init 0x82FE0038   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FE0060   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FE0118   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/PHYSICS/cPhysicsUniverse.cpp
-  text 0x8268DAA0 0x82692554   # auto: cPhysicsUniverse; RuffKing cPhysicsUniverse.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8268DA30 0x82692554   # auto: cPhysicsUniverse; RuffKing cPhysicsUniverse.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FE13A8
   atexit 0x83040468
+  init 0x82FE12B0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FE12D8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FE1340   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/PHYSICS/cSurfaceProfile.cpp
-  text 0x82695F98 0x826963BC   # auto: cSurfaceProfile; RuffKing cSurfaceProfile.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82695F28 0x826963D8   # auto: cSurfaceProfile; RuffKing cSurfaceProfile.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 3 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FE2130
   atexit 0x830404C8
+  init 0x82FE20A0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FE20C8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/PHYSICS/cWaterProfile.cpp
-  text 0x82697560 0x82697AAC   # auto: cWaterProfile; RuffKing cWaterProfile.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x826974F0 0x82697AC8   # auto: cWaterProfile; RuffKing cWaterProfile.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 3 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FE2740
   atexit 0x830404E8
+  init 0x82FE2648   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FE2670   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FE26D8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Vehicle/cCarProfile.cpp
   text 0x8269BEF0 0x8269C250   # auto: cCarProfile; RuffKing cCarProfile.obj; 6 markers (RetClassName, MakeNew, own vtable slots)
@@ -1112,12 +1448,12 @@ src/Vehicle/cCarProfile.cpp
   atexit 0x83040638
 
 src/Vehicle/cEightWheelerProfile.cpp
-  text 0x8269C250 0x8269C5F8   # auto: cEightWheelerProfile; RuffKing cEightWheelerProfile.obj; 6 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8269C250 0x8269C608   # auto: cEightWheelerProfile; RuffKing cEightWheelerProfile.obj; 6 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FE5B78
   atexit 0x83040658
 
 src/Vehicle/cGenVehicleProfile.cpp
-  text 0x8269C678 0x8269DD2C   # auto: cGenVehicleProfile; RuffKing cGenVehicleProfile.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8269C608 0x8269DD48   # auto: cGenVehicleProfile; RuffKing cGenVehicleProfile.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 3 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FE5C90
   atexit 0x83040678
 
@@ -1127,7 +1463,7 @@ src/Vehicle/cLandVehicleProfile.cpp
   atexit 0x83040698
 
 src/PHYSICS/cRigidBodyProfile.cpp
-  text 0x826A4200 0x826A4FD0   # auto: cRigidBodyProfile; RuffKing cRigidBodyProfile.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x826A40B8 0x826A4FE8   # auto: cRigidBodyProfile; RuffKing cRigidBodyProfile.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 1 function(s) before and 3 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FE6568
   atexit 0x830406B8
 
@@ -1150,11 +1486,19 @@ src/cTransformingCar.cpp
   text 0x826AB4C0 0x826B1AD0   # auto: cTransformingCar; not in RuffKing; 29 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FE71D0
   atexit 0x83040730
+  init 0x82FE70D8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FE7100   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FE7168   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FE7220   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/cTransformingTruck.cpp
-  text 0x826B1B58 0x826B5C50   # auto: cTransformingTruck; not in RuffKing; 26 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x826B1B58 0x826B5C60   # auto: cTransformingTruck; not in RuffKing; 26 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FE76A8
   atexit 0x83040778
+  init 0x82FE75B0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FE75D8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FE7640   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FE76F8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Vehicle/cCar.cpp
   text 0x826B5D18 0x826B5D7C   # auto: cCar; RuffKing cCar.obj; 2 markers (RetClassName, MakeNew, own vtable slots)
@@ -1165,9 +1509,12 @@ src/Vehicle/cHelicopter.cpp
   text 0x826B8A78 0x826BBF50   # auto: cHelicopter; RuffKing cHelicopter.obj; 7 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FE8550
   atexit 0x830407F8
+  init 0x82FE84C0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FE84E8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FE85A0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Vehicle/cHelicopterDamageProfile.cpp
-  text 0x826C06D8 0x826C0D3C   # auto: cHelicopterDamageProfile; RuffKing cHelicopterDamageProfile.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x826C06D8 0x826C0D48   # auto: cHelicopterDamageProfile; RuffKing cHelicopterDamageProfile.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FE8630
   atexit 0x83040888
 
@@ -1175,16 +1522,25 @@ src/Vehicle/cLandVehicle.cpp
   text 0x826C0DB8 0x826C6328   # auto: cLandVehicle; RuffKing cLandVehicle.obj; 14 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FE8A20
   atexit 0x830408A0
+  init 0x82FE8990   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FE89B8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FE8A70   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Vehicle/cTruck.cpp
   text 0x826CB3D8 0x826CB668   # auto: cTruck; RuffKing cTruck.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FE9578
   atexit 0x830408E8
+  init 0x82FE94E8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FE9510   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FE95C8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Vehicle/cVehicle.cpp
   text 0x826CC708 0x826D260C   # auto: cVehicle; RuffKing cVehicle.obj; 10 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FE99D8
   atexit 0x83040920
+  init 0x82FE9948   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FE9970   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FE9A28   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Vehicle/cVehicleWeaponProfile.cpp
   text 0x826E1118 0x826E17FC   # auto: cVehicleWeaponProfile; RuffKing cVehicleWeaponProfile.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
@@ -1192,19 +1548,28 @@ src/Vehicle/cVehicleWeaponProfile.cpp
   atexit 0x83040978
 
 src/cWeaponisedHelicopter.cpp
-  text 0x826E1870 0x826E1DB0   # auto: cWeaponisedHelicopter; not in RuffKing; 9 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x826E1800 0x826E1F80   # auto: cWeaponisedHelicopter; not in RuffKing; 9 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 13 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FEA500
   atexit 0x830409A0
+  init 0x82FEA470   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FEA498   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FEA550   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/cAgencyATV.cpp
-  text 0x826E2370 0x826E9800   # auto: cAgencyATV; not in RuffKing; 16 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x826E2300 0x826E9860   # auto: cAgencyATV; not in RuffKing; 16 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 12 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FEACD8
   atexit 0x830409E0
+  init 0x82FEAC48   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FEAC70   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FEAD28   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Vehicle/Agency/cAgencyBuggy.cpp
-  text 0x826E98D0 0x826EBF38   # auto: cAgencyBuggy; RuffKing cAgencyBuggy.obj; 9 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x826E98D0 0x826EC078   # auto: cAgencyBuggy; RuffKing cAgencyBuggy.obj; 9 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FEB148
   atexit 0x83040A20
+  init 0x82FEB0B8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FEB0E0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FEB198   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Vehicle/Agency/cAgencyCar.cpp
   text 0x826EC108 0x826EC184   # auto: cAgencyCar; RuffKing cAgencyCar.obj; 2 markers (RetClassName, MakeNew, own vtable slots)
@@ -1212,34 +1577,50 @@ src/Vehicle/Agency/cAgencyCar.cpp
   atexit 0x83040A50
 
 src/Vehicle/Agency/cAgencySports.cpp
-  text 0x826ECF38 0x826ED98C   # auto: cAgencySports; RuffKing cAgencySports.obj; 8 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x826ECEC8 0x826ED9F0   # auto: cAgencySports; RuffKing cAgencySports.obj; 8 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 12 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FEB930
   atexit 0x83040A88
+  init 0x82FEB8A0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FEB8C8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FEB980   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/cAgencySquadChopper.cpp
-  text 0x826EDA60 0x826F5AE8   # auto: cAgencySquadChopper; not in RuffKing; 21 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x826EDA60 0x826F5FB8   # auto: cAgencySquadChopper; not in RuffKing; 21 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 5 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FEBD68
   atexit 0x83040AB8
+  init 0x82FEBCD8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FEBD00   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FEBDB8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Vehicle/Agency/cAgencySUV.cpp
-  text 0x826FB9C8 0x826FBF84   # auto: cAgencySUV; RuffKing cAgencySUV.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x826FB9C8 0x826FC4E4   # auto: cAgencySUV; RuffKing cAgencySUV.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FEC1D8
   atexit 0x83040AF8
+  init 0x82FEC148   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FEC170   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FEC228   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Vehicle/Agency/cAgencyTank.cpp
-  text 0x826FC6B0 0x82700234   # auto: cAgencyTank; RuffKing cAgencyTank.obj; 12 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x826FC6B0 0x82700768   # auto: cAgencyTank; RuffKing cAgencyTank.obj; 12 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 4 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FEC610
   atexit 0x83040B28
+  init 0x82FEC580   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FEC5A8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FEC660   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/PHYSICS/cWaterZone.cpp
   text 0x827081B0 0x827083F4   # auto: cWaterZone; RuffKing cWaterZone.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FEFB58
   atexit 0x83040C08
+  init 0x82FEFBA8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FEFBD0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/cAudioLog.cpp
-  text 0x8270EBC0 0x8270FB38   # auto: cAudioLog; RuffKing cAudioLog.obj; 9 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8270EB50 0x8270FB38   # auto: cAudioLog; RuffKing cAudioLog.obj; 9 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FF1078
   atexit 0x83040C90
+  init 0x82FF10C8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FF10F0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/cAudioLogContainer.cpp
   text 0x8270FC18 0x82710664   # auto: cAudioLogContainer; RuffKing cAudioLogContainer.obj; 6 markers (RetClassName, MakeNew, own vtable slots)
@@ -1247,9 +1628,11 @@ src/cAudioLogContainer.cpp
   atexit 0x83040CA8
 
 src/PHYSICS/cOnlineOrb.cpp
-  text 0x827109E0 0x82711568   # auto: cOnlineOrb; RuffKing cOnlineOrb.obj; 8 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x827109D0 0x82711580   # auto: cOnlineOrb; RuffKing cOnlineOrb.obj; 8 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 1 function(s) before and 3 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FF19F0
   atexit 0x83040CC0
+  init 0x82FF1A40   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FF1A68   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/PHYSICS/LaunchPad/cLaunchPadConfig.cpp
   text 0x82713DC0 0x82714020   # auto: cLaunchPadConfig; RuffKing cLaunchPadConfig.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
@@ -1267,14 +1650,20 @@ src/LaunchPad/LaunchPad/cLaunchPadTargetLocation.cpp
   atexit 0x83040D28
 
 src/cDebugPlayer.cpp
-  text 0x827146D8 0x82715968   # auto: cDebugPlayer; not in RuffKing; 8 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82714668 0x82715968   # auto: cDebugPlayer; not in RuffKing; 8 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FF2D40
   atexit 0x83040D40
+  init 0x82FF2CB0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FF2CD8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/PLAYER/cPlayer.cpp
   text 0x8271F0A8 0x827257B4   # auto: cPlayer; RuffKing cPlayer.obj; 33 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FF3D30
   atexit 0x83041330
+  init 0x82FF3C38   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FF3C60   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FF3CC8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FF3D80   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Prop/cProp.cpp
   text 0x82729378 0x827293DC   # auto: cProp; RuffKing cProp.obj; 2 markers (RetClassName, MakeNew, own vtable slots)
@@ -1282,79 +1671,122 @@ src/Prop/cProp.cpp
   atexit 0x830413F0
 
 src/cTransVehicleDamageProp.cpp
-  text 0x82730C38 0x82731800   # auto: cTransVehicleDamageProp; not in RuffKing; 5 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82730C38 0x82731C84   # auto: cTransVehicleDamageProp; not in RuffKing; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FF5AE0
   atexit 0x83041450
+  init 0x82FF5A50   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FF5A78   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FF5B30   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Prop/cVehicleDamageProp.cpp
   text 0x82731DA0 0x82732028   # auto: cVehicleDamageProp; RuffKing cVehicleDamageProp.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FF5E90
   atexit 0x83041480
+  init 0x82FF5EE0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/cAgencyGarageDoor.cpp
   text 0x82732DC0 0x827348D4   # auto: cAgencyGarageDoor; not in RuffKing; 10 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FF6818
   atexit 0x830414F8
+  init 0x82FF6788   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FF67B0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FF6868   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/cAgencyGaragePlatform.cpp
-  text 0x82736250 0x82736684   # auto: cAgencyGaragePlatform; not in RuffKing; 7 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82736250 0x82736774   # auto: cAgencyGaragePlatform; not in RuffKing; 7 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 3 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FF6C50
   atexit 0x83041528
+  init 0x82FF6BC0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FF6BE8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FF6CA0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Prop/Constrained/cHingedProp.cpp
   text 0x82736DE8 0x82737698   # auto: cHingedProp; RuffKing cHingedProp.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FF7138
   atexit 0x83041558
+  init 0x82FF70A8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FF70D0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FF7188   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/cLift.cpp
-  text 0x82738E98 0x8273A518   # auto: cLift; not in RuffKing; 10 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82738E28 0x8273A6F0   # auto: cLift; not in RuffKing; 10 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 14 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FF77D8
   atexit 0x83041598
+  init 0x82FF7748   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FF7770   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FF7828   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Prop/Constrained/cMovingPlatform.cpp
-  text 0x8273A760 0x8273AD9C   # auto: cMovingPlatform; RuffKing cMovingPlatform.obj; 8 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8273A760 0x8273ADB0   # auto: cMovingPlatform; RuffKing cMovingPlatform.obj; 8 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FF7AB8
   atexit 0x830415C8
+  init 0x82FF7A28   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FF7A50   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FF7B08   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Prop/Constrained/cPivotBasedProp.cpp
   text 0x8273AE80 0x8273B110   # auto: cPivotBasedProp; RuffKing cPivotBasedProp.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FF7D98
   atexit 0x830415F8
+  init 0x82FF7D08   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FF7D30   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FF7DE8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Prop/Constrained/cPrismaticProp.cpp
   text 0x8273B548 0x8273BC98   # auto: cPrismaticProp; RuffKing cPrismaticProp.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FF8228
   atexit 0x83041628
+  init 0x82FF8198   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FF81C0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FF8278   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/cPrismaticTrigger.cpp
-  text 0x8273D3B0 0x8273DDEC   # auto: cPrismaticTrigger; not in RuffKing; 8 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8273D340 0x8273DDEC   # auto: cPrismaticTrigger; not in RuffKing; 8 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FF8840
   atexit 0x83041668
+  init 0x82FF87B0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FF87D8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FF8890   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/cSpawnPortal.cpp
-  text 0x8273DFE8 0x8273E52C   # auto: cSpawnPortal; not in RuffKing; 6 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8273DF78 0x8273E5A8   # auto: cSpawnPortal; not in RuffKing; 6 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 14 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FF8C78
   atexit 0x83041698
+  init 0x82FF8BE8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FF8C10   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FF8CC8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Prop/Constrained/cSpinningProp.cpp
   text 0x8273E618 0x8273EC48   # auto: cSpinningProp; RuffKing cSpinningProp.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FF8F58
   atexit 0x830416C8
+  init 0x82FF8EC8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FF8EF0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FF8FA8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/cSupplyEntryPoint.cpp
-  text 0x8273FB08 0x82740710   # auto: cSupplyEntryPoint; not in RuffKing; 10 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8273FA98 0x82740880   # auto: cSupplyEntryPoint; not in RuffKing; 10 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 5 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FF9548
   atexit 0x83041708
+  init 0x82FF94B8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FF94E0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FF9598   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/cTeleporterDoor.cpp
   text 0x827408F0 0x82740E90   # auto: cTeleporterDoor; not in RuffKing; 5 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FF9980
   atexit 0x83041738
+  init 0x82FF98F0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FF9918   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FF99D0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/cWeaponCabinetDoor.cpp
-  text 0x82740FA8 0x827414B8   # auto: cWeaponCabinetDoor; not in RuffKing; 5 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82740F38 0x827415E0   # auto: cWeaponCabinetDoor; not in RuffKing; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 14 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FF9DB8
   atexit 0x83041768
+  init 0x82FF9D28   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FF9D50   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FF9E08   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Prop/Custom/cBoomBox.cpp
   text 0x82742D68 0x82742DEC   # auto: cBoomBox; RuffKing cBoomBox.obj; 2 markers (RetClassName, MakeNew, own vtable slots)
@@ -1362,34 +1794,48 @@ src/Prop/Custom/cBoomBox.cpp
   atexit 0x83041910
 
 src/Prop/Custom/cExplosiveBarrel.cpp
-  text 0x827430C8 0x827435B0   # auto: cExplosiveBarrel; RuffKing cExplosiveBarrel.obj; 6 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82743058 0x82743698   # auto: cExplosiveBarrel; RuffKing cExplosiveBarrel.obj; 6 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 7 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FFA8C8
   atexit 0x83041940
+  init 0x82FFA918   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Prop/Custom/cGasCanister.cpp
-  text 0x82743708 0x82743E74   # auto: cGasCanister; RuffKing cGasCanister.obj; 6 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82743708 0x82744234   # auto: cGasCanister; RuffKing cGasCanister.obj; 6 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 4 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FFAC78
   atexit 0x83041970
+  init 0x82FFACC8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Prop/Custom/cHingedDoor.cpp
   text 0x827442E0 0x82744784   # auto: cHingedDoor; RuffKing cHingedDoor.obj; 6 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FFAF58
   atexit 0x830419A0
+  init 0x82FFAEC8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FFAEF0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FFAFA8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Prop/Custom/cHingedSpawnDoor.cpp
   text 0x827449E8 0x82744E4C   # auto: cHingedSpawnDoor; RuffKing cHingedSpawnDoor.obj; 7 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FFB340
   atexit 0x830419E0
+  init 0x82FFB2B0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FFB2D8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FFB390   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Prop/Custom/cPintleFaceplate.cpp
-  text 0x82745188 0x827455F8   # auto: cPintleFaceplate; RuffKing cPintleFaceplate.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82745118 0x82745668   # auto: cPintleFaceplate; RuffKing cPintleFaceplate.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 13 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FFB6D0
   atexit 0x83041A20
+  init 0x82FFB640   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FFB668   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FFB720   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Prop/Custom/cSearchLight.cpp
-  text 0x827456D8 0x82746670   # auto: cSearchLight; RuffKing cSearchLight.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82745668 0x82746878   # auto: cSearchLight; RuffKing cSearchLight.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 14 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FFB9B0
   atexit 0x83041A50
+  init 0x82FFB920   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FFB948   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FFBA00   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Prop/Custom/cSlidingDoor.cpp
   text 0x827468E8 0x82746964   # auto: cSlidingDoor; RuffKing cSlidingDoor.obj; 2 markers (RetClassName, MakeNew, own vtable slots)
@@ -1397,29 +1843,38 @@ src/Prop/Custom/cSlidingDoor.cpp
   atexit 0x83041A80
 
 src/Prop/Custom/cTODSlidingDoor.cpp
-  text 0x82746ED8 0x827472FC   # auto: cTODSlidingDoor; RuffKing cTODSlidingDoor.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82746ED8 0x82747308   # auto: cTODSlidingDoor; RuffKing cTODSlidingDoor.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FFC078
   atexit 0x83041AC0
+  init 0x82FFBFE8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FFC010   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FFC0C8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Prop/Custom/cTrafficLight.cpp
-  text 0x827473C0 0x82747C70   # auto: cTrafficLight; RuffKing cTrafficlight.obj; 12 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82747350 0x82747EF8   # auto: cTrafficLight; RuffKing cTrafficlight.obj; 12 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 14 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FFC358
   atexit 0x83041AF0
+  init 0x82FFC3A8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Prop/Custom/cTurretBase.cpp
-  text 0x82747F68 0x8274BC94   # auto: cTurretBase; RuffKing cTurretBase.obj; 16 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82747EF8 0x8274BCF8   # auto: cTurretBase; RuffKing cTurretBase.obj; 16 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 12 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FFC790
   atexit 0x83041B20
+  init 0x82FFC700   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FFC728   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FFC7E0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/cExplosivesSkillProfile.cpp
-  text 0x827530D0 0x827533F8   # auto: cExplosivesSkillProfile; RuffKing cExplosivesSkillProfile.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82753060 0x827533F8   # auto: cExplosivesSkillProfile; RuffKing cExplosivesSkillProfile.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FFD408
   atexit 0x83041D40
 
 src/RPG/cSkillProfile.cpp
-  text 0x827534A0 0x82753888   # auto: cSkillProfile; RuffKing cSkillProfile.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82753430 0x82753960   # auto: cSkillProfile; RuffKing cSkillProfile.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 4 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FFD4E8
   atexit 0x83041D50
+  init 0x82FFD458   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FFD480   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/RPG/cRPGGlobalsInterface.cpp
   text 0x827541A0 0x82755EFC   # auto: cRPGGlobalsInterface; RuffKing RPGGlobals.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
@@ -1435,16 +1890,26 @@ src/RPG/cRenegadeOrb.cpp
   text 0x82756F60 0x827582A4   # auto: cRenegadeOrb; RuffKing cRenegadeOrb.obj; 10 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FFE578
   atexit 0x83041DD0
+  init 0x82FFE4E8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FFE510   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FFE5C8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/cScriptManager.cpp
-  text 0x827701B0 0x827705D8   # auto: cScriptManager; not in RuffKing; 3 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x827701B0 0x827706DC   # auto: cScriptManager; not in RuffKing; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x83000E68
   atexit 0x83041F68
+  init 0x83000DD8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x83000E00   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Sim/cTimeOfDay.cpp
-  text 0x82773BA8 0x82774BF4   # auto: cTimeOfDay; RuffKing cTimeOfDay.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82773BA8 0x82774D98   # auto: cTimeOfDay; RuffKing cTimeOfDay.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x83002188
   atexit 0x830420B0
+  init 0x83002000   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x83002028   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x83002090   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x830020B8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x83002120   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/TGT/cPrecisionAimProfile.cpp
   text 0x8277D200 0x8277D9E8   # auto: cPrecisionAimProfile; RuffKing cPrecisionAimProfile.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
@@ -1452,21 +1917,30 @@ src/TGT/cPrecisionAimProfile.cpp
   atexit 0x830422C0
 
 src/CCarController.cpp
-  text 0x8277EC60 0x8277F5A4   # auto: CCarController; RuffKing CarController.obj; 24 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8277EBF0 0x8277F5B8   # auto: CCarController; RuffKing CarController.obj; 24 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x83004B90
   atexit 0x83042338
+  init 0x83004B00   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x83004B28   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x83004BE0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Vehicle/cVehicleController.cpp
   text 0x827819F8 0x82781DD0   # auto: cVehicleController; RuffKing cVehicleController.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x830052F0
   atexit 0x83042370
+  init 0x83005260   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x83005288   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x83005340   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/VEHICLE_CONTROL/cHelicopterController.cpp
-  text 0x82782020 0x82783498   # start: the prototype's MakeNew; end: start of a function judged to be another class's
+  text 0x82781FB0 0x82783604   # start: the prototype's MakeNew; end: start of a function judged to be another class's; extended 2026-10-31 by 2 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
                                # (vptr 0x8214C264). Contains F49-F51 (VMX helpers, not yet analysed). The true end may
                                # lie further on; extend only with evidence.
   init 0x83005770
   atexit 0x830423B0
+  init 0x830056E0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x83005708   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x830057C0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/VEHICLE_CONTROL/cVehicleCollectionZone.cpp
   text 0x827867C0 0x82787904   # auto: cVehicleCollectionZone; RuffKing cVehicleCollectionZone.obj; 12 markers (RetClassName, MakeNew, own vtable slots)
@@ -1474,12 +1948,12 @@ src/VEHICLE_CONTROL/cVehicleCollectionZone.cpp
   atexit 0x83042410
 
 src/VFX/cBloom.cpp
-  text 0x827918C8 0x827919B8   # auto: cBloom; RuffKing cBloom.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82791858 0x82791A58   # auto: cBloom; RuffKing cBloom.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 4 after: used only by this file (calls, addresses, vtables it installs)
   init 0x830075F8
   atexit 0x83042470
 
 src/VFX/cDeityRay.cpp
-  text 0x82791B00 0x8279370C   # auto: cDeityRay; RuffKing cDeityRay.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82791A58 0x82793A98   # auto: cDeityRay; RuffKing cDeityRay.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 1 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs)
   init 0x83007648
   atexit 0x83042480
 
@@ -1489,12 +1963,12 @@ src/VFX/cDepthOfField.cpp
   atexit 0x83042490
 
 src/cGodRaysControl.cpp
-  text 0x82796400 0x82798564   # auto: cGodRaysControl; not in RuffKing; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82796400 0x82798570   # auto: cGodRaysControl; not in RuffKing; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x83007758
   atexit 0x83042510
 
 src/cNoiseVolumesControl.cpp
-  text 0x827992E8 0x827A0A64   # auto: cNoiseVolumesControl; not in RuffKing; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x827992E8 0x827A0A70   # auto: cNoiseVolumesControl; not in RuffKing; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x830077A8
   atexit 0x83042520
 
@@ -1502,14 +1976,18 @@ src/VFX/cOutlines.cpp
   text 0x827A0B98 0x827A146C   # auto: cOutlines; RuffKing cOutlines.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x83007888
   atexit 0x83042530
+  init 0x830077F8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x83007820   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/cOutlines2.cpp
-  text 0x827A4000 0x827A41C0   # auto: cOutlines2; not in RuffKing; 3 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x827A3F90 0x827A41D8   # auto: cOutlines2; not in RuffKing; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 3 after: used only by this file (calls, addresses, vtables it installs)
   init 0x83007968
   atexit 0x83042540
+  init 0x830078D8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x83007900   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/VFX/cOvercast.cpp
-  text 0x827A4240 0x827A471C   # auto: cOvercast; RuffKing cOvercast.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x827A41D8 0x827A4C7C   # auto: cOvercast; RuffKing cOvercast.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 1 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x830079B8
   atexit 0x83042550
 
@@ -1519,14 +1997,18 @@ src/VFX/cPostProcessEffectsControl.cpp
   atexit 0x83042560
 
 src/VFX/cProjectedDecal.cpp
-  text 0x827A5640 0x827A7458   # auto: cProjectedDecal; RuffKing cProjectedDecal.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x827A5640 0x827A75BC   # auto: cProjectedDecal; RuffKing cProjectedDecal.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x83007C60
   atexit 0x83042570
+  init 0x83007BD0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x83007BF8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/cRenderToTextureManager.cpp
-  text 0x827A9B20 0x827A9EA8   # auto: cRenderToTextureManager; not in RuffKing; 3 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x827A9AB0 0x827AA250   # auto: cRenderToTextureManager; not in RuffKing; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 5 after: used only by this file (calls, addresses, vtables it installs)
   init 0x83007F88
   atexit 0x830425E8
+  init 0x83007EF8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x83007F20   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/VFX/cScatterMeshResources.cpp
   text 0x827AA2A8 0x827AB1DC   # auto: cScatterMeshResources; RuffKing cScatter.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
@@ -1534,12 +2016,12 @@ src/VFX/cScatterMeshResources.cpp
   atexit 0x83042610
 
 src/VFX/cSkidMarks.cpp
-  text 0x827B7A90 0x827B804C   # auto: cSkidMarks; RuffKing cSkidMarks.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x827B7A90 0x827B8150   # auto: cSkidMarks; RuffKing cSkidMarks.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x83008560
   atexit 0x830426A8
 
 src/VFX/cSkyDome.cpp
-  text 0x827B8988 0x827B8D00   # auto: cSkyDome; RuffKing cSkyDome.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x827B8988 0x827B8D20   # auto: cSkyDome; RuffKing cSkyDome.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x830085E8
   atexit 0x830426C8
 
@@ -1547,6 +2029,8 @@ src/VFX/cTracers.cpp
   text 0x827B9928 0x827BA0F8   # auto: cTracers; RuffKing cTracers.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x83008870
   atexit 0x83042720
+  init 0x830087E0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x83008808   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/VFX/cVFXPriorityTable.cpp
   text 0x827CC948 0x827CCA1C   # auto: cVFXPriorityTable; RuffKing cVFXPriorityTable.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
@@ -1554,9 +2038,11 @@ src/VFX/cVFXPriorityTable.cpp
   atexit 0x83042730
 
 src/VFX/cVFXSurfaceProfile.cpp
-  text 0x827CCBD0 0x827CD804   # auto: cVFXSurfaceProfile; RuffKing cVFXSurfaceProfile.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x827CCB60 0x827CD820   # auto: cVFXSurfaceProfile; RuffKing cVFXSurfaceProfile.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 3 after: used only by this file (calls, addresses, vtables it installs)
   init 0x83008A60
   atexit 0x830427A0
+  init 0x830089D0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x830089F8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/VFX/cReflectionMesh.cpp
   text 0x827CD8E8 0x827CD9BC   # auto: cReflectionMesh; RuffKing cWater.obj; 2 markers (RetClassName, MakeNew, own vtable slots)
@@ -1564,7 +2050,7 @@ src/VFX/cReflectionMesh.cpp
   atexit 0x830427C8
 
 src/VFX/cPostProcessControl.cpp
-  text 0x827DB230 0x827DC73C   # auto: cPostProcessControl; RuffKing PostProcess.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x827DB230 0x827DC748   # auto: cPostProcessControl; RuffKing PostProcess.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x83009120
   atexit 0x83042890
 
@@ -1574,7 +2060,7 @@ src/VFX/ParticleSystem/cParticleEffectManager.cpp
   atexit 0x83042958
 
 src/VFX/cParticleEffectResourceHolder.cpp
-  text 0x827EDB88 0x827EEDC4   # auto: cParticleEffectResourceHolder; RuffKing cParticleEffectResource.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x827EDB18 0x827EEDC4   # auto: cParticleEffectResourceHolder; RuffKing cParticleEffectResource.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x830099C0
   atexit 0x83042970
 
@@ -1582,6 +2068,9 @@ src/VFX/cAmbientVFXSpawner.cpp
   text 0x827F8FD0 0x827F9980   # end: start of cAmbientVFXPrototypeBase::MakeNew (another file)
   init 0x8300AF48
   atexit 0x83042F00
+  init 0x8300AE68   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x8300AEB8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x8300AEE0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/VFX/cLinkedVFXPrototype.cpp
   text 0x827FA478 0x827FA6E0   # auto: cLinkedVFXPrototype; RuffKing cLinkedVFXSpawner.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
@@ -1589,9 +2078,11 @@ src/VFX/cLinkedVFXPrototype.cpp
   atexit 0x83042F30
 
 src/VFX/cGlobalLightManager.cpp
-  text 0x827FAFE0 0x827FBB38   # auto: cGlobalLightManager; RuffKing cGlobalLightManager.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x827FAFE0 0x827FBD60   # auto: cGlobalLightManager; RuffKing cGlobalLightManager.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs)
   init 0x8300B500
   atexit 0x83042F58
+  init 0x8300B470   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x8300B498   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/VFX/cLightData.cpp
   text 0x82800710 0x82801D08   # auto: cLightData; RuffKing cLightData.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
@@ -1599,7 +2090,7 @@ src/VFX/cLightData.cpp
   atexit 0x83043018
 
 src/VFX/cBeamData.cpp
-  text 0x82802208 0x82802B64   # auto: cBeamData; RuffKing cBeam.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82802190 0x82802B64   # auto: cBeamData; RuffKing cBeam.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 1 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 1 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x8300BA90
   atexit 0x830430F8
 
@@ -1607,34 +2098,49 @@ src/VFX/cRopes.cpp
   text 0x82805F50 0x8280740C   # end: end of the last known function (ReloadShader); the true end may lie further on
   init 0x8300C0E0
   atexit 0x83043158
+  init 0x8300C050   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x8300C078   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  atexit 0x83043110   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/WorldManager/cLOD4Environment.cpp
-  text 0x82807810 0x82807EA8   # auto: cLOD4Environment; RuffKing cLOD4Environment.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x828077A0 0x82807FC4   # auto: cLOD4Environment; RuffKing cLOD4Environment.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x8300C938
   atexit 0x83043170
+  init 0x8300C8A8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x8300C8D0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/WorldManager/cStaticEnvironment.cpp
   text 0x82808918 0x828091BC   # auto: cStaticEnvironment; RuffKing cStaticEnvironment1.obj; 12 markers (RetClassName, MakeNew, own vtable slots)
   init 0x8300CB00
   atexit 0x83043180
+  init 0x8300CB50   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x8300CB78   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/WorldManager/cWorldManager.cpp
   text 0x82809AD8 0x8280A070   # auto: cWorldManager; RuffKing cWorldManager.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x8300D078
   atexit 0x830431A0
+  init 0x8300CF80   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x8300CFA8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x8300D010   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/cZoneManager.cpp
-  text 0x8280B970 0x8280BDE8   # auto: cZoneManager; not in RuffKing; 3 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8280B900 0x8280BFE8   # auto: cZoneManager; not in RuffKing; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 3 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 0 function(s) before and 7 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x8300D8D8
   atexit 0x830431E0
+  init 0x8300D7E0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x8300D808   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x8300D870   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/cPopulationZone.cpp
-  text 0x8280BFE8 0x8280C840   # auto: cPopulationZone; not in RuffKing; 5 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8280BFE8 0x8280CE08   # auto: cPopulationZone; not in RuffKing; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 9 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 0 function(s) before and 4 after: used only by this file (calls, addresses, vtables it installs)
   init 0x8300DC90
   atexit 0x83043208
+  init 0x8300DCE0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x8300DD08   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/ZoneManager/cVOAZone.cpp
-  text 0x8280E980 0x8280EDAC   # auto: cVOAZone; RuffKing cVOAZone.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8280E980 0x8280EE88   # auto: cVOAZone; RuffKing cVOAZone.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs)
   init 0x8300E740
   atexit 0x83043258
 
@@ -1654,7 +2160,7 @@ src/Audio/cVOALine.cpp
   atexit 0x83043808
 
 src/Audio/cVOAScheduler.cpp
-  text 0x82836E60 0x828371C4   # auto: cVOAScheduler; RuffKing cVOAScheduler.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82836DF0 0x828371C4   # auto: cVOAScheduler; RuffKing cVOAScheduler.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x83013058
   atexit 0x83043820
 
@@ -1722,11 +2228,14 @@ src/cNetGameAISpawnPoint.cpp
   text 0x8284CFA0 0x8284D354   # auto: cNetGameAISpawnPoint; not in RuffKing; 5 markers (RetClassName, MakeNew, own vtable slots)
   init 0x83016B18
   atexit 0x83043C00
+  init 0x83016AF0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/cNetGameAIVehicleSpawnPoint.cpp
   text 0x8284D3B0 0x8284D6F0   # auto: cNetGameAIVehicleSpawnPoint; not in RuffKing; 5 markers (RetClassName, MakeNew, own vtable slots)
   init 0x83016D70
   atexit 0x83043C10
+  init 0x83016CE0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x83016D08   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/GameManagement/cGameModeSpawnPoint.cpp
   text 0x8284D6F0 0x8284D8B0   # auto: cGameModeSpawnPoint; RuffKing cGameModeSpawnPoint.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
@@ -1744,7 +2253,7 @@ src/GameManagement/cArenaCameraContainer.cpp
   atexit 0x83043C40
 
 src/GameManagement/cCheckpointArena.cpp
-  text 0x8284E0A8 0x8284E2A4   # auto: cCheckpointArena; RuffKing cCheckpointArena.obj; 9 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8284E0A8 0x8284E2B0   # auto: cCheckpointArena; RuffKing cCheckpointArena.obj; 9 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x83017038
   atexit 0x83043CA8
 
@@ -1789,7 +2298,7 @@ src/GameManagement/cTeamDeathMatchGameModePrototype.cpp
   atexit 0x83043DA8
 
 src/GameManagement/cTagGameModePrototype.cpp
-  text 0x82851F98 0x8285286C   # auto: cTagGameModePrototype; RuffKing cTagGameMode.obj; 6 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82851F98 0x82852954   # auto: cTagGameModePrototype; RuffKing cTagGameMode.obj; 6 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x83018DD8
   atexit 0x83043DF0
 
@@ -1804,12 +2313,12 @@ src/GameManagement/cRoadRaceGameModePrototype.cpp
   atexit 0x83043E50
 
 src/GameManagement/cCampaignGameModePrototype.cpp
-  text 0x828574F8 0x82857904   # auto: cCampaignGameModePrototype; RuffKing cCampaignGameMode.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x828574F8 0x82857964   # auto: cCampaignGameModePrototype; RuffKing cCampaignGameMode.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x8301A330
   atexit 0x83043EC8
 
 src/GameManagement/cTrainingModePrototype.cpp
-  text 0x82858328 0x828584EC   # auto: cTrainingModePrototype; RuffKing cTrainingMode.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82858328 0x82858600   # auto: cTrainingModePrototype; RuffKing cTrainingMode.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 5 after: used only by this file (calls, addresses, vtables it installs)
   init 0x8301A9C8
   atexit 0x83043F08
 
@@ -1824,7 +2333,7 @@ src/GameManagement/cCHordeCaptureProfile.cpp
   atexit 0x83043F58
 
 src/GameManagement/cCHordeCaptureZone.cpp
-  text 0x82858CD0 0x82859ABC   # auto: cCHordeCaptureZone; RuffKing cCHordeCaptureZone.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82858CD0 0x82859BA8   # auto: cCHordeCaptureZone; RuffKing cCHordeCaptureZone.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 4 after: used only by this file (calls, addresses, vtables it installs)
   init 0x8301B108
   atexit 0x83043F70
 
@@ -1834,12 +2343,12 @@ src/cDelugeKillScoreOverride.cpp
   atexit 0x83044030
 
 src/GameManagement/cCHordeProfile.cpp
-  text 0x82865320 0x82865C04   # auto: cCHordeProfile; RuffKing cCHordeProfile.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82865320 0x82865C94   # auto: cCHordeProfile; RuffKing cCHordeProfile.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x8301BC00
   atexit 0x83044078
 
 src/GameManagement/cCHordeWave.cpp
-  text 0x82865C98 0x82866C60   # auto: cCHordeWave; RuffKing cCHordeWave.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82865C98 0x82866FA4   # auto: cCHordeWave; RuffKing cCHordeWave.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs)
   init 0x8301BF60
   atexit 0x83044090
 
@@ -1854,17 +2363,17 @@ src/GameManagement/cMultiPlayerTriggerZone.cpp
   atexit 0x830440D0
 
 src/cKeysToTheCityGameModePrototype.cpp
-  text 0x82869218 0x82869300   # auto: cKeysToTheCityGameModePrototype; not in RuffKing; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82869218 0x828694C0   # auto: cKeysToTheCityGameModePrototype; not in RuffKing; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x8301CFA0
   atexit 0x830440E8
 
 src/cVehicleTagGameModePrototype.cpp
-  text 0x8286D898 0x8286E708   # auto: cVehicleTagGameModePrototype; not in RuffKing; 9 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8286D898 0x8286E7EC   # auto: cVehicleTagGameModePrototype; not in RuffKing; 9 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x8301D640
   atexit 0x83044130
 
 src/cRenegadesGameModePrototype.cpp
-  text 0x82875328 0x82875A48   # auto: cRenegadesGameModePrototype; not in RuffKing; 5 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82875328 0x82875B18   # auto: cRenegadesGameModePrototype; not in RuffKing; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x8301DFF0
   atexit 0x83044180
 
@@ -1914,9 +2423,12 @@ src/UI/cAgentColour.cpp
   atexit 0x83044A98
 
 src/CHARACTER/cFrontEndAgent.cpp
-  text 0x8289CEC8 0x8289D75C   # auto: cFrontEndAgent; RuffKing FrontEndAgent.obj; 8 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8289CE58 0x8289D7C0   # auto: cFrontEndAgent; RuffKing FrontEndAgent.obj; 8 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 12 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x83022E38
   atexit 0x83044AB0
+  init 0x83022DA8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x83022DD0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x83022E88   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/UI/cLoadingInfo.cpp
   text 0x828B09A8 0x828B0AA8   # auto: cLoadingInfo; RuffKing ScreenLoading.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
@@ -1924,7 +2436,7 @@ src/UI/cLoadingInfo.cpp
   atexit 0x83044DB8
 
 src/Billboard/BillboardAudioEmitter.cpp
-  text 0x82910C50 0x82911204   # auto: BillboardAudioEmitter; RuffKing BillboardAudioEmitter.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82910C50 0x82911410   # auto: BillboardAudioEmitter; RuffKing BillboardAudioEmitter.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 0 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs)
   init 0x8302BB70
   atexit 0x83045B70
 

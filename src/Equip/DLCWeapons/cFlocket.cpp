@@ -8,11 +8,10 @@
 #include "Equip/cFlocket.h"
 #include "rw/rwmem.h"
 
+#include "VFX/cGlobalLightPool.h"
+
 namespace VFX
 {
-    class cGlobalLight;
-    class cGlobalLightPool;
-    extern cGlobalLightPool g_GlobalLightPool;
     void RemoveGlobalLight(cGlobalLight *);                 // sub_827FC650
     void ReturnLight(cGlobalLightPool *, cGlobalLight *);   // sub_825FF700
 }

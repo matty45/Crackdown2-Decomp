@@ -18,26 +18,38 @@ search for either.
 2. **Do not edit** anything under `tools/`, `tests/` or `.github/`. In `config/`, only add entries for functions you
    matched to `config/matched_functions.json`, and record their target facts with `py -I tools/cd2.py facts record`
    (it rewrites `config/target_facts.json` from the game; never edit that file by hand).
-3. **No tricks:**
-   - no inline assembly, `__emit`, `__declspec(naked)` or `__declspec(allocate)`, or `#line`;
-   - no `#pragma` other than `pack`, `warning` or `once`;
-   - **no pointer arithmetic to reach memory**: no cast to `char *` plus an offset, no pointer turned into an integer,
-     no hard-coded address, no raw memory indexed through a cast. When CD2 reads offset 0x50C of an object, declare the
-     member at 0x50C in the class's header (with its `CD2_OFFSET` check) and use it by name, even if all you can call it
-     is `m_word50C`. Declare a global with a name and a type. Reach a base or derived class with `static_cast`.
-     Typed pointer code the developers would have written is fine: walking an array with `p + i` or `++p`, `end - begin`.
-     Spreading the arithmetic over statements (`const char *p = reinterpret_cast<const char *>(this); p += 0x38;`),
-     keeping a pointer in an integer field, or casting through `void *` is the same thing, and `check` rejects it too.
+3. **No tricks, no fake code.** A function is matched only when `check` says `EXACT` *and* no matching rule fires in
+   it. A function whose bytes match but that breaks a rule is `MATCH-PENDING`: it does not count, and `verify` fails
+   while the manifest lists it. The rules (numbered as in the decomp-code-rules catalogue) and what `check` looks for:
+   - **R18, assembly is not source:** no inline assembly, `__emit`, `__declspec(naked)` or `__declspec(allocate)`.
+     Also never `#line` or a `#pragma` other than `pack`, `warning` or `once` (these fail the whole file).
+   - **R4, typed members, not offsets: no pointer arithmetic to reach memory.** No cast to `char *` plus an offset, no
+     pointer turned into an integer, no hard-coded address, no raw memory indexed through a cast. When CD2 reads offset
+     0x50C of an object, declare the member at 0x50C in the class's header (with its `CD2_OFFSET` check) and use it by
+     name, even if all you can call it is `m_word50C`. Declare a global with a name and a type. Reach a base or derived
+     class with `static_cast`. Typed pointer code the developers would have written is fine: walking an array with
+     `p + i` or `++p`, `end - begin`. Spreading the arithmetic over statements
+     (`const char *p = reinterpret_cast<const char *>(this); p += 0x38;`), keeping a pointer in an integer field, or
+     casting through `void *` is the same thing. Pointer arithmetic gives the same instructions, but it proves nothing
+     about the layout, and a hard-coded address has no relocation, so `check` cannot tell whether it is the right global.
+   - **R17, no fake code:** no `volatile` local (a `volatile` member or global needs a `// volatile: <evidence>` note on
+     its line), no unused local, no empty `if`/`else` body or bare `;` statement (empty loop bodies and `case X: ;` are
+     fine), no `do { } while (0)` outside a macro, no self-assignment, no `+ 0` or `* 1`.
+   - **R2, globals declared once, in their header:** no `extern` variable in a `.cpp`.
+   - **R13, vtables from evidence:** no virtuals named `pad`, `dummy` or `unused`; declare the slots CD2 has.
+   - **R1, one declaration per type:** a type is defined once (in `include/`), and with the same `class` or `struct`
+     keyword everywhere.
 
-   `check` rejects them on the preprocessed source. Pointer arithmetic gives the same instructions, but it proves nothing
-   about the layout, and a hard-coded address has no relocation, so `check` cannot tell whether it is the right global.
+   A finding inside a function's body blocks that function; one at file scope or in a header blocks every function of
+   the file. Beyond what `check` can see, ask of every line: would a programmer on the original team have typed this?
+   Matching bytes produced by code nobody would write is a fake match even when no rule catches it: dummy temporaries,
+   reused variables, padding members that only shift the layout, casts that do nothing.
 
-   Beyond what `check` can see, ask of every line: would a programmer on the original team have typed this? Matching
-   bytes produced by code nobody would write is a fake match, and it does not count: dummy locals, `volatile` to hold a
-   value in a register, padding members or extra fields that only shift the layout, empty blocks, casts that do nothing.
-   When you choose an unusual construct because only it reproduces CD2's code (`__forceinline`, a `memset` instead of
-   assignments, an odd statement order), say why in a one-line comment next to it, so the next person does not
-   "clean it up". `lint` warns about `volatile` and about placeholder names such as `GetField50` or `m_word50C`.
+   When CD2's bytes force an unusual construct (`__forceinline`, a `memset` instead of assignments, an odd statement
+   order), say why next to it, as `// RULE-EXCEPTION: R<n>, <the reason the bytes give>` when it bends a numbered rule,
+   or in a plain comment otherwise, so the next person does not "clean it up". An exception can bend a style rule but
+   never the rules above: fake code is never allowed. `lint` also lists advisory findings that do not block a match:
+   placeholder and address-like names (`GetField50`, `m_word50C`, `g_830BBDB4`), `goto`, `#if 0`, `!!x`.
 4. **Use the shared headers** in `include/`. Game classes derive from `cNonGameBase` (`include/gom/non_game_base.h`);
    prototypes derive from `GOM::cObjectPrototype` (`include/gom/object_prototype.h`). Never define a second copy of a
    type that already exists: search `include/` first. A missing type gets its own header, one class per header, at

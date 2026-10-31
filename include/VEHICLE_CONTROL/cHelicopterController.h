@@ -20,6 +20,10 @@
 #include "fun_runtime/retval.h"
 #include "gom/non_game_base.h"
 
+// Globals cHelicopterController.cpp uses; their real owners and names are not known (the names are ours).
+extern int g_nVehicleTypeTag;       // 0x83847CA8
+extern float g_fCrossLimit;         // 0x83207580
+
 namespace Fun_Runtime
 {
 }
