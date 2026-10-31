@@ -9,6 +9,7 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/cCwTransCharacter.cpp
 
+// Not named yet: GetByte2D20/2DA4/2DA6, SetByte2DA5/2DA6, GetWord2DD0 and their fields have no script or reference name.
 #include "CHARACTER/cCwTransCharacter.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"

@@ -16,6 +16,11 @@
 //     m_pAIEntity's name); ShouldTriggerFootStepEvent and ShouldTriggerBulletSoundEvent are primary slots 112 and 113
 //     (see CHARACTER/cCharacterInterface.h). Slot 125 (0x823E92B8) is the first virtual cAiPlayer adds (cCharacterEntityIF's
 //     primary vtable has 125 slots); RuffKing's and Burn's cAiPlayer have no counterpart, so SetFields4F8 is ours.
+//   - The globals g_cAiPlayer and g_AIE_* are named after the type each is registered as: CD2's initializers (0x82F605D0
+//     and others) pass the global, a name and its parent's name to 0x82772828 ("cAIPlayer" under "cCharacterEntityIF",
+//     "AIE_SHOTS_COUNTER" under "AIEvent"). They are 0x24-byte objects of a type not known (bytes here). The GetPtr
+//     getters returning them are slot 1 of other classes' vtables (0x823E7AA0: the table 0x820FB114), not cAiPlayer
+//     methods, and their names are not known.
 //   - cAiPlayerPrototype: MakeNew (0x823E78A8) builds it on GOM::cObjectPrototype's constructor and installs the vtable
 //     0x820FB0BC; its slot 5, CAttributeHandler::Init(const CAttributePacket &), is 0x823EB490, which returns Ret_OK.
 #ifndef AI_CAIPLAYER_H
@@ -96,13 +101,13 @@ namespace AI
         const char *RetEnemyStatus() const;
         const char *RetMapStatus() const;
 
-        void *GetPtr83803448() const;
-        void *GetPtr83817824() const;
-        void *GetPtr8381798C() const;
-        void *GetPtr83818B7C() const;
-        void *GetPtr83818BA0() const;
-        void *GetPtr83818BC4() const;
-        void *GetPtr83818BE8() const;
+        void *GetPtrcAiPlayer() const;
+        void *GetPtrAIE_SHOTS_COUNTER() const;
+        void *GetPtrAIE_ATTACKED() const;
+        void *GetPtrAIE_VOCAL() const;
+        void *GetPtrAIE_PAIN_VOCAL() const;
+        void *GetPtrAIE_DANGER_VOCAL() const;
+        void *GetPtrAIE_GRENADE_VOCAL() const;
         CD2_LAYOUT_CHECKS(cAiPlayer,
             CD2_SIZE(cAiPlayer, 0x620)
             CD2_OFFSET(cAiPlayer, m_DamageCache, 0x540)

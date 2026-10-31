@@ -14,6 +14,8 @@
 //     out-of-line copy 0x8254E8C8 is the script method "RetLODLevel".
 //   - Script setters 0x8254EA80 and 0x8254EA88 name the flags at 0xAE and 0xAF:
 //     SetCanShareVehicleWithPlayer and SetCanBePickedUpWhenAlive, respectively.
+// g_cCharacterInterface is named after the type it is registered as ("cCharacterInterface", through 0x82772828; see
+// AI/cAiPlayer.h). The name of its getter GetPtrcCharacterInterface is not known.
 #ifndef CHARACTER_CCHARACTERINTERFACE_H
 #define CHARACTER_CCHARACTERINTERFACE_H
 
@@ -71,7 +73,7 @@ namespace CHARACTER
 
         unsigned char RetLODLevel() const { return RetCharacter()->RetLODLevel(); }
 
-        void *GetPtr838241E0() const;
+        void *GetPtrcCharacterInterface() const;
         const char *GetPtrELODLevel() const;
         CD2_LAYOUT_CHECKS(cCharacterInterface,
             CD2_SIZE(cCharacterInterface, 0xC0)

@@ -547,7 +547,8 @@ def byte_pointer_moves(code):
 
 
 # names that stand in for an unknown real name (advisory: lint lists them so they get named from evidence)
-PLACEHOLDER = re.compile(r'\b(?:Slot\d+\b|(?:Func|sub_|fn_)[0-9A-Fa-f]{5,}\w*|'
+# (GetPtr<anything>: a getter of a global's address whose own name is unknown, whatever the global is called)
+PLACEHOLDER = re.compile(r'\b(?:Slot\d+\b|GetPtr\w+|(?:Func|sub_|fn_)[0-9A-Fa-f]{5,}\w*|'
                          r'(?:Get|Set|Ret|Is|Check)(?:Fields?|Byte|Word|Float|Ptr|Bool|Storage|Constant|[BSF])'
                          r'[0-9A-F]{2,}(?![a-z])\w*|'
                          r'm_(?:unk|word|byte|field|storage|ptr|at|[nfbps])[0-9A-F]{2,}(?![a-z])\w*)')
@@ -1845,7 +1846,7 @@ def cmd_verify(a):
                     for f in lint['files'] for s in f.get('pending', [])]
             out.append(dict(gate=name, ok=not bad, detail='; '.join(bad[:5]) or '%s | %d files checked (%d set up, nothing '
                                                                               'written yet)' % (
-                lint['figures'], len(lint['files']), lint['without_code'])))
+                lint['figures'], sum(f['file'].endswith('.cpp') for f in lint['files']), lint['without_code'])))
             continue
         if name == 'self-test: source policy':
             ok, cases = policy_self_test()

@@ -1121,109 +1121,109 @@
       {
         "address": "0x823E7978",
         "size": 12,
-        "symbol": "?GetPtr83803448@cAiPlayer@AI@@"
+        "symbol": "?GetPtrcAiPlayer@cAiPlayer@AI@@"
       },
       {
         "address": "0x823E7AA0",
         "size": 12,
-        "symbol": "?GetPtr83817824@cAiPlayer@AI@@"
+        "symbol": "?GetPtrAIE_SHOTS_COUNTER@cAiPlayer@AI@@"
       },
       {
         "address": "0x823E7AB0",
         "size": 12,
-        "symbol": "?GetPtr8381798C@cAiPlayer@AI@@"
+        "symbol": "?GetPtrAIE_ATTACKED@cAiPlayer@AI@@"
       },
       {
         "address": "0x823E7B20",
         "size": 12,
-        "symbol": "?GetPtr83818B7C@cAiPlayer@AI@@"
+        "symbol": "?GetPtrAIE_VOCAL@cAiPlayer@AI@@"
       },
       {
         "address": "0x823E7BE8",
         "size": 12,
-        "symbol": "?GetPtr83818BA0@cAiPlayer@AI@@"
+        "symbol": "?GetPtrAIE_PAIN_VOCAL@cAiPlayer@AI@@"
       },
       {
         "address": "0x823E7BF8",
         "size": 12,
-        "symbol": "?GetPtr83818BC4@cAiPlayer@AI@@"
+        "symbol": "?GetPtrAIE_DANGER_VOCAL@cAiPlayer@AI@@"
       },
       {
         "address": "0x823E7C08",
         "size": 12,
-        "symbol": "?GetPtr83818BE8@cAiPlayer@AI@@"
+        "symbol": "?GetPtrAIE_GRENADE_VOCAL@cAiPlayer@AI@@"
       }
     ],
     "src/AI/cCharacterEntityIF.cpp": [
       {
         "address": "0x823EBF88",
         "size": 8,
-        "symbol": "?GetStorage4B0@cCharacterEntityIF@AI@@"
+        "symbol": "?RetFullbodyAnimationParams@cCharacterEntityIF@AI@@"
       },
       {
         "address": "0x823EBF90",
         "size": 8,
-        "symbol": "?GetStorage480@cCharacterEntityIF@AI@@"
+        "symbol": "?RetUpperbodyAnimationParams@cCharacterEntityIF@AI@@"
       },
       {
         "address": "0x823EC028",
         "size": 8,
-        "symbol": "?SetByte539@cCharacterEntityIF@AI@@"
+        "symbol": "?SetBulletSoundLODDeafnessEnabled@cCharacterEntityIF@AI@@"
       },
       {
         "address": "0x823EC038",
         "size": 12,
-        "symbol": "?GetWord50CLowByte@cCharacterEntityIF@AI@@"
+        "symbol": "?RetMovementType@cCharacterEntityIF@AI@@"
       },
       {
         "address": "0x823EC160",
         "size": 8,
-        "symbol": "?GetWord51C@cCharacterEntityIF@AI@@"
+        "symbol": "?RetMaxAiToAiVisibilityLevel@cCharacterEntityIF@AI@@"
       },
       {
         "address": "0x823EC168",
         "size": 8,
-        "symbol": "?SetWord51C@cCharacterEntityIF@AI@@"
+        "symbol": "?SetMaxAiToAiVisibilityLevel@cCharacterEntityIF@AI@@"
       },
       {
         "address": "0x823EC1F8",
         "size": 8,
-        "symbol": "?SetByte534@cCharacterEntityIF@AI@@"
+        "symbol": "?SetCheckTargetTooClose@cCharacterEntityIF@AI@@"
       },
       {
         "address": "0x823EC200",
         "size": 8,
-        "symbol": "?SetByte535@cCharacterEntityIF@AI@@"
+        "symbol": "?SetCheckTargetAreaClear@cCharacterEntityIF@AI@@"
       },
       {
         "address": "0x823EC208",
         "size": 8,
-        "symbol": "?SetByte536@cCharacterEntityIF@AI@@"
+        "symbol": "?SetCheckTargetPathClear@cCharacterEntityIF@AI@@"
       },
       {
         "address": "0x823EC210",
         "size": 8,
-        "symbol": "?SetByte537@cCharacterEntityIF@AI@@"
+        "symbol": "?SetCheckTargetBlocked@cCharacterEntityIF@AI@@"
       },
       {
         "address": "0x823EC218",
         "size": 8,
-        "symbol": "?GetByte534@cCharacterEntityIF@AI@@"
+        "symbol": "?IsCheckingTargetTooClose@cCharacterEntityIF@AI@@"
       },
       {
         "address": "0x823EC220",
         "size": 8,
-        "symbol": "?GetByte535@cCharacterEntityIF@AI@@"
+        "symbol": "?IsCheckingTargetAreaClear@cCharacterEntityIF@AI@@"
       },
       {
         "address": "0x823EC228",
         "size": 8,
-        "symbol": "?GetByte536@cCharacterEntityIF@AI@@"
+        "symbol": "?IsCheckingTargetPathClear@cCharacterEntityIF@AI@@"
       },
       {
         "address": "0x823EC230",
         "size": 8,
-        "symbol": "?GetByte537@cCharacterEntityIF@AI@@"
+        "symbol": "?IsCheckingTargetBlocked@cCharacterEntityIF@AI@@"
       },
       {
         "address": "0x823EBF00",
@@ -1233,7 +1233,7 @@
       {
         "address": "0x823EBF38",
         "size": 12,
-        "symbol": "?RetMovementType@cCharacterEntityIF@AI@@"
+        "symbol": "?RetMovementTypeEnum@cCharacterEntityIF@AI@@"
       },
       {
         "address": "0x823EBF48",
@@ -1258,37 +1258,37 @@
       {
         "address": "0x823EBF98",
         "size": 12,
-        "symbol": "?GetPtr504A0@cCharacterEntityIF@AI@@"
+        "symbol": "?RetHeadDirection@cCharacterEntityIF@AI@@"
       },
       {
         "address": "0x823EBFA8",
         "size": 12,
-        "symbol": "?GetPtr504B0@cCharacterEntityIF@AI@@"
+        "symbol": "?RetEyePosition@cCharacterEntityIF@AI@@"
       },
       {
         "address": "0x823EBFF8",
         "size": 12,
-        "symbol": "?GetFloat504_90@cCharacterEntityIF@AI@@"
+        "symbol": "?RetViewingDistance@cCharacterEntityIF@AI@@"
       },
       {
         "address": "0x823EC008",
         "size": 12,
-        "symbol": "?GetFloat504_98@cCharacterEntityIF@AI@@"
+        "symbol": "?RetThreatObjectViewingDistance@cCharacterEntityIF@AI@@"
       },
       {
         "address": "0x823EC018",
         "size": 12,
-        "symbol": "?GetFloat504_9C@cCharacterEntityIF@AI@@"
+        "symbol": "?RetHearingAcuteness@cCharacterEntityIF@AI@@"
       },
       {
         "address": "0x823EBFB8",
         "size": 64,
-        "symbol": "?GetFloatConditional@cCharacterEntityIF@AI@@"
+        "symbol": "?RetViewingAngle@cCharacterEntityIF@AI@@"
       },
       {
         "address": "0x823EC1B8",
         "size": 60,
-        "symbol": "?CheckField548@cCharacterEntityIF@AI@@"
+        "symbol": "?IsSpawnedByCrowdSystem@cCharacterEntityIF@AI@@"
       },
       {
         "address": "0x823EC378",
@@ -1323,72 +1323,72 @@
       {
         "address": "0x823EBF28",
         "size": 12,
-        "symbol": "?GetPtr838035CC@cCharacterEntityIF@AI@@"
+        "symbol": "?GetPtrcCharacterEntityIF@cCharacterEntityIF@AI@@"
       },
       {
         "address": "0x823EC368",
         "size": 12,
-        "symbol": "?GetPtr8381764C@cCharacterEntityIF@AI@@"
+        "symbol": "?GetPtrAIE_OBJECT_APPROACHING@cCharacterEntityIF@AI@@"
       },
       {
         "address": "0x823EC518",
         "size": 12,
-        "symbol": "?GetPtr83817728@cCharacterEntityIF@AI@@"
+        "symbol": "?GetPtrAIE_EJECTED_FROM_VEHICLE@cCharacterEntityIF@AI@@"
       },
       {
         "address": "0x823EC528",
         "size": 12,
-        "symbol": "?GetPtr83817770@cCharacterEntityIF@AI@@"
+        "symbol": "?GetPtrAIE_TARGETED@cCharacterEntityIF@AI@@"
       },
       {
         "address": "0x823EC608",
         "size": 12,
-        "symbol": "?GetPtr83817890@cCharacterEntityIF@AI@@"
+        "symbol": "?GetPtrAIE_INTERESTING_OBJECT@cCharacterEntityIF@AI@@"
       },
       {
         "address": "0x823EC618",
         "size": 12,
-        "symbol": "?GetPtr838178B4@cCharacterEntityIF@AI@@"
+        "symbol": "?GetPtrAIE_INTERESTING_OBJECT_BASIC_REACTION@cCharacterEntityIF@AI@@"
       },
       {
         "address": "0x823EC780",
         "size": 12,
-        "symbol": "?GetPtr83818CE0@cCharacterEntityIF@AI@@"
+        "symbol": "?GetPtrAIE_DAMAGE_TAKEN@cCharacterEntityIF@AI@@"
       },
       {
         "address": "0x823EC830",
         "size": 12,
-        "symbol": "?GetPtr83818D04@cCharacterEntityIF@AI@@"
+        "symbol": "?GetPtrAIE_DIED@cCharacterEntityIF@AI@@"
       },
       {
         "address": "0x823EC840",
         "size": 12,
-        "symbol": "?GetPtr83818D94@cCharacterEntityIF@AI@@"
+        "symbol": "?GetPtrAIE_EQUIPMENT_LOST@cCharacterEntityIF@AI@@"
       },
       {
         "address": "0x823EC850",
         "size": 12,
-        "symbol": "?GetPtr83818DB8@cCharacterEntityIF@AI@@"
+        "symbol": "?GetPtrAIE_CARRIED_OBJECT_LOST@cCharacterEntityIF@AI@@"
       },
       {
         "address": "0x823EC860",
         "size": 12,
-        "symbol": "?GetPtr83818E00@cCharacterEntityIF@AI@@"
+        "symbol": "?GetPtrAIE_SET_ON_FIRE@cCharacterEntityIF@AI@@"
       },
       {
         "address": "0x823EC870",
         "size": 12,
-        "symbol": "?GetPtr83818E24@cCharacterEntityIF@AI@@"
+        "symbol": "?GetPtrAIE_END_FIRE@cCharacterEntityIF@AI@@"
       },
       {
         "address": "0x823EC880",
         "size": 12,
-        "symbol": "?GetPtr83818940@cCharacterEntityIF@AI@@"
+        "symbol": "?GetPtrAIE_TOUCHED@cCharacterEntityIF@AI@@"
       },
       {
         "address": "0x823EC890",
         "size": 12,
-        "symbol": "?GetPtr83818964@cCharacterEntityIF@AI@@"
+        "symbol": "?GetPtrAIE_TOUCHED_GRENADE@cCharacterEntityIF@AI@@"
       }
     ],
     "src/cAgencyGarageDoor.cpp": [
@@ -5229,7 +5229,7 @@
       {
         "address": "0x8254E8A8",
         "size": 12,
-        "symbol": "?GetPtr838241E0@cCharacterInterface@CHARACTER@@"
+        "symbol": "?GetPtrcCharacterInterface@cCharacterInterface@CHARACTER@@"
       },
       {
         "address": "0x8254E8B8",
@@ -5302,22 +5302,22 @@
       {
         "address": "0x82773C00",
         "size": 12,
-        "symbol": "?GetPtr838518A0@cTimeOfDay@Sim@@"
+        "symbol": "?GetPtrcTimeOfDay@cTimeOfDay@Sim@@"
       },
       {
         "address": "0x82773C10",
         "size": 12,
-        "symbol": "?GetPtr83851758@cTimeOfDay@Sim@@"
+        "symbol": "?GetPtrAIE_TODDUSK@cTimeOfDay@Sim@@"
       },
       {
         "address": "0x82773C20",
         "size": 12,
-        "symbol": "?GetPtr8385177C@cTimeOfDay@Sim@@"
+        "symbol": "?GetPtrAIE_TODDAWN@cTimeOfDay@Sim@@"
       },
       {
         "address": "0x82773C30",
         "size": 12,
-        "symbol": "?GetPtr838517A0@cTimeOfDay@Sim@@"
+        "symbol": "?GetPtrAIE_TIME_PERIOD_CHANGED@cTimeOfDay@Sim@@"
       }
     ]
   }

@@ -11,26 +11,27 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/AI/cCharacterEntityIF.cpp
 
+// Not named yet: GetBool38_50 (0x823EC378) is an unnamed boolean accessor; m_p50 (0x50) is untyped storage.
 #include "AI/cCharacterEntityIF.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
 
 inline void *operator new(size_t, void *memory) { return memory; }
 
-unsigned char g_838035CC;     // global at 0x838035CC
-unsigned char g_8381764C;     // global at 0x8381764C
-unsigned char g_83817728;     // global at 0x83817728
-unsigned char g_83817770;     // global at 0x83817770
-unsigned char g_83817890;     // global at 0x83817890
-unsigned char g_838178B4;     // global at 0x838178B4
-unsigned char g_83818CE0;     // global at 0x83818CE0
-unsigned char g_83818D04;     // global at 0x83818D04
-unsigned char g_83818D94;     // global at 0x83818D94
-unsigned char g_83818DB8;     // global at 0x83818DB8
-unsigned char g_83818E00;     // global at 0x83818E00
-unsigned char g_83818E24;     // global at 0x83818E24
-unsigned char g_83818940;     // global at 0x83818940
-unsigned char g_83818964;     // global at 0x83818964
+unsigned char g_cCharacterEntityIF;     // global at 0x838035CC
+unsigned char g_AIE_OBJECT_APPROACHING;     // global at 0x8381764C
+unsigned char g_AIE_EJECTED_FROM_VEHICLE;     // global at 0x83817728
+unsigned char g_AIE_TARGETED;     // global at 0x83817770
+unsigned char g_AIE_INTERESTING_OBJECT;     // global at 0x83817890
+unsigned char g_AIE_INTERESTING_OBJECT_BASIC_REACTION;     // global at 0x838178B4
+unsigned char g_AIE_DAMAGE_TAKEN;     // global at 0x83818CE0
+unsigned char g_AIE_DIED;     // global at 0x83818D04
+unsigned char g_AIE_EQUIPMENT_LOST;     // global at 0x83818D94
+unsigned char g_AIE_CARRIED_OBJECT_LOST;     // global at 0x83818DB8
+unsigned char g_AIE_SET_ON_FIRE;     // global at 0x83818E00
+unsigned char g_AIE_END_FIRE;     // global at 0x83818E24
+unsigned char g_AIE_TOUCHED;     // global at 0x83818940
+unsigned char g_AIE_TOUCHED_GRENADE;     // global at 0x83818964
 
 namespace AI
 {
@@ -52,144 +53,144 @@ namespace AI
         return 0;
     }
 
-    void *cCharacterEntityIF::GetStorage480()
+    void *cCharacterEntityIF::RetUpperbodyAnimationParams()
     {
-        return m_storage480;
+        return m_upperbodyAnimationParams;
     }
 
-    void *cCharacterEntityIF::GetStorage4B0()
+    void *cCharacterEntityIF::RetFullbodyAnimationParams()
     {
-        return m_storage4B0;
+        return m_fullbodyAnimationParams;
     }
 
-    void *cCharacterEntityIF::GetPtr838035CC() const
+    void *cCharacterEntityIF::GetPtrcCharacterEntityIF() const
     {
-        return &g_838035CC;
+        return &g_cCharacterEntityIF;
     }
 
-    void *cCharacterEntityIF::GetPtr8381764C() const
+    void *cCharacterEntityIF::GetPtrAIE_OBJECT_APPROACHING() const
     {
-        return &g_8381764C;
+        return &g_AIE_OBJECT_APPROACHING;
     }
 
-    void *cCharacterEntityIF::GetPtr83817728() const
+    void *cCharacterEntityIF::GetPtrAIE_EJECTED_FROM_VEHICLE() const
     {
-        return &g_83817728;
+        return &g_AIE_EJECTED_FROM_VEHICLE;
     }
 
-    void *cCharacterEntityIF::GetPtr83817770() const
+    void *cCharacterEntityIF::GetPtrAIE_TARGETED() const
     {
-        return &g_83817770;
+        return &g_AIE_TARGETED;
     }
 
-    void *cCharacterEntityIF::GetPtr83817890() const
+    void *cCharacterEntityIF::GetPtrAIE_INTERESTING_OBJECT() const
     {
-        return &g_83817890;
+        return &g_AIE_INTERESTING_OBJECT;
     }
 
-    void *cCharacterEntityIF::GetPtr838178B4() const
+    void *cCharacterEntityIF::GetPtrAIE_INTERESTING_OBJECT_BASIC_REACTION() const
     {
-        return &g_838178B4;
+        return &g_AIE_INTERESTING_OBJECT_BASIC_REACTION;
     }
 
-    void *cCharacterEntityIF::GetPtr83818CE0() const
+    void *cCharacterEntityIF::GetPtrAIE_DAMAGE_TAKEN() const
     {
-        return &g_83818CE0;
+        return &g_AIE_DAMAGE_TAKEN;
     }
 
-    void *cCharacterEntityIF::GetPtr83818D04() const
+    void *cCharacterEntityIF::GetPtrAIE_DIED() const
     {
-        return &g_83818D04;
+        return &g_AIE_DIED;
     }
 
-    void *cCharacterEntityIF::GetPtr83818D94() const
+    void *cCharacterEntityIF::GetPtrAIE_EQUIPMENT_LOST() const
     {
-        return &g_83818D94;
+        return &g_AIE_EQUIPMENT_LOST;
     }
 
-    void *cCharacterEntityIF::GetPtr83818DB8() const
+    void *cCharacterEntityIF::GetPtrAIE_CARRIED_OBJECT_LOST() const
     {
-        return &g_83818DB8;
+        return &g_AIE_CARRIED_OBJECT_LOST;
     }
 
-    void *cCharacterEntityIF::GetPtr83818E00() const
+    void *cCharacterEntityIF::GetPtrAIE_SET_ON_FIRE() const
     {
-        return &g_83818E00;
+        return &g_AIE_SET_ON_FIRE;
     }
 
-    void *cCharacterEntityIF::GetPtr83818E24() const
+    void *cCharacterEntityIF::GetPtrAIE_END_FIRE() const
     {
-        return &g_83818E24;
+        return &g_AIE_END_FIRE;
     }
 
-    void *cCharacterEntityIF::GetPtr83818940() const
+    void *cCharacterEntityIF::GetPtrAIE_TOUCHED() const
     {
-        return &g_83818940;
+        return &g_AIE_TOUCHED;
     }
 
-    void *cCharacterEntityIF::GetPtr83818964() const
+    void *cCharacterEntityIF::GetPtrAIE_TOUCHED_GRENADE() const
     {
-        return &g_83818964;
+        return &g_AIE_TOUCHED_GRENADE;
     }
 
-    unsigned char cCharacterEntityIF::GetWord50CLowByte() const
+    unsigned char cCharacterEntityIF::RetMovementType() const
     {
-        return static_cast<unsigned char>(m_word50C);
+        return static_cast<unsigned char>(m_nMovementType);
     }
 
-    unsigned int cCharacterEntityIF::GetWord51C() const
+    unsigned int cCharacterEntityIF::RetMaxAiToAiVisibilityLevel() const
     {
-        return m_word51C;
+        return m_nMaxAiToAiVisibilityLevel;
     }
 
-    void cCharacterEntityIF::SetWord51C(unsigned int value)
+    void cCharacterEntityIF::SetMaxAiToAiVisibilityLevel(unsigned int value)
     {
-        m_word51C = value;
+        m_nMaxAiToAiVisibilityLevel = value;
     }
 
-    void cCharacterEntityIF::SetByte534(unsigned char value)
+    void cCharacterEntityIF::SetCheckTargetTooClose(unsigned char value)
     {
-        m_byte534 = value;
+        m_bCheckingTargetTooClose = value;
     }
 
-    void cCharacterEntityIF::SetByte535(unsigned char value)
+    void cCharacterEntityIF::SetCheckTargetAreaClear(unsigned char value)
     {
-        m_byte535 = value;
+        m_bCheckingTargetAreaClear = value;
     }
 
-    void cCharacterEntityIF::SetByte536(unsigned char value)
+    void cCharacterEntityIF::SetCheckTargetPathClear(unsigned char value)
     {
-        m_byte536 = value;
+        m_bCheckingTargetPathClear = value;
     }
 
-    void cCharacterEntityIF::SetByte537(unsigned char value)
+    void cCharacterEntityIF::SetCheckTargetBlocked(unsigned char value)
     {
-        m_byte537 = value;
+        m_bCheckingTargetBlocked = value;
     }
 
-    unsigned char cCharacterEntityIF::GetByte534() const
+    unsigned char cCharacterEntityIF::IsCheckingTargetTooClose() const
     {
-        return m_byte534;
+        return m_bCheckingTargetTooClose;
     }
 
-    unsigned char cCharacterEntityIF::GetByte535() const
+    unsigned char cCharacterEntityIF::IsCheckingTargetAreaClear() const
     {
-        return m_byte535;
+        return m_bCheckingTargetAreaClear;
     }
 
-    unsigned char cCharacterEntityIF::GetByte536() const
+    unsigned char cCharacterEntityIF::IsCheckingTargetPathClear() const
     {
-        return m_byte536;
+        return m_bCheckingTargetPathClear;
     }
 
-    unsigned char cCharacterEntityIF::GetByte537() const
+    unsigned char cCharacterEntityIF::IsCheckingTargetBlocked() const
     {
-        return m_byte537;
+        return m_bCheckingTargetBlocked;
     }
 
-    void cCharacterEntityIF::SetByte539(unsigned char value)
+    void cCharacterEntityIF::SetBulletSoundLODDeafnessEnabled(unsigned char value)
     {
-        m_byte539 = value;
+        m_bBulletSoundLODDeafnessEnabled = value;
     }
 
     const char *cCharacterEntityIF::RetClassName() const
@@ -197,7 +198,7 @@ namespace AI
         return "cCharacterEntityIF";
     }
 
-    const char *cCharacterEntityIF::RetMovementType() const
+    const char *cCharacterEntityIF::RetMovementTypeEnum() const
     {
         return "eMovementType";
     }
@@ -222,27 +223,27 @@ namespace AI
         return "eState";
     }
 
-    void *cCharacterEntityIF::GetPtr504A0() const
+    void *cCharacterEntityIF::RetHeadDirection() const
     {
         return &m_pAIEntity->m_vecHeadDirection;
     }
 
-    void *cCharacterEntityIF::GetPtr504B0() const
+    void *cCharacterEntityIF::RetEyePosition() const
     {
         return &m_pAIEntity->m_vecEyePosition;
     }
 
-    float cCharacterEntityIF::GetFloat504_90() const
+    float cCharacterEntityIF::RetViewingDistance() const
     {
         return m_pAIEntity->m_fViewingDistance;
     }
 
-    float cCharacterEntityIF::GetFloat504_98() const
+    float cCharacterEntityIF::RetThreatObjectViewingDistance() const
     {
         return m_pAIEntity->m_fThreatObjectViewingDistance;
     }
 
-    float cCharacterEntityIF::GetFloat504_9C() const
+    float cCharacterEntityIF::RetHearingAcuteness() const
     {
         return m_pAIEntity->m_fHearingAcuteness;
     }
@@ -254,7 +255,7 @@ namespace AI
         return result;
     }
 
-    unsigned char cCharacterEntityIF::CheckField548() const
+    unsigned char cCharacterEntityIF::IsSpawnedByCrowdSystem() const
     {
         const CHARACTER::cCharacter *character = RetCharacter();
         if (character)
@@ -265,7 +266,7 @@ namespace AI
         return 0;
     }
 
-    float cCharacterEntityIF::GetFloatConditional() const
+    float cCharacterEntityIF::RetViewingAngle() const
     {
         cCharacterEntity *t = m_pAIEntity;
         cCharacterEntityIF *owner = t->m_pOwner;

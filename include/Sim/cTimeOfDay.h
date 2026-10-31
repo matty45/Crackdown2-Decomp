@@ -4,6 +4,8 @@
 //     script method "RetPhase" (registered at 0x8239B390) is 0x823E7C40, which returns the float at 0x278.
 //   - RetPhase's copy at 0x823E7C40 lies in cAiPlayer.cpp's range: the linker folded identical getters and kept the
 //     copy from cAiPlayer's object, so src/AI/cAiPlayer.cpp defines it.
+// The g_ globals are named after the types they are registered as ("cTimeOfDay", "AIE_TODDUSK", ..., through
+// 0x82772828; see AI/cAiPlayer.h). The names of their GetPtr getters are not known.
 #ifndef SIM_CTIMEOFDAY_H
 #define SIM_CTIMEOFDAY_H
 
@@ -20,10 +22,10 @@ namespace Sim
 
         float RetPhase();
 
-        void *GetPtr838518A0() const;
-        void *GetPtr83851758() const;
-        void *GetPtr8385177C() const;
-        void *GetPtr838517A0() const;
+        void *GetPtrcTimeOfDay() const;
+        void *GetPtrAIE_TODDUSK() const;
+        void *GetPtrAIE_TODDAWN() const;
+        void *GetPtrAIE_TIME_PERIOD_CHANGED() const;
 
         CD2_LAYOUT_CHECKS(cTimeOfDay,
             CD2_OFFSET(cTimeOfDay, m_fPhase, 0x278))

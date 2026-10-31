@@ -11,6 +11,7 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/PLAYER/cPlayer.cpp
 
+// Not named yet: GetByteD99/m_byteD99 and m_fEC4 have no script or reference name.
 #include "PLAYER/cPlayer.h"
 #include "GMan/cGameManager.h"
 #include "rws/classfactory.h"

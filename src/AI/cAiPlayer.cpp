@@ -6,6 +6,7 @@
 //   - RetTriggerEventFlags / RetEnemyStatus / RetMapStatus (0x823E7988 / 0x823E7998 / 0x823E79A8) return the names of
 //     script enums. They are slot 1 of three small registrar vtables (0x820FB0F0, 0x820FB0FC, 0x820FB108), not
 //     cAiPlayer methods; the registrar classes have no known name.
+//   - SetFields4F8 (0x823E92B8) and m_n4F8/m_n4FC/m_n500 are unnamed (slot 125 of cAiPlayer vtable).
 //   - RetConstantC8 (0x823E7B30) is slot 26 of the vtable 0x820FB114, whose object 0x82377190 builds; its class is not
 //     known.
 #include "AI/cAiPlayer.h"
@@ -20,13 +21,13 @@
 
 inline void *operator new(size_t, void *memory) { return memory; }
 
-unsigned char g_83803448;     // global at 0x83803448
-unsigned char g_83817824;     // global at 0x83817824
-unsigned char g_8381798C;     // global at 0x8381798C
-unsigned char g_83818B7C;     // global at 0x83818B7C
-unsigned char g_83818BA0;     // global at 0x83818BA0
-unsigned char g_83818BC4;     // global at 0x83818BC4
-unsigned char g_83818BE8;     // global at 0x83818BE8
+unsigned char g_cAiPlayer;     // global at 0x83803448
+unsigned char g_AIE_SHOTS_COUNTER;     // global at 0x83817824
+unsigned char g_AIE_ATTACKED;     // global at 0x8381798C
+unsigned char g_AIE_VOCAL;     // global at 0x83818B7C
+unsigned char g_AIE_PAIN_VOCAL;     // global at 0x83818BA0
+unsigned char g_AIE_DANGER_VOCAL;     // global at 0x83818BC4
+unsigned char g_AIE_GRENADE_VOCAL;     // global at 0x83818BE8
 
 namespace AI
 {
@@ -76,39 +77,39 @@ namespace AI
         return "eMapStatus";
     }
 
-    void *cAiPlayer::GetPtr83803448() const
+    void *cAiPlayer::GetPtrcAiPlayer() const
     {
-        return &g_83803448;
+        return &g_cAiPlayer;
     }
 
-    void *cAiPlayer::GetPtr83817824() const
+    void *cAiPlayer::GetPtrAIE_SHOTS_COUNTER() const
     {
-        return &g_83817824;
+        return &g_AIE_SHOTS_COUNTER;
     }
 
-    void *cAiPlayer::GetPtr8381798C() const
+    void *cAiPlayer::GetPtrAIE_ATTACKED() const
     {
-        return &g_8381798C;
+        return &g_AIE_ATTACKED;
     }
 
-    void *cAiPlayer::GetPtr83818B7C() const
+    void *cAiPlayer::GetPtrAIE_VOCAL() const
     {
-        return &g_83818B7C;
+        return &g_AIE_VOCAL;
     }
 
-    void *cAiPlayer::GetPtr83818BA0() const
+    void *cAiPlayer::GetPtrAIE_PAIN_VOCAL() const
     {
-        return &g_83818BA0;
+        return &g_AIE_PAIN_VOCAL;
     }
 
-    void *cAiPlayer::GetPtr83818BC4() const
+    void *cAiPlayer::GetPtrAIE_DANGER_VOCAL() const
     {
-        return &g_83818BC4;
+        return &g_AIE_DANGER_VOCAL;
     }
 
-    void *cAiPlayer::GetPtr83818BE8() const
+    void *cAiPlayer::GetPtrAIE_GRENADE_VOCAL() const
     {
-        return &g_83818BE8;
+        return &g_AIE_GRENADE_VOCAL;
     }
 
     void cAiPlayer::SetMapStatus(unsigned int nMapStatus)

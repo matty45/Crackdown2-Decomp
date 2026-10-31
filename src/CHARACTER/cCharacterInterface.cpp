@@ -17,7 +17,7 @@
 
 inline void *operator new(size_t, void *memory) { return memory; }
 
-unsigned char g_838241E0;     // global at 0x838241E0
+unsigned char g_cCharacterInterface;     // global at 0x838241E0
 
 namespace CHARACTER
 {
@@ -64,9 +64,9 @@ namespace CHARACTER
         return RetCharacter()->RetIsOnFire();
     }
 
-    void *cCharacterInterface::GetPtr838241E0() const
+    void *cCharacterInterface::GetPtrcCharacterInterface() const
     {
-        return &g_838241E0;
+        return &g_cCharacterInterface;
     }
 
     const char *cCharacterInterface::GetPtrELODLevel() const
