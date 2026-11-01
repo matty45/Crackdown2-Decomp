@@ -8,3 +8,17 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/cPopulationZone.cpp
+
+#include "unknown/cPopulationZone.h"
+#include "cd2/memory.h"
+
+namespace unknown
+{
+    const Fun_Runtime::cClass *cPopulationZone::ms_pcPopulationZoneClass = &cPopulationZone::StaticCreateClass();
+
+    Fun_Runtime::cClass &cPopulationZone::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cPopulationZoneClass = new Fun_Runtime::cClass(0x416, "cPopulationZone", 0x150);
+        return *cPopulationZoneClass;
+    }
+}

@@ -25,6 +25,8 @@ namespace CHARACTER
         bool m_bIsOnFire;
         unsigned char m_pad262[0x548 - 0x262];
     public:
+        static const Fun_Runtime::cClass *ms_pcCharacterClass;
+        static Fun_Runtime::cClass &StaticCreateClass();
         unsigned int m_field548;
     private:
         unsigned char m_pad54C[0x1524 - 0x54C];

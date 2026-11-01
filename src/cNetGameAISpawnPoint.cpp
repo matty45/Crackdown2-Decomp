@@ -8,3 +8,17 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/cNetGameAISpawnPoint.cpp
+
+#include "unknown/cNetGameAISpawnPoint.h"
+#include "cd2/memory.h"
+
+namespace unknown
+{
+    const Fun_Runtime::cClass *cNetGameAISpawnPoint::ms_pcNetGameAISpawnPointClass = &cNetGameAISpawnPoint::StaticCreateClass();
+
+    Fun_Runtime::cClass &cNetGameAISpawnPoint::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cNetGameAISpawnPointClass = new Fun_Runtime::cClass(0x4884, "cNetGameAISpawnPoint", 0xA0);
+        return *cNetGameAISpawnPointClass;
+    }
+}

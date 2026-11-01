@@ -100,3 +100,4 @@ namespace CHARACTER
     static RWS::CClassFactory::CRegistrar cCharacterInterfaceRegistrar(
         "cCharacterInterface", cCharacterInterface::MakeNew, 0xC0, false);
 }
+

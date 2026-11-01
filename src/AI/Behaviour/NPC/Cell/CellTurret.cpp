@@ -3,7 +3,7 @@
 
 namespace AI
 {
-    const Fun_Runtime::cClass *CellTurret::ms_pCellTurretClass = 0;
+    const Fun_Runtime::cClass *CellTurret::ms_pCellTurretClass = &CellTurret::StaticCreateClass();
 
     CellTurret::CellTurret() {}
 
@@ -32,4 +32,16 @@ namespace AI
 {
     static RWS::CClassFactory::CRegistrar CellTurretRegistrar(
         "CellTurret", CellTurret::MakeNew, 0x100, false);
+}
+
+#include "cd2/memory.h"
+#include "AI/BehaviourClassID.h"
+
+namespace AI
+{
+    Fun_Runtime::cClass &CellTurret::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *CellTurretClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "CellTurret", 0x100);
+        return *CellTurretClass;
+    }
 }

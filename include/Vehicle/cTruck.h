@@ -9,6 +9,9 @@ namespace Vehicle
     class cTruck : public cNonGameBase
     {
     public:
+        cTruck();
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *memory);
+        static Fun_Runtime::cClass &StaticCreateClass();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcTruckClass;
 

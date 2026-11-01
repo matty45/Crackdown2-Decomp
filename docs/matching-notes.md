@@ -297,11 +297,21 @@ One line each: what is ruled out. Remove the line when the function matches.
 - `UI::cUIControl::cUIControl` (0x82897EC0): restored options registration and the 3-second autosave display default; the standard compile still saves registers for its scattered float constants and schedules the callback stores differently.
 - `cGameModeArena::GetRandSpawnPointInList<T>` (0x8284EC80, 0x8284ED60; 48/55 words): CD2 tests the size with
   `srawi. r8,r10,2; beq`, then recomputes it for the `Rand` argument. Ruled out: a size local, const-reference or
-  64-bit bounds and indices, real `std::vector` indexing, modulo and Rand-local variants.
+  64-bit bounds and indices, real `std::vector` indexing, modulo and Rand-local variants, an early-return size test,
+  a result local, a signed `operator[]` index (no change) and a signed `size()` (worse). The instructions and their
+  order are identical; only the allocator's choice differs (CD2 reuses r9 for the data pointer, ours takes r4).
 - `VEHICLE_CONTROL::Flatten2D` (0x82782D70; 16/29 words under LTCG): the `fmadds`/`fmuls` operand order. Ruled out:
   square temporaries, sqrt and powf variants, signed products, double intermediates, /fp:precise and /fp:strict. The
   written order of the two sums makes no difference (/fp:fast reorders them and merges the second into the first),
-  nor does testing the stored `out[]` values; CD2 computes the two sums separately, in opposite orders.
+  nor does testing the stored `out[]` values, declaring `x` before `z` (worse), or /fp:precise or /fp:strict with
+  either order (worse), `#pragma optimize("g", off)` (0%), `__fsqrts` or a double `sqrt` (no change), inline
+  helpers reading `out[]` (worse), and a length helper in another file under LTCG (not inlined under /Ob1). CD2
+  computes the two sums separately, in opposite orders. Best lead (91.7% by objdiff): `if (normalise && x * x + z * z
+  < 0.01f) { zero } else if (normalise) { normalise }`. The square-root sum is then not available on every path, so it
+  is computed again exactly as in CD2. But our build, plain or LTCG, keeps the second `normalise` test, which CD2 does
+  not have, and the test squares z first where CD2 squares x first. Also ruled out: by-value and struct-copy
+  helpers, a three-component length with y = 0 (loses the fmadds), a conditional expression for `inv`,
+  /O1, /O2, /Os.
 - `AI::cChaseBehaviour::Update` (99%): one compare, `cmpwi` in CD2 against our `cmplwi` on the word at `+0x4E4`; the
   field's type is the lead. Chase F37 (0x824CEB38) needs a shared float-constant base register (LTCG limit).
 - `cCrowdZoneDataHolder::MakeNew` (0x8244A770) and `cStreamingDataHolder::MakeNew` (0x8244C010): `new` of a

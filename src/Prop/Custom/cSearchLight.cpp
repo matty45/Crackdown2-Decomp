@@ -10,3 +10,42 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Prop/Custom/cSearchLight.cpp
+
+#include "Prop/cSearchLight.h"
+
+namespace Prop
+{
+    const char *cSearchLight::RetClassName() const
+    {
+        return "cSearchLight";
+    }
+}
+
+#include "cd2/memory.h"
+
+namespace Prop
+{
+    Fun_Runtime::cClass &cSearchLight::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cSearchLightClass = new Fun_Runtime::cClass(0x2704, "cSearchLight", 0xE70);
+        return *cSearchLightClass;
+    }
+}
+
+namespace Prop
+{
+    const Fun_Runtime::cClass *cSearchLight::ms_pcSearchLightClass = &cSearchLight::StaticCreateClass();
+
+    const Fun_Runtime::cClass &cSearchLight::RetClass() const
+    {
+        return *ms_pcSearchLightClass;
+    }
+}
+
+namespace Prop
+{
+    bool cSearchLight::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcSearchLightClass->IsA(c);
+    }
+}

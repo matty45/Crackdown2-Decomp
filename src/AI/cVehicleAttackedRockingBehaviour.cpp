@@ -3,7 +3,7 @@
 
 namespace AI
 {
-    const Fun_Runtime::cClass *cVehicleAttackedRockingBehaviour::ms_pcVehicleAttackedRockingBehaviourClass = 0;
+    const Fun_Runtime::cClass *cVehicleAttackedRockingBehaviour::ms_pcVehicleAttackedRockingBehaviourClass = &cVehicleAttackedRockingBehaviour::StaticCreateClass();
 
     cVehicleAttackedRockingBehaviour::cVehicleAttackedRockingBehaviour() {}
 
@@ -32,4 +32,16 @@ namespace AI
 {
     static RWS::CClassFactory::CRegistrar cVehicleAttackedRockingBehaviourRegistrar(
         "cVehicleAttackedRockingBehaviour", cVehicleAttackedRockingBehaviour::MakeNew, 0xD0, false);
+}
+
+#include "cd2/memory.h"
+#include "AI/BehaviourClassID.h"
+
+namespace AI
+{
+    Fun_Runtime::cClass &cVehicleAttackedRockingBehaviour::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cVehicleAttackedRockingBehaviourClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "cVehicleAttackedRockingBehaviour", 0xD0);
+        return *cVehicleAttackedRockingBehaviourClass;
+    }
 }

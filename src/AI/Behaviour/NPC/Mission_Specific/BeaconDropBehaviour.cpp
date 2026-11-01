@@ -3,7 +3,7 @@
 
 namespace AI
 {
-    const Fun_Runtime::cClass *BeaconDropBehaviour::ms_pBeaconDropBehaviourClass = 0;
+    const Fun_Runtime::cClass *BeaconDropBehaviour::ms_pBeaconDropBehaviourClass = &BeaconDropBehaviour::StaticCreateClass();
 
     BeaconDropBehaviour::BeaconDropBehaviour() {}
 
@@ -32,4 +32,16 @@ namespace AI
 {
     static RWS::CClassFactory::CRegistrar BeaconDropBehaviourRegistrar(
         "BeaconDropBehaviour", BeaconDropBehaviour::MakeNew, 0x150, false);
+}
+
+#include "cd2/memory.h"
+#include "AI/BehaviourClassID.h"
+
+namespace AI
+{
+    Fun_Runtime::cClass &BeaconDropBehaviour::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *BeaconDropBehaviourClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "BeaconDropBehaviour", 0x150);
+        return *BeaconDropBehaviourClass;
+    }
 }

@@ -8,3 +8,17 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/cVirtualCamera.cpp
+
+#include "unknown/cVirtualCamera.h"
+#include "cd2/memory.h"
+
+namespace unknown
+{
+    const Fun_Runtime::cClass *cVirtualCamera::ms_pcVirtualCameraClass = &cVirtualCamera::StaticCreateClass();
+
+    Fun_Runtime::cClass &cVirtualCamera::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cVirtualCameraClass = new Fun_Runtime::cClass(0x637, "cVirtualCamera", 0xF10);
+        return *cVirtualCameraClass;
+    }
+}

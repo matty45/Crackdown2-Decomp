@@ -10,3 +10,17 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Equip/Weapon/cMag.cpp
+
+#include "Equip/cMag.h"
+#include "cd2/memory.h"
+
+namespace Equip
+{
+    const Fun_Runtime::cClass *cMag::ms_pcMagClass = &cMag::StaticCreateClass();
+
+    Fun_Runtime::cClass &cMag::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cMagClass = new Fun_Runtime::cClass(0x27411, "cMag", 0xB20);
+        return *cMagClass;
+    }
+}

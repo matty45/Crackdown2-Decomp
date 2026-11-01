@@ -10,3 +10,17 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/PHYSICS/cWaterZone.cpp
+
+#include "PHYSICS/cWaterZone.h"
+#include "cd2/memory.h"
+
+namespace PHYSICS
+{
+    const Fun_Runtime::cClass *cWaterZone::ms_pcWaterZoneClass = &cWaterZone::StaticCreateClass();
+
+    Fun_Runtime::cClass &cWaterZone::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cWaterZoneClass = new Fun_Runtime::cClass(0x10F, "cWaterZone", 0x120);
+        return *cWaterZoneClass;
+    }
+}

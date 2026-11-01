@@ -3,7 +3,7 @@
 
 namespace AI
 {
-    const Fun_Runtime::cClass *cPilotRespawn::ms_pcPilotRespawnClass = 0;
+    const Fun_Runtime::cClass *cPilotRespawn::ms_pcPilotRespawnClass = &cPilotRespawn::StaticCreateClass();
 
     cPilotRespawn::cPilotRespawn() {}
 
@@ -32,4 +32,16 @@ namespace AI
 {
     static RWS::CClassFactory::CRegistrar cPilotRespawnRegistrar(
         "cPilotRespawn", cPilotRespawn::MakeNew, 0x130, false);
+}
+
+#include "cd2/memory.h"
+#include "AI/BehaviourClassID.h"
+
+namespace AI
+{
+    Fun_Runtime::cClass &cPilotRespawn::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cPilotRespawnClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "cPilotRespawn", 0x130);
+        return *cPilotRespawnClass;
+    }
 }

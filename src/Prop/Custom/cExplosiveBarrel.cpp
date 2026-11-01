@@ -10,3 +10,13 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Prop/Custom/cExplosiveBarrel.cpp
+
+#include "Prop/cExplosiveBarrel.h"
+
+namespace Prop
+{
+    const char *cExplosiveBarrel::RetClassName() const
+    {
+        return "cExplosiveBarrel";
+    }
+}

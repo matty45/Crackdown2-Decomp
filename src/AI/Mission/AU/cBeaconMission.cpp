@@ -3,7 +3,7 @@
 
 namespace AI
 {
-    const Fun_Runtime::cClass *cBeaconMission::ms_pcBeaconMissionClass = 0;
+    const Fun_Runtime::cClass *cBeaconMission::ms_pcBeaconMissionClass = &cBeaconMission::StaticCreateClass();
 
     cBeaconMission::cBeaconMission() {}
 
@@ -30,3 +30,14 @@ namespace AI
 
 static RWS::CClassFactory::CRegistrar cBeaconMissionRegistrar(
     "cBeaconMission", AI::cBeaconMission::MakeNew, 0x2300, false);
+
+#include "cd2/memory.h"
+
+namespace AI
+{
+    Fun_Runtime::cClass &cBeaconMission::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cBeaconMissionClass = new Fun_Runtime::cClass(0x205C3, "cBeaconMission", 0x2300);
+        return *cBeaconMissionClass;
+    }
+}

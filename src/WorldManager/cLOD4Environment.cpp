@@ -10,3 +10,17 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/WorldManager/cLOD4Environment.cpp
+
+#include "WorldManager/cLOD4Environment.h"
+#include "cd2/memory.h"
+
+namespace WorldManager
+{
+    const Fun_Runtime::cClass *cLOD4Environment::ms_pcLOD4EnvironmentClass = &cLOD4Environment::StaticCreateClass();
+
+    Fun_Runtime::cClass &cLOD4Environment::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cLOD4EnvironmentClass = new Fun_Runtime::cClass(0x199E, "cLOD4Environment", 0x2C0);
+        return *cLOD4EnvironmentClass;
+    }
+}

@@ -10,3 +10,17 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/PHYSICS/cBody.cpp
+
+#include "PHYSICS/cBody.h"
+#include "cd2/memory.h"
+
+namespace PHYSICS
+{
+    const Fun_Runtime::cClass *cBody::ms_pcBodyClass = &cBody::StaticCreateClass();
+
+    Fun_Runtime::cClass &cBody::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cBodyClass = new Fun_Runtime::cClass(0x63C, "cBody", 0x250);
+        return *cBodyClass;
+    }
+}

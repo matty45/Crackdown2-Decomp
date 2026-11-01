@@ -3,7 +3,7 @@
 
 namespace AI
 {
-    const Fun_Runtime::cClass *cAgressiveResponseChaseBehaviour::ms_pcAgressiveResponseChaseBehaviourClass = 0;
+    const Fun_Runtime::cClass *cAgressiveResponseChaseBehaviour::ms_pcAgressiveResponseChaseBehaviourClass = &cAgressiveResponseChaseBehaviour::StaticCreateClass();
 
     cAgressiveResponseChaseBehaviour::cAgressiveResponseChaseBehaviour() {}
 
@@ -32,4 +32,16 @@ namespace AI
 {
     static RWS::CClassFactory::CRegistrar cAgressiveResponseChaseBehaviourRegistrar(
         "cAgressiveResponseChaseBehaviour", cAgressiveResponseChaseBehaviour::MakeNew, 0x140, false);
+}
+
+#include "cd2/memory.h"
+#include "AI/BehaviourClassID.h"
+
+namespace AI
+{
+    Fun_Runtime::cClass &cAgressiveResponseChaseBehaviour::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cAgressiveResponseChaseBehaviourClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "cAgressiveResponseChaseBehaviour", 0x140);
+        return *cAgressiveResponseChaseBehaviourClass;
+    }
 }

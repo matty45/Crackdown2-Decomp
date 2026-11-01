@@ -10,12 +10,15 @@
 #define SIM_CTIMEOFDAY_H
 
 #include "cd2/layout.h"
+#include "fun_runtime/class.h"
 
 namespace Sim
 {
     class cTimeOfDay
     {
     public:
+        static const Fun_Runtime::cClass *ms_pcTimeOfDayClass;
+        static Fun_Runtime::cClass &StaticCreateClass();
         unsigned char m_pad[0x278];
         float m_fPhase;                         // 0x278
         static cTimeOfDay *ms_pInstance;

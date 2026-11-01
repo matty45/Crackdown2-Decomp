@@ -8,3 +8,17 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/cAgencyGaragePlatform.cpp
+
+#include "unknown/cAgencyGaragePlatform.h"
+#include "cd2/memory.h"
+
+namespace unknown
+{
+    const Fun_Runtime::cClass *cAgencyGaragePlatform::ms_pcAgencyGaragePlatformClass = &cAgencyGaragePlatform::StaticCreateClass();
+
+    Fun_Runtime::cClass &cAgencyGaragePlatform::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cAgencyGaragePlatformClass = new Fun_Runtime::cClass(0x1024, "cAgencyGaragePlatform", 0xEE0);
+        return *cAgencyGaragePlatformClass;
+    }
+}

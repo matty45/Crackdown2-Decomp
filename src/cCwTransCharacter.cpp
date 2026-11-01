@@ -73,3 +73,17 @@ namespace CHARACTER
         return m_word2DD0;
     }
 }
+
+namespace CHARACTER
+{
+    Fun_Runtime::cClass &cCwTransCharacter::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cCwTransCharacterClass = new Fun_Runtime::cClass(0x6A1, "cCwTransCharacter", 0x2E00);
+        return *cCwTransCharacterClass;
+    }
+}
+
+namespace CHARACTER
+{
+    const Fun_Runtime::cClass *cCwTransCharacter::ms_pcCwTransCharacterClass = &cCwTransCharacter::StaticCreateClass();
+}

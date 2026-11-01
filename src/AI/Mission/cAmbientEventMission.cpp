@@ -10,3 +10,17 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/AI/Mission/cAmbientEventMission.cpp
+
+#include "AI/cAmbientEventMission.h"
+#include "cd2/memory.h"
+
+namespace AI
+{
+    const Fun_Runtime::cClass *cAmbientEventMission::ms_pcAmbientEventMissionClass = &cAmbientEventMission::StaticCreateClass();
+
+    Fun_Runtime::cClass &cAmbientEventMission::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cAmbientEventMissionClass = new Fun_Runtime::cClass(0x9FE8B, "cAmbientEventMission", 0x3B0);
+        return *cAmbientEventMissionClass;
+    }
+}

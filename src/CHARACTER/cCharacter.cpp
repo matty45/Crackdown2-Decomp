@@ -47,3 +47,17 @@ namespace CHARACTER
     static RWS::CClassFactory::CRegistrar cCharacterRegistrar(
         "cCharacter", cCharacter::MakeNew, 0x2CC0, false);
 }
+
+namespace CHARACTER
+{
+    Fun_Runtime::cClass &cCharacter::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cCharacterClass = new Fun_Runtime::cClass(0x0, "cCharacter", 0x2CC0);
+        return *cCharacterClass;
+    }
+}
+
+namespace CHARACTER
+{
+    const Fun_Runtime::cClass *cCharacter::ms_pcCharacterClass = &cCharacter::StaticCreateClass();
+}

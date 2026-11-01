@@ -4,6 +4,7 @@
 // callees without a known name are declared as Ext_<address>.
 // AI/cChaseBehaviour.cpp: cChaseBehaviour, the vehicle chase behaviour of Crackdown 2 (measurement batch 2, round 2).
 #include "AI/cChaseBehaviour.h"
+#include "CHARACTER/cCharacter.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
 
@@ -95,7 +96,7 @@ namespace AI
     bool cChaseBehaviour::TryBindTarget()
     {
         NPCTarget *t = GetTarget();
-        if (t && t->IsA(*g_pTargetClass) && t->IsAliveLike())
+        if (t && t->IsA(*CHARACTER::cCharacter::ms_pcCharacterClass) && t->IsAliveLike())
         {
             SetTarget(t);
             return true;

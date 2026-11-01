@@ -10,3 +10,29 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Prop/Custom/cTODSlidingDoor.cpp
+
+#include "Prop/cTODSlidingDoor.h"
+
+namespace Prop
+{
+    const char *cTODSlidingDoor::RetClassName() const
+    {
+        return "cTODSlidingDoor";
+    }
+}
+
+#include "cd2/memory.h"
+
+namespace Prop
+{
+    Fun_Runtime::cClass &cTODSlidingDoor::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cTODSlidingDoorClass = new Fun_Runtime::cClass(0x5D31C, "cTODSlidingDoor", 0xF00);
+        return *cTODSlidingDoorClass;
+    }
+}
+
+namespace Prop
+{
+    const Fun_Runtime::cClass *cTODSlidingDoor::ms_pcTODSlidingDoorClass = &cTODSlidingDoor::StaticCreateClass();
+}

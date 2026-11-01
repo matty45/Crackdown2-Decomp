@@ -10,3 +10,42 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/PHYSICS/cPhysicsUniverse.cpp
+
+#include "PHYSICS/cPhysicsUniverse.h"
+
+namespace PHYSICS
+{
+    const char *cPhysicsUniverse::RetClassName() const
+    {
+        return "cPhysicsUniverse";
+    }
+}
+
+#include "cd2/memory.h"
+
+namespace PHYSICS
+{
+    Fun_Runtime::cClass &cPhysicsUniverse::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cPhysicsUniverseClass = new Fun_Runtime::cClass(0x5FE, "cPhysicsUniverse", 0x80);
+        return *cPhysicsUniverseClass;
+    }
+}
+
+namespace PHYSICS
+{
+    const Fun_Runtime::cClass *cPhysicsUniverse::ms_pcPhysicsUniverseClass = &cPhysicsUniverse::StaticCreateClass();
+
+    const Fun_Runtime::cClass &cPhysicsUniverse::RetClass() const
+    {
+        return *ms_pcPhysicsUniverseClass;
+    }
+}
+
+namespace PHYSICS
+{
+    bool cPhysicsUniverse::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcPhysicsUniverseClass->IsA(c);
+    }
+}

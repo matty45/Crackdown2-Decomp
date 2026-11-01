@@ -18,3 +18,19 @@ namespace CHARACTER
     static RWS::CClassFactory::CRegistrar cCwTransCharacterWrapperRegistrar(
         "cCwTransCharacterWrapper", cCwTransCharacterWrapper::MakeNew, 0x5B40, false);
 }
+
+#include "cd2/memory.h"
+
+namespace CHARACTER
+{
+    Fun_Runtime::cClass &cCwTransCharacterWrapper::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cCwTransCharacterWrapperClass = new Fun_Runtime::cClass(0x672, "cCwTransCharacterWrapper", 0x5B40);
+        return *cCwTransCharacterWrapperClass;
+    }
+}
+
+namespace CHARACTER
+{
+    const Fun_Runtime::cClass *cCwTransCharacterWrapper::ms_pcCwTransCharacterWrapperClass = &cCwTransCharacterWrapper::StaticCreateClass();
+}

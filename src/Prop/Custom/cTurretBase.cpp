@@ -10,3 +10,42 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Prop/Custom/cTurretBase.cpp
+
+#include "Prop/cTurretBase.h"
+
+namespace Prop
+{
+    const char *cTurretBase::RetClassName() const
+    {
+        return "cTurretBase";
+    }
+}
+
+#include "cd2/memory.h"
+
+namespace Prop
+{
+    Fun_Runtime::cClass &cTurretBase::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cTurretBaseClass = new Fun_Runtime::cClass(0x1027, "cTurretBase", 0x1080);
+        return *cTurretBaseClass;
+    }
+}
+
+namespace Prop
+{
+    const Fun_Runtime::cClass *cTurretBase::ms_pcTurretBaseClass = &cTurretBase::StaticCreateClass();
+
+    const Fun_Runtime::cClass &cTurretBase::RetClass() const
+    {
+        return *ms_pcTurretBaseClass;
+    }
+}
+
+namespace Prop
+{
+    bool cTurretBase::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcTurretBaseClass->IsA(c);
+    }
+}

@@ -10,3 +10,29 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Prop/Constrained/cSpinningProp.cpp
+
+#include "Prop/cSpinningProp.h"
+
+namespace Prop
+{
+    const char *cSpinningProp::RetClassName() const
+    {
+        return "cSpinningProp";
+    }
+}
+
+#include "cd2/memory.h"
+
+namespace Prop
+{
+    Fun_Runtime::cClass &cSpinningProp::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cSpinningPropClass = new Fun_Runtime::cClass(0x101C, "cSpinningProp", 0xE50);
+        return *cSpinningPropClass;
+    }
+}
+
+namespace Prop
+{
+    const Fun_Runtime::cClass *cSpinningProp::ms_pcSpinningPropClass = &cSpinningProp::StaticCreateClass();
+}

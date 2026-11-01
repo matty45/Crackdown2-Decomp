@@ -11,3 +11,42 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/AudioLogic/cAudioLandVehicleExtrasProfile.cpp
+
+#include "AudioLogic/cAudioLandVehicleExtrasProfile.h"
+
+namespace AudioLogic
+{
+    const char *cAudioLandVehicleExtrasProfile::RetClassName() const
+    {
+        return "cAudioLandVehicleExtrasProfile";
+    }
+}
+
+#include "cd2/memory.h"
+
+namespace AudioLogic
+{
+    Fun_Runtime::cClass &cAudioLandVehicleExtrasProfile::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cAudioLandVehicleExtrasProfileClass = new Fun_Runtime::cClass(0xAF5, "cAudioLandVehicleExtrasProfile", 0x18C);
+        return *cAudioLandVehicleExtrasProfileClass;
+    }
+}
+
+namespace AudioLogic
+{
+    const Fun_Runtime::cClass *cAudioLandVehicleExtrasProfile::ms_pcAudioLandVehicleExtrasProfileClass = &cAudioLandVehicleExtrasProfile::StaticCreateClass();
+
+    const Fun_Runtime::cClass &cAudioLandVehicleExtrasProfile::RetClass() const
+    {
+        return *ms_pcAudioLandVehicleExtrasProfileClass;
+    }
+}
+
+namespace AudioLogic
+{
+    bool cAudioLandVehicleExtrasProfile::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcAudioLandVehicleExtrasProfileClass->IsA(c);
+    }
+}

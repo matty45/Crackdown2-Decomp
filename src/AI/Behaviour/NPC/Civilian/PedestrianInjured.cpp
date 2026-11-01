@@ -3,7 +3,7 @@
 
 namespace AI
 {
-    const Fun_Runtime::cClass *PedestrianInjured::ms_pPedestrianInjuredClass = 0;
+    const Fun_Runtime::cClass *PedestrianInjured::ms_pPedestrianInjuredClass = &PedestrianInjured::StaticCreateClass();
 
     PedestrianInjured::PedestrianInjured() {}
 
@@ -32,4 +32,16 @@ namespace AI
 {
     static RWS::CClassFactory::CRegistrar PedestrianInjuredRegistrar(
         "PedestrianInjured", PedestrianInjured::MakeNew, 0x130, false);
+}
+
+#include "cd2/memory.h"
+#include "AI/BehaviourClassID.h"
+
+namespace AI
+{
+    Fun_Runtime::cClass &PedestrianInjured::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *PedestrianInjuredClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "PedestrianInjured", 0x130);
+        return *PedestrianInjuredClass;
+    }
 }

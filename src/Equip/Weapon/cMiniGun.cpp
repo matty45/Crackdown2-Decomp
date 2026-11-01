@@ -10,3 +10,17 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Equip/Weapon/cMiniGun.cpp
+
+#include "Equip/cMiniGun.h"
+#include "cd2/memory.h"
+
+namespace Equip
+{
+    const Fun_Runtime::cClass *cMiniGun::ms_pcMiniGunClass = &cMiniGun::StaticCreateClass();
+
+    Fun_Runtime::cClass &cMiniGun::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cMiniGunClass = new Fun_Runtime::cClass(0x13268, "cMiniGun", 0xAC0);
+        return *cMiniGunClass;
+    }
+}

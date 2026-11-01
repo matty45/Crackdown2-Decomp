@@ -8,3 +8,17 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/cTransformingCar.cpp
+
+#include "unknown/cTransformingCar.h"
+#include "cd2/memory.h"
+
+namespace unknown
+{
+    const Fun_Runtime::cClass *cTransformingCar::ms_pcTransformingCarClass = &cTransformingCar::StaticCreateClass();
+
+    Fun_Runtime::cClass &cTransformingCar::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cTransformingCarClass = new Fun_Runtime::cClass(0x14, "cTransformingCar", 0x67D0);
+        return *cTransformingCarClass;
+    }
+}

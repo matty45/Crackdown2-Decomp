@@ -3,7 +3,7 @@
 
 namespace AI
 {
-    const Fun_Runtime::cClass *cGoliathBreachHole::ms_pcGoliathBreachHoleClass = 0;
+    const Fun_Runtime::cClass *cGoliathBreachHole::ms_pcGoliathBreachHoleClass = &cGoliathBreachHole::StaticCreateClass();
 
     cGoliathBreachHole::cGoliathBreachHole() {}
 
@@ -32,4 +32,15 @@ namespace AI
 {
     static RWS::CClassFactory::CRegistrar cGoliathBreachHoleRegistrar(
         "cGoliathBreachHole", cGoliathBreachHole::MakeNew, 0x1D0, false);
+}
+
+#include "cd2/memory.h"
+
+namespace AI
+{
+    Fun_Runtime::cClass &cGoliathBreachHole::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cGoliathBreachHoleClass = new Fun_Runtime::cClass(0x9F37F, "cGoliathBreachHole", 0x1D0);
+        return *cGoliathBreachHoleClass;
+    }
 }

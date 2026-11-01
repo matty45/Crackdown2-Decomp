@@ -10,3 +10,29 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Prop/Constrained/cPrismaticProp.cpp
+
+#include "Prop/cPrismaticProp.h"
+
+namespace Prop
+{
+    const char *cPrismaticProp::RetClassName() const
+    {
+        return "cPrismaticProp";
+    }
+}
+
+#include "cd2/memory.h"
+
+namespace Prop
+{
+    Fun_Runtime::cClass &cPrismaticProp::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cPrismaticPropClass = new Fun_Runtime::cClass(0x101E, "cPrismaticProp", 0xED0);
+        return *cPrismaticPropClass;
+    }
+}
+
+namespace Prop
+{
+    const Fun_Runtime::cClass *cPrismaticProp::ms_pcPrismaticPropClass = &cPrismaticProp::StaticCreateClass();
+}

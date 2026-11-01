@@ -3,7 +3,7 @@
 
 namespace AI
 {
-    const Fun_Runtime::cClass *TrainingAmbient::ms_pTrainingAmbientClass = 0;
+    const Fun_Runtime::cClass *TrainingAmbient::ms_pTrainingAmbientClass = &TrainingAmbient::StaticCreateClass();
 
     TrainingAmbient::TrainingAmbient() {}
 
@@ -30,3 +30,15 @@ namespace AI
 
 static RWS::CClassFactory::CRegistrar TrainingAmbientRegistrar(
     "TrainingAmbient", AI::TrainingAmbient::MakeNew, 0xD0, false);
+
+#include "cd2/memory.h"
+#include "AI/BehaviourClassID.h"
+
+namespace AI
+{
+    Fun_Runtime::cClass &TrainingAmbient::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *TrainingAmbientClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "TrainingAmbient", 0xD0);
+        return *TrainingAmbientClass;
+    }
+}

@@ -3,7 +3,7 @@
 
 namespace AI
 {
-    const Fun_Runtime::cClass *cAgencyTowerSegmentMission::ms_pcAgencyTowerSegmentMissionClass = 0;
+    const Fun_Runtime::cClass *cAgencyTowerSegmentMission::ms_pcAgencyTowerSegmentMissionClass = &cAgencyTowerSegmentMission::StaticCreateClass();
 
     cAgencyTowerSegmentMission::cAgencyTowerSegmentMission() {}
 
@@ -32,4 +32,15 @@ namespace AI
 {
     static RWS::CClassFactory::CRegistrar cAgencyTowerSegmentMissionRegistrar(
         "cAgencyTowerSegmentMission", cAgencyTowerSegmentMission::MakeNew, 0x710, false);
+}
+
+#include "cd2/memory.h"
+
+namespace AI
+{
+    Fun_Runtime::cClass &cAgencyTowerSegmentMission::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cAgencyTowerSegmentMissionClass = new Fun_Runtime::cClass(0x2104E, "cAgencyTowerSegmentMission", 0x710);
+        return *cAgencyTowerSegmentMissionClass;
+    }
 }

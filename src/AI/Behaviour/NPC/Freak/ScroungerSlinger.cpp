@@ -3,7 +3,7 @@
 
 namespace AI
 {
-    const Fun_Runtime::cClass *ScroungerSlinger::ms_pScroungerSlingerClass = 0;
+    const Fun_Runtime::cClass *ScroungerSlinger::ms_pScroungerSlingerClass = &ScroungerSlinger::StaticCreateClass();
 
     ScroungerSlinger::ScroungerSlinger() {}
 
@@ -32,4 +32,16 @@ namespace AI
 {
     static RWS::CClassFactory::CRegistrar ScroungerSlingerRegistrar(
         "ScroungerSlinger", ScroungerSlinger::MakeNew, 0x140, false);
+}
+
+#include "cd2/memory.h"
+#include "AI/BehaviourClassID.h"
+
+namespace AI
+{
+    Fun_Runtime::cClass &ScroungerSlinger::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *ScroungerSlingerClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "ScroungerSlinger", 0x140);
+        return *ScroungerSlingerClass;
+    }
 }

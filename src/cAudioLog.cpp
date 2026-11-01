@@ -8,3 +8,17 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/cAudioLog.cpp
+
+#include "unknown/cAudioLog.h"
+#include "cd2/memory.h"
+
+namespace unknown
+{
+    const Fun_Runtime::cClass *cAudioLog::ms_pcAudioLogClass = &cAudioLog::StaticCreateClass();
+
+    Fun_Runtime::cClass &cAudioLog::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cAudioLogClass = new Fun_Runtime::cClass(0x115, "cAudioLog", 0x1A0);
+        return *cAudioLogClass;
+    }
+}

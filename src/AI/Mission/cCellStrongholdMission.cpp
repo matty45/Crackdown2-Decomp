@@ -3,7 +3,7 @@
 
 namespace AI
 {
-    const Fun_Runtime::cClass *cCellStrongholdMission::ms_pcCellStrongholdMissionClass = 0;
+    const Fun_Runtime::cClass *cCellStrongholdMission::ms_pcCellStrongholdMissionClass = &cCellStrongholdMission::StaticCreateClass();
 
     cCellStrongholdMission::cCellStrongholdMission() {}
 
@@ -32,4 +32,15 @@ namespace AI
 {
     static RWS::CClassFactory::CRegistrar cCellStrongholdMissionRegistrar(
         "cCellStrongholdMission", cCellStrongholdMission::MakeNew, 0x410, false);
+}
+
+#include "cd2/memory.h"
+
+namespace AI
+{
+    Fun_Runtime::cClass &cCellStrongholdMission::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cCellStrongholdMissionClass = new Fun_Runtime::cClass(0x1D97C, "cCellStrongholdMission", 0x410);
+        return *cCellStrongholdMissionClass;
+    }
 }

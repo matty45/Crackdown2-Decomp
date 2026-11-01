@@ -14,3 +14,19 @@ namespace Vehicle
     static RWS::CClassFactory::CRegistrar cLandVehicleRegistrar(
         "cLandVehicle", cLandVehicle::MakeNew, 0x28C0, false);
 }
+
+#include "cd2/memory.h"
+
+namespace Vehicle
+{
+    Fun_Runtime::cClass &cLandVehicle::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cLandVehicleClass = new Fun_Runtime::cClass(0x642, "cLandVehicle", 0x28C0);
+        return *cLandVehicleClass;
+    }
+}
+
+namespace Vehicle
+{
+    const Fun_Runtime::cClass *cLandVehicle::ms_pcLandVehicleClass = &cLandVehicle::StaticCreateClass();
+}

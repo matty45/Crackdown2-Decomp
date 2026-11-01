@@ -3,7 +3,7 @@
 
 namespace AI
 {
-    const Fun_Runtime::cClass *BreachPilot::ms_pBreachPilotClass = 0;
+    const Fun_Runtime::cClass *BreachPilot::ms_pBreachPilotClass = &BreachPilot::StaticCreateClass();
 
     BreachPilot::BreachPilot() {}
 
@@ -32,4 +32,16 @@ namespace AI
 {
     static RWS::CClassFactory::CRegistrar BreachPilotRegistrar(
         "BreachPilot", BreachPilot::MakeNew, 0x160, false);
+}
+
+#include "cd2/memory.h"
+#include "AI/BehaviourClassID.h"
+
+namespace AI
+{
+    Fun_Runtime::cClass &BreachPilot::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *BreachPilotClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "BreachPilot", 0x160);
+        return *BreachPilotClass;
+    }
 }

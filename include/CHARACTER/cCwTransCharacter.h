@@ -30,6 +30,8 @@ namespace CHARACTER
         unsigned char m_pad2DD4[0x2E00 - 0x2DD4];
 
     public:
+        static const Fun_Runtime::cClass *ms_pcCwTransCharacterClass;
+        static Fun_Runtime::cClass &StaticCreateClass();
         // STAND-IN, name follows this class's prototype factory. CD2 0x825380E8 allocates 0x460 bytes;
         // constructor 0x82312E00 calls cCharacterPrototype's constructor (0x8254D4C8) first.
         class cCwTransCharacterPrototype : public cCharacter::cCharacterPrototype

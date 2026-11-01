@@ -3,7 +3,7 @@
 
 namespace AI
 {
-    const Fun_Runtime::cClass *cVehicleCollectionBehaviour::ms_pcVehicleCollectionBehaviourClass = 0;
+    const Fun_Runtime::cClass *cVehicleCollectionBehaviour::ms_pcVehicleCollectionBehaviourClass = &cVehicleCollectionBehaviour::StaticCreateClass();
 
     cVehicleCollectionBehaviour::cVehicleCollectionBehaviour() {}
 
@@ -32,4 +32,16 @@ namespace AI
 {
     static RWS::CClassFactory::CRegistrar cVehicleCollectionBehaviourRegistrar(
         "cVehicleCollectionBehaviour", cVehicleCollectionBehaviour::MakeNew, 0x160, false);
+}
+
+#include "cd2/memory.h"
+#include "AI/BehaviourClassID.h"
+
+namespace AI
+{
+    Fun_Runtime::cClass &cVehicleCollectionBehaviour::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cVehicleCollectionBehaviourClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "cVehicleCollectionBehaviour", 0x160);
+        return *cVehicleCollectionBehaviourClass;
+    }
 }

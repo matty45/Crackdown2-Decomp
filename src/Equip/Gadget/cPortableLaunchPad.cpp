@@ -10,3 +10,17 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Equip/Gadget/cPortableLaunchPad.cpp
+
+#include "Equip/cPortableLaunchPad.h"
+#include "cd2/memory.h"
+
+namespace Equip
+{
+    const Fun_Runtime::cClass *cPortableLaunchPad::ms_pcPortableLaunchPadClass = &cPortableLaunchPad::StaticCreateClass();
+
+    Fun_Runtime::cClass &cPortableLaunchPad::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cPortableLaunchPadClass = new Fun_Runtime::cClass(0x27412, "cPortableLaunchPad", 0xCA0);
+        return *cPortableLaunchPadClass;
+    }
+}

@@ -10,3 +10,42 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/VFX/cVFXSurfaceProfile.cpp
+
+#include "VFX/cVFXSurfaceProfile.h"
+
+namespace VFX
+{
+    const char *cVFXSurfaceProfile::RetClassName() const
+    {
+        return "cVFXSurfaceProfile";
+    }
+}
+
+#include "cd2/memory.h"
+
+namespace VFX
+{
+    Fun_Runtime::cClass &cVFXSurfaceProfile::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cVFXSurfaceProfileClass = new Fun_Runtime::cClass(0x1564, "cVFXSurfaceProfile", 0x80);
+        return *cVFXSurfaceProfileClass;
+    }
+}
+
+namespace VFX
+{
+    const Fun_Runtime::cClass *cVFXSurfaceProfile::ms_pcVFXSurfaceProfileClass = &cVFXSurfaceProfile::StaticCreateClass();
+
+    const Fun_Runtime::cClass &cVFXSurfaceProfile::RetClass() const
+    {
+        return *ms_pcVFXSurfaceProfileClass;
+    }
+}
+
+namespace VFX
+{
+    bool cVFXSurfaceProfile::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcVFXSurfaceProfileClass->IsA(c);
+    }
+}

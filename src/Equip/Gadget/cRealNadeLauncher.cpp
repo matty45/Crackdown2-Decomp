@@ -10,3 +10,17 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Equip/Gadget/cRealNadeLauncher.cpp
+
+#include "Equip/cRealNadeLauncher.h"
+#include "cd2/memory.h"
+
+namespace Equip
+{
+    const Fun_Runtime::cClass *cRealNadeLauncher::ms_pcRealNadeLauncherClass = &cRealNadeLauncher::StaticCreateClass();
+
+    Fun_Runtime::cClass &cRealNadeLauncher::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cRealNadeLauncherClass = new Fun_Runtime::cClass(0x6067, "cRealNadeLauncher", 0xA20);
+        return *cRealNadeLauncherClass;
+    }
+}

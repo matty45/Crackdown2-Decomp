@@ -10,3 +10,29 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/CHARACTER/cGenCharProfile.cpp
+
+#include "CHARACTER/cGenCharProfile.h"
+
+namespace CHARACTER
+{
+    const char *cGenCharProfile::RetClassName() const
+    {
+        return "cGenCharProfile";
+    }
+}
+
+#include "cd2/memory.h"
+
+namespace CHARACTER
+{
+    Fun_Runtime::cClass &cGenCharProfile::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cGenCharProfileClass = new Fun_Runtime::cClass(0x63F, "cGenCharProfile", 0x84);
+        return *cGenCharProfileClass;
+    }
+}
+
+namespace CHARACTER
+{
+    const Fun_Runtime::cClass *cGenCharProfile::ms_pcGenCharProfileClass = &cGenCharProfile::StaticCreateClass();
+}

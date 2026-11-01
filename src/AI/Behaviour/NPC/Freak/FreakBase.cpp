@@ -10,3 +10,55 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/AI/Behaviour/NPC/Freak/FreakBase.cpp
+
+#include "AI/FreakBase.h"
+
+namespace AI
+{
+    const char *FreakBase::RetClassName() const
+    {
+        return "FreakBase";
+    }
+}
+
+#include "cd2/memory.h"
+#include "AI/BehaviourClassID.h"
+
+namespace AI
+{
+    Fun_Runtime::cClass &FreakBase::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *FreakBaseClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "FreakBase", 0x120);
+        return *FreakBaseClass;
+    }
+}
+
+namespace AI
+{
+    const Fun_Runtime::cClass *FreakBase::ms_pFreakBaseClass = &FreakBase::StaticCreateClass();
+
+    const Fun_Runtime::cClass &FreakBase::RetClass() const
+    {
+        return *ms_pFreakBaseClass;
+    }
+}
+
+namespace AI
+{
+    bool FreakBase::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pFreakBaseClass->IsA(c);
+    }
+}
+
+inline void *operator new(size_t, void *memory) { return memory; }
+
+namespace AI
+{
+    RWS::CAttributeHandler *FreakBase::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) FreakBase;
+        return 0;
+    }
+}

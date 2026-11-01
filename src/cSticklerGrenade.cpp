@@ -8,3 +8,17 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/cSticklerGrenade.cpp
+
+#include "unknown/cSticklerGrenade.h"
+#include "cd2/memory.h"
+
+namespace unknown
+{
+    const Fun_Runtime::cClass *cSticklerGrenade::ms_pcSticklerGrenadeClass = &cSticklerGrenade::StaticCreateClass();
+
+    Fun_Runtime::cClass &cSticklerGrenade::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cSticklerGrenadeClass = new Fun_Runtime::cClass(0x10144, "cSticklerGrenade", 0x9E0);
+        return *cSticklerGrenadeClass;
+    }
+}

@@ -8,3 +8,17 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/cWeaponisedHelicopter.cpp
+
+#include "unknown/cWeaponisedHelicopter.h"
+#include "cd2/memory.h"
+
+namespace unknown
+{
+    const Fun_Runtime::cClass *cWeaponisedHelicopter::ms_pcWeaponisedHelicopterClass = &cWeaponisedHelicopter::StaticCreateClass();
+
+    Fun_Runtime::cClass &cWeaponisedHelicopter::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cWeaponisedHelicopterClass = new Fun_Runtime::cClass(0x4C70, "cWeaponisedHelicopter", 0x2DB0);
+        return *cWeaponisedHelicopterClass;
+    }
+}

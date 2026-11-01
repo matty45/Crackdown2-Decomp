@@ -3,7 +3,7 @@
 
 namespace AI
 {
-    const Fun_Runtime::cClass *cPKDropPilot::ms_pcPKDropPilotClass = 0;
+    const Fun_Runtime::cClass *cPKDropPilot::ms_pcPKDropPilotClass = &cPKDropPilot::StaticCreateClass();
 
     cPKDropPilot::cPKDropPilot() {}
 
@@ -32,4 +32,16 @@ namespace AI
 {
     static RWS::CClassFactory::CRegistrar cPKDropPilotRegistrar(
         "cPKDropPilot", cPKDropPilot::MakeNew, 0x150, false);
+}
+
+#include "cd2/memory.h"
+#include "AI/BehaviourClassID.h"
+
+namespace AI
+{
+    Fun_Runtime::cClass &cPKDropPilot::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cPKDropPilotClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "cPKDropPilot", 0x150);
+        return *cPKDropPilotClass;
+    }
 }

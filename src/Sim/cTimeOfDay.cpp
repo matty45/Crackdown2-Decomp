@@ -27,3 +27,19 @@ namespace Sim
         return &g_AIE_TIME_PERIOD_CHANGED;
     }
 }
+
+#include "cd2/memory.h"
+
+namespace Sim
+{
+    Fun_Runtime::cClass &cTimeOfDay::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cTimeOfDayClass = new Fun_Runtime::cClass(0x3F9, "cTimeOfDay", 0x2B0);
+        return *cTimeOfDayClass;
+    }
+}
+
+namespace Sim
+{
+    const Fun_Runtime::cClass *cTimeOfDay::ms_pcTimeOfDayClass = &cTimeOfDay::StaticCreateClass();
+}

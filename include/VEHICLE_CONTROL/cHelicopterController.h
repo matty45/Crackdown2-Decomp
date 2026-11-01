@@ -21,7 +21,6 @@
 #include "gom/non_game_base.h"
 
 // Globals cHelicopterController.cpp uses; their real owners and names are not known (the names are ours).
-extern int g_nVehicleTypeTag;       // 0x83847CA8
 extern float g_fCrossLimit;         // 0x83207580
 
 namespace Fun_Runtime
@@ -36,7 +35,7 @@ namespace Vehicle
     {
     public:
         virtual void vf0();
-        virtual bool IsKindOf(int tag);
+        virtual bool IsKindOf(const Fun_Runtime::cClass &cls);
         unsigned char m_pad[0x1914];
         cVehiclePhysics *m_pPhysics;
     };
@@ -139,6 +138,9 @@ namespace VEHICLE_CONTROL
     class cHelicopterController : public cVehicleController
     {
     public:
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
+        static const Fun_Runtime::cClass *ms_pcHelicopterControllerClass;
+        virtual const Fun_Runtime::cClass &RetClass() const;
         class cHelicopterControllerPrototype : public cVehicleControllerPrototype
         {
         public:

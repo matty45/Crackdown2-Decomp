@@ -10,3 +10,29 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Prop/Constrained/cMovingPlatform.cpp
+
+#include "Prop/cMovingPlatform.h"
+
+namespace Prop
+{
+    const char *cMovingPlatform::RetClassName() const
+    {
+        return "cMovingPlatform";
+    }
+}
+
+#include "cd2/memory.h"
+
+namespace Prop
+{
+    Fun_Runtime::cClass &cMovingPlatform::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cMovingPlatformClass = new Fun_Runtime::cClass(0x1020, "cMovingPlatform", 0xE40);
+        return *cMovingPlatformClass;
+    }
+}
+
+namespace Prop
+{
+    const Fun_Runtime::cClass *cMovingPlatform::ms_pcMovingPlatformClass = &cMovingPlatform::StaticCreateClass();
+}

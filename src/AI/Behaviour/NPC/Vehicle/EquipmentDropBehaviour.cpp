@@ -3,7 +3,7 @@
 
 namespace AI
 {
-    const Fun_Runtime::cClass *EquipmentDropBehaviour::ms_pEquipmentDropBehaviourClass = 0;
+    const Fun_Runtime::cClass *EquipmentDropBehaviour::ms_pEquipmentDropBehaviourClass = &EquipmentDropBehaviour::StaticCreateClass();
 
     EquipmentDropBehaviour::EquipmentDropBehaviour() {}
 
@@ -32,4 +32,16 @@ namespace AI
 {
     static RWS::CClassFactory::CRegistrar EquipmentDropBehaviourRegistrar(
         "EquipmentDropBehaviour", EquipmentDropBehaviour::MakeNew, 0x140, false);
+}
+
+#include "cd2/memory.h"
+#include "AI/BehaviourClassID.h"
+
+namespace AI
+{
+    Fun_Runtime::cClass &EquipmentDropBehaviour::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *EquipmentDropBehaviourClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "EquipmentDropBehaviour", 0x140);
+        return *EquipmentDropBehaviourClass;
+    }
 }

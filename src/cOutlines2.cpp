@@ -8,3 +8,17 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/cOutlines2.cpp
+
+#include "unknown/cOutlines2.h"
+#include "cd2/memory.h"
+
+namespace unknown
+{
+    const Fun_Runtime::cClass *cOutlines2::ms_pcOutlines2Class = &cOutlines2::StaticCreateClass();
+
+    Fun_Runtime::cClass &cOutlines2::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cOutlines2Class = new Fun_Runtime::cClass(0x1027FB, "cOutlines2", 0x7C);
+        return *cOutlines2Class;
+    }
+}

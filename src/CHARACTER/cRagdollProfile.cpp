@@ -14,3 +14,32 @@ namespace CHARACTER
     static RWS::CClassFactory::CRegistrar cRagdollProfileRegistrar(
         "cRagdollProfile", cRagdollProfile::MakeNew, 0x3B0, false);
 }
+
+#include "cd2/memory.h"
+
+namespace CHARACTER
+{
+    Fun_Runtime::cClass &cRagdollProfile::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cRagdollProfileClass = new Fun_Runtime::cClass(0x5EE, "cRagdollProfile", 0x3B0);
+        return *cRagdollProfileClass;
+    }
+}
+
+namespace CHARACTER
+{
+    const Fun_Runtime::cClass *cRagdollProfile::ms_pcRagdollProfileClass = &cRagdollProfile::StaticCreateClass();
+
+    const Fun_Runtime::cClass &cRagdollProfile::RetClass() const
+    {
+        return *ms_pcRagdollProfileClass;
+    }
+}
+
+namespace CHARACTER
+{
+    bool cRagdollProfile::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcRagdollProfileClass->IsA(c);
+    }
+}

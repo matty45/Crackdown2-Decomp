@@ -3,7 +3,7 @@
 
 namespace AI
 {
-    const Fun_Runtime::cClass *cBreachHoleMission::ms_pcBreachHoleMissionClass = 0;
+    const Fun_Runtime::cClass *cBreachHoleMission::ms_pcBreachHoleMissionClass = &cBreachHoleMission::StaticCreateClass();
 
     cBreachHoleMission::cBreachHoleMission() {}
 
@@ -32,4 +32,15 @@ namespace AI
 {
     static RWS::CClassFactory::CRegistrar cBreachHoleMissionRegistrar(
         "cBreachHoleMission", cBreachHoleMission::MakeNew, 0x530, false);
+}
+
+#include "cd2/memory.h"
+
+namespace AI
+{
+    Fun_Runtime::cClass &cBreachHoleMission::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cBreachHoleMissionClass = new Fun_Runtime::cClass(0x9EFED, "cBreachHoleMission", 0x530);
+        return *cBreachHoleMissionClass;
+    }
 }

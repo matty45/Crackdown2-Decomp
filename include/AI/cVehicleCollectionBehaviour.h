@@ -10,6 +10,7 @@ namespace AI
     class cVehicleCollectionBehaviour : public cNonGameBase
     {
     public:
+        static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pcVehicleCollectionBehaviourClass;
 
         cVehicleCollectionBehaviour();

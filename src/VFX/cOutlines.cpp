@@ -10,3 +10,29 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/VFX/cOutlines.cpp
+
+#include "VFX/cOutlines.h"
+
+namespace VFX
+{
+    const char *cOutlines::RetClassName() const
+    {
+        return "cOutlines";
+    }
+}
+
+#include "cd2/memory.h"
+
+namespace VFX
+{
+    Fun_Runtime::cClass &cOutlines::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cOutlinesClass = new Fun_Runtime::cClass(0x1027FA, "cOutlines", 0x460);
+        return *cOutlinesClass;
+    }
+}
+
+namespace VFX
+{
+    const Fun_Runtime::cClass *cOutlines::ms_pcOutlinesClass = &cOutlines::StaticCreateClass();
+}

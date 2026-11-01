@@ -10,3 +10,29 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/AI/Mission/cMissionCriticalProp.cpp
+
+#include "AI/cMissionCriticalProp.h"
+
+namespace AI
+{
+    const char *cMissionCriticalProp::RetClassName() const
+    {
+        return "cMissionCriticalProp";
+    }
+}
+
+#include "cd2/memory.h"
+
+namespace AI
+{
+    Fun_Runtime::cClass &cMissionCriticalProp::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cMissionCriticalPropClass = new Fun_Runtime::cClass(0x409, "cMissionCriticalProp", 0xE40);
+        return *cMissionCriticalPropClass;
+    }
+}
+
+namespace AI
+{
+    const Fun_Runtime::cClass *cMissionCriticalProp::ms_pcMissionCriticalPropClass = &cMissionCriticalProp::StaticCreateClass();
+}

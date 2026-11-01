@@ -3,7 +3,7 @@
 
 namespace AI
 {
-    const Fun_Runtime::cClass *cAmbientTrafficBehaviour::ms_pcAmbientTrafficBehaviourClass = 0;
+    const Fun_Runtime::cClass *cAmbientTrafficBehaviour::ms_pcAmbientTrafficBehaviourClass = &cAmbientTrafficBehaviour::StaticCreateClass();
 
     cAmbientTrafficBehaviour::cAmbientTrafficBehaviour() {}
 
@@ -32,4 +32,16 @@ namespace AI
 {
     static RWS::CClassFactory::CRegistrar cAmbientTrafficBehaviourRegistrar(
         "cAmbientTrafficBehaviour", cAmbientTrafficBehaviour::MakeNew, 0x140, false);
+}
+
+#include "cd2/memory.h"
+#include "AI/BehaviourClassID.h"
+
+namespace AI
+{
+    Fun_Runtime::cClass &cAmbientTrafficBehaviour::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cAmbientTrafficBehaviourClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "cAmbientTrafficBehaviour", 0x140);
+        return *cAmbientTrafficBehaviourClass;
+    }
 }

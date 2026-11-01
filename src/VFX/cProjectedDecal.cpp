@@ -10,3 +10,29 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/VFX/cProjectedDecal.cpp
+
+#include "VFX/cProjectedDecal.h"
+
+namespace VFX
+{
+    const char *cProjectedDecal::RetClassName() const
+    {
+        return "cProjectedDecal";
+    }
+}
+
+#include "cd2/memory.h"
+
+namespace VFX
+{
+    Fun_Runtime::cClass &cProjectedDecal::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cProjectedDecalClass = new Fun_Runtime::cClass(0x1EE7F00D, "cProjectedDecal", 0x28C);
+        return *cProjectedDecalClass;
+    }
+}
+
+namespace VFX
+{
+    const Fun_Runtime::cClass *cProjectedDecal::ms_pcProjectedDecalClass = &cProjectedDecal::StaticCreateClass();
+}

@@ -3,7 +3,7 @@
 
 namespace AI
 {
-    const Fun_Runtime::cClass *Reaper::ms_pReaperClass = 0;
+    const Fun_Runtime::cClass *Reaper::ms_pReaperClass = &Reaper::StaticCreateClass();
 
     Reaper::Reaper() {}
 
@@ -32,4 +32,16 @@ namespace AI
 {
     static RWS::CClassFactory::CRegistrar ReaperRegistrar(
         "Reaper", Reaper::MakeNew, 0x220, false);
+}
+
+#include "cd2/memory.h"
+#include "AI/BehaviourClassID.h"
+
+namespace AI
+{
+    Fun_Runtime::cClass &Reaper::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *ReaperClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "Reaper", 0x220);
+        return *ReaperClass;
+    }
 }

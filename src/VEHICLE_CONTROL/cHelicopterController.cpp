@@ -4,6 +4,7 @@
 // callees without a known name are declared as Ext_<address>.
 // VEHICLE_CONTROL/cHelicopterController.cpp: AI helicopter flight controller (measurement batch 2).
 #include "VEHICLE_CONTROL/cHelicopterController.h"
+#include "Vehicle/cHelicopter.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
 #include <new>
@@ -60,7 +61,7 @@ namespace VEHICLE_CONTROL
     void cHelicopterController::AssignVehicle(Vehicle::cVehicle *pVehicle)
     {
         m_pVehicle = pVehicle;
-        Vehicle::cVehicle *v = (pVehicle && pVehicle->IsKindOf(g_nVehicleTypeTag)) ? pVehicle : 0;
+        Vehicle::cVehicle *v = (pVehicle && pVehicle->IsKindOf(*Vehicle::cHelicopter::ms_pcHelicopterClass)) ? pVehicle : 0;
         float f = v->m_pPhysics->m_fMaxSpeed;
         m_pVehicleRaw = pVehicle;
         m_fDefaultMaxSpeed = f;
@@ -196,5 +197,23 @@ namespace VEHICLE_CONTROL
                 out[1] = inv * z;
             }
         }
+    }
+}
+
+namespace VEHICLE_CONTROL
+{
+    const Fun_Runtime::cClass *cHelicopterController::ms_pcHelicopterControllerClass = &cHelicopterController::StaticCreateClass();
+
+    const Fun_Runtime::cClass &cHelicopterController::RetClass() const
+    {
+        return *ms_pcHelicopterControllerClass;
+    }
+}
+
+namespace VEHICLE_CONTROL
+{
+    bool cHelicopterController::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcHelicopterControllerClass->IsA(c);
     }
 }

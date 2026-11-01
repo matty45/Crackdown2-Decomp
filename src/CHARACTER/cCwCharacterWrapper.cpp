@@ -10,3 +10,29 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/CHARACTER/cCwCharacterWrapper.cpp
+
+#include "CHARACTER/cCwCharacterWrapper.h"
+
+namespace CHARACTER
+{
+    const char *cCwCharacterWrapper::RetClassName() const
+    {
+        return "cCwCharacterWrapper";
+    }
+}
+
+#include "cd2/memory.h"
+
+namespace CHARACTER
+{
+    Fun_Runtime::cClass &cCwCharacterWrapper::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cCwCharacterWrapperClass = new Fun_Runtime::cClass(0x673, "cCwCharacterWrapper", 0x41C0);
+        return *cCwCharacterWrapperClass;
+    }
+}
+
+namespace CHARACTER
+{
+    const Fun_Runtime::cClass *cCwCharacterWrapper::ms_pcCwCharacterWrapperClass = &cCwCharacterWrapper::StaticCreateClass();
+}

@@ -10,3 +10,43 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/AI/Behaviour/NPC/Freak/Goliath.cpp
+
+#include "AI/Goliath.h"
+
+namespace AI
+{
+    const char *Goliath::RetClassName() const
+    {
+        return "Goliath";
+    }
+}
+
+#include "cd2/memory.h"
+#include "AI/BehaviourClassID.h"
+
+namespace AI
+{
+    Fun_Runtime::cClass &Goliath::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *GoliathClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "Goliath", 0x100);
+        return *GoliathClass;
+    }
+}
+
+namespace AI
+{
+    const Fun_Runtime::cClass *Goliath::ms_pGoliathClass = &Goliath::StaticCreateClass();
+
+    const Fun_Runtime::cClass &Goliath::RetClass() const
+    {
+        return *ms_pGoliathClass;
+    }
+}
+
+namespace AI
+{
+    bool Goliath::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pGoliathClass->IsA(c);
+    }
+}

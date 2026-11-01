@@ -3,7 +3,7 @@
 
 namespace AI
 {
-    const Fun_Runtime::cClass *cTrainingHeliPilot::ms_pcTrainingHeliPilotClass = 0;
+    const Fun_Runtime::cClass *cTrainingHeliPilot::ms_pcTrainingHeliPilotClass = &cTrainingHeliPilot::StaticCreateClass();
 
     cTrainingHeliPilot::cTrainingHeliPilot() {}
 
@@ -32,4 +32,16 @@ namespace AI
 {
     static RWS::CClassFactory::CRegistrar cTrainingHeliPilotRegistrar(
         "cTrainingHeliPilot", cTrainingHeliPilot::MakeNew, 0x150, false);
+}
+
+#include "cd2/memory.h"
+#include "AI/BehaviourClassID.h"
+
+namespace AI
+{
+    Fun_Runtime::cClass &cTrainingHeliPilot::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cTrainingHeliPilotClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "cTrainingHeliPilot", 0x150);
+        return *cTrainingHeliPilotClass;
+    }
 }

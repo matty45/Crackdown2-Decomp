@@ -3,7 +3,7 @@
 
 namespace AI
 {
-    const Fun_Runtime::cClass *cAgentPickup::ms_pcAgentPickupClass = 0;
+    const Fun_Runtime::cClass *cAgentPickup::ms_pcAgentPickupClass = &cAgentPickup::StaticCreateClass();
 
     cAgentPickup::cAgentPickup() {}
 
@@ -32,4 +32,16 @@ namespace AI
 {
     static RWS::CClassFactory::CRegistrar cAgentPickupRegistrar(
         "cAgentPickup", cAgentPickup::MakeNew, 0x140, false);
+}
+
+#include "cd2/memory.h"
+#include "AI/BehaviourClassID.h"
+
+namespace AI
+{
+    Fun_Runtime::cClass &cAgentPickup::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cAgentPickupClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "cAgentPickup", 0x140);
+        return *cAgentPickupClass;
+    }
 }

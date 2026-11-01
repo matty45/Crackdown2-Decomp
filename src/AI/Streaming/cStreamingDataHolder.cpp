@@ -3,7 +3,7 @@
 
 namespace AI
 {
-    const Fun_Runtime::cClass *cStreamingDataHolder::ms_pcStreamingDataHolderClass = 0;
+    const Fun_Runtime::cClass *cStreamingDataHolder::ms_pcStreamingDataHolderClass = &cStreamingDataHolder::StaticCreateClass();
 
     cStreamingDataHolder::cStreamingDataHolder() {}
 
@@ -30,3 +30,14 @@ namespace AI
 
 static RWS::CClassFactory::CRegistrar cStreamingDataHolderRegistrar(
     "cStreamingDataHolder", AI::cStreamingDataHolder::MakeNew, 0x7C, false);
+
+#include "cd2/memory.h"
+
+namespace AI
+{
+    Fun_Runtime::cClass &cStreamingDataHolder::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cStreamingDataHolderClass = new Fun_Runtime::cClass(0x1D4A, "cStreamingDataHolder", 0x7C);
+        return *cStreamingDataHolderClass;
+    }
+}

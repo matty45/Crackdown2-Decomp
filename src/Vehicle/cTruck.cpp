@@ -16,7 +16,7 @@
 
 namespace Vehicle
 {
-    const Fun_Runtime::cClass *cTruck::ms_pcTruckClass = 0;
+    const Fun_Runtime::cClass *cTruck::ms_pcTruckClass = &cTruck::StaticCreateClass();
 
     bool cTruck::IsA(const Fun_Runtime::cClass &c) const
     {
@@ -28,4 +28,27 @@ namespace Vehicle
 {
     static RWS::CClassFactory::CRegistrar cTruckRegistrar(
         "cTruck", cTruck::MakeNew, 0x3290, false);
+}
+
+#include "cd2/memory.h"
+
+namespace Vehicle
+{
+    Fun_Runtime::cClass &cTruck::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cTruckClass = new Fun_Runtime::cClass(0x11, "cTruck", 0x3290);
+        return *cTruckClass;
+    }
+}
+
+inline void *operator new(size_t, void *memory) { return memory; }
+
+namespace Vehicle
+{
+    RWS::CAttributeHandler *cTruck::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cTruck;
+        return 0;
+    }
 }

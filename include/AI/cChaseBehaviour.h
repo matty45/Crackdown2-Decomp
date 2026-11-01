@@ -13,10 +13,9 @@
 #include "fun_runtime/class.h"
 #include "cd2/layout.h"
 #include "gom/non_game_base.h"
+#include "AI/BehaviourClassID.h"
 
 // Globals cChaseBehaviour.cpp uses; their real owners and names are not known (the names are ours).
-extern int g_nBehaviourClassID;                             // 0x832B6A4C: the next runtime class id
-extern const Fun_Runtime::cClass *const g_pTargetClass;     // 0x838240F8
 extern void *g_p830BBDB4;                                   // 0x830BBDB4
 
 namespace AI

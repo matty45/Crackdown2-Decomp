@@ -10,6 +10,7 @@ namespace AI
     class TrainingPilot : public cNonGameBase
     {
     public:
+        static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pTrainingPilotClass;
 
         TrainingPilot();

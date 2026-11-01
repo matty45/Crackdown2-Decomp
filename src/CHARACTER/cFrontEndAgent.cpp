@@ -10,3 +10,17 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/CHARACTER/cFrontEndAgent.cpp
+
+#include "CHARACTER/cFrontEndAgent.h"
+#include "cd2/memory.h"
+
+namespace CHARACTER
+{
+    const Fun_Runtime::cClass *cFrontEndAgent::ms_pcFrontEndAgentClass = &cFrontEndAgent::StaticCreateClass();
+
+    Fun_Runtime::cClass &cFrontEndAgent::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cFrontEndAgentClass = new Fun_Runtime::cClass(0x67D, "cFrontEndAgent", 0x3EC0);
+        return *cFrontEndAgentClass;
+    }
+}

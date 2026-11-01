@@ -5,7 +5,7 @@ inline void *operator new(size_t, void *memory) { return memory; }
 
 namespace AI
 {
-    const Fun_Runtime::cClass *Pedestrian::ms_pcPedestrianClass = 0;
+    const Fun_Runtime::cClass *Pedestrian::ms_pcPedestrianClass = &Pedestrian::StaticCreateClass();
 
     RWS::CAttributeHandler *Pedestrian::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
     {
@@ -34,4 +34,16 @@ namespace AI
 {
     static RWS::CClassFactory::CRegistrar PedestrianRegistrar(
         "Pedestrian", Pedestrian::MakeNew, 0x120, false);
+}
+
+#include "cd2/memory.h"
+#include "AI/BehaviourClassID.h"
+
+namespace AI
+{
+    Fun_Runtime::cClass &Pedestrian::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *PedestrianClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "Pedestrian", 0x120);
+        return *PedestrianClass;
+    }
 }

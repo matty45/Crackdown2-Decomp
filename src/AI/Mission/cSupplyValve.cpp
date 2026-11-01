@@ -10,3 +10,29 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/AI/Mission/cSupplyValve.cpp
+
+#include "AI/cSupplyValve.h"
+
+namespace AI
+{
+    const char *cSupplyValve::RetClassName() const
+    {
+        return "cSupplyValve";
+    }
+}
+
+#include "cd2/memory.h"
+
+namespace AI
+{
+    Fun_Runtime::cClass &cSupplyValve::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cSupplyValveClass = new Fun_Runtime::cClass(0x407, "cSupplyValve", 0xE50);
+        return *cSupplyValveClass;
+    }
+}
+
+namespace AI
+{
+    const Fun_Runtime::cClass *cSupplyValve::ms_pcSupplyValveClass = &cSupplyValve::StaticCreateClass();
+}

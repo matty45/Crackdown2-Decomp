@@ -2,12 +2,15 @@
 #define WorldManager_cWorldManager_H
 
 #include "rws/attributes.h"
+#include "fun_runtime/class.h"
 
 namespace WorldManager
 {
     class cWorldManager : public RWS::CAttributeHandler
     {
     public:
+        static const Fun_Runtime::cClass *ms_pcWorldManagerClass;
+        static Fun_Runtime::cClass &StaticCreateClass();
         virtual const char *RetClassName() const;
     };
 }

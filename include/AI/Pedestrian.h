@@ -13,6 +13,7 @@ namespace AI
     class Pedestrian : public cPedestrianBase
     {
     public:
+        static Fun_Runtime::cClass &StaticCreateClass();
         // __forceinline: CD2 inlines this constructor into SpawnFromPrototype, which this compiler does only when forced
         // (docs/matching-notes.md, "Inlining").
         __forceinline Pedestrian() {}
