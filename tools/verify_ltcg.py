@@ -28,7 +28,8 @@ import bisect, concurrent.futures, json, math, os, re, shutil, struct, subproces
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import coff
 import relocs
-from verify_src import pe_reader, FLAGS, XDK, BIN, ROOT, EXPECTED_ENTRY, check_toolchain
+from verify_src import (pe_reader, FLAGS, XDK, BIN, ROOT, EXPECTED_ENTRY, check_toolchain, flags_for, file_flags,
+                        ltcg_built, symbol_matches)
 
 POOL_START, POOL_SIZE = 0x820F8C80, 0x8000  # CD2's LTCG constant pool (__pool@_0)
 # builds each gate runs at once (CD2_WORKERS). verify runs every gate at the same time, and with a real-time virus
@@ -206,12 +207,12 @@ def dependencies(src, plain_obj, d, env, manifest=None, override=None):
     deps = []
     for other, funcs in sorted(manifest['files'].items()):
         prefixes = [f['symbol'] for f in funcs if f.get('matching', True)]
-        if other == src or not any(p in n for p in prefixes for n in needed):
-            continue
+        if other == src or not ltcg_built(other) or not any(symbol_matches(p, n) for p in prefixes for n in needed):
+            continue  # a plain object's bodies were not /GL code in CD2: they stay stubs
         tag = 'dep_' + re.sub(r'\W', '_', os.path.splitext(other)[0])
 
         def cl(extra, out):
-            r = subprocess.run([os.path.join(BIN, 'cl.exe')] + FLAGS + ['/I' + os.path.dirname(os.path.join(ROOT, other))]
+            r = subprocess.run([os.path.join(BIN, 'cl.exe')] + flags_for(other) + ['/I' + os.path.dirname(os.path.join(ROOT, other))]
                                + extra + ['/Fo' + out, override.get(other) or os.path.join(ROOT, other)],
                                env=env, capture_output=True, text=True)
             if r.returncode:
@@ -219,7 +220,7 @@ def dependencies(src, plain_obj, d, env, manifest=None, override=None):
             return out
         plain = cl([], os.path.join(d, tag + '_plain.obj'))
         compiled = [n for n, _, _ in coff.functions(plain)]
-        proven = {hit[0] for hit in ([n for n in compiled if p in n] for p in prefixes) if hit}
+        proven = {hit[0] for hit in ([n for n in compiled if symbol_matches(p, n)] for p in prefixes) if hit}
         taken = needed & defined_symbols(plain)
         if taken and taken <= proven:
             deps.append((cl(['/GL'], os.path.join(d, tag + '.obj')), taken))
@@ -420,7 +421,7 @@ def build_ltcg(srcpath, plain_obj, consts, d, env, extra_flags=(), deps=()):
 def compare_ltcg(ltcg_read, fs, symbol, target, va, absolute_offsets=()):
     """Compare the LTCG image's function matching `symbol` with target bytes at CD2 address va.
     Returns (exact, good_words, target_words), or None if the symbol is not in the image."""
-    lt = [a for a, n in fs if symbol in n]
+    lt = [a for a, n in fs if symbol_matches(symbol, n)]
     if not lt:
         return None
     a = lt[0]
@@ -466,7 +467,7 @@ def check_file(src, funcs, read, env, d, srcpath=None, out=print, manifest=None)
     os.makedirs(d, exist_ok=True)
     srcpath = srcpath or os.path.join(ROOT, src)
     plain = os.path.join(d, 'plain.obj')
-    r = subprocess.run([os.path.join(BIN, 'cl.exe')] + FLAGS + ['/I' + os.path.dirname(os.path.join(ROOT, src)),
+    r = subprocess.run([os.path.join(BIN, 'cl.exe')] + flags_for(src) + ['/I' + os.path.dirname(os.path.join(ROOT, src)),
                         '/Fo' + plain, srcpath], env=env, capture_output=True, text=True)
     if r.returncode:
         out('%s: COMPILE ERROR\n%s' % (src, r.stdout + r.stderr))
@@ -475,7 +476,8 @@ def check_file(src, funcs, read, env, d, srcpath=None, out=print, manifest=None)
     try:
         deps = dependencies(src, plain, d, env, manifest)
         ltcg_read, fs, nglobs = build_ltcg(srcpath, plain, consts, d, env,
-                                           extra_flags=['/I' + os.path.dirname(os.path.join(ROOT, src))], deps=deps)
+                                           extra_flags=['/I' + os.path.dirname(os.path.join(ROOT, src))] + file_flags(src),
+                                           deps=deps)
     except RuntimeError as e:
         out('%s: %s' % (src, e))
         return None
@@ -483,7 +485,7 @@ def check_file(src, funcs, read, env, d, srcpath=None, out=print, manifest=None)
     syms = map_symbols(os.path.join(d, 't.map'))
     res = dict(results=[], entries=[], problems=[], known={}, nref=0)
     for f in funcs:
-        hit = [n for n, _, _ in compiled if f['symbol'] in n]
+        hit = [n for n, _, _ in compiled if symbol_matches(f['symbol'], n)]
         if hit and f.get('matching', True):
             res['known'][hit[0]] = int(f['address'], 16)
     out('%s  (%d globals escaped, %d constants registered, %d matched callee(s) from %d file(s))'
@@ -491,7 +493,7 @@ def check_file(src, funcs, read, env, d, srcpath=None, out=print, manifest=None)
     for f in funcs:
         va, size = int(f['address'], 16), f['size']
         target = read(va, size)
-        found = [(n, c, rel) for n, c, rel in compiled if f['symbol'] in n]
+        found = [(n, c, rel) for n, c, rel in compiled if symbol_matches(f['symbol'], n)]
         plain_exact = bool(found) and coff.compare(found[0][1], target, found[0][2])[0]
         absolute = getattr(found[0][2], 'absolute', ()) if found else ()
         cmp = compare_ltcg(ltcg_read, fs, f['symbol'], target, va, absolute)
@@ -502,7 +504,7 @@ def check_file(src, funcs, read, env, d, srcpath=None, out=print, manifest=None)
             status = 'EXACT' if lt_exact else '%d/%d words' % (good, n)
         if lt_exact and f.get('ltcg') and f.get('matching', True):
             # exact only under LTCG: the plain gate cannot check its references, so check them here
-            a = [x for x, nm in fs if f['symbol'] in nm][0]
+            a = [x for x, nm in fs if symbol_matches(f['symbol'], nm)][0]
             lw = words(ltcg_read(a, len(target)))
             e, pr = check_references(references(lw, a), references(words(target), va), syms, ltcg_read, read,
                                      src, f['symbol'])
@@ -597,7 +599,8 @@ def main():
         res = check_file(src, funcs, read, env, os.path.join(work, re.sub(r'\W', '_', os.path.splitext(src)[0])),
                          out=lines.append)
         return lines, res
-    jobs = [(src, funcs) for src, funcs in manifest['files'].items() if only in src]
+    jobs = [(src, funcs) for src, funcs in manifest['files'].items() if only in src and ltcg_built(src)]
+    plain_objects = [src for src in manifest['files'] if only in src and not ltcg_built(src)]
     pool = concurrent.futures.ThreadPoolExecutor(max_workers=WORKERS)
     for lines, res in pool.map(one, jobs):
         for line in lines:
@@ -616,7 +619,8 @@ def main():
             totals['tracked'] += bool(tracked)
             totals['tracked_ok'] += bool(tracked) and lt_exact
     print('\n%(n)d functions: %(plain)d exact in a plain build, %(ltcg)d exact under LTCG; '
-          '%(tracked_ok)d of %(tracked)d matched functions exact under LTCG' % totals)
+          '%(tracked_ok)d of %(tracked)d matched functions exact under LTCG' % totals
+          + ('; %d plain object(s), which have no LTCG build (ltcg_built())' % len(plain_objects) if plain_objects else ''))
     ref_problems += relocs.check_consistency(ref_entries, read, relocs.load_aliases(os.path.join(ROOT, 'config', 'symbol_aliases.txt')), known)
     print('LTCG relocation targets: %d references in %d LTCG-only functions checked; %s' % (
         len(ref_entries), nref, 'all consistent' if not ref_problems else '%d PROBLEM(S):' % len(ref_problems)))

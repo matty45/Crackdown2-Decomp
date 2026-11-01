@@ -15,7 +15,7 @@ symbol stands for, consistently across the whole repository (one name, one addre
 declared in config/symbol_aliases.txt; constants and strings by content). A function that calls the wrong function
 or reads the wrong global fails here even though its bytes match.
 """
-import atexit, json, os, shutil, struct, subprocess, sys, tempfile
+import atexit, json, os, re, shutil, struct, subprocess, sys, tempfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, 'tools'))
@@ -41,6 +41,77 @@ EXPECTED_ENTRY = 0x823BF8C8  # title-update build
 # sections a matched function may be in: ordinary code, and the compiler's own sections for a file's dynamic
 # initializers (.text$yc) and at-exit destructors (.text$yd). Code anywhere else did not come from ordinary source.
 CODE_SECTIONS = ('.text', '.text$yc', '.text$yd')
+
+# Compiler settings that differ from FLAGS for some objects (a library built with other settings, such as Lua with
+# automatic inlining): maintainer-owned, one line per source file or directory (a path ending in /), each with its
+# evidence. Only these options may appear; anything else is an error, so that no flag can change what a check proves.
+FILE_FLAGS = os.path.join(ROOT, 'config', 'file_flags.txt')
+FILE_OPTION = re.compile(r'^(?:/Ob[012]|/D[A-Za-z_]\w*(?:=[\w.]+)?|plain)$')
+
+
+def load_file_flags(path=None):
+    """[(repository path or directory ending in /, [options])] from config/file_flags.txt. Raises ValueError on an
+    option outside FILE_OPTION or a line without options."""
+    path = path or FILE_FLAGS
+    out = []
+    if not os.path.exists(path):
+        return out
+    for n, line in enumerate(open(path), 1):
+        body = line.split('#', 1)[0].split()
+        if not body:
+            continue
+        if len(body) < 2:
+            raise ValueError('%s line %d: a path without options' % (os.path.basename(path), n))
+        bad = [o for o in body[1:] if not FILE_OPTION.match(o)]
+        if bad:
+            raise ValueError('%s line %d: option(s) not allowed: %s (allowed: /Ob0-2, /D<name>[=<value>], plain)'
+                             % (os.path.basename(path), n, ' '.join(bad)))
+        out.append((body[0].replace('\\', '/'), body[1:]))
+    return out
+
+
+def _repo_path(src):
+    p = os.path.abspath(os.path.join(ROOT, src))
+    try:
+        r = os.path.relpath(p, ROOT)
+    except ValueError:  # another drive
+        return None
+    return None if r.startswith('..') else r.replace('\\', '/')
+
+
+def file_options(src, table=None):
+    """The options config/file_flags.txt gives src (repository-relative or absolute): those of every directory entry
+    that contains it, then its own entry. A file outside the repository (a self-test copy) has none."""
+    r = _repo_path(src)
+    if r is None:
+        return []
+    out = []
+    for p, opts in (load_file_flags() if table is None else table):
+        if r == p or (p.endswith('/') and r.startswith(p)):
+            out += opts
+    return out
+
+
+def file_flags(src, table=None):
+    """The compiler flags src adds to FLAGS (later flags win, so /Ob2 replaces FLAGS' /Ob1)."""
+    return [o for o in file_options(src, table) if o != 'plain']
+
+
+def flags_for(src, table=None):
+    return FLAGS + file_flags(src, table)
+
+
+def ltcg_built(src, table=None):
+    """Whether CD2 built src's object with /GL. Not for C: CD2's Rich header lists objects of the 15.00.8153 C compiler
+    but none of its LTCG C compiler. Not for a file marked plain in config/file_flags.txt. A plain object gets no LTCG
+    gate, and its bodies are never shown to another file's LTCG model."""
+    return not src.lower().endswith('.c') and 'plain' not in file_options(src, table)
+
+
+def symbol_matches(symbol, name):
+    """A manifest symbol names a compiled function: a mangled C++ name by the part given (usually a prefix that stops
+    before the argument list), a C name exactly (`resume` must not also name `resume_error` or `lua_resume`)."""
+    return symbol in name if symbol.startswith('?') else symbol == name
 
 
 # a compiler failure that is about the file system, not the source: another process (a virus scanner, the indexer)
@@ -186,7 +257,7 @@ def main():
     entries, problems, known, nfuncs = [], [], {}, 0
     for src, funcs in manifest['files'].items():
         obj = os.path.join(tmp, os.path.basename(src) + '.obj')
-        r = subprocess.run([os.path.join(BIN, 'cl.exe')] + FLAGS + ['/Fo' + obj, os.path.join(ROOT, src)],
+        r = subprocess.run([os.path.join(BIN, 'cl.exe')] + flags_for(src) + ['/Fo' + obj, os.path.join(ROOT, src)],
                            env=env, capture_output=True, text=True)
         if r.returncode:
             print('%s: COMPILE ERROR\n%s' % (src, r.stdout + r.stderr))
@@ -197,16 +268,21 @@ def main():
         print(src)
         for f in funcs:
             va, size = int(f['address'], 16), f['size']
-            named = [n for n, c, rel in compiled if f['symbol'] in n]
+            named = [n for n, c, rel in compiled if symbol_matches(f['symbol'], n)]
             if named and f.get('matching', True):
                 known[named[0]] = va
+            if f.get('ltcg') and not ltcg_built(src):  # a plain object has no LTCG build to be exact in
+                total += f.get('matching', True)
+                print('  %08X  %4d bytes  %-8s %s' % (va, size, 'INVALID', f['symbol'] + '   [marked "ltcg" in a plain '
+                                                      'object: see ltcg_built()]'))
+                continue
             if f.get('ltcg'):  # exact only under LTCG: checked by tools/verify_ltcg.py
                 print('  %08X  %4d bytes  %-8s %s' % (va, size, 'LTCG', f['symbol'] + '   [checked by verify_ltcg.py]'))
                 continue
             tracked = f.get('matching', True)  # matching: false = work in progress, reported but not required
             if tracked:
                 total += 1
-            found = [(n, c, rel) for n, c, rel in compiled if f['symbol'] in n]
+            found = [(n, c, rel) for n, c, rel in compiled if symbol_matches(f['symbol'], n)]
             if not found:
                 print('  %08X  %4d bytes  symbol not found: %s' % (va, size, f['symbol']))
                 continue

@@ -1,0 +1,14 @@
+# Per-file compiler settings (maintainers only; tools/verify_src.py load_file_flags).
+#
+# Every source file is compiled with the game's flags (verify_src.FLAGS: /Ox /Ob1 ... /fp:fast). A library CD2 links
+# that was built with other settings gets them here, one line per source file or directory (a path ending in /, for
+# every file below it), each with the evidence for its settings:
+#
+#   <path in src/>   <option> ...   # evidence
+#
+# Options (nothing else is accepted, so that no flag can change what a check proves):
+#   /Ob0 /Ob1 /Ob2         the inlining level (later options win over FLAGS: /Ob2 replaces /Ob1)
+#   /D<name>[=<value>]     a configuration macro of the library (e.g. its number type)
+#   plain                  CD2 built the object without /GL: it has no LTCG gate, and its bodies are never shown to
+#                          another file's LTCG model. Every .c file is plain anyway: CD2's Rich header lists objects of
+#                          the 15.00.8153 C compiler and none of its LTCG C compiler.

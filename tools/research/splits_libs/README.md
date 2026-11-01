@@ -27,6 +27,27 @@ executable and PDB, which contributors never need.
 
 Burn's code (newer compiler) adds almost nothing (344 functions) and is not used.
 
+## The XDK's own libraries (2026-11-01)
+
+CD2 was built with XDK 9328, which is on every maintainer's disk, so its library objects can be compared with CD2
+directly instead of through RuffKing (built with an older XDK, whose objects are cut differently).
+
+- `xdk_libmatch.py <out json>`: every function of every object in `<XDK>/lib/xbox` (6,607 objects, 169,950
+  functions of 16 bytes or more; LTCG and import members skipped) is hashed with its relocated words masked, as is
+  every CD2 function; each hash hit is confirmed with `coff.compare`, which masks exactly the library's relocation
+  sites. 8,756 CD2 functions match some library function.
+- `xdk_compare.py <ident json> <out json>`: against `config/library_splits.txt` and `config/splits.txt`. Small generic
+  shapes (scalar deleting destructors, STL helpers) match many objects at once; keeping only identities whose matches
+  all lie in one object and whose library functions match no other CD2 function leaves 4,784: 4,270 confirm the
+  RuffKing-derived object, 490 are new, 24 disagree.
+- `xdk_apply.py <ident json> [--report] [--write]`: folds them in. Game files win; an identity of at least 100 bytes
+  replaces a different object (11 did: CRT time, allocation and heap functions in their real objects, and
+  `xgraphics`' `ILInstIterator`); one of at least 32 bytes fills an unassigned function outside the game span (515);
+  unassigned functions between two identities of one object join it (262). Entries keep their kind, except that an
+  XDK-identified function in the initializer region is an `init` entry only when its library symbol is a dynamic
+  initializer or at-exit function (`??__E` / `??__F`). Result: 20,536 functions in 1,620 objects (was 19,759 in
+  1,477).
+
 ## Game files (config/splits.txt) extended the same day
 
 - `extend.py` + `apply_extend.py`, repeated to a fixpoint: a file grows over the adjacent unassigned functions whose

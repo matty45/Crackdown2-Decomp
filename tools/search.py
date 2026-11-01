@@ -22,7 +22,7 @@ import concurrent.futures, difflib, os, re, shutil, subprocess, sys, tempfile
 TOOLS = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, TOOLS)
 import coff  # noqa: E402
-from verify_src import ROOT, XDK, BIN, FLAGS  # noqa: E402
+from verify_src import ROOT, XDK, BIN, FLAGS, flags_for, symbol_matches  # noqa: E402
 
 TOKEN = re.compile(r'''
     (?P<ws>\s+) | (?P<comment>//[^\n]*|/\*.*?\*/) | (?P<str>"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*') |
@@ -301,12 +301,13 @@ def score(src_path, text, symbol, target, workdir, env):
     obj = os.path.join(workdir, 'v.obj')
     if os.path.exists(obj):
         os.remove(obj)
-    r = subprocess.run([os.path.join(BIN, 'cl.exe')] + FLAGS + ['/I' + os.path.dirname(src_path), '/Fo' + obj, path],
+    r = subprocess.run([os.path.join(BIN, 'cl.exe')] + flags_for(src_path) + ['/I' + os.path.dirname(src_path), '/Fo' + obj,
+                        path],
                        env=env, capture_output=True, text=True)
     if r.returncode:
         return None
     for n, code, rel in coff.functions(obj):
-        if symbol in n:
+        if symbol_matches(symbol, n):
             exact, ratio = coff.compare(code, target, rel)
             total = max(len(code), len(target)) // 4
             return round(ratio * total), total, exact

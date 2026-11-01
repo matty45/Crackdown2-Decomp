@@ -16,6 +16,8 @@ it). All checks must pass:
   7. functions  no non-inline function is defined by more than one source file (COMDAT selection NODUPLICATES)
   8. binaries   no binary file anywhere git would track (by extension or NUL bytes): the repository holds source and
                 text only; tools are submodules built from source (tools/build_tools.ps1)
+  9. flags      config/file_flags.txt (per-file compiler settings) holds only allowed options, for paths in src/, and
+                no function of a plain (non-/GL) object is marked "ltcg"
 
 The same CD2 function declared under two names is caught by the relocation-target check (tools/verify_src.py).
 """
@@ -23,7 +25,7 @@ import atexit, collections, json, os, re, shutil, struct, subprocess, sys, tempf
 
 TOOLS = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, TOOLS)
-from verify_src import FLAGS, XDK, BIN, ROOT
+from verify_src import FLAGS, XDK, BIN, ROOT, flags_for, load_file_flags, ltcg_built
 
 HOT = (0x821D0000, 0x823D0000)
 
@@ -93,7 +95,7 @@ def type_definitions(extra_roots=()):
     for root in roots:
         for dp, dn, fn in os.walk(root):
             for f in fn:
-                if not f.endswith(('.h', '.cpp')):
+                if not f.endswith(('.h', '.cpp', '.c')):
                     continue
                 path = os.path.join(dp, f)
                 text = open(path, encoding='utf-8', errors='replace').read()
@@ -140,12 +142,32 @@ def coff_function_defs(obj):
     return [(n, sel.get(s, 0)) for n, s in funcs]
 
 
-def run(manifest, splits, extra_type_roots=(), extra_sources=(), skip_compile=False, extra_files=()):
-    """Return an ordered dict check -> list of failure messages."""
+def run(manifest, splits, extra_type_roots=(), extra_sources=(), skip_compile=False, extra_files=(), flags_path=None):
+    """Return an ordered dict check -> list of failure messages. flags_path: a file_flags.txt to check instead of
+    config/file_flags.txt (the self-test)."""
     failures = collections.OrderedDict((k, []) for k in ('files', 'ranges', 'ownership', 'claims', 'order', 'types',
-                                                          'functions', 'binaries'))
+                                                          'functions', 'binaries', 'flags'))
     for b in binary_files(extra_files):
         failures['binaries'].append('%s is a binary file; the repository holds source and text only' % b)
+
+    # 9. flags: config/file_flags.txt holds only allowed options, for source files and directories under src/, and no
+    # function of a plain object is marked "ltcg" (it has no LTCG build to be exact in)
+    try:
+        flag_table = load_file_flags(flags_path)
+    except ValueError as e:
+        failures['flags'].append(str(e))
+        flag_table = []
+    for p, _ in flag_table:
+        if not p.startswith('src/') or not os.path.exists(os.path.join(ROOT, p)):
+            failures['flags'].append('file_flags.txt: %s is not a file or directory in src/' % p)
+        elif not p.endswith('/') and p not in splits:
+            failures['flags'].append('file_flags.txt: %s is not a source file in splits.txt' % p)
+    for f, entries in manifest.items():
+        if not ltcg_built(f, flag_table):
+            for e in entries:
+                if e.get('ltcg'):
+                    failures['flags'].append('%s %s is marked "ltcg", but its object is plain (no LTCG build)'
+                                             % (f, e['symbol']))
 
     # 1. files (a file in splits.txt without manifest entries is set up but has no matched function yet)
     for f in set(manifest) - set(splits):
@@ -229,7 +251,8 @@ def run(manifest, splits, extra_type_roots=(), extra_sources=(), skip_compile=Fa
         sources = [os.path.join(ROOT, f) for f in manifest] + list(extra_sources)
         for n, path in enumerate(sources):
             obj = os.path.join(tmp, '%d_%s.obj' % (n, os.path.basename(path)))
-            r = subprocess.run([os.path.join(BIN, 'cl.exe')] + FLAGS + ['/I' + os.path.dirname(path), '/Fo' + obj, path],
+            r = subprocess.run([os.path.join(BIN, 'cl.exe')] + flags_for(path, flag_table) + ['/I' + os.path.dirname(path),
+                                '/Fo' + obj, path],
                                env=env, capture_output=True, text=True)
             if r.returncode:
                 failures['functions'].append('%s does not compile' % path)
@@ -286,6 +309,15 @@ def self_test(no_compile=False):
     disguised = os.path.join(tmp, 'notes.txt')  # binary content under a text name
     open(disguised, 'wb').write(b'MZ\x90\x00\x03\x00\x00\x00')
     cases.append(('binaries', 'a binary file disguised as .txt', manifest, splits, (), (disguised,)))
+    flag_cases = []
+    for n, text in enumerate(['%s /Ob2 /GL\n' % a_file, '%s plain\n' % a_file]):
+        p = os.path.join(tmp, 'file_flags%d.txt' % n)
+        open(p, 'w').write(text)
+        flag_cases.append(p)
+    m = copy.deepcopy(manifest)
+    m[a_file][0] = dict(m[a_file][0], ltcg=True)
+    cases.append(('flags', 'a compiler option outside the allowed ones', manifest, splits, (), flag_cases[0]))
+    cases.append(('flags', 'an "ltcg" function in a plain object', m, splits, (), flag_cases[1]))
     ok = True
     for check, what, m, s, roots, extra in cases:
         if check == 'functions' and no_compile:
@@ -293,6 +325,8 @@ def self_test(no_compile=False):
             continue
         if check == 'binaries':
             f = run(m, s, skip_compile=True, extra_files=extra)
+        elif check == 'flags':
+            f = run(m, s, skip_compile=True, flags_path=extra)
         else:
             f = run(m, s, roots, extra, skip_compile=(check != 'functions'))
         caught = bool(f[check])

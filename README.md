@@ -12,13 +12,50 @@ contributor cannot influence.
 
 | | |
 |---|---|
-| Functions in the game | 74,551 (as split by jeff) |
+| Functions in the game | 74,551 (as split by jeff), 14.3 MB of code |
 | Source files set up | 381 (9 by hand, 372 automatically) |
 | Functions matched | 1,785 (1,780 in a plain build, 5 more under link-time code generation) |
-| In progress / open in the set-up files | 3 / 4,567 |
 | Full relink of the split game | byte-identical round trip (`tools/relink.py`) |
 
-`py -I tools\cd2.py status` prints the current numbers.
+### How much is left
+
+Every function of the executable, by where it stands. Sizes are code bytes, which say more about the work than counts:
+the 24,414 initializers average 38 bytes.
+
+**Game code (what this project decompiles)**
+
+| | Functions | Code | |
+|---|---:|---:|---:|
+| Matched | 1,784 + 1 folded copy | 94 KB | 0.6% |
+| In progress | 3 | 0.5 KB | 0.0% |
+| Open in the set-up source files (33 claimed) | 4,600 | 1.14 MB | 8.0% |
+| Game span not yet split into source files | 15,886 | 4.06 MB | 28.3% |
+| Order-list region, not yet assigned (hot functions of every object, game and library) | 2,883 | 1.62 MB | 11.3% |
+| Initializers and at-exit destructors, not yet assigned (every object's) | 24,414 | 0.88 MB | 6.2% |
+
+That leaves at least 5.2 MB of game code to decompile, plus the game's share of the order-list region and of the
+initializers. Matched so far: 94 KB, about 1.3% of the game code (counting the whole order-list region as game code),
+0.6% of the executable.
+
+**Library code (linked from prebuilt libraries: identified in `config/library_splits.txt`, not decompiled)**
+
+| | Functions | Code | |
+|---|---:|---:|---:|
+| XDK and C runtime | 7,548 | 2.80 MB | 19.5% |
+| Scaleform GFx | 6,544 | 1.40 MB | 9.8% |
+| Havok | 2,530 | 0.73 MB | 5.1% |
+| Wwise | 2,422 | 0.39 MB | 2.7% |
+| RenderWare AI | 198 | 45 KB | 0.3% |
+| Other (transport, xlip, libjpeg, ...) | 1,294 | 0.30 MB | 2.1% |
+| Library span not yet identified | 4,445 | 0.87 MB | 6.1% |
+
+- **Lua 5.0.2:** 641 of the unidentified library functions (114 KB, 0x82937FE0–0x82954CA0). Lua is open source (MIT),
+  and a trial compiled 585 of its 642 functions byte-exact from upstream source with three small CD2 changes. It is
+  not set up yet: how third-party source enters `src/` is still to be decided.
+- **Older compilers:** CD2's PE header lists 609 C++ objects from older VS2005-era XDK compilers (14.00.xxxx), which
+  can never match with the pinned 15.00.8153 compiler. These are presumably prebuilt middleware.
+
+`py -I tools\cd2.py status` prints the per-file numbers and this breakdown.
 
 ## What you need
 

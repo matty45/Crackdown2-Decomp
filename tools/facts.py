@@ -23,7 +23,8 @@ sys.path.insert(0, TOOLS)
 import coff  # noqa: E402
 import relocs  # noqa: E402
 import verify_ltcg  # noqa: E402
-from verify_src import ROOT, XDK, BIN, FLAGS, EXPECTED_ENTRY, pe_reader, check_toolchain  # noqa: E402
+from verify_src import (ROOT, XDK, BIN, FLAGS, EXPECTED_ENTRY, pe_reader, check_toolchain, flags_for, file_flags,  # noqa: E402
+                        ltcg_built, symbol_matches)
 
 FACTS = os.path.join(ROOT, 'config', 'target_facts.json')
 MANIFEST = os.path.join(ROOT, 'config', 'matched_functions.json')
@@ -41,7 +42,7 @@ def env():
 def compile_plain(src, d, path=None):
     """Compile the repository file src (or a modified copy at path, with src's directory on the include path)."""
     obj = os.path.join(d, os.path.basename(src) + '.obj')
-    r = subprocess.run([os.path.join(BIN, 'cl.exe')] + FLAGS + ['/I' + os.path.dirname(os.path.join(ROOT, src)), '/Fo' + obj,
+    r = subprocess.run([os.path.join(BIN, 'cl.exe')] + flags_for(src) + ['/I' + os.path.dirname(os.path.join(ROOT, src)), '/Fo' + obj,
                         path or os.path.join(ROOT, src)], env=env(), capture_output=True, text=True)
     if r.returncode:
         raise SystemExit('%s: compile error\n%s' % (src, r.stdout + r.stderr))
@@ -79,8 +80,10 @@ def record(read):
             va, size = int(f['address'], 16), f['size']
             target = read(va, size)
             tw = verify_ltcg.words(target)
-            e = dict(size=size, ltcg=dict(sha=ltcg_hash(tw, va), ends=verify_ltcg.ends_function(tw)))
-            if f.get('ltcg') and f.get('matching', True):
+            e = dict(size=size)
+            if ltcg_built(src):
+                e['ltcg'] = dict(sha=ltcg_hash(tw, va), ends=verify_ltcg.ends_function(tw))
+            if f.get('ltcg') and f.get('matching', True) and ltcg_built(src):
                 # exact only under LTCG: what its references are in CD2 (positions, addresses, constant bytes, and
                 # a hash of the C string at each data address, as the string checks need)
                 refs = verify_ltcg.references(tw, va)
@@ -94,11 +97,11 @@ def record(read):
                             strings['0x%08X' % addr] = sha(cs)
                 e['ltcg'].update(refs=[[i, kind, '0x%08X' % addr, op] for i, kind, addr, op in refs], floats=floats,
                                  strings=strings)
-            found = [(n, c, rl) for n, c, rl in compiled if f['symbol'] in n]
+            found = [(n, c, rl) for n, c, rl in compiled if symbol_matches(f['symbol'], n)]
             if found:
                 name, code, rl = found[0]
                 absolute = sorted(getattr(rl, 'absolute', ()))
-                if absolute:
+                if absolute and 'ltcg' in e:
                     e['ltcg'].update(absolute_relocations=absolute, sha=ltcg_hash(tw, va, absolute))
                 if coff.compare(code, target, rl)[0]:
                     res, _ = relocs.resolve(robj, name, target, va)
@@ -159,9 +162,13 @@ def verify(override=None, ltcg=True, out=print):
         for f in funcs:
             va, size, tracked = int(f['address'], 16), f['size'], f.get('matching', True)
             fe = facts['functions'].get(f['address'])
-            found = [(n, c, rl) for n, c, rl in compiled if f['symbol'] in n]
+            found = [(n, c, rl) for n, c, rl in compiled if symbol_matches(f['symbol'], n)]
             if found and tracked:
                 known[found[0][0]] = va
+            if f.get('ltcg') and not ltcg_built(src):  # a plain object has no LTCG build to be exact in
+                total += bool(tracked)
+                out('  %08X  INVALID      %s   [marked "ltcg" in a plain object]' % (va, f['symbol']))
+                continue
             if f.get('ltcg'):
                 continue  # exact only under LTCG: below
             total += bool(tracked)
@@ -233,18 +240,20 @@ def verify(override=None, ltcg=True, out=print):
         d, plain = own_dir(src, 'ltcg'), objs[src]
         consts = [(op, struct.unpack('>d', bytes.fromhex(h))[0]) for op, h in facts['files'].get(src, {}).get('direct_constants', [])]
         lread, fs, _ = verify_ltcg.build_ltcg(override.get(src) or os.path.join(ROOT, src), plain, consts, d, env(),
-                                              extra_flags=['/I' + os.path.dirname(os.path.join(ROOT, src))],
+                                              extra_flags=['/I' + os.path.dirname(os.path.join(ROOT, src))] + file_flags(src),
                                               deps=verify_ltcg.dependencies(src, plain, d, env(), man, override))
         return lread, fs, verify_ltcg.map_symbols(os.path.join(d, 't.map'))
-    builds = dict(zip(man['files'], pool.map(build, man['files'])))
-    for src, funcs in man['files'].items():
+    lfiles = [src for src in man['files'] if ltcg_built(src)]  # a plain object has no LTCG build
+    builds = dict(zip(lfiles, pool.map(build, lfiles)))
+    for src in lfiles:
+        funcs = man['files'][src]
         lread, fs, syms = builds[src]
         for f in funcs:
             if not f.get('matching', True):
                 continue
             ltcg_total += 1
             fe = facts['functions'].get(f['address'])
-            lt = [a for a, n in fs if f['symbol'] in n]
+            lt = [a for a, n in fs if symbol_matches(f['symbol'], n)]
             if not fe or not lt:
                 continue
             a = lt[0]

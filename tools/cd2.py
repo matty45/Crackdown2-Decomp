@@ -62,7 +62,7 @@ import search as srch  # noqa: E402
 import bench  # noqa: E402
 import verify_ltcg  # noqa: E402
 from verify_src import (ROOT, XDK, BIN, FLAGS, EXPECTED_ENTRY, CODE_SECTIONS, pe_reader, toolchain_problems,  # noqa: E402
-                        local_config, run_compiler)
+                        local_config, run_compiler, flags_for, file_flags, ltcg_built, symbol_matches)
 from check_integrity import load_splits  # noqa: E402
 
 XEX_SHA1 = 'EC7B163617CD725F50B0CCA665AAF943F9BC6D8A'
@@ -723,7 +723,7 @@ def raw_rules_uncached(path, spans=()):
 def warning_findings(src, path, e, roots):
     """[match] findings from the compiler's own diagnostics (a syntax-only pass with C4189 enabled): unused locals
     (R17) and class/struct keyword mismatches (R1), in repository files. [(file, line, rule, message)]"""
-    r = run_compiler([os.path.join(BIN, 'cl.exe')] + FLAGS + ['/Zs', '/w34189', '/I' + os.path.dirname(path), path],
+    r = run_compiler([os.path.join(BIN, 'cl.exe')] + flags_for(path) + ['/Zs', '/w34189', '/I' + os.path.dirname(path), path],
                      env=e, cwd=scratch_dir('pp'))
     out = []
     for m in re.finditer(r'^(.*?)\((\d+)\) : warning (C\d{4}): (.*)$', r.stdout, re.M):
@@ -825,7 +825,8 @@ def policy(src, extra_roots=(), roots=None, include=None, _structured=False):
     if include is not None:
         e['INCLUDE'] = ';'.join([os.path.join(XDK, 'include', 'xbox')] + list(include))
     try:
-        r = run_compiler([os.path.join(BIN, 'cl.exe')] + FLAGS + ['/P', '/I' + os.path.dirname(path), path], env=e, cwd=pp)
+        r = run_compiler([os.path.join(BIN, 'cl.exe')] + flags_for(path) + ['/P', '/I' + os.path.dirname(path), path], env=e,
+                         cwd=pp)
         if r.returncode:
             if _structured:
                 return (['%s: preprocessor error\n%s' % (src, (r.stdout + r.stderr)[-2000:])], [], warnings), []
@@ -889,7 +890,7 @@ def policy(src, extra_roots=(), roots=None, include=None, _structured=False):
 def compile_file(src):
     obj = scratch('obj', os.path.basename(src) + '.obj')
     os.makedirs(os.path.dirname(obj), exist_ok=True)
-    r = subprocess.run([os.path.join(BIN, 'cl.exe')] + FLAGS + ['/Fo' + obj, os.path.join(ROOT, src)],
+    r = subprocess.run([os.path.join(BIN, 'cl.exe')] + flags_for(src) + ['/Fo' + obj, os.path.join(ROOT, src)],
                        env=env(), capture_output=True, text=True)
     if r.returncode:
         raise Fail('%s: compile error\n%s' % (src, (r.stdout + r.stderr)[-3000:]))
@@ -898,6 +899,9 @@ def compile_file(src):
 
 def compare_file(src, funcs, ltcg=False):
     """Compare each mapped function of src with CD2. Returns (results, problems)."""
+    if ltcg and not ltcg_built(src):
+        raise Fail('%s is a plain object (not /GL in CD2: see ltcg_built() in tools/verify_src.py), so it has no LTCG '
+                   'build: check it without --ltcg' % src)
     obj = compile_file(src)
     compiled = list(coff.functions(obj))
     robj = relocs.Obj(obj)
@@ -909,7 +913,7 @@ def compare_file(src, funcs, ltcg=False):
         consts = verify_ltcg.direct_constants(read, funcs)
         d = scratch_dir('ltcg', os.path.basename(src))
         try:
-            lt = verify_ltcg.build_ltcg(os.path.join(ROOT, src), obj, consts, d, env(),
+            lt = verify_ltcg.build_ltcg(os.path.join(ROOT, src), obj, consts, d, env(), extra_flags=file_flags(src),
                                         deps=verify_ltcg.dependencies(src, obj, d, env(), man))
         except RuntimeError as e:
             raise Fail('%s: %s' % (src, str(e)[-3000:]))
@@ -918,7 +922,7 @@ def compare_file(src, funcs, ltcg=False):
         target = read(va, size)
         res = dict(address='0x%08X' % va, size=size, symbol=f['symbol'], source=f.get('source', 'manifest'),
                    tracked=f.get('matching', True) and f.get('source') == 'manifest', ltcg_only=bool(f.get('ltcg')))
-        found = [(n, c, r) for n, c, r in compiled if f['symbol'] in n]
+        found = [(n, c, r) for n, c, r in compiled if symbol_matches(f['symbol'], n)]
         if not found:
             res.update(status='missing', plain=0.0)
             results.append(res)
@@ -956,7 +960,7 @@ def compare_file(src, funcs, ltcg=False):
         for e in g:
             if e.get('matching', True):
                 for n, _, _ in compiled:
-                    if e['symbol'] in n:
+                    if symbol_matches(e['symbol'], n):
                         known.setdefault(n, int(e['address'], 16))
     problems += relocs.check_consistency(entries, read, relocs.load_aliases(ALIASES), known)
     for res in results:  # problem texts name the function by its first 40 characters
@@ -1037,7 +1041,8 @@ def cmd_setup(a):
         for addr in e['hot'] + e['init'] + e['atexit']:
             if addr not in syms:
                 raise Fail('%s: no function at %08X in jeff\'s analysis' % (f, addr))
-            units += ['%s_%08X.cpp:' % (f[:-4], addr), '\t.text       start:0x%08X end:0x%08X' % (addr, addr + syms[addr][1]), '']
+            units += ['%s_%08X%s:' % (os.path.splitext(f)[0], addr, os.path.splitext(f)[1]),
+                      '\t.text       start:0x%08X end:0x%08X' % (addr, addr + syms[addr][1]), '']
     split('split', units, 'symbols.txt')
     for dp, _, fs in os.walk(os.path.join(WORK, 'split', 'obj', 'src')):
         for f in fs:
@@ -1098,8 +1103,63 @@ def cmd_status(a):
         rows.append(dict(file=f, functions=len(set(addrs) | set(entries)), exact=exact, ltcg_only=ltcg, in_progress=wip,
                          claimed=claimed, open=len(in_range) - claimed))
     tot = {k: sum(r[k] for r in rows) for k in ('functions', 'exact', 'ltcg_only', 'in_progress', 'claimed', 'open')}
-    return dict(ok=True, files=rows, total=tot,
+    return dict(ok=True, files=rows, total=tot, census=census(splits, syms, man),
                 note='matched counts are as recorded in config/matched_functions.json; `verify` recomputes them')
+
+
+# regions of CD2's .text: the order list moved hot functions of every object to 0x821D0000-0x823D0000; the game's own
+# objects lie in 0x823D0000-0x82913700 (tools/research/splits_libs/README.md); every object's dynamic initializers and
+# at-exit destructors lie from 0x82F00000 on; the rest holds library objects
+ORDER_LIST, GAME_SPAN, INIT_REGION = (0x821D0000, 0x823D0000), (0x823D0000, 0x82913700), 0x82F00000
+MIDDLEWARE = (('hk', 'Havok'), ('libgfx', 'Scaleform'), ('libgrenderer', 'Scaleform'), ('gfcore', 'Scaleform'),
+              ('ak', 'Wwise'), ('mcdsp', 'Wwise'), ('rwai', 'RenderWare AI'))
+
+
+def census(splits, syms, man):
+    """Where every function of CD2 stands: [(category, functions, bytes)], most bytes first. A function belongs to the
+    first of: matched / in progress (the manifest), open in a source file (config/splits.txt), a library object
+    (config/library_splits.txt, by library), unassigned (by region)."""
+    import bisect
+    order = sorted(syms)
+    xdk_libs = {f.lower() for f in os.listdir(os.path.join(XDK, 'lib', 'xbox'))} if XDK and os.path.isdir(
+        os.path.join(XDK, 'lib', 'xbox')) else set()
+    cat = {}
+    for es in man['files'].values():
+        for e in es:
+            if not e.get('folded'):
+                cat[int(e['address'], 16)] = 'matched' if e.get('matching', True) else 'in progress'
+    for a in order:
+        if a not in cat and owner(a, splits):
+            cat[a] = 'open in a source file'
+
+    def kind(lib):
+        low = lib.lower()
+        if low in xdk_libs:
+            return 'library: XDK and CRT'
+        return 'library: ' + next((name for p, name in MIDDLEWARE if low.startswith(p)), 'other')
+    lib = None
+    for line in open(os.path.join(ROOT, 'config', 'library_splits.txt'), encoding='utf-8'):
+        s = line.split('#')[0].strip()
+        m = re.match(r'^(\S+?\.(?:lib|obj))(?:\(.*\))?$', s)
+        if m and not re.match(r'(text|hot|init)\s', s):
+            lib = m.group(1)
+            continue
+        m = re.match(r'^text\s+0x([0-9A-Fa-f]+)\s+0x([0-9A-Fa-f]+)', s)
+        if m and lib:
+            for a in order[bisect.bisect_left(order, int(m.group(1), 16)):bisect.bisect_left(order, int(m.group(2), 16))]:
+                cat.setdefault(a, kind(lib))
+            continue
+        m = re.match(r'^(hot|init)\s+0x([0-9A-Fa-f]+)', s)
+        if m and lib:
+            cat.setdefault(int(m.group(2), 16), kind(lib))
+    count, size = collections.Counter(), collections.Counter()
+    for a in order:
+        c = cat.get(a) or ('unassigned: order-list region' if ORDER_LIST[0] <= a < ORDER_LIST[1] else
+                           'unassigned: game span' if GAME_SPAN[0] <= a < GAME_SPAN[1] else
+                           'unassigned: initializers and at-exit' if a >= INIT_REGION else 'unassigned: library span')
+        count[c] += 1
+        size[c] += syms[a][1]
+    return [(c, count[c], size[c]) for c in sorted(count, key=lambda c: -size[c])]
 
 
 def open_tasks(file_filter=None):
@@ -1133,7 +1193,7 @@ def cmd_tasks(a):
 
 def target_asm(unit, addr):
     """jeff's assembly of one function, from the unit's .s file."""
-    path = os.path.join(WORK, 'split', 'asm', unit[:-4] + '.s')
+    path = os.path.join(WORK, 'split', 'asm', os.path.splitext(unit)[0] + '.s')
     if not os.path.exists(path):
         return None
     lines, inside = [], False
@@ -1151,7 +1211,8 @@ def target_asm(unit, addr):
 def unit_of(addr, file, splits):
     e = splits[file]
     # one dot only: jeff names a unit's assembly file by cutting the name at its first dot
-    return file if e['text'] and e['text'][0] <= addr < e['text'][1] else '%s_%08X.cpp' % (file[:-4], addr)
+    base, ext = os.path.splitext(file)
+    return file if e['text'] and e['text'][0] <= addr < e['text'][1] else '%s_%08X%s' % (base, addr, ext)
 
 
 def cmd_show(a):
@@ -1208,7 +1269,10 @@ def cmd_claim(a):
         raise Fail('%08X is not the start of a function in a scaffolded file (see `tasks`)' % addr)
     if any(int(e['address'], 16) == addr for e in manifest()['files'].get(f, [])):
         raise Fail('%08X is already in config/matched_functions.json' % addr)
-    if not a.symbol.startswith('?') and not a.symbol.startswith('_'):
+    if f.lower().endswith('.c'):
+        if not re.match(r'^[A-Za-z_]\w*$', a.symbol):
+            raise Fail('%s is C: the symbol is the function\'s exact C name, e.g. lua_gettop' % f)
+    elif not a.symbol.startswith('?') and not a.symbol.startswith('_'):
         raise Fail('the symbol must be (a prefix of) the MANGLED name, e.g. ?Update@cFoo@NS@@')
     cl = claims()
     cl['0x%08X' % addr] = dict(file=f, size=syms[addr][1], symbol=a.symbol,
@@ -1263,7 +1327,7 @@ def cmd_check(a):
 def objdiff_unit(src, obj, unit, mappings):
     """objdiff's one-shot diff of one target unit against our object. mappings: {CD2 address: our full symbol}.
     Returns the parsed JSON (every symbol of the unit)."""
-    target = os.path.join(WORK, 'split', 'obj', unit[:-4] + '.obj')
+    target = os.path.join(WORK, 'split', 'obj', os.path.splitext(unit)[0] + '.obj')
     d = scratch_dir('objdiff')
     # objdiff takes Unix-style paths relative to the project directory
     cfg = dict(min_version='2.0.0', units=[dict(name='u', target_path=os.path.relpath(target, d).replace('\\', '/'),
@@ -1286,7 +1350,7 @@ def compiled_names(obj, funcs):
     names = [n for n, _, _ in coff.functions(obj)]
     out = {}
     for f in funcs:
-        hit = [n for n in names if f['symbol'] in n]
+        hit = [n for n in names if symbol_matches(f['symbol'], n)]
         if hit:
             out[int(f['address'], 16)] = hit[0]
     return out
@@ -1759,7 +1823,7 @@ def cmd_lint(a):
         ok, cases = policy_self_test()
         return dict(ok=ok, self_test=cases)
     files = [rel(p) for p in a.files] or sorted(rel(os.path.join(dp, f)) for dp, _, fs in os.walk(os.path.join(ROOT, 'src'))
-                                                  for f in fs if f.endswith('.cpp'))
+                                                  for f in fs if f.endswith(('.cpp', '.c')))
     res, empty = [], 0
     man = manifest()['files']
     todo = []
@@ -1859,7 +1923,7 @@ def cmd_verify(a):
                     for f in lint['files'] for s in f.get('pending', [])]
             out.append(dict(gate=name, ok=not bad, detail='; '.join(bad[:5]) or '%s | %d files checked (%d set up, nothing '
                                                                               'written yet)' % (
-                lint['figures'], sum(f['file'].endswith('.cpp') for f in lint['files']), lint['without_code'])))
+                lint['figures'], sum(f['file'].endswith(('.cpp', '.c')) for f in lint['files']), lint['without_code'])))
             continue
         if name == 'self-test: source policy':
             ok, cases = policy_self_test()
@@ -1917,6 +1981,10 @@ def show_text(cmd, res):
             print('%-46s %5d %5d %5d %5d %5d %5d' % (r['file'], r['functions'], r['exact'], r['ltcg_only'],
                                                      r['in_progress'], r['claimed'], r['open']))
         print(res['note'])
+        total_n, total_b = sum(n for _, n, _ in res['census']), sum(b for _, _, b in res['census'])
+        print('\nall of CD2 (%d functions, %.1f MB of code):' % (total_n, total_b / 2.0 ** 20))
+        for c, n, b in res['census']:
+            print('  %-38s %6d functions %8.1f KB %5.1f%%' % (c, n, b / 1024.0, 100.0 * b / total_b))
     elif cmd == 'tasks':
         for t in res['tasks']:
             ft = t['features']

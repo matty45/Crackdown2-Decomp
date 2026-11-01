@@ -20,13 +20,19 @@ py -I tools\cd2.py setup <path>\default_patched.xex
 
 The compiler and linker must be the builds pinned in `config/toolchain.txt`; every gate refuses another toolchain.
 
+Every file is compiled with the game's flags (`verify_src.FLAGS`). The exceptions are libraries CD2 linked that were
+built with other settings: `config/file_flags.txt` (maintainers only) adds `/Ob0`–`/Ob2`, `/D` macros or `plain` per
+file or directory, with the evidence. Nothing else is accepted. A plain object, meaning every `.c` file (CD2's Rich
+header lists no LTCG C objects) and every file marked `plain`, has no LTCG gate. Its bodies never enter another file's
+LTCG model either. Functions in `.c` files are named by their exact C name (`lua_gettop`), not by a mangled prefix.
+
 ## Gates (all must pass)
 
 | Tool | Checks |
 |---|---|
 | `verify_src.py <default.exe> [--self-test]` | Plain build: every function in `config/matched_functions.json` is byte-exact by symbol. **Relocation targets** (`relocs.py`): every call, global, vtable, string and constant of an exact function must resolve to the same CD2 address, consistently across the repository (one name, one address; one address, one name unless declared in `config/symbol_aliases.txt`). This catches a call to the wrong function whose bytes still match. Every exact function must also be in an ordinary code section (`.text`, `.text$yc`, `.text$yd`). `--self-test` plants a wrong call and five synthetic cases (one of which must be accepted). |
 | `verify_ltcg.py <default.exe> [filter]` | LTCG build. CD2's game code was built with `/GL` + `/LTCG`; this builds the same functions under LTCG with a generated model of the rest of the program (global and static-function escapes, constant registrations, a pool seed). Functions marked `"ltcg": true` are exact only here. |
-| `check_integrity.py [--self-test]` | Ownership, duplicates and binaries; needs no game files. Checked against `config/splits.txt`: every function lies in its file's range, no address is claimed twice, folded functions are declared, link order is consistent, no type or non-inline function is defined twice, and no binary is present. `--self-test` plants one violation of each kind and fails unless all are caught. |
+| `check_integrity.py [--self-test]` | Ownership, duplicates and binaries; needs no game files. Checked against `config/splits.txt`: every function lies in its file's range, no address is claimed twice, folded functions are declared, link order is consistent, no type or non-inline function is defined twice, no binary is present, and `config/file_flags.txt` holds only allowed options (and no `"ltcg"` function in a plain object). `--self-test` plants one violation of each kind and fails unless all are caught. |
 | `headers/check_headers.ps1` | The curated headers compile, layout checks hold, and the layout check's own self-test fires. |
 | `relink.py <default_patched.xex> [workdir] [--resplit]` | **Round trip** (about 5 minutes): jeff splits the XEX into objects, the XDK linker links them at the original base, and the linked memory image must equal the original word for word (`RESULT: IDENTICAL`, exit 0). This proves the splitter, the relocations and the object order reproduce the game. Not linker output, so checked separately: the import words (the XEX packager replaced them with import records, so they must hold exactly what the linker writes) and the link metadata (debug time stamp, CodeView GUID and age). It also reports relocation completeness: the size of the base relocation table compared with the original's. Rerun with `--resplit` after changing jeff or its patches. |
 
