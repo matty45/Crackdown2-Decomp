@@ -31,7 +31,11 @@ namespace PLAYER
     class cPlayer : public AI::cCharacterEntityIF
     {
     private:
-        unsigned char m_pad540[0x858 - 0x540];
+        unsigned char m_pad540[0x7E4 - 0x540];
+        // CD2 ForceCharacterH2HContact/HasRecentlyHadH2HContact (0x82720FC0/0x82720FD0);
+        // RuffKing names the saved game-tick count m_nH2HContactFrame.
+        unsigned int m_nH2HContactFrame;
+        unsigned char m_pad7E8[0x858 - 0x7E8];
         unsigned int m_nAutomaticAIBreakoutFlags; // 0x858
         unsigned char m_pad85C[0xD90 - 0x85C];
     protected:
@@ -84,9 +88,12 @@ namespace PLAYER
         bool ShouldTriggerFootStepEvent();
         void ResetFloatEC4();
         void SetAITargeting(bool bAITargeting);
+        void ForceCharacterH2HContact();
+        bool HasRecentlyHadH2HContact();
 
         CD2_LAYOUT_CHECKS(cPlayer,
             CD2_SIZE(cPlayer, 0x1160)
+            CD2_OFFSET(cPlayer, m_nH2HContactFrame, 0x7E4)
             CD2_OFFSET(cPlayer, m_bIsAIActive, 0xD90)
             CD2_OFFSET(cPlayer, m_bIsAITargeting, 0xD91)
             CD2_OFFSET(cPlayer, m_bAutomaticAIBreakout, 0xD92)

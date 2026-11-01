@@ -9,6 +9,8 @@ namespace GMan
     class cGameManager
     {
     public:
+        // RuffKing ForceCharacterH2HContact names this counter; CD2's corresponding methods read 0x8383A96C.
+        static unsigned int ms_nGameTicks;
         static float ms_fGameTimerSecs;
     };
 }

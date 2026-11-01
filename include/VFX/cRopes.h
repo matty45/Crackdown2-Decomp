@@ -17,36 +17,12 @@
 #include "rws/classfactory.h"
 #include "cd2/layout.h"
 #include "cd2/memory.h"
+#include "fun_runtime/allocator.h"
 #include "fun_runtime/class.h"
 #include "gom/non_game_base.h"
 
 namespace Fun_Runtime
 {
-    // Allocator for the std::vectors: allocate() is out of line in CD2, deallocate() is XDestroyHeapBlock.
-    template <class T>
-    class cAllocator
-    {
-    public:
-        typedef T value_type;
-        typedef T *pointer;
-        typedef const T *const_pointer;
-        typedef T &reference;
-        typedef const T &const_reference;
-        typedef size_t size_type;
-        typedef ptrdiff_t difference_type;
-        template <class U> struct rebind { typedef cAllocator<U> other; };
-        cAllocator() {}
-        cAllocator(const cAllocator &) {}
-        template <class U> cAllocator(const cAllocator<U> &) {}
-        static pointer allocate(size_type n);
-        void deallocate(pointer p, size_type) { XDestroyHeapBlock(p); }
-        void construct(pointer p, const T &v) { new ((void *)p) T(v); }
-        void destroy(pointer) {}
-        pointer address(reference r) const { return &r; }
-        const_pointer address(const_reference r) const { return &r; }
-        size_type max_size() const { return 0x3FFFFFFF; }
-    };
-
     // std::vector wrapper whose push_back is out of line (CD2 calls it rather than inlining std::vector's).
     template <class T>
     class cVector : public std::vector<T, cAllocator<T> >

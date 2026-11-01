@@ -39,6 +39,7 @@ end, in one line, and is removed when the function matches. History belongs in g
   with internal linkage per file.
 
 ## Codegen idioms
+- **Default string construction includes the allocator subobject.** In cLoadingInfo's factory, a hand-modelled small-string buffer reproduced every store but lost one object-address calculation. Using the real `std::basic_string` base with the shared `Fun_Runtime::cAllocator` restored that instruction and checked EXACT; keep the library representation rather than adding a temporary to mimic it.
 - **A typed safe-pointer assignment can create a temporary.** The reference `cSafeDeletablePointer<T>` has a
   converting `T *` constructor and copy assignment, with no raw-pointer assignment overload. Thus `pAttacker = 0`
   in `AIDamageCache::Flush` constructs, assigns and destroys a temporary. The real `cLinkedListItem` base puts its
@@ -289,6 +290,11 @@ end, in one line, and is removed when the function matches. History belongs in g
 
 ## Open functions
 One line each: what is ruled out. Remove the line when the function matches.
+- `Billboard::BillboardData::HandleAttributes` (0x829115D0): recovered resource-map lookup and event-string assignments; the standard compile inlines string construction where CD2 calls it, while CD2 inlines GUID-map insertion and stores the GUID where the shared header still calls AddEntityToMap.
+- `Billboard::BillboardData::MakeNew` (0x82911410): check reports EXACT for its body, but the shared GUID-handler vtable at 0x82139BA8 has an unresolved alias for this specialization; left out of the manifest because this pass may not edit `config/symbol_aliases.txt`.
+- `UI::ApplyGamma` (0x82897B38): the recovered `(32 - float(value - 1)) * 2 * 0.03125` formula folds the two multipliers together even under the standard LTCG model; CD2 retains both multiplies and multiple constant bases.
+- `UI::cUIControl::~cUIControl` deleting wrapper (0x82897FF8; 24/32 words): corrected the Load/Save-only secondary interface and inlined the destructor; the save-manager load still follows the vptr stores, unlike CD2. A local manager copy and both singleton/unregister statement orders do not resolve it.
+- `UI::cUIControl::cUIControl` (0x82897EC0): restored options registration and the 3-second autosave display default; the standard compile still saves registers for its scattered float constants and schedules the callback stores differently.
 - `cGameModeArena::GetRandSpawnPointInList<T>` (0x8284EC80, 0x8284ED60; 48/55 words): CD2 tests the size with
   `srawi. r8,r10,2; beq`, then recomputes it for the `Rand` argument. Ruled out: a size local, const-reference or
   64-bit bounds and indices, real `std::vector` indexing, modulo and Rand-local variants.

@@ -22,6 +22,16 @@ inline void *operator new(size_t, void *memory) { return memory; }
 
 namespace PLAYER
 {
+    void cPlayer::ForceCharacterH2HContact()
+    {
+        m_nH2HContactFrame = GMan::cGameManager::ms_nGameTicks;
+    }
+
+    bool cPlayer::HasRecentlyHadH2HContact()
+    {
+        return GMan::cGameManager::ms_nGameTicks < m_nH2HContactFrame + 30;
+    }
+
     // CD2's initializer 0x82FF3C38 calls StaticCreateClass and stores the result in 0x8384A818.
     const Fun_Runtime::cClass *cPlayer::ms_pcPlayerClass = &cPlayer::StaticCreateClass();
 

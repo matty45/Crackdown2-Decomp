@@ -904,6 +904,16 @@
         "address": "0x82FF3C38",
         "size": 40,
         "symbol": "??__E?ms_pcPlayerClass@cPlayer@PLAYER@@"
+      },
+      {
+        "address": "0x82720FC0",
+        "size": 16,
+        "symbol": "?ForceCharacterH2HContact@cPlayer@PLAYER@@"
+      },
+      {
+        "address": "0x82720FD0",
+        "size": 32,
+        "symbol": "?HasRecentlyHadH2HContact@cPlayer@PLAYER@@"
       }
     ],
     "src/CHARACTER/cCharacterVFXProfile.cpp": [
@@ -1207,6 +1217,21 @@
         "address": "0x823E7C08",
         "size": 12,
         "symbol": "?GetPtrAIE_GRENADE_VOCAL@cAiPlayer@AI@@"
+      },
+      {
+        "address": "0x823E7A10",
+        "size": 36,
+        "symbol": "?Slot60@cAiPlayer@AI@@"
+      },
+      {
+        "address": "0x823E8A90",
+        "size": 36,
+        "symbol": "?Slot54@cAiPlayer@AI@@"
+      },
+      {
+        "address": "0x823EB5A8",
+        "size": 44,
+        "symbol": "?Slot20@cAiPlayer@AI@@"
       }
     ],
     "src/AI/cCharacterEntityIF.cpp": [
@@ -2930,6 +2955,26 @@
         "address": "0x829114E8",
         "size": 12,
         "symbol": "?RetClassName@BillboardData@Billboard@@"
+      },
+      {
+        "address": "0x8302BBC0",
+        "size": 76,
+        "symbol": "??__EBillboardDataRegistrar@Billboard@@"
+      },
+      {
+        "address": "0x83045B80",
+        "size": 12,
+        "symbol": "??__FBillboardDataRegistrar@Billboard@@"
+      },
+      {
+        "address": "0x82911580",
+        "size": 80,
+        "symbol": "??_GBillboardData@Billboard@@"
+      },
+      {
+        "address": "0x829114F8",
+        "size": 132,
+        "symbol": "??1BillboardData@Billboard@@"
       }
     ],
     "src/Billboard/BillboardProfile.cpp": [
@@ -3044,6 +3089,11 @@
         "address": "0x8303CE50",
         "size": 12,
         "symbol": "??__FcCwCharacterStateProfileRegistrar@CHARACTER@@"
+      },
+      {
+        "address": "0x825402E8",
+        "size": 12,
+        "symbol": "?RetCharacterStates@cCwCharacterStateProfile@CHARACTER@@"
       }
     ],
     "src/CHARACTER/cCwGoliathCharacterWrapper.cpp": [
@@ -3151,6 +3201,11 @@
         "address": "0x83045BB8",
         "size": 12,
         "symbol": "??__FcDemoSettingsRegistrar@Demo@@YAXXZ"
+      },
+      {
+        "address": "0x82913690",
+        "size": 92,
+        "symbol": "??_GcDemoSettings@Demo@@"
       }
     ],
     "src/Equip/Weapon/cBulletData.cpp": [
@@ -3367,6 +3422,21 @@
         "address": "0x82884680",
         "size": 12,
         "symbol": "?RetClassName@cMiniGameTier@GameManagement@@"
+      },
+      {
+        "address": "0x82884638",
+        "size": 68,
+        "symbol": "?MakeNew@cMiniGameTier@GameManagement@@"
+      },
+      {
+        "address": "0x830206D8",
+        "size": 76,
+        "symbol": "??__EcMiniGameTierRegistrar@GameManagement@@"
+      },
+      {
+        "address": "0x830443D8",
+        "size": 12,
+        "symbol": "??__FcMiniGameTierRegistrar@GameManagement@@"
       }
     ],
     "src/GameManagement/cMultiPlayerTriggerZone.cpp": [
@@ -3762,6 +3832,26 @@
         "address": "0x828B0A48",
         "size": 12,
         "symbol": "?RetClassName@cLoadingInfo@UI@@"
+      },
+      {
+        "address": "0x83024828",
+        "size": 76,
+        "symbol": "??__EcLoadingInfoRegistrar@UI@@"
+      },
+      {
+        "address": "0x83044DB8",
+        "size": 12,
+        "symbol": "??__FcLoadingInfoRegistrar@UI@@"
+      },
+      {
+        "address": "0x828B09A8",
+        "size": 160,
+        "symbol": "?MakeNew@cLoadingInfo@UI@@"
+      },
+      {
+        "address": "0x828B0A58",
+        "size": 80,
+        "symbol": "??_GcLoadingInfo@UI@@"
       }
     ],
     "src/UI/cUIControl.cpp": [
@@ -3789,6 +3879,62 @@
         "address": "0x83044A80",
         "size": 12,
         "symbol": "??__FcUIControlRegistrar@UI@@"
+      },
+      {
+        "address": "0x82897DC0",
+        "size": 20,
+        "symbol": "?ApplyDynamicSetting@UI@@"
+      },
+      {
+        "address": "0x82897DD8",
+        "size": 52,
+        "symbol": "?ApplyVOSetting@UI@@"
+      },
+      {
+        "address": "0x82897E10",
+        "size": 12,
+        "symbol": "?ApplySubtitles@UI@@"
+      },
+      {
+        "address": "0x82897E20",
+        "size": 24,
+        "symbol": "?ApplyDynamicRange@UI@@"
+      },
+      {
+        "address": "0x82897E38",
+        "size": 12,
+        "symbol": "?ApplyInvertAxis@UI@@"
+      },
+      {
+        "address": "0x82897B98",
+        "size": 148,
+        "symbol": "?ApplyMusicVolume@UI@@"
+      },
+      {
+        "address": "0x82897C30",
+        "size": 84,
+        "symbol": "?ApplySFXVolume@UI@@"
+      },
+      {
+        "address": "0x82897C88",
+        "size": 128,
+        "symbol": "?ApplyVoiceVolume@UI@@"
+      },
+      {
+        "address": "0x82897D08",
+        "size": 84,
+        "symbol": "?ApplyNPCVoiceVolume@UI@@"
+      },
+      {
+        "address": "0x82897D60",
+        "size": 96,
+        "symbol": "?ApplyHUDOpacity@UI@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82897E48",
+        "size": 116,
+        "symbol": "?ApplyLeftHanded@UI@@"
       }
     ],
     "src/Vehicle/cCarDamageProfile.cpp": [

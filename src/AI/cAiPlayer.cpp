@@ -235,6 +235,23 @@ namespace AI
         return m_pAIEntity->m_name;
     }
 
+    void cAiPlayer::Slot20()
+    {
+        CHARACTER::cCharacter *character = RetCharacter();
+        if (character)
+            character->Slot20();
+    }
+
+    void cAiPlayer::Slot54()
+    {
+        RetCharacter()->Slot54();
+    }
+
+    void cAiPlayer::Slot60()
+    {
+        RetCharacter()->Slot60();
+    }
+
     bool cAiPlayer::ShouldTriggerFootStepEvent()
     {
         if (RetLODLevel() <= 1)

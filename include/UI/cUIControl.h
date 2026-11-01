@@ -10,7 +10,7 @@ namespace SaveGame
     class cLoadSaveObject
     {
     public:
-        virtual ~cLoadSaveObject() {}
+        // RuffKing's interface vtable contains Load and Save only; no virtual destructor.
         virtual void Load(cLoadStream *pStream) {}
         virtual void Save(cSaveStream *pStream) {}
     };

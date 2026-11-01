@@ -1,23 +1,52 @@
 #include "UI/cUIControl.h"
+#include "UI/UI.h"
 
 #include "rws/classfactory.h"
+#include "Audio/GameAudio.h"
+#include "Session/GameSession.h"
+#include "XLip/XLipManager.h"
+#include "GameRenderer/GammaRamp.h"
+#include "Input/cGameControlManager.h"
+#include "SaveGame/cSaveGameManager.h"
+#include "cd2/memory.h"
 
 namespace UI
 {
     static const char *const pcUIControlClassID = "cUIControl";
 
-    static void ApplyGamma(int) {}
-    static void ApplyMusicVolume(int) {}
-    static void ApplySFXVolume(int) {}
-    static void ApplyVoiceVolume(int) {}
-    static void ApplyNPCVoiceVolume(int) {}
-    static void ApplyHUDOpacity(int) {}
-    static void ApplyDynamicSetting(char) {}
-    static void ApplyVOSetting(bool) {}
-    static void ApplySubtitles(bool) {}
-    static void ApplyDynamicRange(bool) {}
-    static void ApplyInvertAxis(bool) {}
-    static void ApplyLeftHanded(bool) {}
+    static void ApplyGamma(int value)
+    {
+        GameRenderer::SetGammaRamp((32.0f - static_cast<float>(value - 1)) * 2.0f * 0.03125f);
+    }
+    static void ApplyMusicVolume(int value) { Audio::SetMusicVolume(static_cast<float>(value)); }
+    static void ApplySFXVolume(int value) { Audio::SetSFXVolume(static_cast<float>(value)); }
+    static void ApplyVoiceVolume(int value) { Audio::SetVoiceVolume(static_cast<float>(value)); }
+    static void ApplyNPCVoiceVolume(int value) { Audio::SetNPCVoiceVolume(static_cast<float>(value)); }
+    static void ApplyHUDOpacity(int value)
+    {
+        SetHUDOpacity(static_cast<int>(static_cast<float>(value) * 3.125f));
+    }
+    static void ApplyDynamicSetting(char value)
+    {
+        Audio::SetDynamicRange(value, cUIControl::m_pInstance->mDynamicRange.mCurrent);
+    }
+    static void ApplyVOSetting(bool value)
+    {
+        XLip::XLipManager::GetInstance()->SetUseOriginalAudio(value);
+    }
+    static void ApplySubtitles(bool value) { Session::SetUsingSubtitles(value); }
+    static void ApplyDynamicRange(bool value)
+    {
+        Audio::SetDynamicRange(cUIControl::m_pInstance->mDynamicSetting.mCurrent, value);
+    }
+    static void ApplyInvertAxis(bool value) { Session::SetControllerInvert(value); }
+    static void ApplyLeftHanded(bool value)
+    {
+        Input::cGameControlManager *manager = Input::cGameControlManager::RetInstancePtr();
+        Input::cGameController *controller = manager->RetPrimaryController();
+        if (controller)
+            controller->SetActionMap(manager->RetSPActionMap(value ? 1 : 0), 0);
+    }
 
     const char *cUIControl::RetClassName() const
     {
@@ -48,13 +77,18 @@ namespace UI
         mNameHeightAboveHead = 16.0f;
         m_DigiPrinterSpeed = 60.0f;
         m_DigiPrinterTipDelay = 0.2f;
-        m_AutoSaveMinDisplayTime = 0.9f;
+        m_AutoSaveMinDisplayTime = 3.0f;
         m_GammaLogoAlpha = 50;
+        SaveGame::Register(SaveGame::eSaveType_Options, SaveGame::eSaveChunk_Options, this);
     }
 
-    cUIControl::~cUIControl()
+    // CD2 inlines this body into the scalar deleting destructor.
+    inline cUIControl::~cUIControl()
     {
+        // CD2 retains the save manager before clearing the UI singleton.
+        SaveGame::cSaveGameManager *manager = g_pSaveGameManager;
         m_pInstance = 0;
+        manager->Unregister(SaveGame::eSaveType_Options, SaveGame::eSaveChunk_Options, this);
     }
 
     RWS::CAttributeHandler *cUIControl::MakeNew(const RWS::CAttributePacket &packet, bool bGlobal)

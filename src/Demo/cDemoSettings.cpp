@@ -1,5 +1,6 @@
 #include "Demo/cDemoSettings.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
 
 namespace Demo
 {

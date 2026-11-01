@@ -7,6 +7,11 @@ namespace CHARACTER
     {
         return "cCwCharacterStateProfile";
     }
+
+    const char *cCwCharacterStateProfile::RetCharacterStates() const
+    {
+        return "eCharacterStates";
+    }
 }
 
 namespace CHARACTER

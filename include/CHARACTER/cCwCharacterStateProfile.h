@@ -10,6 +10,7 @@ namespace CHARACTER
     public:
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
+        virtual const char *RetCharacterStates() const;
     };
 }
 

@@ -127,6 +127,11 @@ namespace AI
         virtual const char *RetClassName() const;
     public:
         virtual const char *RetName() const;
+        // CD2 forwards these primary slots to the attached character; names remain unknown.
+        // Keep the shared base's provisional identifiers: Slot54/Slot60 compile to physical slots 53/59.
+        virtual void Slot20(); // 0x823EB5A8, guarded forwarding
+        virtual void Slot54(); // 0x823E8A90
+        virtual void Slot60(); // 0x823E7A10
         virtual bool ShouldTriggerFootStepEvent();
         virtual bool ShouldTriggerBulletSoundEvent();
         virtual void SetFields4F8(int v, int w);
