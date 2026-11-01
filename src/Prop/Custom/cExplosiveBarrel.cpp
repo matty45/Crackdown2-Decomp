@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/Prop/Custom/cExplosiveBarrel.cpp
 //
 // Class: cExplosiveBarrel (namespace: Prop). Set up automatically: no function is matched yet. The address range and
@@ -19,4 +20,10 @@ namespace Prop
     {
         return "cExplosiveBarrel";
     }
+}
+
+namespace Prop
+{
+    static RWS::CClassFactory::CRegistrar cExplosiveBarrelRegistrar(
+        "cExplosiveBarrel", cExplosiveBarrel::MakeNew, 0xe40, false);
 }

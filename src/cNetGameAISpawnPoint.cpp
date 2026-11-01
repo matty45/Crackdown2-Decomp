@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/cNetGameAISpawnPoint.cpp
 //
 // Class: cNetGameAISpawnPoint (namespace: unknown). Set up automatically: no function is matched yet. The address range
@@ -21,4 +22,10 @@ namespace unknown
         static Fun_Runtime::cClass *cNetGameAISpawnPointClass = new Fun_Runtime::cClass(0x4884, "cNetGameAISpawnPoint", 0xA0);
         return *cNetGameAISpawnPointClass;
     }
+}
+
+namespace unknown
+{
+    static RWS::CClassFactory::CRegistrar cNetGameAISpawnPointRegistrar(
+        "cNetGameAISpawnPoint", cNetGameAISpawnPoint::MakeNew, 0xA0, false);
 }

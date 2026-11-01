@@ -1,7 +1,7 @@
 #include "AI/Pedestrian.h"
 #include "rws/classfactory.h"
 
-inline void *operator new(size_t, void *memory) { return memory; }
+#include <new>
 
 namespace AI
 {

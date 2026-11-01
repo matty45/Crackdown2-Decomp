@@ -1,3 +1,4 @@
+#include "rws/attributes.h"
 // unknown::cLift (Crackdown 2): STAND-IN with only its runtime class descriptor; its bases are not modelled yet.
 // StaticCreateClass (0x82738F88) builds cClass(0x102B, "cLift", 0xF30); 0xF30 is the size its registrar gives.
 #ifndef UNKNOWN_CLIFT_H
@@ -10,6 +11,7 @@ namespace unknown
     class cLift
     {
     public:
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcLiftClass;
         static Fun_Runtime::cClass &StaticCreateClass();
     };

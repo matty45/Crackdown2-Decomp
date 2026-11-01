@@ -1,3 +1,4 @@
+#include "rws/attributes.h"
 // VFX::cParticleEffectManager (Crackdown 2): STAND-IN for the class name only. Base cNonGameBase, as in RuffKing's
 // header; RetClassName (0x827DEDF8) is slot 11 of the vtable at 0x820098B8, as cNonGameBase's RetClassName.
 #ifndef VFX_CPARTICLEEFFECTMANAGER_H
@@ -10,6 +11,7 @@ namespace VFX
     class cParticleEffectManager : public cNonGameBase
     {
     public:
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
     };
 }

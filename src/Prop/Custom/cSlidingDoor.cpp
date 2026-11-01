@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/Prop/Custom/cSlidingDoor.cpp
 //
 // Class: cSlidingDoor (namespace: Prop). Set up automatically: no function is matched yet. The address range and the
@@ -19,4 +20,10 @@ namespace Prop
     {
         return "cSlidingDoor";
     }
+}
+
+namespace Prop
+{
+    static RWS::CClassFactory::CRegistrar cSlidingDoorRegistrar(
+        "cSlidingDoor", cSlidingDoor::MakeNew, 0xf00, false);
 }

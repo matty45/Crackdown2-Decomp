@@ -1,14 +1,16 @@
 #ifndef Prop_cPintleFaceplate_H
 #define Prop_cPintleFaceplate_H
 
-#include "rws/attributes.h"
+#include "Prop/cProp.h"
 #include "fun_runtime/class.h"
 
 namespace Prop
 {
-    class cPintleFaceplate : public RWS::CAttributeHandler
+    // STAND-IN: CD2 0x827453D8 invokes cProp's destructor; derived storage is not modelled yet.
+    class cPintleFaceplate : public cProp
     {
     public:
+        virtual ~cPintleFaceplate();
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         static const Fun_Runtime::cClass *ms_pcPintleFaceplateClass;
         virtual const Fun_Runtime::cClass &RetClass() const;

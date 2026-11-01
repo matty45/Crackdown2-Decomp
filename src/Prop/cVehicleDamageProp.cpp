@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/Prop/cVehicleDamageProp.cpp
 //
 // Class: cVehicleDamageProp (namespace: Prop). Set up automatically: no function is matched yet. The address range and
@@ -19,4 +20,10 @@ namespace Prop
     {
         return "cVehicleDamageProp";
     }
+}
+
+namespace Prop
+{
+    static RWS::CClassFactory::CRegistrar cVehicleDamagePropRegistrar(
+        "cVehicleDamageProp", cVehicleDamageProp::MakeNew, 0xed0, false);
 }

@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 #include "GameManagement/cCHordeWave.h"
 
 namespace GameManagement
@@ -6,4 +7,10 @@ namespace GameManagement
     {
         return "cCHordeWave";
     }
+}
+
+namespace GameManagement
+{
+    static RWS::CClassFactory::CRegistrar cCHordeWaveRegistrar(
+        "cCHordeWave", cCHordeWave::MakeNew, 0x238, false);
 }

@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/AI/Behaviour/NPC/Freak/Goliath.cpp
 //
 // Class: Goliath (namespace: AI). Set up automatically: no function is matched yet. The address range and the evidence
@@ -49,4 +50,10 @@ namespace AI
     {
         return ms_pGoliathClass->IsA(c);
     }
+}
+
+namespace AI
+{
+    static RWS::CClassFactory::CRegistrar GoliathRegistrar(
+        "Goliath", Goliath::MakeNew, 0x100, false);
 }

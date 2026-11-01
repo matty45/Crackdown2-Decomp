@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/Equip/Weapon/cUVTurret.cpp
 //
 // Class: cUVTurret (namespace: Equip). Set up automatically: no function is matched yet. The address range and the
@@ -23,4 +24,10 @@ namespace Equip
         static Fun_Runtime::cClass *cUVTurretClass = new Fun_Runtime::cClass(0x1326A, "cUVTurret", 0xAB0);
         return *cUVTurretClass;
     }
+}
+
+namespace Equip
+{
+    static RWS::CClassFactory::CRegistrar cUVTurretRegistrar(
+        "cUVTurret", cUVTurret::MakeNew, 0xAB0, false);
 }

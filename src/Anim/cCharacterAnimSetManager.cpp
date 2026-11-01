@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/Anim/cCharacterAnimSetManager.cpp
 //
 // Class: cCharacterAnimSetManager (namespace: Anim). Set up automatically: no function is matched yet. The address
@@ -19,4 +20,10 @@ namespace Anim
     {
         return "cCharacterAnimSetManager";
     }
+}
+
+namespace Anim
+{
+    static RWS::CClassFactory::CRegistrar cCharacterAnimSetManagerRegistrar(
+        "cCharacterAnimSetManager", cCharacterAnimSetManager::MakeNew, 0x1400, false);
 }

@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 #include "GameManagement/cCampaignGameModePrototype.h"
 
 namespace GameManagement
@@ -6,4 +7,10 @@ namespace GameManagement
     {
         return "cCampaignGameModePrototype";
     }
+}
+
+namespace GameManagement
+{
+    static RWS::CClassFactory::CRegistrar cCampaignGameModePrototypeRegistrar(
+        "cCampaignGameModePrototype", cCampaignGameModePrototype::MakeNew, 0x120, false);
 }

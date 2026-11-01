@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/AI/Behaviour/NPC/Freak/FreakBase.cpp
 //
 // Class: FreakBase (namespace: AI). Set up automatically: no function is matched yet. The address range and the
@@ -51,7 +52,7 @@ namespace AI
     }
 }
 
-inline void *operator new(size_t, void *memory) { return memory; }
+#include <new>
 
 namespace AI
 {
@@ -61,4 +62,10 @@ namespace AI
             return new (memory) FreakBase;
         return 0;
     }
+}
+
+namespace AI
+{
+    static RWS::CClassFactory::CRegistrar FreakBaseRegistrar(
+        "FreakBase", FreakBase::MakeNew, 0x120, false);
 }

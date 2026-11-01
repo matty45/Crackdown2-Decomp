@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/Prop/Constrained/cHingedProp.cpp
 //
 // Class: cHingedProp (namespace: Prop). Set up automatically: no function is matched yet. The address range and the
@@ -35,4 +36,10 @@ namespace Prop
 namespace Prop
 {
     const Fun_Runtime::cClass *cHingedProp::ms_pcHingedPropClass = &cHingedProp::StaticCreateClass();
+}
+
+namespace Prop
+{
+    static RWS::CClassFactory::CRegistrar cHingedPropRegistrar(
+        "cHingedProp", cHingedProp::MakeNew, 0xEB0, false);
 }

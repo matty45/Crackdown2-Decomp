@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/cTransformingTruck.cpp
 //
 // Class: cTransformingTruck (namespace: unknown). Set up automatically: no function is matched yet. The address range
@@ -21,4 +22,10 @@ namespace unknown
         static Fun_Runtime::cClass *cTransformingTruckClass = new Fun_Runtime::cClass(0x15, "cTransformingTruck", 0x69E0);
         return *cTransformingTruckClass;
     }
+}
+
+namespace unknown
+{
+    static RWS::CClassFactory::CRegistrar cTransformingTruckRegistrar(
+        "cTransformingTruck", cTransformingTruck::MakeNew, 0x69E0, false);
 }

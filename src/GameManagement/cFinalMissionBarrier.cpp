@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 #include "GameManagement/cFinalMissionBarrier.h"
 
 namespace GameManagement
@@ -6,4 +7,10 @@ namespace GameManagement
     {
         return "cFinalMissionBarrier";
     }
+}
+
+namespace GameManagement
+{
+    static RWS::CClassFactory::CRegistrar cFinalMissionBarrierRegistrar(
+        "cFinalMissionBarrier", cFinalMissionBarrier::MakeNew, 0x80, false);
 }

@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 #include "VFX/cDeityRay.h"
 
 namespace VFX
@@ -6,4 +7,10 @@ namespace VFX
     {
         return "cDeityRay";
     }
+}
+
+namespace VFX
+{
+    static RWS::CClassFactory::CRegistrar cDeityRayRegistrar(
+        "cDeityRay", cDeityRay::MakeNew, 0x6b0, false);
 }

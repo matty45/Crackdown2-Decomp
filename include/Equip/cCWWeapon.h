@@ -1,3 +1,4 @@
+#include "rws/attributes.h"
 // Equip::cCWWeapon (Crackdown 2): STAND-IN with only its runtime class descriptor; its bases are not modelled yet.
 // StaticCreateClass (0x82607C30) builds cClass(0x3E82, "cCWWeapon", 0xA10); 0xA10 is the size its registrar gives.
 #ifndef EQUIP_CCWWEAPON_H
@@ -10,6 +11,7 @@ namespace Equip
     class cCWWeapon
     {
     public:
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcCWWeaponClass;
         static Fun_Runtime::cClass &StaticCreateClass();
     };

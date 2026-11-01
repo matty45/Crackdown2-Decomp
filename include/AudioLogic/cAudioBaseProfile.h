@@ -11,6 +11,7 @@ namespace AudioLogic
     class cAudioBaseProfile : public RWS::CAttributeHandler
     {
     public:
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         static const Fun_Runtime::cClass *ms_pcAudioBaseProfileClass;
         virtual const Fun_Runtime::cClass &RetClass() const;

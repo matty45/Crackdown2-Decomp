@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 #include "VFX/cPostProcessControl.h"
 
 namespace VFX
@@ -6,4 +7,10 @@ namespace VFX
     {
         return "cPostProcessControl";
     }
+}
+
+namespace VFX
+{
+    static RWS::CClassFactory::CRegistrar cPostProcessControlRegistrar(
+        "cPostProcessControl", cPostProcessControl::MakeNew, 0x1c, false);
 }

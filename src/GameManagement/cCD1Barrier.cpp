@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 #include "GameManagement/cCD1Barrier.h"
 
 namespace GameManagement
@@ -6,4 +7,10 @@ namespace GameManagement
     {
         return "cCD1Barrier";
     }
+}
+
+namespace GameManagement
+{
+    static RWS::CClassFactory::CRegistrar cCD1BarrierRegistrar(
+        "cCD1Barrier", cCD1Barrier::MakeNew, 0x60, false);
 }

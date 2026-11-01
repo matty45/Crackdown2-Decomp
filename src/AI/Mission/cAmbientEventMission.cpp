@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/AI/Mission/cAmbientEventMission.cpp
 //
 // Class: cAmbientEventMission (namespace: AI). Set up automatically: no function is matched yet. The address range and
@@ -23,4 +24,10 @@ namespace AI
         static Fun_Runtime::cClass *cAmbientEventMissionClass = new Fun_Runtime::cClass(0x9FE8B, "cAmbientEventMission", 0x3B0);
         return *cAmbientEventMissionClass;
     }
+}
+
+namespace AI
+{
+    static RWS::CClassFactory::CRegistrar cAmbientEventMissionRegistrar(
+        "cAmbientEventMission", cAmbientEventMission::MakeNew, 0x3B0, false);
 }

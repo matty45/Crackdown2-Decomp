@@ -1,3 +1,4 @@
+#include "rws/attributes.h"
 // AI::cSupplyValve (Crackdown 2): STAND-IN for the class name only. Base Prop::cSpinningProp, as in RuffKing's header;
 // RetClassName (0x82457C10) is slot 11 of the vtable at 0x82102438, as cNonGameBase's RetClassName.
 #ifndef AI_CSUPPLYVALVE_H
@@ -10,6 +11,7 @@ namespace AI
     class cSupplyValve : public Prop::cSpinningProp
     {
     public:
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcSupplyValveClass;
         static Fun_Runtime::cClass &StaticCreateClass();
         virtual const char *RetClassName() const;

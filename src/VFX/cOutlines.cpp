@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/VFX/cOutlines.cpp
 //
 // Class: cOutlines (namespace: VFX). Set up automatically: no function is matched yet. The address range and the
@@ -35,4 +36,10 @@ namespace VFX
 namespace VFX
 {
     const Fun_Runtime::cClass *cOutlines::ms_pcOutlinesClass = &cOutlines::StaticCreateClass();
+}
+
+namespace VFX
+{
+    static RWS::CClassFactory::CRegistrar cOutlinesRegistrar(
+        "cOutlines", cOutlines::MakeNew, 0x460, false);
 }

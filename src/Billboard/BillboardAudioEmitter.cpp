@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 #include "Billboard/BillboardAudioEmitter.h"
 
 namespace Billboard
@@ -6,4 +7,10 @@ namespace Billboard
     {
         return "BillboardAudioEmitter";
     }
+}
+
+namespace Billboard
+{
+    static RWS::CClassFactory::CRegistrar BillboardAudioEmitterRegistrar(
+        "BillboardAudioEmitter", BillboardAudioEmitter::MakeNew, 0x70, false);
 }

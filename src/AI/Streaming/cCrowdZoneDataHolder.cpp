@@ -4,6 +4,11 @@
 
 namespace AI
 {
+    const Fun_Runtime::cClass &cCrowdZoneDataHolder::RetClass() const
+    {
+        return *ms_pcCrowdZoneDataHolderClass;
+    }
+
     RWS::CAttributeHandler *cCrowdZoneDataHolder::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cCrowdZoneDataHolder;

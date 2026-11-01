@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/cPhantomBody.cpp
 //
 // Class: cPhantomBody (namespace: unknown). Set up automatically: no function is matched yet. The address range and the
@@ -21,4 +22,10 @@ namespace unknown
         static Fun_Runtime::cClass *cPhantomBodyClass = new Fun_Runtime::cClass(0x7, "cPhantomBody", 0x140);
         return *cPhantomBodyClass;
     }
+}
+
+namespace unknown
+{
+    static RWS::CClassFactory::CRegistrar cPhantomBodyRegistrar(
+        "cPhantomBody", cPhantomBody::MakeNew, 0x140, false);
 }

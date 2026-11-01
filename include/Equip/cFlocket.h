@@ -182,6 +182,8 @@ namespace Equip
     class cFlocketPrototype : public cHWProjectilePrototype
     {
     public:
+        // CD2 0x82627090: attribute-handler vtable slot 5, returning Ret_OK.
+        virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
         char m_nLightID;                  // 0x320
         float m_fLightScaleSml;           // 0x324
         float m_fLightScaleLge;           // 0x328

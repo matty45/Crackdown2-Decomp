@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 #include "unknown/cKeysToTheCityGameModePrototype.h"
 
 namespace unknown
@@ -6,4 +7,10 @@ namespace unknown
     {
         return "cKeysToTheCityGameModePrototype";
     }
+}
+
+namespace unknown
+{
+    static RWS::CClassFactory::CRegistrar cKeysToTheCityGameModePrototypeRegistrar(
+        "cKeysToTheCityGameModePrototype", cKeysToTheCityGameModePrototype::MakeNew, 0x120, false);
 }

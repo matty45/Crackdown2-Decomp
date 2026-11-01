@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/cAgencySquadChopper.cpp
 //
 // Class: cAgencySquadChopper (namespace: unknown). Set up automatically: no function is matched yet. The address range
@@ -21,4 +22,10 @@ namespace unknown
         static Fun_Runtime::cClass *cAgencySquadChopperClass = new Fun_Runtime::cClass(0x12066, "cAgencySquadChopper", 0x2360);
         return *cAgencySquadChopperClass;
     }
+}
+
+namespace unknown
+{
+    static RWS::CClassFactory::CRegistrar cAgencySquadChopperRegistrar(
+        "cAgencySquadChopper", cAgencySquadChopper::MakeNew, 0x2360, false);
 }

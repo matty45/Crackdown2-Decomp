@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/WorldManager/cStaticEnvironment.cpp
 //
 // Class: cStaticEnvironment (namespace: WorldManager). Set up automatically: no function is matched yet. The address
@@ -23,4 +24,10 @@ namespace WorldManager
         static Fun_Runtime::cClass *cStaticEnvironmentClass = new Fun_Runtime::cClass(0x3, "cStaticEnvironment", 0x2E0);
         return *cStaticEnvironmentClass;
     }
+}
+
+namespace WorldManager
+{
+    static RWS::CClassFactory::CRegistrar cStaticEnvironmentRegistrar(
+        "cStaticEnvironment", cStaticEnvironment::MakeNew, 0x2E0, false);
 }

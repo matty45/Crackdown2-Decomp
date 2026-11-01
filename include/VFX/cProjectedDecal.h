@@ -1,3 +1,4 @@
+#include "rws/attributes.h"
 // VFX::cProjectedDecal (Crackdown 2): STAND-IN for the class name only. Base cNonGameBase, as in RuffKing's header;
 // RetClassName (0x827A5688) is slot 11 of the vtable at 0x820099E0, as cNonGameBase's RetClassName.
 #ifndef VFX_CPROJECTEDDECAL_H
@@ -10,6 +11,7 @@ namespace VFX
     class cProjectedDecal : public cNonGameBase
     {
     public:
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcProjectedDecalClass;
         static Fun_Runtime::cClass &StaticCreateClass();
         virtual const char *RetClassName() const;

@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/Vehicle/Agency/cAgencyTank.cpp
 //
 // Class: cAgencyTank (namespace: Vehicle). Set up automatically: no function is matched yet. The address range and the
@@ -23,4 +24,10 @@ namespace Vehicle
         static Fun_Runtime::cClass *cAgencyTankClass = new Fun_Runtime::cClass(0x120AB, "cAgencyTank", 0x3150);
         return *cAgencyTankClass;
     }
+}
+
+namespace Vehicle
+{
+    static RWS::CClassFactory::CRegistrar cAgencyTankRegistrar(
+        "cAgencyTank", cAgencyTank::MakeNew, 0x3150, false);
 }

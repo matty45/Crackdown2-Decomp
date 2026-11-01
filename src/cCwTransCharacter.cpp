@@ -14,7 +14,7 @@
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
 
-inline void *operator new(size_t, void *memory) { return memory; }
+#include <new>
 
 namespace CHARACTER
 {

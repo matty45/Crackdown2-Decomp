@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/CHARACTER/cCwCharacterWrapper.cpp
 //
 // Class: cCwCharacterWrapper (namespace: CHARACTER). Set up automatically: no function is matched yet. The address
@@ -35,4 +36,10 @@ namespace CHARACTER
 namespace CHARACTER
 {
     const Fun_Runtime::cClass *cCwCharacterWrapper::ms_pcCwCharacterWrapperClass = &cCwCharacterWrapper::StaticCreateClass();
+}
+
+namespace CHARACTER
+{
+    static RWS::CClassFactory::CRegistrar cCwCharacterWrapperRegistrar(
+        "cCwCharacterWrapper", cCwCharacterWrapper::MakeNew, 0x41C0, false);
 }

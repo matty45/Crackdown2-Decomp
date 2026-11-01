@@ -10,6 +10,7 @@ namespace Prop
     class cPivotBasedProp : public Prop::cProp
     {
     public:
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcPivotBasedPropClass;
         static Fun_Runtime::cClass &StaticCreateClass();
         virtual const char *RetClassName() const;

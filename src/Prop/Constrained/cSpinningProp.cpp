@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/Prop/Constrained/cSpinningProp.cpp
 //
 // Class: cSpinningProp (namespace: Prop). Set up automatically: no function is matched yet. The address range and the
@@ -35,4 +36,10 @@ namespace Prop
 namespace Prop
 {
     const Fun_Runtime::cClass *cSpinningProp::ms_pcSpinningPropClass = &cSpinningProp::StaticCreateClass();
+}
+
+namespace Prop
+{
+    static RWS::CClassFactory::CRegistrar cSpinningPropRegistrar(
+        "cSpinningProp", cSpinningProp::MakeNew, 0xE50, false);
 }

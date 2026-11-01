@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/PHYSICS/cWaterZone.cpp
 //
 // Class: cWaterZone (namespace: PHYSICS). Set up automatically: no function is matched yet. The address range and the
@@ -23,4 +24,10 @@ namespace PHYSICS
         static Fun_Runtime::cClass *cWaterZoneClass = new Fun_Runtime::cClass(0x10F, "cWaterZone", 0x120);
         return *cWaterZoneClass;
     }
+}
+
+namespace PHYSICS
+{
+    static RWS::CClassFactory::CRegistrar cWaterZoneRegistrar(
+        "cWaterZone", cWaterZone::MakeNew, 0x120, false);
 }

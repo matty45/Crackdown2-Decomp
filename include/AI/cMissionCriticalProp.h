@@ -1,3 +1,4 @@
+#include "rws/attributes.h"
 // AI::cMissionCriticalProp (Crackdown 2): STAND-IN for the class name only. Base Prop::cProp, as in RuffKing's header;
 // RetClassName (0x8245AF38) is slot 11 of the vtable at 0x82102F88, as cNonGameBase's RetClassName.
 #ifndef AI_CMISSIONCRITICALPROP_H
@@ -10,6 +11,7 @@ namespace AI
     class cMissionCriticalProp : public Prop::cProp
     {
     public:
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcMissionCriticalPropClass;
         static Fun_Runtime::cClass &StaticCreateClass();
         virtual const char *RetClassName() const;

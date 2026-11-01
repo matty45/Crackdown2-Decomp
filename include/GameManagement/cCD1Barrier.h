@@ -8,6 +8,7 @@ namespace GameManagement
     class cCD1Barrier : public RWS::CAttributeHandler
     {
     public:
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
     };
 }

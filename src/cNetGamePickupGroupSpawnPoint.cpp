@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 #include "unknown/cNetGamePickupGroupSpawnPoint.h"
 
 namespace unknown
@@ -6,4 +7,10 @@ namespace unknown
     {
         return "cNetGamePickupGroupSpawnPoint";
     }
+}
+
+namespace unknown
+{
+    static RWS::CClassFactory::CRegistrar cNetGamePickupGroupSpawnPointRegistrar(
+        "cNetGamePickupGroupSpawnPoint", cNetGamePickupGroupSpawnPoint::MakeNew, 0x120, false);
 }

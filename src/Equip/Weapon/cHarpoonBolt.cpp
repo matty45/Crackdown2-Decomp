@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/Equip/Weapon/cHarpoonBolt.cpp
 //
 // Class: cHarpoonBolt (namespace: Equip). Set up automatically: no function is matched yet. The address range and the
@@ -37,7 +38,7 @@ namespace Equip
     const Fun_Runtime::cClass *cHarpoonBolt::ms_pcHarpoonBoltClass = &cHarpoonBolt::StaticCreateClass();
 }
 
-inline void *operator new(size_t, void *memory) { return memory; }
+#include <new>
 
 namespace Equip
 {
@@ -47,4 +48,10 @@ namespace Equip
             return new (memory) cHarpoonBolt;
         return 0;
     }
+}
+
+namespace Equip
+{
+    static RWS::CClassFactory::CRegistrar cHarpoonBoltRegistrar(
+        "cHarpoonBolt", cHarpoonBolt::MakeNew, 0x910, false);
 }

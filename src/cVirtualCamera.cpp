@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/cVirtualCamera.cpp
 //
 // Class: cVirtualCamera (namespace: unknown). Set up automatically: no function is matched yet. The address range and
@@ -21,4 +22,10 @@ namespace unknown
         static Fun_Runtime::cClass *cVirtualCameraClass = new Fun_Runtime::cClass(0x637, "cVirtualCamera", 0xF10);
         return *cVirtualCameraClass;
     }
+}
+
+namespace unknown
+{
+    static RWS::CClassFactory::CRegistrar cVirtualCameraRegistrar(
+        "cVirtualCamera", cVirtualCamera::MakeNew, 0xF10, false);
 }

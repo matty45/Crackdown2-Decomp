@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/Prop/Constrained/cPrismaticProp.cpp
 //
 // Class: cPrismaticProp (namespace: Prop). Set up automatically: no function is matched yet. The address range and the
@@ -35,4 +36,10 @@ namespace Prop
 namespace Prop
 {
     const Fun_Runtime::cClass *cPrismaticProp::ms_pcPrismaticPropClass = &cPrismaticProp::StaticCreateClass();
+}
+
+namespace Prop
+{
+    static RWS::CClassFactory::CRegistrar cPrismaticPropRegistrar(
+        "cPrismaticProp", cPrismaticProp::MakeNew, 0xED0, false);
 }

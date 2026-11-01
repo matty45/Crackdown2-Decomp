@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 #include "unknown/cRenegadesGameModePrototype.h"
 
 namespace unknown
@@ -6,4 +7,10 @@ namespace unknown
     {
         return "cRenegadesGameModePrototype";
     }
+}
+
+namespace unknown
+{
+    static RWS::CClassFactory::CRegistrar cRenegadesGameModePrototypeRegistrar(
+        "cRenegadesGameModePrototype", cRenegadesGameModePrototype::MakeNew, 0x1e8, false);
 }

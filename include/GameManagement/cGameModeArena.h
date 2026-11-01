@@ -13,6 +13,8 @@
 
 #include <string.h>
 #include "rws/attributes.h"
+#include "rws/eventid.h"
+#include "rws/eventhandler.h"
 #include "cd2/layout.h"
 #include "cd2/memory.h"
 #include "fun_runtime/randgen.h"
@@ -144,12 +146,10 @@ namespace GameManagement
     cEntityManager *RetEntityManager(int);
 
 
-    // Message system stand-ins (names ours; real ones are RWS::CEventId / CMsg / CEventHandler).
-    struct cEventId { unsigned char m_abData[16]; cEventId(); ~cEventId(); };
-    struct cMsg { void **m_ppTarget; void *m_pData; unsigned char m_abPad[0x10]; cMsg(const cEventId &, int); };
+    // Message stand-ins (names ours; the real one is RWS::CMsg). Event IDs are RWS::CEventId, registered through
+    // RWS::CEventHandler.
+    struct cMsg { void **m_ppTarget; void *m_pData; unsigned char m_abPad[0x10]; cMsg(const RWS::CEventId &, int); };
     extern void **g_ppMsgNull;
-    void RegisterMsg(cEventId &, const char *, const char *);
-    void UnRegisterMsg(cEventId &);
     void DispatchMsg(cMsg &);
     inline void SendMsg(cMsg &m) { if (m.m_ppTarget != g_ppMsgNull && *m.m_ppTarget != 0) DispatchMsg(m); }
 

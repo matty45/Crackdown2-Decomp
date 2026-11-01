@@ -3,6 +3,11 @@
 
 namespace Prop
 {
+    // CD2 0x827453D8 has no derived cleanup beyond vtable restoration.
+    cPintleFaceplate::~cPintleFaceplate()
+    {
+    }
+
     const char *cPintleFaceplate::RetClassName() const
     {
         return "cPintleFaceplate";

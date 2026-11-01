@@ -146,12 +146,12 @@ namespace GameManagement
 
     cGameModeArena *cArenaLinker::GetArena(const cString &name)
     {
-        cEventId id;
-        RegisterMsg(id, c_strc(name).c_str(), "cGameModeArena*");
+        RWS::CEventId id;
+        RWS::CEventHandler::RegisterMsg(id, c_strc(name).c_str(), "cGameModeArena*");
         cMsg msg(id, 0);
         SendMsg(msg);
         void *pData = msg.m_pData;
-        UnRegisterMsg(id);
+        RWS::CEventHandler::UnRegisterMsg(id);
         return (cGameModeArena *)pData;
     }
 

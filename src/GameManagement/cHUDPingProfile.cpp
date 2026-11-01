@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 #include "GameManagement/cHUDPingProfile.h"
 
 namespace GameManagement
@@ -6,4 +7,10 @@ namespace GameManagement
     {
         return "cHUDPingProfile";
     }
+}
+
+namespace GameManagement
+{
+    static RWS::CClassFactory::CRegistrar cHUDPingProfileRegistrar(
+        "cHUDPingProfile", cHUDPingProfile::MakeNew, 0x18, false);
 }

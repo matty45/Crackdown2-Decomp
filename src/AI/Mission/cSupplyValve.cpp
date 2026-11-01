@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/AI/Mission/cSupplyValve.cpp
 //
 // Class: cSupplyValve (namespace: AI). Set up automatically: no function is matched yet. The address range and the
@@ -35,4 +36,10 @@ namespace AI
 namespace AI
 {
     const Fun_Runtime::cClass *cSupplyValve::ms_pcSupplyValveClass = &cSupplyValve::StaticCreateClass();
+}
+
+namespace AI
+{
+    static RWS::CClassFactory::CRegistrar cSupplyValveRegistrar(
+        "cSupplyValve", cSupplyValve::MakeNew, 0xE50, false);
 }

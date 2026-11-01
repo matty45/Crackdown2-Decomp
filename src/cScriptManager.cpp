@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/cScriptManager.cpp
 //
 // Class: cScriptManager (namespace: unknown). Set up automatically: no function is matched yet. The address range and
@@ -21,4 +22,10 @@ namespace unknown
         static Fun_Runtime::cClass *cScriptManagerClass = new Fun_Runtime::cClass(0x60B, "cScriptManager", 0x430);
         return *cScriptManagerClass;
     }
+}
+
+namespace unknown
+{
+    static RWS::CClassFactory::CRegistrar cScriptManagerRegistrar(
+        "cScriptManager", cScriptManager::MakeNew, 0x430, false);
 }

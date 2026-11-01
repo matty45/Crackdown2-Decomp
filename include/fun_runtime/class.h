@@ -6,6 +6,7 @@
 #define FUN_RUNTIME_CLASS_H
 
 #include "cd2/layout.h"
+#include "fun_runtime/vector.h"
 
 namespace Fun_Runtime
 {
@@ -42,11 +43,13 @@ namespace Fun_Runtime
         unsigned int m_nID;
         const char *m_sName;
         unsigned int m_nSize;
-        unsigned char m_lParents[0x10];  // cVector<cClass *, cAllocator<...>> in RuffKing; opaque here
-        unsigned char m_lChildren[0x10];
+        cVector<cClass *> m_lParents;
+        cVector<cClass *> m_lChildren;
         bool m_bBitParentsCalced;
         unsigned char m_bitIDsForParents[40];
         int m_nBitID;
+        void RecursivelyAddParent(const cClass &);
+        friend class cInheritanceRegistrar;
 
     public:
         cClass(unsigned int, const char *, unsigned int);
@@ -62,6 +65,8 @@ namespace Fun_Runtime
 
         CD2_LAYOUT_CHECKS(cClass,
             CD2_SIZE(cClass, 0x5C)
+            CD2_OFFSET(cClass, m_lParents, 0xC)
+            CD2_OFFSET(cClass, m_lChildren, 0x1C)
             CD2_OFFSET(cClass, m_bitIDsForParents, 0x2D)
             CD2_OFFSET(cClass, m_nBitID, 0x58))
     };

@@ -1,3 +1,5 @@
+#include "rws/classfactory.h"
+#include "fun_runtime/retval.h"
 // src/AI/Animation/cAIAnimEventProfile.cpp
 //
 // Class: cAIAnimEventProfile (namespace: AI). Set up automatically: no function is matched yet. The address range and
@@ -12,9 +14,48 @@
 //     py -I tools/cd2.py tasks src/AI/Animation/cAIAnimEventProfile.cpp
 
 #include "AI/cAIAnimEventProfile.h"
+#include "rw/rwmem.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/non_game_base.h"
 
 namespace AI
 {
+    static Fun_Runtime::cInheritanceRegistrar cAIAnimEventProfilecNonGameBaseInheritRegistrar(
+        cAIAnimEventProfile::StaticCreateClass(), cNonGameBase::StaticCreateClass());
+
+    void cAIAnimEventProfile::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        RWS::CAttributeHandler::HandleAttributes(packet);
+        for (RWS::CAttributeCommandIterator it(packet, "cAIAnimEventProfile"); !it.IsFinished(); ++it)
+        {
+            switch (it->GetCommandId())
+            {
+            case 0:
+                {
+                    float radius = it->GetAs_float();
+                    RwMemNative32(&radius, sizeof(radius));
+                    m_fRadius = radius;
+                }
+                break;
+            case 1:
+                m_nAIAnimEventType = (etAIAnimEventType)rwSwap32(it->GetAs_UInt32());
+                break;
+            case 2:
+                {
+                    Fun_Runtime::cString profileName(it->GetAs_char_ptr());
+                    m_sProfileName = profileName;
+                }
+                ReplaceLinkedMsg(m_Msg_Return_Self, it->GetAs_char_ptr(), "return cAIAnimEventProfile*");
+                break;
+            }
+        }
+    }
+
+    RWS::CAttributeHandler *cAIAnimEventProfile::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cAIAnimEventProfile;
+    }
+
     const char *cAIAnimEventProfile::RetClassName() const
     {
         return "cAIAnimEventProfile";
@@ -48,4 +89,23 @@ namespace AI
     {
         return ms_pcAIAnimEventProfileClass->IsA(c);
     }
+}
+
+namespace AI
+{
+    Fun_Runtime::RetVal cAIAnimEventProfile::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
+
+    Fun_Runtime::RetVal cAIAnimEventProfile::Term()
+    {
+        return Ret_OK;
+    }
+}
+
+namespace AI
+{
+    static RWS::CClassFactory::CRegistrar cAIAnimEventProfileRegistrar(
+        "cAIAnimEventProfile", cAIAnimEventProfile::MakeNew, 0x4C, false);
 }

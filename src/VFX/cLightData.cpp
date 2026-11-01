@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 #include "VFX/cLightData.h"
 
 namespace VFX
@@ -6,4 +7,10 @@ namespace VFX
     {
         return "cLightData";
     }
+}
+
+namespace VFX
+{
+    static RWS::CClassFactory::CRegistrar cLightDataRegistrar(
+        "cLightData", cLightData::MakeNew, 0x1a0, false);
 }

@@ -51,6 +51,7 @@ private:
     unsigned char m_pad68[0x7C - 0x68];
 
 public:
+    static Fun_Runtime::cClass &StaticCreateClass(); // CD2 0x82652FE0
     cNonGameBase();
     virtual ~cNonGameBase();
     virtual const Fun_Runtime::cClass &RetClass() const;

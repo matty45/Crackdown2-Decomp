@@ -1,3 +1,4 @@
+#include "fun_runtime/retval.h"
 #include "PHYSICS/cSurfaceProfile.h"
 #include "rws/classfactory.h"
 
@@ -41,5 +42,13 @@ namespace PHYSICS
     bool cSurfaceProfile::IsA(const Fun_Runtime::cClass &c) const
     {
         return ms_pcSurfaceProfileClass->IsA(c);
+    }
+}
+
+namespace PHYSICS
+{
+    Fun_Runtime::RetVal cSurfaceProfile::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
     }
 }

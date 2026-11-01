@@ -1,3 +1,4 @@
+#include "rws/attributes.h"
 // Vehicle::cAgencyBuggy (Crackdown 2): STAND-IN with only its runtime class descriptor; its bases are not modelled yet.
 // StaticCreateClass (0x826E9EB8) builds cClass(0x12064, "cAgencyBuggy", 0x30C0); 0x30C0 is the size its registrar gives.
 #ifndef VEHICLE_CAGENCYBUGGY_H
@@ -10,6 +11,7 @@ namespace Vehicle
     class cAgencyBuggy
     {
     public:
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcAgencyBuggyClass;
         static Fun_Runtime::cClass &StaticCreateClass();
     };

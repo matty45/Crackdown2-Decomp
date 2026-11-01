@@ -11,6 +11,9 @@ namespace AI
     class cCrowdZoneDataHolder : public cNonGameBase
     {
     public:
+        // CD2 registered-class vtable 0x82100D30 slot 0, descriptor at 0x8381A9C8.
+        static const Fun_Runtime::cClass *ms_pcCrowdZoneDataHolderClass;
+        virtual const Fun_Runtime::cClass &RetClass() const;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
     };

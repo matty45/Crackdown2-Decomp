@@ -1,3 +1,4 @@
+#include "fun_runtime/retval.h"
 #include "CHARACTER/cCwCharacterStateProfile.h"
 #include "rws/classfactory.h"
 
@@ -18,4 +19,12 @@ namespace CHARACTER
 {
     static RWS::CClassFactory::CRegistrar cCwCharacterStateProfileRegistrar(
         "cCwCharacterStateProfile", cCwCharacterStateProfile::MakeNew, 0xCC, false);
+}
+
+namespace CHARACTER
+{
+    Fun_Runtime::RetVal cCwCharacterStateProfile::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
 }

@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/AI/Mission/cMissionCriticalProp.cpp
 //
 // Class: cMissionCriticalProp (namespace: AI). Set up automatically: no function is matched yet. The address range and
@@ -35,4 +36,10 @@ namespace AI
 namespace AI
 {
     const Fun_Runtime::cClass *cMissionCriticalProp::ms_pcMissionCriticalPropClass = &cMissionCriticalProp::StaticCreateClass();
+}
+
+namespace AI
+{
+    static RWS::CClassFactory::CRegistrar cMissionCriticalPropRegistrar(
+        "cMissionCriticalProp", cMissionCriticalProp::MakeNew, 0xE40, false);
 }

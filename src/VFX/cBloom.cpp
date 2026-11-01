@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/VFX/cBloom.cpp
 //
 // Class: cBloom (namespace: VFX). Set up automatically: no function is matched yet. The address range and the evidence
@@ -19,4 +20,10 @@ namespace VFX
     {
         return "cBloom";
     }
+}
+
+namespace VFX
+{
+    static RWS::CClassFactory::CRegistrar cBloomRegistrar(
+        "cBloom", cBloom::MakeNew, 0x80, false);
 }

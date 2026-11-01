@@ -10,6 +10,7 @@
 namespace RWS
 {
     class CMsg;
+    class CEventId;
 
     class CEventHandler
     {
@@ -17,13 +18,18 @@ namespace RWS
         CEventHandler(const CEventHandler &);
 
     public:
-        CEventHandler();
+        // CD2 0x824BFA80 inlines this field-less base construction (vptr store only).
+        CEventHandler() {}
         virtual ~CEventHandler();
         virtual int RetUniqueID();
         virtual bool IsMaster();
         virtual unsigned int RetMasterNetCommID();
         virtual void SendEventToNetComm(CMsg &);
         virtual void HandleEvents(CMsg &) = 0;
+        void UnLinkMsg(CEventId &);
+        static void RegisterMsg(CEventId &, const char *msgName, const char *formatString);
+        static void UnRegisterMsg(CEventId &);
+        void ReplaceLinkedMsg(CEventId &, const char *name, const char *format);
 
         CD2_LAYOUT_CHECKS(CEventHandler,
             CD2_SIZE(CEventHandler, 0x4))

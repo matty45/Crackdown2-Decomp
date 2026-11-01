@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/AI/cBeaconProp.cpp
 //
 // Class: cBeaconProp (namespace: AI). Set up automatically: no function is matched yet. The address range and the
@@ -48,4 +49,10 @@ namespace AI
     {
         return ms_pcBeaconPropClass->IsA(c);
     }
+}
+
+namespace AI
+{
+    static RWS::CClassFactory::CRegistrar cBeaconPropRegistrar(
+        "cBeaconProp", cBeaconProp::MakeNew, 0xE50, false);
 }

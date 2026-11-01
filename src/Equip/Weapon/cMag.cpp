@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/Equip/Weapon/cMag.cpp
 //
 // Class: cMag (namespace: Equip). Set up automatically: no function is matched yet. The address range and the evidence
@@ -23,4 +24,10 @@ namespace Equip
         static Fun_Runtime::cClass *cMagClass = new Fun_Runtime::cClass(0x27411, "cMag", 0xB20);
         return *cMagClass;
     }
+}
+
+namespace Equip
+{
+    static RWS::CClassFactory::CRegistrar cMagRegistrar(
+        "cMag", cMag::MakeNew, 0xB20, false);
 }

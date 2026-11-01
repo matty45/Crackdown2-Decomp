@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/cAgencyATV.cpp
 //
 // Class: cAgencyATV (namespace: unknown). Set up automatically: no function is matched yet. The address range and the
@@ -21,4 +22,10 @@ namespace unknown
         static Fun_Runtime::cClass *cAgencyATVClass = new Fun_Runtime::cClass(0x12065, "cAgencyATV", 0x31F0);
         return *cAgencyATVClass;
     }
+}
+
+namespace unknown
+{
+    static RWS::CClassFactory::CRegistrar cAgencyATVRegistrar(
+        "cAgencyATV", cAgencyATV::MakeNew, 0x31F0, false);
 }

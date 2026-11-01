@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 #include "GameManagement/cCHordeCaptureProfile.h"
 
 namespace GameManagement
@@ -6,4 +7,10 @@ namespace GameManagement
     {
         return "cCHordeCaptureProfile";
     }
+}
+
+namespace GameManagement
+{
+    static RWS::CClassFactory::CRegistrar cCHordeCaptureProfileRegistrar(
+        "cCHordeCaptureProfile", cCHordeCaptureProfile::MakeNew, 0x48, false);
 }

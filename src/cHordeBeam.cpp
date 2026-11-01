@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 #include "unknown/cHordeBeam.h"
 
 namespace unknown
@@ -6,4 +7,10 @@ namespace unknown
     {
         return "cHordeBeam";
     }
+}
+
+namespace unknown
+{
+    static RWS::CClassFactory::CRegistrar cHordeBeamRegistrar(
+        "cHordeBeam", cHordeBeam::MakeNew, 0xa0, false);
 }

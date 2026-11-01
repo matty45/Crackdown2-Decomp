@@ -1,3 +1,4 @@
+#include "rws/attributes.h"
 // PHYSICS::cWaterProfile (Crackdown 2): STAND-IN for the class name only. Base cNonGameBase, as in RuffKing's header;
 // RetClassName (0x82697608) is slot 11 of the vtable at 0x82132DA0, as cNonGameBase's RetClassName.
 #ifndef PHYSICS_CWATERPROFILE_H
@@ -10,6 +11,7 @@ namespace PHYSICS
     class cWaterProfile : public cNonGameBase
     {
     public:
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         static const Fun_Runtime::cClass *ms_pcWaterProfileClass;
         virtual const Fun_Runtime::cClass &RetClass() const;

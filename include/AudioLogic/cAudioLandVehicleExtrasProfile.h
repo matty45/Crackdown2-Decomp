@@ -1,3 +1,4 @@
+#include "rws/attributes.h"
 // AudioLogic::cAudioLandVehicleExtrasProfile (Crackdown 2): STAND-IN for the class name only. Base
 // AudioLogic::cAudioBaseProfile, as in RuffKing's header; RetClassName (0x82527D98) is slot 11 of the vtable at
 // 0x821114C0, as cNonGameBase's RetClassName.
@@ -12,6 +13,7 @@ namespace AudioLogic
     class cAudioLandVehicleExtrasProfile : public AudioLogic::cAudioBaseProfile
     {
     public:
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         static const Fun_Runtime::cClass *ms_pcAudioLandVehicleExtrasProfileClass;
         virtual const Fun_Runtime::cClass &RetClass() const;

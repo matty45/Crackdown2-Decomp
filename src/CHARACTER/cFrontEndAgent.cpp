@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/CHARACTER/cFrontEndAgent.cpp
 //
 // Class: cFrontEndAgent (namespace: CHARACTER). Set up automatically: no function is matched yet. The address range and
@@ -23,4 +24,10 @@ namespace CHARACTER
         static Fun_Runtime::cClass *cFrontEndAgentClass = new Fun_Runtime::cClass(0x67D, "cFrontEndAgent", 0x3EC0);
         return *cFrontEndAgentClass;
     }
+}
+
+namespace CHARACTER
+{
+    static RWS::CClassFactory::CRegistrar cFrontEndAgentRegistrar(
+        "cFrontEndAgent", cFrontEndAgent::MakeNew, 0x3EC0, false);
 }

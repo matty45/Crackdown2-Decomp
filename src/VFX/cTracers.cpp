@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 #include "VFX/cTracers.h"
 
 namespace VFX
@@ -22,4 +23,10 @@ namespace VFX
 namespace VFX
 {
     const Fun_Runtime::cClass *cTracers::ms_pcTracersClass = &cTracers::StaticCreateClass();
+}
+
+namespace VFX
+{
+    static RWS::CClassFactory::CRegistrar cTracersRegistrar(
+        "cTracers", cTracers::MakeNew, 0x138, false);
 }

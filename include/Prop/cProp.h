@@ -26,6 +26,9 @@ namespace Prop
     class cProp : public cNonGameBase
     {
     public:
+        // CD2 0x82729538, called by cTrafficLight's destructor (0x827475C8).
+        virtual ~cProp();
+        virtual const char *RetClassName() const;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         class cPropPrototype : public GOM::cObjectPrototype
         {

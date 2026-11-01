@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 #include "VFX/cScatterMeshResources.h"
 
 namespace VFX
@@ -6,4 +7,10 @@ namespace VFX
     {
         return "cScatterMeshResources";
     }
+}
+
+namespace VFX
+{
+    static RWS::CClassFactory::CRegistrar cScatterMeshResourcesRegistrar(
+        "cScatterMeshResources", cScatterMeshResources::MakeNew, 0x1c, false);
 }

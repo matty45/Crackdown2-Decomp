@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/VFX/ParticleSystem/cParticleEffectManager.cpp
 //
 // Class: cParticleEffectManager (namespace: VFX). Set up automatically: no function is matched yet. The address range
@@ -19,4 +20,10 @@ namespace VFX
     {
         return "cParticleEffectManager";
     }
+}
+
+namespace VFX
+{
+    static RWS::CClassFactory::CRegistrar cParticleEffectManagerRegistrar(
+        "cParticleEffectManager", cParticleEffectManager::MakeNew, 0x370, false);
 }

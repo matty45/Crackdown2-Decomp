@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/cLift.cpp
 //
 // Class: cLift (namespace: unknown). Set up automatically: no function is matched yet. The address range and the
@@ -21,4 +22,10 @@ namespace unknown
         static Fun_Runtime::cClass *cLiftClass = new Fun_Runtime::cClass(0x102B, "cLift", 0xF30);
         return *cLiftClass;
     }
+}
+
+namespace unknown
+{
+    static RWS::CClassFactory::CRegistrar cLiftRegistrar(
+        "cLift", cLift::MakeNew, 0xF30, false);
 }

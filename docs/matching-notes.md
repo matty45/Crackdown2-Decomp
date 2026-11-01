@@ -39,6 +39,7 @@ end, in one line, and is removed when the function matches. History belongs in g
   with internal linkage per file.
 
 ## Codegen idioms
+- **LTCG can remove unused `this` without a live vtable.** cTrafficLight::IsA was plain EXACT but 21/23 under LTCG: its class argument moved from r4 to r3. Reconstructing the actual destructor and its active-list unlinking emitted the class vtable and restored 23/23 EXACT without changing IsA. A descriptor initializer alone did not fix it.
 - **Default string construction includes the allocator subobject.** In cLoadingInfo's factory, a hand-modelled small-string buffer reproduced every store but lost one object-address calculation. Using the real `std::basic_string` base with the shared `Fun_Runtime::cAllocator` restored that instruction and checked EXACT; keep the library representation rather than adding a temporary to mimic it.
 - **A typed safe-pointer assignment can create a temporary.** The reference `cSafeDeletablePointer<T>` has a
   converting `T *` constructor and copy assignment, with no raw-pointer assignment overload. Thus `pAttacker = 0`
@@ -318,3 +319,8 @@ One line each: what is ruled out. Remove the line when the function matches.
   field-less cNonGameBase whose constructor CD2 inlines, then stores the vptrs through r3, the base constructor's
   return value. That is cross-module LTCG inlining (CD2 knows the constructor returns `this`); a plain compile keeps
   `this` in r31 even with `__forceinline`, and the LTCG model does not inline the constructor.
+
+- `AI::cAiPlayer` physical virtual slot 62 (0x823E7A38): two `RetCharacter()` calls around a null guard collapse to one load and 12 instructions instead of CD2's 18; the second safe-pointer conversion needs original helper evidence. Probe reverted.
+- `Prop::cTrafficLight::~cTrafficLight` (0x827475C8): active-list unlinking reconstructed from CD2; the full body still needs cProp's missing secondary base layout. Its deleting wrapper (0x82747578) is independently EXACT in plain and LTCG.
+- `Prop::cSearchLight`, `cPintleFaceplate`, and `cTurretBase` destructor bodies: derived cleanup reconstructed (none for the first two; type-0x19 unregister and two safe pointers for the turret), but cProp's missing secondary bases still prevent full destructor matches. Each deleting wrapper and IsA independently checks EXACT in plain and LTCG.
+- Patrol-event factories (`cFreakExplodeEvent`, `cFreakSniperEvent`, `cReaperJumpEvent`, `cReaperPropAttackEvent`): corrected shared RWS bases and the 0x90-byte layout; still 5 extra instructions because CD2 uses the return of cBasePatrolRouteEvent's constructor directly, while the standard build retains this in r31. The base constructor at 0x824BFA80 is not in a scaffolded split, so it cannot be promoted as a matched LTCG dependency.

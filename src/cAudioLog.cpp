@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/cAudioLog.cpp
 //
 // Class: cAudioLog (namespace: unknown). Set up automatically: no function is matched yet. The address range and the
@@ -21,4 +22,10 @@ namespace unknown
         static Fun_Runtime::cClass *cAudioLogClass = new Fun_Runtime::cClass(0x115, "cAudioLog", 0x1A0);
         return *cAudioLogClass;
     }
+}
+
+namespace unknown
+{
+    static RWS::CClassFactory::CRegistrar cAudioLogRegistrar(
+        "cAudioLog", cAudioLog::MakeNew, 0x1A0, false);
 }

@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/Prop/Custom/cSearchLight.cpp
 //
 // Class: cSearchLight (namespace: Prop). Set up automatically: no function is matched yet. The address range and the
@@ -15,6 +16,11 @@
 
 namespace Prop
 {
+    // CD2 has no derived cleanup here; cProp's secondary bases remain incomplete in the stand-in.
+    cSearchLight::~cSearchLight()
+    {
+    }
+
     const char *cSearchLight::RetClassName() const
     {
         return "cSearchLight";
@@ -48,4 +54,10 @@ namespace Prop
     {
         return ms_pcSearchLightClass->IsA(c);
     }
+}
+
+namespace Prop
+{
+    static RWS::CClassFactory::CRegistrar cSearchLightRegistrar(
+        "cSearchLight", cSearchLight::MakeNew, 0xE70, false);
 }

@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 #include "ZoneManager/cReverbZone.h"
 
 namespace ZoneManager
@@ -6,4 +7,10 @@ namespace ZoneManager
     {
         return "cReverbZone";
     }
+}
+
+namespace ZoneManager
+{
+    static RWS::CClassFactory::CRegistrar cReverbZoneRegistrar(
+        "cReverbZone", cReverbZone::MakeNew, 0x150, false);
 }

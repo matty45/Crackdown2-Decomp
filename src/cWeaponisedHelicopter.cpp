@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/cWeaponisedHelicopter.cpp
 //
 // Class: cWeaponisedHelicopter (namespace: unknown). Set up automatically: no function is matched yet. The address
@@ -21,4 +22,10 @@ namespace unknown
         static Fun_Runtime::cClass *cWeaponisedHelicopterClass = new Fun_Runtime::cClass(0x4C70, "cWeaponisedHelicopter", 0x2DB0);
         return *cWeaponisedHelicopterClass;
     }
+}
+
+namespace unknown
+{
+    static RWS::CClassFactory::CRegistrar cWeaponisedHelicopterRegistrar(
+        "cWeaponisedHelicopter", cWeaponisedHelicopter::MakeNew, 0x2DB0, false);
 }

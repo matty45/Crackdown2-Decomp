@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/Equip/DLCWeapons/cFlocketLauncher.cpp
 //
 // Class: cFlocketLauncher (namespace: Equip). Set up automatically: no function is matched yet. The address range and
@@ -23,4 +24,10 @@ namespace Equip
         static Fun_Runtime::cClass *cFlocketLauncherClass = new Fun_Runtime::cClass(0x605F, "cFlocketLauncher", 0xA30);
         return *cFlocketLauncherClass;
     }
+}
+
+namespace Equip
+{
+    static RWS::CClassFactory::CRegistrar cFlocketLauncherRegistrar(
+        "cFlocketLauncher", cFlocketLauncher::MakeNew, 0xA30, false);
 }

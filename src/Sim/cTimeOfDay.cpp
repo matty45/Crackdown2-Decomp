@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 #include "Sim/cTimeOfDay.h"
 
 unsigned char g_cTimeOfDay;     // global at 0x838518A0
@@ -42,4 +43,10 @@ namespace Sim
 namespace Sim
 {
     const Fun_Runtime::cClass *cTimeOfDay::ms_pcTimeOfDayClass = &cTimeOfDay::StaticCreateClass();
+}
+
+namespace Sim
+{
+    static RWS::CClassFactory::CRegistrar cTimeOfDayRegistrar(
+        "cTimeOfDay", cTimeOfDay::MakeNew, 0x2B0, false);
 }

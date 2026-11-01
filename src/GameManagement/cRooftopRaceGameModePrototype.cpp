@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 #include "GameManagement/cRooftopRaceGameModePrototype.h"
 
 namespace GameManagement
@@ -6,4 +7,10 @@ namespace GameManagement
     {
         return "cRooftopRaceGameModePrototype";
     }
+}
+
+namespace GameManagement
+{
+    static RWS::CClassFactory::CRegistrar cRooftopRaceGameModePrototypeRegistrar(
+        "cRooftopRaceGameModePrototype", cRooftopRaceGameModePrototype::MakeNew, 0x148, false);
 }

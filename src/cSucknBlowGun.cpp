@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/cSucknBlowGun.cpp
 //
 // Class: cSucknBlowGun (namespace: unknown). Set up automatically: no function is matched yet. The address range and
@@ -21,4 +22,10 @@ namespace unknown
         static Fun_Runtime::cClass *cSucknBlowGunClass = new Fun_Runtime::cClass(0x27418, "cSucknBlowGun", 0xDF0);
         return *cSucknBlowGunClass;
     }
+}
+
+namespace unknown
+{
+    static RWS::CClassFactory::CRegistrar cSucknBlowGunRegistrar(
+        "cSucknBlowGun", cSucknBlowGun::MakeNew, 0xDF0, false);
 }

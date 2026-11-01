@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 #include "GameManagement/cGameModeStartZone.h"
 
 namespace GameManagement
@@ -6,4 +7,10 @@ namespace GameManagement
     {
         return "cGameModeStartZone";
     }
+}
+
+namespace GameManagement
+{
+    static RWS::CClassFactory::CRegistrar cGameModeStartZoneRegistrar(
+        "cGameModeStartZone", cGameModeStartZone::MakeNew, 0x3d0, false);
 }

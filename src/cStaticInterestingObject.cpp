@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/cStaticInterestingObject.cpp
 //
 // Class: cStaticInterestingObject (namespace: unknown). Set up automatically: no function is matched yet. The address
@@ -21,4 +22,10 @@ namespace unknown
         static Fun_Runtime::cClass *cStaticInterestingObjectClass = new Fun_Runtime::cClass(0x3EB, "cStaticInterestingObject", 0xC0);
         return *cStaticInterestingObjectClass;
     }
+}
+
+namespace unknown
+{
+    static RWS::CClassFactory::CRegistrar cStaticInterestingObjectRegistrar(
+        "cStaticInterestingObject", cStaticInterestingObject::MakeNew, 0xC0, false);
 }

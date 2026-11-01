@@ -16,6 +16,11 @@
 
 namespace Prop
 {
+    const char *cProp::RetClassName() const
+    {
+        return "cProp";
+    }
+
     // CD2 0x82FF5298 registers the prototype factory 0x82729378 for a 0xE30-byte cProp.
     static RWS::CClassFactory::CRegistrar cPropRegistrar(
         "cProp", cProp::MakeNew, 0xE30, false);

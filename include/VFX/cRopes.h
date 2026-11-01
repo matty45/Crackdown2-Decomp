@@ -18,30 +18,12 @@
 #include "cd2/layout.h"
 #include "cd2/memory.h"
 #include "fun_runtime/allocator.h"
+#include "fun_runtime/vector.h"
 #include "fun_runtime/class.h"
 #include "gom/non_game_base.h"
 
 namespace Fun_Runtime
 {
-    // std::vector wrapper whose push_back is out of line (CD2 calls it rather than inlining std::vector's).
-    template <class T>
-    class cVector : public std::vector<T, cAllocator<T> >
-    {
-    public:
-        void push_back(const T &v);
-        void clear();
-    };
-    template <class T>
-    void cVector<T>::clear()
-    {
-        std::vector<T, cAllocator<T> >::clear();
-    }
-    template <class T>
-    void cVector<T>::push_back(const T &v)
-    {
-        std::vector<T, cAllocator<T> >::push_back(v);
-    }
-
     // Pool with a ring buffer of free slots (vptr, capacity, used, get index, put index, avail array, objects, owner).
     template <class T>
     class cPoolBase

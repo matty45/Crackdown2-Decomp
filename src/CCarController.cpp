@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/CCarController.cpp
 //
 // Class: CCarController (namespace: unknown). Set up automatically: no function is matched yet. The address range and
@@ -21,4 +22,10 @@ namespace unknown
         static Fun_Runtime::cClass *CCarControllerClass = new Fun_Runtime::cClass(0x929, "CCarController", 0xA30);
         return *CCarControllerClass;
     }
+}
+
+namespace unknown
+{
+    static RWS::CClassFactory::CRegistrar CCarControllerRegistrar(
+        "CCarController", CCarController::MakeNew, 0xA30, false);
 }

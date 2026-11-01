@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/WorldManager/cLOD4Environment.cpp
 //
 // Class: cLOD4Environment (namespace: WorldManager). Set up automatically: no function is matched yet. The address
@@ -23,4 +24,10 @@ namespace WorldManager
         static Fun_Runtime::cClass *cLOD4EnvironmentClass = new Fun_Runtime::cClass(0x199E, "cLOD4Environment", 0x2C0);
         return *cLOD4EnvironmentClass;
     }
+}
+
+namespace WorldManager
+{
+    static RWS::CClassFactory::CRegistrar cLOD4EnvironmentRegistrar(
+        "cLOD4Environment", cLOD4Environment::MakeNew, 0x2C0, false);
 }

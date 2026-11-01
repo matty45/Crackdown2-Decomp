@@ -1,11 +1,39 @@
 #include "Prop/cTrafficLight.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
 #include <stddef.h>
 
-inline void *operator new(size_t, void *memory) { return memory; }
+#include <new>
 
 namespace Prop
 {
+    // CD2 0x827475C8 unlinks the light before invoking cProp's destructor.
+    // The inherited secondary bases are still incomplete in cProp's stand-in layout.
+    cTrafficLight::~cTrafficLight()
+    {
+        if (m_pNextActive)
+            m_pNextActive->m_pPrevActive = m_pPrevActive;
+        if (m_pPrevActive)
+            m_pPrevActive->m_pNextActive = m_pNextActive;
+        else if (ms_pFirstActive == this)
+            ms_pFirstActive = m_pNextActive;
+    }
+
+    Fun_Runtime::RetVal cTrafficLight::cTrafficLightPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
+
+    const Fun_Runtime::cClass &cTrafficLight::RetClass() const
+    {
+        return *ms_pcTrafficLightClass;
+    }
+
+    bool cTrafficLight::IsA(const Fun_Runtime::cClass &testClass) const
+    {
+        return ms_pcTrafficLightClass->IsA(testClass);
+    }
+
     RWS::CAttributeHandler *cTrafficLight::SpawnFromPrototype(GOM::cObjectPrototype *prototype, void *memory)
     {
         if (memory)

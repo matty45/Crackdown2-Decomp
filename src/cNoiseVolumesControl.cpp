@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 #include "unknown/cNoiseVolumesControl.h"
 
 namespace unknown
@@ -6,4 +7,10 @@ namespace unknown
     {
         return "cNoiseVolumesControl";
     }
+}
+
+namespace unknown
+{
+    static RWS::CClassFactory::CRegistrar cNoiseVolumesControlRegistrar(
+        "cNoiseVolumesControl", cNoiseVolumesControl::MakeNew, 0x1c, false);
 }

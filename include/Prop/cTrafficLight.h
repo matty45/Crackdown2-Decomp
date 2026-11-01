@@ -6,7 +6,8 @@
 //   (0x82747470) stores a doubleword at 0xE30 (m_iTrafficControlEdgeID), words at 0xE38 and 0xE3C (the colours) and
 //   bytes at 0xE40-0xE42. UpdateRenderMatrix (0x827478F8) compares the two colours as signed words (an enum), tests the
 //   three bytes and copies 0xE3C to 0xE38. The words from 0xE44 are one light per light index (AddLight reads 0xE44 +
-//   index times 4); they and the rest up to 0xE60 are not modelled yet.
+//   index times 4). The constructor and destructor link m_pNextActive/m_pPrevActive at 0xE4C/0xE50;
+//   these are RuffKing's member names, with CD2 offsets.
 // - The prototype's word at 0x4F0 is the number of lights: unsigned (cmplw against the loop index), read through
 //   m_pPrototype (0x44). AddLight picks one of the words at 0x4F4, 0x4F8 and 0x4FC by colour. MakeNew sets byte 0x500
 //   to -1. RuffKing names this byte m_nTrafficLightType; CD2 HandleAttributes (0x82747C80, command 1) fills it
@@ -21,19 +22,28 @@
 #include "Prop/cProp.h"
 #include "AI/cJunctionNodeController.h"
 
+namespace VFX { class cGlobalLight; }
+
 namespace Prop
 {
     class cTrafficLight : public cProp
     {
     public:
+        // RuffKing names; CD2 RetClass/IsA read the descriptor at 0x8384C1BC.
+        static const Fun_Runtime::cClass *ms_pcTrafficLightClass;
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         // RuffKing signature and CD2 placement factory 0x82747450.
         cTrafficLight(GOM::cObjectPrototype *prototype);
+        virtual ~cTrafficLight();
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *prototype, void *memory);
 
         class cTrafficLightPrototype : public cProp::cPropPrototype
         {
         public:
             cTrafficLightPrototype(const RWS::CAttributePacket &packet) : cPropPrototype(packet) {}
+            // CD2 prototype vtable slot 5 (0x82747C70) returns the file's Ret_OK.
+            virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
             unsigned int m_nNumLights;               // 0x4F0
         private:
             unsigned int m_unk4F4[3];
@@ -57,7 +67,11 @@ namespace Prop
         bool m_bFirstRender;                                             // 0xE41
         bool m_bIsBroken;                                                // 0xE42
     private:
-        unsigned char m_padE43[0xE60 - 0xE43];
+        VFX::cGlobalLight *m_paBillboardLight[2];                         // 0xE44
+        cTrafficLight *m_pNextActive;                                   // 0xE4C
+        cTrafficLight *m_pPrevActive;                                   // 0xE50
+        unsigned char m_padE54[0xE60 - 0xE54];
+        static cTrafficLight *ms_pFirstActive;                          // CD2 0x83800FA8
 
     public:
         virtual const char *RetClassName() const;
@@ -76,7 +90,10 @@ namespace Prop
             CD2_OFFSET(cTrafficLight, m_eNewColour, 0xE3C)
             CD2_OFFSET(cTrafficLight, m_bLightActive, 0xE40)
             CD2_OFFSET(cTrafficLight, m_bFirstRender, 0xE41)
-            CD2_OFFSET(cTrafficLight, m_bIsBroken, 0xE42))
+            CD2_OFFSET(cTrafficLight, m_bIsBroken, 0xE42)
+            CD2_OFFSET(cTrafficLight, m_paBillboardLight, 0xE44)
+            CD2_OFFSET(cTrafficLight, m_pNextActive, 0xE4C)
+            CD2_OFFSET(cTrafficLight, m_pPrevActive, 0xE50))
     };
 }
 

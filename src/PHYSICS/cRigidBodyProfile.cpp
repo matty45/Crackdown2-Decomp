@@ -1,3 +1,4 @@
+#include "fun_runtime/retval.h"
 #include "PHYSICS/cRigidBodyProfile.h"
 #include "rws/classfactory.h"
 
@@ -13,4 +14,12 @@ namespace PHYSICS
 {
     static RWS::CClassFactory::CRegistrar cRigidBodyProfileRegistrar(
         "cRigidBodyProfile", cRigidBodyProfile::MakeNew, 0x300, false);
+}
+
+namespace PHYSICS
+{
+    Fun_Runtime::RetVal cRigidBodyProfile::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
 }

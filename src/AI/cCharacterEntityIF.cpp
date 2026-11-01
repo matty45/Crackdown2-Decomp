@@ -16,7 +16,7 @@
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
 
-inline void *operator new(size_t, void *memory) { return memory; }
+#include <new>
 
 unsigned char g_cCharacterEntityIF;     // global at 0x838035CC
 unsigned char g_AIE_OBJECT_APPROACHING;     // global at 0x8381764C

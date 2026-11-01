@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/Equip/Weapon/cCWFirearm.cpp
 //
 // Class: cCWFirearm (namespace: Equip). Set up automatically: no function is matched yet. The address range and the
@@ -23,4 +24,10 @@ namespace Equip
         static Fun_Runtime::cClass *cCWFirearmClass = new Fun_Runtime::cClass(0x3E81, "cCWFirearm", 0xAB0);
         return *cCWFirearmClass;
     }
+}
+
+namespace Equip
+{
+    static RWS::CClassFactory::CRegistrar cCWFirearmRegistrar(
+        "cCWFirearm", cCWFirearm::MakeNew, 0xAB0, false);
 }

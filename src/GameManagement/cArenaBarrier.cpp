@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 #include "GameManagement/cArenaBarrier.h"
 
 namespace GameManagement
@@ -6,4 +7,10 @@ namespace GameManagement
     {
         return "cArenaBarrier";
     }
+}
+
+namespace GameManagement
+{
+    static RWS::CClassFactory::CRegistrar cArenaBarrierRegistrar(
+        "cArenaBarrier", cArenaBarrier::MakeNew, 0x20, false);
 }

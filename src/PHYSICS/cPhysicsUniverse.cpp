@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/PHYSICS/cPhysicsUniverse.cpp
 //
 // Class: cPhysicsUniverse (namespace: PHYSICS). Set up automatically: no function is matched yet. The address range and
@@ -48,4 +49,10 @@ namespace PHYSICS
     {
         return ms_pcPhysicsUniverseClass->IsA(c);
     }
+}
+
+namespace PHYSICS
+{
+    static RWS::CClassFactory::CRegistrar cPhysicsUniverseRegistrar(
+        "cPhysicsUniverse", cPhysicsUniverse::MakeNew, 0x80, false);
 }

@@ -1,3 +1,4 @@
+#include "rws/attributes.h"
 // Cam::cCameraManager (Crackdown 2): STAND-IN with only its runtime class descriptor; its bases are not modelled yet.
 // StaticCreateClass (0x8252C070) builds cClass(0x622, "cCameraManager", 0x170); 0x170 is the size its registrar gives.
 #ifndef CAM_CCAMERAMANAGER_H
@@ -10,6 +11,7 @@ namespace Cam
     class cCameraManager
     {
     public:
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcCameraManagerClass;
         static Fun_Runtime::cClass &StaticCreateClass();
     };

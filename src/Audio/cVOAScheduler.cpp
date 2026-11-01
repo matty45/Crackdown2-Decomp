@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/Audio/cVOAScheduler.cpp
 //
 // Class: cVOAScheduler (namespace: Audio). Set up automatically: no function is matched yet. The address range and the
@@ -19,4 +20,10 @@ namespace Audio
     {
         return "cVOAScheduler";
     }
+}
+
+namespace Audio
+{
+    static RWS::CClassFactory::CRegistrar cVOASchedulerRegistrar(
+        "cVOAScheduler", cVOAScheduler::MakeNew, 0x480, false);
 }

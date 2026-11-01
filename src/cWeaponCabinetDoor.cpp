@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/cWeaponCabinetDoor.cpp
 //
 // Class: cWeaponCabinetDoor (namespace: unknown). Set up automatically: no function is matched yet. The address range
@@ -21,4 +22,10 @@ namespace unknown
         static Fun_Runtime::cClass *cWeaponCabinetDoorClass = new Fun_Runtime::cClass(0x1021, "cWeaponCabinetDoor", 0xEE0);
         return *cWeaponCabinetDoorClass;
     }
+}
+
+namespace unknown
+{
+    static RWS::CClassFactory::CRegistrar cWeaponCabinetDoorRegistrar(
+        "cWeaponCabinetDoor", cWeaponCabinetDoor::MakeNew, 0xEE0, false);
 }

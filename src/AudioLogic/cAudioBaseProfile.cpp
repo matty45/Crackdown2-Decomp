@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/AudioLogic/cAudioBaseProfile.cpp
 //
 // Class: cAudioBaseProfile (namespace: AudioLogic). Set up automatically: no function is matched yet. The address range
@@ -48,4 +49,10 @@ namespace AudioLogic
     {
         return ms_pcAudioBaseProfileClass->IsA(c);
     }
+}
+
+namespace AudioLogic
+{
+    static RWS::CClassFactory::CRegistrar cAudioBaseProfileRegistrar(
+        "cAudioBaseProfile", cAudioBaseProfile::MakeNew, 0x60, false);
 }

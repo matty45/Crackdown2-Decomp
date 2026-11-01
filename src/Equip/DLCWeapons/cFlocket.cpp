@@ -167,3 +167,11 @@ namespace Equip
         "cFlocket", cFlocketPrototype::MakeNew, 0x9B0, false);
 }
 
+
+namespace Equip
+{
+    Fun_Runtime::RetVal cFlocketPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
+}

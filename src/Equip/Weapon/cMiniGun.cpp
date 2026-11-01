@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/Equip/Weapon/cMiniGun.cpp
 //
 // Class: cMiniGun (namespace: Equip). Set up automatically: no function is matched yet. The address range and the
@@ -23,4 +24,10 @@ namespace Equip
         static Fun_Runtime::cClass *cMiniGunClass = new Fun_Runtime::cClass(0x13268, "cMiniGun", 0xAC0);
         return *cMiniGunClass;
     }
+}
+
+namespace Equip
+{
+    static RWS::CClassFactory::CRegistrar cMiniGunRegistrar(
+        "cMiniGun", cMiniGun::MakeNew, 0xAC0, false);
 }

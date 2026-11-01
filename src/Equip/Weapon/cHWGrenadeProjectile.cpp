@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/Equip/Weapon/cHWGrenadeProjectile.cpp
 //
 // Class: cHWGrenadeProjectile (namespace: Equip). Set up automatically: no function is matched yet. The address range
@@ -35,4 +36,10 @@ namespace Equip
 namespace Equip
 {
     const Fun_Runtime::cClass *cHWGrenadeProjectile::ms_pcHWGrenadeProjectileClass = &cHWGrenadeProjectile::StaticCreateClass();
+}
+
+namespace Equip
+{
+    static RWS::CClassFactory::CRegistrar cHWGrenadeProjectileRegistrar(
+        "cHWGrenadeProjectile", cHWGrenadeProjectile::MakeNew, 0xA40, false);
 }

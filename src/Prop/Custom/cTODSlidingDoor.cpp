@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/Prop/Custom/cTODSlidingDoor.cpp
 //
 // Class: cTODSlidingDoor (namespace: Prop). Set up automatically: no function is matched yet. The address range and the
@@ -35,4 +36,10 @@ namespace Prop
 namespace Prop
 {
     const Fun_Runtime::cClass *cTODSlidingDoor::ms_pcTODSlidingDoorClass = &cTODSlidingDoor::StaticCreateClass();
+}
+
+namespace Prop
+{
+    static RWS::CClassFactory::CRegistrar cTODSlidingDoorRegistrar(
+        "cTODSlidingDoor", cTODSlidingDoor::MakeNew, 0xF00, false);
 }

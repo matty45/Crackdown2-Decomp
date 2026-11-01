@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 #include "VFX/cReflectionMesh.h"
 
 namespace VFX
@@ -6,4 +7,10 @@ namespace VFX
     {
         return "cReflectionMesh";
     }
+}
+
+namespace VFX
+{
+    static RWS::CClassFactory::CRegistrar cReflectionMeshRegistrar(
+        "cReflectionMesh", cReflectionMesh::MakeNew, 0x20, false);
 }

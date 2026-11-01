@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/Prop/Custom/cHingedSpawnDoor.cpp
 //
 // Class: cHingedSpawnDoor (namespace: Prop). Set up automatically: no function is matched yet. The address range and
@@ -35,4 +36,10 @@ namespace Prop
 namespace Prop
 {
     const Fun_Runtime::cClass *cHingedSpawnDoor::ms_pcHingedSpawnDoorClass = &cHingedSpawnDoor::StaticCreateClass();
+}
+
+namespace Prop
+{
+    static RWS::CClassFactory::CRegistrar cHingedSpawnDoorRegistrar(
+        "cHingedSpawnDoor", cHingedSpawnDoor::MakeNew, 0xEE0, false);
 }

@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/cDebugPlayer.cpp
 //
 // Class: cDebugPlayer (namespace: unknown). Set up automatically: no function is matched yet. The address range and the
@@ -21,4 +22,10 @@ namespace unknown
         static Fun_Runtime::cClass *cDebugPlayerClass = new Fun_Runtime::cClass(0x63D, "cDebugPlayer", 0x190);
         return *cDebugPlayerClass;
     }
+}
+
+namespace unknown
+{
+    static RWS::CClassFactory::CRegistrar cDebugPlayerRegistrar(
+        "cDebugPlayer", cDebugPlayer::MakeNew, 0x190, false);
 }

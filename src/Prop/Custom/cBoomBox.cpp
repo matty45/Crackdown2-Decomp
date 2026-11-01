@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/Prop/Custom/cBoomBox.cpp
 //
 // Class: cBoomBox (namespace: Prop). Set up automatically: no function is matched yet. The address range and the
@@ -19,4 +20,10 @@ namespace Prop
     {
         return "cBoomBox";
     }
+}
+
+namespace Prop
+{
+    static RWS::CClassFactory::CRegistrar cBoomBoxRegistrar(
+        "cBoomBox", cBoomBox::MakeNew, 0xe30, false);
 }

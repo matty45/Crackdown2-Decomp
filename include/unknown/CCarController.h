@@ -1,3 +1,4 @@
+#include "rws/attributes.h"
 // unknown::CCarController (Crackdown 2): STAND-IN with only its runtime class descriptor; its bases are not modelled yet.
 // StaticCreateClass (0x8277ED80) builds cClass(0x929, "CCarController", 0xA30); 0xA30 is the size its registrar gives.
 #ifndef UNKNOWN_CCARCONTROLLER_H
@@ -10,6 +11,7 @@ namespace unknown
     class CCarController
     {
     public:
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pCCarControllerClass;
         static Fun_Runtime::cClass &StaticCreateClass();
     };

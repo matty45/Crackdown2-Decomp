@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/cNetGameAIVehicleSpawnPoint.cpp
 //
 // Class: cNetGameAIVehicleSpawnPoint (namespace: unknown). Set up automatically: no function is matched yet. The
@@ -21,4 +22,10 @@ namespace unknown
         static Fun_Runtime::cClass *cNetGameAIVehicleSpawnPointClass = new Fun_Runtime::cClass(0x489D, "cNetGameAIVehicleSpawnPoint", 0xB0);
         return *cNetGameAIVehicleSpawnPointClass;
     }
+}
+
+namespace unknown
+{
+    static RWS::CClassFactory::CRegistrar cNetGameAIVehicleSpawnPointRegistrar(
+        "cNetGameAIVehicleSpawnPoint", cNetGameAIVehicleSpawnPoint::MakeNew, 0xB0, false);
 }

@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/Vehicle/cGenVehicleProfile.cpp
 //
 // Class: cGenVehicleProfile (namespace: Vehicle). Set up automatically: no function is matched yet. The address range
@@ -19,4 +20,10 @@ namespace Vehicle
     {
         return "cGenVehicleProfile";
     }
+}
+
+namespace Vehicle
+{
+    static RWS::CClassFactory::CRegistrar cGenVehicleProfileRegistrar(
+        "cGenVehicleProfile", cGenVehicleProfile::MakeNew, 0x7c, false);
 }

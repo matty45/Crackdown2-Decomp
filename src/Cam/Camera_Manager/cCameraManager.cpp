@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/Cam/Camera_Manager/cCameraManager.cpp
 //
 // Class: cCameraManager (namespace: Cam). Set up automatically: no function is matched yet. The address range and the
@@ -23,4 +24,10 @@ namespace Cam
         static Fun_Runtime::cClass *cCameraManagerClass = new Fun_Runtime::cClass(0x622, "cCameraManager", 0x170);
         return *cCameraManagerClass;
     }
+}
+
+namespace Cam
+{
+    static RWS::CClassFactory::CRegistrar cCameraManagerRegistrar(
+        "cCameraManager", cCameraManager::MakeNew, 0x170, false);
 }

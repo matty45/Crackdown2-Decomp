@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/VFX/cProjectedDecal.cpp
 //
 // Class: cProjectedDecal (namespace: VFX). Set up automatically: no function is matched yet. The address range and the
@@ -35,4 +36,10 @@ namespace VFX
 namespace VFX
 {
     const Fun_Runtime::cClass *cProjectedDecal::ms_pcProjectedDecalClass = &cProjectedDecal::StaticCreateClass();
+}
+
+namespace VFX
+{
+    static RWS::CClassFactory::CRegistrar cProjectedDecalRegistrar(
+        "cProjectedDecal", cProjectedDecal::MakeNew, 0x28C, false);
 }

@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/cAgencyGaragePlatform.cpp
 //
 // Class: cAgencyGaragePlatform (namespace: unknown). Set up automatically: no function is matched yet. The address
@@ -21,4 +22,10 @@ namespace unknown
         static Fun_Runtime::cClass *cAgencyGaragePlatformClass = new Fun_Runtime::cClass(0x1024, "cAgencyGaragePlatform", 0xEE0);
         return *cAgencyGaragePlatformClass;
     }
+}
+
+namespace unknown
+{
+    static RWS::CClassFactory::CRegistrar cAgencyGaragePlatformRegistrar(
+        "cAgencyGaragePlatform", cAgencyGaragePlatform::MakeNew, 0xEE0, false);
 }

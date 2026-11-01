@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/cZoneManager.cpp
 //
 // Class: cZoneManager (namespace: unknown). Set up automatically: no function is matched yet. The address range and the
@@ -21,4 +22,10 @@ namespace unknown
         static Fun_Runtime::cClass *cZoneManagerClass = new Fun_Runtime::cClass(0x60E, "cZoneManager", 0x84);
         return *cZoneManagerClass;
     }
+}
+
+namespace unknown
+{
+    static RWS::CClassFactory::CRegistrar cZoneManagerRegistrar(
+        "cZoneManager", cZoneManager::MakeNew, 0x84, false);
 }

@@ -1,3 +1,4 @@
+#include "rws/attributes.h"
 // VFX::cBloom (Crackdown 2): STAND-IN for the class name only. Base cNonGameBase, as in RuffKing's header; RetClassName
 // (0x82791958) is slot 11 of the vtable at 0x8214C650, as cNonGameBase's RetClassName.
 #ifndef VFX_CBLOOM_H
@@ -10,6 +11,7 @@ namespace VFX
     class cBloom : public cNonGameBase
     {
     public:
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
     };
 }

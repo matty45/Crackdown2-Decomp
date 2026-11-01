@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/cSupplyEntryPoint.cpp
 //
 // Class: cSupplyEntryPoint (namespace: unknown). Set up automatically: no function is matched yet. The address range
@@ -21,4 +22,10 @@ namespace unknown
         static Fun_Runtime::cClass *cSupplyEntryPointClass = new Fun_Runtime::cClass(0x101F, "cSupplyEntryPoint", 0x140);
         return *cSupplyEntryPointClass;
     }
+}
+
+namespace unknown
+{
+    static RWS::CClassFactory::CRegistrar cSupplyEntryPointRegistrar(
+        "cSupplyEntryPoint", cSupplyEntryPoint::MakeNew, 0x140, false);
 }

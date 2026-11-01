@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/Prop/Custom/cGasCanister.cpp
 //
 // Class: cGasCanister (namespace: Prop). Set up automatically: no function is matched yet. The address range and the
@@ -19,4 +20,10 @@ namespace Prop
     {
         return "cGasCanister";
     }
+}
+
+namespace Prop
+{
+    static RWS::CClassFactory::CRegistrar cGasCanisterRegistrar(
+        "cGasCanister", cGasCanister::MakeNew, 0xe40, false);
 }

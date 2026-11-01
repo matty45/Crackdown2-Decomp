@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/Equip/Gadget/cRealNadeLauncher.cpp
 //
 // Class: cRealNadeLauncher (namespace: Equip). Set up automatically: no function is matched yet. The address range and
@@ -23,4 +24,10 @@ namespace Equip
         static Fun_Runtime::cClass *cRealNadeLauncherClass = new Fun_Runtime::cClass(0x6067, "cRealNadeLauncher", 0xA20);
         return *cRealNadeLauncherClass;
     }
+}
+
+namespace Equip
+{
+    static RWS::CClassFactory::CRegistrar cRealNadeLauncherRegistrar(
+        "cRealNadeLauncher", cRealNadeLauncher::MakeNew, 0xA20, false);
 }

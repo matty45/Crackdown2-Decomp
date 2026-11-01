@@ -10,6 +10,7 @@ namespace Prop
     class cPrismaticProp : public Prop::cPivotBasedProp
     {
     public:
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcPrismaticPropClass;
         static Fun_Runtime::cClass &StaticCreateClass();
         virtual const char *RetClassName() const;

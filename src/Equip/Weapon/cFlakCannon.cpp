@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/Equip/Weapon/cFlakCannon.cpp
 //
 // Class: cFlakCannon (namespace: Equip). Set up automatically: no function is matched yet. The address range and the
@@ -23,4 +24,10 @@ namespace Equip
         static Fun_Runtime::cClass *cFlakCannonClass = new Fun_Runtime::cClass(0x13269, "cFlakCannon", 0xA30);
         return *cFlakCannonClass;
     }
+}
+
+namespace Equip
+{
+    static RWS::CClassFactory::CRegistrar cFlakCannonRegistrar(
+        "cFlakCannon", cFlakCannon::MakeNew, 0xA30, false);
 }

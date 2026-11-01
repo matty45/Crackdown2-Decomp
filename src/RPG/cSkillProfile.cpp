@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/RPG/cSkillProfile.cpp
 //
 // Class: cSkillProfile (namespace: RPG). Set up automatically: no function is matched yet. The address range and the
@@ -48,4 +49,10 @@ namespace RPG
     {
         return ms_pcSkillProfileClass->IsA(c);
     }
+}
+
+namespace RPG
+{
+    static RWS::CClassFactory::CRegistrar cSkillProfileRegistrar(
+        "cSkillProfile", cSkillProfile::MakeNew, 0x5A8, false);
 }

@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/Equip/Gadget/Refractor/cRefractor.cpp
 //
 // Class: cRefractor (namespace: Equip). Set up automatically: no function is matched yet. The address range and the
@@ -23,4 +24,10 @@ namespace Equip
         static Fun_Runtime::cClass *cRefractorClass = new Fun_Runtime::cClass(0x27415, "cRefractor", 0xA60);
         return *cRefractorClass;
     }
+}
+
+namespace Equip
+{
+    static RWS::CClassFactory::CRegistrar cRefractorRegistrar(
+        "cRefractor", cRefractor::MakeNew, 0xA60, false);
 }

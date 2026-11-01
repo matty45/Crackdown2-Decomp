@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/cTeleporterDoor.cpp
 //
 // Class: cTeleporterDoor (namespace: unknown). Set up automatically: no function is matched yet. The address range and
@@ -21,4 +22,10 @@ namespace unknown
         static Fun_Runtime::cClass *cTeleporterDoorClass = new Fun_Runtime::cClass(0x1022, "cTeleporterDoor", 0xEF0);
         return *cTeleporterDoorClass;
     }
+}
+
+namespace unknown
+{
+    static RWS::CClassFactory::CRegistrar cTeleporterDoorRegistrar(
+        "cTeleporterDoor", cTeleporterDoor::MakeNew, 0xEF0, false);
 }

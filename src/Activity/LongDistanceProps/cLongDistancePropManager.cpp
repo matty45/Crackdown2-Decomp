@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/Activity/LongDistanceProps/cLongDistancePropManager.cpp
 //
 // Class: cLongDistancePropManager (namespace: Activity). Set up automatically: no function is matched yet. The address
@@ -15,8 +16,19 @@
 
 namespace Activity
 {
+    const Fun_Runtime::cClass &cLongDistancePropManager::RetClass() const
+    {
+        return *ms_pcLongDistancePropManagerClass;
+    }
+
     const char *cLongDistancePropManager::RetClassName() const
     {
         return "cLongDistancePropManager";
     }
+}
+
+namespace Activity
+{
+    static RWS::CClassFactory::CRegistrar cLongDistancePropManagerRegistrar(
+        "cLongDistancePropManager", cLongDistancePropManager::MakeNew, 0x94, false);
 }

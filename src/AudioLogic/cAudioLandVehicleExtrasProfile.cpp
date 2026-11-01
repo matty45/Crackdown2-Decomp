@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/AudioLogic/cAudioLandVehicleExtrasProfile.cpp
 //
 // Class: cAudioLandVehicleExtrasProfile (namespace: AudioLogic). Set up automatically: no function is matched yet. The
@@ -49,4 +50,10 @@ namespace AudioLogic
     {
         return ms_pcAudioLandVehicleExtrasProfileClass->IsA(c);
     }
+}
+
+namespace AudioLogic
+{
+    static RWS::CClassFactory::CRegistrar cAudioLandVehicleExtrasProfileRegistrar(
+        "cAudioLandVehicleExtrasProfile", cAudioLandVehicleExtrasProfile::MakeNew, 0x18C, false);
 }

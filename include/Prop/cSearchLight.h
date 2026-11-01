@@ -10,6 +10,9 @@ namespace Prop
     class cSearchLight : public Prop::cProp
     {
     public:
+        // CD2 0x827459D8 only restores vtables and invokes cProp's destructor.
+        virtual ~cSearchLight();
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         static const Fun_Runtime::cClass *ms_pcSearchLightClass;
         virtual const Fun_Runtime::cClass &RetClass() const;

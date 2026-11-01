@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/cBoostPack.cpp
 //
 // Class: cBoostPack (namespace: unknown). Set up automatically: no function is matched yet. The address range and the
@@ -21,4 +22,10 @@ namespace unknown
         static Fun_Runtime::cClass *cBoostPackClass = new Fun_Runtime::cClass(0x10141, "cBoostPack", 0x9D0);
         return *cBoostPackClass;
     }
+}
+
+namespace unknown
+{
+    static RWS::CClassFactory::CRegistrar cBoostPackRegistrar(
+        "cBoostPack", cBoostPack::MakeNew, 0x9D0, false);
 }

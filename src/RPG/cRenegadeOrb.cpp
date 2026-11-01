@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/RPG/cRenegadeOrb.cpp
 //
 // Class: cRenegadeOrb (namespace: RPG). Set up automatically: no function is matched yet. The address range and the
@@ -23,4 +24,10 @@ namespace RPG
         static Fun_Runtime::cClass *cRenegadeOrbClass = new Fun_Runtime::cClass(0x67B, "cRenegadeOrb", 0x3B0);
         return *cRenegadeOrbClass;
     }
+}
+
+namespace RPG
+{
+    static RWS::CClassFactory::CRegistrar cRenegadeOrbRegistrar(
+        "cRenegadeOrb", cRenegadeOrb::MakeNew, 0x3B0, false);
 }

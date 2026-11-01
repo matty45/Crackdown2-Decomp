@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/AI/Behaviour/AIBehaviour.cpp
 //
 // Class: AIBehaviour (namespace: AI). Set up automatically: no function is matched yet. The address range and the
@@ -19,4 +20,10 @@ namespace AI
     {
         return "AIBehaviour";
     }
+}
+
+namespace AI
+{
+    static RWS::CClassFactory::CRegistrar AIBehaviourRegistrar(
+        "AIBehaviour", AIBehaviour::MakeNew, 0x7c, false);
 }

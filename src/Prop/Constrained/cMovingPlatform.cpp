@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/Prop/Constrained/cMovingPlatform.cpp
 //
 // Class: cMovingPlatform (namespace: Prop). Set up automatically: no function is matched yet. The address range and the
@@ -35,4 +36,10 @@ namespace Prop
 namespace Prop
 {
     const Fun_Runtime::cClass *cMovingPlatform::ms_pcMovingPlatformClass = &cMovingPlatform::StaticCreateClass();
+}
+
+namespace Prop
+{
+    static RWS::CClassFactory::CRegistrar cMovingPlatformRegistrar(
+        "cMovingPlatform", cMovingPlatform::MakeNew, 0xE40, false);
 }

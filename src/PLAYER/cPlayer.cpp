@@ -18,7 +18,7 @@
 #include "cd2/memory.h"
 #include <stddef.h>
 
-inline void *operator new(size_t, void *memory) { return memory; }
+#include <new>
 
 namespace PLAYER
 {

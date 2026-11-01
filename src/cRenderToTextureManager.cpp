@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/cRenderToTextureManager.cpp
 //
 // Class: cRenderToTextureManager (namespace: unknown). Set up automatically: no function is matched yet. The address
@@ -21,4 +22,10 @@ namespace unknown
         static Fun_Runtime::cClass *cRenderToTextureManagerClass = new Fun_Runtime::cClass(0xCBED, "cRenderToTextureManager", 0x98);
         return *cRenderToTextureManagerClass;
     }
+}
+
+namespace unknown
+{
+    static RWS::CClassFactory::CRegistrar cRenderToTextureManagerRegistrar(
+        "cRenderToTextureManager", cRenderToTextureManager::MakeNew, 0x98, false);
 }

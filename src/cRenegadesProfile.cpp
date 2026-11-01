@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 #include "unknown/cRenegadesProfile.h"
 
 namespace unknown
@@ -6,4 +7,10 @@ namespace unknown
     {
         return "cRenegadesProfile";
     }
+}
+
+namespace unknown
+{
+    static RWS::CClassFactory::CRegistrar cRenegadesProfileRegistrar(
+        "cRenegadesProfile", cRenegadesProfile::MakeNew, 0x40, false);
 }

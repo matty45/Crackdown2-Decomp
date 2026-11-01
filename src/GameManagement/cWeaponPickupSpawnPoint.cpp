@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 #include "GameManagement/cWeaponPickupSpawnPoint.h"
 
 namespace GameManagement
@@ -6,4 +7,10 @@ namespace GameManagement
     {
         return "cWeaponPickupSpawnPoint";
     }
+}
+
+namespace GameManagement
+{
+    static RWS::CClassFactory::CRegistrar cWeaponPickupSpawnPointRegistrar(
+        "cWeaponPickupSpawnPoint", cWeaponPickupSpawnPoint::MakeNew, 0xd0, false);
 }

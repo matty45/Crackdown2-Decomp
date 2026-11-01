@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/Equip/DLCWeapons/cProxMine.cpp
 //
 // Class: cProxMine (namespace: Equip). Set up automatically: no function is matched yet. The address range and the
@@ -23,4 +24,10 @@ namespace Equip
         static Fun_Runtime::cClass *cProxMineClass = new Fun_Runtime::cClass(0x13265, "cProxMine", 0xB10);
         return *cProxMineClass;
     }
+}
+
+namespace Equip
+{
+    static RWS::CClassFactory::CRegistrar cProxMineRegistrar(
+        "cProxMine", cProxMine::MakeNew, 0xB10, false);
 }

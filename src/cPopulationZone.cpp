@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/cPopulationZone.cpp
 //
 // Class: cPopulationZone (namespace: unknown). Set up automatically: no function is matched yet. The address range and
@@ -21,4 +22,10 @@ namespace unknown
         static Fun_Runtime::cClass *cPopulationZoneClass = new Fun_Runtime::cClass(0x416, "cPopulationZone", 0x150);
         return *cPopulationZoneClass;
     }
+}
+
+namespace unknown
+{
+    static RWS::CClassFactory::CRegistrar cPopulationZoneRegistrar(
+        "cPopulationZone", cPopulationZone::MakeNew, 0x150, false);
 }

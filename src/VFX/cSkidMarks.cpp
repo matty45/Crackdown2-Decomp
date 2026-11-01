@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/VFX/cSkidMarks.cpp
 //
 // Class: cSkidMarks (namespace: VFX). Set up automatically: no function is matched yet. The address range and the
@@ -19,4 +20,10 @@ namespace VFX
     {
         return "cSkidMarks";
     }
+}
+
+namespace VFX
+{
+    static RWS::CClassFactory::CRegistrar cSkidMarksRegistrar(
+        "cSkidMarks", cSkidMarks::MakeNew, 0x2cc, false);
 }

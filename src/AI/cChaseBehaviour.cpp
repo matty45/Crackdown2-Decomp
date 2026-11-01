@@ -8,7 +8,7 @@
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
 
-inline void *operator new(size_t, void *p) { return p; }
+#include <new>
 
 // Out-of-line functions of other files (unknown names).
 void *g_pBehaviourTable;     // global pointer variable at 0x83800988

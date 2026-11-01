@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 #include "GameManagement/cMultiPlayerTriggerZone.h"
 
 namespace GameManagement
@@ -6,4 +7,10 @@ namespace GameManagement
     {
         return "cMultiPlayerTriggerZone";
     }
+}
+
+namespace GameManagement
+{
+    static RWS::CClassFactory::CRegistrar cMultiPlayerTriggerZoneRegistrar(
+        "cMultiPlayerTriggerZone", cMultiPlayerTriggerZone::MakeNew, 0x70, false);
 }

@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/VFX/cGlobalLightManager.cpp
 //
 // Class: cGlobalLightManager (namespace: VFX). Set up automatically: no function is matched yet. The address range and
@@ -35,4 +36,10 @@ namespace VFX
 namespace VFX
 {
     const Fun_Runtime::cClass *cGlobalLightManager::ms_pcGlobalLightManagerClass = &cGlobalLightManager::StaticCreateClass();
+}
+
+namespace VFX
+{
+    static RWS::CClassFactory::CRegistrar cGlobalLightManagerRegistrar(
+        "cGlobalLightManager", cGlobalLightManager::MakeNew, 0x5AE0, false);
 }

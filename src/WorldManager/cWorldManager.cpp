@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 #include "WorldManager/cWorldManager.h"
 
 namespace WorldManager
@@ -22,4 +23,10 @@ namespace WorldManager
 namespace WorldManager
 {
     const Fun_Runtime::cClass *cWorldManager::ms_pcWorldManagerClass = &cWorldManager::StaticCreateClass();
+}
+
+namespace WorldManager
+{
+    static RWS::CClassFactory::CRegistrar cWorldManagerRegistrar(
+        "cWorldManager", cWorldManager::MakeNew, 0x5DA0, false);
 }

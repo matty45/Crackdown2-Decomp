@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/PHYSICS/cWaterProfile.cpp
 //
 // Class: cWaterProfile (namespace: PHYSICS). Set up automatically: no function is matched yet. The address range and
@@ -48,4 +49,10 @@ namespace PHYSICS
     {
         return ms_pcWaterProfileClass->IsA(c);
     }
+}
+
+namespace PHYSICS
+{
+    static RWS::CClassFactory::CRegistrar cWaterProfileRegistrar(
+        "cWaterProfile", cWaterProfile::MakeNew, 0x7C, false);
 }

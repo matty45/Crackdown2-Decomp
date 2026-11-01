@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/Prop/Custom/cTurretBase.cpp
 //
 // Class: cTurretBase (namespace: Prop). Set up automatically: no function is matched yet. The address range and the
@@ -15,6 +16,13 @@
 
 namespace Prop
 {
+    // CD2 0x827485B0 unregisters type 0x19, then member destruction unlinks the safe pointers.
+    // cProp's inherited secondary base layout is still incomplete.
+    cTurretBase::~cTurretBase()
+    {
+        RemoveObjectTypeRegistration(0x19, this);
+    }
+
     const char *cTurretBase::RetClassName() const
     {
         return "cTurretBase";
@@ -48,4 +56,10 @@ namespace Prop
     {
         return ms_pcTurretBaseClass->IsA(c);
     }
+}
+
+namespace Prop
+{
+    static RWS::CClassFactory::CRegistrar cTurretBaseRegistrar(
+        "cTurretBase", cTurretBase::MakeNew, 0x1080, false);
 }

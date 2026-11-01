@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/cStickler.cpp
 //
 // Class: cStickler (namespace: unknown). Set up automatically: no function is matched yet. The address range and the
@@ -21,4 +22,10 @@ namespace unknown
         static Fun_Runtime::cClass *cSticklerClass = new Fun_Runtime::cClass(0x10142, "cStickler", 0xAE0);
         return *cSticklerClass;
     }
+}
+
+namespace unknown
+{
+    static RWS::CClassFactory::CRegistrar cSticklerRegistrar(
+        "cStickler", cStickler::MakeNew, 0xAE0, false);
 }

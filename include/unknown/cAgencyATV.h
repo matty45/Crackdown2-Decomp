@@ -1,3 +1,4 @@
+#include "rws/attributes.h"
 // unknown::cAgencyATV (Crackdown 2): STAND-IN with only its runtime class descriptor; its bases are not modelled yet.
 // StaticCreateClass (0x826E3300) builds cClass(0x12065, "cAgencyATV", 0x31F0); 0x31F0 is the size its registrar gives.
 #ifndef UNKNOWN_CAGENCYATV_H
@@ -10,6 +11,7 @@ namespace unknown
     class cAgencyATV
     {
     public:
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcAgencyATVClass;
         static Fun_Runtime::cClass &StaticCreateClass();
     };

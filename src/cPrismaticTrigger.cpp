@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/cPrismaticTrigger.cpp
 //
 // Class: cPrismaticTrigger (namespace: unknown). Set up automatically: no function is matched yet. The address range
@@ -21,4 +22,10 @@ namespace unknown
         static Fun_Runtime::cClass *cPrismaticTriggerClass = new Fun_Runtime::cClass(0xCB57, "cPrismaticTrigger", 0x160);
         return *cPrismaticTriggerClass;
     }
+}
+
+namespace unknown
+{
+    static RWS::CClassFactory::CRegistrar cPrismaticTriggerRegistrar(
+        "cPrismaticTrigger", cPrismaticTrigger::MakeNew, 0x160, false);
 }

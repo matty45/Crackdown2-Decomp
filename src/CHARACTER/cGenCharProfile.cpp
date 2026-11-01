@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/CHARACTER/cGenCharProfile.cpp
 //
 // Class: cGenCharProfile (namespace: CHARACTER). Set up automatically: no function is matched yet. The address range
@@ -35,4 +36,10 @@ namespace CHARACTER
 namespace CHARACTER
 {
     const Fun_Runtime::cClass *cGenCharProfile::ms_pcGenCharProfileClass = &cGenCharProfile::StaticCreateClass();
+}
+
+namespace CHARACTER
+{
+    static RWS::CClassFactory::CRegistrar cGenCharProfileRegistrar(
+        "cGenCharProfile", cGenCharProfile::MakeNew, 0x84, false);
 }

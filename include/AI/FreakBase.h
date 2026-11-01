@@ -1,3 +1,4 @@
+#include "rws/attributes.h"
 // AI::FreakBase (Crackdown 2): STAND-IN for the class name only. Base AI::NPCBehaviourSM, as in RuffKing's header;
 // RetClassName (0x824ABC68) is slot 11 of the vtable at 0x82109378, as cNonGameBase's RetClassName.
 #ifndef AI_FREAKBASE_H
@@ -11,6 +12,7 @@ namespace AI
     class FreakBase : public AI::NPCBehaviourSM
     {
     public:
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         FreakBase();
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *memory);
         virtual bool IsA(const Fun_Runtime::cClass &) const;

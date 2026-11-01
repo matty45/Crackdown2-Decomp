@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/Equip/Gadget/cPulseRifle.cpp
 //
 // Class: cPulseRifle (namespace: Equip). Set up automatically: no function is matched yet. The address range and the
@@ -23,4 +24,10 @@ namespace Equip
         static Fun_Runtime::cClass *cPulseRifleClass = new Fun_Runtime::cClass(0x27413, "cPulseRifle", 0xA80);
         return *cPulseRifleClass;
     }
+}
+
+namespace Equip
+{
+    static RWS::CClassFactory::CRegistrar cPulseRifleRegistrar(
+        "cPulseRifle", cPulseRifle::MakeNew, 0xA80, false);
 }

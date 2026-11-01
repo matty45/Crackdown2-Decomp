@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/Equip/Gadget/cPortableLaunchPad.cpp
 //
 // Class: cPortableLaunchPad (namespace: Equip). Set up automatically: no function is matched yet. The address range and
@@ -23,4 +24,10 @@ namespace Equip
         static Fun_Runtime::cClass *cPortableLaunchPadClass = new Fun_Runtime::cClass(0x27412, "cPortableLaunchPad", 0xCA0);
         return *cPortableLaunchPadClass;
     }
+}
+
+namespace Equip
+{
+    static RWS::CClassFactory::CRegistrar cPortableLaunchPadRegistrar(
+        "cPortableLaunchPad", cPortableLaunchPad::MakeNew, 0xCA0, false);
 }

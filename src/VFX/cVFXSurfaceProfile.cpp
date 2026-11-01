@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/VFX/cVFXSurfaceProfile.cpp
 //
 // Class: cVFXSurfaceProfile (namespace: VFX). Set up automatically: no function is matched yet. The address range and
@@ -48,4 +49,10 @@ namespace VFX
     {
         return ms_pcVFXSurfaceProfileClass->IsA(c);
     }
+}
+
+namespace VFX
+{
+    static RWS::CClassFactory::CRegistrar cVFXSurfaceProfileRegistrar(
+        "cVFXSurfaceProfile", cVFXSurfaceProfile::MakeNew, 0x80, false);
 }

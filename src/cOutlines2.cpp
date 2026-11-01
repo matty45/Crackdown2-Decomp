@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/cOutlines2.cpp
 //
 // Class: cOutlines2 (namespace: unknown). Set up automatically: no function is matched yet. The address range and the
@@ -21,4 +22,10 @@ namespace unknown
         static Fun_Runtime::cClass *cOutlines2Class = new Fun_Runtime::cClass(0x1027FB, "cOutlines2", 0x7C);
         return *cOutlines2Class;
     }
+}
+
+namespace unknown
+{
+    static RWS::CClassFactory::CRegistrar cOutlines2Registrar(
+        "cOutlines2", cOutlines2::MakeNew, 0x7C, false);
 }

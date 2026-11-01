@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/Equip/Weapon/cShrapnelGrenade.cpp
 //
 // Class: cShrapnelGrenade (namespace: Equip). Set up automatically: no function is matched yet. The address range and
@@ -23,4 +24,10 @@ namespace Equip
         static Fun_Runtime::cClass *cShrapnelGrenadeClass = new Fun_Runtime::cClass(0x3E8C, "cShrapnelGrenade", 0x9D0);
         return *cShrapnelGrenadeClass;
     }
+}
+
+namespace Equip
+{
+    static RWS::CClassFactory::CRegistrar cShrapnelGrenadeRegistrar(
+        "cShrapnelGrenade", cShrapnelGrenade::MakeNew, 0x9D0, false);
 }

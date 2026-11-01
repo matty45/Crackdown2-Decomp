@@ -19,7 +19,7 @@
 #include "Sim/cTimeOfDay.h"
 #include "cd2/memory.h"
 
-inline void *operator new(size_t, void *memory) { return memory; }
+#include <new>
 
 unsigned char g_cAiPlayer;     // global at 0x83803448
 unsigned char g_AIE_SHOTS_COUNTER;     // global at 0x83817824

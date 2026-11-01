@@ -3,9 +3,13 @@
 
 namespace AI
 {
-    const Fun_Runtime::cClass *cBasePatrolRouteEvent::ms_pcBasePatrolRouteEventClass = 0;
+    const Fun_Runtime::cClass *cBasePatrolRouteEvent::ms_pcBasePatrolRouteEventClass = &cBasePatrolRouteEvent::StaticCreateClass();
 
-    cBasePatrolRouteEvent::cBasePatrolRouteEvent() {}
+    cBasePatrolRouteEvent::cBasePatrolRouteEvent()
+        : m_EventType(0), m_nEventRepetitions(0)
+    {
+        m_guidNextEvent.Clear();
+    }
 
     const Fun_Runtime::cClass &cBasePatrolRouteEvent::RetClass() const
     {

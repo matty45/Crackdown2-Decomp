@@ -3,7 +3,7 @@
 
 #include "rws/attributes.h"
 
-namespace RWS { class DynamicAllocationPolicy {}; }
+#include "rws/dynamicallocationpolicy.h"
 
 namespace Activity
 {

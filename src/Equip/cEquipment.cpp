@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/Equip/cEquipment.cpp
 //
 // Class: cEquipment (namespace: Equip). Set up automatically: no function is matched yet. The address range and the
@@ -23,4 +24,10 @@ namespace Equip
         static Fun_Runtime::cClass *cEquipmentClass = new Fun_Runtime::cClass(0x6, "cEquipment", 0x870);
         return *cEquipmentClass;
     }
+}
+
+namespace Equip
+{
+    static RWS::CClassFactory::CRegistrar cEquipmentRegistrar(
+        "cEquipment", cEquipment::MakeNew, 0x870, false);
 }

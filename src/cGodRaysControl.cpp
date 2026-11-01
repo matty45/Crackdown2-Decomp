@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 #include "unknown/cGodRaysControl.h"
 
 namespace unknown
@@ -6,4 +7,10 @@ namespace unknown
     {
         return "cGodRaysControl";
     }
+}
+
+namespace unknown
+{
+    static RWS::CClassFactory::CRegistrar cGodRaysControlRegistrar(
+        "cGodRaysControl", cGodRaysControl::MakeNew, 0x1c, false);
 }

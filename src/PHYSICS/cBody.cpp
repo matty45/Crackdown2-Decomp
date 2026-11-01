@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/PHYSICS/cBody.cpp
 //
 // Class: cBody (namespace: PHYSICS). Set up automatically: no function is matched yet. The address range and the
@@ -23,4 +24,10 @@ namespace PHYSICS
         static Fun_Runtime::cClass *cBodyClass = new Fun_Runtime::cClass(0x63C, "cBody", 0x250);
         return *cBodyClass;
     }
+}
+
+namespace PHYSICS
+{
+    static RWS::CClassFactory::CRegistrar cBodyRegistrar(
+        "cBody", cBody::MakeNew, 0x250, false);
 }

@@ -1,3 +1,4 @@
+#include "rws/attributes.h"
 // Equip::cClusterGrenade (Crackdown 2): STAND-IN with only its runtime class descriptor; its bases are not modelled yet.
 // StaticCreateClass (0x82619888) builds cClass(0x3E8E, "cClusterGrenade", 0x9D0); 0x9D0 is the size its registrar gives.
 #ifndef EQUIP_CCLUSTERGRENADE_H
@@ -10,6 +11,7 @@ namespace Equip
     class cClusterGrenade
     {
     public:
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcClusterGrenadeClass;
         static Fun_Runtime::cClass &StaticCreateClass();
     };

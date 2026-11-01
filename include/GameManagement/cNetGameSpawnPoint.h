@@ -1,3 +1,4 @@
+#include "rws/attributes.h"
 #ifndef GameManagement_cNetGameSpawnPoint_H
 #define GameManagement_cNetGameSpawnPoint_H
 
@@ -9,6 +10,7 @@ namespace GameManagement
     class cNetGameSpawnPoint : public cGameModeSpawnPoint
     {
     public:
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
     };
 }

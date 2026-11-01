@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 // src/cSpawnPortal.cpp
 //
 // Class: cSpawnPortal (namespace: unknown). Set up automatically: no function is matched yet. The address range and the
@@ -21,4 +22,10 @@ namespace unknown
         static Fun_Runtime::cClass *cSpawnPortalClass = new Fun_Runtime::cClass(0x1025, "cSpawnPortal", 0xEC0);
         return *cSpawnPortalClass;
     }
+}
+
+namespace unknown
+{
+    static RWS::CClassFactory::CRegistrar cSpawnPortalRegistrar(
+        "cSpawnPortal", cSpawnPortal::MakeNew, 0xEC0, false);
 }

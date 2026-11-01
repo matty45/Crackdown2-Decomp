@@ -1,3 +1,4 @@
+#include "rws/attributes.h"
 // Equip::cEquipment (Crackdown 2): STAND-IN with only its runtime class descriptor; its bases are not modelled yet.
 // StaticCreateClass (0x82604750) builds cClass(0x6, "cEquipment", 0x870); 0x870 is the size its registrar gives.
 #ifndef EQUIP_CEQUIPMENT_H
@@ -10,6 +11,7 @@ namespace Equip
     class cEquipment
     {
     public:
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcEquipmentClass;
         static Fun_Runtime::cClass &StaticCreateClass();
     };

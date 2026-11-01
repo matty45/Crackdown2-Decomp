@@ -41,7 +41,7 @@ namespace Vehicle
     }
 }
 
-inline void *operator new(size_t, void *memory) { return memory; }
+#include <new>
 
 namespace Vehicle
 {

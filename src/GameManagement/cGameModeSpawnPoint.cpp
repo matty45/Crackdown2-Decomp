@@ -1,3 +1,4 @@
+#include "rws/classfactory.h"
 #include "GameManagement/cGameModeSpawnPoint.h"
 
 namespace GameManagement
@@ -6,4 +7,10 @@ namespace GameManagement
     {
         return "cGameModeSpawnPoint";
     }
+}
+
+namespace GameManagement
+{
+    static RWS::CClassFactory::CRegistrar cGameModeSpawnPointRegistrar(
+        "cGameModeSpawnPoint", cGameModeSpawnPoint::MakeNew, 0x60, false);
 }

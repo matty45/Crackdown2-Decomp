@@ -1,3 +1,4 @@
+#include "rws/attributes.h"
 // Sim::cTimeOfDay (Crackdown 2): STAND-IN for the phase of the day only. RuffKing names. Evidence:
 //   - m_fPhase (0x278; RuffKing 0x288): VFX::cAmbientVFXSpawner::CanSpawn (0x827F9840) reads ms_pInstance->m_fPhase,
 //     and the
@@ -17,6 +18,7 @@ namespace Sim
     class cTimeOfDay
     {
     public:
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcTimeOfDayClass;
         static Fun_Runtime::cClass &StaticCreateClass();
         unsigned char m_pad[0x278];
