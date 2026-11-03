@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/cPedestrianBase.h"
 #include "AI/PedestrianGuard.h"
 #include "rws/classfactory.h"
 
@@ -43,4 +45,11 @@ namespace AI
     {
         return ms_pPedestrianGuardClass->IsA(c);
     }
+}
+
+// CD2 0x82F92DE8: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar PedestrianGuardcPedestrianBaseInheritRegistrar(
+        AI::PedestrianGuard::StaticCreateClass(), AI::cPedestrianBase::StaticCreateClass());
 }

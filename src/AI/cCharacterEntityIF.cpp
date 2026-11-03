@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "CHARACTER/cCharacterInterface.h"
 // src/AI/cCharacterEntityIF.cpp
 //
 // Class: cCharacterEntityIF (namespace: AI). Set up automatically: no function is matched yet. The address range and
@@ -287,4 +289,11 @@ namespace AI
 {
     static RWS::CClassFactory::CRegistrar cCharacterEntityIFRegistrar(
         "cCharacterEntityIF", cCharacterEntityIF::MakeNew, 0x540, false);
+}
+
+// CD2 0x82F60D58: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar cCharacterEntityIFcCharacterInterfaceInheritRegistrar(
+        AI::cCharacterEntityIF::StaticCreateClass(), CHARACTER::cCharacterInterface::StaticCreateClass());
 }

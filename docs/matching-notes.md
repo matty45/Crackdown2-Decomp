@@ -38,7 +38,42 @@ end, in one line, and is removed when the function matches. History belongs in g
   so a "global" a small function copies into `*r3` is usually the file's `Ret_OK`. The relocation check treats names
   with internal linkage per file.
 
+- **Prop destructor vptr stores identify the shared physics hierarchy.** Replacing cProp's direct-cNonGameBase
+  stand-in with the reference hierarchy made the moving-platform, searchlight and pintle-faceplate destructor
+  bodies EXACT without changing them. CD2 subobjects are cBody's debug handler at 0x120, cIgnitable at 0x250,
+  hkEntityActivationListener at 0x294, cPositionalProxy at 0x420, cReplicatedClass at 0x510, cExplosionCallback at
+  0x7A0, cDynamicObstacleOwner at 0x7A4 and cSatchelChargeTarget at 0x7AC. The proxy and the two non-destructor
+  callback interfaces retain their inherited tables; the other interfaces get derived tables. Reuse the shared
+  headers rather than adding flat padding or duplicate stand-ins. cFlocket's former cPoly420 is the same
+  cPositionalProxy and also remains exact using that shared type.
+
 ## Codegen idioms
+- **Shader reload callbacks form callback/getter pairs.** The 100-byte callback guards its concrete singleton,
+  calls virtual slot 2 (`Reload(bool)`), reloads that singleton and passes its vertex/pixel shaders to the cached
+  shader setters at 0x82B8A7B0/0x82B8A780. The following 12-byte virtual getter returns the callback. CD2's
+  constructors establish the shared 0x64-byte cShader layout, with shader pointers at 0x3C/0x40 and list link at
+  0x60; shader entry strings and defines distinguish the concrete permutations. All 38 recovered pairs check
+  EXACT. A/B at 0x82791B58: capturing the singleton before Reload and retaining it across that call gives 84%;
+  reloading it after Reload gives EXACT. These setters bind cached shaders; they do not release shader objects.
+- **Animation-profile attribute forwarding is a reusable hierarchy.** The 44 profile wrappers first call
+  `cSpecificAnimationProfile::HandleAttributes(packet)`, then the concrete profile-data base's
+  `HandleAttributeData(*this, packet)`. RuffKing/Burn name both bases; CD2's shared constructor at 0x824E00A8 proves
+  the first base's size (0x3C), event-handler subobject (0x18), event ID (0x1C) and two sequence maps (0x24).
+  Qualifying both calls reproduces the direct calls and all 44 wrappers check EXACT. Most second bases start at
+  0x3C. A/B: giving `cProfileDataHand2HandFull` its real 16-byte alignment (the reference has Vec3 arrays) changes
+  its wrapper's second-base adjustment from 0x3C to CD2's 0x40 and makes it EXACT. Its complete size stays 0x3EE0;
+  do not insert a padding base to obtain the adjustment.
+- **Batch attribute-handler destructors by source shape, not byte length.** The 92-byte deleting wrappers for
+  `cVFXPriorityTable`, `cRPGGlobalsInterface`, `cHUDPingProfile`, `cGameModeVFXProfile`, `cArenaBarrier`,
+  `cGameModeSpawnPoint` and `cScatterMeshResources` store the derived vptr and call `~CAttributeHandler`.
+  An inline, user-declared empty destructor reproduces that sequence. A/B: moving `cVFXPriorityTable`'s empty
+  destructor from out-of-line to in-class changes its wrapper from a call to the derived destructor (21.7%) to EXACT.
+  Other 92-byte functions in the same scan were ordinary destructors freeing arrays or wrappers destroying GUID
+  handlers; check calls, stores and reference declarations before applying the pattern.
+- **XDK memory fill versus CRT intrinsic.** `cHUDPingProfile::MakeNew` calls `XMemSet` to clear its four static
+  ping times. `memset` becomes four inline integer stores; `XMemSet` reproduces the external fill call. CD2 also
+  inlines the profile constructor: changing its `inline` to `__forceinline` changes a constructor call to the full
+  initialization sequence and makes the factory EXACT.
 - **LTCG can remove unused `this` without a live vtable.** cTrafficLight::IsA was plain EXACT but 21/23 under LTCG: its class argument moved from r4 to r3. Reconstructing the actual destructor and its active-list unlinking emitted the class vtable and restored 23/23 EXACT without changing IsA. A descriptor initializer alone did not fix it.
 - **Default string construction includes the allocator subobject.** In cLoadingInfo's factory, a hand-modelled small-string buffer reproduced every store but lost one object-address calculation. Using the real `std::basic_string` base with the shared `Fun_Runtime::cAllocator` restored that instruction and checked EXACT; keep the library representation rather than adding a temporary to mimic it.
 - **A typed safe-pointer assignment can create a temporary.** The reference `cSafeDeletablePointer<T>` has a
@@ -291,6 +326,12 @@ end, in one line, and is removed when the function matches. History belongs in g
 
 ## Open functions
 One line each: what is ruled out. Remove the line when the function matches.
+- Animation-profile factories (representative `cCoverAnimationProfile::MakeNew`, 0x824E7A30): the recovered two-base hierarchy and forced-inline constructor give EXACT bytes, but the concrete data-base and complete-profile secondary vtables need folded aliases (0x8210FCC8 for Cover); factory probe reverted because this pass may not edit symbol aliases. The 44 attribute-forwarding wrappers are promoted independently.
+- `PHYSICS::cSurfaceProfile::MakeNew` (0x82695F98), `VFX::cVFXSurfaceProfile::MakeNew` (0x827CCBD0), `unknown::cOutlines2::MakeNew` (0x827A4000): recovered cNonGameBase hierarchy gives EXACT deleting wrappers and IsA methods, but factories retain this in r31 instead of using the base constructor's return in r3 under plain and standard LTCG builds (same cross-module constructor-return issue as the crowd/streaming factories).
+- `GameManagement::cGameModeSpawnPoint::MakeNew` (0x8284D6F0): identity-matrix initialization has the correct stores, but misses CD2's matrix-address calculation; an inline `SetIdentity` helper, including its reference return, and standard source search did not restore it. Destructor is EXACT.
+- `LaunchPad::cLaunchPadTargetLocation::cLaunchPadTargetLocation` (0x82714450): check reports EXACT, but its GUID-handler vtable at 0x82139BA8 needs a folded alias for this specialization; constructor excluded from the manifest because this pass may not edit symbol aliases. Factory and deleting wrapper are promoted separately.
+- `Prop::cGasCanister::cGasCanister` (0x82743828): plain check is EXACT with the shared physics hierarchy, but full relocation verification requires adding its positional-proxy and dynamic-obstacle-owner vtable names to the existing alias groups at 0x82120E8C and 0x82144AD0. IDA confirms both stores; left out of the manifest because this pass may not edit `config/symbol_aliases.txt`.
+- `Prop::cGasCanister::MakeNew` (0x82743708): reconstructed the prototype's identity matrix and defaults; forcing the constructor inline restores its stores, but plain and standard LTCG checks remain 32.8% because the constant loads and scheduling differ. Standard source search found no improvement. Moving the scalar defaults into the constructor body and routing matrix construction through the reference SetIdentity helper produce no codegen change (both experiments reverted).
 - `Billboard::BillboardData::HandleAttributes` (0x829115D0): recovered resource-map lookup and event-string assignments; the standard compile inlines string construction where CD2 calls it, while CD2 inlines GUID-map insertion and stores the GUID where the shared header still calls AddEntityToMap.
 - `Billboard::BillboardData::MakeNew` (0x82911410): check reports EXACT for its body, but the shared GUID-handler vtable at 0x82139BA8 has an unresolved alias for this specialization; left out of the manifest because this pass may not edit `config/symbol_aliases.txt`.
 - `UI::ApplyGamma` (0x82897B38): the recovered `(32 - float(value - 1)) * 2 * 0.03125` formula folds the two multipliers together even under the standard LTCG model; CD2 retains both multiplies and multiple constant bases.
@@ -321,6 +362,12 @@ One line each: what is ruled out. Remove the line when the function matches.
   `this` in r31 even with `__forceinline`, and the LTCG model does not inline the constructor.
 
 - `AI::cAiPlayer` physical virtual slot 62 (0x823E7A38): two `RetCharacter()` calls around a null guard collapse to one load and 12 instructions instead of CD2's 18; the second safe-pointer conversion needs original helper evidence. Probe reverted.
-- `Prop::cTrafficLight::~cTrafficLight` (0x827475C8): active-list unlinking reconstructed from CD2; the full body still needs cProp's missing secondary base layout. Its deleting wrapper (0x82747578) is independently EXACT in plain and LTCG.
-- `Prop::cSearchLight`, `cPintleFaceplate`, and `cTurretBase` destructor bodies: derived cleanup reconstructed (none for the first two; type-0x19 unregister and two safe pointers for the turret), but cProp's missing secondary bases still prevent full destructor matches. Each deleting wrapper and IsA independently checks EXACT in plain and LTCG.
 - Patrol-event factories (`cFreakExplodeEvent`, `cFreakSniperEvent`, `cReaperJumpEvent`, `cReaperPropAttackEvent`): corrected shared RWS bases and the 0x90-byte layout; still 5 extra instructions because CD2 uses the return of cBasePatrolRouteEvent's constructor directly, while the standard build retains this in r31. The base constructor at 0x824BFA80 is not in a scaffolded split, so it cannot be promoted as a matched LTCG dependency.
+- Shader deleting destructors (representative 0x82791E38): an out-of-line singleton-clearing destructor gives
+  19.2%; an inline destructor is not emitted without a construction/vtable use. Do not add an artificial use to
+  emit it. Shader constructors also encode an object-derived integer ID; recovering that interface is separate
+  work under R4. Destructor probe reverted; the 38 callback/getter pairs are promoted independently.
+- Runtime inheritance registration: 133 more 104-byte initializers match using the shared cInheritanceRegistrar.
+  The remaining 33 in this family need individual missing parent/child type and hierarchy recovery; the two
+  cVector push_back calls followed by RecursivelyAddParent are already identified.
+- Spawning-registration follow-up: 117 remaining 72-byte initializers share the StaticCreateClass / cProtoRegistrar / atexit shape. Representative initializer 0x82F866D0 checked EXACT with placement factory 0x82457C20; the probe was reverted at the requested stop before batch validation. Its atexit target 0x8303AED0 is not a claimable scaffolded function. No spawning registrations were promoted in this pass.

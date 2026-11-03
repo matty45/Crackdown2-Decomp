@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "Prop/cPrismaticProp.h"
 #include "rws/classfactory.h"
 // src/cLift.cpp
 //
@@ -28,4 +30,11 @@ namespace unknown
 {
     static RWS::CClassFactory::CRegistrar cLiftRegistrar(
         "cLift", cLift::MakeNew, 0xF30, false);
+}
+
+// CD2 0x82FF7770: runtime class inheritance registration.
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar cLiftcPrismaticPropInheritRegistrar(
+        unknown::cLift::StaticCreateClass(), Prop::cPrismaticProp::StaticCreateClass());
 }

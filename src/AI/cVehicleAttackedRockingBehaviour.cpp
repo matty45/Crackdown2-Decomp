@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/NPCBehaviour.h"
 #include "AI/cVehicleAttackedRockingBehaviour.h"
 #include "rws/classfactory.h"
 
@@ -44,4 +46,11 @@ namespace AI
         static Fun_Runtime::cClass *cVehicleAttackedRockingBehaviourClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "cVehicleAttackedRockingBehaviour", 0xD0);
         return *cVehicleAttackedRockingBehaviourClass;
     }
+}
+
+// CD2 0x82F9A540: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar cVehicleAttackedRockingBehaviourNPCBehaviourInheritRegistrar(
+        AI::cVehicleAttackedRockingBehaviour::StaticCreateClass(), AI::NPCBehaviour::StaticCreateClass());
 }

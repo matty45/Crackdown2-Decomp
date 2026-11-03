@@ -220,6 +220,8 @@ namespace AI
     class NPCBehaviourSM : public cNonGameBase
     {
     public:
+        // CD2 0x8221DD30 creates the named runtime descriptor.
+        static Fun_Runtime::cClass &StaticCreateClass();
         NPCBehaviourSM();
         virtual const char *RetClassName() const;
         virtual void OnEnter();

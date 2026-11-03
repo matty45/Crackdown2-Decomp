@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/non_game_base.h"
 // src/CHARACTER/cCharacterInterface.cpp
 //
 // Class: CHARACTER::cCharacterInterface. Script setters and registration are reconstructed below.
@@ -101,3 +103,10 @@ namespace CHARACTER
         "cCharacterInterface", cCharacterInterface::MakeNew, 0xC0, false);
 }
 
+
+// CD2 0x82FADC18: runtime class inheritance registration.
+namespace CHARACTER
+{
+    static Fun_Runtime::cInheritanceRegistrar cCharacterInterfacecNonGameBaseInheritRegistrar(
+        CHARACTER::cCharacterInterface::StaticCreateClass(), cNonGameBase::StaticCreateClass());
+}

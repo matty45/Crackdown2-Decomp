@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/cPilotBase.h"
 #include "AI/cPKDropPilot.h"
 #include "rws/classfactory.h"
 
@@ -44,4 +46,11 @@ namespace AI
         static Fun_Runtime::cClass *cPKDropPilotClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "cPKDropPilot", 0x150);
         return *cPKDropPilotClass;
     }
+}
+
+// CD2 0x82F9C5F0: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar cPKDropPilotcPilotBaseInheritRegistrar(
+        AI::cPKDropPilot::StaticCreateClass(), AI::cPilotBase::StaticCreateClass());
 }

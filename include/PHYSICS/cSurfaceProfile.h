@@ -1,14 +1,19 @@
 #ifndef PHYSICS_cSurfaceProfile_H
 #define PHYSICS_cSurfaceProfile_H
 
-#include "rws/attributes.h"
+#include "gom/non_game_base.h"
 #include "fun_runtime/class.h"
 
 namespace PHYSICS
 {
-    class cSurfaceProfile : public RWS::CAttributeHandler
+    // STAND-IN: RuffKing names; CD2 allocates 0x80 and uses the surface index at 0x7C.
+    class cSurfaceProfile : public cNonGameBase
     {
     public:
+        // CD2's deleting wrapper inlines the derived destructor and restores all five vptrs.
+        __forceinline cSurfaceProfile() {}
+        virtual ~cSurfaceProfile() {}
+        virtual void HandleAttributes(const RWS::CAttributePacket &);
         // CD2 0x82696150: attribute-handler vtable slot 5, returning Ret_OK.
         virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
         virtual bool IsA(const Fun_Runtime::cClass &) const;
@@ -17,6 +22,11 @@ namespace PHYSICS
         static Fun_Runtime::cClass &StaticCreateClass();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
+    protected:
+        unsigned int m_nSurfaceIndex;
+        CD2_LAYOUT_CHECKS(cSurfaceProfile,
+            CD2_SIZE(cSurfaceProfile, 0x80)
+            CD2_OFFSET(cSurfaceProfile, m_nSurfaceIndex, 0x7C))
     };
 }
 

@@ -1,3 +1,4 @@
+// The shared cProp hierarchy now reproduces the inherited vptr stores exactly.
 #include "Prop/cTrafficLight.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
@@ -15,7 +16,7 @@ namespace Prop
             m_pNextActive->m_pPrevActive = m_pPrevActive;
         if (m_pPrevActive)
             m_pPrevActive->m_pNextActive = m_pNextActive;
-        else if (ms_pFirstActive == this)
+        else if (this == ms_pFirstActive)
             ms_pFirstActive = m_pNextActive;
     }
 

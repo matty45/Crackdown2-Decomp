@@ -3,6 +3,12 @@
 
 namespace Anim
 {
+    void cPropDropAnimationProfile::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cSpecificAnimationProfile::HandleAttributes(packet);
+        cProfileDataPropDrop::HandleAttributeData(*this, packet);
+    }
+
     const char *cPropDropAnimationProfile::RetClassName() const
     {
         return "cPropDropAnimationProfile";

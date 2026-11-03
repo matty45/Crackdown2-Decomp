@@ -1,10 +1,21 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/NPCBehaviour.h"
 #include "AI/cPedestrianBase.h"
 #include "rws/classfactory.h"
+#include "AI/BehaviourClassID.h"
+#include "cd2/memory.h"
 
 #include <new>
 
 namespace AI
 {
+    Fun_Runtime::cClass &cPedestrianBase::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cPedestrianBaseClass =
+            new Fun_Runtime::cClass(g_nBehaviourClassID++, "cPedestrianBase", 0x120);
+        return *cPedestrianBaseClass;
+    }
+
     const Fun_Runtime::cClass *cPedestrianBase::ms_pcPedestrianBaseClass = 0;
     const float cPedestrianBase::m_fReactTimer = 8.0f;
 
@@ -43,4 +54,11 @@ namespace AI
 {
     static RWS::CClassFactory::CRegistrar cPedestrianBaseRegistrar(
         "cPedestrianBase", cPedestrianBase::MakeNew, 0x120, false);
+}
+
+// CD2 0x82F929B0: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar cPedestrianBaseNPCBehaviourInheritRegistrar(
+        AI::cPedestrianBase::StaticCreateClass(), AI::NPCBehaviour::StaticCreateClass());
 }

@@ -1,3 +1,6 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "VEHICLE_CONTROL/cHelicopterController.h"
+#include "PHYSICS/cNetDynamicBody.h"
 // src/Vehicle/cVehicle.cpp
 //
 // Class: cVehicle (namespace: Vehicle). Set up automatically: no function is matched yet. The address range and the
@@ -10,3 +13,10 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Vehicle/cVehicle.cpp
+
+// CD2 0x82FE9970: runtime class inheritance registration.
+namespace Vehicle
+{
+    static Fun_Runtime::cInheritanceRegistrar cVehiclecNetDynamicBodyInheritRegistrar(
+        Vehicle::cVehicle::StaticCreateClass(), PHYSICS::cNetDynamicBody::StaticCreateClass());
+}

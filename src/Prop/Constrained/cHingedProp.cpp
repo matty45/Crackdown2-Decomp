@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "Prop/cPivotBasedProp.h"
 #include "rws/classfactory.h"
 // src/Prop/Constrained/cHingedProp.cpp
 //
@@ -13,9 +15,15 @@
 //     py -I tools/cd2.py tasks src/Prop/Constrained/cHingedProp.cpp
 
 #include "Prop/cHingedProp.h"
+#include <new>
 
 namespace Prop
 {
+    RWS::CAttributeHandler *cHingedProp::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cHingedPropPrototype(packet);
+    }
+
     const char *cHingedProp::RetClassName() const
     {
         return "cHingedProp";
@@ -42,4 +50,21 @@ namespace Prop
 {
     static RWS::CClassFactory::CRegistrar cHingedPropRegistrar(
         "cHingedProp", cHingedProp::MakeNew, 0xEB0, false);
+}
+
+namespace Prop
+{
+    RWS::CAttributeHandler *cHingedProp::SpawnFromPrototype(GOM::cObjectPrototype *prototype, void *memory)
+    {
+        if (memory)
+            return new (memory) cHingedProp(prototype);
+        return 0;
+    }
+}
+
+// CD2 0x82FF70D0: runtime class inheritance registration.
+namespace Prop
+{
+    static Fun_Runtime::cInheritanceRegistrar cHingedPropcPivotBasedPropInheritRegistrar(
+        Prop::cHingedProp::StaticCreateClass(), Prop::cPivotBasedProp::StaticCreateClass());
 }

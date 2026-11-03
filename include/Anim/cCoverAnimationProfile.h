@@ -1,15 +1,19 @@
 #ifndef Anim_cCoverAnimationProfile_H
 #define Anim_cCoverAnimationProfile_H
 
-#include "rws/attributes.h"
+#include "Anim/cSpecificAnimationProfile.h"
+#include "Anim/cProfileDataCover.h"
 
 namespace Anim
 {
-    class cCoverAnimationProfile : public RWS::CAttributeHandler
+    class cCoverAnimationProfile : public cSpecificAnimationProfile, public cProfileDataCover
     {
     public:
+        cCoverAnimationProfile(const RWS::CAttributePacket &);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
+        virtual void HandleAttributes(const RWS::CAttributePacket &);
+        CD2_LAYOUT_CHECKS(cCoverAnimationProfile, CD2_SIZE(cCoverAnimationProfile, 0x40))
     };
 }
 

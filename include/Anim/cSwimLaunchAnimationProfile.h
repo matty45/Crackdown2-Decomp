@@ -1,15 +1,19 @@
 #ifndef Anim_cSwimLaunchAnimationProfile_H
 #define Anim_cSwimLaunchAnimationProfile_H
 
-#include "rws/attributes.h"
+#include "Anim/cSpecificAnimationProfile.h"
+#include "Anim/cProfileDataSwimLaunch.h"
 
 namespace Anim
 {
-    class cSwimLaunchAnimationProfile : public RWS::CAttributeHandler
+    // STAND-IN: reference base order; CD2 HandleAttributes forwards to its data base at 0x3C.
+    class cSwimLaunchAnimationProfile : public cSpecificAnimationProfile, public cProfileDataSwimLaunch
     {
     public:
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
+        virtual void HandleAttributes(const RWS::CAttributePacket &);
+        CD2_LAYOUT_CHECKS(cSwimLaunchAnimationProfile, CD2_SIZE(cSwimLaunchAnimationProfile, 0x40))
     };
 }
 

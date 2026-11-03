@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "PHYSICS/cBody.h"
 #include "rws/classfactory.h"
 // src/RPG/cRenegadeOrb.cpp
 //
@@ -30,4 +32,11 @@ namespace RPG
 {
     static RWS::CClassFactory::CRegistrar cRenegadeOrbRegistrar(
         "cRenegadeOrb", cRenegadeOrb::MakeNew, 0x3B0, false);
+}
+
+// CD2 0x82FFE510: runtime class inheritance registration.
+namespace RPG
+{
+    static Fun_Runtime::cInheritanceRegistrar cRenegadeOrbcBodyInheritRegistrar(
+        RPG::cRenegadeOrb::StaticCreateClass(), PHYSICS::cBody::StaticCreateClass());
 }

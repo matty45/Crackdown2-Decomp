@@ -3,6 +3,12 @@
 
 namespace Anim
 {
+    void cBeaconPulseHoverAnimationProfile::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cSpecificAnimationProfile::HandleAttributes(packet);
+        cProfileDataBeaconPulseHover::HandleAttributeData(*this, packet);
+    }
+
     const char *cBeaconPulseHoverAnimationProfile::RetClassName() const
     {
         return "cBeaconPulseHoverAnimationProfile";

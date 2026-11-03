@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "Prop/cPrismaticProp.h"
 #include "rws/classfactory.h"
 // src/cTeleporterDoor.cpp
 //
@@ -28,4 +30,11 @@ namespace unknown
 {
     static RWS::CClassFactory::CRegistrar cTeleporterDoorRegistrar(
         "cTeleporterDoor", cTeleporterDoor::MakeNew, 0xEF0, false);
+}
+
+// CD2 0x82FF9918: runtime class inheritance registration.
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar cTeleporterDoorcPrismaticPropInheritRegistrar(
+        unknown::cTeleporterDoor::StaticCreateClass(), Prop::cPrismaticProp::StaticCreateClass());
 }

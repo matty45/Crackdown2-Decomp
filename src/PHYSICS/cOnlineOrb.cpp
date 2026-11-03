@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "PHYSICS/cPickupBase.h"
 #include "PHYSICS/cOnlineOrb.h"
 #include "rws/classfactory.h"
 
@@ -34,4 +36,11 @@ namespace PHYSICS
     {
         return *ms_pcOnlineOrbClass;
     }
+}
+
+// CD2 0x82FF1A68: runtime class inheritance registration.
+namespace PHYSICS
+{
+    static Fun_Runtime::cInheritanceRegistrar cOnlineOrbcPickupBaseInheritRegistrar(
+        PHYSICS::cOnlineOrb::StaticCreateClass(), PHYSICS::cPickupBase::StaticCreateClass());
 }

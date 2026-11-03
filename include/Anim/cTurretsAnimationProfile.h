@@ -1,15 +1,19 @@
 #ifndef Anim_cTurretsAnimationProfile_H
 #define Anim_cTurretsAnimationProfile_H
 
-#include "rws/attributes.h"
+#include "Anim/cSpecificAnimationProfile.h"
+#include "Anim/cProfileDataTurrets.h"
 
 namespace Anim
 {
-    class cTurretsAnimationProfile : public RWS::CAttributeHandler
+    // STAND-IN: reference base order; CD2 HandleAttributes forwards to its data base at 0x3C.
+    class cTurretsAnimationProfile : public cSpecificAnimationProfile, public cProfileDataTurrets
     {
     public:
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
+        virtual void HandleAttributes(const RWS::CAttributePacket &);
+        CD2_LAYOUT_CHECKS(cTurretsAnimationProfile, CD2_SIZE(cTurretsAnimationProfile, 0x48))
     };
 }
 

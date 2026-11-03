@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/NPCArmedBehaviour.h"
 #include "AI/CellMinigun.h"
 #include "rws/classfactory.h"
 
@@ -44,4 +46,11 @@ namespace AI
         static Fun_Runtime::cClass *CellMinigunClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "CellMinigun", 0x100);
         return *CellMinigunClass;
     }
+}
+
+// CD2 0x82F95F08: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar CellMinigunNPCArmedBehaviourInheritRegistrar(
+        AI::CellMinigun::StaticCreateClass(), AI::NPCArmedBehaviour::StaticCreateClass());
 }

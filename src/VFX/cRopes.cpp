@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/non_game_base.h"
 // Matching update (2026-10-28): ShowRopeSegments remains WIP, 29/34 words with
 // the standard verifier. The experimental callee-model extension was discarded.
 // Matching update (2026-10-28): the constructor is strict EXACT in plain and
@@ -137,32 +139,27 @@ namespace VFX
     }
 }
 
-// F31 guess: shader-reload style helper on a global shader object (unknown class; stand-in).
+// Shader reload callback: use the shared CD2 shader layout and cached shader setters.
 namespace VFX
 {
-    class cReloadable
-    {
-    public:
-        virtual void Vf0();
-        virtual void Vf1();
-        virtual void Reload(bool revert);
-        unsigned char pad[0x3C - 4];
-        void *m_pVS;
-        void *m_pPS;
-    };
-    cReloadable *g_pReloadable;
-    void ReleaseVS(void *);
-    void ReleasePS(void *);
+    cShader *g_pReloadable;
 
     bool ReloadShader(bool revert)
     {
         if (g_pReloadable)
         {
             g_pReloadable->Reload(revert);
-            cReloadable *p = g_pReloadable;
-            ReleaseVS(p->m_pVS);
-            ReleasePS(p->m_pPS);
+            cShader *p = g_pReloadable;
+            Ext_82B8A7B0(p->GetVertexShader());
+            Ext_82B8A780(p->GetPixelShader());
         }
         return true;
     }
+}
+
+// CD2 0x8300C078: runtime class inheritance registration.
+namespace VFX
+{
+    static Fun_Runtime::cInheritanceRegistrar cRopescNonGameBaseInheritRegistrar(
+        VFX::cRopes::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }

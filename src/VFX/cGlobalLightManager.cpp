@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/non_game_base.h"
 #include "rws/classfactory.h"
 // src/VFX/cGlobalLightManager.cpp
 //
@@ -42,4 +44,11 @@ namespace VFX
 {
     static RWS::CClassFactory::CRegistrar cGlobalLightManagerRegistrar(
         "cGlobalLightManager", cGlobalLightManager::MakeNew, 0x5AE0, false);
+}
+
+// CD2 0x8300B498: runtime class inheritance registration.
+namespace VFX
+{
+    static Fun_Runtime::cInheritanceRegistrar cGlobalLightManagercNonGameBaseInheritRegistrar(
+        VFX::cGlobalLightManager::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }

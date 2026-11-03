@@ -3,6 +3,12 @@
 
 namespace Anim
 {
+    void cPropThrowNPCAnimationProfile::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cSpecificAnimationProfile::HandleAttributes(packet);
+        cProfileDataPropThrowNPC::HandleAttributeData(*this, packet);
+    }
+
     const char *cPropThrowNPCAnimationProfile::RetClassName() const
     {
         return "cPropThrowNPCAnimationProfile";

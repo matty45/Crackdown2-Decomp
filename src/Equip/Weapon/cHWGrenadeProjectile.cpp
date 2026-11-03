@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "Equip/cFlocket.h"
 #include "rws/classfactory.h"
 // src/Equip/Weapon/cHWGrenadeProjectile.cpp
 //
@@ -42,4 +44,11 @@ namespace Equip
 {
     static RWS::CClassFactory::CRegistrar cHWGrenadeProjectileRegistrar(
         "cHWGrenadeProjectile", cHWGrenadeProjectile::MakeNew, 0xA40, false);
+}
+
+// CD2 0x82FD2268: runtime class inheritance registration.
+namespace Equip
+{
+    static Fun_Runtime::cInheritanceRegistrar cHWGrenadeProjectilecHWProjectileInheritRegistrar(
+        Equip::cHWGrenadeProjectile::StaticCreateClass(), Equip::cHWProjectile::StaticCreateClass());
 }

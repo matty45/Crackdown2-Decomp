@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "Prop/cProp.h"
 #include "rws/classfactory.h"
 // src/AI/Mission/cMissionCriticalProp.cpp
 //
@@ -42,4 +44,11 @@ namespace AI
 {
     static RWS::CClassFactory::CRegistrar cMissionCriticalPropRegistrar(
         "cMissionCriticalProp", cMissionCriticalProp::MakeNew, 0xE40, false);
+}
+
+// CD2 0x82F872E8: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar cMissionCriticalPropcPropInheritRegistrar(
+        AI::cMissionCriticalProp::StaticCreateClass(), Prop::cProp::StaticCreateClass());
 }

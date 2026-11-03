@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/NPCArmedBehaviour.h"
 #include "AI/CellRocket.h"
 #include "rws/classfactory.h"
 
@@ -44,4 +46,11 @@ namespace AI
         static Fun_Runtime::cClass *CellRocketClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "CellRocket", 0x110);
         return *CellRocketClass;
     }
+}
+
+// CD2 0x82F96340: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar CellRocketNPCArmedBehaviourInheritRegistrar(
+        AI::CellRocket::StaticCreateClass(), AI::NPCArmedBehaviour::StaticCreateClass());
 }

@@ -1,3 +1,6 @@
+#include "GDb/cDebugPageHandler.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "fun_runtime/scripthost.h"
 #include "rws/classfactory.h"
 #include "Sim/cTimeOfDay.h"
 
@@ -49,4 +52,18 @@ namespace Sim
 {
     static RWS::CClassFactory::CRegistrar cTimeOfDayRegistrar(
         "cTimeOfDay", cTimeOfDay::MakeNew, 0x2B0, false);
+}
+
+// CD2 0x830020B8: runtime class inheritance registration.
+namespace Sim
+{
+    static Fun_Runtime::cInheritanceRegistrar cTimeOfDaycScriptHostInheritRegistrar(
+        Sim::cTimeOfDay::StaticCreateClass(), Fun_Runtime::cScriptHost::StaticCreateClass());
+}
+
+// CD2 0x83002120: runtime class inheritance registration.
+namespace Sim
+{
+    static Fun_Runtime::cInheritanceRegistrar cTimeOfDaycDebugPageHandlerInheritRegistrar(
+        Sim::cTimeOfDay::StaticCreateClass(), GDb::cDebugPageHandler::StaticCreateClass());
 }

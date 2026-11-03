@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "unknown/cPhantomBody.h"
 #include "rws/classfactory.h"
 // src/cPrismaticTrigger.cpp
 //
@@ -28,4 +30,11 @@ namespace unknown
 {
     static RWS::CClassFactory::CRegistrar cPrismaticTriggerRegistrar(
         "cPrismaticTrigger", cPrismaticTrigger::MakeNew, 0x160, false);
+}
+
+// CD2 0x82FF87D8: runtime class inheritance registration.
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar cPrismaticTriggercPhantomBodyInheritRegistrar(
+        unknown::cPrismaticTrigger::StaticCreateClass(), unknown::cPhantomBody::StaticCreateClass());
 }

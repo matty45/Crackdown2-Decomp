@@ -1,3 +1,4 @@
+#include "fun_runtime/inheritance_registrar.h"
 // Equip/cFlocket.cpp: cFlocket of Crackdown 2.
 // Measurement batch 2 (2026-10-23, Sonnet 5.5): 28 functions byte-exact, 0 tracked as work in progress
 // (config/matched_functions.json). Unknown bases and callees are stand-ins named in the header; out-of-line
@@ -174,4 +175,11 @@ namespace Equip
     {
         return Ret_OK;
     }
+}
+
+// CD2 0x82FD19F8: runtime class inheritance registration.
+namespace Equip
+{
+    static Fun_Runtime::cInheritanceRegistrar cFlocketcHWProjectileInheritRegistrar(
+        Equip::cFlocket::StaticCreateClass(), Equip::cHWProjectile::StaticCreateClass());
 }

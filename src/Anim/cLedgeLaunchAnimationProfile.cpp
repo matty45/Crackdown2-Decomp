@@ -3,6 +3,12 @@
 
 namespace Anim
 {
+    void cLedgeLaunchAnimationProfile::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cSpecificAnimationProfile::HandleAttributes(packet);
+        cProfileDataLedgeLaunch::HandleAttributeData(*this, packet);
+    }
+
     const char *cLedgeLaunchAnimationProfile::RetClassName() const
     {
         return "cLedgeLaunchAnimationProfile";

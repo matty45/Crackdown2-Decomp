@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/non_game_base.h"
 #include "rws/classfactory.h"
 // src/VFX/cOutlines.cpp
 //
@@ -42,4 +44,11 @@ namespace VFX
 {
     static RWS::CClassFactory::CRegistrar cOutlinesRegistrar(
         "cOutlines", cOutlines::MakeNew, 0x460, false);
+}
+
+// CD2 0x83007820: runtime class inheritance registration.
+namespace VFX
+{
+    static Fun_Runtime::cInheritanceRegistrar cOutlinescNonGameBaseInheritRegistrar(
+        VFX::cOutlines::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }

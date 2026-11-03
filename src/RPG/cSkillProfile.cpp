@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/non_game_base.h"
 #include "rws/classfactory.h"
 // src/RPG/cSkillProfile.cpp
 //
@@ -55,4 +57,11 @@ namespace RPG
 {
     static RWS::CClassFactory::CRegistrar cSkillProfileRegistrar(
         "cSkillProfile", cSkillProfile::MakeNew, 0x5A8, false);
+}
+
+// CD2 0x82FFD480: runtime class inheritance registration.
+namespace RPG
+{
+    static Fun_Runtime::cInheritanceRegistrar cSkillProfilecNonGameBaseInheritRegistrar(
+        RPG::cSkillProfile::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }

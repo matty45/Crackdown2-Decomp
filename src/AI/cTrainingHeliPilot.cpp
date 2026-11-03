@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/cPilotBase.h"
 #include "AI/cTrainingHeliPilot.h"
 #include "rws/classfactory.h"
 
@@ -44,4 +46,11 @@ namespace AI
         static Fun_Runtime::cClass *cTrainingHeliPilotClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "cTrainingHeliPilot", 0x150);
         return *cTrainingHeliPilotClass;
     }
+}
+
+// CD2 0x82F9CA28: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar cTrainingHeliPilotcPilotBaseInheritRegistrar(
+        AI::cTrainingHeliPilot::StaticCreateClass(), AI::cPilotBase::StaticCreateClass());
 }

@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "Prop/cSlidingDoor.h"
 #include "unknown/cAgencyGarageDoor.h"
 #include "rws/classfactory.h"
 
@@ -29,4 +31,11 @@ namespace unknown
 namespace unknown
 {
     const Fun_Runtime::cClass *cAgencyGarageDoor::ms_pcAgencyGarageDoorClass = &cAgencyGarageDoor::StaticCreateClass();
+}
+
+// CD2 0x82FF67B0: runtime class inheritance registration.
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar cAgencyGarageDoorcSlidingDoorInheritRegistrar(
+        unknown::cAgencyGarageDoor::StaticCreateClass(), Prop::cSlidingDoor::StaticCreateClass());
 }

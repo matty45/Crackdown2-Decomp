@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "CHARACTER/cCwTransCharacter.h"
 #include "rws/classfactory.h"
 // src/CHARACTER/cFrontEndAgent.cpp
 //
@@ -30,4 +32,11 @@ namespace CHARACTER
 {
     static RWS::CClassFactory::CRegistrar cFrontEndAgentRegistrar(
         "cFrontEndAgent", cFrontEndAgent::MakeNew, 0x3EC0, false);
+}
+
+// CD2 0x83022DD0: runtime class inheritance registration.
+namespace CHARACTER
+{
+    static Fun_Runtime::cInheritanceRegistrar cFrontEndAgentcCwTransCharacterInheritRegistrar(
+        CHARACTER::cFrontEndAgent::StaticCreateClass(), CHARACTER::cCwTransCharacter::StaticCreateClass());
 }

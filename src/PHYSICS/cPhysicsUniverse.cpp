@@ -1,3 +1,6 @@
+#include "GDb/cDebugPageHandler.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/non_game_base.h"
 #include "rws/classfactory.h"
 // src/PHYSICS/cPhysicsUniverse.cpp
 //
@@ -55,4 +58,18 @@ namespace PHYSICS
 {
     static RWS::CClassFactory::CRegistrar cPhysicsUniverseRegistrar(
         "cPhysicsUniverse", cPhysicsUniverse::MakeNew, 0x80, false);
+}
+
+// CD2 0x82FE12D8: runtime class inheritance registration.
+namespace PHYSICS
+{
+    static Fun_Runtime::cInheritanceRegistrar cPhysicsUniversecNonGameBaseInheritRegistrar(
+        PHYSICS::cPhysicsUniverse::StaticCreateClass(), cNonGameBase::StaticCreateClass());
+}
+
+// CD2 0x82FE1340: runtime class inheritance registration.
+namespace PHYSICS
+{
+    static Fun_Runtime::cInheritanceRegistrar cPhysicsUniversecDebugPageHandlerInheritRegistrar(
+        PHYSICS::cPhysicsUniverse::StaticCreateClass(), GDb::cDebugPageHandler::StaticCreateClass());
 }

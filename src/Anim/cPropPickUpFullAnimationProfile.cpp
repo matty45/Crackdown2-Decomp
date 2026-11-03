@@ -3,6 +3,12 @@
 
 namespace Anim
 {
+    void cPropPickUpFullAnimationProfile::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cSpecificAnimationProfile::HandleAttributes(packet);
+        cProfileDataPropPickUpFull::HandleAttributeData(*this, packet);
+    }
+
     const char *cPropPickUpFullAnimationProfile::RetClassName() const
     {
         return "cPropPickUpFullAnimationProfile";

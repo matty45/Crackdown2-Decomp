@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/non_game_base.h"
 #include "rws/classfactory.h"
 // src/cOutlines2.cpp
 //
@@ -15,6 +17,26 @@
 
 namespace unknown
 {
+    RWS::CAttributeHandler *cOutlines2::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cOutlines2;
+    }
+
+    const char *cOutlines2::RetClassName() const
+    {
+        return "cOutlines2";
+    }
+
+    const Fun_Runtime::cClass &cOutlines2::RetClass() const
+    {
+        return *ms_pcOutlines2Class;
+    }
+
+    bool cOutlines2::IsA(const Fun_Runtime::cClass &test) const
+    {
+        return ms_pcOutlines2Class->IsA(test);
+    }
+
     const Fun_Runtime::cClass *cOutlines2::ms_pcOutlines2Class = &cOutlines2::StaticCreateClass();
 
     Fun_Runtime::cClass &cOutlines2::StaticCreateClass()
@@ -28,4 +50,11 @@ namespace unknown
 {
     static RWS::CClassFactory::CRegistrar cOutlines2Registrar(
         "cOutlines2", cOutlines2::MakeNew, 0x7C, false);
+}
+
+// CD2 0x83007900: runtime class inheritance registration.
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar cOutlines2cNonGameBaseInheritRegistrar(
+        unknown::cOutlines2::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }

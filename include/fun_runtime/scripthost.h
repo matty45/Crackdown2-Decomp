@@ -11,6 +11,10 @@
 #include "fun_runtime/class.h"
 namespace Fun_Runtime {
 class cScriptHost : public cSafeDeletable, public cRegisteredClass {
+    public:
+        // CD2 0x8276ED30 creates the named runtime descriptor.
+        static Fun_Runtime::cClass &StaticCreateClass();
+
 public:
     cScriptHost() : m_bFlag(false) {}
     virtual ~cScriptHost();

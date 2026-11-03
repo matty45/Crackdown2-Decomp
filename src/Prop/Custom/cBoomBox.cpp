@@ -13,9 +13,16 @@
 //     py -I tools/cd2.py tasks src/Prop/Custom/cBoomBox.cpp
 
 #include "Prop/cBoomBox.h"
+#include "Prop/cBoomBoxPrototype.h"
+#include <new>
 
 namespace Prop
 {
+    RWS::CAttributeHandler *cBoomBox::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cBoomBoxPrototype(packet);
+    }
+
     const char *cBoomBox::RetClassName() const
     {
         return "cBoomBox";

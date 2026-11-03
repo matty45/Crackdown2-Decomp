@@ -1,3 +1,6 @@
+#include "GDb/cDebugPageHandler.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/non_game_base.h"
 #include "rws/classfactory.h"
 #include "WorldManager/cWorldManager.h"
 
@@ -29,4 +32,18 @@ namespace WorldManager
 {
     static RWS::CClassFactory::CRegistrar cWorldManagerRegistrar(
         "cWorldManager", cWorldManager::MakeNew, 0x5DA0, false);
+}
+
+// CD2 0x8300CFA8: runtime class inheritance registration.
+namespace WorldManager
+{
+    static Fun_Runtime::cInheritanceRegistrar cWorldManagercNonGameBaseInheritRegistrar(
+        WorldManager::cWorldManager::StaticCreateClass(), cNonGameBase::StaticCreateClass());
+}
+
+// CD2 0x8300D010: runtime class inheritance registration.
+namespace WorldManager
+{
+    static Fun_Runtime::cInheritanceRegistrar cWorldManagercDebugPageHandlerInheritRegistrar(
+        WorldManager::cWorldManager::StaticCreateClass(), GDb::cDebugPageHandler::StaticCreateClass());
 }

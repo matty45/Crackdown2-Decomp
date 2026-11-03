@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "Equip/cCWWeapon.h"
 #include "rws/classfactory.h"
 // src/Equip/Gadget/Refractor/cRefractor.cpp
 //
@@ -30,4 +32,11 @@ namespace Equip
 {
     static RWS::CClassFactory::CRegistrar cRefractorRegistrar(
         "cRefractor", cRefractor::MakeNew, 0xA60, false);
+}
+
+// CD2 0x82FCD658: runtime class inheritance registration.
+namespace Equip
+{
+    static Fun_Runtime::cInheritanceRegistrar cRefractorcCWWeaponInheritRegistrar(
+        Equip::cRefractor::StaticCreateClass(), Equip::cCWWeapon::StaticCreateClass());
 }

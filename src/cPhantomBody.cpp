@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/game_base.h"
 #include "rws/classfactory.h"
 // src/cPhantomBody.cpp
 //
@@ -28,4 +30,11 @@ namespace unknown
 {
     static RWS::CClassFactory::CRegistrar cPhantomBodyRegistrar(
         "cPhantomBody", cPhantomBody::MakeNew, 0x140, false);
+}
+
+// CD2 0x82FE0060: runtime class inheritance registration.
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar cPhantomBodycGameBaseInheritRegistrar(
+        unknown::cPhantomBody::StaticCreateClass(), cGameBase::StaticCreateClass());
 }

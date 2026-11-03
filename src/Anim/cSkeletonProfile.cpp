@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/non_game_base.h"
 #include "Anim/cSkeletonProfile.h"
 #include "rws/classfactory.h"
 
@@ -42,4 +44,11 @@ namespace Anim
     {
         return ms_pcSkeletonProfileClass->IsA(c);
     }
+}
+
+// CD2 0x82FA0930: runtime class inheritance registration.
+namespace Anim
+{
+    static Fun_Runtime::cInheritanceRegistrar cSkeletonProfilecNonGameBaseInheritRegistrar(
+        Anim::cSkeletonProfile::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }

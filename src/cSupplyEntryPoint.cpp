@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/game_base.h"
 #include "rws/classfactory.h"
 // src/cSupplyEntryPoint.cpp
 //
@@ -28,4 +30,11 @@ namespace unknown
 {
     static RWS::CClassFactory::CRegistrar cSupplyEntryPointRegistrar(
         "cSupplyEntryPoint", cSupplyEntryPoint::MakeNew, 0x140, false);
+}
+
+// CD2 0x82FF94E0: runtime class inheritance registration.
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar cSupplyEntryPointcGameBaseInheritRegistrar(
+        unknown::cSupplyEntryPoint::StaticCreateClass(), cGameBase::StaticCreateClass());
 }

@@ -13,7 +13,9 @@ namespace VFX
     public:
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
+        int RetEffectId(const char *); // RuffKing name; CD2 0x827EB880
     };
+    extern cParticleEffectManager *g_pParticleEffectManager;
 }
 
 #endif // VFX_CPARTICLEEFFECTMANAGER_H

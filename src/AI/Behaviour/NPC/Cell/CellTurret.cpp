@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/NPCArmedBehaviour.h"
 #include "AI/CellTurret.h"
 #include "rws/classfactory.h"
 
@@ -44,4 +46,11 @@ namespace AI
         static Fun_Runtime::cClass *CellTurretClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "CellTurret", 0x100);
         return *CellTurretClass;
     }
+}
+
+// CD2 0x82F96778: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar CellTurretNPCArmedBehaviourInheritRegistrar(
+        AI::CellTurret::StaticCreateClass(), AI::NPCArmedBehaviour::StaticCreateClass());
 }

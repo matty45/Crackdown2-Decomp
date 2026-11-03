@@ -3,6 +3,12 @@
 
 namespace Anim
 {
+    void cCrouchAnimationProfile::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cSpecificAnimationProfile::HandleAttributes(packet);
+        cProfileDataCrouch::HandleAttributeData(*this, packet);
+    }
+
     const char *cCrouchAnimationProfile::RetClassName() const
     {
         return "cCrouchAnimationProfile";

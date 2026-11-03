@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/NPCBehaviour.h"
 #include "AI/cPilotBase.h"
 #include "rws/classfactory.h"
 
@@ -44,4 +46,11 @@ namespace AI
         static Fun_Runtime::cClass *cPilotBaseClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "cPilotBase", 0x140);
         return *cPilotBaseClass;
     }
+}
+
+// CD2 0x82F9BD80: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar cPilotBaseNPCBehaviourInheritRegistrar(
+        AI::cPilotBase::StaticCreateClass(), AI::NPCBehaviour::StaticCreateClass());
 }

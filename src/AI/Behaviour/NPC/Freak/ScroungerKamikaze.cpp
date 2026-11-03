@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/Scrounger.h"
 #include "AI/ScroungerKamikaze.h"
 #include "rws/classfactory.h"
 
@@ -44,4 +46,11 @@ namespace AI
         static Fun_Runtime::cClass *ScroungerKamikazeClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "ScroungerKamikaze", 0x140);
         return *ScroungerKamikazeClass;
     }
+}
+
+// CD2 0x82F94748: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar ScroungerKamikazeScroungerInheritRegistrar(
+        AI::ScroungerKamikaze::StaticCreateClass(), AI::Scrounger::StaticCreateClass());
 }

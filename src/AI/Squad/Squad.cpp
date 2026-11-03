@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/non_game_base.h"
 #include "AI/Squad.h"
 #include "rws/classfactory.h"
 
@@ -42,4 +44,11 @@ namespace AI
     {
         return ms_pSquadClass->IsA(c);
     }
+}
+
+// CD2 0x82F9D298: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar SquadcNonGameBaseInheritRegistrar(
+        AI::Squad::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }

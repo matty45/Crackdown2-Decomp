@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "PHYSICS/cStaticBody.h"
 #include "rws/classfactory.h"
 // src/WorldManager/cStaticEnvironment.cpp
 //
@@ -30,4 +32,11 @@ namespace WorldManager
 {
     static RWS::CClassFactory::CRegistrar cStaticEnvironmentRegistrar(
         "cStaticEnvironment", cStaticEnvironment::MakeNew, 0x2E0, false);
+}
+
+// CD2 0x8300CB78: runtime class inheritance registration.
+namespace WorldManager
+{
+    static Fun_Runtime::cInheritanceRegistrar cStaticEnvironmentcStaticBodyInheritRegistrar(
+        WorldManager::cStaticEnvironment::StaticCreateClass(), PHYSICS::cStaticBody::StaticCreateClass());
 }

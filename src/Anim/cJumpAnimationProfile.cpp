@@ -3,6 +3,12 @@
 
 namespace Anim
 {
+    void cJumpAnimationProfile::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cSpecificAnimationProfile::HandleAttributes(packet);
+        cProfileDataJump::HandleAttributeData(*this, packet);
+    }
+
     const char *cJumpAnimationProfile::RetClassName() const
     {
         return "cJumpAnimationProfile";

@@ -1,3 +1,6 @@
+#include "GDb/cDebugPageHandler.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/game_base.h"
 #include "rws/classfactory.h"
 // src/cVirtualCamera.cpp
 //
@@ -28,4 +31,18 @@ namespace unknown
 {
     static RWS::CClassFactory::CRegistrar cVirtualCameraRegistrar(
         "cVirtualCamera", cVirtualCamera::MakeNew, 0xF10, false);
+}
+
+// CD2 0x82FAB6A8: runtime class inheritance registration.
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar cVirtualCameracGameBaseInheritRegistrar(
+        unknown::cVirtualCamera::StaticCreateClass(), cGameBase::StaticCreateClass());
+}
+
+// CD2 0x82FAB710: runtime class inheritance registration.
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar cVirtualCameracDebugPageHandlerInheritRegistrar(
+        unknown::cVirtualCamera::StaticCreateClass(), GDb::cDebugPageHandler::StaticCreateClass());
 }

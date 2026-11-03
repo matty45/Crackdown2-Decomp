@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "PHYSICS/cPickupBase.h"
 #include "rws/classfactory.h"
 // src/cAudioLog.cpp
 //
@@ -28,4 +30,11 @@ namespace unknown
 {
     static RWS::CClassFactory::CRegistrar cAudioLogRegistrar(
         "cAudioLog", cAudioLog::MakeNew, 0x1A0, false);
+}
+
+// CD2 0x82FF10F0: runtime class inheritance registration.
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar cAudioLogcPickupBaseInheritRegistrar(
+        unknown::cAudioLog::StaticCreateClass(), PHYSICS::cPickupBase::StaticCreateClass());
 }

@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/NPCBehaviour.h"
 // AI/cChaseBehaviour.cpp: cChaseBehaviour of Crackdown 2.
 // All 28 mapped functions are byte-exact (checked 2026-10-26; config/matched_functions.json).
 // Unknown bases and callees are stand-ins named in the header; out-of-line
@@ -254,4 +256,11 @@ namespace AI
         &cChaseBehaviour::Slot112, &cChaseBehaviour::Slot105, &cChaseBehaviour::Slot113, &cChaseBehaviour::V106,
         &cChaseBehaviour::Slot110, &cChaseBehaviour::Slot114, &cChaseBehaviour::Slot103
     };
+}
+
+// CD2 0x82F9A108: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar cChaseBehaviourNPCBehaviourInheritRegistrar(
+        AI::cChaseBehaviour::StaticCreateClass(), AI::NPCBehaviour::StaticCreateClass());
 }

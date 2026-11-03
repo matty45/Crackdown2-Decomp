@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/cCharacterEntityIF.h"
 // AI/cAiPlayer.cpp. Names and layouts: include/AI/cAiPlayer.h. Some functions in this file's range belong to other
 // classes: the linker folded identical getters and kept the copies from this object (Sim::cTimeOfDay::RetPhase,
 // AI::cAiTargetInfo::IsPrimaryFireBlocked / IsTargetVisible, AI::cAIEvent::RetSource, AI::cObjectInstigatorEvent::
@@ -282,4 +284,11 @@ namespace AI
 {
     static RWS::CClassFactory::CRegistrar cAiPlayerRegistrar(
         "cAiPlayer", cAiPlayer::MakeNew, 0x620, false);
+}
+
+// CD2 0x82F604D0: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar cAiPlayercCharacterEntityIFInheritRegistrar(
+        AI::cAiPlayer::StaticCreateClass(), AI::cCharacterEntityIF::StaticCreateClass());
 }

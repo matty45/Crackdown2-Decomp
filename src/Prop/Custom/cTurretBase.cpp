@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "Prop/cProp.h"
 #include "rws/classfactory.h"
 // src/Prop/Custom/cTurretBase.cpp
 //
@@ -13,9 +15,44 @@
 //     py -I tools/cd2.py tasks src/Prop/Custom/cTurretBase.cpp
 
 #include "Prop/cTurretBase.h"
+#include <new>
+#include "rw/rwmem.h"
 
 namespace Prop
 {
+    void cTurretBase::cTurretBasePrototype::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cPropPrototype::HandleAttributes(packet);
+        for (RWS::CAttributeCommandIterator it(packet, "cTurretBase"); !it.IsFinished(); ++it)
+        {
+            switch (it->GetCommandId())
+            {
+            case 0:
+                { float value = it->GetAs_float(); RwMemNative32(&value, 4); m_fTurretRotAccel = value; }
+                break;
+            case 1:
+                { float value = it->GetAs_float(); RwMemNative32(&value, 4); m_fGunRotAccel = value; }
+                break;
+            case 2:
+                { float value = it->GetAs_float(); RwMemNative32(&value, 4); m_fTurretRotSpeed = value; }
+                break;
+            case 3:
+                { float value = it->GetAs_float(); RwMemNative32(&value, 4); m_fGunRotSpeed = value; }
+                break;
+            }
+        }
+    }
+
+    RWS::CAttributeHandler *cTurretBase::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cTurretBasePrototype(packet);
+    }
+
+    Fun_Runtime::RetVal cTurretBase::cTurretBasePrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
+
     // CD2 0x827485B0 unregisters type 0x19, then member destruction unlinks the safe pointers.
     // cProp's inherited secondary base layout is still incomplete.
     cTurretBase::~cTurretBase()
@@ -62,4 +99,21 @@ namespace Prop
 {
     static RWS::CClassFactory::CRegistrar cTurretBaseRegistrar(
         "cTurretBase", cTurretBase::MakeNew, 0x1080, false);
+}
+
+namespace Prop
+{
+    RWS::CAttributeHandler *cTurretBase::SpawnFromPrototype(GOM::cObjectPrototype *prototype, void *memory)
+    {
+        if (memory)
+            return new (memory) cTurretBase(prototype);
+        return 0;
+    }
+}
+
+// CD2 0x82FFC728: runtime class inheritance registration.
+namespace Prop
+{
+    static Fun_Runtime::cInheritanceRegistrar cTurretBasecPropInheritRegistrar(
+        Prop::cTurretBase::StaticCreateClass(), Prop::cProp::StaticCreateClass());
 }

@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/cBreachHole.h"
 #include "AI/cGoliathBreachHole.h"
 #include "rws/classfactory.h"
 
@@ -43,4 +45,11 @@ namespace AI
         static Fun_Runtime::cClass *cGoliathBreachHoleClass = new Fun_Runtime::cClass(0x9F37F, "cGoliathBreachHole", 0x1D0);
         return *cGoliathBreachHoleClass;
     }
+}
+
+// CD2 0x82F8A090: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar cGoliathBreachHolecBreachHoleInheritRegistrar(
+        AI::cGoliathBreachHole::StaticCreateClass(), AI::cBreachHole::StaticCreateClass());
 }

@@ -1,5 +1,6 @@
 #include "RPG/cRPGGlobalsInterface.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
 
 namespace RPG
 {

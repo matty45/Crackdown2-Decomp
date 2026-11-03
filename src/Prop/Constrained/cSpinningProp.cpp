@@ -1,3 +1,6 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "Prop/cPivotBasedProp.h"
+#include <new>
 #include "rws/classfactory.h"
 // src/Prop/Constrained/cSpinningProp.cpp
 //
@@ -16,6 +19,11 @@
 
 namespace Prop
 {
+    RWS::CAttributeHandler *cSpinningProp::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cSpinningPropPrototype(packet);
+    }
+
     const char *cSpinningProp::RetClassName() const
     {
         return "cSpinningProp";
@@ -42,4 +50,21 @@ namespace Prop
 {
     static RWS::CClassFactory::CRegistrar cSpinningPropRegistrar(
         "cSpinningProp", cSpinningProp::MakeNew, 0xE50, false);
+}
+
+namespace Prop
+{
+    RWS::CAttributeHandler *cSpinningProp::SpawnFromPrototype(GOM::cObjectPrototype *prototype, void *memory)
+    {
+        if (memory)
+            return new (memory) cSpinningProp(prototype);
+        return 0;
+    }
+}
+
+// CD2 0x82FF8EF0: runtime class inheritance registration.
+namespace Prop
+{
+    static Fun_Runtime::cInheritanceRegistrar cSpinningPropcPivotBasedPropInheritRegistrar(
+        Prop::cSpinningProp::StaticCreateClass(), Prop::cPivotBasedProp::StaticCreateClass());
 }

@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "Vehicle/cHelicopter.h"
 #include "rws/classfactory.h"
 // src/cWeaponisedHelicopter.cpp
 //
@@ -28,4 +30,11 @@ namespace unknown
 {
     static RWS::CClassFactory::CRegistrar cWeaponisedHelicopterRegistrar(
         "cWeaponisedHelicopter", cWeaponisedHelicopter::MakeNew, 0x2DB0, false);
+}
+
+// CD2 0x82FEA498: runtime class inheritance registration.
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar cWeaponisedHelicoptercHelicopterInheritRegistrar(
+        unknown::cWeaponisedHelicopter::StaticCreateClass(), Vehicle::cHelicopter::StaticCreateClass());
 }

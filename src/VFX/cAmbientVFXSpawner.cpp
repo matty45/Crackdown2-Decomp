@@ -1,3 +1,4 @@
+#include "fun_runtime/inheritance_registrar.h"
 // VFX/cAmbientVFXSpawner.cpp: ambient VFX spawner and prototype classes of Crackdown 2.
 // All 21 mapped functions are exact; the three CalcRand functions require LTCG. See config/matched_functions.json.
 // HandleAttributes uses GUID assignment before lookup to preserve the target's three GUID temporaries.
@@ -162,4 +163,11 @@ namespace VFX
     // Defined in this file: RuffKing's cAmbientVFXSpawner.obj holds its dynamic initializer and at-exit destructor.
     Fun_Runtime::cRandGen cAmbientVFXSpawnerBase::ms_RandGen;
 
+}
+
+// CD2 0x8300AEE0: runtime class inheritance registration.
+namespace VFX
+{
+    static Fun_Runtime::cInheritanceRegistrar cAmbientVFXSpawnercAmbientVFXSpawnerBaseInheritRegistrar(
+        VFX::cAmbientVFXSpawner::StaticCreateClass(), VFX::cAmbientVFXSpawnerBase::StaticCreateClass());
 }

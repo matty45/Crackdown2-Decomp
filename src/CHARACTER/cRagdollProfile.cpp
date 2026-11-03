@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/non_game_base.h"
 #include "CHARACTER/cRagdollProfile.h"
 #include "rws/classfactory.h"
 
@@ -42,4 +44,11 @@ namespace CHARACTER
     {
         return ms_pcRagdollProfileClass->IsA(c);
     }
+}
+
+// CD2 0x82FB1CC8: runtime class inheritance registration.
+namespace CHARACTER
+{
+    static Fun_Runtime::cInheritanceRegistrar cRagdollProfilecNonGameBaseInheritRegistrar(
+        CHARACTER::cRagdollProfile::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }

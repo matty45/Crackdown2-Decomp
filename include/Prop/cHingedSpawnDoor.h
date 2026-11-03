@@ -11,6 +11,9 @@ namespace Prop
     class cHingedSpawnDoor : public Prop::cHingedProp
     {
     public:
+        // CD2 placement factory 0x82744A88; constructor signature follows RuffKing.
+        cHingedSpawnDoor(GOM::cObjectPrototype *);
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcHingedSpawnDoorClass;
         static Fun_Runtime::cClass &StaticCreateClass();

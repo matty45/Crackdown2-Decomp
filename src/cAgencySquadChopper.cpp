@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "VEHICLE_CONTROL/cHelicopterController.h"
 #include "rws/classfactory.h"
 // src/cAgencySquadChopper.cpp
 //
@@ -28,4 +30,11 @@ namespace unknown
 {
     static RWS::CClassFactory::CRegistrar cAgencySquadChopperRegistrar(
         "cAgencySquadChopper", cAgencySquadChopper::MakeNew, 0x2360, false);
+}
+
+// CD2 0x82FEBD00: runtime class inheritance registration.
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar cAgencySquadChoppercVehicleInheritRegistrar(
+        unknown::cAgencySquadChopper::StaticCreateClass(), Vehicle::cVehicle::StaticCreateClass());
 }

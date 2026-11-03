@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/FreakBase.h"
 #include "AI/Reaper.h"
 #include "rws/classfactory.h"
 
@@ -44,4 +46,11 @@ namespace AI
         static Fun_Runtime::cClass *ReaperClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "Reaper", 0x220);
         return *ReaperClass;
     }
+}
+
+// CD2 0x82F93ED8: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar ReaperFreakBaseInheritRegistrar(
+        AI::Reaper::StaticCreateClass(), AI::FreakBase::StaticCreateClass());
 }

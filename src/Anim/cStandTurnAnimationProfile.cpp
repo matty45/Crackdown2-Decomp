@@ -3,6 +3,12 @@
 
 namespace Anim
 {
+    void cStandTurnAnimationProfile::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cSpecificAnimationProfile::HandleAttributes(packet);
+        cProfileDataStandTurn::HandleAttributeData(*this, packet);
+    }
+
     const char *cStandTurnAnimationProfile::RetClassName() const
     {
         return "cStandTurnAnimationProfile";

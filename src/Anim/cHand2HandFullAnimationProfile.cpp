@@ -3,6 +3,12 @@
 
 namespace Anim
 {
+    void cHand2HandFullAnimationProfile::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cSpecificAnimationProfile::HandleAttributes(packet);
+        cProfileDataHand2HandFull::HandleAttributeData(*this, packet);
+    }
+
     const char *cHand2HandFullAnimationProfile::RetClassName() const
     {
         return "cHand2HandFullAnimationProfile";

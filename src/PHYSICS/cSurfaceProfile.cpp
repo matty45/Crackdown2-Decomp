@@ -1,9 +1,19 @@
 #include "fun_runtime/retval.h"
 #include "PHYSICS/cSurfaceProfile.h"
 #include "rws/classfactory.h"
+#include "fun_runtime/inheritance_registrar.h"
 
 namespace PHYSICS
 {
+    // CD2 0x82FE20C8 registers cNonGameBase before the derived runtime class.
+    static Fun_Runtime::cInheritanceRegistrar cSurfaceProfilecNonGameBaseInheritRegistrar(
+        cSurfaceProfile::StaticCreateClass(), cNonGameBase::StaticCreateClass());
+
+    RWS::CAttributeHandler *cSurfaceProfile::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cSurfaceProfile;
+    }
+
     const char *cSurfaceProfile::RetClassName() const
     {
         return "cSurfaceProfile";

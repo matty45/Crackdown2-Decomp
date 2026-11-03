@@ -1,3 +1,6 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "Equip/cFlocket.h"
+#include "Equip/cWeaponProjectile.h"
 // src/Equip/Weapon/cHWProjectile.cpp
 //
 // Class: cHWProjectile (namespace: Equip). Set up automatically: no function is matched yet. The address range and the
@@ -10,3 +13,16 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Equip/Weapon/cHWProjectile.cpp
+
+// CD2 0x82FD26F8: runtime class inheritance registration.
+namespace Equip
+{
+    Fun_Runtime::cClass &cHWProjectile::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cHWProjectileClass = new Fun_Runtime::cClass(17002, "cHWProjectile", 0x970);
+        return *cHWProjectileClass;
+    }
+
+    static Fun_Runtime::cInheritanceRegistrar cHWProjectilecWeaponProjectileInheritRegistrar(
+        Equip::cHWProjectile::StaticCreateClass(), Equip::cWeaponProjectile::StaticCreateClass());
+}

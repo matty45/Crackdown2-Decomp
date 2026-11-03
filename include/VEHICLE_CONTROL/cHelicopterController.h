@@ -39,7 +39,11 @@ namespace Vehicle
         unsigned char m_pad[0x1914];
         cVehiclePhysics *m_pPhysics;
     };
-    class cVehicle : public cVehicleRoot, public cVehicleIface {};
+    class cVehicle : public cVehicleRoot, public cVehicleIface {
+    public:
+        // CD2 0x826CC860 creates the named runtime descriptor.
+        static Fun_Runtime::cClass &StaticCreateClass();
+};
 }
 
 namespace VEHICLE_CONTROL
@@ -47,6 +51,8 @@ namespace VEHICLE_CONTROL
     class cVehicleController : public cNonGameBase
     {
     public:
+        // CD2 0x82781AA0 creates the named runtime descriptor.
+        static Fun_Runtime::cClass &StaticCreateClass();
         // RuffKing: cVehicleControllerPrototype : cNonGameBase::cNonGameBasePrototype (: GOM::cObjectPrototype).
         // Its destructor is out of line (CD2 0x82783498); prototype destructors of derived controllers call it.
         class cVehicleControllerPrototype : public GOM::cObjectPrototype

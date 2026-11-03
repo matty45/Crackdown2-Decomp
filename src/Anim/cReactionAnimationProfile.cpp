@@ -3,6 +3,12 @@
 
 namespace Anim
 {
+    void cReactionAnimationProfile::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cSpecificAnimationProfile::HandleAttributes(packet);
+        cProfileDataReaction::HandleAttributeData(*this, packet);
+    }
+
     const char *cReactionAnimationProfile::RetClassName() const
     {
         return "cReactionAnimationProfile";

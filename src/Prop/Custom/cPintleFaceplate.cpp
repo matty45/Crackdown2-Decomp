@@ -1,8 +1,23 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "Prop/cProp.h"
+// The shared cProp hierarchy now reproduces the inherited vptr stores exactly.
 #include "Prop/cPintleFaceplate.h"
+#include "Prop/cPintleFaceplatePrototype.h"
+#include <new>
 #include "rws/classfactory.h"
 
 namespace Prop
 {
+    RWS::CAttributeHandler *cPintleFaceplate::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cPintleFaceplatePrototype(packet);
+    }
+
+    Fun_Runtime::RetVal cPintleFaceplatePrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
+
     // CD2 0x827453D8 has no derived cleanup beyond vtable restoration.
     cPintleFaceplate::~cPintleFaceplate()
     {
@@ -47,4 +62,11 @@ namespace Prop
     {
         return ms_pcPintleFaceplateClass->IsA(c);
     }
+}
+
+// CD2 0x82FFB668: runtime class inheritance registration.
+namespace Prop
+{
+    static Fun_Runtime::cInheritanceRegistrar cPintleFaceplatecPropInheritRegistrar(
+        Prop::cPintleFaceplate::StaticCreateClass(), Prop::cProp::StaticCreateClass());
 }

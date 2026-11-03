@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "fun_runtime/scripthost.h"
 #include "rws/classfactory.h"
 // src/AudioLogic/cAudioBaseProfile.cpp
 //
@@ -55,4 +57,11 @@ namespace AudioLogic
 {
     static RWS::CClassFactory::CRegistrar cAudioBaseProfileRegistrar(
         "cAudioBaseProfile", cAudioBaseProfile::MakeNew, 0x60, false);
+}
+
+// CD2 0x82FA9ED8: runtime class inheritance registration.
+namespace AudioLogic
+{
+    static Fun_Runtime::cInheritanceRegistrar cAudioBaseProfilecScriptHostInheritRegistrar(
+        AudioLogic::cAudioBaseProfile::StaticCreateClass(), Fun_Runtime::cScriptHost::StaticCreateClass());
 }

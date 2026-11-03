@@ -1,3 +1,4 @@
+#include "GDb/cDebugPageHandler.h"
 // Hierarchy correction (2026-10-28): CD2's four-byte debug handler inherits
 // cRegisteredClass. Its table at 0x8212DC9C contains RetClass, IsA and the
 // virtual destructor. This inheritance preserves the constructor's base-address
@@ -21,6 +22,7 @@
 #include "fun_runtime/vector.h"
 #include "fun_runtime/class.h"
 #include "gom/non_game_base.h"
+#include "VFX/cShader.h"
 
 namespace Fun_Runtime
 {
@@ -140,14 +142,6 @@ namespace Cmd
 
 namespace VFX
 {
-    class cShader
-    {
-    public:
-        virtual ~cShader();
-    private:
-        unsigned char m_data[0x60];
-    };
-
     // cDefinedShader<cShader_Rope_Traits>: only the out-of-line constructor matters here.
     class cDefinedRopeShader : public cShader
     {
@@ -163,16 +157,7 @@ namespace VFX
         RopeSegmentData() : x0(0.0f), y0(0.0f), z0(0.0f), x1(0.0f), y1(0.0f), z1(0.0f) {}
     };
 
-    class cDebugPageHandler : public Fun_Runtime::cRegisteredClass
-    {
-    public:
-        cDebugPageHandler() {}
-        virtual const Fun_Runtime::cClass &RetClass() const;
-        virtual bool IsA(const Fun_Runtime::cClass &) const;
-        virtual ~cDebugPageHandler() {}
-    };
-
-    class cRopes : public cNonGameBase, public cDebugPageHandler
+    class cRopes : public cNonGameBase, public GDb::cDebugPageHandler
     {
     private:
         Fun_Runtime::cVector<RopeSegmentData *> m_lSegments;

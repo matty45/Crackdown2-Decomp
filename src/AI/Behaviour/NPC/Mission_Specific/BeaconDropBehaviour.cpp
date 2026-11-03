@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/cPilotBase.h"
 #include "AI/BeaconDropBehaviour.h"
 #include "rws/classfactory.h"
 
@@ -44,4 +46,11 @@ namespace AI
         static Fun_Runtime::cClass *BeaconDropBehaviourClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "BeaconDropBehaviour", 0x150);
         return *BeaconDropBehaviourClass;
     }
+}
+
+// CD2 0x82F97F48: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar BeaconDropBehaviourcPilotBaseInheritRegistrar(
+        AI::BeaconDropBehaviour::StaticCreateClass(), AI::cPilotBase::StaticCreateClass());
 }

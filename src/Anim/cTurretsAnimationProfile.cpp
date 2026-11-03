@@ -3,6 +3,12 @@
 
 namespace Anim
 {
+    void cTurretsAnimationProfile::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cSpecificAnimationProfile::HandleAttributes(packet);
+        cProfileDataTurrets::HandleAttributeData(*this, packet);
+    }
+
     const char *cTurretsAnimationProfile::RetClassName() const
     {
         return "cTurretsAnimationProfile";

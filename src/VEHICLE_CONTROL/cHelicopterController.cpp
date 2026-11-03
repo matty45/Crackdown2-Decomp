@@ -1,3 +1,4 @@
+#include "fun_runtime/inheritance_registrar.h"
 // VEHICLE_CONTROL/cHelicopterController.cpp: cHelicopterController of Crackdown 2.
 // Measurement batch 2 (2026-10-23, Sonnet 5.5): 17 functions byte-exact, 1 tracked as work in progress
 // (config/matched_functions.json). Unknown bases and callees are stand-ins named in the header; out-of-line
@@ -216,4 +217,11 @@ namespace VEHICLE_CONTROL
     {
         return ms_pcHelicopterControllerClass->IsA(c);
     }
+}
+
+// CD2 0x83005708: runtime class inheritance registration.
+namespace VEHICLE_CONTROL
+{
+    static Fun_Runtime::cInheritanceRegistrar cHelicopterControllercVehicleControllerInheritRegistrar(
+        VEHICLE_CONTROL::cHelicopterController::StaticCreateClass(), VEHICLE_CONTROL::cVehicleController::StaticCreateClass());
 }

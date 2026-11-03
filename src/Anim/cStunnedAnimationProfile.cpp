@@ -3,6 +3,12 @@
 
 namespace Anim
 {
+    void cStunnedAnimationProfile::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cSpecificAnimationProfile::HandleAttributes(packet);
+        cStunnedProfileData::HandleAttributeData(*this, packet);
+    }
+
     const char *cStunnedAnimationProfile::RetClassName() const
     {
         return "cStunnedAnimationProfile";

@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/cPilotBase.h"
 #include "AI/cVehicleCollectionBehaviour.h"
 #include "rws/classfactory.h"
 
@@ -44,4 +46,11 @@ namespace AI
         static Fun_Runtime::cClass *cVehicleCollectionBehaviourClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "cVehicleCollectionBehaviour", 0x160);
         return *cVehicleCollectionBehaviourClass;
     }
+}
+
+// CD2 0x82F9CE60: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar cVehicleCollectionBehaviourcPilotBaseInheritRegistrar(
+        AI::cVehicleCollectionBehaviour::StaticCreateClass(), AI::cPilotBase::StaticCreateClass());
 }

@@ -3,6 +3,12 @@
 
 namespace Anim
 {
+    void cBasePoseAnimationProfile::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cSpecificAnimationProfile::HandleAttributes(packet);
+        cProfileDataBasePose::HandleAttributeData(*this, packet);
+    }
+
     const char *cBasePoseAnimationProfile::RetClassName() const
     {
         return "cBasePoseAnimationProfile";

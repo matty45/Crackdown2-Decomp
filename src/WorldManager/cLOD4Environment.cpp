@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/game_base.h"
 #include "rws/classfactory.h"
 // src/WorldManager/cLOD4Environment.cpp
 //
@@ -30,4 +32,11 @@ namespace WorldManager
 {
     static RWS::CClassFactory::CRegistrar cLOD4EnvironmentRegistrar(
         "cLOD4Environment", cLOD4Environment::MakeNew, 0x2C0, false);
+}
+
+// CD2 0x8300C8D0: runtime class inheritance registration.
+namespace WorldManager
+{
+    static Fun_Runtime::cInheritanceRegistrar cLOD4EnvironmentcGameBaseInheritRegistrar(
+        WorldManager::cLOD4Environment::StaticCreateClass(), cGameBase::StaticCreateClass());
 }

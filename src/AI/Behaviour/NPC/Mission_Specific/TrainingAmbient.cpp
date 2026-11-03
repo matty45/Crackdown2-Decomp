@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/NPCBehaviour.h"
 #include "AI/TrainingAmbient.h"
 #include "rws/classfactory.h"
 
@@ -41,4 +43,11 @@ namespace AI
         static Fun_Runtime::cClass *TrainingAmbientClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "TrainingAmbient", 0xD0);
         return *TrainingAmbientClass;
     }
+}
+
+// CD2 0x82F98380: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar TrainingAmbientNPCBehaviourInheritRegistrar(
+        AI::TrainingAmbient::StaticCreateClass(), AI::NPCBehaviour::StaticCreateClass());
 }

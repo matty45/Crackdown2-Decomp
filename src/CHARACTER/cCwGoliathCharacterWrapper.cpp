@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "CHARACTER/cCwCharacter.h"
 #include "CHARACTER/cCwGoliathCharacterWrapper.h"
 #include "rws/classfactory.h"
 
@@ -29,4 +31,11 @@ namespace CHARACTER
 namespace CHARACTER
 {
     const Fun_Runtime::cClass *cCwGoliathCharacterWrapper::ms_pcCwGoliathCharacterWrapperClass = &cCwGoliathCharacterWrapper::StaticCreateClass();
+}
+
+// CD2 0x82FAD2B8: runtime class inheritance registration.
+namespace CHARACTER
+{
+    static Fun_Runtime::cInheritanceRegistrar cCwGoliathCharacterWrappercCwCharacterInheritRegistrar(
+        CHARACTER::cCwGoliathCharacterWrapper::StaticCreateClass(), CHARACTER::cCwCharacter::StaticCreateClass());
 }

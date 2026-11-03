@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/cPilotBase.h"
 #include "AI/BreachPilot.h"
 #include "rws/classfactory.h"
 
@@ -44,4 +46,11 @@ namespace AI
         static Fun_Runtime::cClass *BreachPilotClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "BreachPilot", 0x160);
         return *BreachPilotClass;
     }
+}
+
+// CD2 0x82F9B1E8: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar BreachPilotcPilotBaseInheritRegistrar(
+        AI::BreachPilot::StaticCreateClass(), AI::cPilotBase::StaticCreateClass());
 }

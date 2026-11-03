@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "Prop/cProp.h"
 #include "rws/classfactory.h"
 // src/AI/Mission/cSupplyValve.cpp
 //
@@ -42,4 +44,11 @@ namespace AI
 {
     static RWS::CClassFactory::CRegistrar cSupplyValveRegistrar(
         "cSupplyValve", cSupplyValve::MakeNew, 0xE50, false);
+}
+
+// CD2 0x82F86618: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar cSupplyValvecPropInheritRegistrar(
+        AI::cSupplyValve::StaticCreateClass(), Prop::cProp::StaticCreateClass());
 }

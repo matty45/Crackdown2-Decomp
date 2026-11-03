@@ -3,6 +3,12 @@
 
 namespace Anim
 {
+    void cTransformationAnimationProfile::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cSpecificAnimationProfile::HandleAttributes(packet);
+        cProfileDataTransformation::HandleAttributeData(*this, packet);
+    }
+
     const char *cTransformationAnimationProfile::RetClassName() const
     {
         return "cTransformationAnimationProfile";

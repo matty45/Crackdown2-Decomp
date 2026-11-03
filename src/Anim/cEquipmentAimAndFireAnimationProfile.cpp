@@ -3,6 +3,12 @@
 
 namespace Anim
 {
+    void cEquipmentAimAndFireAnimationProfile::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cSpecificAnimationProfile::HandleAttributes(packet);
+        cProfileDataEquipmentAimAndFire::HandleAttributeData(*this, packet);
+    }
+
     const char *cEquipmentAimAndFireAnimationProfile::RetClassName() const
     {
         return "cEquipmentAimAndFireAnimationProfile";

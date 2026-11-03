@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/non_game_base.h"
 #include "rws/classfactory.h"
 // src/CHARACTER/cGenCharProfile.cpp
 //
@@ -42,4 +44,11 @@ namespace CHARACTER
 {
     static RWS::CClassFactory::CRegistrar cGenCharProfileRegistrar(
         "cGenCharProfile", cGenCharProfile::MakeNew, 0x84, false);
+}
+
+// CD2 0x82FAEEC0: runtime class inheritance registration.
+namespace CHARACTER
+{
+    static Fun_Runtime::cInheritanceRegistrar cGenCharProfilecNonGameBaseInheritRegistrar(
+        CHARACTER::cGenCharProfile::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }

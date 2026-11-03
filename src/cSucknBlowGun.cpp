@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "Equip/cCWWeapon.h"
 #include "rws/classfactory.h"
 // src/cSucknBlowGun.cpp
 //
@@ -28,4 +30,11 @@ namespace unknown
 {
     static RWS::CClassFactory::CRegistrar cSucknBlowGunRegistrar(
         "cSucknBlowGun", cSucknBlowGun::MakeNew, 0xDF0, false);
+}
+
+// CD2 0x82FD3F00: runtime class inheritance registration.
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar cSucknBlowGuncCWWeaponInheritRegistrar(
+        unknown::cSucknBlowGun::StaticCreateClass(), Equip::cCWWeapon::StaticCreateClass());
 }

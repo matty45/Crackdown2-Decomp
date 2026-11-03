@@ -3,6 +3,12 @@
 
 namespace Anim
 {
+    void cGoliathAnimationProfile::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cSpecificAnimationProfile::HandleAttributes(packet);
+        cProfileDataGoliath::HandleAttributeData(*this, packet);
+    }
+
     const char *cGoliathAnimationProfile::RetClassName() const
     {
         return "cGoliathAnimationProfile";

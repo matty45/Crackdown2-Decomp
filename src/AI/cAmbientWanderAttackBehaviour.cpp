@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/cAmbientTrafficBehaviour.h"
 #include "AI/cAmbientWanderAttackBehaviour.h"
 #include "rws/classfactory.h"
 
@@ -43,4 +45,11 @@ namespace AI
     {
         return ms_pcAmbientWanderAttackBehaviourClass->IsA(c);
     }
+}
+
+// CD2 0x82F99CD0: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar cAmbientWanderAttackBehaviourcAmbientTrafficBehaviourInheritRegistrar(
+        AI::cAmbientWanderAttackBehaviour::StaticCreateClass(), AI::cAmbientTrafficBehaviour::StaticCreateClass());
 }

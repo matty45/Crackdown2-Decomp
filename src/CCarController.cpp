@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "VEHICLE_CONTROL/cHelicopterController.h"
 #include "rws/classfactory.h"
 // src/CCarController.cpp
 //
@@ -28,4 +30,11 @@ namespace unknown
 {
     static RWS::CClassFactory::CRegistrar CCarControllerRegistrar(
         "CCarController", CCarController::MakeNew, 0xA30, false);
+}
+
+// CD2 0x83004B28: runtime class inheritance registration.
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar CCarControllercVehicleControllerInheritRegistrar(
+        unknown::CCarController::StaticCreateClass(), VEHICLE_CONTROL::cVehicleController::StaticCreateClass());
 }

@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/Scrounger.h"
 #include "AI/ScroungerSlinger.h"
 #include "rws/classfactory.h"
 
@@ -44,4 +46,11 @@ namespace AI
         static Fun_Runtime::cClass *ScroungerSlingerClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "ScroungerSlinger", 0x140);
         return *ScroungerSlingerClass;
     }
+}
+
+// CD2 0x82F94B80: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar ScroungerSlingerScroungerInheritRegistrar(
+        AI::ScroungerSlinger::StaticCreateClass(), AI::Scrounger::StaticCreateClass());
 }

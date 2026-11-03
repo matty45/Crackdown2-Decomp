@@ -26,6 +26,8 @@ namespace AI
     class cPedestrianBase : public NPCBehaviour
     {
     public:
+        // CD2 0x824A9150 creates the named runtime descriptor.
+        static Fun_Runtime::cClass &StaticCreateClass();
         enum eState
         {
             eNull = 0,

@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/PedestrianGuard.h"
 #include "AI/PedestrianInjured.h"
 #include "rws/classfactory.h"
 
@@ -44,4 +46,11 @@ namespace AI
         static Fun_Runtime::cClass *PedestrianInjuredClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "PedestrianInjured", 0x130);
         return *PedestrianInjuredClass;
     }
+}
+
+// CD2 0x82F93230: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar PedestrianInjuredPedestrianGuardInheritRegistrar(
+        AI::PedestrianInjured::StaticCreateClass(), AI::PedestrianGuard::StaticCreateClass());
 }

@@ -1,3 +1,4 @@
+#include "VFX/cSkidMarksShader.h"
 #include "rws/classfactory.h"
 // src/VFX/cSkidMarks.cpp
 //
@@ -26,4 +27,26 @@ namespace VFX
 {
     static RWS::CClassFactory::CRegistrar cSkidMarksRegistrar(
         "cSkidMarks", cSkidMarks::MakeNew, 0x2cc, false);
+}
+
+namespace VFX
+{
+    cSkidMarksShader *cSkidMarksShader::ms_pInstance;
+
+    bool cSkidMarksShader::ReloadInstance(bool revert)
+    {
+        if (ms_pInstance)
+        {
+            ms_pInstance->Reload(revert);
+            cSkidMarksShader *shader = ms_pInstance;
+            Ext_82B8A7B0(shader->m_pVertexShader);
+            Ext_82B8A780(shader->m_pPixelShader);
+        }
+        return true;
+    }
+
+    cShader::ReloadCallback cSkidMarksShader::GetReloadCallback() const
+    {
+        return ReloadInstance;
+    }
 }

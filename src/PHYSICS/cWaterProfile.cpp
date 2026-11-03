@@ -1,3 +1,6 @@
+#include "GDb/cDebugPageHandler.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/non_game_base.h"
 #include "rws/classfactory.h"
 // src/PHYSICS/cWaterProfile.cpp
 //
@@ -55,4 +58,18 @@ namespace PHYSICS
 {
     static RWS::CClassFactory::CRegistrar cWaterProfileRegistrar(
         "cWaterProfile", cWaterProfile::MakeNew, 0x7C, false);
+}
+
+// CD2 0x82FE2670: runtime class inheritance registration.
+namespace PHYSICS
+{
+    static Fun_Runtime::cInheritanceRegistrar cWaterProfilecNonGameBaseInheritRegistrar(
+        PHYSICS::cWaterProfile::StaticCreateClass(), cNonGameBase::StaticCreateClass());
+}
+
+// CD2 0x82FE26D8: runtime class inheritance registration.
+namespace PHYSICS
+{
+    static Fun_Runtime::cInheritanceRegistrar cWaterProfilecDebugPageHandlerInheritRegistrar(
+        PHYSICS::cWaterProfile::StaticCreateClass(), GDb::cDebugPageHandler::StaticCreateClass());
 }

@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/FreakBase.h"
 #include "AI/Scrounger.h"
 #include "rws/classfactory.h"
 
@@ -43,4 +45,11 @@ namespace AI
     {
         return ms_pScroungerClass->IsA(c);
     }
+}
+
+// CD2 0x82F94310: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar ScroungerFreakBaseInheritRegistrar(
+        AI::Scrounger::StaticCreateClass(), AI::FreakBase::StaticCreateClass());
 }

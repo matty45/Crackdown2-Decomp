@@ -3,6 +3,12 @@
 
 namespace Anim
 {
+    void cWingSuitAnimationProfile::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cSpecificAnimationProfile::HandleAttributes(packet);
+        cProfileDataWingSuit::HandleAttributeData(*this, packet);
+    }
+
     const char *cWingSuitAnimationProfile::RetClassName() const
     {
         return "cWingSuitAnimationProfile";

@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/non_game_base.h"
 #include "rws/classfactory.h"
 // src/PHYSICS/cWaterZone.cpp
 //
@@ -30,4 +32,11 @@ namespace PHYSICS
 {
     static RWS::CClassFactory::CRegistrar cWaterZoneRegistrar(
         "cWaterZone", cWaterZone::MakeNew, 0x120, false);
+}
+
+// CD2 0x82FEFBD0: runtime class inheritance registration.
+namespace PHYSICS
+{
+    static Fun_Runtime::cInheritanceRegistrar cWaterZonecNonGameBaseInheritRegistrar(
+        PHYSICS::cWaterZone::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }

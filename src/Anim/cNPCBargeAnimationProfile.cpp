@@ -3,6 +3,12 @@
 
 namespace Anim
 {
+    void cNPCBargeAnimationProfile::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cSpecificAnimationProfile::HandleAttributes(packet);
+        cProfileDataNPCBarge::HandleAttributeData(*this, packet);
+    }
+
     const char *cNPCBargeAnimationProfile::RetClassName() const
     {
         return "cNPCBargeAnimationProfile";

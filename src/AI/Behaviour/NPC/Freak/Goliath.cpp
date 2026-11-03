@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/cChaseBehaviour.h"
 #include "rws/classfactory.h"
 // src/AI/Behaviour/NPC/Freak/Goliath.cpp
 //
@@ -56,4 +58,11 @@ namespace AI
 {
     static RWS::CClassFactory::CRegistrar GoliathRegistrar(
         "Goliath", Goliath::MakeNew, 0x100, false);
+}
+
+// CD2 0x82F93AA0: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar GoliathNPCBehaviourSMInheritRegistrar(
+        AI::Goliath::StaticCreateClass(), AI::NPCBehaviourSM::StaticCreateClass());
 }

@@ -3,6 +3,12 @@
 
 namespace Anim
 {
+    void cCrowdAnimationProfile::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cSpecificAnimationProfile::HandleAttributes(packet);
+        cProfileDataCrowd::HandleAttributeData(*this, packet);
+    }
+
     const char *cCrowdAnimationProfile::RetClassName() const
     {
         return "cCrowdAnimationProfile";

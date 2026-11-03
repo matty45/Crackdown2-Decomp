@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "CHARACTER/cCharacter.h"
 // src/cCwTransCharacter.cpp
 //
 // Class: CHARACTER::cCwTransCharacter. Accessors and registration are reconstructed below.
@@ -86,4 +88,11 @@ namespace CHARACTER
 namespace CHARACTER
 {
     const Fun_Runtime::cClass *cCwTransCharacter::ms_pcCwTransCharacterClass = &cCwTransCharacter::StaticCreateClass();
+}
+
+// CD2 0x82FABCC8: runtime class inheritance registration.
+namespace CHARACTER
+{
+    static Fun_Runtime::cInheritanceRegistrar cCwTransCharactercCharacterInheritRegistrar(
+        CHARACTER::cCwTransCharacter::StaticCreateClass(), CHARACTER::cCharacter::StaticCreateClass());
 }

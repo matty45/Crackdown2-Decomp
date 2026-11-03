@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/cPilotBase.h"
 #include "AI/EquipmentDropBehaviour.h"
 #include "rws/classfactory.h"
 
@@ -44,4 +46,11 @@ namespace AI
         static Fun_Runtime::cClass *EquipmentDropBehaviourClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "EquipmentDropBehaviour", 0x140);
         return *EquipmentDropBehaviourClass;
     }
+}
+
+// CD2 0x82F9B948: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar EquipmentDropBehaviourcPilotBaseInheritRegistrar(
+        AI::EquipmentDropBehaviour::StaticCreateClass(), AI::cPilotBase::StaticCreateClass());
 }

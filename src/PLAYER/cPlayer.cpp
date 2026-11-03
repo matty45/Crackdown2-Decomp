@@ -1,3 +1,6 @@
+#include "GDb/cDebugPageHandler.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/cCharacterEntityIF.h"
 // src/PLAYER/cPlayer.cpp
 //
 // Class: PLAYER::cPlayer. The recovered script accessors are defined below.
@@ -148,4 +151,18 @@ namespace PLAYER
 {
     static RWS::CClassFactory::CRegistrar cPlayerRegistrar(
         "cPlayer", cPlayer::MakeNew, 0x1160, false);
+}
+
+// CD2 0x82FF3CC8: runtime class inheritance registration.
+namespace PLAYER
+{
+    static Fun_Runtime::cInheritanceRegistrar cPlayercCharacterEntityIFInheritRegistrar(
+        PLAYER::cPlayer::StaticCreateClass(), AI::cCharacterEntityIF::StaticCreateClass());
+}
+
+// CD2 0x82FF3C60: runtime class inheritance registration.
+namespace PLAYER
+{
+    static Fun_Runtime::cInheritanceRegistrar cPlayercDebugPageHandlerInheritRegistrar(
+        PLAYER::cPlayer::StaticCreateClass(), GDb::cDebugPageHandler::StaticCreateClass());
 }

@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "Vehicle/cTruck.h"
 #include "rws/classfactory.h"
 // src/cTransformingTruck.cpp
 //
@@ -28,4 +30,11 @@ namespace unknown
 {
     static RWS::CClassFactory::CRegistrar cTransformingTruckRegistrar(
         "cTransformingTruck", cTransformingTruck::MakeNew, 0x69E0, false);
+}
+
+// CD2 0x82FE75D8: runtime class inheritance registration.
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar cTransformingTruckcTruckInheritRegistrar(
+        unknown::cTransformingTruck::StaticCreateClass(), Vehicle::cTruck::StaticCreateClass());
 }

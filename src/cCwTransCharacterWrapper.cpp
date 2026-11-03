@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "CHARACTER/cCwTransCharacter.h"
 // src/cCwTransCharacterWrapper.cpp
 //
 // Class: cCwTransCharacterWrapper (namespace: unknown). Set up automatically: no function is matched yet. The address
@@ -33,4 +35,11 @@ namespace CHARACTER
 namespace CHARACTER
 {
     const Fun_Runtime::cClass *cCwTransCharacterWrapper::ms_pcCwTransCharacterWrapperClass = &cCwTransCharacterWrapper::StaticCreateClass();
+}
+
+// CD2 0x82FAC138: runtime class inheritance registration.
+namespace CHARACTER
+{
+    static Fun_Runtime::cInheritanceRegistrar cCwTransCharacterWrappercCwTransCharacterInheritRegistrar(
+        CHARACTER::cCwTransCharacterWrapper::StaticCreateClass(), CHARACTER::cCwTransCharacter::StaticCreateClass());
 }

@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "Prop/cPrismaticProp.h"
 #include "rws/classfactory.h"
 // src/cAgencyGaragePlatform.cpp
 //
@@ -28,4 +30,11 @@ namespace unknown
 {
     static RWS::CClassFactory::CRegistrar cAgencyGaragePlatformRegistrar(
         "cAgencyGaragePlatform", cAgencyGaragePlatform::MakeNew, 0xEE0, false);
+}
+
+// CD2 0x82FF6BE8: runtime class inheritance registration.
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar cAgencyGaragePlatformcPrismaticPropInheritRegistrar(
+        unknown::cAgencyGaragePlatform::StaticCreateClass(), Prop::cPrismaticProp::StaticCreateClass());
 }

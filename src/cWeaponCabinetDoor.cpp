@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "Prop/cPrismaticProp.h"
 #include "rws/classfactory.h"
 // src/cWeaponCabinetDoor.cpp
 //
@@ -28,4 +30,11 @@ namespace unknown
 {
     static RWS::CClassFactory::CRegistrar cWeaponCabinetDoorRegistrar(
         "cWeaponCabinetDoor", cWeaponCabinetDoor::MakeNew, 0xEE0, false);
+}
+
+// CD2 0x82FF9D50: runtime class inheritance registration.
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar cWeaponCabinetDoorcPrismaticPropInheritRegistrar(
+        unknown::cWeaponCabinetDoor::StaticCreateClass(), Prop::cPrismaticProp::StaticCreateClass());
 }

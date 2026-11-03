@@ -122,6 +122,8 @@ namespace VFX
     class cAmbientVFXSpawnerBase
     {
     public:
+        // CD2 0x822D1E48 creates the named runtime descriptor.
+        static Fun_Runtime::cClass &StaticCreateClass();
         virtual const Fun_Runtime::cClass &RetClass() const;
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         virtual ~cAmbientVFXSpawnerBase();

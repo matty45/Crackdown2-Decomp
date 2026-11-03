@@ -3,6 +3,12 @@
 
 namespace Anim
 {
+    void cSwimAnimationProfile::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cSpecificAnimationProfile::HandleAttributes(packet);
+        cProfileDataSwim::HandleAttributeData(*this, packet);
+    }
+
     const char *cSwimAnimationProfile::RetClassName() const
     {
         return "cSwimAnimationProfile";

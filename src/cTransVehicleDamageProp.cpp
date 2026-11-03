@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "Prop/cVehicleDamageProp.h"
 #include "unknown/cTransVehicleDamageProp.h"
 #include "rws/classfactory.h"
 
@@ -29,4 +31,11 @@ namespace unknown
 namespace unknown
 {
     const Fun_Runtime::cClass *cTransVehicleDamageProp::ms_pcTransVehicleDamagePropClass = &cTransVehicleDamageProp::StaticCreateClass();
+}
+
+// CD2 0x82FF5A78: runtime class inheritance registration.
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar cTransVehicleDamagePropcVehicleDamagePropInheritRegistrar(
+        unknown::cTransVehicleDamageProp::StaticCreateClass(), Prop::cVehicleDamageProp::StaticCreateClass());
 }

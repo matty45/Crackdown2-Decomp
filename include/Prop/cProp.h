@@ -1,3 +1,7 @@
+#include "fun_runtime/class.h"
+// Hierarchy correction: the CD2 interfaces at 0x120, 0x250, 0x294, 0x420,
+// 0x510, 0x7A0, 0x7A4 and 0x7AC are now modelled; the historical direct-base
+// stand-in described below is superseded.
 // Prop::cProp and Prop::cProp::cPropPrototype (Crackdown 2): STAND-INS, sized to CD2. Only what derived props need so
 // far. Evidence:
 // - cProp is 0xE30 bytes: its registrar (0x82FF5298) registers the class with size 0xE30, and cTrafficLight's first own
@@ -18,16 +22,28 @@
 
 #include "rws/attributes.h"
 #include "cd2/layout.h"
-#include "gom/non_game_base.h"
+#include "PHYSICS/cNetDynamicBody.h"
+#include "ExplosionManager/cExplosionCallback.h"
+#include "AI/cDynamicObstacleOwner.h"
+#include "Equip/cSatchelChargeTarget.h"
 #include "gom/object_prototype.h"
 
 namespace Prop
 {
-    class cProp : public cNonGameBase
+    class cProp : public PHYSICS::cNetDynamicBody, public ExplosionManager::cExplosionCallback,
+        public AI::cDynamicObstacleOwner, public Equip::cSatchelChargeTarget
     {
     public:
+        // CD2 0x82729410 creates the named runtime descriptor.
+        static Fun_Runtime::cClass &StaticCreateClass();
         // CD2 0x82729538, called by cTrafficLight's destructor (0x827475C8).
+        cProp(GOM::cObjectPrototype *); // CD2 0x82337808
         virtual ~cProp();
+        virtual Fun_Runtime::RetVal Term(); // CD2 0x822C5828
+        virtual void NotifyDetonation(cGameBase *, CHARACTER::cCharacterInterface *, unsigned char);
+        virtual void CreateDynamicObstacle();
+        virtual void ActivateDynamicObstacle();
+        virtual unsigned char GetDynamicObstacleInput();
         virtual const char *RetClassName() const;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         class cPropPrototype : public GOM::cObjectPrototype
@@ -37,13 +53,15 @@ namespace Prop
 
         public:
             cPropPrototype(const RWS::CAttributePacket &);   // 0x8272D390
+            // CD2 0x8272D688, called by derived prototype attribute handlers.
+            virtual void HandleAttributes(const RWS::CAttributePacket &);
 
             CD2_LAYOUT_CHECKS(cPropPrototype,
                 CD2_SIZE(cPropPrototype, 0x4F0))
         };
 
     private:
-        unsigned char m_pad7C[0xE30 - 0x7C];
+        unsigned char m_unknown7B4[0xE30 - 0x7B4];
 
     protected:
         virtual void UpdateRenderMatrix();   // overrides cNonGameBase's slot 26; 0x826DA5B8 (folded with cVehicle's)

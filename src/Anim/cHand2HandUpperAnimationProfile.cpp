@@ -3,6 +3,12 @@
 
 namespace Anim
 {
+    void cHand2HandUpperAnimationProfile::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cSpecificAnimationProfile::HandleAttributes(packet);
+        cProfileDataHand2HandUpper::HandleAttributeData(*this, packet);
+    }
+
     const char *cHand2HandUpperAnimationProfile::RetClassName() const
     {
         return "cHand2HandUpperAnimationProfile";

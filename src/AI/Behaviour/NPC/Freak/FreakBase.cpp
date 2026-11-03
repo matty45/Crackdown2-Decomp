@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/cChaseBehaviour.h"
 #include "rws/classfactory.h"
 // src/AI/Behaviour/NPC/Freak/FreakBase.cpp
 //
@@ -68,4 +70,11 @@ namespace AI
 {
     static RWS::CClassFactory::CRegistrar FreakBaseRegistrar(
         "FreakBase", FreakBase::MakeNew, 0x120, false);
+}
+
+// CD2 0x82F93668: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar FreakBaseNPCBehaviourSMInheritRegistrar(
+        AI::FreakBase::StaticCreateClass(), AI::NPCBehaviourSM::StaticCreateClass());
 }

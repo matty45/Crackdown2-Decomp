@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "PHYSICS/cNetDynamicBody.h"
 #include "rws/classfactory.h"
 // src/Equip/cEquipment.cpp
 //
@@ -30,4 +32,11 @@ namespace Equip
 {
     static RWS::CClassFactory::CRegistrar cEquipmentRegistrar(
         "cEquipment", cEquipment::MakeNew, 0x870, false);
+}
+
+// CD2 0x82FCB1E8: runtime class inheritance registration.
+namespace Equip
+{
+    static Fun_Runtime::cInheritanceRegistrar cEquipmentcNetDynamicBodyInheritRegistrar(
+        Equip::cEquipment::StaticCreateClass(), PHYSICS::cNetDynamicBody::StaticCreateClass());
 }

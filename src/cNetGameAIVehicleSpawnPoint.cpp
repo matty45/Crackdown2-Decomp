@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "unknown/cNetGameAISpawnPoint.h"
 #include "rws/classfactory.h"
 // src/cNetGameAIVehicleSpawnPoint.cpp
 //
@@ -28,4 +30,11 @@ namespace unknown
 {
     static RWS::CClassFactory::CRegistrar cNetGameAIVehicleSpawnPointRegistrar(
         "cNetGameAIVehicleSpawnPoint", cNetGameAIVehicleSpawnPoint::MakeNew, 0xB0, false);
+}
+
+// CD2 0x83016D08: runtime class inheritance registration.
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar cNetGameAIVehicleSpawnPointcNetGameAISpawnPointInheritRegistrar(
+        unknown::cNetGameAIVehicleSpawnPoint::StaticCreateClass(), unknown::cNetGameAISpawnPoint::StaticCreateClass());
 }

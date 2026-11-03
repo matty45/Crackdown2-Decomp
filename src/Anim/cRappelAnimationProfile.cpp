@@ -3,6 +3,12 @@
 
 namespace Anim
 {
+    void cRappelAnimationProfile::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cSpecificAnimationProfile::HandleAttributes(packet);
+        cProfileDataRappel::HandleAttributeData(*this, packet);
+    }
+
     const char *cRappelAnimationProfile::RetClassName() const
     {
         return "cRappelAnimationProfile";

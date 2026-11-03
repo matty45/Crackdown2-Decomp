@@ -3,6 +3,12 @@
 
 namespace Anim
 {
+    void cReaperPropAttackAnimationProfile::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cSpecificAnimationProfile::HandleAttributes(packet);
+        cProfileDataReaperPropAttack::HandleAttributeData(*this, packet);
+    }
+
     const char *cReaperPropAttackAnimationProfile::RetClassName() const
     {
         return "cReaperPropAttackAnimationProfile";

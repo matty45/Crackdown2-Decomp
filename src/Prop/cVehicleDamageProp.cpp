@@ -13,9 +13,15 @@
 //     py -I tools/cd2.py tasks src/Prop/cVehicleDamageProp.cpp
 
 #include "Prop/cVehicleDamageProp.h"
+#include <new>
 
 namespace Prop
 {
+    RWS::CAttributeHandler *cVehicleDamageProp::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cVehicleDamagePropPrototype(packet);
+    }
+
     const char *cVehicleDamageProp::RetClassName() const
     {
         return "cVehicleDamageProp";
@@ -26,4 +32,14 @@ namespace Prop
 {
     static RWS::CClassFactory::CRegistrar cVehicleDamagePropRegistrar(
         "cVehicleDamageProp", cVehicleDamageProp::MakeNew, 0xed0, false);
+}
+
+namespace Prop
+{
+    RWS::CAttributeHandler *cVehicleDamageProp::SpawnFromPrototype(GOM::cObjectPrototype *prototype, void *memory)
+    {
+        if (memory)
+            return new (memory) cVehicleDamageProp(prototype);
+        return 0;
+    }
 }

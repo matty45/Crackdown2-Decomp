@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "Prop/cHingedProp.h"
 #include "rws/classfactory.h"
 // src/cSpawnPortal.cpp
 //
@@ -28,4 +30,11 @@ namespace unknown
 {
     static RWS::CClassFactory::CRegistrar cSpawnPortalRegistrar(
         "cSpawnPortal", cSpawnPortal::MakeNew, 0xEC0, false);
+}
+
+// CD2 0x82FF8C10: runtime class inheritance registration.
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar cSpawnPortalcHingedPropInheritRegistrar(
+        unknown::cSpawnPortal::StaticCreateClass(), Prop::cHingedProp::StaticCreateClass());
 }

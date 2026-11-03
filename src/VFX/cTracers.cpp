@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/non_game_base.h"
 #include "rws/classfactory.h"
 #include "VFX/cTracers.h"
 
@@ -29,4 +31,11 @@ namespace VFX
 {
     static RWS::CClassFactory::CRegistrar cTracersRegistrar(
         "cTracers", cTracers::MakeNew, 0x138, false);
+}
+
+// CD2 0x83008808: runtime class inheritance registration.
+namespace VFX
+{
+    static Fun_Runtime::cInheritanceRegistrar cTracerscNonGameBaseInheritRegistrar(
+        VFX::cTracers::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }

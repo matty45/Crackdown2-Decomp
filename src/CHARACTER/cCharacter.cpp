@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "CHARACTER/cCharacterMotion.h"
 // src/CHARACTER/cCharacter.cpp
 //
 // Class: CHARACTER::cCharacter. Script flag getters and registration are reconstructed below.
@@ -60,4 +62,11 @@ namespace CHARACTER
 namespace CHARACTER
 {
     const Fun_Runtime::cClass *cCharacter::ms_pcCharacterClass = &cCharacter::StaticCreateClass();
+}
+
+// CD2 0x82FAD6F0: runtime class inheritance registration.
+namespace CHARACTER
+{
+    static Fun_Runtime::cInheritanceRegistrar cCharactercCharacterMotionInheritRegistrar(
+        CHARACTER::cCharacter::StaticCreateClass(), CHARACTER::cCharacterMotion::StaticCreateClass());
 }

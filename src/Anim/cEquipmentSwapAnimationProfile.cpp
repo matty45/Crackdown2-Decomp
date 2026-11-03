@@ -3,6 +3,12 @@
 
 namespace Anim
 {
+    void cEquipmentSwapAnimationProfile::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cSpecificAnimationProfile::HandleAttributes(packet);
+        cProfileDataEquipmentSwap::HandleAttributeData(*this, packet);
+    }
+
     const char *cEquipmentSwapAnimationProfile::RetClassName() const
     {
         return "cEquipmentSwapAnimationProfile";

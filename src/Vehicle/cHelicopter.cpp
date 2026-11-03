@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "VEHICLE_CONTROL/cHelicopterController.h"
 #include "Vehicle/cHelicopter.h"
 #include "rws/classfactory.h"
 
@@ -29,4 +31,11 @@ namespace Vehicle
 namespace Vehicle
 {
     const Fun_Runtime::cClass *cHelicopter::ms_pcHelicopterClass = &cHelicopter::StaticCreateClass();
+}
+
+// CD2 0x82FE84E8: runtime class inheritance registration.
+namespace Vehicle
+{
+    static Fun_Runtime::cInheritanceRegistrar cHelicoptercVehicleInheritRegistrar(
+        Vehicle::cHelicopter::StaticCreateClass(), Vehicle::cVehicle::StaticCreateClass());
 }

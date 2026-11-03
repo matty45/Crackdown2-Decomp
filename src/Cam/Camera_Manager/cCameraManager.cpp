@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/non_game_base.h"
 #include "rws/classfactory.h"
 // src/Cam/Camera_Manager/cCameraManager.cpp
 //
@@ -30,4 +32,11 @@ namespace Cam
 {
     static RWS::CClassFactory::CRegistrar cCameraManagerRegistrar(
         "cCameraManager", cCameraManager::MakeNew, 0x170, false);
+}
+
+// CD2 0x82FAB060: runtime class inheritance registration.
+namespace Cam
+{
+    static Fun_Runtime::cInheritanceRegistrar cCameraManagercNonGameBaseInheritRegistrar(
+        Cam::cCameraManager::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }

@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/NPCBehaviour.h"
 #include "AI/cAmbientTrafficBehaviour.h"
 #include "rws/classfactory.h"
 
@@ -44,4 +46,11 @@ namespace AI
         static Fun_Runtime::cClass *cAmbientTrafficBehaviourClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "cAmbientTrafficBehaviour", 0x140);
         return *cAmbientTrafficBehaviourClass;
     }
+}
+
+// CD2 0x82F99898: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar cAmbientTrafficBehaviourNPCBehaviourInheritRegistrar(
+        AI::cAmbientTrafficBehaviour::StaticCreateClass(), AI::NPCBehaviour::StaticCreateClass());
 }

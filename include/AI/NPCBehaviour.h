@@ -13,6 +13,10 @@ namespace AI
 {
     class NPCBehaviour : public cNonGameBase
     {
+    public:
+        // CD2 0x824A87A0 creates the named runtime descriptor.
+        static Fun_Runtime::cClass &StaticCreateClass();
+
     private:
         unsigned char m_pad7C[0xC0 - 0x7C];
 

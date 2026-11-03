@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "Equip/cWeaponProjectile.h"
 #include "rws/classfactory.h"
 // src/Equip/Weapon/cHarpoonBolt.cpp
 //
@@ -54,4 +56,11 @@ namespace Equip
 {
     static RWS::CClassFactory::CRegistrar cHarpoonBoltRegistrar(
         "cHarpoonBolt", cHarpoonBolt::MakeNew, 0x910, false);
+}
+
+// CD2 0x82FD1E30: runtime class inheritance registration.
+namespace Equip
+{
+    static Fun_Runtime::cInheritanceRegistrar cHarpoonBoltcWeaponProjectileInheritRegistrar(
+        Equip::cHarpoonBolt::StaticCreateClass(), Equip::cWeaponProjectile::StaticCreateClass());
 }

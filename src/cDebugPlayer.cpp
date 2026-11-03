@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/non_game_base.h"
 #include "rws/classfactory.h"
 // src/cDebugPlayer.cpp
 //
@@ -28,4 +30,11 @@ namespace unknown
 {
     static RWS::CClassFactory::CRegistrar cDebugPlayerRegistrar(
         "cDebugPlayer", cDebugPlayer::MakeNew, 0x190, false);
+}
+
+// CD2 0x82FF2CD8: runtime class inheritance registration.
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar cDebugPlayercNonGameBaseInheritRegistrar(
+        unknown::cDebugPlayer::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }

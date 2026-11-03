@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "Prop/cProp.h"
 #include "rws/classfactory.h"
 // src/Prop/Constrained/cPivotBasedProp.cpp
 //
@@ -13,9 +15,15 @@
 //     py -I tools/cd2.py tasks src/Prop/Constrained/cPivotBasedProp.cpp
 
 #include "Prop/cPivotBasedProp.h"
+#include <new>
 
 namespace Prop
 {
+    RWS::CAttributeHandler *cPivotBasedProp::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cPivotBasedPropPrototype(packet);
+    }
+
     const char *cPivotBasedProp::RetClassName() const
     {
         return "cPivotBasedProp";
@@ -42,4 +50,21 @@ namespace Prop
 {
     static RWS::CClassFactory::CRegistrar cPivotBasedPropRegistrar(
         "cPivotBasedProp", cPivotBasedProp::MakeNew, 0xE40, false);
+}
+
+namespace Prop
+{
+    RWS::CAttributeHandler *cPivotBasedProp::SpawnFromPrototype(GOM::cObjectPrototype *prototype, void *memory)
+    {
+        if (memory)
+            return new (memory) cPivotBasedProp(prototype);
+        return 0;
+    }
+}
+
+// CD2 0x82FF7D30: runtime class inheritance registration.
+namespace Prop
+{
+    static Fun_Runtime::cInheritanceRegistrar cPivotBasedPropcPropInheritRegistrar(
+        Prop::cPivotBasedProp::StaticCreateClass(), Prop::cProp::StaticCreateClass());
 }

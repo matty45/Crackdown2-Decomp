@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/NPCBehaviour.h"
 #include "AI/TrainingDummy.h"
 #include "rws/classfactory.h"
 
@@ -44,4 +46,11 @@ namespace AI
         static Fun_Runtime::cClass *TrainingDummyClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "TrainingDummy", 0xD0);
         return *TrainingDummyClass;
     }
+}
+
+// CD2 0x82F987B8: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar TrainingDummyNPCBehaviourInheritRegistrar(
+        AI::TrainingDummy::StaticCreateClass(), AI::NPCBehaviour::StaticCreateClass());
 }

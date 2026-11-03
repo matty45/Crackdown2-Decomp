@@ -3,6 +3,12 @@
 
 namespace Anim
 {
+    void cRunWalkAnimationProfile::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cSpecificAnimationProfile::HandleAttributes(packet);
+        cProfileDataRunWalk::HandleAttributeData(*this, packet);
+    }
+
     const char *cRunWalkAnimationProfile::RetClassName() const
     {
         return "cRunWalkAnimationProfile";

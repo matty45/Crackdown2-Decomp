@@ -11,12 +11,22 @@ namespace VFX
     class cVFXSurfaceProfile : public cNonGameBase
     {
     public:
+        // CD2 inlines the derived constructor/destructor around the out-of-line shared base.
+        __forceinline cVFXSurfaceProfile() {}
+        virtual ~cVFXSurfaceProfile() {}
+        virtual void HandleAttributes(const RWS::CAttributePacket &);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         static const Fun_Runtime::cClass *ms_pcVFXSurfaceProfileClass;
         virtual const Fun_Runtime::cClass &RetClass() const;
         static Fun_Runtime::cClass &StaticCreateClass();
         virtual const char *RetClassName() const;
+    protected:
+        // RuffKing name; CD2 HandleAttributes accesses this index at 0x7C.
+        unsigned int m_nSurfaceIndex;
+        CD2_LAYOUT_CHECKS(cVFXSurfaceProfile,
+            CD2_SIZE(cVFXSurfaceProfile, 0x80)
+            CD2_OFFSET(cVFXSurfaceProfile, m_nSurfaceIndex, 0x7C))
     };
 }
 

@@ -1,3 +1,7 @@
+#include "PHYSICS/cDynamicBody.h"
+#include "GDb/cDebugPageHandler.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/game_base.h"
 #include "rws/classfactory.h"
 // src/PHYSICS/cBody.cpp
 //
@@ -30,4 +34,25 @@ namespace PHYSICS
 {
     static RWS::CClassFactory::CRegistrar cBodyRegistrar(
         "cBody", cBody::MakeNew, 0x250, false);
+}
+
+// CD2 0x82FDF610: runtime class inheritance registration.
+namespace PHYSICS
+{
+    static Fun_Runtime::cInheritanceRegistrar cBodycGameBaseInheritRegistrar(
+        PHYSICS::cBody::StaticCreateClass(), cGameBase::StaticCreateClass());
+}
+
+// CD2 0x82FDF678: runtime class inheritance registration.
+namespace PHYSICS
+{
+    static Fun_Runtime::cInheritanceRegistrar cBodycDebugPageHandlerInheritRegistrar(
+        PHYSICS::cBody::StaticCreateClass(), GDb::cDebugPageHandler::StaticCreateClass());
+}
+
+// CD2 0x82FDFB08: runtime class inheritance registration.
+namespace PHYSICS
+{
+    static Fun_Runtime::cInheritanceRegistrar cDynamicBodycBodyInheritRegistrar(
+        PHYSICS::cDynamicBody::StaticCreateClass(), PHYSICS::cBody::StaticCreateClass());
 }

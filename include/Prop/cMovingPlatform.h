@@ -10,6 +10,11 @@ namespace Prop
     class cMovingPlatform : public Prop::cProp
     {
     public:
+        // CD2 placement factory 0x8273A848; constructor signature follows RuffKing.
+        cMovingPlatform(GOM::cObjectPrototype *);
+        // CD2 destructor 0x8273AA30 only restores the vtables and calls cProp's destructor.
+        virtual ~cMovingPlatform();
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcMovingPlatformClass;
         static Fun_Runtime::cClass &StaticCreateClass();

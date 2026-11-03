@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "Equip/cCWFirearm.h"
 #include "rws/classfactory.h"
 // src/Equip/Weapon/cUVTurret.cpp
 //
@@ -30,4 +32,11 @@ namespace Equip
 {
     static RWS::CClassFactory::CRegistrar cUVTurretRegistrar(
         "cUVTurret", cUVTurret::MakeNew, 0xAB0, false);
+}
+
+// CD2 0x82FD4A98: runtime class inheritance registration.
+namespace Equip
+{
+    static Fun_Runtime::cInheritanceRegistrar cUVTurretcCWFirearmInheritRegistrar(
+        Equip::cUVTurret::StaticCreateClass(), Equip::cCWFirearm::StaticCreateClass());
 }

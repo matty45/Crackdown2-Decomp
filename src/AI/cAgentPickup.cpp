@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/cPilotBase.h"
 #include "AI/cAgentPickup.h"
 #include "rws/classfactory.h"
 
@@ -44,4 +46,11 @@ namespace AI
         static Fun_Runtime::cClass *cAgentPickupClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "cAgentPickup", 0x140);
         return *cAgentPickupClass;
     }
+}
+
+// CD2 0x82F9A978: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar cAgentPickupcPilotBaseInheritRegistrar(
+        AI::cAgentPickup::StaticCreateClass(), AI::cPilotBase::StaticCreateClass());
 }

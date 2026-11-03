@@ -1,3 +1,6 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "Prop/cProp.h"
+// The shared cProp hierarchy now reproduces the inherited vptr stores exactly.
 #include "rws/classfactory.h"
 // src/Prop/Custom/cSearchLight.cpp
 //
@@ -13,9 +16,44 @@
 //     py -I tools/cd2.py tasks src/Prop/Custom/cSearchLight.cpp
 
 #include "Prop/cSearchLight.h"
+#include <new>
+#include "rw/rwmem.h"
 
 namespace Prop
 {
+    void cSearchLight::cSearchLightPrototype::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cPropPrototype::HandleAttributes(packet);
+        for (RWS::CAttributeCommandIterator it(packet, "cSearchLight"); !it.IsFinished(); ++it)
+        {
+            switch (it->GetCommandId())
+            {
+            case 0:
+                { float value = it->GetAs_float(); RwMemNative32(&value, 4); m_fMaxRotX = value; }
+                break;
+            case 1:
+                { float value = it->GetAs_float(); RwMemNative32(&value, 4); m_fMaxRotY = value; }
+                break;
+            case 2:
+                { float value = it->GetAs_float(); RwMemNative32(&value, 4); m_fDegreesPerSecondX = value; }
+                break;
+            case 3:
+                { float value = it->GetAs_float(); RwMemNative32(&value, 4); m_fDegreesPerSecondY = value; }
+                break;
+            }
+        }
+    }
+
+    RWS::CAttributeHandler *cSearchLight::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cSearchLightPrototype(packet);
+    }
+
+    Fun_Runtime::RetVal cSearchLight::cSearchLightPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
+
     // CD2 has no derived cleanup here; cProp's secondary bases remain incomplete in the stand-in.
     cSearchLight::~cSearchLight()
     {
@@ -60,4 +98,21 @@ namespace Prop
 {
     static RWS::CClassFactory::CRegistrar cSearchLightRegistrar(
         "cSearchLight", cSearchLight::MakeNew, 0xE70, false);
+}
+
+namespace Prop
+{
+    RWS::CAttributeHandler *cSearchLight::SpawnFromPrototype(GOM::cObjectPrototype *prototype, void *memory)
+    {
+        if (memory)
+            return new (memory) cSearchLight(prototype);
+        return 0;
+    }
+}
+
+// CD2 0x82FFB948: runtime class inheritance registration.
+namespace Prop
+{
+    static Fun_Runtime::cInheritanceRegistrar cSearchLightcPropInheritRegistrar(
+        Prop::cSearchLight::StaticCreateClass(), Prop::cProp::StaticCreateClass());
 }

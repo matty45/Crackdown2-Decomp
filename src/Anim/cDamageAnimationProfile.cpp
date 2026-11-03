@@ -3,6 +3,12 @@
 
 namespace Anim
 {
+    void cDamageAnimationProfile::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cSpecificAnimationProfile::HandleAttributes(packet);
+        cDamageProfileData::HandleAttributeData(*this, packet);
+    }
+
     const char *cDamageAnimationProfile::RetClassName() const
     {
         return "cDamageAnimationProfile";

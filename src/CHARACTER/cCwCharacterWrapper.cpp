@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "CHARACTER/cCwCharacter.h"
 #include "rws/classfactory.h"
 // src/CHARACTER/cCwCharacterWrapper.cpp
 //
@@ -42,4 +44,11 @@ namespace CHARACTER
 {
     static RWS::CClassFactory::CRegistrar cCwCharacterWrapperRegistrar(
         "cCwCharacterWrapper", cCwCharacterWrapper::MakeNew, 0x41C0, false);
+}
+
+// CD2 0x82FACE80: runtime class inheritance registration.
+namespace CHARACTER
+{
+    static Fun_Runtime::cInheritanceRegistrar cCwCharacterWrappercCwCharacterInheritRegistrar(
+        CHARACTER::cCwCharacterWrapper::StaticCreateClass(), CHARACTER::cCwCharacter::StaticCreateClass());
 }

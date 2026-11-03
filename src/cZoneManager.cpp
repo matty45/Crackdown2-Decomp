@@ -1,3 +1,6 @@
+#include "GDb/cDebugPageHandler.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/non_game_base.h"
 #include "rws/classfactory.h"
 // src/cZoneManager.cpp
 //
@@ -28,4 +31,18 @@ namespace unknown
 {
     static RWS::CClassFactory::CRegistrar cZoneManagerRegistrar(
         "cZoneManager", cZoneManager::MakeNew, 0x84, false);
+}
+
+// CD2 0x8300D808: runtime class inheritance registration.
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar cZoneManagercNonGameBaseInheritRegistrar(
+        unknown::cZoneManager::StaticCreateClass(), cNonGameBase::StaticCreateClass());
+}
+
+// CD2 0x8300D870: runtime class inheritance registration.
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar cZoneManagercDebugPageHandlerInheritRegistrar(
+        unknown::cZoneManager::StaticCreateClass(), GDb::cDebugPageHandler::StaticCreateClass());
 }

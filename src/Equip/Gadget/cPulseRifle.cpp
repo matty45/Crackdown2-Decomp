@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "Equip/cCWWeapon.h"
 #include "rws/classfactory.h"
 // src/Equip/Gadget/cPulseRifle.cpp
 //
@@ -30,4 +32,11 @@ namespace Equip
 {
     static RWS::CClassFactory::CRegistrar cPulseRifleRegistrar(
         "cPulseRifle", cPulseRifle::MakeNew, 0xA80, false);
+}
+
+// CD2 0x82FCD220: runtime class inheritance registration.
+namespace Equip
+{
+    static Fun_Runtime::cInheritanceRegistrar cPulseRiflecCWWeaponInheritRegistrar(
+        Equip::cPulseRifle::StaticCreateClass(), Equip::cCWWeapon::StaticCreateClass());
 }

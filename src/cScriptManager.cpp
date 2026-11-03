@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/non_game_base.h"
 #include "rws/classfactory.h"
 // src/cScriptManager.cpp
 //
@@ -28,4 +30,11 @@ namespace unknown
 {
     static RWS::CClassFactory::CRegistrar cScriptManagerRegistrar(
         "cScriptManager", cScriptManager::MakeNew, 0x430, false);
+}
+
+// CD2 0x83000E00: runtime class inheritance registration.
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar cScriptManagercNonGameBaseInheritRegistrar(
+        unknown::cScriptManager::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }

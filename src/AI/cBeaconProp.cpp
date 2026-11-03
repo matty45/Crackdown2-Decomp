@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/cMissionCriticalProp.h"
 #include "rws/classfactory.h"
 // src/AI/cBeaconProp.cpp
 //
@@ -55,4 +57,11 @@ namespace AI
 {
     static RWS::CClassFactory::CRegistrar cBeaconPropRegistrar(
         "cBeaconProp", cBeaconProp::MakeNew, 0xE50, false);
+}
+
+// CD2 0x82F87BF0: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar cBeaconPropcMissionCriticalPropInheritRegistrar(
+        AI::cBeaconProp::StaticCreateClass(), AI::cMissionCriticalProp::StaticCreateClass());
 }

@@ -3,6 +3,12 @@
 
 namespace Anim
 {
+    void cPropCarryAnimationProfile::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cSpecificAnimationProfile::HandleAttributes(packet);
+        cProfileDataPropCarry::HandleAttributeData(*this, packet);
+    }
+
     const char *cPropCarryAnimationProfile::RetClassName() const
     {
         return "cPropCarryAnimationProfile";

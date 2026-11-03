@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "Prop/cSlidingDoor.h"
 #include "rws/classfactory.h"
 // src/Prop/Custom/cTODSlidingDoor.cpp
 //
@@ -42,4 +44,11 @@ namespace Prop
 {
     static RWS::CClassFactory::CRegistrar cTODSlidingDoorRegistrar(
         "cTODSlidingDoor", cTODSlidingDoor::MakeNew, 0xF00, false);
+}
+
+// CD2 0x82FFC010: runtime class inheritance registration.
+namespace Prop
+{
+    static Fun_Runtime::cInheritanceRegistrar cTODSlidingDoorcSlidingDoorInheritRegistrar(
+        Prop::cTODSlidingDoor::StaticCreateClass(), Prop::cSlidingDoor::StaticCreateClass());
 }

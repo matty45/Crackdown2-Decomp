@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/non_game_base.h"
 #include "rws/classfactory.h"
 // src/VFX/cVFXSurfaceProfile.cpp
 //
@@ -16,6 +18,11 @@
 
 namespace VFX
 {
+    RWS::CAttributeHandler *cVFXSurfaceProfile::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cVFXSurfaceProfile;
+    }
+
     const char *cVFXSurfaceProfile::RetClassName() const
     {
         return "cVFXSurfaceProfile";
@@ -55,4 +62,11 @@ namespace VFX
 {
     static RWS::CClassFactory::CRegistrar cVFXSurfaceProfileRegistrar(
         "cVFXSurfaceProfile", cVFXSurfaceProfile::MakeNew, 0x80, false);
+}
+
+// CD2 0x830089F8: runtime class inheritance registration.
+namespace VFX
+{
+    static Fun_Runtime::cInheritanceRegistrar cVFXSurfaceProfilecNonGameBaseInheritRegistrar(
+        VFX::cVFXSurfaceProfile::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }

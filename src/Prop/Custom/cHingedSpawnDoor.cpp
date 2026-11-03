@@ -1,3 +1,6 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "Prop/cHingedProp.h"
+#include <new>
 #include "rws/classfactory.h"
 // src/Prop/Custom/cHingedSpawnDoor.cpp
 //
@@ -42,4 +45,21 @@ namespace Prop
 {
     static RWS::CClassFactory::CRegistrar cHingedSpawnDoorRegistrar(
         "cHingedSpawnDoor", cHingedSpawnDoor::MakeNew, 0xEE0, false);
+}
+
+namespace Prop
+{
+    RWS::CAttributeHandler *cHingedSpawnDoor::SpawnFromPrototype(GOM::cObjectPrototype *prototype, void *memory)
+    {
+        if (memory)
+            return new (memory) cHingedSpawnDoor(prototype);
+        return 0;
+    }
+}
+
+// CD2 0x82FFB2D8: runtime class inheritance registration.
+namespace Prop
+{
+    static Fun_Runtime::cInheritanceRegistrar cHingedSpawnDoorcHingedPropInheritRegistrar(
+        Prop::cHingedSpawnDoor::StaticCreateClass(), Prop::cHingedProp::StaticCreateClass());
 }

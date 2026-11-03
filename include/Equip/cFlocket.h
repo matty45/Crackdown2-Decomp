@@ -1,3 +1,5 @@
+// Hierarchy correction: cPoly420 below is superseded by the shared cPositionalProxy
+// (same sole ResetProxy slot and 0xF0-byte extent, CD2 table 0x82120E8C).
 // Equip::cFlocket and Equip::cFlocket::cFlocketPrototype (Crackdown 2). CD2 object size 0x9B0, prototype 0x360.
 // CD2 layout, worked out from F30 (ctor), F32 (dtor), the vtable blob at 0x82126E0C.. and the adjustor thunks F47-F57:
 //   0x000 cNonGameBase   (gom/non_game_base.h: CAttributeHandler, and CEventHandler 0x18, cSafeDeletable 0x1C,
@@ -18,6 +20,7 @@
 #define EQUIP_CFLOCKET_H
 
 #include <ppcintrinsics.h>
+#include "Network/cPositionalProxy.h"
 #include "rws/attributes.h"
 #include "rws/classfactory.h"
 #include "cd2/layout.h"
@@ -44,7 +47,6 @@ namespace Equip
     };
     class cPoly250 { public: virtual ~cPoly250(); unsigned char m_pad[0x40]; };
     class cPoly294 { public: virtual ~cPoly294(); unsigned char m_pad[0x188]; };
-    class cPoly420 { public: virtual void Slot0(); unsigned char m_pad[0xEC]; };
     class cRegClassC
     {
     public:
@@ -67,10 +69,12 @@ namespace Equip
     class cPoly870 { public: virtual void Slot0(); unsigned char m_pad[0xFC]; };
 
     // Stand-in for cHWProjectile (CD2 0x970 bytes). Out-of-line ctor/dtor (F30 calls them).
-    class cHWProjectile : public cHWProjectileBase, public cRegClassB, public cPoly250, public cPoly294, public cPoly420,
+    class cHWProjectile : public cHWProjectileBase, public cRegClassB, public cPoly250, public cPoly294, public cPositionalProxy,
         public cRegClassC, public cPoly870
     {
     public:
+        // CD2 0x8262A7F8 creates the named runtime descriptor.
+        static Fun_Runtime::cClass &StaticCreateClass();
         cHWProjectile();
         virtual ~cHWProjectile();
         virtual const char *RetClassName() const;      // slot 11

@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/non_game_base.h"
 #include "AI/cStreamingDataHolder.h"
 #include "rws/classfactory.h"
 
@@ -40,4 +42,11 @@ namespace AI
         static Fun_Runtime::cClass *cStreamingDataHolderClass = new Fun_Runtime::cClass(0x1D4A, "cStreamingDataHolder", 0x7C);
         return *cStreamingDataHolderClass;
     }
+}
+
+// CD2 0x82F80EB8: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar cStreamingDataHoldercNonGameBaseInheritRegistrar(
+        AI::cStreamingDataHolder::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }

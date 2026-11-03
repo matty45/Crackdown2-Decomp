@@ -1,3 +1,7 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "Prop/cProp.h"
+// The shared cProp hierarchy now reproduces the inherited vptr stores exactly.
+#include <new>
 #include "rws/classfactory.h"
 // src/Prop/Constrained/cMovingPlatform.cpp
 //
@@ -16,6 +20,12 @@
 
 namespace Prop
 {
+    // The derived class has no cleanup; cProp's missing secondary bases still prevent
+    // the destructor body from matching, independently of its deleting wrapper.
+    cMovingPlatform::~cMovingPlatform()
+    {
+    }
+
     const char *cMovingPlatform::RetClassName() const
     {
         return "cMovingPlatform";
@@ -42,4 +52,21 @@ namespace Prop
 {
     static RWS::CClassFactory::CRegistrar cMovingPlatformRegistrar(
         "cMovingPlatform", cMovingPlatform::MakeNew, 0xE40, false);
+}
+
+namespace Prop
+{
+    RWS::CAttributeHandler *cMovingPlatform::SpawnFromPrototype(GOM::cObjectPrototype *prototype, void *memory)
+    {
+        if (memory)
+            return new (memory) cMovingPlatform(prototype);
+        return 0;
+    }
+}
+
+// CD2 0x82FF7A50: runtime class inheritance registration.
+namespace Prop
+{
+    static Fun_Runtime::cInheritanceRegistrar cMovingPlatformcPropInheritRegistrar(
+        Prop::cMovingPlatform::StaticCreateClass(), Prop::cProp::StaticCreateClass());
 }

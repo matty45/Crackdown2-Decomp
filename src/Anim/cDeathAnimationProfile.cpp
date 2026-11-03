@@ -3,6 +3,12 @@
 
 namespace Anim
 {
+    void cDeathAnimationProfile::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cSpecificAnimationProfile::HandleAttributes(packet);
+        cDeathProfileData::HandleAttributeData(*this, packet);
+    }
+
     const char *cDeathAnimationProfile::RetClassName() const
     {
         return "cDeathAnimationProfile";

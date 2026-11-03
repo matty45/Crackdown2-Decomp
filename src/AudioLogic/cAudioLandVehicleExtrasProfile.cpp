@@ -1,3 +1,5 @@
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/non_game_base.h"
 #include "rws/classfactory.h"
 // src/AudioLogic/cAudioLandVehicleExtrasProfile.cpp
 //
@@ -56,4 +58,11 @@ namespace AudioLogic
 {
     static RWS::CClassFactory::CRegistrar cAudioLandVehicleExtrasProfileRegistrar(
         "cAudioLandVehicleExtrasProfile", cAudioLandVehicleExtrasProfile::MakeNew, 0x18C, false);
+}
+
+// CD2 0x82FA9FF0: runtime class inheritance registration.
+namespace AudioLogic
+{
+    static Fun_Runtime::cInheritanceRegistrar cAudioLandVehicleExtrasProfilecNonGameBaseInheritRegistrar(
+        AudioLogic::cAudioLandVehicleExtrasProfile::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }
