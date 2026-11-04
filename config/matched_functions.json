@@ -1392,6 +1392,11 @@
         "address": "0x82F60588",
         "size": 72,
         "symbol": "??__EcAiPlayerSpawningRegistrar@AI@@"
+      },
+      {
+        "address": "0x823E78A8",
+        "size": 148,
+        "symbol": "?MakeNew@cAiPlayer@AI@@"
       }
     ],
     "src/AI/cCharacterEntityIF.cpp": [
@@ -1686,6 +1691,11 @@
         "address": "0x82FF6868",
         "size": 72,
         "symbol": "??__EcAgencyGarageDoorSpawningRegistrar@unknown@@"
+      },
+      {
+        "address": "0x82732DC0",
+        "size": 120,
+        "symbol": "?MakeNew@cAgencyGarageDoor@unknown@@"
       }
     ],
     "src/cATVAssaultGameModePrototype.cpp": [
@@ -2712,6 +2722,11 @@
         "address": "0x824AB0D8",
         "size": 92,
         "symbol": "?IsA@PedestrianGuard@AI@@"
+      },
+      {
+        "address": "0x824AB020",
+        "size": 124,
+        "symbol": "?MakeNew@PedestrianGuard@AI@@"
       }
     ],
     "src/AI/Behaviour/NPC/Freak/Scrounger.cpp": [
@@ -9051,6 +9066,11 @@
         "address": "0x82F873A0",
         "size": 72,
         "symbol": "??__EcMissionCriticalPropSpawningRegistrar@AI@@"
+      },
+      {
+        "address": "0x8245AEC0",
+        "size": 120,
+        "symbol": "?MakeNew@cMissionCriticalProp@AI@@"
       }
     ],
     "src/AI/cBeaconProp.cpp": [
@@ -9098,6 +9118,11 @@
         "address": "0x82F87CA8",
         "size": 72,
         "symbol": "??__EcBeaconPropSpawningRegistrar@AI@@"
+      },
+      {
+        "address": "0x8245C200",
+        "size": 120,
+        "symbol": "?MakeNew@cBeaconProp@AI@@"
       }
     ],
     "src/AI/Behaviour/AIBehaviour.cpp": [
@@ -11807,6 +11832,11 @@
         "address": "0x82738E28",
         "size": 12,
         "symbol": "?RetClass@cLift@unknown@@"
+      },
+      {
+        "address": "0x82738E98",
+        "size": 128,
+        "symbol": "?MakeNew@cLift@unknown@@"
       }
     ],
     "src/cPrismaticTrigger.cpp": [

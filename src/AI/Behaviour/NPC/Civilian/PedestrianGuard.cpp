@@ -74,3 +74,12 @@ namespace AI
     static GOM::cProtoRegistrar PedestrianGuardSpawningRegistrar(
         PedestrianGuard::StaticCreateClass(), PedestrianGuard::SpawnFromPrototype);
 }
+
+// CD2 0x824AB020: the class factory builds the prototype.
+namespace AI
+{
+    RWS::CAttributeHandler *PedestrianGuard::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new PedestrianGuardPrototype(packet);
+    }
+}

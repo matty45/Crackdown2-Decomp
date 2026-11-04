@@ -47,3 +47,12 @@ namespace unknown
         return *ms_pcLiftClass;
     }
 }
+
+// CD2 0x82738E98: the class factory builds the prototype.
+namespace unknown
+{
+    RWS::CAttributeHandler *cLift::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cLiftPrototype(packet);
+    }
+}

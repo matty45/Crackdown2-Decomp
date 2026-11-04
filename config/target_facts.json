@@ -1500,6 +1500,48 @@
    },
    "size": 224
   },
+  "0x823E78A8": {
+   "ltcg": {
+    "ends": true,
+    "sha": "dfc24b8894b83d57e240afd3c2394e68f69353846d619eefdbf5fb51e3092ad5"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     28,
+     48,
+     52,
+     56,
+     64,
+     68
+    ],
+    "sha": "821113d73f0e8293f939f1d5ad5905134035062d75005b496d44a5c737a096fa",
+    "strings": {},
+    "targets": [
+     [
+      28,
+      "call",
+      "0x8264DDA0"
+     ],
+     [
+      48,
+      "call",
+      "0x82654118"
+     ],
+     [
+      64,
+      "data",
+      "0x820FB0BC"
+     ],
+     [
+      68,
+      "data",
+      "0x821327A4"
+     ]
+    ]
+   },
+   "size": 148
+  },
   "0x823E7940": {
    "ltcg": {
     "ends": true,
@@ -4825,6 +4867,48 @@
    },
    "size": 152
   },
+  "0x8245AEC0": {
+   "ltcg": {
+    "ends": true,
+    "sha": "b57e64520db4d152f2e79ee23f8aa4163d64861f779b16d559fdc4af06b4bc8e"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     28,
+     48,
+     52,
+     56,
+     60,
+     64
+    ],
+    "sha": "16b0d535c95e3bda95f6a5c44ecd5e80eadd47c06333e335606b991871cd09ba",
+    "strings": {},
+    "targets": [
+     [
+      28,
+      "call",
+      "0x8264DDA0"
+     ],
+     [
+      48,
+      "call",
+      "0x8272D390"
+     ],
+     [
+      60,
+      "data",
+      "0x821035F4"
+     ],
+     [
+      64,
+      "data",
+      "0x821327A4"
+     ]
+    ]
+   },
+   "size": 120
+  },
   "0x8245AF38": {
    "ltcg": {
     "ends": true,
@@ -4965,6 +5049,48 @@
     ]
    },
    "size": 12
+  },
+  "0x8245C200": {
+   "ltcg": {
+    "ends": true,
+    "sha": "b57e64520db4d152f2e79ee23f8aa4163d64861f779b16d559fdc4af06b4bc8e"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     28,
+     48,
+     52,
+     56,
+     60,
+     64
+    ],
+    "sha": "16b0d535c95e3bda95f6a5c44ecd5e80eadd47c06333e335606b991871cd09ba",
+    "strings": {},
+    "targets": [
+     [
+      28,
+      "call",
+      "0x8264DDA0"
+     ],
+     [
+      48,
+      "call",
+      "0x8272D390"
+     ],
+     [
+      60,
+      "data",
+      "0x82103DD0"
+     ],
+     [
+      64,
+      "data",
+      "0x821327A4"
+     ]
+    ]
+   },
+   "size": 120
   },
   "0x8245C278": {
    "ltcg": {
@@ -8301,6 +8427,48 @@
     ]
    },
    "size": 280
+  },
+  "0x824AB020": {
+   "ltcg": {
+    "ends": true,
+    "sha": "16242a03701246239a2c5b5a226107825a8c127659b10108c0b04a8a29081c9b"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     28,
+     48,
+     52,
+     56,
+     64,
+     68
+    ],
+    "sha": "74276c8b4de0e3f9368938444bede62a7e4a313b016e77e0534b26fb4a21bfd5",
+    "strings": {},
+    "targets": [
+     [
+      28,
+      "call",
+      "0x8264DDA0"
+     ],
+     [
+      48,
+      "call",
+      "0x824A8608"
+     ],
+     [
+      64,
+      "data",
+      "0x82109010"
+     ],
+     [
+      68,
+      "data",
+      "0x821327A4"
+     ]
+    ]
+   },
+   "size": 124
   },
   "0x824AB0A0": {
    "ltcg": {
@@ -29175,6 +29343,48 @@
    },
    "size": 32
   },
+  "0x82732DC0": {
+   "ltcg": {
+    "ends": true,
+    "sha": "77543bf86ca1e2b294c2e50ac0dbddc2647c10c88624c6df812654bc87dfcacf"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     28,
+     48,
+     52,
+     56,
+     60,
+     64
+    ],
+    "sha": "3551a325bf5b96fb75279f0715ddfb9af3620659ce59de50dba3b2651671d702",
+    "strings": {},
+    "targets": [
+     [
+      28,
+      "call",
+      "0x8264DDA0"
+     ],
+     [
+      48,
+      "call",
+      "0x8273CBD0"
+     ],
+     [
+      60,
+      "data",
+      "0x8213DF88"
+     ],
+     [
+      64,
+      "data",
+      "0x821327A4"
+     ]
+    ]
+   },
+   "size": 120
+  },
   "0x82732E38": {
    "ltcg": {
     "ends": true,
@@ -29574,6 +29784,48 @@
     ]
    },
    "size": 12
+  },
+  "0x82738E98": {
+   "ltcg": {
+    "ends": true,
+    "sha": "c738383d21d194e1324451301ab859b2ccc4d582c2f80173781f6792cec02a3d"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     28,
+     48,
+     52,
+     56,
+     64,
+     68
+    ],
+    "sha": "06ffc27801d9aec383fe63969fe5e6387e60ab8b6a541eab34dabfc696365f56",
+    "strings": {},
+    "targets": [
+     [
+      28,
+      "call",
+      "0x8264DDA0"
+     ],
+     [
+      48,
+      "call",
+      "0x8273CBD0"
+     ],
+     [
+      64,
+      "data",
+      "0x8213F724"
+     ],
+     [
+      68,
+      "data",
+      "0x821327A4"
+     ]
+    ]
+   },
+   "size": 128
   },
   "0x82738F88": {
    "ltcg": {

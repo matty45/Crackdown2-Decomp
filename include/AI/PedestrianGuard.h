@@ -3,6 +3,7 @@
 #ifndef AI_PedestrianGuard_H
 #define AI_PedestrianGuard_H
 
+#include "AI/cChaseBehaviour.h"
 #include "AI/cPedestrianBase.h"
 #include "gom/object_prototype.h"
 #include "cd2/layout.h"
@@ -13,6 +14,25 @@ namespace AI
     class PedestrianGuard : public cPedestrianBase
     {
     public:
+        // CD2 MakeNew (0x824AB020) allocates 0xA0 bytes, calls AI::NPCBehaviourPrototype's constructor with the packet, installs
+        // this prototype's vtables (at 0 and 0x18) and initialises the fields below (names ours).
+        class PedestrianGuardPrototype : public AI::NPCBehaviourPrototype
+        {
+        public:
+            // __forceinline: CD2 inlines this constructor into MakeNew (docs/matching-notes.md, "Inlining").
+            __forceinline PedestrianGuardPrototype(const RWS::CAttributePacket &packet)
+                : AI::NPCBehaviourPrototype(packet), m_bUnknown90(false), m_bUnknown91(false) {}
+
+        private:
+            bool m_bUnknown90; // 0x90
+            bool m_bUnknown91; // 0x91
+            unsigned char m_pad92[0xA0 - 0x92];
+
+            CD2_LAYOUT_CHECKS(PedestrianGuardPrototype,
+                CD2_SIZE(PedestrianGuardPrototype, 0xA0)
+                CD2_OFFSET(PedestrianGuardPrototype, m_bUnknown90, 0x90))
+        };
+
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         static const Fun_Runtime::cClass *ms_pPedestrianGuardClass;
         virtual const Fun_Runtime::cClass &RetClass() const;

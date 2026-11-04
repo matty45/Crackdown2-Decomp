@@ -302,3 +302,14 @@ namespace AI
     static GOM::cProtoRegistrar cAiPlayerSpawningRegistrar(
         cAiPlayer::StaticCreateClass(), cAiPlayer::SpawnFromPrototype);
 }
+
+#include "cd2/memory.h"
+
+// CD2 0x823E78A8: the class factory builds the prototype.
+namespace AI
+{
+    RWS::CAttributeHandler *cAiPlayer::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cAiPlayerPrototype(packet);
+    }
+}

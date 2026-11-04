@@ -62,3 +62,12 @@ namespace unknown
     static GOM::cProtoRegistrar cAgencyGarageDoorSpawningRegistrar(
         cAgencyGarageDoor::StaticCreateClass(), cAgencyGarageDoor::SpawnFromPrototype);
 }
+
+// CD2 0x82732DC0: the class factory builds the prototype.
+namespace unknown
+{
+    RWS::CAttributeHandler *cAgencyGarageDoor::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cAgencyGarageDoorPrototype(packet);
+    }
+}

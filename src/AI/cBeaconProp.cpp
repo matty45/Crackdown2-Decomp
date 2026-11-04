@@ -88,3 +88,12 @@ namespace AI
     static GOM::cProtoRegistrar cBeaconPropSpawningRegistrar(
         cBeaconProp::StaticCreateClass(), cBeaconProp::SpawnFromPrototype);
 }
+
+// CD2 0x8245C200: the class factory builds the prototype.
+namespace AI
+{
+    RWS::CAttributeHandler *cBeaconProp::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cBeaconPropPrototype(packet);
+    }
+}

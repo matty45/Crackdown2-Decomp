@@ -75,3 +75,12 @@ namespace AI
     static GOM::cProtoRegistrar cMissionCriticalPropSpawningRegistrar(
         cMissionCriticalProp::StaticCreateClass(), cMissionCriticalProp::SpawnFromPrototype);
 }
+
+// CD2 0x8245AEC0: the class factory builds the prototype.
+namespace AI
+{
+    RWS::CAttributeHandler *cMissionCriticalProp::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cMissionCriticalPropPrototype(packet);
+    }
+}
