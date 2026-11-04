@@ -3008,6 +3008,11 @@
         "address": "0x824F7C18",
         "size": 72,
         "symbol": "?HandleAttributes@cDamageAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x824F7B78",
+        "size": 140,
+        "symbol": "?MakeNew@cDamageAnimationProfile@Anim@@"
       }
     ],
     "src/Anim/cDeathAnimationProfile.cpp": [
@@ -3030,6 +3035,11 @@
         "address": "0x824FD700",
         "size": 72,
         "symbol": "?HandleAttributes@cDeathAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x824FD660",
+        "size": 140,
+        "symbol": "?MakeNew@cDeathAnimationProfile@Anim@@"
       }
     ],
     "src/Anim/cEquipmentAimAndFireAnimationProfile.cpp": [
@@ -3287,6 +3297,11 @@
         "address": "0x824ED020",
         "size": 72,
         "symbol": "?HandleAttributes@cGoliathAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x824ECF80",
+        "size": 140,
+        "symbol": "?MakeNew@cGoliathAnimationProfile@Anim@@"
       }
     ],
     "src/Anim/cHand2HandFullAnimationProfile.cpp": [
@@ -3331,6 +3346,11 @@
         "address": "0x8251FEB8",
         "size": 72,
         "symbol": "?HandleAttributes@cHand2HandUpperAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x8251FE18",
+        "size": 140,
+        "symbol": "?MakeNew@cHand2HandUpperAnimationProfile@Anim@@"
       }
     ],
     "src/Anim/cJumpAnimationProfile.cpp": [
@@ -3380,6 +3400,11 @@
         "address": "0x824F1728",
         "size": 72,
         "symbol": "?HandleAttributes@cJumpLandAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x824F1688",
+        "size": 140,
+        "symbol": "?MakeNew@cJumpLandAnimationProfile@Anim@@"
       }
     ],
     "src/Anim/cJumpLandFastAnimationProfile.cpp": [
@@ -3527,6 +3552,11 @@
         "address": "0x824EB030",
         "size": 72,
         "symbol": "?HandleAttributes@cNPCBargeAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x824EAF90",
+        "size": 140,
+        "symbol": "?MakeNew@cNPCBargeAnimationProfile@Anim@@"
       }
     ],
     "src/Anim/cPropCarryAnimationProfile.cpp": [
@@ -3809,6 +3839,11 @@
         "address": "0x824EC780",
         "size": 72,
         "symbol": "?HandleAttributes@cReaperPropAttackAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x824EC6E0",
+        "size": 140,
+        "symbol": "?MakeNew@cReaperPropAttackAnimationProfile@Anim@@"
       }
     ],
     "src/Anim/cRunWalkAnimationProfile.cpp": [
@@ -3895,6 +3930,11 @@
         "address": "0x82521958",
         "size": 72,
         "symbol": "?HandleAttributes@cSprintAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x825218B8",
+        "size": 140,
+        "symbol": "?MakeNew@cSprintAnimationProfile@Anim@@"
       }
     ],
     "src/Anim/cStandAnimationProfile.cpp": [
@@ -3961,6 +4001,11 @@
         "address": "0x825004C8",
         "size": 72,
         "symbol": "?HandleAttributes@cStunnedAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x82500428",
+        "size": 140,
+        "symbol": "?MakeNew@cStunnedAnimationProfile@Anim@@"
       }
     ],
     "src/Anim/cSwimAnimationProfile.cpp": [
@@ -4059,6 +4104,11 @@
         "address": "0x8250EF48",
         "size": 72,
         "symbol": "?HandleAttributes@cTurretsAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x8250EEA8",
+        "size": 140,
+        "symbol": "?MakeNew@cTurretsAnimationProfile@Anim@@"
       }
     ],
     "src/Anim/cWingSuitAnimationProfile.cpp": [
@@ -4081,6 +4131,11 @@
         "address": "0x824F3E50",
         "size": 72,
         "symbol": "?HandleAttributes@cWingSuitAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x824F3DB0",
+        "size": 140,
+        "symbol": "?MakeNew@cWingSuitAnimationProfile@Anim@@"
       }
     ],
     "src/Billboard/BillboardAudioEmitter.cpp": [

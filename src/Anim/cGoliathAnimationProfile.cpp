@@ -20,3 +20,14 @@ namespace Anim
     static RWS::CClassFactory::CRegistrar cGoliathAnimationProfileRegistrar(
         "cGoliathAnimationProfile", cGoliathAnimationProfile::MakeNew, 0x4C, false);
 }
+
+#include "cd2/memory.h"
+
+// CD2 0x824ECF80: the class factory.
+namespace Anim
+{
+    RWS::CAttributeHandler *cGoliathAnimationProfile::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cGoliathAnimationProfile;
+    }
+}

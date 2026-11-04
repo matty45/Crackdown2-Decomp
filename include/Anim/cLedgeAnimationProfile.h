@@ -12,7 +12,7 @@ namespace Anim
     public:
         // __forceinline: CD2 inlines this constructor into MakeNew (0x825019E8) over cSpecificAnimationProfile's
         // out-of-line constructor (0x824E00A8).
-        __forceinline cLedgeAnimationProfile() : cLedgeProfileData(*this) {}
+        __forceinline cLedgeAnimationProfile() : cLedgeProfileData(static_cast<cSpecificAnimationProfile &>(*this)) {}
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
         virtual void HandleAttributes(const RWS::CAttributePacket &);

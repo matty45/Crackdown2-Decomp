@@ -20,3 +20,14 @@ namespace Anim
     static RWS::CClassFactory::CRegistrar cHand2HandUpperAnimationProfileRegistrar(
         "cHand2HandUpperAnimationProfile", cHand2HandUpperAnimationProfile::MakeNew, 0x70, false);
 }
+
+#include "cd2/memory.h"
+
+// CD2 0x8251FE18: the class factory.
+namespace Anim
+{
+    RWS::CAttributeHandler *cHand2HandUpperAnimationProfile::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cHand2HandUpperAnimationProfile;
+    }
+}

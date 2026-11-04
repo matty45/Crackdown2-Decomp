@@ -12,7 +12,7 @@ namespace Anim
     public:
         // __forceinline: CD2 inlines this constructor into MakeNew (0x824EB4F8) over cSpecificAnimationProfile's
         // out-of-line constructor (0x824E00A8).
-        __forceinline cEquipmentThrowNPCFullAnimationProfile() : cProfileDataEquipmentThrowNPCFull(*this) {}
+        __forceinline cEquipmentThrowNPCFullAnimationProfile() : cProfileDataEquipmentThrowNPCFull(static_cast<cSpecificAnimationProfile &>(*this)) {}
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
         virtual void HandleAttributes(const RWS::CAttributePacket &);
