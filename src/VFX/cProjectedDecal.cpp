@@ -259,3 +259,12 @@ namespace VFX
         return ReloadInstance;
     }
 }
+
+// CD2 0x827A5640: the class-factory constructor; the constructor stays out of line.
+namespace VFX
+{
+    RWS::CAttributeHandler *cProjectedDecal::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cProjectedDecal;
+    }
+}

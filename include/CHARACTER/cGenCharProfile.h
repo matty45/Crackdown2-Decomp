@@ -1,3 +1,4 @@
+#include "cd2/layout.h"
 #include "rws/attributes.h"
 // CHARACTER::cGenCharProfile (Crackdown 2): STAND-IN for the class name only. Base cNonGameBase, as in RuffKing's
 // header; RetClassName (0x82556360) is slot 11 of the vtable at 0x82114298, as cNonGameBase's RetClassName.
@@ -15,6 +16,15 @@ namespace CHARACTER
         static const Fun_Runtime::cClass *ms_pcGenCharProfileClass;
         static Fun_Runtime::cClass &StaticCreateClass();
         virtual const char *RetClassName() const;
+    public:
+        // Out of line: CD2 0x82243C58 (MakeNew calls it).
+        cGenCharProfile();
+
+    private:
+        unsigned char m_unmodelled7C[0x84 - 0x7C];
+
+        CD2_LAYOUT_CHECKS(cGenCharProfile, CD2_SIZE(cGenCharProfile, 0x84))
+
     };
 }
 

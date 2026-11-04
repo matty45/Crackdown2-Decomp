@@ -27,3 +27,14 @@ namespace Vehicle
     static RWS::CClassFactory::CRegistrar cGenVehicleProfileRegistrar(
         "cGenVehicleProfile", cGenVehicleProfile::MakeNew, 0x7c, false);
 }
+
+#include "cd2/memory.h"
+
+// CD2 0x8269C678: the class-factory constructor; the constructor stays out of line.
+namespace Vehicle
+{
+    RWS::CAttributeHandler *cGenVehicleProfile::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cGenVehicleProfile;
+    }
+}

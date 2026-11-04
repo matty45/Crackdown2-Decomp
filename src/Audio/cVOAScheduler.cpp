@@ -27,3 +27,14 @@ namespace Audio
     static RWS::CClassFactory::CRegistrar cVOASchedulerRegistrar(
         "cVOAScheduler", cVOAScheduler::MakeNew, 0x480, false);
 }
+
+#include "cd2/memory.h"
+
+// CD2 0x82836E60: the class-factory constructor; the constructor stays out of line.
+namespace Audio
+{
+    RWS::CAttributeHandler *cVOAScheduler::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cVOAScheduler;
+    }
+}

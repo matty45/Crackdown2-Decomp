@@ -3,6 +3,7 @@
 #ifndef AUDIO_CVOASCHEDULER_H
 #define AUDIO_CVOASCHEDULER_H
 
+#include "cd2/layout.h"
 #include "rws/attributes.h"
 
 namespace Audio
@@ -12,6 +13,15 @@ namespace Audio
     public:
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
+    public:
+        // Out of line: CD2 0x82836EB8 (MakeNew calls it).
+        cVOAScheduler();
+
+    private:
+        unsigned char m_unmodelled18[0x480 - 0x18];
+
+        CD2_LAYOUT_CHECKS(cVOAScheduler, CD2_SIZE(cVOAScheduler, 0x480))
+
     };
 }
 

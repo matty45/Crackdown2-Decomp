@@ -27,3 +27,14 @@ namespace Anim
     static RWS::CClassFactory::CRegistrar cCharacterAnimSetManagerRegistrar(
         "cCharacterAnimSetManager", cCharacterAnimSetManager::MakeNew, 0x1400, false);
 }
+
+#include "cd2/memory.h"
+
+// CD2 0x824E4338: the class-factory constructor; the constructor stays out of line.
+namespace Anim
+{
+    RWS::CAttributeHandler *cCharacterAnimSetManager::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cCharacterAnimSetManager;
+    }
+}

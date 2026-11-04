@@ -1703,6 +1703,11 @@
         "address": "0x83044238",
         "size": 12,
         "symbol": "??__FcATVAssaultGameModePrototypeRegistrar@unknown@@"
+      },
+      {
+        "address": "0x8287B300",
+        "size": 68,
+        "symbol": "?MakeNew@cATVAssaultGameModePrototype@unknown@@"
       }
     ],
     "src/cCharacterDLCVFXProfile.cpp": [
@@ -1737,6 +1742,11 @@
         "address": "0x8303ECE8",
         "size": 12,
         "symbol": "??__FcCrowdManagerRegistrar@unknown@@"
+      },
+      {
+        "address": "0x825EC290",
+        "size": 68,
+        "symbol": "?MakeNew@cCrowdManager@unknown@@"
       }
     ],
     "src/cDefenderActivationZone.cpp": [
@@ -1877,6 +1887,11 @@
         "address": "0x83044300",
         "size": 12,
         "symbol": "??__FcHunterGathererGameModePrototypeRegistrar@unknown@@"
+      },
+      {
+        "address": "0x8287E1E8",
+        "size": 68,
+        "symbol": "?MakeNew@cHunterGathererGameModePrototype@unknown@@"
       }
     ],
     "src/cKeysToTheCityGameModePrototype.cpp": [
@@ -2118,6 +2133,11 @@
         "address": "0x83044180",
         "size": 12,
         "symbol": "??__FcRenegadesGameModePrototypeRegistrar@unknown@@"
+      },
+      {
+        "address": "0x82875328",
+        "size": 68,
+        "symbol": "?MakeNew@cRenegadesGameModePrototype@unknown@@"
       }
     ],
     "src/cRenegadesProfile.cpp": [
@@ -2351,6 +2371,11 @@
         "address": "0x8303B068",
         "size": 12,
         "symbol": "??__FcBreachExplosionRegistrar@AI@@"
+      },
+      {
+        "address": "0x82470E88",
+        "size": 68,
+        "symbol": "?MakeNew@cBreachExplosion@AI@@"
       }
     ],
     "src/AI/Streaming/cCrowdZoneDataHolder.cpp": [
@@ -3990,6 +4015,11 @@
         "address": "0x82553650",
         "size": 16,
         "symbol": "?Init@cCharacterProfile@CHARACTER@@"
+      },
+      {
+        "address": "0x82553190",
+        "size": 68,
+        "symbol": "?MakeNew@cCharacterProfile@CHARACTER@@"
       }
     ],
     "src/CHARACTER/cCwCharacter.cpp": [
@@ -4110,6 +4140,11 @@
         "address": "0x8303D108",
         "size": 12,
         "symbol": "??__FcGlobalControlsProfileRegistrar@CHARACTER@@"
+      },
+      {
+        "address": "0x82558778",
+        "size": 68,
+        "symbol": "?MakeNew@cGlobalControlsProfile@CHARACTER@@"
       }
     ],
     "src/CHARACTER/cRagdollProfile.cpp": [
@@ -4147,6 +4182,11 @@
         "address": "0x82FB1CC8",
         "size": 104,
         "symbol": "??__EcRagdollProfilecNonGameBaseInheritRegistrar@CHARACTER@@"
+      },
+      {
+        "address": "0x82575E48",
+        "size": 68,
+        "symbol": "?MakeNew@cRagdollProfile@CHARACTER@@"
       }
     ],
     "src/CHARACTER/cStrengthSkillProfile.cpp": [
@@ -4213,6 +4253,11 @@
         "address": "0x8303F840",
         "size": 12,
         "symbol": "??__FcBulletDataRegistrar@Equip@@"
+      },
+      {
+        "address": "0x82623E60",
+        "size": 68,
+        "symbol": "?MakeNew@cBulletData@Equip@@"
       }
     ],
     "src/Equip/Attachments/cLightAttachmentData.cpp": [
@@ -4330,6 +4375,11 @@
         "address": "0x83043EC8",
         "size": 12,
         "symbol": "??__FcCampaignGameModePrototypeRegistrar@GameManagement@@"
+      },
+      {
+        "address": "0x828574F8",
+        "size": 68,
+        "symbol": "?MakeNew@cCampaignGameModePrototype@GameManagement@@"
       }
     ],
     "src/GameManagement/cCampaignPlayerSpawnGroup.cpp": [
@@ -4364,6 +4414,11 @@
         "address": "0x83043B70",
         "size": 12,
         "symbol": "??__FcCampaignPlayerSpawnPointRegistrar@GameManagement@@"
+      },
+      {
+        "address": "0x8284A690",
+        "size": 68,
+        "symbol": "?MakeNew@cCampaignPlayerSpawnPoint@GameManagement@@"
       }
     ],
     "src/GameManagement/cCD1Barrier.cpp": [
@@ -4471,6 +4526,11 @@
         "address": "0x83044078",
         "size": 12,
         "symbol": "??__FcCHordeProfileRegistrar@GameManagement@@"
+      },
+      {
+        "address": "0x82865320",
+        "size": 68,
+        "symbol": "?MakeNew@cCHordeProfile@GameManagement@@"
       }
     ],
     "src/GameManagement/cCHordeWave.cpp": [
@@ -4561,6 +4621,11 @@
         "address": "0x830443C0",
         "size": 12,
         "symbol": "??__FcGameModeStartZoneRegistrar@GameManagement@@"
+      },
+      {
+        "address": "0x828821E0",
+        "size": 68,
+        "symbol": "?MakeNew@cGameModeStartZone@GameManagement@@"
       }
     ],
     "src/GameManagement/cGameModeVFXProfile.cpp": [
@@ -4710,6 +4775,11 @@
         "address": "0x83043C30",
         "size": 12,
         "symbol": "??__FcNetGameSpawnPointRegistrar@GameManagement@@"
+      },
+      {
+        "address": "0x8284D8B0",
+        "size": 68,
+        "symbol": "?MakeNew@cNetGameSpawnPoint@GameManagement@@"
       }
     ],
     "src/GameManagement/cRoadRaceGameModePrototype.cpp": [
@@ -4846,6 +4916,11 @@
         "address": "0x8303FF70",
         "size": 12,
         "symbol": "??__FcCD2LightingRegistrar@GameRenderer@@"
+      },
+      {
+        "address": "0x8265A1A8",
+        "size": 68,
+        "symbol": "?MakeNew@cCD2Lighting@GameRenderer@@"
       }
     ],
     "src/GameRenderer/CNonEntity.cpp": [
@@ -4885,6 +4960,11 @@
         "address": "0x83040028",
         "size": 12,
         "symbol": "??__FcScreenCaptureRegistrar@GameRenderer@@"
+      },
+      {
+        "address": "0x826657A0",
+        "size": 68,
+        "symbol": "?MakeNew@cScreenCapture@GameRenderer@@"
       }
     ],
     "src/GangManager/cAgressiveResponseConfigData.cpp": [
@@ -4919,6 +4999,11 @@
         "address": "0x83040268",
         "size": 12,
         "symbol": "??__FcGangInfoPrototypeRegistrar@GangManager@@"
+      },
+      {
+        "address": "0x82676D60",
+        "size": 68,
+        "symbol": "?MakeNew@cGangInfoPrototype@GangManager@@"
       }
     ],
     "src/GangManager/cPedestrainDataPrototype.cpp": [
@@ -5034,6 +5119,11 @@
         "address": "0x83041DB8",
         "size": 12,
         "symbol": "??__FcSkillPickupProfileRegistrar@ORB@@"
+      },
+      {
+        "address": "0x82756D18",
+        "size": 68,
+        "symbol": "?MakeNew@cSkillPickupProfile@ORB@@"
       }
     ],
     "src/PHYSICS/cOnlineOrb.cpp": [
@@ -5298,6 +5388,11 @@
         "address": "0x830422C0",
         "size": 12,
         "symbol": "??__FcPrecisionAimProfileRegistrar@TGT@@"
+      },
+      {
+        "address": "0x8277D200",
+        "size": 68,
+        "symbol": "?MakeNew@cPrecisionAimProfile@TGT@@"
       }
     ],
     "src/UI/cAgentColour.cpp": [
@@ -5447,6 +5542,11 @@
         "address": "0x830406E8",
         "size": 12,
         "symbol": "??__FcCarDamageProfileRegistrar@Vehicle@@"
+      },
+      {
+        "address": "0x826A55F0",
+        "size": 68,
+        "symbol": "?MakeNew@cCarDamageProfile@Vehicle@@"
       }
     ],
     "src/Vehicle/cCarProfile.cpp": [
@@ -5557,6 +5657,11 @@
         "address": "0x83040888",
         "size": 12,
         "symbol": "??__FcHelicopterDamageProfileRegistrar@Vehicle@@"
+      },
+      {
+        "address": "0x826C06D8",
+        "size": 68,
+        "symbol": "?MakeNew@cHelicopterDamageProfile@Vehicle@@"
       }
     ],
     "src/Vehicle/cLandVehicle.cpp": [
@@ -5764,6 +5869,11 @@
         "address": "0x827923F0",
         "size": 12,
         "symbol": "?GetReloadCallback@cDeityRaySampleMipsShader@VFX@@"
+      },
+      {
+        "address": "0x82791B00",
+        "size": 68,
+        "symbol": "?MakeNew@cDeityRay@VFX@@"
       }
     ],
     "src/VFX/cDepthOfField.cpp": [
@@ -5801,6 +5911,11 @@
         "address": "0x82795770",
         "size": 12,
         "symbol": "?GetReloadCallback@cDOFShader@VFX@@"
+      },
+      {
+        "address": "0x82795510",
+        "size": 68,
+        "symbol": "?MakeNew@cDepthOfField@VFX@@"
       }
     ],
     "src/VFX/cLightData.cpp": [
@@ -5818,6 +5933,11 @@
         "address": "0x83043018",
         "size": 12,
         "symbol": "??__FcLightDataRegistrar@VFX@@"
+      },
+      {
+        "address": "0x82800710",
+        "size": 68,
+        "symbol": "?MakeNew@cLightData@VFX@@"
       }
     ],
     "src/VFX/cLinkedVFXPrototype.cpp": [
@@ -5987,6 +6107,11 @@
         "address": "0x830426C8",
         "size": 12,
         "symbol": "??__FcSkyDomeRegistrar@VFX@@"
+      },
+      {
+        "address": "0x827B8988",
+        "size": 68,
+        "symbol": "?MakeNew@cSkyDome@VFX@@"
       }
     ],
     "src/VFX/cTracers.cpp": [
@@ -6019,6 +6144,11 @@
         "address": "0x83008808",
         "size": 104,
         "symbol": "??__EcTracerscNonGameBaseInheritRegistrar@VFX@@"
+      },
+      {
+        "address": "0x827B9928",
+        "size": 68,
+        "symbol": "?MakeNew@cTracers@VFX@@"
       }
     ],
     "src/VFX/cVFXPriorityTable.cpp": [
@@ -6083,6 +6213,11 @@
         "address": "0x8300D010",
         "size": 104,
         "symbol": "??__EcWorldManagercDebugPageHandlerInheritRegistrar@WorldManager@@"
+      },
+      {
+        "address": "0x82809AD8",
+        "size": 68,
+        "symbol": "?MakeNew@cWorldManager@WorldManager@@"
       }
     ],
     "src/ZoneManager/cAmbienceZone.cpp": [
@@ -9021,6 +9156,11 @@
         "address": "0x8303C3A8",
         "size": 12,
         "symbol": "??__FcCharacterAnimSetManagerRegistrar@Anim@@"
+      },
+      {
+        "address": "0x824E4338",
+        "size": 68,
+        "symbol": "?MakeNew@cCharacterAnimSetManager@Anim@@"
       }
     ],
     "src/AudioLogic/cAudioBaseProfile.cpp": [
@@ -9058,6 +9198,11 @@
         "address": "0x82FA9ED8",
         "size": 104,
         "symbol": "??__EcAudioBaseProfilecScriptHostInheritRegistrar@AudioLogic@@"
+      },
+      {
+        "address": "0x82527770",
+        "size": 68,
+        "symbol": "?MakeNew@cAudioBaseProfile@AudioLogic@@"
       }
     ],
     "src/AudioLogic/cAudioLandVehicleExtrasProfile.cpp": [
@@ -9206,6 +9351,11 @@
         "address": "0x82FAEEC0",
         "size": 104,
         "symbol": "??__EcGenCharProfilecNonGameBaseInheritRegistrar@CHARACTER@@"
+      },
+      {
+        "address": "0x82556318",
+        "size": 68,
+        "symbol": "?MakeNew@cGenCharProfile@CHARACTER@@"
       }
     ],
     "src/Equip/Weapon/cHarpoonBolt.cpp": [
@@ -9339,6 +9489,11 @@
         "address": "0x82FE1340",
         "size": 104,
         "symbol": "??__EcPhysicsUniversecDebugPageHandlerInheritRegistrar@PHYSICS@@"
+      },
+      {
+        "address": "0x8268DAA0",
+        "size": 68,
+        "symbol": "?MakeNew@cPhysicsUniverse@PHYSICS@@"
       }
     ],
     "src/PHYSICS/cWaterProfile.cpp": [
@@ -9398,6 +9553,11 @@
         "address": "0x83040678",
         "size": 12,
         "symbol": "??__FcGenVehicleProfileRegistrar@Vehicle@@"
+      },
+      {
+        "address": "0x8269C678",
+        "size": 68,
+        "symbol": "?MakeNew@cGenVehicleProfile@Vehicle@@"
       }
     ],
     "src/Prop/cVehicleDamageProp.cpp": [
@@ -10003,6 +10163,11 @@
         "address": "0x83007820",
         "size": 104,
         "symbol": "??__EcOutlinescNonGameBaseInheritRegistrar@VFX@@"
+      },
+      {
+        "address": "0x827A0B98",
+        "size": 68,
+        "symbol": "?MakeNew@cOutlines@VFX@@"
       }
     ],
     "src/VFX/cProjectedDecal.cpp": [
@@ -10125,6 +10290,11 @@
         "address": "0x827A6540",
         "size": 12,
         "symbol": "?GetReloadCallback@cClippedPlanarDecalShader@VFX@@"
+      },
+      {
+        "address": "0x827A5640",
+        "size": 68,
+        "symbol": "?MakeNew@cProjectedDecal@VFX@@"
       }
     ],
     "src/VFX/cSkidMarks.cpp": [
@@ -10152,6 +10322,11 @@
         "address": "0x827B7B50",
         "size": 12,
         "symbol": "?GetReloadCallback@cSkidMarksShader@VFX@@"
+      },
+      {
+        "address": "0x827B7A90",
+        "size": 68,
+        "symbol": "?MakeNew@cSkidMarks@VFX@@"
       }
     ],
     "src/VFX/cVFXSurfaceProfile.cpp": [
@@ -10216,6 +10391,11 @@
         "address": "0x83042958",
         "size": 12,
         "symbol": "??__FcParticleEffectManagerRegistrar@VFX@@"
+      },
+      {
+        "address": "0x827DEDB0",
+        "size": 68,
+        "symbol": "?MakeNew@cParticleEffectManager@VFX@@"
       }
     ],
     "src/VFX/cGlobalLightManager.cpp": [
@@ -10248,6 +10428,11 @@
         "address": "0x8300B498",
         "size": 104,
         "symbol": "??__EcGlobalLightManagercNonGameBaseInheritRegistrar@VFX@@"
+      },
+      {
+        "address": "0x827FAFE0",
+        "size": 68,
+        "symbol": "?MakeNew@cGlobalLightManager@VFX@@"
       }
     ],
     "src/Audio/cVOAScheduler.cpp": [
@@ -10265,6 +10450,11 @@
         "address": "0x83043820",
         "size": 12,
         "symbol": "??__FcVOASchedulerRegistrar@Audio@@"
+      },
+      {
+        "address": "0x82836E60",
+        "size": 68,
+        "symbol": "?MakeNew@cVOAScheduler@Audio@@"
       }
     ],
     "src/cStaticInterestingObject.cpp": [

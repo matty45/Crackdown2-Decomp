@@ -73,3 +73,12 @@ namespace PHYSICS
     static Fun_Runtime::cInheritanceRegistrar cPhysicsUniversecDebugPageHandlerInheritRegistrar(
         PHYSICS::cPhysicsUniverse::StaticCreateClass(), GDb::cDebugPageHandler::StaticCreateClass());
 }
+
+// CD2 0x8268DAA0: the class-factory constructor; the constructor stays out of line.
+namespace PHYSICS
+{
+    RWS::CAttributeHandler *cPhysicsUniverse::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cPhysicsUniverse;
+    }
+}
