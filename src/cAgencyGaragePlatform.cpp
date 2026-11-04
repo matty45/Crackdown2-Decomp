@@ -38,3 +38,12 @@ namespace unknown
     static Fun_Runtime::cInheritanceRegistrar cAgencyGaragePlatformcPrismaticPropInheritRegistrar(
         unknown::cAgencyGaragePlatform::StaticCreateClass(), Prop::cPrismaticProp::StaticCreateClass());
 }
+
+// CD2 0x82736250: the class factory builds the prototype.
+namespace unknown
+{
+    RWS::CAttributeHandler *cAgencyGaragePlatform::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cAgencyGaragePlatformPrototype(packet);
+    }
+}

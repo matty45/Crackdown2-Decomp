@@ -56,3 +56,12 @@ namespace unknown
         return "cWeaponCabinetDoor";
     }
 }
+
+// CD2 0x82740fa8: the class factory builds the prototype.
+namespace unknown
+{
+    RWS::CAttributeHandler *cWeaponCabinetDoor::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cWeaponCabinetDoorPrototype(packet);
+    }
+}

@@ -75,3 +75,12 @@ namespace AI
     static GOM::cProtoRegistrar SquadSpawningRegistrar(
         Squad::StaticCreateClass(), Squad::SpawnFromPrototype);
 }
+
+// CD2 0x824d81a0: the class factory builds the prototype.
+namespace AI
+{
+    RWS::CAttributeHandler *Squad::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new SquadPrototype(packet);
+    }
+}

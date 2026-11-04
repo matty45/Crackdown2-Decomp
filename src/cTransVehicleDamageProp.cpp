@@ -62,3 +62,12 @@ namespace unknown
     static GOM::cProtoRegistrar cTransVehicleDamagePropSpawningRegistrar(
         cTransVehicleDamageProp::StaticCreateClass(), cTransVehicleDamageProp::SpawnFromPrototype);
 }
+
+// CD2 0x82730c38: the class factory builds the prototype.
+namespace unknown
+{
+    RWS::CAttributeHandler *cTransVehicleDamageProp::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cTransVehicleDamagePropPrototype(packet);
+    }
+}

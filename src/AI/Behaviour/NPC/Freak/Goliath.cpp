@@ -89,3 +89,12 @@ namespace AI
     static GOM::cProtoRegistrar GoliathSpawningRegistrar(
         Goliath::StaticCreateClass(), Goliath::SpawnFromPrototype);
 }
+
+// CD2 0x824b0ea8: the class factory builds the prototype.
+namespace AI
+{
+    RWS::CAttributeHandler *Goliath::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new GoliathPrototype(packet);
+    }
+}

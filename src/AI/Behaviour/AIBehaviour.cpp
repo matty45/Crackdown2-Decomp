@@ -27,3 +27,14 @@ namespace AI
     static RWS::CClassFactory::CRegistrar AIBehaviourRegistrar(
         "AIBehaviour", AIBehaviour::MakeNew, 0x7c, false);
 }
+
+#include "cd2/memory.h"
+
+// CD2 0x824a4a10: the class factory builds the prototype.
+namespace AI
+{
+    RWS::CAttributeHandler *AIBehaviour::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new AIBehaviourPrototype(packet);
+    }
+}

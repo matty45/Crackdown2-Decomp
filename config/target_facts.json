@@ -7524,6 +7524,48 @@
    },
    "size": 12
   },
+  "0x824A4A10": {
+   "ltcg": {
+    "ends": true,
+    "sha": "a2fd57b79e5d863ce831440c00b089565af15294e38bb151f81870ef8fbca196"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     28,
+     48,
+     52,
+     56,
+     60,
+     64
+    ],
+    "sha": "c7d8c7f2db75ef3a6f40049f4808e8c8ac812ae23ea5b4fef2d7aaadbaa39d6a",
+    "strings": {},
+    "targets": [
+     [
+      28,
+      "call",
+      "0x8264DDA0"
+     ],
+     [
+      48,
+      "call",
+      "0x82654118"
+     ],
+     [
+      60,
+      "data",
+      "0x82107B60"
+     ],
+     [
+      64,
+      "data",
+      "0x821327A4"
+     ]
+    ]
+   },
+   "size": 112
+  },
   "0x824A4A80": {
    "ltcg": {
     "ends": true,
@@ -8944,6 +8986,48 @@
     ]
    },
    "size": 92
+  },
+  "0x824B0EA8": {
+   "ltcg": {
+    "ends": true,
+    "sha": "9c2c118f33eb990329b5a64ced4e3d0fd9481cdc2574e7e444c6217c08ae12a7"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     28,
+     48,
+     52,
+     56,
+     60,
+     64
+    ],
+    "sha": "c6b8ebfa6146d03366d2d78bf5d4336bd92ba9d5edec352a83e57ebaf367cd47",
+    "strings": {},
+    "targets": [
+     [
+      28,
+      "call",
+      "0x8264DDA0"
+     ],
+     [
+      48,
+      "call",
+      "0x824A8608"
+     ],
+     [
+      60,
+      "data",
+      "0x82109670"
+     ],
+     [
+      64,
+      "data",
+      "0x821327A4"
+     ]
+    ]
+   },
+   "size": 112
   },
   "0x824B0F18": {
    "ltcg": {
@@ -15398,6 +15482,48 @@
     ]
    },
    "size": 164
+  },
+  "0x824D81A0": {
+   "ltcg": {
+    "ends": true,
+    "sha": "a2fd57b79e5d863ce831440c00b089565af15294e38bb151f81870ef8fbca196"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     28,
+     48,
+     52,
+     56,
+     60,
+     64
+    ],
+    "sha": "c7d8c7f2db75ef3a6f40049f4808e8c8ac812ae23ea5b4fef2d7aaadbaa39d6a",
+    "strings": {},
+    "targets": [
+     [
+      28,
+      "call",
+      "0x8264DDA0"
+     ],
+     [
+      48,
+      "call",
+      "0x82654118"
+     ],
+     [
+      60,
+      "data",
+      "0x8212CEE8"
+     ],
+     [
+      64,
+      "data",
+      "0x821327A4"
+     ]
+    ]
+   },
+   "size": 112
   },
   "0x824D8210": {
    "ltcg": {
@@ -28800,6 +28926,48 @@
    },
    "size": 12
   },
+  "0x82730C38": {
+   "ltcg": {
+    "ends": true,
+    "sha": "c826d9e76f688e2de8c25acf690e6be518a56eaa383db75032417cf7d619d12e"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     28,
+     48,
+     52,
+     56,
+     60,
+     64
+    ],
+    "sha": "50453af38071fcb6110134ac135fe08b8f50483ac303a91f75407e3db382be50",
+    "strings": {},
+    "targets": [
+     [
+      28,
+      "call",
+      "0x8264DDA0"
+     ],
+     [
+      48,
+      "call",
+      "0x8272D390"
+     ],
+     [
+      60,
+      "data",
+      "0x8213D9A8"
+     ],
+     [
+      64,
+      "data",
+      "0x821327A4"
+     ]
+    ]
+   },
+   "size": 112
+  },
   "0x82730CA8": {
    "ltcg": {
     "ends": true,
@@ -29124,6 +29292,48 @@
     ]
    },
    "size": 152
+  },
+  "0x82736250": {
+   "ltcg": {
+    "ends": true,
+    "sha": "384307e74522bd5e2c9b03de763ae70b8cb6fee7fd79d4c6d59f33e50f3d3c6e"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     28,
+     48,
+     52,
+     56,
+     60,
+     64
+    ],
+    "sha": "5cfece53aa9792480930b08cafc006f3bc506ea4e6364f7a63a435a3d759dcff",
+    "strings": {},
+    "targets": [
+     [
+      28,
+      "call",
+      "0x8264DDA0"
+     ],
+     [
+      48,
+      "call",
+      "0x8273CBD0"
+     ],
+     [
+      60,
+      "data",
+      "0x8213E71C"
+     ],
+     [
+      64,
+      "data",
+      "0x821327A4"
+     ]
+    ]
+   },
+   "size": 112
   },
   "0x827363B0": {
    "ltcg": {
@@ -30502,6 +30712,48 @@
    },
    "size": 152
   },
+  "0x827408F0": {
+   "ltcg": {
+    "ends": true,
+    "sha": "384307e74522bd5e2c9b03de763ae70b8cb6fee7fd79d4c6d59f33e50f3d3c6e"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     28,
+     48,
+     52,
+     56,
+     60,
+     64
+    ],
+    "sha": "5cfece53aa9792480930b08cafc006f3bc506ea4e6364f7a63a435a3d759dcff",
+    "strings": {},
+    "targets": [
+     [
+      28,
+      "call",
+      "0x8264DDA0"
+     ],
+     [
+      48,
+      "call",
+      "0x8273CBD0"
+     ],
+     [
+      60,
+      "data",
+      "0x82142984"
+     ],
+     [
+      64,
+      "data",
+      "0x821327A4"
+     ]
+    ]
+   },
+   "size": 112
+  },
   "0x82740960": {
    "ltcg": {
     "ends": true,
@@ -30620,6 +30872,48 @@
     ]
    },
    "size": 12
+  },
+  "0x82740FA8": {
+   "ltcg": {
+    "ends": true,
+    "sha": "f54fe811f01f155ec6ea861bd46735fe1783931e722838c7b3050284a37dc727"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     28,
+     48,
+     52,
+     56,
+     60,
+     64
+    ],
+    "sha": "a82ad3cb75f9c77c7ea91e1d2492d9a45444ecf65464ccd53f79a152949e34e6",
+    "strings": {},
+    "targets": [
+     [
+      28,
+      "call",
+      "0x8264DDA0"
+     ],
+     [
+      48,
+      "call",
+      "0x8273CBD0"
+     ],
+     [
+      60,
+      "data",
+      "0x821430CC"
+     ],
+     [
+      64,
+      "data",
+      "0x821327A4"
+     ]
+    ]
+   },
+   "size": 112
   },
   "0x82741018": {
    "ltcg": {
@@ -32325,6 +32619,48 @@
     ]
    },
    "size": 16
+  },
+  "0x827468E8": {
+   "ltcg": {
+    "ends": true,
+    "sha": "384307e74522bd5e2c9b03de763ae70b8cb6fee7fd79d4c6d59f33e50f3d3c6e"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     28,
+     48,
+     52,
+     56,
+     60,
+     64
+    ],
+    "sha": "5cfece53aa9792480930b08cafc006f3bc506ea4e6364f7a63a435a3d759dcff",
+    "strings": {},
+    "targets": [
+     [
+      28,
+      "call",
+      "0x8264DDA0"
+     ],
+     [
+      48,
+      "call",
+      "0x8273CBD0"
+     ],
+     [
+      60,
+      "data",
+      "0x8214499C"
+     ],
+     [
+      64,
+      "data",
+      "0x821327A4"
+     ]
+    ]
+   },
+   "size": 112
   },
   "0x82746958": {
    "ltcg": {
@@ -34100,6 +34436,48 @@
     ]
    },
    "size": 12
+  },
+  "0x8277EC60": {
+   "ltcg": {
+    "ends": true,
+    "sha": "a2fd57b79e5d863ce831440c00b089565af15294e38bb151f81870ef8fbca196"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     28,
+     48,
+     52,
+     56,
+     60,
+     64
+    ],
+    "sha": "c7d8c7f2db75ef3a6f40049f4808e8c8ac812ae23ea5b4fef2d7aaadbaa39d6a",
+    "strings": {},
+    "targets": [
+     [
+      28,
+      "call",
+      "0x8264DDA0"
+     ],
+     [
+      48,
+      "call",
+      "0x82654118"
+     ],
+     [
+      60,
+      "data",
+      "0x8214C0B8"
+     ],
+     [
+      64,
+      "data",
+      "0x821327A4"
+     ]
+    ]
+   },
+   "size": 112
   },
   "0x8277ED80": {
    "ltcg": {

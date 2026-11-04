@@ -16,6 +16,17 @@ namespace AI
     class Goliath : public AI::NPCBehaviourSM
     {
     public:
+        // CD2 MakeNew (0x824b0ea8) allocates 0x90 bytes, calls AI::NPCBehaviourPrototype's constructor (0x824A8608) with the packet and
+        // installs this prototype's vtables (at 0 and 0x18).
+        class GoliathPrototype : public AI::NPCBehaviourPrototype
+        {
+        public:
+            // __forceinline: CD2 inlines this constructor into MakeNew (docs/matching-notes.md, "Inlining").
+            __forceinline GoliathPrototype(const RWS::CAttributePacket &packet) : AI::NPCBehaviourPrototype(packet) {}
+
+            CD2_LAYOUT_CHECKS(GoliathPrototype, CD2_SIZE(GoliathPrototype, 0x90))
+        };
+
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         static const Fun_Runtime::cClass *ms_pGoliathClass;

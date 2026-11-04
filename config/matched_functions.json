@@ -2236,6 +2236,11 @@
         "address": "0x82FF5B30",
         "size": 72,
         "symbol": "??__EcTransVehicleDamagePropSpawningRegistrar@unknown@@"
+      },
+      {
+        "address": "0x82730C38",
+        "size": 112,
+        "symbol": "?MakeNew@cTransVehicleDamageProp@unknown@@"
       }
     ],
     "src/cVehicleTagGameModePrototype.cpp": [
@@ -2811,6 +2816,11 @@
         "address": "0x82F9D350",
         "size": 72,
         "symbol": "??__ESquadSpawningRegistrar@AI@@"
+      },
+      {
+        "address": "0x824D81A0",
+        "size": 112,
+        "symbol": "?MakeNew@Squad@AI@@"
       }
     ],
     "src/Anim/cBasePoseAnimationProfile.cpp": [
@@ -9105,6 +9115,11 @@
         "address": "0x8303B3A8",
         "size": 12,
         "symbol": "??__FAIBehaviourRegistrar@AI@@"
+      },
+      {
+        "address": "0x824A4A10",
+        "size": 112,
+        "symbol": "?MakeNew@AIBehaviour@AI@@"
       }
     ],
     "src/AI/Behaviour/NPC/Freak/FreakBase.cpp": [
@@ -9204,6 +9219,11 @@
         "address": "0x824B0E48",
         "size": 92,
         "symbol": "?IsA@Goliath@AI@@"
+      },
+      {
+        "address": "0x824B0EA8",
+        "size": 112,
+        "symbol": "?MakeNew@Goliath@AI@@"
       }
     ],
     "src/Anim/cCharacterAnimSetManager.cpp": [
@@ -10033,6 +10053,11 @@
         "address": "0x83041A80",
         "size": 12,
         "symbol": "??__FcSlidingDoorRegistrar@Prop@@"
+      },
+      {
+        "address": "0x827468E8",
+        "size": 112,
+        "symbol": "?MakeNew@cSlidingDoor@Prop@@"
       }
     ],
     "src/Prop/Custom/cTODSlidingDoor.cpp": [
@@ -11745,6 +11770,11 @@
         "address": "0x82FF6BE8",
         "size": 104,
         "symbol": "??__EcAgencyGaragePlatformcPrismaticPropInheritRegistrar@unknown@@"
+      },
+      {
+        "address": "0x82736250",
+        "size": 112,
+        "symbol": "?MakeNew@cAgencyGaragePlatform@unknown@@"
       }
     ],
     "src/cLift.cpp": [
@@ -11920,6 +11950,11 @@
         "address": "0x82740960",
         "size": 12,
         "symbol": "?RetClassName@cTeleporterDoor@unknown@@"
+      },
+      {
+        "address": "0x827408F0",
+        "size": 112,
+        "symbol": "?MakeNew@cTeleporterDoor@unknown@@"
       }
     ],
     "src/cWeaponCabinetDoor.cpp": [
@@ -11957,6 +11992,11 @@
         "address": "0x82741018",
         "size": 12,
         "symbol": "?RetClassName@cWeaponCabinetDoor@unknown@@"
+      },
+      {
+        "address": "0x82740FA8",
+        "size": 112,
+        "symbol": "?MakeNew@cWeaponCabinetDoor@unknown@@"
       }
     ],
     "src/RPG/cRenegadeOrb.cpp": [
@@ -12063,6 +12103,11 @@
         "address": "0x8277EBF0",
         "size": 12,
         "symbol": "?RetClass@CCarController@unknown@@"
+      },
+      {
+        "address": "0x8277EC60",
+        "size": 112,
+        "symbol": "?MakeNew@CCarController@unknown@@"
       }
     ],
     "src/cOutlines2.cpp": [

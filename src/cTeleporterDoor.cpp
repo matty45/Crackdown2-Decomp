@@ -47,3 +47,12 @@ namespace unknown
         return "cTeleporterDoor";
     }
 }
+
+// CD2 0x827408f0: the class factory builds the prototype.
+namespace unknown
+{
+    RWS::CAttributeHandler *cTeleporterDoor::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cTeleporterDoorPrototype(packet);
+    }
+}

@@ -47,3 +47,12 @@ namespace unknown
         return *ms_pCCarControllerClass;
     }
 }
+
+// CD2 0x8277ec60: the class factory builds the prototype.
+namespace unknown
+{
+    RWS::CAttributeHandler *CCarController::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new CCarControllerPrototype(packet);
+    }
+}
