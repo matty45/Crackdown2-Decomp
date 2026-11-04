@@ -39,3 +39,26 @@ namespace Vehicle
     static Fun_Runtime::cInheritanceRegistrar cHelicoptercVehicleInheritRegistrar(
         Vehicle::cHelicopter::StaticCreateClass(), Vehicle::cVehicle::StaticCreateClass());
 }
+
+#include <new>
+
+// CD2 0x826B8AE0: placement factory; the constructor stays out of line (a tail call).
+namespace Vehicle
+{
+    RWS::CAttributeHandler *cHelicopter::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cHelicopter;
+        return 0;
+    }
+}
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x82FE85A0: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace Vehicle
+{
+    static GOM::cProtoRegistrar cHelicopterSpawningRegistrar(
+        cHelicopter::StaticCreateClass(), cHelicopter::SpawnFromPrototype);
+}

@@ -39,3 +39,26 @@ namespace unknown
     static Fun_Runtime::cInheritanceRegistrar cAgencyGarageDoorcSlidingDoorInheritRegistrar(
         unknown::cAgencyGarageDoor::StaticCreateClass(), Prop::cSlidingDoor::StaticCreateClass());
 }
+
+#include <new>
+
+// CD2 0x82732E48: placement factory; the constructor stays out of line (a tail call).
+namespace unknown
+{
+    RWS::CAttributeHandler *cAgencyGarageDoor::SpawnFromPrototype(GOM::cObjectPrototype *prototype, void *memory)
+    {
+        if (memory)
+            return new (memory) cAgencyGarageDoor(prototype);
+        return 0;
+    }
+}
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x82FF6868: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace unknown
+{
+    static GOM::cProtoRegistrar cAgencyGarageDoorSpawningRegistrar(
+        cAgencyGarageDoor::StaticCreateClass(), cAgencyGarageDoor::SpawnFromPrototype);
+}

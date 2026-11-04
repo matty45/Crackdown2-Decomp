@@ -1676,6 +1676,16 @@
         "address": "0x82FF67B0",
         "size": 104,
         "symbol": "??__EcAgencyGarageDoorcSlidingDoorInheritRegistrar@unknown@@"
+      },
+      {
+        "address": "0x82732E48",
+        "size": 32,
+        "symbol": "?SpawnFromPrototype@cAgencyGarageDoor@unknown@@"
+      },
+      {
+        "address": "0x82FF6868",
+        "size": 72,
+        "symbol": "??__EcAgencyGarageDoorSpawningRegistrar@unknown@@"
       }
     ],
     "src/cATVAssaultGameModePrototype.cpp": [
@@ -2191,6 +2201,16 @@
         "address": "0x82FF5A78",
         "size": 104,
         "symbol": "??__EcTransVehicleDamagePropcVehicleDamagePropInheritRegistrar@unknown@@"
+      },
+      {
+        "address": "0x82730CB8",
+        "size": 32,
+        "symbol": "?SpawnFromPrototype@cTransVehicleDamageProp@unknown@@"
+      },
+      {
+        "address": "0x82FF5B30",
+        "size": 72,
+        "symbol": "??__EcTransVehicleDamagePropSpawningRegistrar@unknown@@"
       }
     ],
     "src/cVehicleTagGameModePrototype.cpp": [
@@ -2304,6 +2324,16 @@
         "address": "0x82F99CD0",
         "size": 104,
         "symbol": "??__EcAmbientWanderAttackBehaviourcAmbientTrafficBehaviourInheritRegistrar@AI@@"
+      },
+      {
+        "address": "0x824CDD78",
+        "size": 24,
+        "symbol": "?SpawnFromPrototype@cAmbientWanderAttackBehaviour@AI@@"
+      },
+      {
+        "address": "0x82F99D88",
+        "size": 72,
+        "symbol": "??__EcAmbientWanderAttackBehaviourSpawningRegistrar@AI@@"
       }
     ],
     "src/AI/Mission/BreachHole/cBreachExplosion.cpp": [
@@ -4026,6 +4056,16 @@
         "address": "0x82FAD2B8",
         "size": 104,
         "symbol": "??__EcCwGoliathCharacterWrappercCwCharacterInheritRegistrar@CHARACTER@@"
+      },
+      {
+        "address": "0x82542228",
+        "size": 32,
+        "symbol": "?SpawnFromPrototype@cCwGoliathCharacterWrapper@CHARACTER@@"
+      },
+      {
+        "address": "0x82FAD370",
+        "size": 72,
+        "symbol": "??__EcCwGoliathCharacterWrapperSpawningRegistrar@CHARACTER@@"
       }
     ],
     "src/CHARACTER/cGameDamageProfile.cpp": [
@@ -5132,6 +5172,16 @@
         "address": "0x82FFAEF0",
         "size": 104,
         "symbol": "??__EcHingedDoorcHingedPropInheritRegistrar@Prop@@"
+      },
+      {
+        "address": "0x82744360",
+        "size": 32,
+        "symbol": "?SpawnFromPrototype@cHingedDoor@Prop@@"
+      },
+      {
+        "address": "0x82FFAFA8",
+        "size": 72,
+        "symbol": "??__EcHingedDoorSpawningRegistrar@Prop@@"
       }
     ],
     "src/Prop/Custom/cPintleFaceplate.cpp": [
@@ -5470,6 +5520,16 @@
         "address": "0x82FE84E8",
         "size": 104,
         "symbol": "??__EcHelicoptercVehicleInheritRegistrar@Vehicle@@"
+      },
+      {
+        "address": "0x826B8AE0",
+        "size": 24,
+        "symbol": "?SpawnFromPrototype@cHelicopter@Vehicle@@"
+      },
+      {
+        "address": "0x82FE85A0",
+        "size": 72,
+        "symbol": "??__EcHelicopterSpawningRegistrar@Vehicle@@"
       }
     ],
     "src/Vehicle/cHelicopterDamageProfile.cpp": [
@@ -5519,6 +5579,16 @@
         "address": "0x82FE89B8",
         "size": 104,
         "symbol": "??__EcLandVehiclecVehicleInheritRegistrar@Vehicle@@"
+      },
+      {
+        "address": "0x826C0E20",
+        "size": 24,
+        "symbol": "?SpawnFromPrototype@cLandVehicle@Vehicle@@"
+      },
+      {
+        "address": "0x82FE8A70",
+        "size": 72,
+        "symbol": "??__EcLandVehicleSpawningRegistrar@Vehicle@@"
       }
     ],
     "src/Vehicle/cLandVehicleProfile.cpp": [
@@ -7138,6 +7208,16 @@
         "address": "0x82F9C1B8",
         "size": 104,
         "symbol": "??__EcPilotRespawnNPCBehaviourInheritRegistrar@AI@@"
+      },
+      {
+        "address": "0x824D4220",
+        "size": 24,
+        "symbol": "?SpawnFromPrototype@cPilotRespawn@AI@@"
+      },
+      {
+        "address": "0x82F9C270",
+        "size": 72,
+        "symbol": "??__EcPilotRespawnSpawningRegistrar@AI@@"
       }
     ],
     "src/AI/cPKDropPilot.cpp": [
@@ -7748,6 +7828,16 @@
         "address": "0x82F93ED8",
         "size": 104,
         "symbol": "??__EReaperFreakBaseInheritRegistrar@AI@@"
+      },
+      {
+        "address": "0x824B26A8",
+        "size": 32,
+        "symbol": "?SpawnFromPrototype@Reaper@AI@@"
+      },
+      {
+        "address": "0x82F93F90",
+        "size": 72,
+        "symbol": "??__EReaperSpawningRegistrar@AI@@"
       }
     ],
     "src/AI/Behaviour/NPC/Freak/ScroungerKamikaze.cpp": [
@@ -8726,6 +8816,16 @@
         "address": "0x82F872E8",
         "size": 104,
         "symbol": "??__EcMissionCriticalPropcPropInheritRegistrar@AI@@"
+      },
+      {
+        "address": "0x8245AF48",
+        "size": 32,
+        "symbol": "?SpawnFromPrototype@cMissionCriticalProp@AI@@"
+      },
+      {
+        "address": "0x82F873A0",
+        "size": 72,
+        "symbol": "??__EcMissionCriticalPropSpawningRegistrar@AI@@"
       }
     ],
     "src/AI/cBeaconProp.cpp": [
@@ -8763,6 +8863,16 @@
         "address": "0x82F87BF0",
         "size": 104,
         "symbol": "??__EcBeaconPropcMissionCriticalPropInheritRegistrar@AI@@"
+      },
+      {
+        "address": "0x8245C288",
+        "size": 32,
+        "symbol": "?SpawnFromPrototype@cBeaconProp@AI@@"
+      },
+      {
+        "address": "0x82F87CA8",
+        "size": 72,
+        "symbol": "??__EcBeaconPropSpawningRegistrar@AI@@"
       }
     ],
     "src/AI/Behaviour/AIBehaviour.cpp": [
@@ -8864,6 +8974,16 @@
         "address": "0x82F93AA0",
         "size": 104,
         "symbol": "??__EGoliathNPCBehaviourSMInheritRegistrar@AI@@"
+      },
+      {
+        "address": "0x824B0F28",
+        "size": 196,
+        "symbol": "?SpawnFromPrototype@Goliath@AI@@"
+      },
+      {
+        "address": "0x82F93B58",
+        "size": 72,
+        "symbol": "??__EGoliathSpawningRegistrar@AI@@"
       }
     ],
     "src/Anim/cCharacterAnimSetManager.cpp": [
@@ -9024,6 +9144,16 @@
         "address": "0x82FACE80",
         "size": 104,
         "symbol": "??__EcCwCharacterWrappercCwCharacterInheritRegistrar@CHARACTER@@"
+      },
+      {
+        "address": "0x82540B30",
+        "size": 32,
+        "symbol": "?SpawnFromPrototype@cCwCharacterWrapper@CHARACTER@@"
+      },
+      {
+        "address": "0x82FACF38",
+        "size": 72,
+        "symbol": "??__EcCwCharacterWrapperSpawningRegistrar@CHARACTER@@"
       }
     ],
     "src/CHARACTER/cGenCharProfile.cpp": [
@@ -9130,6 +9260,16 @@
         "address": "0x82FD2268",
         "size": 104,
         "symbol": "??__EcHWGrenadeProjectilecHWProjectileInheritRegistrar@Equip@@"
+      },
+      {
+        "address": "0x826293A0",
+        "size": 32,
+        "symbol": "?SpawnFromPrototype@cHWGrenadeProjectile@Equip@@"
+      },
+      {
+        "address": "0x82FD2320",
+        "size": 72,
+        "symbol": "??__EcHWGrenadeProjectileSpawningRegistrar@Equip@@"
       }
     ],
     "src/ExplosionManager/cExplosionManager.cpp": [
@@ -10784,6 +10924,16 @@
         "address": "0x82FE0060",
         "size": 104,
         "symbol": "??__EcPhantomBodycGameBaseInheritRegistrar@unknown@@"
+      },
+      {
+        "address": "0x8268A3F0",
+        "size": 24,
+        "symbol": "?SpawnFromPrototype@cPhantomBody@unknown@@"
+      },
+      {
+        "address": "0x82FE0118",
+        "size": 72,
+        "symbol": "??__EcPhantomBodySpawningRegistrar@unknown@@"
       }
     ],
     "src/cTransformingCar.cpp": [
@@ -11294,6 +11444,16 @@
         "address": "0x82FFE510",
         "size": 104,
         "symbol": "??__EcRenegadeOrbcBodyInheritRegistrar@RPG@@"
+      },
+      {
+        "address": "0x82757000",
+        "size": 24,
+        "symbol": "?SpawnFromPrototype@cRenegadeOrb@RPG@@"
+      },
+      {
+        "address": "0x82FFE5C8",
+        "size": 72,
+        "symbol": "??__EcRenegadeOrbSpawningRegistrar@RPG@@"
       }
     ],
     "src/cScriptManager.cpp": [

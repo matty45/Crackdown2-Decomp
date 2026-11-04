@@ -1,6 +1,7 @@
 #ifndef AI_cAmbientWanderAttackBehaviour_H
 #define AI_cAmbientWanderAttackBehaviour_H
 
+#include "gom/object_prototype.h"
 #include "rws/attributes.h"
 #include "fun_runtime/class.h"
 
@@ -9,6 +10,9 @@ namespace AI
     class cAmbientWanderAttackBehaviour : public RWS::CAttributeHandler
     {
     public:
+        // Out of line: CD2 tail-calls it from SpawnFromPrototype.
+        cAmbientWanderAttackBehaviour();
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *memory);
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         static const Fun_Runtime::cClass *ms_pcAmbientWanderAttackBehaviourClass;
         virtual const Fun_Runtime::cClass &RetClass() const;

@@ -1,3 +1,4 @@
+#include "gom/object_prototype.h"
 #include "rws/attributes.h"
 // Equip::cHWGrenadeProjectile (Crackdown 2): STAND-IN for the class name only. Base Equip::cHWProjectile, as in
 // RuffKing's header; RetClassName (0x82629390) is slot 11 of the vtable at 0x82127130, as cNonGameBase's RetClassName.
@@ -11,6 +12,9 @@ namespace Equip
     class cHWGrenadeProjectile : public Equip::cHWProjectile
     {
     public:
+        // Out of line: CD2 tail-calls it from SpawnFromPrototype with the prototype.
+        cHWGrenadeProjectile(GOM::cObjectPrototype *prototype);
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *memory);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcHWGrenadeProjectileClass;
         static Fun_Runtime::cClass &StaticCreateClass();

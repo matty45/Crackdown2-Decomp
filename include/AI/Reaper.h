@@ -1,6 +1,7 @@
 #ifndef AI_REAPER_H
 #define AI_REAPER_H
 
+#include "gom/object_prototype.h"
 #include "gom/non_game_base.h"
 #include "fun_runtime/class.h"
 #include "rws/attributes.h"
@@ -10,6 +11,9 @@ namespace AI
     class Reaper : public cNonGameBase
     {
     public:
+        // Out of line: CD2 tail-calls it from SpawnFromPrototype with the prototype.
+        Reaper(GOM::cObjectPrototype *prototype);
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *memory);
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pReaperClass;
 

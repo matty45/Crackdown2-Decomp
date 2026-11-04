@@ -39,3 +39,26 @@ namespace CHARACTER
     static Fun_Runtime::cInheritanceRegistrar cCwGoliathCharacterWrappercCwCharacterInheritRegistrar(
         CHARACTER::cCwGoliathCharacterWrapper::StaticCreateClass(), CHARACTER::cCwCharacter::StaticCreateClass());
 }
+
+#include <new>
+
+// CD2 0x82542228: placement factory; the constructor stays out of line (a tail call).
+namespace CHARACTER
+{
+    RWS::CAttributeHandler *cCwGoliathCharacterWrapper::SpawnFromPrototype(GOM::cObjectPrototype *prototype, void *memory)
+    {
+        if (memory)
+            return new (memory) cCwGoliathCharacterWrapper(prototype);
+        return 0;
+    }
+}
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x82FAD370: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace CHARACTER
+{
+    static GOM::cProtoRegistrar cCwGoliathCharacterWrapperSpawningRegistrar(
+        cCwGoliathCharacterWrapper::StaticCreateClass(), cCwGoliathCharacterWrapper::SpawnFromPrototype);
+}

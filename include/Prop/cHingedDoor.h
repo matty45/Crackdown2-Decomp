@@ -1,6 +1,7 @@
 #ifndef Prop_cHingedDoor_H
 #define Prop_cHingedDoor_H
 
+#include "gom/object_prototype.h"
 #include "rws/attributes.h"
 #include "fun_runtime/class.h"
 #include "Prop/cHingedProp.h"
@@ -10,6 +11,9 @@ namespace Prop
     class cHingedDoor : public RWS::CAttributeHandler
     {
     public:
+        // Out of line: CD2 tail-calls it from SpawnFromPrototype with the prototype.
+        cHingedDoor(GOM::cObjectPrototype *prototype);
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *memory);
         static const Fun_Runtime::cClass *ms_pcHingedDoorClass;
         static Fun_Runtime::cClass &StaticCreateClass();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);

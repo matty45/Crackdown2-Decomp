@@ -65,3 +65,26 @@ namespace AI
     static Fun_Runtime::cInheritanceRegistrar cBeaconPropcMissionCriticalPropInheritRegistrar(
         AI::cBeaconProp::StaticCreateClass(), AI::cMissionCriticalProp::StaticCreateClass());
 }
+
+#include <new>
+
+// CD2 0x8245C288: placement factory; the constructor stays out of line (a tail call).
+namespace AI
+{
+    RWS::CAttributeHandler *cBeaconProp::SpawnFromPrototype(GOM::cObjectPrototype *prototype, void *memory)
+    {
+        if (memory)
+            return new (memory) cBeaconProp(prototype);
+        return 0;
+    }
+}
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x82F87CA8: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar cBeaconPropSpawningRegistrar(
+        cBeaconProp::StaticCreateClass(), cBeaconProp::SpawnFromPrototype);
+}

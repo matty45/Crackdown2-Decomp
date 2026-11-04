@@ -52,3 +52,26 @@ namespace Equip
     static Fun_Runtime::cInheritanceRegistrar cHWGrenadeProjectilecHWProjectileInheritRegistrar(
         Equip::cHWGrenadeProjectile::StaticCreateClass(), Equip::cHWProjectile::StaticCreateClass());
 }
+
+#include <new>
+
+// CD2 0x826293A0: placement factory; the constructor stays out of line (a tail call).
+namespace Equip
+{
+    RWS::CAttributeHandler *cHWGrenadeProjectile::SpawnFromPrototype(GOM::cObjectPrototype *prototype, void *memory)
+    {
+        if (memory)
+            return new (memory) cHWGrenadeProjectile(prototype);
+        return 0;
+    }
+}
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x82FD2320: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace Equip
+{
+    static GOM::cProtoRegistrar cHWGrenadeProjectileSpawningRegistrar(
+        cHWGrenadeProjectile::StaticCreateClass(), cHWGrenadeProjectile::SpawnFromPrototype);
+}

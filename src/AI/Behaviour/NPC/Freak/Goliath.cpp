@@ -66,3 +66,26 @@ namespace AI
     static Fun_Runtime::cInheritanceRegistrar GoliathNPCBehaviourSMInheritRegistrar(
         AI::Goliath::StaticCreateClass(), AI::NPCBehaviourSM::StaticCreateClass());
 }
+
+#include <new>
+
+// CD2 0x824B0F28: placement factory; NPCBehaviourSM's constructor stays out of line, the rest is inlined.
+namespace AI
+{
+    RWS::CAttributeHandler *Goliath::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) Goliath;
+        return 0;
+    }
+}
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x82F93B58: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar GoliathSpawningRegistrar(
+        Goliath::StaticCreateClass(), Goliath::SpawnFromPrototype);
+}

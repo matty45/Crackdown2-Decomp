@@ -40,3 +40,26 @@ namespace RPG
     static Fun_Runtime::cInheritanceRegistrar cRenegadeOrbcBodyInheritRegistrar(
         RPG::cRenegadeOrb::StaticCreateClass(), PHYSICS::cBody::StaticCreateClass());
 }
+
+#include <new>
+
+// CD2 0x82757000: placement factory; the constructor stays out of line (a tail call).
+namespace RPG
+{
+    RWS::CAttributeHandler *cRenegadeOrb::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cRenegadeOrb;
+        return 0;
+    }
+}
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x82FFE5C8: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace RPG
+{
+    static GOM::cProtoRegistrar cRenegadeOrbSpawningRegistrar(
+        cRenegadeOrb::StaticCreateClass(), cRenegadeOrb::SpawnFromPrototype);
+}

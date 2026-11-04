@@ -1,6 +1,7 @@
 #ifndef AI_CPILOTRESPAWN_H
 #define AI_CPILOTRESPAWN_H
 
+#include "gom/object_prototype.h"
 #include "gom/non_game_base.h"
 #include "fun_runtime/class.h"
 #include "rws/attributes.h"
@@ -10,6 +11,7 @@ namespace AI
     class cPilotRespawn : public cNonGameBase
     {
     public:
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *memory);
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pcPilotRespawnClass;
 

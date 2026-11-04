@@ -52,3 +52,26 @@ namespace AI
     static Fun_Runtime::cInheritanceRegistrar cMissionCriticalPropcPropInheritRegistrar(
         AI::cMissionCriticalProp::StaticCreateClass(), Prop::cProp::StaticCreateClass());
 }
+
+#include <new>
+
+// CD2 0x8245AF48: placement factory; the constructor stays out of line (a tail call).
+namespace AI
+{
+    RWS::CAttributeHandler *cMissionCriticalProp::SpawnFromPrototype(GOM::cObjectPrototype *prototype, void *memory)
+    {
+        if (memory)
+            return new (memory) cMissionCriticalProp(prototype);
+        return 0;
+    }
+}
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x82F873A0: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar cMissionCriticalPropSpawningRegistrar(
+        cMissionCriticalProp::StaticCreateClass(), cMissionCriticalProp::SpawnFromPrototype);
+}

@@ -38,3 +38,26 @@ namespace unknown
     static Fun_Runtime::cInheritanceRegistrar cPhantomBodycGameBaseInheritRegistrar(
         unknown::cPhantomBody::StaticCreateClass(), cGameBase::StaticCreateClass());
 }
+
+#include <new>
+
+// CD2 0x8268A3F0: placement factory; the constructor stays out of line (a tail call).
+namespace unknown
+{
+    RWS::CAttributeHandler *cPhantomBody::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cPhantomBody;
+        return 0;
+    }
+}
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x82FE0118: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace unknown
+{
+    static GOM::cProtoRegistrar cPhantomBodySpawningRegistrar(
+        cPhantomBody::StaticCreateClass(), cPhantomBody::SpawnFromPrototype);
+}

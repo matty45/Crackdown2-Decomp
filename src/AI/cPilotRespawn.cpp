@@ -54,3 +54,26 @@ namespace AI
     static Fun_Runtime::cInheritanceRegistrar cPilotRespawnNPCBehaviourInheritRegistrar(
         AI::cPilotRespawn::StaticCreateClass(), AI::NPCBehaviour::StaticCreateClass());
 }
+
+#include <new>
+
+// CD2 0x824D4220: placement factory; the constructor stays out of line (a tail call).
+namespace AI
+{
+    RWS::CAttributeHandler *cPilotRespawn::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cPilotRespawn;
+        return 0;
+    }
+}
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x82F9C270: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar cPilotRespawnSpawningRegistrar(
+        cPilotRespawn::StaticCreateClass(), cPilotRespawn::SpawnFromPrototype);
+}

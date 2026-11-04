@@ -45,3 +45,26 @@ namespace Prop
     static Fun_Runtime::cInheritanceRegistrar cHingedDoorcHingedPropInheritRegistrar(
         Prop::cHingedDoor::StaticCreateClass(), Prop::cHingedProp::StaticCreateClass());
 }
+
+#include <new>
+
+// CD2 0x82744360: placement factory; the constructor stays out of line (a tail call).
+namespace Prop
+{
+    RWS::CAttributeHandler *cHingedDoor::SpawnFromPrototype(GOM::cObjectPrototype *prototype, void *memory)
+    {
+        if (memory)
+            return new (memory) cHingedDoor(prototype);
+        return 0;
+    }
+}
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x82FFAFA8: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace Prop
+{
+    static GOM::cProtoRegistrar cHingedDoorSpawningRegistrar(
+        cHingedDoor::StaticCreateClass(), cHingedDoor::SpawnFromPrototype);
+}

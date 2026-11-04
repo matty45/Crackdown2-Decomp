@@ -53,3 +53,26 @@ namespace AI
     static Fun_Runtime::cInheritanceRegistrar cAmbientWanderAttackBehaviourcAmbientTrafficBehaviourInheritRegistrar(
         AI::cAmbientWanderAttackBehaviour::StaticCreateClass(), AI::cAmbientTrafficBehaviour::StaticCreateClass());
 }
+
+#include <new>
+
+// CD2 0x824CDD78: placement factory; the constructor stays out of line (a tail call).
+namespace AI
+{
+    RWS::CAttributeHandler *cAmbientWanderAttackBehaviour::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cAmbientWanderAttackBehaviour;
+        return 0;
+    }
+}
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x82F99D88: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar cAmbientWanderAttackBehaviourSpawningRegistrar(
+        cAmbientWanderAttackBehaviour::StaticCreateClass(), cAmbientWanderAttackBehaviour::SpawnFromPrototype);
+}
