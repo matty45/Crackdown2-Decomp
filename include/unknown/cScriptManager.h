@@ -11,6 +11,7 @@ namespace unknown
     class cScriptManager
     {
     public:
+        virtual const char *RetClassName() const;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcScriptManagerClass;
         static Fun_Runtime::cClass &StaticCreateClass();

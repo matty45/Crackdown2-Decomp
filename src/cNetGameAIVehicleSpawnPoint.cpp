@@ -38,3 +38,12 @@ namespace unknown
     static Fun_Runtime::cInheritanceRegistrar cNetGameAIVehicleSpawnPointcNetGameAISpawnPointInheritRegistrar(
         unknown::cNetGameAIVehicleSpawnPoint::StaticCreateClass(), unknown::cNetGameAISpawnPoint::StaticCreateClass());
 }
+
+// CD2 0x8284D3B0.
+namespace unknown
+{
+    const Fun_Runtime::cClass &cNetGameAIVehicleSpawnPoint::RetClass() const
+    {
+        return *ms_pcNetGameAIVehicleSpawnPointClass;
+    }
+}

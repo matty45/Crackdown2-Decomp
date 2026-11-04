@@ -31,3 +31,21 @@ namespace Equip
     static RWS::CClassFactory::CRegistrar cProxMineRegistrar(
         "cProxMine", cProxMine::MakeNew, 0xB10, false);
 }
+
+// CD2 0x8261F870.
+namespace Equip
+{
+    const Fun_Runtime::cClass &cProxMine::RetClass() const
+    {
+        return *ms_pcProxMineClass;
+    }
+}
+
+// CD2 0x8261F938.
+namespace Equip
+{
+    const char *cProxMine::RetClassName() const
+    {
+        return "cProxMine";
+    }
+}

@@ -29,3 +29,21 @@ namespace unknown
     static RWS::CClassFactory::CRegistrar cStaticInterestingObjectRegistrar(
         "cStaticInterestingObject", cStaticInterestingObject::MakeNew, 0xC0, false);
 }
+
+// CD2 0x82455708.
+namespace unknown
+{
+    const Fun_Runtime::cClass &cStaticInterestingObject::RetClass() const
+    {
+        return *ms_pcStaticInterestingObjectClass;
+    }
+}
+
+// CD2 0x824557B8.
+namespace unknown
+{
+    const char *cStaticInterestingObject::RetClassName() const
+    {
+        return "cStaticInterestingObject";
+    }
+}

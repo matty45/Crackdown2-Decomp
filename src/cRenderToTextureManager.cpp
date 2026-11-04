@@ -38,3 +38,12 @@ namespace unknown
     static Fun_Runtime::cInheritanceRegistrar cRenderToTextureManagercNonGameBaseInheritRegistrar(
         unknown::cRenderToTextureManager::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }
+
+// CD2 0x827A9AB0.
+namespace unknown
+{
+    const Fun_Runtime::cClass &cRenderToTextureManager::RetClass() const
+    {
+        return *ms_pcRenderToTextureManagerClass;
+    }
+}

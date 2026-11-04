@@ -31,3 +31,12 @@ namespace Equip
     static RWS::CClassFactory::CRegistrar cPortableLaunchPadRegistrar(
         "cPortableLaunchPad", cPortableLaunchPad::MakeNew, 0xCA0, false);
 }
+
+// CD2 0x8260DE40.
+namespace Equip
+{
+    const char *cPortableLaunchPad::RetClassName() const
+    {
+        return "cPortableLaunchPad";
+    }
+}

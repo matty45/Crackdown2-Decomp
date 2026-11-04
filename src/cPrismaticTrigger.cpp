@@ -38,3 +38,21 @@ namespace unknown
     static Fun_Runtime::cInheritanceRegistrar cPrismaticTriggercPhantomBodyInheritRegistrar(
         unknown::cPrismaticTrigger::StaticCreateClass(), unknown::cPhantomBody::StaticCreateClass());
 }
+
+// CD2 0x8273D340.
+namespace unknown
+{
+    const Fun_Runtime::cClass &cPrismaticTrigger::RetClass() const
+    {
+        return *ms_pcPrismaticTriggerClass;
+    }
+}
+
+// CD2 0x8273D428.
+namespace unknown
+{
+    const char *cPrismaticTrigger::RetClassName() const
+    {
+        return "cPrismaticTrigger";
+    }
+}

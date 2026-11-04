@@ -61,3 +61,21 @@ namespace unknown
     static GOM::cProtoRegistrar cPhantomBodySpawningRegistrar(
         cPhantomBody::StaticCreateClass(), cPhantomBody::SpawnFromPrototype);
 }
+
+// CD2 0x8268A2F8.
+namespace unknown
+{
+    const Fun_Runtime::cClass &cPhantomBody::RetClass() const
+    {
+        return *ms_pcPhantomBodyClass;
+    }
+}
+
+// CD2 0x8268A3E0.
+namespace unknown
+{
+    const char *cPhantomBody::RetClassName() const
+    {
+        return "cPhantomBody";
+    }
+}

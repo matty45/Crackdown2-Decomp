@@ -31,3 +31,21 @@ namespace Vehicle
     static RWS::CClassFactory::CRegistrar cAgencySportsRegistrar(
         "cAgencySports", cAgencySports::MakeNew, 0x30C0, false);
 }
+
+// CD2 0x826ECEC8.
+namespace Vehicle
+{
+    const Fun_Runtime::cClass &cAgencySports::RetClass() const
+    {
+        return *ms_pcAgencySportsClass;
+    }
+}
+
+// CD2 0x826ECF90.
+namespace Vehicle
+{
+    const char *cAgencySports::RetClassName() const
+    {
+        return "cAgencySports";
+    }
+}

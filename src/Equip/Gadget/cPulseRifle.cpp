@@ -40,3 +40,12 @@ namespace Equip
     static Fun_Runtime::cInheritanceRegistrar cPulseRiflecCWWeaponInheritRegistrar(
         Equip::cPulseRifle::StaticCreateClass(), Equip::cCWWeapon::StaticCreateClass());
 }
+
+// CD2 0x8260ED38.
+namespace Equip
+{
+    const char *cPulseRifle::RetClassName() const
+    {
+        return "cPulseRifle";
+    }
+}

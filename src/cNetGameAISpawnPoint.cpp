@@ -29,3 +29,12 @@ namespace unknown
     static RWS::CClassFactory::CRegistrar cNetGameAISpawnPointRegistrar(
         "cNetGameAISpawnPoint", cNetGameAISpawnPoint::MakeNew, 0xA0, false);
 }
+
+// CD2 0x8284CFA0.
+namespace unknown
+{
+    const Fun_Runtime::cClass &cNetGameAISpawnPoint::RetClass() const
+    {
+        return *ms_pcNetGameAISpawnPointClass;
+    }
+}

@@ -40,3 +40,44 @@ namespace CHARACTER
     static Fun_Runtime::cInheritanceRegistrar cFrontEndAgentcCwTransCharacterInheritRegistrar(
         CHARACTER::cFrontEndAgent::StaticCreateClass(), CHARACTER::cCwTransCharacter::StaticCreateClass());
 }
+
+#include <new>
+
+// CD2 0x8289CF48: placement factory; the constructor stays out of line (a tail call).
+namespace CHARACTER
+{
+    RWS::CAttributeHandler *cFrontEndAgent::SpawnFromPrototype(GOM::cObjectPrototype *prototype, void *memory)
+    {
+        if (memory)
+            return new (memory) cFrontEndAgent(prototype);
+        return 0;
+    }
+}
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x83022E88: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace CHARACTER
+{
+    static GOM::cProtoRegistrar cFrontEndAgentSpawningRegistrar(
+        cFrontEndAgent::StaticCreateClass(), cFrontEndAgent::SpawnFromPrototype);
+}
+
+// CD2 0x8289CE58.
+namespace CHARACTER
+{
+    const Fun_Runtime::cClass &cFrontEndAgent::RetClass() const
+    {
+        return *ms_pcFrontEndAgentClass;
+    }
+}
+
+// CD2 0x8289CF38.
+namespace CHARACTER
+{
+    const char *cFrontEndAgent::RetClassName() const
+    {
+        return "cFrontEndAgent";
+    }
+}

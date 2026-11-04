@@ -11,6 +11,7 @@ namespace unknown
     class cNetGameAIVehicleSpawnPoint
     {
     public:
+        virtual const Fun_Runtime::cClass &RetClass() const;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcNetGameAIVehicleSpawnPointClass;
         static Fun_Runtime::cClass &StaticCreateClass();

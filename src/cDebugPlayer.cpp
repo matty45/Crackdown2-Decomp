@@ -38,3 +38,12 @@ namespace unknown
     static Fun_Runtime::cInheritanceRegistrar cDebugPlayercNonGameBaseInheritRegistrar(
         unknown::cDebugPlayer::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }
+
+// CD2 0x82714668.
+namespace unknown
+{
+    const Fun_Runtime::cClass &cDebugPlayer::RetClass() const
+    {
+        return *ms_pcDebugPlayerClass;
+    }
+}

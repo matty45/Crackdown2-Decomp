@@ -38,3 +38,21 @@ namespace unknown
     static Fun_Runtime::cInheritanceRegistrar cSupplyEntryPointcGameBaseInheritRegistrar(
         unknown::cSupplyEntryPoint::StaticCreateClass(), cGameBase::StaticCreateClass());
 }
+
+// CD2 0x8273FA98.
+namespace unknown
+{
+    const Fun_Runtime::cClass &cSupplyEntryPoint::RetClass() const
+    {
+        return *ms_pcSupplyEntryPointClass;
+    }
+}
+
+// CD2 0x8273FB98.
+namespace unknown
+{
+    const char *cSupplyEntryPoint::RetClassName() const
+    {
+        return "cSupplyEntryPoint";
+    }
+}

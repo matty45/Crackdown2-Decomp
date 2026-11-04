@@ -11,6 +11,8 @@ namespace Cam
     class cCameraManager
     {
     public:
+        virtual const char *RetClassName() const;
+        virtual const Fun_Runtime::cClass &RetClass() const;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcCameraManagerClass;
         static Fun_Runtime::cClass &StaticCreateClass();

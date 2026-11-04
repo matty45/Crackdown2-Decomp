@@ -31,3 +31,12 @@ namespace Equip
     static RWS::CClassFactory::CRegistrar cMagRegistrar(
         "cMag", cMag::MakeNew, 0xB20, false);
 }
+
+// CD2 0x8260BC50.
+namespace Equip
+{
+    const char *cMag::RetClassName() const
+    {
+        return "cMag";
+    }
+}

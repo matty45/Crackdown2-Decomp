@@ -63,3 +63,12 @@ namespace RPG
     static GOM::cProtoRegistrar cRenegadeOrbSpawningRegistrar(
         cRenegadeOrb::StaticCreateClass(), cRenegadeOrb::SpawnFromPrototype);
 }
+
+// CD2 0x82756FF0.
+namespace RPG
+{
+    const char *cRenegadeOrb::RetClassName() const
+    {
+        return "cRenegadeOrb";
+    }
+}

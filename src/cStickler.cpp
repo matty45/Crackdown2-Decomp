@@ -29,3 +29,12 @@ namespace unknown
     static RWS::CClassFactory::CRegistrar cSticklerRegistrar(
         "cStickler", cStickler::MakeNew, 0xAE0, false);
 }
+
+// CD2 0x82622EC8.
+namespace unknown
+{
+    const char *cStickler::RetClassName() const
+    {
+        return "cStickler";
+    }
+}

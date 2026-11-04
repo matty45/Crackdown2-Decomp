@@ -31,3 +31,12 @@ namespace Equip
     static RWS::CClassFactory::CRegistrar cFlocketLauncherRegistrar(
         "cFlocketLauncher", cFlocketLauncher::MakeNew, 0xA30, false);
 }
+
+// CD2 0x82630CF0.
+namespace Equip
+{
+    const Fun_Runtime::cClass &cFlocketLauncher::RetClass() const
+    {
+        return *ms_pcFlocketLauncherClass;
+    }
+}

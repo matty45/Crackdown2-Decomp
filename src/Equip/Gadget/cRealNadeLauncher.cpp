@@ -31,3 +31,12 @@ namespace Equip
     static RWS::CClassFactory::CRegistrar cRealNadeLauncherRegistrar(
         "cRealNadeLauncher", cRealNadeLauncher::MakeNew, 0xA20, false);
 }
+
+// CD2 0x82634928.
+namespace Equip
+{
+    const Fun_Runtime::cClass &cRealNadeLauncher::RetClass() const
+    {
+        return *ms_pcRealNadeLauncherClass;
+    }
+}

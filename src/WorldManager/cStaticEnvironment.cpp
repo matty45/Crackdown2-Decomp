@@ -40,3 +40,12 @@ namespace WorldManager
     static Fun_Runtime::cInheritanceRegistrar cStaticEnvironmentcStaticBodyInheritRegistrar(
         WorldManager::cStaticEnvironment::StaticCreateClass(), PHYSICS::cStaticBody::StaticCreateClass());
 }
+
+// CD2 0x82808970.
+namespace WorldManager
+{
+    const char *cStaticEnvironment::RetClassName() const
+    {
+        return "cStaticEnvironment";
+    }
+}

@@ -38,3 +38,12 @@ namespace unknown
     static Fun_Runtime::cInheritanceRegistrar cAudioLogcPickupBaseInheritRegistrar(
         unknown::cAudioLog::StaticCreateClass(), PHYSICS::cPickupBase::StaticCreateClass());
 }
+
+// CD2 0x8270EB50.
+namespace unknown
+{
+    const Fun_Runtime::cClass &cAudioLog::RetClass() const
+    {
+        return *ms_pcAudioLogClass;
+    }
+}

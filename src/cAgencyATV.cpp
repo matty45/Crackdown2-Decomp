@@ -29,3 +29,21 @@ namespace unknown
     static RWS::CClassFactory::CRegistrar cAgencyATVRegistrar(
         "cAgencyATV", cAgencyATV::MakeNew, 0x31F0, false);
 }
+
+// CD2 0x826E2300.
+namespace unknown
+{
+    const Fun_Runtime::cClass &cAgencyATV::RetClass() const
+    {
+        return *ms_pcAgencyATVClass;
+    }
+}
+
+// CD2 0x826E23C8.
+namespace unknown
+{
+    const char *cAgencyATV::RetClassName() const
+    {
+        return "cAgencyATV";
+    }
+}

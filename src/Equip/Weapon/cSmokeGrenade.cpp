@@ -31,3 +31,21 @@ namespace Equip
     static RWS::CClassFactory::CRegistrar cSmokeGrenadeRegistrar(
         "cSmokeGrenade", cSmokeGrenade::MakeNew, 0x9D0, false);
 }
+
+// CD2 0x826225D0.
+namespace Equip
+{
+    const Fun_Runtime::cClass &cSmokeGrenade::RetClass() const
+    {
+        return *ms_pcSmokeGrenadeClass;
+    }
+}
+
+// CD2 0x826226C0.
+namespace Equip
+{
+    const char *cSmokeGrenade::RetClassName() const
+    {
+        return "cSmokeGrenade";
+    }
+}

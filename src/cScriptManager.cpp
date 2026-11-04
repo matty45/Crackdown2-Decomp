@@ -38,3 +38,12 @@ namespace unknown
     static Fun_Runtime::cInheritanceRegistrar cScriptManagercNonGameBaseInheritRegistrar(
         unknown::cScriptManager::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }
+
+// CD2 0x827701F8.
+namespace unknown
+{
+    const char *cScriptManager::RetClassName() const
+    {
+        return "cScriptManager";
+    }
+}

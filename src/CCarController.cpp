@@ -38,3 +38,12 @@ namespace unknown
     static Fun_Runtime::cInheritanceRegistrar CCarControllercVehicleControllerInheritRegistrar(
         unknown::CCarController::StaticCreateClass(), VEHICLE_CONTROL::cVehicleController::StaticCreateClass());
 }
+
+// CD2 0x8277EBF0.
+namespace unknown
+{
+    const Fun_Runtime::cClass &CCarController::RetClass() const
+    {
+        return *ms_pCCarControllerClass;
+    }
+}

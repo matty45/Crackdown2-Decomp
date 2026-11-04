@@ -29,3 +29,12 @@ namespace unknown
     static RWS::CClassFactory::CRegistrar cTransformingCarRegistrar(
         "cTransformingCar", cTransformingCar::MakeNew, 0x67D0, false);
 }
+
+// CD2 0x826AB518.
+namespace unknown
+{
+    const char *cTransformingCar::RetClassName() const
+    {
+        return "cTransformingCar";
+    }
+}

@@ -40,3 +40,21 @@ namespace Equip
     static Fun_Runtime::cInheritanceRegistrar cRefractorcCWWeaponInheritRegistrar(
         Equip::cRefractor::StaticCreateClass(), Equip::cCWWeapon::StaticCreateClass());
 }
+
+// CD2 0x826105E0.
+namespace Equip
+{
+    const Fun_Runtime::cClass &cRefractor::RetClass() const
+    {
+        return *ms_pcRefractorClass;
+    }
+}
+
+// CD2 0x82610730.
+namespace Equip
+{
+    const char *cRefractor::RetClassName() const
+    {
+        return "cRefractor";
+    }
+}

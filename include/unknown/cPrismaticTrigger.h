@@ -11,6 +11,8 @@ namespace unknown
     class cPrismaticTrigger
     {
     public:
+        virtual const char *RetClassName() const;
+        virtual const Fun_Runtime::cClass &RetClass() const;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcPrismaticTriggerClass;
         static Fun_Runtime::cClass &StaticCreateClass();

@@ -40,3 +40,26 @@ namespace Equip
     static Fun_Runtime::cInheritanceRegistrar cEquipmentcNetDynamicBodyInheritRegistrar(
         Equip::cEquipment::StaticCreateClass(), PHYSICS::cNetDynamicBody::StaticCreateClass());
 }
+
+#include <new>
+
+// CD2 0x826046B8: placement factory; the constructor stays out of line (a tail call).
+namespace Equip
+{
+    RWS::CAttributeHandler *cEquipment::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cEquipment;
+        return 0;
+    }
+}
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x82FCB2A0: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace Equip
+{
+    static GOM::cProtoRegistrar cEquipmentSpawningRegistrar(
+        cEquipment::StaticCreateClass(), cEquipment::SpawnFromPrototype);
+}

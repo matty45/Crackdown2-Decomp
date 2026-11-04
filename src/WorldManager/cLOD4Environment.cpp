@@ -40,3 +40,21 @@ namespace WorldManager
     static Fun_Runtime::cInheritanceRegistrar cLOD4EnvironmentcGameBaseInheritRegistrar(
         WorldManager::cLOD4Environment::StaticCreateClass(), cGameBase::StaticCreateClass());
 }
+
+// CD2 0x828077A0.
+namespace WorldManager
+{
+    const Fun_Runtime::cClass &cLOD4Environment::RetClass() const
+    {
+        return *ms_pcLOD4EnvironmentClass;
+    }
+}
+
+// CD2 0x82807858.
+namespace WorldManager
+{
+    const char *cLOD4Environment::RetClassName() const
+    {
+        return "cLOD4Environment";
+    }
+}

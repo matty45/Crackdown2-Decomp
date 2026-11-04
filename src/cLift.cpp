@@ -38,3 +38,12 @@ namespace unknown
     static Fun_Runtime::cInheritanceRegistrar cLiftcPrismaticPropInheritRegistrar(
         unknown::cLift::StaticCreateClass(), Prop::cPrismaticProp::StaticCreateClass());
 }
+
+// CD2 0x82738E28.
+namespace unknown
+{
+    const Fun_Runtime::cClass &cLift::RetClass() const
+    {
+        return *ms_pcLiftClass;
+    }
+}

@@ -38,3 +38,21 @@ namespace unknown
     static Fun_Runtime::cInheritanceRegistrar cWeaponCabinetDoorcPrismaticPropInheritRegistrar(
         unknown::cWeaponCabinetDoor::StaticCreateClass(), Prop::cPrismaticProp::StaticCreateClass());
 }
+
+// CD2 0x82740F38.
+namespace unknown
+{
+    const Fun_Runtime::cClass &cWeaponCabinetDoor::RetClass() const
+    {
+        return *ms_pcWeaponCabinetDoorClass;
+    }
+}
+
+// CD2 0x82741018.
+namespace unknown
+{
+    const char *cWeaponCabinetDoor::RetClassName() const
+    {
+        return "cWeaponCabinetDoor";
+    }
+}

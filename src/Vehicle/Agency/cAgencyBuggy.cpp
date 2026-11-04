@@ -31,3 +31,12 @@ namespace Vehicle
     static RWS::CClassFactory::CRegistrar cAgencyBuggyRegistrar(
         "cAgencyBuggy", cAgencyBuggy::MakeNew, 0x30C0, false);
 }
+
+// CD2 0x826E9960.
+namespace Vehicle
+{
+    const char *cAgencyBuggy::RetClassName() const
+    {
+        return "cAgencyBuggy";
+    }
+}

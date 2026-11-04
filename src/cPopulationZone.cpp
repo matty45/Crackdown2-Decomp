@@ -29,3 +29,21 @@ namespace unknown
     static RWS::CClassFactory::CRegistrar cPopulationZoneRegistrar(
         "cPopulationZone", cPopulationZone::MakeNew, 0x150, false);
 }
+
+// CD2 0x8280BFF8.
+namespace unknown
+{
+    const Fun_Runtime::cClass &cPopulationZone::RetClass() const
+    {
+        return *ms_pcPopulationZoneClass;
+    }
+}
+
+// CD2 0x8280BFE8.
+namespace unknown
+{
+    const char *cPopulationZone::RetClassName() const
+    {
+        return "cPopulationZone";
+    }
+}

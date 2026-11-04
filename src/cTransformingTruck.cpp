@@ -38,3 +38,12 @@ namespace unknown
     static Fun_Runtime::cInheritanceRegistrar cTransformingTruckcTruckInheritRegistrar(
         unknown::cTransformingTruck::StaticCreateClass(), Vehicle::cTruck::StaticCreateClass());
 }
+
+// CD2 0x826B1BF0.
+namespace unknown
+{
+    const char *cTransformingTruck::RetClassName() const
+    {
+        return "cTransformingTruck";
+    }
+}

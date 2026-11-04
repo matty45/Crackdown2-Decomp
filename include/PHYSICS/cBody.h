@@ -15,6 +15,7 @@ namespace PHYSICS
     class cBody : public cGameBase, public GDb::cDebugPageHandler
     {
     public:
+        virtual const char *RetClassName() const;
         virtual ~cBody();
         virtual const Fun_Runtime::cClass &RetClass() const;
         virtual bool IsA(const Fun_Runtime::cClass &) const;

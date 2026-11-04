@@ -11,6 +11,7 @@ namespace unknown
     class cSticklerGrenade
     {
     public:
+        virtual const char *RetClassName() const;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcSticklerGrenadeClass;
         static Fun_Runtime::cClass &StaticCreateClass();

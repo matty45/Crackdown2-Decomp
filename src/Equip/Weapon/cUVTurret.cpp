@@ -40,3 +40,12 @@ namespace Equip
     static Fun_Runtime::cInheritanceRegistrar cUVTurretcCWFirearmInheritRegistrar(
         Equip::cUVTurret::StaticCreateClass(), Equip::cCWFirearm::StaticCreateClass());
 }
+
+// CD2 0x8263BA68.
+namespace Equip
+{
+    const Fun_Runtime::cClass &cUVTurret::RetClass() const
+    {
+        return *ms_pcUVTurretClass;
+    }
+}

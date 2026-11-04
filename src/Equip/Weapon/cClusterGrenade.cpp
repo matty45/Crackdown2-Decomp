@@ -31,3 +31,12 @@ namespace Equip
     static RWS::CClassFactory::CRegistrar cClusterGrenadeRegistrar(
         "cClusterGrenade", cClusterGrenade::MakeNew, 0x9D0, false);
 }
+
+// CD2 0x826197B8.
+namespace Equip
+{
+    const char *cClusterGrenade::RetClassName() const
+    {
+        return "cClusterGrenade";
+    }
+}

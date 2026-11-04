@@ -31,3 +31,12 @@ namespace AI
     static RWS::CClassFactory::CRegistrar cAmbientEventMissionRegistrar(
         "cAmbientEventMission", cAmbientEventMission::MakeNew, 0x3B0, false);
 }
+
+// CD2 0x8248DAD0.
+namespace AI
+{
+    const char *cAmbientEventMission::RetClassName() const
+    {
+        return "cAmbientEventMission";
+    }
+}

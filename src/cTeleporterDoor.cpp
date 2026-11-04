@@ -38,3 +38,12 @@ namespace unknown
     static Fun_Runtime::cInheritanceRegistrar cTeleporterDoorcPrismaticPropInheritRegistrar(
         unknown::cTeleporterDoor::StaticCreateClass(), Prop::cPrismaticProp::StaticCreateClass());
 }
+
+// CD2 0x82740960.
+namespace unknown
+{
+    const char *cTeleporterDoor::RetClassName() const
+    {
+        return "cTeleporterDoor";
+    }
+}

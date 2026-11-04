@@ -46,3 +46,12 @@ namespace unknown
     static Fun_Runtime::cInheritanceRegistrar cVirtualCameracDebugPageHandlerInheritRegistrar(
         unknown::cVirtualCamera::StaticCreateClass(), GDb::cDebugPageHandler::StaticCreateClass());
 }
+
+// CD2 0x8252CDC0.
+namespace unknown
+{
+    const char *cVirtualCamera::RetClassName() const
+    {
+        return "cVirtualCamera";
+    }
+}

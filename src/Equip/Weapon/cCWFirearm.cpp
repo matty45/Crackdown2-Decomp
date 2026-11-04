@@ -40,3 +40,12 @@ namespace Equip
     static Fun_Runtime::cInheritanceRegistrar cCWFirearmcCWWeaponInheritRegistrar(
         Equip::cCWFirearm::StaticCreateClass(), Equip::cCWWeapon::StaticCreateClass());
 }
+
+// CD2 0x82617DA8.
+namespace Equip
+{
+    const char *cCWFirearm::RetClassName() const
+    {
+        return "cCWFirearm";
+    }
+}

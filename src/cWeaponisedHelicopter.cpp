@@ -38,3 +38,21 @@ namespace unknown
     static Fun_Runtime::cInheritanceRegistrar cWeaponisedHelicoptercHelicopterInheritRegistrar(
         unknown::cWeaponisedHelicopter::StaticCreateClass(), Vehicle::cHelicopter::StaticCreateClass());
 }
+
+// CD2 0x826E1800.
+namespace unknown
+{
+    const Fun_Runtime::cClass &cWeaponisedHelicopter::RetClass() const
+    {
+        return *ms_pcWeaponisedHelicopterClass;
+    }
+}
+
+// CD2 0x826E18E0.
+namespace unknown
+{
+    const char *cWeaponisedHelicopter::RetClassName() const
+    {
+        return "cWeaponisedHelicopter";
+    }
+}

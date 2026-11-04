@@ -79,3 +79,12 @@ namespace PHYSICS
     static GOM::cProtoRegistrar cBodySpawningRegistrar(
         cBody::StaticCreateClass(), cBody::SpawnFromPrototype);
 }
+
+// CD2 0x826832F0.
+namespace PHYSICS
+{
+    const char *cBody::RetClassName() const
+    {
+        return "cBody";
+    }
+}

@@ -38,3 +38,12 @@ namespace unknown
     static Fun_Runtime::cInheritanceRegistrar cAgencySquadChoppercVehicleInheritRegistrar(
         unknown::cAgencySquadChopper::StaticCreateClass(), Vehicle::cVehicle::StaticCreateClass());
 }
+
+// CD2 0x826EDB50.
+namespace unknown
+{
+    const char *cAgencySquadChopper::RetClassName() const
+    {
+        return "cAgencySquadChopper";
+    }
+}

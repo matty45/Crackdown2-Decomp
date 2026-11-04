@@ -11,6 +11,7 @@ namespace unknown
     class cNetGameAISpawnPoint
     {
     public:
+        virtual const Fun_Runtime::cClass &RetClass() const;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcNetGameAISpawnPointClass;
         static Fun_Runtime::cClass &StaticCreateClass();

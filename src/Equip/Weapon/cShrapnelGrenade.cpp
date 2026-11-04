@@ -31,3 +31,21 @@ namespace Equip
     static RWS::CClassFactory::CRegistrar cShrapnelGrenadeRegistrar(
         "cShrapnelGrenade", cShrapnelGrenade::MakeNew, 0x9D0, false);
 }
+
+// CD2 0x82621A60.
+namespace Equip
+{
+    const Fun_Runtime::cClass &cShrapnelGrenade::RetClass() const
+    {
+        return *ms_pcShrapnelGrenadeClass;
+    }
+}
+
+// CD2 0x82621B50.
+namespace Equip
+{
+    const char *cShrapnelGrenade::RetClassName() const
+    {
+        return "cShrapnelGrenade";
+    }
+}

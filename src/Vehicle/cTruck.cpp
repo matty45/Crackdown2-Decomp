@@ -62,3 +62,12 @@ namespace Vehicle
     static GOM::cProtoRegistrar cTruckSpawningRegistrar(
         cTruck::StaticCreateClass(), cTruck::SpawnFromPrototype);
 }
+
+// CD2 0x826CB448.
+namespace Vehicle
+{
+    const char *cTruck::RetClassName() const
+    {
+        return "cTruck";
+    }
+}

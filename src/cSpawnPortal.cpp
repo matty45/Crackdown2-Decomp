@@ -38,3 +38,21 @@ namespace unknown
     static Fun_Runtime::cInheritanceRegistrar cSpawnPortalcHingedPropInheritRegistrar(
         unknown::cSpawnPortal::StaticCreateClass(), Prop::cHingedProp::StaticCreateClass());
 }
+
+// CD2 0x8273DF78.
+namespace unknown
+{
+    const Fun_Runtime::cClass &cSpawnPortal::RetClass() const
+    {
+        return *ms_pcSpawnPortalClass;
+    }
+}
+
+// CD2 0x8273E058.
+namespace unknown
+{
+    const char *cSpawnPortal::RetClassName() const
+    {
+        return "cSpawnPortal";
+    }
+}

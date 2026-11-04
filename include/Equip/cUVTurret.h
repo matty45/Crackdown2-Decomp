@@ -11,6 +11,7 @@ namespace Equip
     class cUVTurret
     {
     public:
+        virtual const Fun_Runtime::cClass &RetClass() const;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcUVTurretClass;
         static Fun_Runtime::cClass &StaticCreateClass();
