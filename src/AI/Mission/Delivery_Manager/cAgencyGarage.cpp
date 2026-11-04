@@ -10,3 +10,22 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/AI/Mission/Delivery_Manager/cAgencyGarage.cpp
+
+#include "rws/classfactory.h"
+#include "AI/cAgencyGarage.h"
+
+// CD2 0x82479BC8.
+namespace AI
+{
+    const char *cAgencyGarage::RetClassName() const
+    {
+        return "cAgencyGarage";
+    }
+}
+
+// CD2 0x82F8B1E8 (initializer) and 0x8303B100 (at-exit destructor).
+namespace AI
+{
+    static RWS::CClassFactory::CRegistrar cAgencyGarageRegistrar(
+        "cAgencyGarage", cAgencyGarage::MakeNew, 0x380, false);
+}

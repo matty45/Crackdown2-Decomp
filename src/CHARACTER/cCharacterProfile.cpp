@@ -23,3 +23,14 @@ namespace CHARACTER
         return Ret_OK;
     }
 }
+
+#include "cd2/memory.h"
+
+// CD2 0x82553190: the class-factory constructor; the constructor stays out of line.
+namespace CHARACTER
+{
+    RWS::CAttributeHandler *cCharacterProfile::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cCharacterProfile;
+    }
+}

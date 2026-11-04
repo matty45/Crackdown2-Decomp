@@ -10,3 +10,22 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Vehicle/Agency/cAgencyCar.cpp
+
+#include "rws/classfactory.h"
+#include "Vehicle/cAgencyCar.h"
+
+// CD2 0x826EC178.
+namespace Vehicle
+{
+    const char *cAgencyCar::RetClassName() const
+    {
+        return "cAgencyCar";
+    }
+}
+
+// CD2 0x82FEB4F8 (initializer) and 0x83040A50 (at-exit destructor).
+namespace Vehicle
+{
+    static RWS::CClassFactory::CRegistrar cAgencyCarRegistrar(
+        "cAgencyCar", cAgencyCar::MakeNew, 0x30B0, false);
+}

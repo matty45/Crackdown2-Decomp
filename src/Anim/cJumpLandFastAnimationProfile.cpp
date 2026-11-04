@@ -20,3 +20,14 @@ namespace Anim
     static RWS::CClassFactory::CRegistrar cJumpLandFastAnimationProfileRegistrar(
         "cJumpLandFastAnimationProfile", cJumpLandFastAnimationProfile::MakeNew, 0x40, false);
 }
+
+#include "cd2/memory.h"
+
+// CD2 0x824F32E0: the class factory.
+namespace Anim
+{
+    RWS::CAttributeHandler *cJumpLandFastAnimationProfile::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cJumpLandFastAnimationProfile;
+    }
+}

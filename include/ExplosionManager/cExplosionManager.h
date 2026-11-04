@@ -10,6 +10,7 @@ namespace ExplosionManager
     class cExplosionManager : public cNonGameBase
     {
     public:
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
     };
 }

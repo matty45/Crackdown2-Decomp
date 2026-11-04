@@ -20,3 +20,14 @@ namespace Anim
     static RWS::CClassFactory::CRegistrar cPropPickUpFullAnimationProfileRegistrar(
         "cPropPickUpFullAnimationProfile", cPropPickUpFullAnimationProfile::MakeNew, 0x40, false);
 }
+
+#include "cd2/memory.h"
+
+// CD2 0x8250CF18: the class factory.
+namespace Anim
+{
+    RWS::CAttributeHandler *cPropPickUpFullAnimationProfile::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cPropPickUpFullAnimationProfile;
+    }
+}

@@ -27,3 +27,14 @@ namespace VFX
     static RWS::CClassFactory::CRegistrar cParticleEffectManagerRegistrar(
         "cParticleEffectManager", cParticleEffectManager::MakeNew, 0x370, false);
 }
+
+#include "cd2/memory.h"
+
+// CD2 0x827DEDB0: the class-factory constructor; the constructor stays out of line.
+namespace VFX
+{
+    RWS::CAttributeHandler *cParticleEffectManager::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cParticleEffectManager;
+    }
+}

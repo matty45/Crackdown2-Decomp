@@ -163,3 +163,9 @@ namespace VFX
     static Fun_Runtime::cInheritanceRegistrar cRopescNonGameBaseInheritRegistrar(
         VFX::cRopes::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }
+
+// CD2 0x8300C050 initializes the descriptor pointer through StaticCreateClass.
+namespace VFX
+{
+    const Fun_Runtime::cClass *const cRopes::ms_pcRopesClass = &cRopes::StaticCreateClass();
+}

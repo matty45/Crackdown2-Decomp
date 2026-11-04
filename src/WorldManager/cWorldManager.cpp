@@ -47,3 +47,12 @@ namespace WorldManager
     static Fun_Runtime::cInheritanceRegistrar cWorldManagercDebugPageHandlerInheritRegistrar(
         WorldManager::cWorldManager::StaticCreateClass(), GDb::cDebugPageHandler::StaticCreateClass());
 }
+
+// CD2 0x82809AD8: the class-factory constructor; the constructor stays out of line.
+namespace WorldManager
+{
+    RWS::CAttributeHandler *cWorldManager::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cWorldManager;
+    }
+}

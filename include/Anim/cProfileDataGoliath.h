@@ -9,6 +9,8 @@ namespace Anim
     class cProfileDataGoliath : public cAnimProfileData
     {
     public:
+        // __forceinline: CD2 inlines it into the profile's factory.
+        __forceinline cProfileDataGoliath(cSpecificAnimationProfile &profile) : cAnimProfileData(profile) {}
         virtual void HandleAttributeData(cSpecificAnimationProfile &, const RWS::CAttributePacket &);
     private:
         unsigned char m_unmodelledData4[0xC];

@@ -9,6 +9,8 @@ namespace Anim
     class cProfileDataHand2HandUpper : public cAnimProfileData
     {
     public:
+        // __forceinline: CD2 inlines it into the profile's factory.
+        __forceinline cProfileDataHand2HandUpper(cSpecificAnimationProfile &profile) : cAnimProfileData(profile) {}
         virtual void HandleAttributeData(cSpecificAnimationProfile &, const RWS::CAttributePacket &);
     private:
         unsigned char m_unmodelledData4[0x30];

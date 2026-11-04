@@ -149,3 +149,14 @@ namespace VFX
         return ReloadInstance;
     }
 }
+
+#include "cd2/memory.h"
+
+// CD2 0x82791B00: the class-factory constructor; the constructor stays out of line.
+namespace VFX
+{
+    RWS::CAttributeHandler *cDeityRay::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cDeityRay;
+    }
+}

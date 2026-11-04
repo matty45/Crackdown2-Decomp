@@ -9,6 +9,8 @@ namespace Anim
     class cProfileDataEquipmentThrowNPCFull : public cAnimProfileData
     {
     public:
+        // __forceinline: CD2 inlines it into the profile's factory.
+        __forceinline cProfileDataEquipmentThrowNPCFull(cSpecificAnimationProfile &profile) : cAnimProfileData(profile) {}
         virtual void HandleAttributeData(cSpecificAnimationProfile &, const RWS::CAttributePacket &);
         CD2_LAYOUT_CHECKS(cProfileDataEquipmentThrowNPCFull,
             CD2_SIZE(cProfileDataEquipmentThrowNPCFull, 0x4))
