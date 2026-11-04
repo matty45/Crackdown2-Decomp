@@ -2,6 +2,7 @@
 #include "AI/cPedestrianBase.h"
 #include "AI/Pedestrian.h"
 #include "rws/classfactory.h"
+#include "gom/proto_registrar.h"
 
 #include <new>
 
@@ -36,6 +37,8 @@ namespace AI
 {
     static RWS::CClassFactory::CRegistrar PedestrianRegistrar(
         "Pedestrian", Pedestrian::MakeNew, 0x120, false);
+    static GOM::cProtoRegistrar PedestrianSpawningRegistrar(
+        Pedestrian::StaticCreateClass(), Pedestrian::SpawnFromPrototype);
 }
 
 #include "cd2/memory.h"

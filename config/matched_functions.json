@@ -1078,6 +1078,16 @@
         "address": "0x82F92578",
         "size": 104,
         "symbol": "??__EPedestriancPedestrianBaseInheritRegistrar@AI@@"
+      },
+      {
+        "address": "0x82F92630",
+        "size": 72,
+        "symbol": "??__EPedestrianSpawningRegistrar@AI@@"
+      },
+      {
+        "address": "0x824A90A8",
+        "size": 8,
+        "symbol": "??_EPedestrian@AI@@WBI@"
       }
     ],
     "src/AI/cPedestrianBase.cpp": [

@@ -7698,6 +7698,28 @@
    },
    "size": 164
   },
+  "0x824A90A8": {
+   "ltcg": {
+    "ends": true,
+    "sha": "2473c109b8764d7b6e7f9a4548ea555113805cb1f3178ccf3cbe1690370628af"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     4
+    ],
+    "sha": "2473c109b8764d7b6e7f9a4548ea555113805cb1f3178ccf3cbe1690370628af",
+    "strings": {},
+    "targets": [
+     [
+      4,
+      "branch",
+      "0x824A8E68"
+     ]
+    ]
+   },
+   "size": 8
+  },
   "0x824A90B8": {
    "ltcg": {
     "ends": true,
@@ -44355,6 +44377,61 @@
     ]
    },
    "size": 76
+  },
+  "0x82F92630": {
+   "ltcg": {
+    "ends": true,
+    "sha": "5a6e93bb7035d15dcd76927eef3a673ee58c73d47a3eb4da9f75d5c1c379eac3"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     12,
+     16,
+     20,
+     24,
+     36,
+     40,
+     44,
+     48,
+     52
+    ],
+    "sha": "c4a4acc2be35be3898d6be2f1d1808f57409728092a7359a5e6cbb2754a2923e",
+    "strings": {},
+    "targets": [
+     [
+      12,
+      "call",
+      "0x824A8DC0"
+     ],
+     [
+      24,
+      "data",
+      "0x8381EA08"
+     ],
+     [
+      36,
+      "data",
+      "0x824A8CC0"
+     ],
+     [
+      40,
+      "call",
+      "0x82657690"
+     ],
+     [
+      48,
+      "data",
+      "0x8303B720"
+     ],
+     [
+      52,
+      "call",
+      "0x82F17DC8"
+     ]
+    ]
+   },
+   "size": 72
   },
   "0x82F929B0": {
    "ltcg": {
