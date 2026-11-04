@@ -7,13 +7,15 @@
 //   folded the identical copies (config/symbol_aliases.txt).
 // The client's vtable has 8 slots in CD2 where the PDBs have 6. Slots 0-2 and 5-7 carry RuffKing's names in RuffKing's
 // order (slot 2's body tests the resource-state byte as HasLoadedResources does; slots 5 and 6 are empty); slots 3 and
-// 4 are CD2's and unnamed. Field layout differs between RuffKing and Burn; only the resource-state byte is placed from
-// CD2's code.
+// 4 are CD2's and unnamed. Field layout differs between RuffKing and Burn; only the resource-state byte and the local
+// AABB are placed from CD2's code. The AABB (Burn's m_LocalAABB) makes the class 16-byte aligned, so a derived
+// prototype's size rounds up to a multiple of 16 (cAiPlayerPrototype: fields end at 0x84, CD2 allocates 0x90).
 #ifndef GOM_OBJECT_PROTOTYPE_H
 #define GOM_OBJECT_PROTOTYPE_H
 
 #include "rws/attributes.h"
 #include "cd2/layout.h"
+#include "fun_runtime/aabb.h"
 
 enum eResourcesType { };
 enum eResourceLoadStatus { };
@@ -51,7 +53,8 @@ namespace GOM
     private:
         unsigned char m_pad24[0x44 - 0x24];
         unsigned char m_nResourceState;   // 0x44: HasLoadedResources (0x82655540) tests it
-        unsigned char m_pad45[0x70 - 0x45];
+        unsigned char m_pad45[0x50 - 0x45];
+        Fun_Runtime::tAABB m_LocalAABB;   // 0x50: the constructor (0x82654118) stores both vectors
 
     public:
         cObjectPrototype(const RWS::CAttributePacket &);
@@ -70,7 +73,8 @@ namespace GOM
 
         CD2_LAYOUT_CHECKS(cObjectPrototype,
             CD2_SIZE(cObjectPrototype, 0x70)
-            CD2_OFFSET(cObjectPrototype, m_nResourceState, 0x44))
+            CD2_OFFSET(cObjectPrototype, m_nResourceState, 0x44)
+            CD2_OFFSET(cObjectPrototype, m_LocalAABB, 0x50))
     };
 }
 

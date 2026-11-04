@@ -83,7 +83,7 @@ namespace AI
             bool m_bUnknown7C;         // 0x7C
             bool m_bUnknown7D;         // 0x7D
             unsigned int m_nUnknown80; // 0x80
-            unsigned char m_pad84[0x90 - 0x84];
+            // 0x84-0x90: tail padding (GOM::cObjectPrototype is 16-byte aligned).
 
             CD2_LAYOUT_CHECKS(cAiPlayerPrototype,
                 CD2_SIZE(cAiPlayerPrototype, 0x90)
