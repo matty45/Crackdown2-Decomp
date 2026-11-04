@@ -110,3 +110,13 @@ namespace CHARACTER
     static Fun_Runtime::cInheritanceRegistrar cCharacterInterfacecNonGameBaseInheritRegistrar(
         CHARACTER::cCharacterInterface::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x82FADCD0: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace CHARACTER
+{
+    static GOM::cProtoRegistrar cCharacterInterfaceSpawningRegistrar(
+        cCharacterInterface::StaticCreateClass(), cCharacterInterface::SpawnFromPrototype);
+}

@@ -68,3 +68,13 @@ namespace Prop
     static Fun_Runtime::cInheritanceRegistrar cHingedPropcPivotBasedPropInheritRegistrar(
         Prop::cHingedProp::StaticCreateClass(), Prop::cPivotBasedProp::StaticCreateClass());
 }
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x82FF7188: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace Prop
+{
+    static GOM::cProtoRegistrar cHingedPropSpawningRegistrar(
+        cHingedProp::StaticCreateClass(), cHingedProp::SpawnFromPrototype);
+}

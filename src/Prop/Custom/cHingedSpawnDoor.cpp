@@ -63,3 +63,13 @@ namespace Prop
     static Fun_Runtime::cInheritanceRegistrar cHingedSpawnDoorcHingedPropInheritRegistrar(
         Prop::cHingedSpawnDoor::StaticCreateClass(), Prop::cHingedProp::StaticCreateClass());
 }
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x82FFB390: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace Prop
+{
+    static GOM::cProtoRegistrar cHingedSpawnDoorSpawningRegistrar(
+        cHingedSpawnDoor::StaticCreateClass(), cHingedSpawnDoor::SpawnFromPrototype);
+}

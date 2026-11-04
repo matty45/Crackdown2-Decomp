@@ -183,3 +183,13 @@ namespace Equip
     static Fun_Runtime::cInheritanceRegistrar cFlocketcHWProjectileInheritRegistrar(
         Equip::cFlocket::StaticCreateClass(), Equip::cHWProjectile::StaticCreateClass());
 }
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x82FD1AB0: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace Equip
+{
+    static GOM::cProtoRegistrar cFlocketSpawningRegistrar(
+        cFlocket::StaticCreateClass(), cFlocket::SpawnFromPrototype);
+}

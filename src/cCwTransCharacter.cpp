@@ -96,3 +96,13 @@ namespace CHARACTER
     static Fun_Runtime::cInheritanceRegistrar cCwTransCharactercCharacterInheritRegistrar(
         CHARACTER::cCwTransCharacter::StaticCreateClass(), CHARACTER::cCharacter::StaticCreateClass());
 }
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x82FABD80: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace CHARACTER
+{
+    static GOM::cProtoRegistrar cCwTransCharacterSpawningRegistrar(
+        cCwTransCharacter::StaticCreateClass(), cCwTransCharacter::SpawnFromPrototype);
+}

@@ -52,3 +52,13 @@ namespace Vehicle
         return 0;
     }
 }
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x82FE95C8: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace Vehicle
+{
+    static GOM::cProtoRegistrar cTruckSpawningRegistrar(
+        cTruck::StaticCreateClass(), cTruck::SpawnFromPrototype);
+}

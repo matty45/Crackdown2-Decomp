@@ -64,3 +64,13 @@ namespace Equip
     static Fun_Runtime::cInheritanceRegistrar cHarpoonBoltcWeaponProjectileInheritRegistrar(
         Equip::cHarpoonBolt::StaticCreateClass(), Equip::cWeaponProjectile::StaticCreateClass());
 }
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x82FD1EE8: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace Equip
+{
+    static GOM::cProtoRegistrar cHarpoonBoltSpawningRegistrar(
+        cHarpoonBolt::StaticCreateClass(), cHarpoonBolt::SpawnFromPrototype);
+}

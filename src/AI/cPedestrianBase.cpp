@@ -62,3 +62,13 @@ namespace AI
     static Fun_Runtime::cInheritanceRegistrar cPedestrianBaseNPCBehaviourInheritRegistrar(
         AI::cPedestrianBase::StaticCreateClass(), AI::NPCBehaviour::StaticCreateClass());
 }
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x82F92A68: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar cPedestrianBaseSpawningRegistrar(
+        cPedestrianBase::StaticCreateClass(), cPedestrianBase::SpawnFromPrototype);
+}

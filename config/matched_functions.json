@@ -701,6 +701,11 @@
         "address": "0x82FD19F8",
         "size": 104,
         "symbol": "??__EcFlocketcHWProjectileInheritRegistrar@Equip@@"
+      },
+      {
+        "address": "0x82FD1AB0",
+        "size": 72,
+        "symbol": "??__EcFlocketSpawningRegistrar@Equip@@"
       }
     ],
     "src/VEHICLE_CONTROL/cHelicopterController.cpp": [
@@ -1004,6 +1009,11 @@
         "address": "0x82FF3C60",
         "size": 104,
         "symbol": "??__EcPlayercDebugPageHandlerInheritRegistrar@PLAYER@@"
+      },
+      {
+        "address": "0x82FF3D80",
+        "size": 72,
+        "symbol": "??__EcPlayerSpawningRegistrar@PLAYER@@"
       }
     ],
     "src/CHARACTER/cCharacterVFXProfile.cpp": [
@@ -1135,6 +1145,11 @@
         "address": "0x824A9150",
         "size": 164,
         "symbol": "?StaticCreateClass@cPedestrianBase@AI@@"
+      },
+      {
+        "address": "0x82F92A68",
+        "size": 72,
+        "symbol": "??__EcPedestrianBaseSpawningRegistrar@AI@@"
       }
     ],
     "src/AI/cAiPlayer.cpp": [
@@ -1362,6 +1377,11 @@
         "address": "0x82F604D0",
         "size": 104,
         "symbol": "??__EcAiPlayercCharacterEntityIFInheritRegistrar@AI@@"
+      },
+      {
+        "address": "0x82F60588",
+        "size": 72,
+        "symbol": "??__EcAiPlayerSpawningRegistrar@AI@@"
       }
     ],
     "src/AI/cCharacterEntityIF.cpp": [
@@ -1609,6 +1629,11 @@
         "address": "0x82F60D58",
         "size": 104,
         "symbol": "??__EcCharacterEntityIFcCharacterInterfaceInheritRegistrar@AI@@"
+      },
+      {
+        "address": "0x82F60E10",
+        "size": 72,
+        "symbol": "??__EcCharacterEntityIFSpawningRegistrar@AI@@"
       }
     ],
     "src/cAgencyGarageDoor.cpp": [
@@ -7912,6 +7937,11 @@
         "address": "0x826CB458",
         "size": 24,
         "symbol": "?SpawnFromPrototype@cTruck@Vehicle@@"
+      },
+      {
+        "address": "0x82FE95C8",
+        "size": 72,
+        "symbol": "??__EcTruckSpawningRegistrar@Vehicle@@"
       }
     ],
     "src/cCwTransCharacter.cpp": [
@@ -7989,6 +8019,11 @@
         "address": "0x82FABCC8",
         "size": 104,
         "symbol": "??__EcCwTransCharactercCharacterInheritRegistrar@CHARACTER@@"
+      },
+      {
+        "address": "0x82FABD80",
+        "size": 72,
+        "symbol": "??__EcCwTransCharacterSpawningRegistrar@CHARACTER@@"
       }
     ],
     "src/CHARACTER/cCharacterInterface.cpp": [
@@ -8071,6 +8106,11 @@
         "address": "0x82FADC18",
         "size": 104,
         "symbol": "??__EcCharacterInterfacecNonGameBaseInheritRegistrar@CHARACTER@@"
+      },
+      {
+        "address": "0x82FADCD0",
+        "size": 72,
+        "symbol": "??__EcCharacterInterfaceSpawningRegistrar@CHARACTER@@"
       }
     ],
     "src/Prop/cProp.cpp": [
@@ -8340,6 +8380,11 @@
         "address": "0x82FF7D30",
         "size": 104,
         "symbol": "??__EcPivotBasedPropcPropInheritRegistrar@Prop@@"
+      },
+      {
+        "address": "0x82FF7DE8",
+        "size": 72,
+        "symbol": "??__EcPivotBasedPropSpawningRegistrar@Prop@@"
       }
     ],
     "src/Prop/Constrained/cSpinningProp.cpp": [
@@ -8382,6 +8427,11 @@
         "address": "0x82FF8EF0",
         "size": 104,
         "symbol": "??__EcSpinningPropcPivotBasedPropInheritRegistrar@Prop@@"
+      },
+      {
+        "address": "0x82FF8FA8",
+        "size": 72,
+        "symbol": "??__EcSpinningPropSpawningRegistrar@Prop@@"
       }
     ],
     "src/AI/Mission/cSupplyValve.cpp": [
@@ -8542,6 +8592,11 @@
         "address": "0x82F93668",
         "size": 104,
         "symbol": "??__EFreakBaseNPCBehaviourSMInheritRegistrar@AI@@"
+      },
+      {
+        "address": "0x82F93720",
+        "size": 72,
+        "symbol": "??__EFreakBaseSpawningRegistrar@AI@@"
       }
     ],
     "src/AI/Behaviour/NPC/Freak/Goliath.cpp": [
@@ -8808,6 +8863,11 @@
         "address": "0x82FD1E30",
         "size": 104,
         "symbol": "??__EcHarpoonBoltcWeaponProjectileInheritRegistrar@Equip@@"
+      },
+      {
+        "address": "0x82FD1EE8",
+        "size": 72,
+        "symbol": "??__EcHarpoonBoltSpawningRegistrar@Equip@@"
       }
     ],
     "src/Equip/Weapon/cHWGrenadeProjectile.cpp": [
@@ -9017,6 +9077,11 @@
         "address": "0x82FF70D0",
         "size": 104,
         "symbol": "??__EcHingedPropcPivotBasedPropInheritRegistrar@Prop@@"
+      },
+      {
+        "address": "0x82FF7188",
+        "size": 72,
+        "symbol": "??__EcHingedPropSpawningRegistrar@Prop@@"
       }
     ],
     "src/Prop/Constrained/cMovingPlatform.cpp": [
@@ -9064,6 +9129,11 @@
         "address": "0x82FF7A50",
         "size": 104,
         "symbol": "??__EcMovingPlatformcPropInheritRegistrar@Prop@@"
+      },
+      {
+        "address": "0x82FF7B08",
+        "size": 72,
+        "symbol": "??__EcMovingPlatformSpawningRegistrar@Prop@@"
       }
     ],
     "src/Prop/Constrained/cPrismaticProp.cpp": [
@@ -9106,6 +9176,11 @@
         "address": "0x82FF81C0",
         "size": 104,
         "symbol": "??__EcPrismaticPropcPivotBasedPropInheritRegistrar@Prop@@"
+      },
+      {
+        "address": "0x82FF8278",
+        "size": 72,
+        "symbol": "??__EcPrismaticPropSpawningRegistrar@Prop@@"
       }
     ],
     "src/Prop/Custom/cBoomBox.cpp": [
@@ -9244,6 +9319,11 @@
         "address": "0x82FFB2D8",
         "size": 104,
         "symbol": "??__EcHingedSpawnDoorcHingedPropInheritRegistrar@Prop@@"
+      },
+      {
+        "address": "0x82FFB390",
+        "size": 72,
+        "symbol": "??__EcHingedSpawnDoorSpawningRegistrar@Prop@@"
       }
     ],
     "src/Prop/Custom/cSearchLight.cpp": [
@@ -9316,6 +9396,11 @@
         "address": "0x82FFB948",
         "size": 104,
         "symbol": "??__EcSearchLightcPropInheritRegistrar@Prop@@"
+      },
+      {
+        "address": "0x82FFBA00",
+        "size": 72,
+        "symbol": "??__EcSearchLightSpawningRegistrar@Prop@@"
       }
     ],
     "src/Prop/Custom/cSlidingDoor.cpp": [
@@ -9437,6 +9522,11 @@
         "address": "0x82FFC728",
         "size": 104,
         "symbol": "??__EcTurretBasecPropInheritRegistrar@Prop@@"
+      },
+      {
+        "address": "0x82FFC7E0",
+        "size": 72,
+        "symbol": "??__EcTurretBaseSpawningRegistrar@Prop@@"
       }
     ],
     "src/RPG/cSkillProfile.cpp": [

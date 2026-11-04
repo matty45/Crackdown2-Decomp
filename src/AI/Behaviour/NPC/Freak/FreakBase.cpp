@@ -78,3 +78,13 @@ namespace AI
     static Fun_Runtime::cInheritanceRegistrar FreakBaseNPCBehaviourSMInheritRegistrar(
         AI::FreakBase::StaticCreateClass(), AI::NPCBehaviourSM::StaticCreateClass());
 }
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x82F93720: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar FreakBaseSpawningRegistrar(
+        FreakBase::StaticCreateClass(), FreakBase::SpawnFromPrototype);
+}

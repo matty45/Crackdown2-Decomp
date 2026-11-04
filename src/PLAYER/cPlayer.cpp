@@ -166,3 +166,13 @@ namespace PLAYER
     static Fun_Runtime::cInheritanceRegistrar cPlayercDebugPageHandlerInheritRegistrar(
         PLAYER::cPlayer::StaticCreateClass(), GDb::cDebugPageHandler::StaticCreateClass());
 }
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x82FF3D80: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace PLAYER
+{
+    static GOM::cProtoRegistrar cPlayerSpawningRegistrar(
+        cPlayer::StaticCreateClass(), cPlayer::SpawnFromPrototype);
+}
