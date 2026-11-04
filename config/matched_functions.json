@@ -2905,6 +2905,11 @@
         "address": "0x824EC240",
         "size": 72,
         "symbol": "?HandleAttributes@cBeaconPulseHoverAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x824EC1A0",
+        "size": 140,
+        "symbol": "?MakeNew@cBeaconPulseHoverAnimationProfile@Anim@@"
       }
     ],
     "src/Anim/cCoverAnimationProfile.cpp": [
@@ -2927,6 +2932,11 @@
         "address": "0x824E7AD0",
         "size": 72,
         "symbol": "?HandleAttributes@cCoverAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x824E7A30",
+        "size": 140,
+        "symbol": "?MakeNew@cCoverAnimationProfile@Anim@@"
       }
     ],
     "src/Anim/cCrouchAnimationProfile.cpp": [
@@ -2971,6 +2981,11 @@
         "address": "0x82524E28",
         "size": 72,
         "symbol": "?HandleAttributes@cCrowdAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x82524D88",
+        "size": 140,
+        "symbol": "?MakeNew@cCrowdAnimationProfile@Anim@@"
       }
     ],
     "src/Anim/cDamageAnimationProfile.cpp": [
@@ -3037,6 +3052,11 @@
         "address": "0x825105B0",
         "size": 72,
         "symbol": "?HandleAttributes@cEquipmentAimAndFireAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x82510510",
+        "size": 140,
+        "symbol": "?MakeNew@cEquipmentAimAndFireAnimationProfile@Anim@@"
       }
     ],
     "src/Anim/cEquipmentCarryAnimationProfile.cpp": [
@@ -3098,6 +3118,11 @@
         "address": "0x82512E70",
         "size": 72,
         "symbol": "?HandleAttributes@cEquipmentPickUpAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x82512DD0",
+        "size": 140,
+        "symbol": "?MakeNew@cEquipmentPickUpAnimationProfile@Anim@@"
       }
     ],
     "src/Anim/cEquipmentReloadAnimationProfile.cpp": [
@@ -3120,6 +3145,11 @@
         "address": "0x825132E0",
         "size": 72,
         "symbol": "?HandleAttributes@cEquipmentReloadAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x82513240",
+        "size": 140,
+        "symbol": "?MakeNew@cEquipmentReloadAnimationProfile@Anim@@"
       }
     ],
     "src/Anim/cEquipmentSwapAnimationProfile.cpp": [
@@ -3142,6 +3172,11 @@
         "address": "0x82513CE8",
         "size": 72,
         "symbol": "?HandleAttributes@cEquipmentSwapAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x82513C48",
+        "size": 140,
+        "symbol": "?MakeNew@cEquipmentSwapAnimationProfile@Anim@@"
       }
     ],
     "src/Anim/cEquipmentThrowAnimationProfile.cpp": [
@@ -3164,6 +3199,11 @@
         "address": "0x825147D8",
         "size": 72,
         "symbol": "?HandleAttributes@cEquipmentThrowAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x82514738",
+        "size": 140,
+        "symbol": "?MakeNew@cEquipmentThrowAnimationProfile@Anim@@"
       }
     ],
     "src/Anim/cEquipmentThrowNPCFullAnimationProfile.cpp": [
@@ -3186,6 +3226,11 @@
         "address": "0x824EB598",
         "size": 72,
         "symbol": "?HandleAttributes@cEquipmentThrowNPCFullAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x824EB4F8",
+        "size": 140,
+        "symbol": "?MakeNew@cEquipmentThrowNPCFullAnimationProfile@Anim@@"
       }
     ],
     "src/Anim/cGenericFullBodyAnimationProfile.cpp": [
@@ -3308,6 +3353,11 @@
         "address": "0x824EF7C8",
         "size": 72,
         "symbol": "?HandleAttributes@cJumpAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x824EF728",
+        "size": 140,
+        "symbol": "?MakeNew@cJumpAnimationProfile@Anim@@"
       }
     ],
     "src/Anim/cJumpLandAnimationProfile.cpp": [
@@ -3352,6 +3402,11 @@
         "address": "0x824F3380",
         "size": 72,
         "symbol": "?HandleAttributes@cJumpLandFastAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x824F32E0",
+        "size": 140,
+        "symbol": "?MakeNew@cJumpLandFastAnimationProfile@Anim@@"
       }
     ],
     "src/Anim/cJumpLaunchAnimationProfile.cpp": [
@@ -3374,6 +3429,11 @@
         "address": "0x824F38E0",
         "size": 72,
         "symbol": "?HandleAttributes@cJumpLaunchAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x824F3840",
+        "size": 140,
+        "symbol": "?MakeNew@cJumpLaunchAnimationProfile@Anim@@"
       }
     ],
     "src/Anim/cLandVehicleAnimationProfile.cpp": [
@@ -3413,6 +3473,11 @@
         "address": "0x82501A88",
         "size": 72,
         "symbol": "?HandleAttributes@cLedgeAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x825019E8",
+        "size": 140,
+        "symbol": "?MakeNew@cLedgeAnimationProfile@Anim@@"
       }
     ],
     "src/Anim/cLedgeLaunchAnimationProfile.cpp": [
@@ -3435,6 +3500,11 @@
         "address": "0x825013A8",
         "size": 72,
         "symbol": "?HandleAttributes@cLedgeLaunchAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x82501308",
+        "size": 140,
+        "symbol": "?MakeNew@cLedgeLaunchAnimationProfile@Anim@@"
       }
     ],
     "src/Anim/cNPCBargeAnimationProfile.cpp": [
@@ -3523,6 +3593,11 @@
         "address": "0x8250C310",
         "size": 72,
         "symbol": "?HandleAttributes@cPropDropAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x8250C270",
+        "size": 140,
+        "symbol": "?MakeNew@cPropDropAnimationProfile@Anim@@"
       }
     ],
     "src/Anim/cPropPickUpAnimationProfile.cpp": [
@@ -3545,6 +3620,11 @@
         "address": "0x8250CAE0",
         "size": 72,
         "symbol": "?HandleAttributes@cPropPickUpAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x8250CA40",
+        "size": 140,
+        "symbol": "?MakeNew@cPropPickUpAnimationProfile@Anim@@"
       }
     ],
     "src/Anim/cPropPickUpFullAnimationProfile.cpp": [
@@ -3567,6 +3647,11 @@
         "address": "0x8250CFB8",
         "size": 72,
         "symbol": "?HandleAttributes@cPropPickUpFullAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x8250CF18",
+        "size": 140,
+        "symbol": "?MakeNew@cPropPickUpFullAnimationProfile@Anim@@"
       }
     ],
     "src/Anim/cPropThrowAnimationProfile.cpp": [
@@ -3589,6 +3674,11 @@
         "address": "0x8250DA40",
         "size": 72,
         "symbol": "?HandleAttributes@cPropThrowAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x8250D9A0",
+        "size": 140,
+        "symbol": "?MakeNew@cPropThrowAnimationProfile@Anim@@"
       }
     ],
     "src/Anim/cPropThrowNPCAnimationProfile.cpp": [
@@ -3611,6 +3701,11 @@
         "address": "0x824EBF38",
         "size": 72,
         "symbol": "?HandleAttributes@cPropThrowNPCAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x824EBE98",
+        "size": 140,
+        "symbol": "?MakeNew@cPropThrowNPCAnimationProfile@Anim@@"
       }
     ],
     "src/Anim/cRappelAnimationProfile.cpp": [
@@ -3633,6 +3728,11 @@
         "address": "0x824EF2A0",
         "size": 72,
         "symbol": "?HandleAttributes@cRappelAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x824EF200",
+        "size": 140,
+        "symbol": "?MakeNew@cRappelAnimationProfile@Anim@@"
       }
     ],
     "src/Anim/cReactionAnimationProfile.cpp": [
@@ -3655,6 +3755,11 @@
         "address": "0x824EDA00",
         "size": 72,
         "symbol": "?HandleAttributes@cReactionAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x824ED960",
+        "size": 140,
+        "symbol": "?MakeNew@cReactionAnimationProfile@Anim@@"
       }
     ],
     "src/Anim/cReaperJumpAnimationProfile.cpp": [
@@ -3677,6 +3782,11 @@
         "address": "0x824F6740",
         "size": 72,
         "symbol": "?HandleAttributes@cReaperJumpAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x824F66A0",
+        "size": 140,
+        "symbol": "?MakeNew@cReaperJumpAnimationProfile@Anim@@"
       }
     ],
     "src/Anim/cReaperPropAttackAnimationProfile.cpp": [
@@ -3824,6 +3934,11 @@
         "address": "0x82515838",
         "size": 72,
         "symbol": "?HandleAttributes@cStandTurnAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x82515798",
+        "size": 140,
+        "symbol": "?MakeNew@cStandTurnAnimationProfile@Anim@@"
       }
     ],
     "src/Anim/cStunnedAnimationProfile.cpp": [
@@ -3890,6 +4005,11 @@
         "address": "0x82524410",
         "size": 72,
         "symbol": "?HandleAttributes@cSwimLaunchAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x82524370",
+        "size": 140,
+        "symbol": "?MakeNew@cSwimLaunchAnimationProfile@Anim@@"
       }
     ],
     "src/Anim/cTransformationAnimationProfile.cpp": [
@@ -3912,6 +4032,11 @@
         "address": "0x82524888",
         "size": 72,
         "symbol": "?HandleAttributes@cTransformationAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x825247E8",
+        "size": 140,
+        "symbol": "?MakeNew@cTransformationAnimationProfile@Anim@@"
       }
     ],
     "src/Anim/cTurretsAnimationProfile.cpp": [
@@ -12715,6 +12840,16 @@
         "address": "0x83040920",
         "size": 12,
         "symbol": "??__FcVehicleRegistrar@Vehicle@@"
+      },
+      {
+        "address": "0x826CC860",
+        "size": 152,
+        "symbol": "?StaticCreateClass@cVehicle@Vehicle@@"
+      },
+      {
+        "address": "0x82FE9948",
+        "size": 40,
+        "symbol": "??__E?ms_pcVehicleClass@cVehicle@Vehicle@@"
       }
     ],
     "src/Vehicle/cVehicleController.cpp": [

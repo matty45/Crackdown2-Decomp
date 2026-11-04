@@ -9,7 +9,8 @@ namespace Anim
     class cAnimProfileData
     {
     public:
-        cAnimProfileData(cSpecificAnimationProfile &);
+        // __forceinline: CD2 inlines the profile-data constructors into the profiles' factories (MakeNew).
+        __forceinline cAnimProfileData(cSpecificAnimationProfile &) {}
         virtual void HandleAttributeData(cSpecificAnimationProfile &, const RWS::CAttributePacket &) = 0;
         CD2_LAYOUT_CHECKS(cAnimProfileData, CD2_SIZE(cAnimProfileData, 4))
     };

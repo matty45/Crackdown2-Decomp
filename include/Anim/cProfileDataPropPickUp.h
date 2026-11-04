@@ -9,6 +9,8 @@ namespace Anim
     class cProfileDataPropPickUp : public cAnimProfileData
     {
     public:
+        // __forceinline: CD2 inlines it into the profile's factory.
+        __forceinline cProfileDataPropPickUp(cSpecificAnimationProfile &profile) : cAnimProfileData(profile) {}
         virtual void HandleAttributeData(cSpecificAnimationProfile &, const RWS::CAttributePacket &);
         CD2_LAYOUT_CHECKS(cProfileDataPropPickUp,
             CD2_SIZE(cProfileDataPropPickUp, 0x4))

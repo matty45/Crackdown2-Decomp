@@ -20,3 +20,14 @@ namespace Anim
     static RWS::CClassFactory::CRegistrar cRappelAnimationProfileRegistrar(
         "cRappelAnimationProfile", cRappelAnimationProfile::MakeNew, 0x40, false);
 }
+
+#include "cd2/memory.h"
+
+// CD2 0x824EF200: the class factory.
+namespace Anim
+{
+    RWS::CAttributeHandler *cRappelAnimationProfile::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cRappelAnimationProfile;
+    }
+}

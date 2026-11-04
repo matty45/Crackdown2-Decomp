@@ -20,3 +20,14 @@ namespace Anim
     static RWS::CClassFactory::CRegistrar cLedgeAnimationProfileRegistrar(
         "cLedgeAnimationProfile", cLedgeAnimationProfile::MakeNew, 0x40, false);
 }
+
+#include "cd2/memory.h"
+
+// CD2 0x825019E8: the class factory.
+namespace Anim
+{
+    RWS::CAttributeHandler *cLedgeAnimationProfile::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cLedgeAnimationProfile;
+    }
+}

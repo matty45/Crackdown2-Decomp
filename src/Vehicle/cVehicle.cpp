@@ -29,3 +29,17 @@ namespace Vehicle
     static RWS::CClassFactory::CRegistrar cVehicleRegistrar(
         "cVehicle", cVehicle::MakeNew, 0x1740, false);
 }
+
+#include "cd2/memory.h"
+
+// CD2 0x826CC860 builds the descriptor; 0x82FE9948 initializes the pointer to it.
+namespace Vehicle
+{
+    Fun_Runtime::cClass &cVehicle::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cVehicleClass = new Fun_Runtime::cClass(1, "cVehicle", 0x1740);
+        return *cVehicleClass;
+    }
+
+    const Fun_Runtime::cClass *cVehicle::ms_pcVehicleClass = &cVehicle::StaticCreateClass();
+}

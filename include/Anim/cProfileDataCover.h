@@ -8,7 +8,7 @@ namespace Anim
     class cProfileDataCover : public cAnimProfileData
     {
     public:
-        cProfileDataCover(cSpecificAnimationProfile &);
+        __forceinline cProfileDataCover(cSpecificAnimationProfile &profile) : cAnimProfileData(profile) {}
         virtual void HandleAttributeData(cSpecificAnimationProfile &, const RWS::CAttributePacket &);
         CD2_LAYOUT_CHECKS(cProfileDataCover, CD2_SIZE(cProfileDataCover, 4))
     };

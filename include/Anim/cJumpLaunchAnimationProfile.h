@@ -10,6 +10,9 @@ namespace Anim
     class cJumpLaunchAnimationProfile : public cSpecificAnimationProfile, public cProfileDataJumpLaunch
     {
     public:
+        // __forceinline: CD2 inlines this constructor into MakeNew (0x824F3840) over cSpecificAnimationProfile's
+        // out-of-line constructor (0x824E00A8).
+        __forceinline cJumpLaunchAnimationProfile() : cProfileDataJumpLaunch(*this) {}
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
         virtual void HandleAttributes(const RWS::CAttributePacket &);
