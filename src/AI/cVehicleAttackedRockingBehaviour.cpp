@@ -23,10 +23,6 @@ namespace AI
         return ms_pcVehicleAttackedRockingBehaviourClass->IsA(c);
     }
 
-    RWS::CAttributeHandler *cVehicleAttackedRockingBehaviour::MakeNew(const RWS::CAttributePacket &packet, bool)
-    {
-        return new cVehicleAttackedRockingBehaviour();
-    }
 }
 
 namespace AI
@@ -75,4 +71,13 @@ namespace AI
 {
     static GOM::cProtoRegistrar cVehicleAttackedRockingBehaviourSpawningRegistrar(
         cVehicleAttackedRockingBehaviour::StaticCreateClass(), cVehicleAttackedRockingBehaviour::SpawnFromPrototype);
+}
+
+// CD2 0x824CF6C8: the class factory builds the prototype.
+namespace AI
+{
+    RWS::CAttributeHandler *cVehicleAttackedRockingBehaviour::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cVehicleAttackedRockingBehaviourPrototype(packet);
+    }
 }

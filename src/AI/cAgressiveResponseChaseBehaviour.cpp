@@ -24,10 +24,6 @@ namespace AI
         return ms_pcAgressiveResponseChaseBehaviourClass->IsA(c);
     }
 
-    RWS::CAttributeHandler *cAgressiveResponseChaseBehaviour::MakeNew(const RWS::CAttributePacket &packet, bool)
-    {
-        return new cAgressiveResponseChaseBehaviour();
-    }
 }
 
 namespace AI
@@ -53,4 +49,13 @@ namespace AI
 {
     static Fun_Runtime::cInheritanceRegistrar cAgressiveResponseChaseBehaviourcAgressiveResponseBaseInheritRegistrar(
         AI::cAgressiveResponseChaseBehaviour::StaticCreateClass(), AI::cAgressiveResponseBase::StaticCreateClass());
+}
+
+// CD2 0x824C9210: the class factory builds the prototype.
+namespace AI
+{
+    RWS::CAttributeHandler *cAgressiveResponseChaseBehaviour::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cAgressiveResponseChaseBehaviourPrototype(packet);
+    }
 }

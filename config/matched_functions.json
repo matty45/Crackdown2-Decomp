@@ -6636,6 +6636,11 @@
         "address": "0x82F99460",
         "size": 104,
         "symbol": "??__EcAgressiveResponseChaseBehaviourcAgressiveResponseBaseInheritRegistrar@AI@@"
+      },
+      {
+        "address": "0x824C9210",
+        "size": 144,
+        "symbol": "?MakeNew@cAgressiveResponseChaseBehaviour@AI@@"
       }
     ],
     "src/AI/cAmbientTrafficBehaviour.cpp": [
@@ -7132,6 +7137,11 @@
         "address": "0x82F96778",
         "size": 104,
         "symbol": "??__ECellTurretNPCArmedBehaviourInheritRegistrar@AI@@"
+      },
+      {
+        "address": "0x824C51B8",
+        "size": 132,
+        "symbol": "?MakeNew@CellTurret@AI@@"
       }
     ],
     "src/AI/Mission/AU/cFinalMission.cpp": [
@@ -7801,6 +7811,11 @@
         "address": "0x82F9A5F8",
         "size": 72,
         "symbol": "??__EcVehicleAttackedRockingBehaviourSpawningRegistrar@AI@@"
+      },
+      {
+        "address": "0x824CF6C8",
+        "size": 184,
+        "symbol": "?MakeNew@cVehicleAttackedRockingBehaviour@AI@@"
       }
     ],
     "src/AI/cVehicleCollectionBehaviour.cpp": [

@@ -26,7 +26,12 @@
    ]
   },
   "src/AI/Behaviour/NPC/Cell/CellTurret.cpp": {
-   "direct_constants": []
+   "direct_constants": [
+    [
+     48,
+     "0000000000000000"
+    ]
+   ]
   },
   "src/AI/Behaviour/NPC/Civilian/Pedestrian.cpp": {
    "direct_constants": []
@@ -200,7 +205,12 @@
    "direct_constants": []
   },
   "src/AI/cAgressiveResponseChaseBehaviour.cpp": {
-   "direct_constants": []
+   "direct_constants": [
+    [
+     48,
+     "0000000000000000"
+    ]
+   ]
   },
   "src/AI/cAiPlayer.cpp": {
    "direct_constants": [
@@ -306,7 +316,32 @@
    "direct_constants": []
   },
   "src/AI/cVehicleAttackedRockingBehaviour.cpp": {
-   "direct_constants": []
+   "direct_constants": [
+    [
+     48,
+     "3fd3333340000000"
+    ],
+    [
+     48,
+     "4000000000000000"
+    ],
+    [
+     48,
+     "4008000000000000"
+    ],
+    [
+     48,
+     "4010000000000000"
+    ],
+    [
+     48,
+     "408f400000000000"
+    ],
+    [
+     48,
+     "40b3880000000000"
+    ]
+   ]
   },
   "src/AI/cVehicleCollectionBehaviour.cpp": {
    "direct_constants": []
@@ -11316,6 +11351,57 @@
    },
    "size": 164
   },
+  "0x824C51B8": {
+   "ltcg": {
+    "ends": true,
+    "sha": "83537885851d4dd1058b5828312b2e3514177585d78da1e5901770f72fbf10ca"
+   },
+   "plain": {
+    "constants": {
+     "0x820F7680": "00000000"
+    },
+    "relocations": [
+     28,
+     48,
+     52,
+     56,
+     60,
+     64,
+     68,
+     84
+    ],
+    "sha": "0424be390e302ae0a701e08953437e19dcde6d60c9ebef9a4420c0813cd4fece",
+    "strings": {},
+    "targets": [
+     [
+      28,
+      "call",
+      "0x8264DDA0"
+     ],
+     [
+      48,
+      "call",
+      "0x824A8608"
+     ],
+     [
+      64,
+      "data",
+      "0x8210BC64"
+     ],
+     [
+      68,
+      "data",
+      "0x821327A4"
+     ],
+     [
+      84,
+      "data",
+      "0x820F7680"
+     ]
+    ]
+   },
+   "size": 132
+  },
   "0x824C5240": {
    "ltcg": {
     "ends": true,
@@ -12489,6 +12575,57 @@
     ]
    },
    "size": 164
+  },
+  "0x824C9210": {
+   "ltcg": {
+    "ends": true,
+    "sha": "deb3a3b4e9a987407598c4451a5b2381f1d2d2f10cbdbadbcd22db66eec7e095"
+   },
+   "plain": {
+    "constants": {
+     "0x820F7680": "00000000"
+    },
+    "relocations": [
+     28,
+     48,
+     52,
+     56,
+     60,
+     64,
+     68,
+     72
+    ],
+    "sha": "e2412f61bdf4f4af5b65cfaaed0d7cacc082909b69e2388f64c0db1b46243e58",
+    "strings": {},
+    "targets": [
+     [
+      28,
+      "call",
+      "0x8264DDA0"
+     ],
+     [
+      48,
+      "call",
+      "0x824A8608"
+     ],
+     [
+      64,
+      "data",
+      "0x8210BA00"
+     ],
+     [
+      68,
+      "data",
+      "0x821327A4"
+     ],
+     [
+      72,
+      "data",
+      "0x820F7680"
+     ]
+    ]
+   },
+   "size": 144
   },
   "0x824C92A0": {
    "ltcg": {
@@ -13701,6 +13838,97 @@
     "targets": []
    },
    "size": 16
+  },
+  "0x824CF6C8": {
+   "ltcg": {
+    "ends": true,
+    "sha": "c86802003f793aba38651ef15773b18b93fa7757118ffae8a79db1de68e6b8cd"
+   },
+   "plain": {
+    "constants": {
+     "0x82077294": "3e99999a",
+     "0x820E0B50": "40800000",
+     "0x820E1A28": "40000000",
+     "0x820F2444": "40400000",
+     "0x821149AC": "459c4000",
+     "0x8213D7C4": "447a0000"
+    },
+    "relocations": [
+     28,
+     48,
+     52,
+     56,
+     60,
+     64,
+     68,
+     72,
+     76,
+     80,
+     84,
+     88,
+     92,
+     96,
+     100,
+     104,
+     108,
+     112
+    ],
+    "sha": "6ecf49d1fcf8635cb6888e79e629bb07807983e12ca66140bb3d6407906fa1a8",
+    "strings": {},
+    "targets": [
+     [
+      28,
+      "call",
+      "0x8264DDA0"
+     ],
+     [
+      48,
+      "call",
+      "0x824A8608"
+     ],
+     [
+      76,
+      "data",
+      "0x82077294"
+     ],
+     [
+      84,
+      "data",
+      "0x820F2444"
+     ],
+     [
+      92,
+      "data",
+      "0x820E1A28"
+     ],
+     [
+      96,
+      "data",
+      "0x8210BED0"
+     ],
+     [
+      100,
+      "data",
+      "0x8213D7C4"
+     ],
+     [
+      104,
+      "data",
+      "0x821327A4"
+     ],
+     [
+      108,
+      "data",
+      "0x821149AC"
+     ],
+     [
+      112,
+      "data",
+      "0x820E0B50"
+     ]
+    ]
+   },
+   "size": 184
   },
   "0x824CF780": {
    "ltcg": {

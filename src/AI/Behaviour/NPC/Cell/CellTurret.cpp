@@ -24,10 +24,6 @@ namespace AI
         return ms_pCellTurretClass->IsA(c);
     }
 
-    RWS::CAttributeHandler *CellTurret::MakeNew(const RWS::CAttributePacket &packet, bool)
-    {
-        return new CellTurret();
-    }
 }
 
 namespace AI
@@ -53,4 +49,13 @@ namespace AI
 {
     static Fun_Runtime::cInheritanceRegistrar CellTurretNPCArmedBehaviourInheritRegistrar(
         AI::CellTurret::StaticCreateClass(), AI::NPCArmedBehaviour::StaticCreateClass());
+}
+
+// CD2 0x824C51B8: the class factory builds the prototype.
+namespace AI
+{
+    RWS::CAttributeHandler *CellTurret::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new CellTurretPrototype(packet);
+    }
 }
