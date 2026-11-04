@@ -2652,6 +2652,11 @@
         "address": "0x824AB1E0",
         "size": 120,
         "symbol": "??0PedestrianGuard@AI@@"
+      },
+      {
+        "address": "0x824AB0D8",
+        "size": 92,
+        "symbol": "?IsA@PedestrianGuard@AI@@"
       }
     ],
     "src/AI/Behaviour/NPC/Freak/Scrounger.cpp": [
@@ -2704,6 +2709,11 @@
         "address": "0x824BABB0",
         "size": 116,
         "symbol": "??0Scrounger@AI@@"
+      },
+      {
+        "address": "0x824BAAA8",
+        "size": 92,
+        "symbol": "?IsA@Scrounger@AI@@"
       }
     ],
     "src/AI/Squad/Squad.cpp": [
@@ -8989,6 +8999,11 @@
         "address": "0x82F93B58",
         "size": 72,
         "symbol": "??__EGoliathSpawningRegistrar@AI@@"
+      },
+      {
+        "address": "0x824B0E48",
+        "size": 92,
+        "symbol": "?IsA@Goliath@AI@@"
       }
     ],
     "src/Anim/cCharacterAnimSetManager.cpp": [
