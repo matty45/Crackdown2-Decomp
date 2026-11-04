@@ -64,3 +64,55 @@
 0x8210AB10 ??_7CellMinigun@AI@@6BCEventHandler@RWS@@@ ??_7CellRocket@AI@@6BCEventHandler@RWS@@@   # identical vtables folded: the NPCArmedBehaviour constructor 0x824A8070 and the SpawnFromPrototype of CellMinigun 0x824C3228 and CellRocket 0x824C3DE8 store this address at +0x18
 
 0x8210AB30 ??_7CellMinigun@AI@@6BcNetRoleObject@Network@@@ ??_7CellRocket@AI@@6BcNetRoleObject@Network@@@   # identical vtables folded: the same functions as 0x8210AB10 store this address at +0x38
+
+0x8210FF38 ??_7cBeaconPulseHoverAnimationProfile@Anim@@6B@ ??_7cProfileDataBeaconPulseHover@Anim@@6B@   # identical vtables folded: cBeaconPulseHoverAnimationProfile::MakeNew (0x824EC1A0) stores this address at +0x3C twice, once from the inlined profile-data base constructor and once as the profile's own vtable for that subobject (it overrides nothing there)
+
+0x82110BDC ??_7cBeaconPulseHoverAnimationProfile@Anim@@6BCEventHandler@RWS@@@ ??_7cCoverAnimationProfile@Anim@@6BCEventHandler@RWS@@@ ??_7cCrowdAnimationProfile@Anim@@6BCEventHandler@RWS@@@ ??_7cEquipmentAimAndFireAnimationProfile@Anim@@6BCEventHandler@RWS@@@ ??_7cEquipmentPickUpAnimationProfile@Anim@@6BCEventHandler@RWS@@@ ??_7cEquipmentReloadAnimationProfile@Anim@@6BCEventHandler@RWS@@@ ??_7cEquipmentSwapAnimationProfile@Anim@@6BCEventHandler@RWS@@@ ??_7cEquipmentThrowAnimationProfile@Anim@@6BCEventHandler@RWS@@@ ??_7cEquipmentThrowNPCFullAnimationProfile@Anim@@6BCEventHandler@RWS@@@ ??_7cJumpAnimationProfile@Anim@@6BCEventHandler@RWS@@@ ??_7cJumpLandFastAnimationProfile@Anim@@6BCEventHandler@RWS@@@ ??_7cJumpLaunchAnimationProfile@Anim@@6BCEventHandler@RWS@@@ ??_7cLedgeAnimationProfile@Anim@@6BCEventHandler@RWS@@@ ??_7cLedgeLaunchAnimationProfile@Anim@@6BCEventHandler@RWS@@@ ??_7cPropDropAnimationProfile@Anim@@6BCEventHandler@RWS@@@ ??_7cPropPickUpAnimationProfile@Anim@@6BCEventHandler@RWS@@@ ??_7cPropPickUpFullAnimationProfile@Anim@@6BCEventHandler@RWS@@@ ??_7cPropThrowAnimationProfile@Anim@@6BCEventHandler@RWS@@@ ??_7cPropThrowNPCAnimationProfile@Anim@@6BCEventHandler@RWS@@@ ??_7cRappelAnimationProfile@Anim@@6BCEventHandler@RWS@@@ ??_7cReactionAnimationProfile@Anim@@6BCEventHandler@RWS@@@ ??_7cReaperJumpAnimationProfile@Anim@@6BCEventHandler@RWS@@@ ??_7cStandTurnAnimationProfile@Anim@@6BCEventHandler@RWS@@@ ??_7cSwimLaunchAnimationProfile@Anim@@6BCEventHandler@RWS@@@ ??_7cTransformationAnimationProfile@Anim@@6BCEventHandler@RWS@@@   # identical vtables folded: cSpecificAnimationProfile's constructor (0x824E00A8) installs it at +0x18 and every animation profile's factory (MakeNew, e.g. cCoverAnimationProfile 0x824E7A30) stores it there again; the profiles override nothing in their CEventHandler subobject
+
+0x8210FCC8 ??_7cCoverAnimationProfile@Anim@@6B@ ??_7cProfileDataCover@Anim@@6B@   # identical vtables folded: cCoverAnimationProfile::MakeNew (0x824E7A30) stores this address at +0x3C twice, once from the inlined profile-data base constructor and once as the profile's own vtable for that subobject (it overrides nothing there)
+
+0x82111364 ??_7cCrowdAnimationProfile@Anim@@6B@ ??_7cProfileDataCrowd@Anim@@6B@   # identical vtables folded: cCrowdAnimationProfile::MakeNew (0x82524D88) stores this address at +0x3C twice, once from the inlined profile-data base constructor and once as the profile's own vtable for that subobject (it overrides nothing there)
+
+0x82110B18 ??_7cEquipmentAimAndFireAnimationProfile@Anim@@6B@ ??_7cProfileDataEquipmentAimAndFire@Anim@@6B@   # identical vtables folded: cEquipmentAimAndFireAnimationProfile::MakeNew (0x82510510) stores this address at +0x3C twice, once from the inlined profile-data base constructor and once as the profile's own vtable for that subobject (it overrides nothing there)
+
+0x82110D14 ??_7cEquipmentPickUpAnimationProfile@Anim@@6B@ ??_7cProfileDataEquipmentPickUp@Anim@@6B@   # identical vtables folded: cEquipmentPickUpAnimationProfile::MakeNew (0x82512DD0) stores this address at +0x3C twice, once from the inlined profile-data base constructor and once as the profile's own vtable for that subobject (it overrides nothing there)
+
+0x82110D64 ??_7cEquipmentReloadAnimationProfile@Anim@@6B@ ??_7cProfileDataEquipmentReload@Anim@@6B@   # identical vtables folded: cEquipmentReloadAnimationProfile::MakeNew (0x82513240) stores this address at +0x3C twice, once from the inlined profile-data base constructor and once as the profile's own vtable for that subobject (it overrides nothing there)
+
+0x82110DB0 ??_7cEquipmentSwapAnimationProfile@Anim@@6B@ ??_7cProfileDataEquipmentSwap@Anim@@6B@   # identical vtables folded: cEquipmentSwapAnimationProfile::MakeNew (0x82513C48) stores this address at +0x3C twice, once from the inlined profile-data base constructor and once as the profile's own vtable for that subobject (it overrides nothing there)
+
+0x82110E08 ??_7cEquipmentThrowAnimationProfile@Anim@@6B@ ??_7cProfileDataEquipmentThrow@Anim@@6B@   # identical vtables folded: cEquipmentThrowAnimationProfile::MakeNew (0x82514738) stores this address at +0x3C twice, once from the inlined profile-data base constructor and once as the profile's own vtable for that subobject (it overrides nothing there)
+
+0x8210FDCC ??_7cEquipmentThrowNPCFullAnimationProfile@Anim@@6B@ ??_7cProfileDataEquipmentThrowNPCFull@Anim@@6B@   # identical vtables folded: cEquipmentThrowNPCFullAnimationProfile::MakeNew (0x824EB4F8) stores this address at +0x3C twice, once from the inlined profile-data base constructor and once as the profile's own vtable for that subobject (it overrides nothing there)
+
+0x82110280 ??_7cJumpAnimationProfile@Anim@@6B@ ??_7cProfileDataJump@Anim@@6B@   # identical vtables folded: cJumpAnimationProfile::MakeNew (0x824EF728) stores this address at +0x3C twice, once from the inlined profile-data base constructor and once as the profile's own vtable for that subobject (it overrides nothing there)
+
+0x82110348 ??_7cJumpLandFastAnimationProfile@Anim@@6B@ ??_7cProfileDataJumpLandFast@Anim@@6B@   # identical vtables folded: cJumpLandFastAnimationProfile::MakeNew (0x824F32E0) stores this address at +0x3C twice, once from the inlined profile-data base constructor and once as the profile's own vtable for that subobject (it overrides nothing there)
+
+0x821103CC ??_7cJumpLaunchAnimationProfile@Anim@@6B@ ??_7cProfileDataJumpLaunch@Anim@@6B@   # identical vtables folded: cJumpLaunchAnimationProfile::MakeNew (0x824F3840) stores this address at +0x3C twice, once from the inlined profile-data base constructor and once as the profile's own vtable for that subobject (it overrides nothing there)
+
+0x82110768 ??_7cLedgeAnimationProfile@Anim@@6B@ ??_7cLedgeProfileData@Anim@@6B@   # identical vtables folded: cLedgeAnimationProfile::MakeNew (0x825019E8) stores this address at +0x3C twice, once from the inlined profile-data base constructor and once as the profile's own vtable for that subobject (it overrides nothing there)
+
+0x821106D4 ??_7cLedgeLaunchAnimationProfile@Anim@@6B@ ??_7cProfileDataLedgeLaunch@Anim@@6B@   # identical vtables folded: cLedgeLaunchAnimationProfile::MakeNew (0x82501308) stores this address at +0x3C twice, once from the inlined profile-data base constructor and once as the profile's own vtable for that subobject (it overrides nothing there)
+
+0x821108B0 ??_7cProfileDataPropDrop@Anim@@6B@ ??_7cPropDropAnimationProfile@Anim@@6B@   # identical vtables folded: cPropDropAnimationProfile::MakeNew (0x8250C270) stores this address at +0x3C twice, once from the inlined profile-data base constructor and once as the profile's own vtable for that subobject (it overrides nothing there)
+
+0x8211093C ??_7cProfileDataPropPickUp@Anim@@6B@ ??_7cPropPickUpAnimationProfile@Anim@@6B@   # identical vtables folded: cPropPickUpAnimationProfile::MakeNew (0x8250CA40) stores this address at +0x3C twice, once from the inlined profile-data base constructor and once as the profile's own vtable for that subobject (it overrides nothing there)
+
+0x821109C4 ??_7cProfileDataPropPickUpFull@Anim@@6B@ ??_7cPropPickUpFullAnimationProfile@Anim@@6B@   # identical vtables folded: cPropPickUpFullAnimationProfile::MakeNew (0x8250CF18) stores this address at +0x3C twice, once from the inlined profile-data base constructor and once as the profile's own vtable for that subobject (it overrides nothing there)
+
+0x82110A08 ??_7cProfileDataPropThrow@Anim@@6B@ ??_7cPropThrowAnimationProfile@Anim@@6B@   # identical vtables folded: cPropThrowAnimationProfile::MakeNew (0x8250D9A0) stores this address at +0x3C twice, once from the inlined profile-data base constructor and once as the profile's own vtable for that subobject (it overrides nothing there)
+
+0x8210FEB4 ??_7cProfileDataPropThrowNPC@Anim@@6B@ ??_7cPropThrowNPCAnimationProfile@Anim@@6B@   # identical vtables folded: cPropThrowNPCAnimationProfile::MakeNew (0x824EBE98) stores this address at +0x3C twice, once from the inlined profile-data base constructor and once as the profile's own vtable for that subobject (it overrides nothing there)
+
+0x82110118 ??_7cProfileDataRappel@Anim@@6B@ ??_7cRappelAnimationProfile@Anim@@6B@   # identical vtables folded: cRappelAnimationProfile::MakeNew (0x824EF200) stores this address at +0x3C twice, once from the inlined profile-data base constructor and once as the profile's own vtable for that subobject (it overrides nothing there)
+
+0x82110064 ??_7cProfileDataReaction@Anim@@6B@ ??_7cReactionAnimationProfile@Anim@@6B@   # identical vtables folded: cReactionAnimationProfile::MakeNew (0x824ED960) stores this address at +0x3C twice, once from the inlined profile-data base constructor and once as the profile's own vtable for that subobject (it overrides nothing there)
+
+0x82110484 ??_7cProfileDataReaperJump@Anim@@6B@ ??_7cReaperJumpAnimationProfile@Anim@@6B@   # identical vtables folded: cReaperJumpAnimationProfile::MakeNew (0x824F66A0) stores this address at +0x3C twice, once from the inlined profile-data base constructor and once as the profile's own vtable for that subobject (it overrides nothing there)
+
+0x82110F00 ??_7cProfileDataStandTurn@Anim@@6B@ ??_7cStandTurnAnimationProfile@Anim@@6B@   # identical vtables folded: cStandTurnAnimationProfile::MakeNew (0x82515798) stores this address at +0x3C twice, once from the inlined profile-data base constructor and once as the profile's own vtable for that subobject (it overrides nothing there)
+
+0x821111FC ??_7cProfileDataSwimLaunch@Anim@@6B@ ??_7cSwimLaunchAnimationProfile@Anim@@6B@   # identical vtables folded: cSwimLaunchAnimationProfile::MakeNew (0x82524370) stores this address at +0x3C twice, once from the inlined profile-data base constructor and once as the profile's own vtable for that subobject (it overrides nothing there)
+
+0x821112C0 ??_7cProfileDataTransformation@Anim@@6B@ ??_7cTransformationAnimationProfile@Anim@@6B@   # identical vtables folded: cTransformationAnimationProfile::MakeNew (0x825247E8) stores this address at +0x3C twice, once from the inlined profile-data base constructor and once as the profile's own vtable for that subobject (it overrides nothing there)
