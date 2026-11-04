@@ -62,3 +62,12 @@ namespace Vehicle
     static GOM::cProtoRegistrar cHelicopterSpawningRegistrar(
         cHelicopter::StaticCreateClass(), cHelicopter::SpawnFromPrototype);
 }
+
+// CD2 0x826B8A78: the class-factory constructor; the constructor stays out of line.
+namespace Vehicle
+{
+    RWS::CAttributeHandler *cHelicopter::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cHelicopter(packet);
+    }
+}

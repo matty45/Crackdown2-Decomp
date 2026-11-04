@@ -62,3 +62,12 @@ namespace Vehicle
     static GOM::cProtoRegistrar cLandVehicleSpawningRegistrar(
         cLandVehicle::StaticCreateClass(), cLandVehicle::SpawnFromPrototype);
 }
+
+// CD2 0x826C0DB8: the class-factory constructor; the constructor stays out of line.
+namespace Vehicle
+{
+    RWS::CAttributeHandler *cLandVehicle::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cLandVehicle(packet);
+    }
+}

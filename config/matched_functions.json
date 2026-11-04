@@ -1870,6 +1870,11 @@
         "address": "0x830440A8",
         "size": 12,
         "symbol": "??__FcHordeBeamRegistrar@unknown@@"
+      },
+      {
+        "address": "0x82867908",
+        "size": 88,
+        "symbol": "?MakeNew@cHordeBeam@unknown@@"
       }
     ],
     "src/cHunterGathererGameModePrototype.cpp": [
@@ -2447,6 +2452,11 @@
         "address": "0x8303B9B0",
         "size": 12,
         "symbol": "??__FCellGuardRegistrar@AI@@"
+      },
+      {
+        "address": "0x824C0B08",
+        "size": 88,
+        "symbol": "?MakeNew@CellGuard@AI@@"
       }
     ],
     "src/AI/Targeting/cFactionTargetingProfile.cpp": [
@@ -2501,6 +2511,11 @@
         "address": "0x8303B1E8",
         "size": 12,
         "symbol": "??__FcForceFieldProfileRegistrar@AI@@"
+      },
+      {
+        "address": "0x824889A0",
+        "size": 88,
+        "symbol": "?MakeNew@cForceFieldProfile@AI@@"
       }
     ],
     "src/AI/Mission/Training/cForceFieldVFXProfile.cpp": [
@@ -2540,6 +2555,11 @@
         "address": "0x8303AA90",
         "size": 12,
         "symbol": "??__FcGlobalGraphDataHolderRegistrar@AI@@"
+      },
+      {
+        "address": "0x8244AAF8",
+        "size": 88,
+        "symbol": "?MakeNew@cGlobalGraphDataHolder@AI@@"
       }
     ],
     "src/AI/Mission/cMissionActivationCylinder.cpp": [
@@ -2625,6 +2645,11 @@
         "address": "0x8303B160",
         "size": 12,
         "symbol": "??__FcTrainingTriggerRegistrar@AI@@"
+      },
+      {
+        "address": "0x82485588",
+        "size": 88,
+        "symbol": "?MakeNew@cTrainingTrigger@AI@@"
       }
     ],
     "src/AI/Behaviour/NPC/Civilian/PedestrianGuard.cpp": [
@@ -3683,6 +3708,11 @@
         "address": "0x82FA0930",
         "size": 104,
         "symbol": "??__EcSkeletonProfilecNonGameBaseInheritRegistrar@Anim@@"
+      },
+      {
+        "address": "0x824E6810",
+        "size": 88,
+        "symbol": "?MakeNew@cSkeletonProfile@Anim@@"
       }
     ],
     "src/Anim/cSprintAnimationProfile.cpp": [
@@ -4037,6 +4067,11 @@
         "address": "0x8303CE20",
         "size": 12,
         "symbol": "??__FcCwCharacterRegistrar@CHARACTER@@"
+      },
+      {
+        "address": "0x8253F438",
+        "size": 88,
+        "symbol": "?MakeNew@cCwCharacter@CHARACTER@@"
       }
     ],
     "src/CHARACTER/cCwCharacterStateProfile.cpp": [
@@ -4509,6 +4544,11 @@
         "address": "0x83043F70",
         "size": 12,
         "symbol": "??__FcCHordeCaptureZoneRegistrar@GameManagement@@"
+      },
+      {
+        "address": "0x82858CD0",
+        "size": 88,
+        "symbol": "?MakeNew@cCHordeCaptureZone@GameManagement@@"
       }
     ],
     "src/GameManagement/cCHordeProfile.cpp": [
@@ -4548,6 +4588,11 @@
         "address": "0x83044090",
         "size": 12,
         "symbol": "??__FcCHordeWaveRegistrar@GameManagement@@"
+      },
+      {
+        "address": "0x82865C98",
+        "size": 88,
+        "symbol": "?MakeNew@cCHordeWave@GameManagement@@"
       }
     ],
     "src/GameManagement/cDeathMatchGameModePrototype.cpp": [
@@ -4882,6 +4927,11 @@
         "address": "0x83043F48",
         "size": 12,
         "symbol": "??__FcTrainingRespawnPointRegistrar@GameManagement@@"
+      },
+      {
+        "address": "0x828586C0",
+        "size": 88,
+        "symbol": "?MakeNew@cTrainingRespawnPoint@GameManagement@@"
       }
     ],
     "src/GameManagement/cWeaponPickupSpawnPoint.cpp": [
@@ -4899,6 +4949,11 @@
         "address": "0x83043BF0",
         "size": 12,
         "symbol": "??__FcWeaponPickupSpawnPointRegistrar@GameManagement@@"
+      },
+      {
+        "address": "0x8284C5C8",
+        "size": 88,
+        "symbol": "?MakeNew@cWeaponPickupSpawnPoint@GameManagement@@"
       }
     ],
     "src/GameRenderer/cCD2Lighting.cpp": [
@@ -5640,6 +5695,11 @@
         "address": "0x82FE85A0",
         "size": 72,
         "symbol": "??__EcHelicopterSpawningRegistrar@Vehicle@@"
+      },
+      {
+        "address": "0x826B8A78",
+        "size": 88,
+        "symbol": "?MakeNew@cHelicopter@Vehicle@@"
       }
     ],
     "src/Vehicle/cHelicopterDamageProfile.cpp": [
@@ -5704,6 +5764,11 @@
         "address": "0x82FE8A70",
         "size": 72,
         "symbol": "??__EcLandVehicleSpawningRegistrar@Vehicle@@"
+      },
+      {
+        "address": "0x826C0DB8",
+        "size": 88,
+        "symbol": "?MakeNew@cLandVehicle@Vehicle@@"
       }
     ],
     "src/Vehicle/cLandVehicleProfile.cpp": [
@@ -10114,6 +10179,11 @@
         "address": "0x82FFD480",
         "size": 104,
         "symbol": "??__EcSkillProfilecNonGameBaseInheritRegistrar@RPG@@"
+      },
+      {
+        "address": "0x827534A0",
+        "size": 88,
+        "symbol": "?MakeNew@cSkillProfile@RPG@@"
       }
     ],
     "src/VFX/cBloom.cpp": [

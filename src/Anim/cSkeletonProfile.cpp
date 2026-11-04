@@ -52,3 +52,12 @@ namespace Anim
     static Fun_Runtime::cInheritanceRegistrar cSkeletonProfilecNonGameBaseInheritRegistrar(
         Anim::cSkeletonProfile::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }
+
+// CD2 0x824E6810: the class-factory constructor; the constructor stays out of line.
+namespace Anim
+{
+    RWS::CAttributeHandler *cSkeletonProfile::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cSkeletonProfile(packet);
+    }
+}
