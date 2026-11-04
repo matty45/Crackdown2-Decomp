@@ -20,3 +20,12 @@ namespace ExplosionManager
         return "cExplosionManager";
     }
 }
+
+#include "rws/classfactory.h"
+
+// CD2 0x82FD5840 (initializer) and 0x8303FBD8 (at-exit destructor).
+namespace ExplosionManager
+{
+    static RWS::CClassFactory::CRegistrar cExplosionManagerRegistrar(
+        "cExplosionManager", cExplosionManager::MakeNew, 0x928B0, false);
+}

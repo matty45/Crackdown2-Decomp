@@ -193,3 +193,9 @@ namespace Equip
     static GOM::cProtoRegistrar cFlocketSpawningRegistrar(
         cFlocket::StaticCreateClass(), cFlocket::SpawnFromPrototype);
 }
+
+// CD2 0x82FD19D0 initializes the descriptor pointer through StaticCreateClass.
+namespace Equip
+{
+    const Fun_Runtime::cClass *cFlocket::ms_pcFlocketClass = &cFlocket::StaticCreateClass();
+}

@@ -20,3 +20,12 @@ namespace Vehicle
     static Fun_Runtime::cInheritanceRegistrar cVehiclecNetDynamicBodyInheritRegistrar(
         Vehicle::cVehicle::StaticCreateClass(), PHYSICS::cNetDynamicBody::StaticCreateClass());
 }
+
+#include "rws/classfactory.h"
+
+// CD2 0x82FE99D8 (initializer) and 0x83040920 (at-exit destructor).
+namespace Vehicle
+{
+    static RWS::CClassFactory::CRegistrar cVehicleRegistrar(
+        "cVehicle", cVehicle::MakeNew, 0x1740, false);
+}

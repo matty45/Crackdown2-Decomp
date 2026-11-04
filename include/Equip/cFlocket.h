@@ -73,6 +73,8 @@ namespace Equip
         public cRegClassC, public cPoly870
     {
     public:
+        static const Fun_Runtime::cClass *ms_pcHWProjectileClass;
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         // CD2 0x8262A7F8 creates the named runtime descriptor.
         static Fun_Runtime::cClass &StaticCreateClass();
         cHWProjectile();

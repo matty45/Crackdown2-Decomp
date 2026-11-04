@@ -28,3 +28,18 @@ namespace VEHICLE_CONTROL
     static Fun_Runtime::cInheritanceRegistrar cVehicleControllercNonGameBaseInheritRegistrar(
         VEHICLE_CONTROL::cVehicleController::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }
+
+#include "rws/classfactory.h"
+
+// CD2 0x830052F0 (initializer) and 0x83042370 (at-exit destructor).
+namespace VEHICLE_CONTROL
+{
+    static RWS::CClassFactory::CRegistrar cVehicleControllerRegistrar(
+        "cVehicleController", cVehicleController::MakeNew, 0x840, false);
+}
+
+// CD2 0x83005260 initializes the descriptor pointer through StaticCreateClass.
+namespace VEHICLE_CONTROL
+{
+    const Fun_Runtime::cClass *cVehicleController::ms_pcVehicleControllerClass = &cVehicleController::StaticCreateClass();
+}

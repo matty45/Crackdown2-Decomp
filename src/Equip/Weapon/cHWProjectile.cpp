@@ -26,3 +26,18 @@ namespace Equip
     static Fun_Runtime::cInheritanceRegistrar cHWProjectilecWeaponProjectileInheritRegistrar(
         Equip::cHWProjectile::StaticCreateClass(), Equip::cWeaponProjectile::StaticCreateClass());
 }
+
+#include "rws/classfactory.h"
+
+// CD2 0x82FD2760 (initializer) and 0x8303F900 (at-exit destructor).
+namespace Equip
+{
+    static RWS::CClassFactory::CRegistrar cHWProjectileRegistrar(
+        "cHWProjectile", cHWProjectile::MakeNew, 0x970, false);
+}
+
+// CD2 0x82FD26D0 initializes the descriptor pointer through StaticCreateClass.
+namespace Equip
+{
+    const Fun_Runtime::cClass *cHWProjectile::ms_pcHWProjectileClass = &cHWProjectile::StaticCreateClass();
+}

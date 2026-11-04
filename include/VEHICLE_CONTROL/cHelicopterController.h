@@ -41,6 +41,7 @@ namespace Vehicle
     };
     class cVehicle : public cVehicleRoot, public cVehicleIface {
     public:
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         // CD2 0x826CC860 creates the named runtime descriptor.
         static Fun_Runtime::cClass &StaticCreateClass();
 };
@@ -51,6 +52,8 @@ namespace VEHICLE_CONTROL
     class cVehicleController : public cNonGameBase
     {
     public:
+        static const Fun_Runtime::cClass *ms_pcVehicleControllerClass;
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         // CD2 0x82781AA0 creates the named runtime descriptor.
         static Fun_Runtime::cClass &StaticCreateClass();
         // RuffKing: cVehicleControllerPrototype : cNonGameBase::cNonGameBasePrototype (: GOM::cObjectPrototype).
