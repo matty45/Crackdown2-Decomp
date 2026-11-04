@@ -8,3 +8,22 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/VFX/cParticleEffectResourceHolder.cpp
+
+#include "rws/classfactory.h"
+#include "VFX/cParticleEffectResourceHolder.h"
+
+// CD2 0x827EDC28.
+namespace VFX
+{
+    const char *cParticleEffectResourceHolder::RetClassName() const
+    {
+        return "cParticleEffectResourceHolder";
+    }
+}
+
+// CD2 0x830099C0 (initializer) and 0x83042970 (at-exit destructor).
+namespace VFX
+{
+    static RWS::CClassFactory::CRegistrar cParticleEffectResourceHolderRegistrar(
+        "cParticleEffectResourceHolder", cParticleEffectResourceHolder::MakeNew, 0x90, false);
+}

@@ -10,3 +10,22 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/AI/Mission/cPlayerRejectionZone.cpp
+
+#include "rws/classfactory.h"
+#include "AI/cPlayerRejectionZone.h"
+
+// CD2 0x8248B970.
+namespace AI
+{
+    const char *cPlayerRejectionZone::RetClassName() const
+    {
+        return "cPlayerRejectionZone";
+    }
+}
+
+// CD2 0x82F8FD58 (initializer) and 0x8303B2F8 (at-exit destructor).
+namespace AI
+{
+    static RWS::CClassFactory::CRegistrar cPlayerRejectionZoneRegistrar(
+        "cPlayerRejectionZone", cPlayerRejectionZone::MakeNew, 0x100, false);
+}

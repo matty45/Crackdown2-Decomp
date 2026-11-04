@@ -10,3 +10,22 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Equip/Weapon/cCWSatchelCharge.cpp
+
+#include "rws/classfactory.h"
+#include "Equip/cCWSatchelCharge.h"
+
+// CD2 0x8261A210.
+namespace Equip
+{
+    const char *cCWSatchelCharge::RetClassName() const
+    {
+        return "cCWSatchelCharge";
+    }
+}
+
+// CD2 0x82FCF618 (initializer) and 0x8303F670 (at-exit destructor).
+namespace Equip
+{
+    static RWS::CClassFactory::CRegistrar cCWSatchelChargeRegistrar(
+        "cCWSatchelCharge", cCWSatchelCharge::MakeNew, 0xAE0, false);
+}

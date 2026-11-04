@@ -9,3 +9,13 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/GameManagement/cTeamDeathMatchGameModePrototype.cpp
+
+#include "rws/classfactory.h"
+#include "GameManagement/cTeamDeathMatchGameModePrototype.h"
+
+// CD2 0x83018738 (initializer) and 0x83043DA8 (at-exit destructor).
+namespace GameManagement
+{
+    static RWS::CClassFactory::CRegistrar cTeamDeathMatchGameModePrototypeRegistrar(
+        "cTeamDeathMatchGameModePrototype", cTeamDeathMatchGameModePrototype::MakeNew, 0x190, false);
+}

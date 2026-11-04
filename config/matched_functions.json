@@ -12513,6 +12513,219 @@
         "size": 152,
         "symbol": "?StaticCreateClass@cVehicleController@VEHICLE_CONTROL@@"
       }
+    ],
+    "src/AI/Mission/Delivery_Manager/cAgencyGarage.cpp": [
+      {
+        "address": "0x82F8B1E8",
+        "size": 76,
+        "symbol": "??__EcAgencyGarageRegistrar@AI@@"
+      },
+      {
+        "address": "0x8303B100",
+        "size": 12,
+        "symbol": "??__FcAgencyGarageRegistrar@AI@@"
+      },
+      {
+        "address": "0x82479BC8",
+        "size": 12,
+        "symbol": "?RetClassName@cAgencyGarage@AI@@"
+      }
+    ],
+    "src/AI/Mission/cPlayerRejectionZone.cpp": [
+      {
+        "address": "0x82F8FD58",
+        "size": 76,
+        "symbol": "??__EcPlayerRejectionZoneRegistrar@AI@@"
+      },
+      {
+        "address": "0x8303B2F8",
+        "size": 12,
+        "symbol": "??__FcPlayerRejectionZoneRegistrar@AI@@"
+      },
+      {
+        "address": "0x8248B970",
+        "size": 12,
+        "symbol": "?RetClassName@cPlayerRejectionZone@AI@@"
+      }
+    ],
+    "src/Equip/Gadget/cCloakingDevice.cpp": [
+      {
+        "address": "0x82FCC720",
+        "size": 76,
+        "symbol": "??__EcCloakingDeviceRegistrar@Equip@@"
+      },
+      {
+        "address": "0x8303F418",
+        "size": 12,
+        "symbol": "??__FcCloakingDeviceRegistrar@Equip@@"
+      },
+      {
+        "address": "0x8260B278",
+        "size": 12,
+        "symbol": "?RetClassName@cCloakingDevice@Equip@@"
+      }
+    ],
+    "src/Equip/Weapon/cCWSatchelCharge.cpp": [
+      {
+        "address": "0x82FCF618",
+        "size": 76,
+        "symbol": "??__EcCWSatchelChargeRegistrar@Equip@@"
+      },
+      {
+        "address": "0x8303F670",
+        "size": 12,
+        "symbol": "??__FcCWSatchelChargeRegistrar@Equip@@"
+      },
+      {
+        "address": "0x8261A210",
+        "size": 12,
+        "symbol": "?RetClassName@cCWSatchelCharge@Equip@@"
+      }
+    ],
+    "src/Equip/Weapon/cExplosiveGrenade.cpp": [
+      {
+        "address": "0x82FCFAA8",
+        "size": 76,
+        "symbol": "??__EcExplosiveGrenadeRegistrar@Equip@@"
+      },
+      {
+        "address": "0x8303F6B0",
+        "size": 12,
+        "symbol": "??__FcExplosiveGrenadeRegistrar@Equip@@"
+      },
+      {
+        "address": "0x8261D210",
+        "size": 12,
+        "symbol": "?RetClassName@cExplosiveGrenade@Equip@@"
+      }
+    ],
+    "src/Equip/Weapon/cGrenade.cpp": [
+      {
+        "address": "0x82FCFF38",
+        "size": 76,
+        "symbol": "??__EcGrenadeRegistrar@Equip@@"
+      },
+      {
+        "address": "0x8303F6F0",
+        "size": 12,
+        "symbol": "??__FcGrenadeRegistrar@Equip@@"
+      }
+    ],
+    "src/Equip/Weapon/cCWHeavyWeapon.cpp": [
+      {
+        "address": "0x82FD2F58",
+        "size": 76,
+        "symbol": "??__EcCWHeavyWeaponRegistrar@Equip@@"
+      },
+      {
+        "address": "0x8303F9A0",
+        "size": 12,
+        "symbol": "??__FcCWHeavyWeaponRegistrar@Equip@@"
+      }
+    ],
+    "src/GangManager/cAgressiveResponseTurretVehicleSetup.cpp": [
+      {
+        "address": "0x82FDBE70",
+        "size": 76,
+        "symbol": "??__EcAgressiveResponseTurretVehicleSetupRegistrar@GangManager@@"
+      },
+      {
+        "address": "0x83040218",
+        "size": 12,
+        "symbol": "??__FcAgressiveResponseTurretVehicleSetupRegistrar@GangManager@@"
+      }
+    ],
+    "src/Vehicle/cCar.cpp": [
+      {
+        "address": "0x82FE7AE0",
+        "size": 76,
+        "symbol": "??__EcCarRegistrar@Vehicle@@"
+      },
+      {
+        "address": "0x830407B0",
+        "size": 12,
+        "symbol": "??__FcCarRegistrar@Vehicle@@"
+      },
+      {
+        "address": "0x826B5D70",
+        "size": 12,
+        "symbol": "?RetClassName@cCar@Vehicle@@"
+      }
+    ],
+    "src/Vehicle/Agency/cAgencyCar.cpp": [
+      {
+        "address": "0x82FEB4F8",
+        "size": 76,
+        "symbol": "??__EcAgencyCarRegistrar@Vehicle@@"
+      },
+      {
+        "address": "0x83040A50",
+        "size": 12,
+        "symbol": "??__FcAgencyCarRegistrar@Vehicle@@"
+      },
+      {
+        "address": "0x826EC178",
+        "size": 12,
+        "symbol": "?RetClassName@cAgencyCar@Vehicle@@"
+      }
+    ],
+    "src/cAudioLogContainer.cpp": [
+      {
+        "address": "0x82FF1518",
+        "size": 76,
+        "symbol": "??__EcAudioLogContainerRegistrar@unknown@@"
+      },
+      {
+        "address": "0x83040CA8",
+        "size": 12,
+        "symbol": "??__FcAudioLogContainerRegistrar@unknown@@"
+      }
+    ],
+    "src/cExplosivesSkillProfile.cpp": [
+      {
+        "address": "0x82FFD408",
+        "size": 76,
+        "symbol": "??__EcExplosivesSkillProfileRegistrar@unknown@@"
+      },
+      {
+        "address": "0x83041D40",
+        "size": 12,
+        "symbol": "??__FcExplosivesSkillProfileRegistrar@unknown@@"
+      },
+      {
+        "address": "0x82753190",
+        "size": 12,
+        "symbol": "?RetClassName@cExplosivesSkillProfile@unknown@@"
+      }
+    ],
+    "src/VFX/cParticleEffectResourceHolder.cpp": [
+      {
+        "address": "0x830099C0",
+        "size": 76,
+        "symbol": "??__EcParticleEffectResourceHolderRegistrar@VFX@@"
+      },
+      {
+        "address": "0x83042970",
+        "size": 12,
+        "symbol": "??__FcParticleEffectResourceHolderRegistrar@VFX@@"
+      },
+      {
+        "address": "0x827EDC28",
+        "size": 12,
+        "symbol": "?RetClassName@cParticleEffectResourceHolder@VFX@@"
+      }
+    ],
+    "src/GameManagement/cTeamDeathMatchGameModePrototype.cpp": [
+      {
+        "address": "0x83018738",
+        "size": 76,
+        "symbol": "??__EcTeamDeathMatchGameModePrototypeRegistrar@GameManagement@@"
+      },
+      {
+        "address": "0x83043DA8",
+        "size": 12,
+        "symbol": "??__FcTeamDeathMatchGameModePrototypeRegistrar@GameManagement@@"
+      }
     ]
   }
 }

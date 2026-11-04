@@ -10,3 +10,13 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Equip/Weapon/cCWHeavyWeapon.cpp
+
+#include "rws/classfactory.h"
+#include "Equip/cCWHeavyWeapon.h"
+
+// CD2 0x82FD2F58 (initializer) and 0x8303F9A0 (at-exit destructor).
+namespace Equip
+{
+    static RWS::CClassFactory::CRegistrar cCWHeavyWeaponRegistrar(
+        "cCWHeavyWeapon", cCWHeavyWeapon::MakeNew, 0xA20, false);
+}
