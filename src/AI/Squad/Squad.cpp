@@ -52,3 +52,26 @@ namespace AI
     static Fun_Runtime::cInheritanceRegistrar SquadcNonGameBaseInheritRegistrar(
         AI::Squad::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }
+
+#include <new>
+
+// CD2 0x824D8220: placement factory; the constructor stays out of line (a tail call).
+namespace AI
+{
+    RWS::CAttributeHandler *Squad::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) Squad;
+        return 0;
+    }
+}
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x82F9D350: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar SquadSpawningRegistrar(
+        Squad::StaticCreateClass(), Squad::SpawnFromPrototype);
+}

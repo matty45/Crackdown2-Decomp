@@ -56,3 +56,26 @@ namespace PHYSICS
     static Fun_Runtime::cInheritanceRegistrar cDynamicBodycBodyInheritRegistrar(
         PHYSICS::cDynamicBody::StaticCreateClass(), PHYSICS::cBody::StaticCreateClass());
 }
+
+#include <new>
+
+// CD2 0x82683300: placement factory; the constructor stays out of line (a tail call).
+namespace PHYSICS
+{
+    RWS::CAttributeHandler *cBody::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cBody;
+        return 0;
+    }
+}
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x82FDF730: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace PHYSICS
+{
+    static GOM::cProtoRegistrar cBodySpawningRegistrar(
+        cBody::StaticCreateClass(), cBody::SpawnFromPrototype);
+}

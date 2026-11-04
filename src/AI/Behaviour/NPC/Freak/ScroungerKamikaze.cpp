@@ -7,7 +7,6 @@ namespace AI
 {
     const Fun_Runtime::cClass *ScroungerKamikaze::ms_pScroungerKamikazeClass = &ScroungerKamikaze::StaticCreateClass();
 
-    ScroungerKamikaze::ScroungerKamikaze() {}
 
     const Fun_Runtime::cClass &ScroungerKamikaze::RetClass() const
     {
@@ -53,4 +52,27 @@ namespace AI
 {
     static Fun_Runtime::cInheritanceRegistrar ScroungerKamikazeScroungerInheritRegistrar(
         AI::ScroungerKamikaze::StaticCreateClass(), AI::Scrounger::StaticCreateClass());
+}
+
+#include <new>
+
+// CD2 0x824BDDF0: placement factory; Scrounger's constructor stays out of line, the rest is inlined.
+namespace AI
+{
+    RWS::CAttributeHandler *ScroungerKamikaze::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) ScroungerKamikaze;
+        return 0;
+    }
+}
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x82F94800: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar ScroungerKamikazeSpawningRegistrar(
+        ScroungerKamikaze::StaticCreateClass(), ScroungerKamikaze::SpawnFromPrototype);
 }

@@ -197,7 +197,7 @@ namespace VEHICLE_CONTROL
 
         static Fun_Runtime::cClass &StaticCreateClass();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
-        static cHelicopterController *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
 
         CD2_LAYOUT_CHECKS(cHelicopterController,
             CD2_SIZE(cHelicopterController, 0x8C0)

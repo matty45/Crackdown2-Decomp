@@ -7,7 +7,6 @@ namespace AI
 {
     const Fun_Runtime::cClass *cPKDropPilot::ms_pcPKDropPilotClass = &cPKDropPilot::StaticCreateClass();
 
-    cPKDropPilot::cPKDropPilot() {}
 
     const Fun_Runtime::cClass &cPKDropPilot::RetClass() const
     {
@@ -53,4 +52,27 @@ namespace AI
 {
     static Fun_Runtime::cInheritanceRegistrar cPKDropPilotcPilotBaseInheritRegistrar(
         AI::cPKDropPilot::StaticCreateClass(), AI::cPilotBase::StaticCreateClass());
+}
+
+#include <new>
+
+// CD2 0x824D4B88: placement factory; cPilotBase's constructor stays out of line, the rest is inlined.
+namespace AI
+{
+    RWS::CAttributeHandler *cPKDropPilot::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cPKDropPilot;
+        return 0;
+    }
+}
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x82F9C6A8: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar cPKDropPilotSpawningRegistrar(
+        cPKDropPilot::StaticCreateClass(), cPKDropPilot::SpawnFromPrototype);
 }

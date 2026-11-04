@@ -53,3 +53,31 @@ namespace AI
     static Fun_Runtime::cInheritanceRegistrar ScroungerFreakBaseInheritRegistrar(
         AI::Scrounger::StaticCreateClass(), AI::FreakBase::StaticCreateClass());
 }
+
+#include <new>
+
+namespace AI
+{
+    Scrounger::Scrounger() : m_nUnknown120(13) {}
+}
+
+// CD2 0x824BAA80: placement factory; the constructor stays out of line (a tail call).
+namespace AI
+{
+    RWS::CAttributeHandler *Scrounger::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) Scrounger;
+        return 0;
+    }
+}
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x82F943C8: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar ScroungerSpawningRegistrar(
+        Scrounger::StaticCreateClass(), Scrounger::SpawnFromPrototype);
+}

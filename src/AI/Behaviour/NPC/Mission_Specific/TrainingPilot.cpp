@@ -7,7 +7,6 @@ namespace AI
 {
     const Fun_Runtime::cClass *TrainingPilot::ms_pTrainingPilotClass = &TrainingPilot::StaticCreateClass();
 
-    TrainingPilot::TrainingPilot() {}
 
     const Fun_Runtime::cClass &TrainingPilot::RetClass() const
     {
@@ -50,4 +49,27 @@ namespace AI
 {
     static Fun_Runtime::cInheritanceRegistrar TrainingPilotNPCBehaviourInheritRegistrar(
         AI::TrainingPilot::StaticCreateClass(), AI::NPCBehaviour::StaticCreateClass());
+}
+
+#include <new>
+
+// CD2 0x824C8DA8: placement factory; NPCBehaviour's constructor stays out of line, the rest is inlined.
+namespace AI
+{
+    RWS::CAttributeHandler *TrainingPilot::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) TrainingPilot;
+        return 0;
+    }
+}
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x82F98CA8: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar TrainingPilotSpawningRegistrar(
+        TrainingPilot::StaticCreateClass(), TrainingPilot::SpawnFromPrototype);
 }

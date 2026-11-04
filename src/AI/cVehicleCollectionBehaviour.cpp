@@ -7,7 +7,6 @@ namespace AI
 {
     const Fun_Runtime::cClass *cVehicleCollectionBehaviour::ms_pcVehicleCollectionBehaviourClass = &cVehicleCollectionBehaviour::StaticCreateClass();
 
-    cVehicleCollectionBehaviour::cVehicleCollectionBehaviour() {}
 
     const Fun_Runtime::cClass &cVehicleCollectionBehaviour::RetClass() const
     {
@@ -53,4 +52,17 @@ namespace AI
 {
     static Fun_Runtime::cInheritanceRegistrar cVehicleCollectionBehaviourcPilotBaseInheritRegistrar(
         AI::cVehicleCollectionBehaviour::StaticCreateClass(), AI::cPilotBase::StaticCreateClass());
+}
+
+#include <new>
+
+// CD2 0x824D68B8: placement factory; cPilotBase's constructor stays out of line, the rest is inlined.
+namespace AI
+{
+    RWS::CAttributeHandler *cVehicleCollectionBehaviour::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cVehicleCollectionBehaviour;
+        return 0;
+    }
 }

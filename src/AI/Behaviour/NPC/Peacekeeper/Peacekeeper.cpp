@@ -33,3 +33,16 @@ namespace AI
     static RWS::CClassFactory::CRegistrar PeacekeeperRegistrar(
         "Peacekeeper", Peacekeeper::MakeNew, 0x1E0, false);
 }
+
+#include <new>
+
+// CD2 0x824C6828: placement factory; the constructor stays out of line (a tail call).
+namespace AI
+{
+    RWS::CAttributeHandler *Peacekeeper::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) Peacekeeper;
+        return 0;
+    }
+}

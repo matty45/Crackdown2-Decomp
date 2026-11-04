@@ -3,8 +3,19 @@
 #include "AI/PedestrianGuard.h"
 #include "rws/classfactory.h"
 
+#include <new>
+
 namespace AI
 {
+    PedestrianGuard::PedestrianGuard() : m_nUnknown120(0), m_nUnknown124(0) {}
+
+    RWS::CAttributeHandler *PedestrianGuard::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) PedestrianGuard;
+        return 0;
+    }
+
     const char *PedestrianGuard::RetClassName() const
     {
         return "PedestrianGuard";
@@ -52,4 +63,14 @@ namespace AI
 {
     static Fun_Runtime::cInheritanceRegistrar PedestrianGuardcPedestrianBaseInheritRegistrar(
         AI::PedestrianGuard::StaticCreateClass(), AI::cPedestrianBase::StaticCreateClass());
+}
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x82F92EA0: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar PedestrianGuardSpawningRegistrar(
+        PedestrianGuard::StaticCreateClass(), PedestrianGuard::SpawnFromPrototype);
 }

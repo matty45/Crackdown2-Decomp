@@ -7,7 +7,6 @@ namespace AI
 {
     const Fun_Runtime::cClass *cVehicleAttackedRockingBehaviour::ms_pcVehicleAttackedRockingBehaviourClass = &cVehicleAttackedRockingBehaviour::StaticCreateClass();
 
-    cVehicleAttackedRockingBehaviour::cVehicleAttackedRockingBehaviour() {}
 
     const Fun_Runtime::cClass &cVehicleAttackedRockingBehaviour::RetClass() const
     {
@@ -53,4 +52,27 @@ namespace AI
 {
     static Fun_Runtime::cInheritanceRegistrar cVehicleAttackedRockingBehaviourNPCBehaviourInheritRegistrar(
         AI::cVehicleAttackedRockingBehaviour::StaticCreateClass(), AI::NPCBehaviour::StaticCreateClass());
+}
+
+#include <new>
+
+// CD2 0x824CF790: placement factory; NPCBehaviour's constructor stays out of line, the rest is inlined.
+namespace AI
+{
+    RWS::CAttributeHandler *cVehicleAttackedRockingBehaviour::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cVehicleAttackedRockingBehaviour;
+        return 0;
+    }
+}
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x82F9A5F8: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar cVehicleAttackedRockingBehaviourSpawningRegistrar(
+        cVehicleAttackedRockingBehaviour::StaticCreateClass(), cVehicleAttackedRockingBehaviour::SpawnFromPrototype);
 }

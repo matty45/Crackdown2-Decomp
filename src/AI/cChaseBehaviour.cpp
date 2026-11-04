@@ -39,7 +39,7 @@ namespace AI
     {
     }
 
-    RWS::CAttributeHandler *cChaseBehaviour::SpawnFromPrototype(void *, void *mem)
+    RWS::CAttributeHandler *cChaseBehaviour::SpawnFromPrototype(GOM::cObjectPrototype *, void *mem)
     {
         if (mem)
             return new (mem) cChaseBehaviour;
@@ -263,4 +263,14 @@ namespace AI
 {
     static Fun_Runtime::cInheritanceRegistrar cChaseBehaviourNPCBehaviourInheritRegistrar(
         AI::cChaseBehaviour::StaticCreateClass(), AI::NPCBehaviour::StaticCreateClass());
+}
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x82F9A1C0: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar cChaseBehaviourSpawningRegistrar(
+        cChaseBehaviour::StaticCreateClass(), cChaseBehaviour::SpawnFromPrototype);
 }

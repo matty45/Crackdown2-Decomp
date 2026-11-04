@@ -27,7 +27,7 @@ namespace VEHICLE_CONTROL
         return pcHelicopterControllerClassID;
     }
 
-    cHelicopterController *cHelicopterController::SpawnFromPrototype(GOM::cObjectPrototype *proto, void *mem)
+    RWS::CAttributeHandler *cHelicopterController::SpawnFromPrototype(GOM::cObjectPrototype *, void *mem)
     {
         return new (mem) cHelicopterController;
     }
@@ -224,4 +224,14 @@ namespace VEHICLE_CONTROL
 {
     static Fun_Runtime::cInheritanceRegistrar cHelicopterControllercVehicleControllerInheritRegistrar(
         VEHICLE_CONTROL::cHelicopterController::StaticCreateClass(), VEHICLE_CONTROL::cVehicleController::StaticCreateClass());
+}
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x830057C0: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace VEHICLE_CONTROL
+{
+    static GOM::cProtoRegistrar cHelicopterControllerSpawningRegistrar(
+        cHelicopterController::StaticCreateClass(), cHelicopterController::SpawnFromPrototype);
 }

@@ -7,7 +7,6 @@ namespace AI
 {
     const Fun_Runtime::cClass *BeaconDropBehaviour::ms_pBeaconDropBehaviourClass = &BeaconDropBehaviour::StaticCreateClass();
 
-    BeaconDropBehaviour::BeaconDropBehaviour() {}
 
     const Fun_Runtime::cClass &BeaconDropBehaviour::RetClass() const
     {
@@ -53,4 +52,27 @@ namespace AI
 {
     static Fun_Runtime::cInheritanceRegistrar BeaconDropBehaviourcPilotBaseInheritRegistrar(
         AI::BeaconDropBehaviour::StaticCreateClass(), AI::cPilotBase::StaticCreateClass());
+}
+
+#include <new>
+
+// CD2 0x824C77C8: placement factory; cPilotBase's constructor stays out of line, the rest is inlined.
+namespace AI
+{
+    RWS::CAttributeHandler *BeaconDropBehaviour::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) BeaconDropBehaviour;
+        return 0;
+    }
+}
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x82F98000: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar BeaconDropBehaviourSpawningRegistrar(
+        BeaconDropBehaviour::StaticCreateClass(), BeaconDropBehaviour::SpawnFromPrototype);
 }

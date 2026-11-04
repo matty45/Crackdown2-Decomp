@@ -7,7 +7,6 @@ namespace AI
 {
     const Fun_Runtime::cClass *cAgentPickup::ms_pcAgentPickupClass = &cAgentPickup::StaticCreateClass();
 
-    cAgentPickup::cAgentPickup() {}
 
     const Fun_Runtime::cClass &cAgentPickup::RetClass() const
     {
@@ -53,4 +52,27 @@ namespace AI
 {
     static Fun_Runtime::cInheritanceRegistrar cAgentPickupcPilotBaseInheritRegistrar(
         AI::cAgentPickup::StaticCreateClass(), AI::cPilotBase::StaticCreateClass());
+}
+
+#include <new>
+
+// CD2 0x824D0018: placement factory; cPilotBase's constructor stays out of line, the rest is inlined.
+namespace AI
+{
+    RWS::CAttributeHandler *cAgentPickup::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cAgentPickup;
+        return 0;
+    }
+}
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x82F9AA30: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar cAgentPickupSpawningRegistrar(
+        cAgentPickup::StaticCreateClass(), cAgentPickup::SpawnFromPrototype);
 }

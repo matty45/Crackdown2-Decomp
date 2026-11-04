@@ -7,7 +7,6 @@ namespace AI
 {
     const Fun_Runtime::cClass *CellMinigun::ms_pCellMinigunClass = &CellMinigun::StaticCreateClass();
 
-    CellMinigun::CellMinigun() {}
 
     const Fun_Runtime::cClass &CellMinigun::RetClass() const
     {
@@ -53,4 +52,27 @@ namespace AI
 {
     static Fun_Runtime::cInheritanceRegistrar CellMinigunNPCArmedBehaviourInheritRegistrar(
         AI::CellMinigun::StaticCreateClass(), AI::NPCArmedBehaviour::StaticCreateClass());
+}
+
+#include <new>
+
+// CD2 0x824C3228: placement factory; NPCArmedBehaviour's constructor stays out of line, the rest is inlined.
+namespace AI
+{
+    RWS::CAttributeHandler *CellMinigun::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) CellMinigun;
+        return 0;
+    }
+}
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x82F95FC0: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar CellMinigunSpawningRegistrar(
+        CellMinigun::StaticCreateClass(), CellMinigun::SpawnFromPrototype);
 }

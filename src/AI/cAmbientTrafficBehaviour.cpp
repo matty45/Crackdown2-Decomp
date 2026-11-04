@@ -54,3 +54,26 @@ namespace AI
     static Fun_Runtime::cInheritanceRegistrar cAmbientTrafficBehaviourNPCBehaviourInheritRegistrar(
         AI::cAmbientTrafficBehaviour::StaticCreateClass(), AI::NPCBehaviour::StaticCreateClass());
 }
+
+#include <new>
+
+// CD2 0x824CCAB8: placement factory; the constructor stays out of line (a tail call).
+namespace AI
+{
+    RWS::CAttributeHandler *cAmbientTrafficBehaviour::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cAmbientTrafficBehaviour;
+        return 0;
+    }
+}
+
+#include "gom/proto_registrar.h"
+
+// CD2 0x82F99950: the spawning registrar (GOM::cProtoRegistrar constructor 0x82657690) pairs the runtime class with
+// its placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar cAmbientTrafficBehaviourSpawningRegistrar(
+        cAmbientTrafficBehaviour::StaticCreateClass(), cAmbientTrafficBehaviour::SpawnFromPrototype);
+}

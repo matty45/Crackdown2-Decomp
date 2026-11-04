@@ -6,6 +6,7 @@
 
 #include "AI/cChaseBehaviour.h"
 #include "gom/object_prototype.h"
+#include "cd2/layout.h"
 
 namespace AI
 {
@@ -20,6 +21,11 @@ namespace AI
         virtual const Fun_Runtime::cClass &RetClass() const;
         static Fun_Runtime::cClass &StaticCreateClass();
         virtual const char *RetClassName() const;
+
+    private:
+        unsigned char m_unmodelledD0[0x120 - 0xD0];
+
+        CD2_LAYOUT_CHECKS(FreakBase, CD2_SIZE(FreakBase, 0x120))
     };
 }
 
