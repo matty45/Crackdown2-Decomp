@@ -76,3 +76,13 @@ namespace Prop
     static GOM::cProtoRegistrar cHingedPropSpawningRegistrar(
         cHingedProp::StaticCreateClass(), cHingedProp::SpawnFromPrototype);
 }
+
+#include "Prop/cHingedProp.h"
+#include "fun_runtime/script_type_registrar.h"
+
+namespace Prop
+{
+    // CD2 script-type registration; constructor/table evidence identifies the child and parent.
+    static Fun_Runtime::cScriptTypeRegistrar<cHingedProp> cHingedPropScriptRegistrar(
+        "cHingedProp", "cProp");
+}

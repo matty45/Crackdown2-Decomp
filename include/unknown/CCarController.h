@@ -14,6 +14,13 @@ namespace unknown
     class CCarController : public VEHICLE_CONTROL::cVehicleController
     {
     public:
+        // RuffKing names this prototype/base; CD2 MakeNew installs its table at 0x8214C0B8.
+        // Interface only; complete instance storage is not recovered.
+        class cCarControllerPrototype : public VEHICLE_CONTROL::cVehicleController::cVehicleControllerPrototype
+        {
+        public:
+            virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
+        };
         // CD2 factory 0x8277ECE0 forwards only this, without a prototype argument.
         CCarController();
         // CD2 0x8277EBF0: registered-class virtual slot 0 reads this class descriptor.

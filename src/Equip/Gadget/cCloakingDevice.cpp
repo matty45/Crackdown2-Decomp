@@ -36,3 +36,34 @@ namespace Equip
         return Ret_OK;
     }
 }
+
+#include "Equip/cCloakingDevice.h"
+#include "fun_runtime/script_type_registrar.h"
+
+namespace Equip
+{
+    // CD2 script-type registration names this child and parent.
+    static Fun_Runtime::cScriptTypeRegistrar<cCloakingDevice> cCloakingDeviceScriptRegistrar(
+        "cCloakingDevice", "cGrenade");
+}
+
+#include "cd2/memory.h"
+
+namespace Equip
+{
+    Fun_Runtime::cClass &cCloakingDevice::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *descriptor = new Fun_Runtime::cClass(0x10140, "cCloakingDevice", 0x9C0);
+        return *descriptor;
+    }
+}
+
+namespace Equip
+{
+    const Fun_Runtime::cClass *cCloakingDevice::ms_pcCloakingDeviceClass = &cCloakingDevice::StaticCreateClass();
+
+    const Fun_Runtime::cClass &cCloakingDevice::RetClass() const
+    {
+        return *ms_pcCloakingDeviceClass;
+    }
+}

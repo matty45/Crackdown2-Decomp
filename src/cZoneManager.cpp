@@ -62,3 +62,13 @@ namespace unknown
         return *ms_pcZoneManagerClass;
     }
 }
+
+#include "unknown/cZoneManager.h"
+#include "fun_runtime/script_type_registrar.h"
+
+namespace unknown
+{
+    // CD2 script-type registration; constructor/table evidence identifies the child and parent.
+    static Fun_Runtime::cScriptTypeRegistrar<cZoneManager> cZoneManagerScriptRegistrar(
+        "cZoneManager", "cNonGameBase");
+}

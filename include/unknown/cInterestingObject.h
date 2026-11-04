@@ -11,6 +11,7 @@ namespace unknown
     {
     public:
         static Fun_Runtime::cClass &StaticCreateClass();
+        static const Fun_Runtime::cClass *ms_pcInterestingObjectClass;
     };
 }
 

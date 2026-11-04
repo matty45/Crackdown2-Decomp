@@ -54,3 +54,13 @@ namespace unknown
         return "cStickler";
     }
 }
+
+#include "unknown/cSticklerPrototype.h"
+
+namespace unknown
+{
+    Fun_Runtime::RetVal cSticklerPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
+}

@@ -82,3 +82,13 @@ namespace PHYSICS
         return 0;
     }
 }
+
+#include "PHYSICS/cBody.h"
+#include "fun_runtime/script_type_registrar.h"
+
+namespace PHYSICS
+{
+    // CD2 script-type registration; constructor/table evidence identifies the child and parent.
+    static Fun_Runtime::cScriptTypeRegistrar<cBody> cBodyScriptRegistrar(
+        "cBody", "cGameBase");
+}

@@ -78,3 +78,13 @@ namespace CHARACTER
     static GOM::cProtoRegistrar cCharacterSpawningRegistrar(
         cCharacter::StaticCreateClass(), cCharacter::SpawnFromPrototype);
 }
+
+#include "CHARACTER/cCharacter.h"
+#include "fun_runtime/script_type_registrar.h"
+
+namespace CHARACTER
+{
+    // CD2 script-type registration; constructor/table evidence identifies the child and parent.
+    static Fun_Runtime::cScriptTypeRegistrar<cCharacter> cCharacterScriptRegistrar(
+        "cCharacter", "cCharacterMotion");
+}

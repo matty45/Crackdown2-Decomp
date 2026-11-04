@@ -13,6 +13,8 @@ __declspec(align(16)) class cGameBase : public RWS::CSystemCommands, public cNon
 
         // CD2 0x82650268 creates the named runtime descriptor.
         static Fun_Runtime::cClass &StaticCreateClass();
+        static const Fun_Runtime::cClass *ms_pcGameBaseClass;
+        virtual const Fun_Runtime::cClass &RetClass() const;
 
 public:
     virtual ~cGameBase();

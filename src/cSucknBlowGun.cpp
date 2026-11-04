@@ -64,3 +64,13 @@ namespace unknown
         return 0;
     }
 }
+
+#include "unknown/cSucknBlowGunPrototype.h"
+
+namespace unknown
+{
+    Fun_Runtime::RetVal cSucknBlowGunPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
+}

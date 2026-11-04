@@ -17,6 +17,8 @@ namespace Equip
         // CD2 0x8261D210: primary virtual slot 11 returns the registered class name.
         virtual const char *RetClassName() const;
         static Fun_Runtime::cClass &StaticCreateClass();
+        static const Fun_Runtime::cClass *ms_pcExplosiveGrenadeClass;
+        virtual const Fun_Runtime::cClass &RetClass() const;
         virtual void NotifyDetonation(cGameBase *, CHARACTER::cCharacterInterface *, unsigned char);
     private:
         unsigned char m_unmodelled9C4[0x9D0 - 0x9C4];

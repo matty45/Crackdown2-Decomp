@@ -71,3 +71,13 @@ namespace Prop
     static GOM::cProtoRegistrar cHingedSpawnDoorSpawningRegistrar(
         cHingedSpawnDoor::StaticCreateClass(), cHingedSpawnDoor::SpawnFromPrototype);
 }
+
+#include "Prop/cHingedSpawnDoor.h"
+#include "fun_runtime/script_type_registrar.h"
+
+namespace Prop
+{
+    // CD2 script-type registration; constructor/table evidence identifies the child and parent.
+    static Fun_Runtime::cScriptTypeRegistrar<cHingedSpawnDoor> cHingedSpawnDoorScriptRegistrar(
+        "cHingedSpawnDoor", "cHingedProp");
+}

@@ -20,6 +20,18 @@
 
 namespace Equip
 {
+    float cCWWeapon::RetAIAccuracyCone() const { return m_fAIAccuracyCone; }
+    float cCWWeapon::RetAIInitialAccuracyCone() const { return m_fAIInitialAccuracyCone; }
+    float cCWWeapon::RetAIPathClearCone() const { return m_fAIPathClearCone; }
+    unsigned int cCWWeapon::RetAINumberOfShotsToFullAccuracy() const
+    {
+        return m_uiAINumberOfShotsToReachFullAccuracy;
+    }
+    unsigned int cCWWeapon::RetNumberOfShotsTaken() const { return m_uiShotCount; }
+}
+
+namespace Equip
+{
     const Fun_Runtime::cClass *cCWWeapon::ms_pcCWWeaponClass = &cCWWeapon::StaticCreateClass();
 
     Fun_Runtime::cClass &cCWWeapon::StaticCreateClass()
@@ -65,4 +77,14 @@ namespace Equip
             return new (memory) cCWWeapon;
         return 0;
     }
+}
+
+#include "Equip/cCWWeapon.h"
+#include "fun_runtime/script_type_registrar.h"
+
+namespace Equip
+{
+    // CD2 script-type registration; constructor/table evidence identifies the child and parent.
+    static Fun_Runtime::cScriptTypeRegistrar<cCWWeapon> cCWWeaponScriptRegistrar(
+        "cCWWeapon", "cWeapon");
 }

@@ -1,3 +1,4 @@
+#include "fun_runtime/script_type_registrar.h"
 #include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "AI/cCharacterEntityIF.h"
@@ -24,7 +25,7 @@
 
 #include <new>
 
-unsigned char g_cAiPlayer;     // global at 0x83803448
+Fun_Runtime::cScriptTypeRegistrar<AI::cAiPlayer> g_cAiPlayer("cAIPlayer", "cCharacterEntityIF");     // global at 0x83803448
 unsigned char g_AIE_SHOTS_COUNTER;     // global at 0x83817824
 unsigned char g_AIE_ATTACKED;     // global at 0x8381798C
 unsigned char g_AIE_VOCAL;     // global at 0x83818B7C

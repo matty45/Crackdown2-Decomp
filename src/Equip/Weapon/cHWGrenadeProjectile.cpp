@@ -60,3 +60,13 @@ namespace Equip
     static GOM::cProtoRegistrar cHWGrenadeProjectileSpawningRegistrar(
         cHWGrenadeProjectile::StaticCreateClass(), cHWGrenadeProjectile::SpawnFromPrototype);
 }
+
+#include "Equip/cHWGrenadeProjectile.h"
+#include "fun_runtime/script_type_registrar.h"
+
+namespace Equip
+{
+    // CD2 script-type registration; constructor/table evidence identifies the child and parent.
+    static Fun_Runtime::cScriptTypeRegistrar<cHWGrenadeProjectile> cHWGrenadeProjectileScriptRegistrar(
+        "cHWGrenadeProjectile", "cHWProjectile");
+}

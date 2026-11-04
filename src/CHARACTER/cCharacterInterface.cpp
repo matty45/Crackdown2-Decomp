@@ -1,3 +1,4 @@
+#include "fun_runtime/script_type_registrar.h"
 #include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "gom/non_game_base.h"
@@ -20,7 +21,7 @@
 
 #include <new>
 
-unsigned char g_cCharacterInterface;     // global at 0x838241E0
+Fun_Runtime::cScriptTypeRegistrar<CHARACTER::cCharacterInterface> g_cCharacterInterface("cCharacterInterface", "cNonGameBase");     // global at 0x838241E0
 
 namespace CHARACTER
 {

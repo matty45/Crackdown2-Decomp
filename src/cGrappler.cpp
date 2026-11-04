@@ -8,3 +8,13 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/cGrappler.cpp
+
+#include "unknown/cGrapplerPrototype.h"
+
+namespace unknown
+{
+    Fun_Runtime::RetVal cGrapplerPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
+}

@@ -59,3 +59,14 @@ namespace CHARACTER
         return "cCwTransCharacterWrapper";
     }
 }
+
+#include "CHARACTER/cCwTransCharacterWrapperPrototype.h"
+#include "fun_runtime/retval.h"
+
+namespace CHARACTER
+{
+    Fun_Runtime::RetVal cCwTransCharacterWrapperPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
+}

@@ -20,6 +20,8 @@ namespace Equip
         // CD2 0x8260B278: primary virtual slot 11 returns the registered class name.
         virtual const char *RetClassName() const;
         static Fun_Runtime::cClass &StaticCreateClass();
+        static const Fun_Runtime::cClass *ms_pcCloakingDeviceClass;
+        virtual const Fun_Runtime::cClass &RetClass() const;
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         CD2_LAYOUT_CHECKS(cCloakingDevice, CD2_SIZE(cCloakingDevice, 0x9C0))
     };

@@ -53,3 +53,13 @@ namespace unknown
         return *ms_pcAgencyATVClass;
     }
 }
+
+#include "unknown/cAgencyATVPrototype.h"
+
+namespace unknown
+{
+    Fun_Runtime::RetVal cAgencyATVPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
+}

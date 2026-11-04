@@ -38,6 +38,8 @@ src/Activity/LongDistanceProps/cLongDistancePropManager.cpp
   atexit 0x83039648
 
 src/AI/cAiPlayer.cpp
+  atexit 0x83039780   # script registrar for cAIPlayer; registration table 0x820FB0E8
+  init 0x82F605D0   # script registrar for cAIPlayer; registration table 0x820FB0E8
   text 0x823E77C8 0x823EB638   # auto: cAiPlayer; RuffKing cAiPlayer.obj; 20 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 1 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82F60538
   atexit 0x83039758
@@ -46,6 +48,8 @@ src/AI/cAiPlayer.cpp
   init 0x82F60588   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/AI/cCharacterEntityIF.cpp
+  atexit 0x83039868   # script registrar for cCharacterEntityIF; registration table 0x820FBF20
+  init 0x82F60E58   # script registrar for cCharacterEntityIF; registration table 0x820FBF20
   text 0x823EBE90 0x823F017C   # auto: cCharacterEntityIF; RuffKing cCharacterEntityIF.obj; 6 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F60DC0
   atexit 0x83039840
@@ -88,6 +92,8 @@ src/AI/Targeting/cFactionTargetingProfile.cpp
   atexit 0x8303AD98
 
 src/cStaticInterestingObject.cpp
+  init 0x82F85E30   # CD2 script-type registrar names cStaticInterestingObject; table method 0x82455818 is in this file
+  atexit 0x8303AE70 # destroys the same script-type registrar
   text 0x824556F8 0x82455FF4   # auto: cStaticInterestingObject; not in RuffKing; 6 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82F85F18
   atexit 0x8303AE80
@@ -914,6 +920,8 @@ src/AudioLogic/cAudioLandVehicleProfile.cpp
   init 0x82FAA0D0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Cam/Camera_Manager/cCameraManager.cpp
+  atexit 0x8303CBD8   # script registrar for CameraManager; registration table 0x82111A38
+  init 0x82FAB118   # script registrar for CameraManager; registration table 0x82111A38
   text 0x8252BF60 0x8252C498   # auto: cCameraManager; not in RuffKing; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FAB0C8
   atexit 0x8303CBC8
@@ -926,6 +934,8 @@ src/Cam/General/cCameraMarker.cpp
   atexit 0x8303CBF8
 
 src/cVirtualCamera.cpp
+  atexit 0x8303CC20   # script registrar for cVirtualCamera; registration table 0x82112494
+  init 0x82FAB7C8   # script registrar for cVirtualCamera; registration table 0x82112494
   text 0x8252CD78 0x82536ACC   # auto: cVirtualCamera; not in RuffKing; 5 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FAB778
   atexit 0x8303CC10
@@ -976,6 +986,8 @@ src/CHARACTER/cCwGoliathCharacterWrapper.cpp
   init 0x82FAD370   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/CHARACTER/cCharacter.cpp
+  atexit 0x8303CF08   # script registrar for cCharacter; registration table 0x821138F4
+  init 0x82FAD7F0   # script registrar for cCharacter; registration table 0x821138F4
   text 0x82542FE0 0x82544014   # auto: cCharacter; RuffKing cCharacter.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FAD758
   atexit 0x8303CEE0
@@ -984,6 +996,8 @@ src/CHARACTER/cCharacter.cpp
   init 0x82FAD7A8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/CHARACTER/cCharacterInterface.cpp
+  atexit 0x8303CF78   # script registrar for cCharacterInterface; registration table 0x82113E58
+  init 0x82FADD18   # script registrar for cCharacterInterface; registration table 0x82113E58
   text 0x8254E7A0 0x8254F16C   # auto: cCharacterInterface; RuffKing cCharacterInterface.obj; 7 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FADC80
   atexit 0x8303CF50
@@ -1058,6 +1072,8 @@ src/cCrowdManager.cpp
   atexit 0x8303ECE8
 
 src/Equip/cEquipment.cpp
+  atexit 0x8303F308   # script registrar for cEquipment; registration table 0x8211EED0
+  init 0x82FCB448   # script registrar for cEquipment; registration table 0x8211EED0
   text 0x82604650 0x82604CA8   # auto: cEquipment; RuffKing cEquipment.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FCB250
   atexit 0x8303F2E0
@@ -1066,6 +1082,8 @@ src/Equip/cEquipment.cpp
   init 0x82FCB2A0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Equip/Weapon/cCWWeapon.cpp
+  atexit 0x8303F348   # script registrar for cCWWeapon; registration table 0x8211F2E0
+  init 0x82FCB8D8   # script registrar for cCWWeapon; registration table 0x8211F2E0
   text 0x82607B50 0x82608168   # auto: cCWWeapon; RuffKing cCWWeapon.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FCB840
   atexit 0x8303F320
@@ -1080,6 +1098,8 @@ src/Equip/cWeaponProjectile.cpp
   init 0x82FCBFB8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/cBoostPack.cpp
+  atexit 0x8303F400   # script registrar for cBoostPack; registration table 0x82100494
+  init 0x82FCC3B0   # script registrar for cBoostPack; registration table 0x82100494
   text 0x8260ABB0 0x8260B110   # auto: cBoostPack; not in RuffKing; 12 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FCC318
   atexit 0x8303F3D8
@@ -1088,7 +1108,11 @@ src/cBoostPack.cpp
   init 0x82FCC368   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Equip/Gadget/cCloakingDevice.cpp
-  text 0x8260B1E8 0x8260BA90   # auto: cCloakingDevice; RuffKing cCloakingDevice.obj; 9 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs)
+  init 0x82FCC690   # cCloakingDevice class descriptor pointer initialization
+  hot 0x822F33C8   # StaticCreateClass names cCloakingDevice; class ID 0x10140, size 0x9C0
+  atexit 0x8303F440   # script registrar for cCloakingDevice; table 0x82100494
+  init 0x82FCC7B8   # script registrar for cCloakingDevice; table 0x82100494
+  text 0x8260B178 0x8260BA90   # extended to this class's descriptor/query functions; CD2 names and registered-class tables establish ownership
   init 0x82FCC720
   atexit 0x8303F418
   init 0x82FCC770   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -1144,6 +1168,8 @@ src/Equip/DLCWeapons/cChainGun.cpp
   init 0x82FCE608   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Equip/Weapon/cCWFirearm.cpp
+  atexit 0x8303F5C0   # script registrar for cCWFirearm; registration table 0x82100494
+  init 0x82FCEA88   # script registrar for cCWFirearm; registration table 0x82100494
   text 0x82617D50 0x82617EB8   # auto: cCWFirearm; RuffKing cCWFirearm.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FCE9F0
   atexit 0x8303F598
@@ -1160,17 +1186,27 @@ src/Equip/Weapon/cClusterGrenade.cpp
   init 0x82FCF230   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Equip/Weapon/cCWSatchelCharge.cpp
-  text 0x8261A1B8 0x8261A21C   # auto: cCWSatchelCharge; RuffKing cCWSatchelCharge.obj; 2 markers (RetClassName, MakeNew, own vtable slots)
+  init 0x82FCF588   # cCWSatchelCharge class descriptor pointer initialization
+  atexit 0x8303F698   # script registrar for cCWSatchelCharge; table 0x82100494
+  init 0x82FCF6B0   # script registrar for cCWSatchelCharge; table 0x82100494
+  text 0x8261A148 0x8261A2E0   # extended to this class's descriptor/query functions; CD2 names and registered-class tables establish ownership
   init 0x82FCF618
   atexit 0x8303F670
 
 src/Equip/Weapon/cExplosiveGrenade.cpp
-  text 0x8261D1B8 0x8261D21C   # auto: cExplosiveGrenade; RuffKing cExplosiveGrenade.obj; 2 markers (RetClassName, MakeNew, own vtable slots)
+  init 0x82FCFA18   # cExplosiveGrenade class descriptor pointer initialization
+  atexit 0x8303F6D8   # script registrar for cExplosiveGrenade; table 0x82100494
+  init 0x82FCFB40   # script registrar for cExplosiveGrenade; table 0x82100494
+  text 0x8261D148 0x8261D2E0   # extended to this class's descriptor/query functions; CD2 names and registered-class tables establish ownership
   init 0x82FCFAA8
   atexit 0x8303F6B0
 
 src/Equip/Weapon/cGrenade.cpp
-  text 0x8261DF40 0x8261E380   # auto: cGrenade; RuffKing cGrenade.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
+  init 0x82FCFEA8   # cGrenade class descriptor pointer initialization
+  hot 0x8225D5D8   # StaticCreateClass names cGrenade; class ID 0x3E8A, size 0x9C0
+  atexit 0x8303F718   # script registrar for cGrenade; table 0x82123E98
+  init 0x82FD0028   # script registrar for cGrenade; table 0x82123E98
+  text 0x8261DED0 0x8261E380   # extended to this class's descriptor/query functions; CD2 names and registered-class tables establish ownership
   init 0x82FCFF38
   atexit 0x8303F6F0
   init 0x82FCFF88   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -1208,6 +1244,8 @@ src/cStickler.cpp
   init 0x82FD10A8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/cSticklerGrenade.cpp
+  atexit 0x8303F830   # script registrar for cSticklerGrenade; registration table 0x82100494
+  init 0x82FD1528   # script registrar for cSticklerGrenade; registration table 0x82100494
   text 0x826231C0 0x82623BBC   # auto: cSticklerGrenade; not in RuffKing; 11 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FD1490
   atexit 0x8303F808
@@ -1238,6 +1276,8 @@ src/Equip/Weapon/cHarpoonBolt.cpp
   init 0x82FD1EE8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Equip/Weapon/cHWGrenadeProjectile.cpp
+  atexit 0x8303F8E8   # script registrar for cHWGrenadeProjectile; registration table 0x82127878
+  init 0x82FD2368   # script registrar for cHWGrenadeProjectile; registration table 0x82127878
   text 0x826292F0 0x8262A658   # auto: cHWGrenadeProjectile; RuffKing cHWGrenadeProjectile.obj; 11 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 10 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FD22D0
   atexit 0x8303F8C0
@@ -1254,7 +1294,10 @@ src/Equip/Weapon/cHWProjectile.cpp
   init 0x82FD27B0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Equip/Weapon/cCWHeavyWeapon.cpp
-  text 0x8262FC20 0x8262FDA8   # auto: cCWHeavyWeapon; RuffKing cCWHeavyWeapon.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
+  init 0x82FD2EC8   # cCWHeavyWeapon class descriptor pointer initialization
+  atexit 0x8303F9C8   # script registrar for cCWHeavyWeapon; table 0x82100494
+  init 0x82FD2FF0   # script registrar for cCWHeavyWeapon; table 0x82100494
+  text 0x8262FBB0 0x8262FF10   # extended to this class's descriptor/query functions; CD2 names and registered-class tables establish ownership
   init 0x82FD2F58
   atexit 0x8303F9A0
   init 0x82FD2FA8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -1380,6 +1423,7 @@ src/GangManager/cVehicleDataPrototype.cpp
   atexit 0x830402A8
 
 src/PHYSICS/cBody.cpp
+  atexit 0x83040380   # script registrar for cBody; registration table 0x82131CDC
   text 0x82683298 0x82683B64   # auto: cBody; RuffKing cBody.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FDF6E0
   atexit 0x83040358
@@ -1408,7 +1452,6 @@ src/PHYSICS/cBody.cpp
   init 0x82FDFA58   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
   init 0x82FDFA90   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
   init 0x82FDFAC8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
-  init 0x82FDFAE0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
   init 0x82FDFB08   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/cPhantomBody.cpp
@@ -1535,6 +1578,8 @@ src/Vehicle/cTruck.cpp
   init 0x82FE95C8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Vehicle/cVehicle.cpp
+  atexit 0x83040948   # script registrar for cVehicle; table 0x82135538
+  init 0x82FE9A70   # script registrar for cVehicle; table 0x82135538
   text 0x826CC708 0x826D260C   # auto: cVehicle; RuffKing cVehicle.obj; 10 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FE99D8
   atexit 0x83040920
@@ -1657,6 +1702,8 @@ src/cDebugPlayer.cpp
   init 0x82FF2CD8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/PLAYER/cPlayer.cpp
+  atexit 0x83041358   # script registrar for cPlayer; registration table 0x8213D544
+  init 0x82FF3DC8   # script registrar for cPlayer; registration table 0x8213D544
   text 0x8271F0A8 0x827257B4   # auto: cPlayer; RuffKing cPlayer.obj; 33 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FF3D30
   atexit 0x83041330
@@ -1666,7 +1713,10 @@ src/PLAYER/cPlayer.cpp
   init 0x82FF3D80   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Prop/cProp.cpp
-  text 0x82729378 0x827293DC   # auto: cProp; RuffKing cProp.obj; 2 markers (RetClassName, MakeNew, own vtable slots)
+  init 0x82FF5208   # cProp class descriptor pointer initialization
+  atexit 0x83041418   # script registrar for cProp; table 0x8213D898
+  init 0x82FF5330   # script registrar for cProp; table 0x8213D898
+  text 0x82729308 0x827294A8   # extended to this class's descriptor/query functions; CD2 names and registered-class tables establish ownership
   init 0x82FF5298
   atexit 0x830413F0
 
@@ -1701,6 +1751,8 @@ src/cAgencyGaragePlatform.cpp
   init 0x82FF6CA0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Prop/Constrained/cHingedProp.cpp
+  atexit 0x83041580   # script registrar for cHingedProp; registration table 0x8213EF20
+  init 0x82FF71D0   # script registrar for cHingedProp; registration table 0x8213EF20
   text 0x82736DE8 0x82737698   # auto: cHingedProp; RuffKing cHingedProp.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FF7138
   atexit 0x83041558
@@ -1733,6 +1785,8 @@ src/Prop/Constrained/cPivotBasedProp.cpp
   init 0x82FF7DE8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Prop/Constrained/cPrismaticProp.cpp
+  atexit 0x83041650   # script registrar for cPrismaticProp; registration table 0x82140D1C
+  init 0x82FF82C0   # script registrar for cPrismaticProp; registration table 0x82140D1C
   text 0x8273B548 0x8273BC98   # auto: cPrismaticProp; RuffKing cPrismaticProp.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FF8228
   atexit 0x83041628
@@ -1757,6 +1811,8 @@ src/cSpawnPortal.cpp
   init 0x82FF8CC8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Prop/Constrained/cSpinningProp.cpp
+  atexit 0x830416F0   # script registrar for cSpinningProp; registration table 0x82141F6C
+  init 0x82FF8FF0   # script registrar for cSpinningProp; registration table 0x82141F6C
   text 0x8273E618 0x8273EC48   # auto: cSpinningProp; RuffKing cSpinningProp.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FF8F58
   atexit 0x830416C8
@@ -1806,6 +1862,8 @@ src/Prop/Custom/cGasCanister.cpp
   init 0x82FFACC8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Prop/Custom/cHingedDoor.cpp
+  atexit 0x830419C8   # script registrar for cHingedDoor; registration table 0x82100494
+  init 0x82FFAFF0   # script registrar for cHingedDoor; registration table 0x82100494
   text 0x827442E0 0x82744784   # auto: cHingedDoor; RuffKing cHingedDoor.obj; 6 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FFAF58
   atexit 0x830419A0
@@ -1814,6 +1872,8 @@ src/Prop/Custom/cHingedDoor.cpp
   init 0x82FFAFA8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Prop/Custom/cHingedSpawnDoor.cpp
+  atexit 0x83041A08   # script registrar for cHingedSpawnDoor; registration table 0x82144028
+  init 0x82FFB3D8   # script registrar for cHingedSpawnDoor; registration table 0x82144028
   text 0x827449E8 0x82744E4C   # auto: cHingedSpawnDoor; RuffKing cHingedSpawnDoor.obj; 7 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FFB340
   atexit 0x830419E0
@@ -1838,6 +1898,8 @@ src/Prop/Custom/cSearchLight.cpp
   init 0x82FFBA00   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Prop/Custom/cSlidingDoor.cpp
+  atexit 0x83041AA8   # script registrar for cSlidingDoor; table 0x82100494
+  init 0x82FFBD28   # script registrar for cSlidingDoor; table 0x82100494
   text 0x827468E8 0x82746964   # auto: cSlidingDoor; RuffKing cSlidingDoor.obj; 2 markers (RetClassName, MakeNew, own vtable slots)
   init 0x82FFBC90
   atexit 0x83041A80
@@ -1895,6 +1957,8 @@ src/RPG/cRenegadeOrb.cpp
   init 0x82FFE5C8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/cScriptManager.cpp
+  atexit 0x83041F78   # script registrar for cScriptManager; registration table 0x821472FC
+  init 0x83000EB8   # script registrar for cScriptManager; registration table 0x821472FC
   text 0x827701B0 0x827706DC   # auto: cScriptManager; not in RuffKing; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x83000E68
   atexit 0x83041F68
@@ -1902,6 +1966,8 @@ src/cScriptManager.cpp
   init 0x83000E00   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Sim/cTimeOfDay.cpp
+  atexit 0x830420D0   # script registrar for cTimeOfDay; registration table 0x821479E8
+  init 0x83002230   # script registrar for cTimeOfDay; registration table 0x821479E8
   text 0x82773BA8 0x82774D98   # auto: cTimeOfDay; RuffKing cTimeOfDay.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x83002188
   atexit 0x830420B0
@@ -2117,6 +2183,8 @@ src/WorldManager/cStaticEnvironment.cpp
   init 0x8300CB78   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/WorldManager/cWorldManager.cpp
+  atexit 0x830431B0   # script registrar for cWorldManager; registration table 0x82155904
+  init 0x8300D0C8   # script registrar for cWorldManager; registration table 0x82155904
   text 0x82809AD8 0x8280A070   # auto: cWorldManager; RuffKing cWorldManager.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x8300D078
   atexit 0x830431A0
@@ -2125,6 +2193,8 @@ src/WorldManager/cWorldManager.cpp
   init 0x8300D010   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/cZoneManager.cpp
+  atexit 0x830431F0   # script registrar for cZoneManager; registration table 0x821559DC
+  init 0x8300D928   # script registrar for cZoneManager; registration table 0x821559DC
   text 0x8280B900 0x8280BFE8   # auto: cZoneManager; not in RuffKing; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 3 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 0 function(s) before and 7 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
   init 0x8300D8D8
   atexit 0x830431E0
@@ -2133,6 +2203,8 @@ src/cZoneManager.cpp
   init 0x8300D870   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/cPopulationZone.cpp
+  atexit 0x83043218   # script registrar for cPopulationZone; registration table 0x82155AF8
+  init 0x8300DD70   # script registrar for cPopulationZone; registration table 0x82155AF8
   text 0x8280BFE8 0x8280CE08   # auto: cPopulationZone; not in RuffKing; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 9 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 0 function(s) before and 4 after: used only by this file (calls, addresses, vtables it installs)
   init 0x8300DC90
   atexit 0x83043208
@@ -2454,3 +2526,54 @@ src/Demo/cDemoSettings.cpp
   text 0x82913618 0x829136EC   # auto: cDemoSettings; RuffKing cDemoSettings.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
   init 0x8302C128
   atexit 0x83045BB8
+
+src/AI/cAiTargetInfo.cpp
+  text 0x8244D9A0 0x8244D9A8   # constructor/descriptor or registered-method evidence; contiguous cold code
+  init 0x82F82080   # names cAiTargetInfo under cScriptHost; registrar table 0x82101734
+  atexit 0x8303AB88   # destroys the same script registrar
+
+src/cInterestingObject.cpp
+  text 0x82454A88 0x82454B20   # constructor/descriptor or registered-method evidence; contiguous cold code
+  init 0x82F859A8   # cInterestingObject class descriptor pointer initialization
+  init 0x82F85AC8   # names cInterestingObject under cScriptHost; registrar table 0x82102248
+  atexit 0x8303AE58   # destroys the same script registrar
+
+src/CHARACTER/cCharacterMotion.cpp
+  text 0x8254FF10 0x8254FF1C   # constructor/descriptor or registered-method evidence; contiguous cold code
+  init 0x82FAE0C8   # cCharacterMotion class descriptor pointer initialization
+  hot 0x8229FDC8   # StaticCreateClass names cCharacterMotion; class ID 0x640, size 0x11F0
+  init 0x82FAE158   # names cCharacterMotion under cNetDynamicBody; registrar table 0x82100494
+  atexit 0x8303CFB0   # destroys the same script registrar
+
+src/Equip/Weapon/cWeapon.cpp
+  text 0x82609418 0x82609474   # constructor/descriptor or registered-method evidence; contiguous cold code
+  hot 0x821FF118   # cWeapon class descriptor virtual getter
+  init 0x82FCBC50   # cWeapon class descriptor pointer initialization
+  hot 0x822E5B60   # StaticCreateClass names cWeapon; class ID 0x80, size 0x8C0
+  init 0x82FCBE80   # names cWeapon under cEquipment; registrar table 0x8211FB88
+  atexit 0x8303F398   # destroys the same script registrar
+
+src/gom/cGameBase.cpp
+  text 0x82650268 0x82650300   # constructor/descriptor or registered-method evidence; contiguous cold code
+  init 0x82FD67C0   # cGameBase class descriptor pointer initialization
+  init 0x82FD68E8   # names cGameBase under cNonGameBase; registrar table 0x8212CCD0
+  atexit 0x8303FD60   # destroys the same script registrar
+
+src/gom/cNonGameBase.cpp
+  text 0x82652FE0 0x82653078   # constructor/descriptor or registered-method evidence; contiguous cold code
+  hot 0x823CBE60   # cNonGameBase class descriptor virtual getter
+  init 0x82FD6C50   # cNonGameBase class descriptor pointer initialization
+  init 0x82FD6D78   # names cNonGameBase under cScriptHost; registrar table 0x8212CF14
+  atexit 0x8303FDA0   # destroys the same script registrar
+
+src/PHYSICS/cDynamicBody.cpp
+  text 0x82684AE0 0x82684D18   # constructor/descriptor or registered-method evidence; contiguous cold code
+  init 0x82FDFAE0   # cDynamicBody class descriptor pointer initialization
+  init 0x82FDFC08   # names cDynamicBody under cBody; registrar table 0x82131E78
+  atexit 0x830403C0   # destroys the same script registrar
+
+src/Fun_Runtime/cScriptHost.cpp
+  text 0x8276ED30 0x8276EDC8   # constructor/descriptor or registered-method evidence; contiguous cold code
+  init 0x830009D8   # cScriptHost class descriptor pointer initialization
+  init 0x83000A00   # names cScriptHost under Host; registrar table 0x82146F40
+  atexit 0x83041F30   # destroys the same script registrar

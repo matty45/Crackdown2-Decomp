@@ -16,6 +16,8 @@ namespace Equip
         // CD2 0x8261A210: primary virtual slot 11 returns the registered class name.
         virtual const char *RetClassName() const;
         static Fun_Runtime::cClass &StaticCreateClass();
+        static const Fun_Runtime::cClass *ms_pcCWSatchelChargeClass;
+        virtual const Fun_Runtime::cClass &RetClass() const;
     private:
         unsigned char m_unmodelled9D0[0xAE0 - 0x9D0];
         CD2_LAYOUT_CHECKS(cCWSatchelCharge, CD2_SIZE(cCWSatchelCharge, 0xAE0))

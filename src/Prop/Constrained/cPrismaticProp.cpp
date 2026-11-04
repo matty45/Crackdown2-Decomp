@@ -76,3 +76,13 @@ namespace Prop
     static GOM::cProtoRegistrar cPrismaticPropSpawningRegistrar(
         cPrismaticProp::StaticCreateClass(), cPrismaticProp::SpawnFromPrototype);
 }
+
+#include "Prop/cPrismaticProp.h"
+#include "fun_runtime/script_type_registrar.h"
+
+namespace Prop
+{
+    // CD2 script-type registration; constructor/table evidence identifies the child and parent.
+    static Fun_Runtime::cScriptTypeRegistrar<cPrismaticProp> cPrismaticPropScriptRegistrar(
+        "cPrismaticProp", "cProp");
+}

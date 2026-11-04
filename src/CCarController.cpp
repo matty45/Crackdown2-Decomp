@@ -1,4 +1,14 @@
 #include "gom/proto_registrar.h"
+#include "unknown/CCarController.h"
+#include "fun_runtime/retval.h"
+
+namespace unknown
+{
+    Fun_Runtime::RetVal CCarController::cCarControllerPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
+}
 #include "fun_runtime/inheritance_registrar.h"
 #include "VEHICLE_CONTROL/cHelicopterController.h"
 #include "rws/classfactory.h"
@@ -13,7 +23,6 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/CCarController.cpp
 
-#include "unknown/CCarController.h"
 #include "cd2/memory.h"
 
 namespace unknown

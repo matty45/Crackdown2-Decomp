@@ -174,3 +174,13 @@ namespace PLAYER
     static GOM::cProtoRegistrar cPlayerSpawningRegistrar(
         cPlayer::StaticCreateClass(), cPlayer::SpawnFromPrototype);
 }
+
+#include "PLAYER/cPlayer.h"
+#include "fun_runtime/script_type_registrar.h"
+
+namespace PLAYER
+{
+    // CD2 script-type registration; constructor/table evidence identifies the child and parent.
+    static Fun_Runtime::cScriptTypeRegistrar<cPlayer> cPlayerScriptRegistrar(
+        "cPlayer", "cCharacterEntityIF");
+}

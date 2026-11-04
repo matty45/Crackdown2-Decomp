@@ -341,11 +341,8 @@ One line each: what is ruled out. Remove the line when the function matches.
 - `AI::cPedestrianBase` destructor pair in Pedestrian.cpp (0x824A8E68 deleting, 0x824A8EB8 body): the deleting wrapper is shared by cPedestrianBase, Pedestrian and PedestrianGuard (slot 0 of 0x8200B1F8, 0x82108DB0, 0x8200AE78), so 0x824A8EB8 is the implicit `~cPedestrianBase` (Pedestrian.obj's COMDAT copy; it tail-calls `~cNonGameBase` 0x826536C8), not `~Pedestrian`. With implicit destructors `??_GPedestrian` is plain EXACT and the body LTCG EXACT, but the single-file LTCG model inlines `~cPedestrianBase` into `??_GPedestrian` (5/20 words) where CD2's whole-program build kept the call; left out until the model sees its other callers.
 - `PHYSICS::cSurfaceProfile::MakeNew` (0x82695F98), `VFX::cVFXSurfaceProfile::MakeNew` (0x827CCBD0), `unknown::cOutlines2::MakeNew` (0x827A4000): recovered cNonGameBase hierarchy gives EXACT deleting wrappers and IsA methods, but factories retain this in r31 instead of using the base constructor's return in r3 under plain and standard LTCG builds (same cross-module constructor-return issue as the crowd/streaming factories).
 - `GameManagement::cGameModeSpawnPoint::MakeNew` (0x8284D6F0): identity-matrix initialization has the correct stores, but misses CD2's matrix-address calculation; an inline `SetIdentity` helper, including its reference return, and standard source search did not restore it. Destructor is EXACT.
-- `LaunchPad::cLaunchPadTargetLocation::cLaunchPadTargetLocation` (0x82714450): check reports EXACT, but its GUID-handler vtable at 0x82139BA8 needs a folded alias for this specialization; constructor excluded from the manifest because this pass may not edit symbol aliases. Factory and deleting wrapper are promoted separately.
-- `Prop::cGasCanister::cGasCanister` (0x82743828): plain check is EXACT with the shared physics hierarchy, but full relocation verification requires adding its positional-proxy and dynamic-obstacle-owner vtable names to the existing alias groups at 0x82120E8C and 0x82144AD0. IDA confirms both stores; left out of the manifest because this pass may not edit `config/symbol_aliases.txt`.
 - `Prop::cGasCanister::MakeNew` (0x82743708): reconstructed the prototype's identity matrix and defaults; forcing the constructor inline restores its stores, but plain and standard LTCG checks remain 32.8% because the constant loads and scheduling differ. Standard source search found no improvement. Moving the scalar defaults into the constructor body and routing matrix construction through the reference SetIdentity helper produce no codegen change (both experiments reverted).
 - `Billboard::BillboardData::HandleAttributes` (0x829115D0): recovered resource-map lookup and event-string assignments; the standard compile inlines string construction where CD2 calls it, while CD2 inlines GUID-map insertion and stores the GUID where the shared header still calls AddEntityToMap.
-- `Billboard::BillboardData::MakeNew` (0x82911410): check reports EXACT for its body, but the shared GUID-handler vtable at 0x82139BA8 has an unresolved alias for this specialization; left out of the manifest because this pass may not edit `config/symbol_aliases.txt`.
 - `UI::ApplyGamma` (0x82897B38): the recovered `(32 - float(value - 1)) * 2 * 0.03125` formula folds the two multipliers together even under the standard LTCG model; CD2 retains both multiplies and multiple constant bases.
 - `UI::cUIControl::~cUIControl` deleting wrapper (0x82897FF8; 24/32 words): corrected the Load/Save-only secondary interface and inlined the destructor; the save-manager load still follows the vptr stores, unlike CD2. A local manager copy and both singleton/unregister statement orders do not resolve it.
 - `UI::cUIControl::cUIControl` (0x82897EC0): restored options registration and the 3-second autosave display default; the standard compile still saves registers for its scattered float constants and schedules the callback stores differently.
@@ -428,8 +425,29 @@ One line each: what is ruled out. Remove the line when the function matches.
   instance fields or allocation sizes; do not use their incomplete sizeof values in factories.
   Remaining candidates need vehicle/character prototype recovery or reconciliation of the existing namespace-level
   cHWProjectilePrototype with the reference nested type; do not create a second definition for it.
+  Follow-up: 14 additional prototype Init overrides are EXACT in plain and LTCG builds, using the recovered
+  vehicle prototype interface chain and constructor-confirmed equipment, character and prismatic-prop bases.
+  Where no reference names a prototype, its descriptive name is explicitly ours. These interface declarations
+  do not recover complete instance storage. The remaining BeaconMission slot-5 body increments a halfword,
+  rather than returning Ret_OK; the heavy-projectile nested/namespace-level type conflict remains unresolved.
 - Mission inheritance batch: 8 additional 104-byte initializers are EXACT in plain and LTCG builds after
   restoring cMissionBase's standalone mission interfaces, cMission, and the child mission bases. Shared Load/Save
   declarations now live in SaveGame/cLoadSaveObject.h; the UI interface is unchanged. Named inherited-field checks
   establish the mission interface offsets, not the complete instance storage or sizes for allocation. Those fields
   and the pre-existing constructor/factory WIPs still require individual recovery.
+- Script registrar batch: 41 typed registrars give 82 EXACT initializer and cleanup functions in plain and LTCG
+  checks. CD2 0x82772828 constructs their 0x24-byte descriptor with child/parent names and two lists;
+  its base table has two slots (destructor and method registration). The following table belongs to
+  a method wrapper, not a third registrar virtual. The template name is ours. Ten concrete tables
+  fold to 0x82100494; the initializer stores establish the alias group. The remaining 135 descriptors
+  need their event/standalone C++ types identified before instantiating this template; do not invent tag types.
+- Split follow-up: newly owned shared-base methods add 14 EXACT StaticCreateClass bodies, 14 class-pointer
+  initializers and 10 registered-class RetClass getters. CD2 descriptor names/IDs/sizes and slot-0 tables
+  establish ownership. Initializer 0x82FDFAE0 belongs to cDynamicBody, correcting its old cBody attribution.
+  cVehicle/cInterestingObject still need actual instance bases before adding virtual getters to their stand-ins.
+  cGameBase::RetClass (0x824CDC40) and cScriptHost::RetClass (0x823E5800) are byte-exact probes but lie
+  outside both the order-list region and their classes' cold ranges; excluded until their surviving COMDAT
+  copies' actual source ownership is established. Do not disguise cold code as a hot split entry.
+- Folded-table follow-up: cGasCanister's constructor (0x82743828), cLaunchPadTargetLocation's constructor
+  (0x82714450) and BillboardData::MakeNew (0x82911410) are promoted after declaring their observed inherited
+  vtable aliases. The gas-canister factory and Billboard attribute handler remain partial.

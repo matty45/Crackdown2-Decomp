@@ -54,3 +54,13 @@ namespace unknown
         return "cTransformingTruck";
     }
 }
+
+#include "unknown/cTransformingTruckPrototype.h"
+
+namespace unknown
+{
+    Fun_Runtime::RetVal cTransformingTruckPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
+}

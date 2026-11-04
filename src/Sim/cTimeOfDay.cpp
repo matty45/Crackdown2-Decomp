@@ -1,10 +1,11 @@
+#include "fun_runtime/script_type_registrar.h"
 #include "GDb/cDebugPageHandler.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "fun_runtime/scripthost.h"
 #include "rws/classfactory.h"
 #include "Sim/cTimeOfDay.h"
 
-unsigned char g_cTimeOfDay;     // global at 0x838518A0
+Fun_Runtime::cScriptTypeRegistrar<Sim::cTimeOfDay> g_cTimeOfDay("cTimeOfDay", "cScriptHost");     // global at 0x838518A0
 unsigned char g_AIE_TODDUSK;     // global at 0x83851758
 unsigned char g_AIE_TODDAWN;     // global at 0x8385177C
 unsigned char g_AIE_TIME_PERIOD_CHANGED;     // global at 0x838517A0

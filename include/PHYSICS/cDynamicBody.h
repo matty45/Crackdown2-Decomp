@@ -16,6 +16,8 @@ namespace PHYSICS
 
         // CD2 0x82684C80 creates the named runtime descriptor.
         static Fun_Runtime::cClass &StaticCreateClass();
+        static const Fun_Runtime::cClass *ms_pcDynamicBodyClass;
+        virtual const Fun_Runtime::cClass &RetClass() const;
         virtual ~cDynamicBody();
         virtual void entityDeactivatedCallback(hkEntity *);
         virtual void entityActivatedCallback(hkEntity *);

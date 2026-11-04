@@ -38,3 +38,34 @@ namespace Equip
         return 0;
     }
 }
+
+#include "Equip/cCWHeavyWeapon.h"
+#include "fun_runtime/script_type_registrar.h"
+
+namespace Equip
+{
+    // CD2 script-type registration names this child and parent.
+    static Fun_Runtime::cScriptTypeRegistrar<cCWHeavyWeapon> cCWHeavyWeaponScriptRegistrar(
+        "cCWHeavyWeapon", "cCWWeapon");
+}
+
+#include "cd2/memory.h"
+
+namespace Equip
+{
+    Fun_Runtime::cClass &cCWHeavyWeapon::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *descriptor = new Fun_Runtime::cClass(0x4269, "cCWHeavyWeapon", 0xA20);
+        return *descriptor;
+    }
+}
+
+namespace Equip
+{
+    const Fun_Runtime::cClass *cCWHeavyWeapon::ms_pcCWHeavyWeaponClass = &cCWHeavyWeapon::StaticCreateClass();
+
+    const Fun_Runtime::cClass &cCWHeavyWeapon::RetClass() const
+    {
+        return *ms_pcCWHeavyWeaponClass;
+    }
+}

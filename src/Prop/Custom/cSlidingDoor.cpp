@@ -38,3 +38,13 @@ namespace Prop
         return new cSlidingDoorPrototype(packet);
     }
 }
+
+#include "Prop/cSlidingDoor.h"
+#include "fun_runtime/script_type_registrar.h"
+
+namespace Prop
+{
+    // CD2 script-type registration names this child and parent.
+    static Fun_Runtime::cScriptTypeRegistrar<cSlidingDoor> cSlidingDoorScriptRegistrar(
+        "cSlidingDoor", "cPrismaticProp");
+}

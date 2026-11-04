@@ -64,3 +64,14 @@ namespace CHARACTER
         return *ms_pcFrontEndAgentClass;
     }
 }
+
+#include "CHARACTER/cFrontEndAgent.h"
+#include "fun_runtime/retval.h"
+
+namespace CHARACTER
+{
+    Fun_Runtime::RetVal cFrontEndAgent::cFrontEndAgentPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
+}

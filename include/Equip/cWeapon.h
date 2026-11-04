@@ -14,6 +14,8 @@ namespace Equip
         class cWeaponPrototype : public cEquipment::cEquipmentPrototype {};
 
         static Fun_Runtime::cClass &StaticCreateClass();
+        static const Fun_Runtime::cClass *ms_pcWeaponClass;
+        virtual const Fun_Runtime::cClass &RetClass() const;
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
     private:
         unsigned char m_unmodelled870[0x8C0 - 0x870];

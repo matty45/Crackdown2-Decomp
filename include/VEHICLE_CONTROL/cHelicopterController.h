@@ -20,6 +20,7 @@
 #include "fun_runtime/vec3.h"
 #include "fun_runtime/retval.h"
 #include "gom/non_game_base.h"
+#include "PHYSICS/cDynamicBody.h"
 
 // Globals cHelicopterController.cpp uses; their real owners and names are not known (the names are ours).
 extern float g_fCrossLimit;         // 0x83207580
@@ -42,12 +43,16 @@ namespace Vehicle
     };
     class cVehicle : public cVehicleRoot, public cVehicleIface {
     public:
+        // Interface-only stand-in from RuffKing; CD2 prototype chain reaches cDynamicBodyPrototype.
+        // Complete storage is unrecovered; do not use this declaration for allocation.
+        class cVehiclePrototype : public PHYSICS::cDynamicBody::cDynamicBodyPrototype {};
         // CD2 0x826CC760: primary virtual slot 11 returns the registered class name.
         virtual const char *RetClassName() const;
         // CD2 spawning initializer 0x82FE9A28 names placement factory 0x826cc770.
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         // CD2 0x826CC860 creates the named runtime descriptor.
         static Fun_Runtime::cClass &StaticCreateClass();
+        static const Fun_Runtime::cClass *ms_pcVehicleClass;
 };
 }
 

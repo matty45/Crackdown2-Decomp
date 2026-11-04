@@ -45,3 +45,13 @@ namespace unknown
         return "cTransformingCar";
     }
 }
+
+#include "unknown/cTransformingCarPrototype.h"
+
+namespace unknown
+{
+    Fun_Runtime::RetVal cTransformingCarPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
+}

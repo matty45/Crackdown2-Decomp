@@ -9,6 +9,8 @@ namespace CHARACTER
     {
     public:
         static Fun_Runtime::cClass &StaticCreateClass();
+        static const Fun_Runtime::cClass *ms_pcCharacterMotionClass;
+        virtual const Fun_Runtime::cClass &RetClass() const;
     private:
         unsigned char m_unmodelled7A0[0x11F0 - 0x7A0];
         CD2_LAYOUT_CHECKS(cCharacterMotion, CD2_SIZE(cCharacterMotion, 0x11F0))

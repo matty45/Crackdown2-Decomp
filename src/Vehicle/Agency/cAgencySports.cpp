@@ -55,3 +55,13 @@ namespace Vehicle
         return *ms_pcAgencySportsClass;
     }
 }
+
+#include "Vehicle/cAgencySportsPrototype.h"
+
+namespace Vehicle
+{
+    Fun_Runtime::RetVal cAgencySportsPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
+}

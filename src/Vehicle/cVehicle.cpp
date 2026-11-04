@@ -36,3 +36,29 @@ namespace Vehicle
         return "cVehicle";
     }
 }
+
+#include "VEHICLE_CONTROL/cHelicopterController.h"
+#include "fun_runtime/script_type_registrar.h"
+
+namespace Vehicle
+{
+    // CD2 script-type registration names this child and parent.
+    static Fun_Runtime::cScriptTypeRegistrar<cVehicle> cVehicleScriptRegistrar(
+        "cVehicle", "cDynamicBody");
+}
+
+#include "cd2/memory.h"
+
+namespace Vehicle
+{
+    Fun_Runtime::cClass &cVehicle::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *descriptor = new Fun_Runtime::cClass(0x1, "cVehicle", 0x1740);
+        return *descriptor;
+    }
+}
+
+namespace Vehicle
+{
+    const Fun_Runtime::cClass *cVehicle::ms_pcVehicleClass = &cVehicle::StaticCreateClass();
+}

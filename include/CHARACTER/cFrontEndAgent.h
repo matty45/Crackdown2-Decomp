@@ -6,12 +6,20 @@
 #define CHARACTER_CFRONTENDAGENT_H
 
 #include "fun_runtime/class.h"
+#include "CHARACTER/cCwTransCharacter.h"
 
 namespace CHARACTER
 {
     class cFrontEndAgent
     {
     public:
+        // RuffKing's cPlayerCharacterPrototype is CD2's cCwTransCharacterPrototype.
+        // CD2 MakeNew calls 0x82312E00 and installs 0x82162A20; slot 5 is Init.
+        class cFrontEndAgentPrototype : public cCwTransCharacter::cCwTransCharacterPrototype
+        {
+        public:
+            virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
+        };
         // CD2 0x8289CE58: registered-class virtual slot 0 reads this class descriptor.
         virtual const Fun_Runtime::cClass &RetClass() const;
         // CD2 0x8289CF38: primary virtual slot 11 returns the registered class name.

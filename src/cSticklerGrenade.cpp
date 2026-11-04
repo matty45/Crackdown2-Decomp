@@ -54,3 +54,13 @@ namespace unknown
         return "cSticklerGrenade";
     }
 }
+
+#include "unknown/cSticklerGrenade.h"
+#include "fun_runtime/script_type_registrar.h"
+
+namespace unknown
+{
+    // CD2 script-type registration; constructor/table evidence identifies the child and parent.
+    static Fun_Runtime::cScriptTypeRegistrar<cSticklerGrenade> cSticklerGrenadeScriptRegistrar(
+        "cSticklerGrenade", "cExplosiveGrenade");
+}

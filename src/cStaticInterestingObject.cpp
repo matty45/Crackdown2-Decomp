@@ -12,6 +12,13 @@
 
 #include "unknown/cStaticInterestingObject.h"
 #include "cd2/memory.h"
+#include "fun_runtime/script_type_registrar.h"
+
+namespace unknown
+{
+    static Fun_Runtime::cScriptTypeRegistrar<cStaticInterestingObject> cStaticInterestingObjectScriptRegistrar(
+        "cStaticInterestingObject", "cInterestingObject");
+}
 
 namespace unknown
 {

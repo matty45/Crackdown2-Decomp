@@ -1,3 +1,4 @@
+#include "fun_runtime/script_type_registrar.h"
 #include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "CHARACTER/cCharacterInterface.h"
@@ -21,7 +22,7 @@
 
 #include <new>
 
-unsigned char g_cCharacterEntityIF;     // global at 0x838035CC
+Fun_Runtime::cScriptTypeRegistrar<AI::cCharacterEntityIF> g_cCharacterEntityIF("cCharacterEntityIF", "cCharacterInterface");     // global at 0x838035CC
 unsigned char g_AIE_OBJECT_APPROACHING;     // global at 0x8381764C
 unsigned char g_AIE_EJECTED_FROM_VEHICLE;     // global at 0x83817728
 unsigned char g_AIE_TARGETED;     // global at 0x83817770

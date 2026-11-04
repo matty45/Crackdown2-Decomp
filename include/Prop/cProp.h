@@ -36,6 +36,8 @@ namespace Prop
     public:
         // CD2 0x82729410 creates the named runtime descriptor.
         static Fun_Runtime::cClass &StaticCreateClass();
+        static const Fun_Runtime::cClass *ms_pcPropClass;
+        virtual const Fun_Runtime::cClass &RetClass() const;
         // CD2 0x82729538, called by cTrafficLight's destructor (0x827475C8).
         cProp(GOM::cObjectPrototype *); // CD2 0x82337808
         virtual ~cProp();

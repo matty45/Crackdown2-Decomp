@@ -18,6 +18,8 @@ namespace Equip
         // CD2 0x8261DF98: primary virtual slot 11 returns the registered class name.
         virtual const char *RetClassName() const;
         static Fun_Runtime::cClass &StaticCreateClass();
+        static const Fun_Runtime::cClass *ms_pcGrenadeClass;
+        virtual const Fun_Runtime::cClass &RetClass() const;
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
     private:
         unsigned char m_unmodelled8C0[0x9C0 - 0x8C0];

@@ -56,3 +56,13 @@ namespace WorldManager
         return new cWorldManager;
     }
 }
+
+#include "WorldManager/cWorldManager.h"
+#include "fun_runtime/script_type_registrar.h"
+
+namespace WorldManager
+{
+    // CD2 script-type registration; constructor/table evidence identifies the child and parent.
+    static Fun_Runtime::cScriptTypeRegistrar<cWorldManager> cWorldManagerScriptRegistrar(
+        "cWorldManager", "cNonGameBase");
+}

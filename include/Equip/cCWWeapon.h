@@ -19,6 +19,12 @@ namespace Equip
 
         // CD2 factory 0x82607BB8 forwards only this, without a prototype argument.
         cCWWeapon();
+        // CD2 script registrations name these accessors; the reference names the fields.
+        float RetAIAccuracyCone() const;
+        float RetAIInitialAccuracyCone() const;
+        float RetAIPathClearCone() const;
+        unsigned int RetAINumberOfShotsToFullAccuracy() const;
+        unsigned int RetNumberOfShotsTaken() const;
         // CD2 0x82607BA8: primary virtual slot 11 returns the registered class name.
         virtual const char *RetClassName() const;
         // CD2 spawning initializer 0x82FCB890 names placement factory 0x82607bb8.
@@ -28,8 +34,22 @@ namespace Equip
         static Fun_Runtime::cClass &StaticCreateClass();
     private:
         // CD2 constructor 0x82607FC8: reference hierarchy, descriptor size 0xA10.
-        unsigned char m_unmodelled8C0[0xA10 - 0x8C0];
-        CD2_LAYOUT_CHECKS(cCWWeapon, CD2_SIZE(cCWWeapon, 0xA10))
+        unsigned char m_unmodelled8C0[4];
+    protected:
+        float m_fAIAccuracyCone;
+        float m_fAIPathClearCone;
+        float m_fAIInitialAccuracyCone;
+        unsigned int m_uiAINumberOfShotsToReachFullAccuracy;
+        unsigned int m_uiShotCount;
+    private:
+        unsigned char m_unmodelled8D8[0xA10 - 0x8D8];
+        CD2_LAYOUT_CHECKS(cCWWeapon,
+            CD2_SIZE(cCWWeapon, 0xA10)
+            CD2_OFFSET(cCWWeapon, m_fAIAccuracyCone, 0x8C4)
+            CD2_OFFSET(cCWWeapon, m_fAIPathClearCone, 0x8C8)
+            CD2_OFFSET(cCWWeapon, m_fAIInitialAccuracyCone, 0x8CC)
+            CD2_OFFSET(cCWWeapon, m_uiAINumberOfShotsToReachFullAccuracy, 0x8D0)
+            CD2_OFFSET(cCWWeapon, m_uiShotCount, 0x8D4))
     };
 }
 

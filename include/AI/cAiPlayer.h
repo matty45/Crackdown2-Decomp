@@ -18,7 +18,8 @@
 //     primary vtable has 125 slots); RuffKing's and Burn's cAiPlayer have no counterpart, so SetFields4F8 is ours.
 //   - The globals g_cAiPlayer and g_AIE_* are named after the type each is registered as: CD2's initializers (0x82F605D0
 //     and others) pass the global, a name and its parent's name to 0x82772828 ("cAIPlayer" under "cCharacterEntityIF",
-//     "AIE_SHOTS_COUNTER" under "AIEvent"). They are 0x24-byte objects of a type not known (bytes here). The GetPtr
+//     "AIE_SHOTS_COUNTER" under "AIEvent"). The cAiPlayer registrar now uses the shared typed declaration;
+//     the event descriptors remain unmodelled. The GetPtr
 //     getters returning them are slot 1 of other classes' vtables (0x823E7AA0: the table 0x820FB114), not cAiPlayer
 //     methods, and their names are not known.
 //   - cAiPlayerPrototype: MakeNew (0x823E78A8) builds it on GOM::cObjectPrototype's constructor and installs the vtable

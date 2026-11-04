@@ -47,3 +47,13 @@ namespace Vehicle
         return "cAgencyBuggy";
     }
 }
+
+#include "Vehicle/cAgencyBuggyPrototype.h"
+
+namespace Vehicle
+{
+    Fun_Runtime::RetVal cAgencyBuggyPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
+}

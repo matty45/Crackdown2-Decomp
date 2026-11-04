@@ -46,3 +46,13 @@ namespace unknown
         return "cScriptManager";
     }
 }
+
+#include "unknown/cScriptManager.h"
+#include "fun_runtime/script_type_registrar.h"
+
+namespace unknown
+{
+    // CD2 script-type registration; constructor/table evidence identifies the child and parent.
+    static Fun_Runtime::cScriptTypeRegistrar<cScriptManager> cScriptManagerScriptRegistrar(
+        "cScriptManager", "cNonGameBase");
+}

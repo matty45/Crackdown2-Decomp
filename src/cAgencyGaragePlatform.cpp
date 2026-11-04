@@ -54,3 +54,13 @@ namespace unknown
         return "cAgencyGaragePlatform";
     }
 }
+
+#include "unknown/cAgencyGaragePlatformPrototype.h"
+
+namespace unknown
+{
+    Fun_Runtime::RetVal cAgencyGaragePlatformPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
+}

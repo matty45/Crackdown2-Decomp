@@ -55,7 +55,8 @@ public:
         // Instance fields and complete size are not recovered; this is not an allocation layout.
         class cNonGameBasePrototype : public GOM::cObjectPrototype {};
 
-    static Fun_Runtime::cClass &StaticCreateClass(); // CD2 0x82652FE0
+    static Fun_Runtime::cClass &StaticCreateClass();
+        static const Fun_Runtime::cClass *ms_pcNonGameBaseClass; // CD2 0x82652FE0
     cNonGameBase();
     virtual ~cNonGameBase();
     virtual const Fun_Runtime::cClass &RetClass() const;
