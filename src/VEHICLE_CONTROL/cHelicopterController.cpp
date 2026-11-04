@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 // VEHICLE_CONTROL/cHelicopterController.cpp: cHelicopterController of Crackdown 2.
 // Measurement batch 2 (2026-10-23, Sonnet 5.5): 17 functions byte-exact, 1 tracked as work in progress
@@ -27,7 +28,7 @@ namespace VEHICLE_CONTROL
         return pcHelicopterControllerClassID;
     }
 
-    cHelicopterController *cHelicopterController::SpawnFromPrototype(GOM::cObjectPrototype *proto, void *mem)
+    RWS::CAttributeHandler *cHelicopterController::SpawnFromPrototype(GOM::cObjectPrototype *proto, void *mem)
     {
         return new (mem) cHelicopterController;
     }
@@ -224,4 +225,11 @@ namespace VEHICLE_CONTROL
 {
     static Fun_Runtime::cInheritanceRegistrar cHelicopterControllercVehicleControllerInheritRegistrar(
         VEHICLE_CONTROL::cHelicopterController::StaticCreateClass(), VEHICLE_CONTROL::cVehicleController::StaticCreateClass());
+}
+
+// CD2 0x830057C0: register the class descriptor and placement factory.
+namespace VEHICLE_CONTROL
+{
+    static GOM::cProtoRegistrar cHelicopterControllerSpawningRegistrar(
+        cHelicopterController::StaticCreateClass(), cHelicopterController::SpawnFromPrototype);
 }

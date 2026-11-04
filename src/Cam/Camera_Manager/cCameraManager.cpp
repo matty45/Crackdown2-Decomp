@@ -40,3 +40,19 @@ namespace Cam
     static Fun_Runtime::cInheritanceRegistrar cCameraManagercNonGameBaseInheritRegistrar(
         Cam::cCameraManager::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }
+
+namespace Cam
+{
+    const char *cCameraManager::RetClassName() const
+    {
+        return "cCameraManager";
+    }
+}
+
+namespace Cam
+{
+    const Fun_Runtime::cClass &cCameraManager::RetClass() const
+    {
+        return *ms_pcCameraManagerClass;
+    }
+}

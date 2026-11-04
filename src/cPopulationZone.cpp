@@ -29,3 +29,11 @@ namespace unknown
     static RWS::CClassFactory::CRegistrar cPopulationZoneRegistrar(
         "cPopulationZone", cPopulationZone::MakeNew, 0x150, false);
 }
+
+namespace unknown
+{
+    const Fun_Runtime::cClass &cPopulationZone::RetClass() const
+    {
+        return *ms_pcPopulationZoneClass;
+    }
+}

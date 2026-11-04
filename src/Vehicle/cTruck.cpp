@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 // src/Vehicle/cTruck.cpp
 //
 // Class: cTruck (namespace: Vehicle). Set up automatically: no function is matched yet. The address range and the
@@ -50,5 +51,20 @@ namespace Vehicle
         if (memory)
             return new (memory) cTruck;
         return 0;
+    }
+}
+
+// CD2 0x82FE95C8: register the class descriptor and placement factory.
+namespace Vehicle
+{
+    static GOM::cProtoRegistrar cTruckSpawningRegistrar(
+        cTruck::StaticCreateClass(), cTruck::SpawnFromPrototype);
+}
+
+namespace Vehicle
+{
+    const char *cTruck::RetClassName() const
+    {
+        return "cTruck";
     }
 }

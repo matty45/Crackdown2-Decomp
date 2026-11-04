@@ -1,3 +1,7 @@
+#include "fun_runtime/retval.h"
+#include "Equip/cCWSatchelCharge.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/proto_registrar.h"
 #include "rws/classfactory.h"
 // src/Equip/DLCWeapons/cProxMine.cpp
 //
@@ -30,4 +34,52 @@ namespace Equip
 {
     static RWS::CClassFactory::CRegistrar cProxMineRegistrar(
         "cProxMine", cProxMine::MakeNew, 0xB10, false);
+}
+
+// CD2 0x82FD0470: register the class descriptor and placement factory.
+namespace Equip
+{
+    static GOM::cProtoRegistrar cProxMineSpawningRegistrar(
+        cProxMine::StaticCreateClass(), cProxMine::SpawnFromPrototype);
+}
+
+// CD2 0x82FD03B8: runtime class inheritance registration.
+namespace Equip
+{
+    static Fun_Runtime::cInheritanceRegistrar cProxMinecCWSatchelChargeInheritRegistrar(
+        Equip::cProxMine::StaticCreateClass(), Equip::cCWSatchelCharge::StaticCreateClass());
+}
+
+namespace Equip
+{
+    const char *cProxMine::RetClassName() const
+    {
+        return "cProxMine";
+    }
+}
+
+namespace Equip
+{
+    const Fun_Runtime::cClass &cProxMine::RetClass() const
+    {
+        return *ms_pcProxMineClass;
+    }
+}
+
+namespace Equip
+{
+    RWS::CAttributeHandler *cProxMine::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cProxMine;
+        return 0;
+    }
+}
+
+namespace Equip
+{
+    Fun_Runtime::RetVal cProxMine::cProxMinePrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
 }

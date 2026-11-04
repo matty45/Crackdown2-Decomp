@@ -1,3 +1,7 @@
+#include "fun_runtime/retval.h"
+#include "Equip/cCWHeavyWeapon.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/proto_registrar.h"
 #include "rws/classfactory.h"
 // src/Equip/Gadget/cRealNadeLauncher.cpp
 //
@@ -30,4 +34,42 @@ namespace Equip
 {
     static RWS::CClassFactory::CRegistrar cRealNadeLauncherRegistrar(
         "cRealNadeLauncher", cRealNadeLauncher::MakeNew, 0xA20, false);
+}
+
+// CD2 0x82FD3B80: register the class descriptor and placement factory.
+namespace Equip
+{
+    static GOM::cProtoRegistrar cRealNadeLauncherSpawningRegistrar(
+        cRealNadeLauncher::StaticCreateClass(), cRealNadeLauncher::SpawnFromPrototype);
+}
+
+// CD2 0x82FD3AC8: runtime class inheritance registration.
+namespace Equip
+{
+    static Fun_Runtime::cInheritanceRegistrar cRealNadeLaunchercCWHeavyWeaponInheritRegistrar(
+        Equip::cRealNadeLauncher::StaticCreateClass(), Equip::cCWHeavyWeapon::StaticCreateClass());
+}
+
+namespace Equip
+{
+    const char *cRealNadeLauncher::RetClassName() const
+    {
+        return "cRealNadeLauncher";
+    }
+}
+
+namespace Equip
+{
+    const Fun_Runtime::cClass &cRealNadeLauncher::RetClass() const
+    {
+        return *ms_pcRealNadeLauncherClass;
+    }
+}
+
+namespace Equip
+{
+    Fun_Runtime::RetVal cRealNadeLauncher::cRealNadeLauncherPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
 }

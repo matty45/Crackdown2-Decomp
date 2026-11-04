@@ -1,3 +1,5 @@
+#include "fun_runtime/retval.h"
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "AI/cMissionCriticalProp.h"
 #include "rws/classfactory.h"
@@ -64,4 +66,19 @@ namespace AI
 {
     static Fun_Runtime::cInheritanceRegistrar cBeaconPropcMissionCriticalPropInheritRegistrar(
         AI::cBeaconProp::StaticCreateClass(), AI::cMissionCriticalProp::StaticCreateClass());
+}
+
+// CD2 0x82F87CA8: register the class descriptor and placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar cBeaconPropSpawningRegistrar(
+        cBeaconProp::StaticCreateClass(), cBeaconProp::SpawnFromPrototype);
+}
+
+namespace AI
+{
+    Fun_Runtime::RetVal cBeaconProp::cBeaconPropPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
 }

@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "AI/NPCArmedBehaviour.h"
 #include "AI/CellMinigun.h"
@@ -53,4 +54,11 @@ namespace AI
 {
     static Fun_Runtime::cInheritanceRegistrar CellMinigunNPCArmedBehaviourInheritRegistrar(
         AI::CellMinigun::StaticCreateClass(), AI::NPCArmedBehaviour::StaticCreateClass());
+}
+
+// CD2 0x82F95FC0: register the class descriptor and placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar CellMinigunSpawningRegistrar(
+        CellMinigun::StaticCreateClass(), CellMinigun::SpawnFromPrototype);
 }

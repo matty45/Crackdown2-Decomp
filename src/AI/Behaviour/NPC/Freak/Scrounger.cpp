@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "AI/FreakBase.h"
 #include "AI/Scrounger.h"
@@ -52,4 +53,21 @@ namespace AI
 {
     static Fun_Runtime::cInheritanceRegistrar ScroungerFreakBaseInheritRegistrar(
         AI::Scrounger::StaticCreateClass(), AI::FreakBase::StaticCreateClass());
+}
+
+// CD2 0x82F943C8: register the class descriptor and placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar ScroungerSpawningRegistrar(
+        Scrounger::StaticCreateClass(), Scrounger::SpawnFromPrototype);
+}
+
+namespace AI
+{
+    RWS::CAttributeHandler *Scrounger::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) Scrounger;
+        return 0;
+    }
 }

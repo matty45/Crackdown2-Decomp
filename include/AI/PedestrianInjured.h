@@ -1,3 +1,4 @@
+#include "gom/object_prototype.h"
 #ifndef AI_PEDESTRIANINJURED_H
 #define AI_PEDESTRIANINJURED_H
 
@@ -10,6 +11,8 @@ namespace AI
     class PedestrianInjured : public cNonGameBase
     {
     public:
+        // CD2 spawning initializer 0x82F932E8 names placement factory 0x824ab700.
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pPedestrianInjuredClass;
 

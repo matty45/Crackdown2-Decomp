@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "CHARACTER/cCwTransCharacter.h"
 #include "rws/classfactory.h"
@@ -39,4 +40,27 @@ namespace CHARACTER
 {
     static Fun_Runtime::cInheritanceRegistrar cFrontEndAgentcCwTransCharacterInheritRegistrar(
         CHARACTER::cFrontEndAgent::StaticCreateClass(), CHARACTER::cCwTransCharacter::StaticCreateClass());
+}
+
+// CD2 0x83022E88: register the class descriptor and placement factory.
+namespace CHARACTER
+{
+    static GOM::cProtoRegistrar cFrontEndAgentSpawningRegistrar(
+        cFrontEndAgent::StaticCreateClass(), cFrontEndAgent::SpawnFromPrototype);
+}
+
+namespace CHARACTER
+{
+    const char *cFrontEndAgent::RetClassName() const
+    {
+        return "cFrontEndAgent";
+    }
+}
+
+namespace CHARACTER
+{
+    const Fun_Runtime::cClass &cFrontEndAgent::RetClass() const
+    {
+        return *ms_pcFrontEndAgentClass;
+    }
 }

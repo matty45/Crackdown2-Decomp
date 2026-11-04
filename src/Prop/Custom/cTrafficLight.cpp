@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 // The shared cProp hierarchy now reproduces the inherited vptr stores exactly.
 #include "Prop/cTrafficLight.h"
 #include "rws/classfactory.h"
@@ -88,4 +89,11 @@ namespace Prop
 
     static RWS::CClassFactory::CRegistrar cTrafficLightRegistrar(
         "cTrafficLight", cTrafficLight::MakeNew, 0xE60, false);
+}
+
+// CD2 0x82FFC3A8: class descriptor and placement factory.
+namespace Prop
+{
+    static GOM::cProtoRegistrar cTrafficLightSpawningRegistrar(
+        cTrafficLight::StaticCreateClass(), cTrafficLight::SpawnFromPrototype);
 }

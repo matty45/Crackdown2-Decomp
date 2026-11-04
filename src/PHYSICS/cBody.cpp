@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "PHYSICS/cDynamicBody.h"
 #include "GDb/cDebugPageHandler.h"
 #include "fun_runtime/inheritance_registrar.h"
@@ -55,4 +56,29 @@ namespace PHYSICS
 {
     static Fun_Runtime::cInheritanceRegistrar cDynamicBodycBodyInheritRegistrar(
         PHYSICS::cDynamicBody::StaticCreateClass(), PHYSICS::cBody::StaticCreateClass());
+}
+
+// CD2 0x82FDF730: register the class descriptor and placement factory.
+namespace PHYSICS
+{
+    static GOM::cProtoRegistrar cBodySpawningRegistrar(
+        cBody::StaticCreateClass(), cBody::SpawnFromPrototype);
+}
+
+namespace PHYSICS
+{
+    const char *cBody::RetClassName() const
+    {
+        return "cBody";
+    }
+}
+
+namespace PHYSICS
+{
+    RWS::CAttributeHandler *cBody::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cBody;
+        return 0;
+    }
 }

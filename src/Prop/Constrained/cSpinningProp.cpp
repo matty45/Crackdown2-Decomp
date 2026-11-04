@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "Prop/cPivotBasedProp.h"
 #include <new>
@@ -67,4 +68,11 @@ namespace Prop
 {
     static Fun_Runtime::cInheritanceRegistrar cSpinningPropcPivotBasedPropInheritRegistrar(
         Prop::cSpinningProp::StaticCreateClass(), Prop::cPivotBasedProp::StaticCreateClass());
+}
+
+// CD2 0x82FF8FA8: register the class descriptor and placement factory.
+namespace Prop
+{
+    static GOM::cProtoRegistrar cSpinningPropSpawningRegistrar(
+        cSpinningProp::StaticCreateClass(), cSpinningProp::SpawnFromPrototype);
 }

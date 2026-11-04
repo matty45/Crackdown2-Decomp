@@ -1,3 +1,5 @@
+#include "fun_runtime/retval.h"
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "Prop/cProp.h"
 // The shared cProp hierarchy now reproduces the inherited vptr stores exactly.
@@ -69,4 +71,19 @@ namespace Prop
 {
     static Fun_Runtime::cInheritanceRegistrar cMovingPlatformcPropInheritRegistrar(
         Prop::cMovingPlatform::StaticCreateClass(), Prop::cProp::StaticCreateClass());
+}
+
+// CD2 0x82FF7B08: register the class descriptor and placement factory.
+namespace Prop
+{
+    static GOM::cProtoRegistrar cMovingPlatformSpawningRegistrar(
+        cMovingPlatform::StaticCreateClass(), cMovingPlatform::SpawnFromPrototype);
+}
+
+namespace Prop
+{
+    Fun_Runtime::RetVal cMovingPlatform::cMovingPlatformPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
 }

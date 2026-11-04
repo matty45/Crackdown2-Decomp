@@ -1,3 +1,5 @@
+#include "AI/cMissionBase.h"
+// Mission base restored from the registered parent and reference hierarchy; instance fields remain incomplete.
 #include "rws/attributes.h"
 // AI::cAmbientEventMission (Crackdown 2): STAND-IN with only its runtime class descriptor; its bases are not modelled yet.
 // StaticCreateClass (0x8248DAE0) builds cClass(0x9FE8B, "cAmbientEventMission", 0x3B0); 0x3B0 is the size its registrar gives.
@@ -8,7 +10,7 @@
 
 namespace AI
 {
-    class cAmbientEventMission
+    class cAmbientEventMission : public AI::cMissionBase
     {
     public:
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);

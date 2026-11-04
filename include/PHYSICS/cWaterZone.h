@@ -11,6 +11,8 @@ namespace PHYSICS
     class cWaterZone
     {
     public:
+        // CD2 0x827081F8: primary virtual slot 11 returns the registered class name.
+        virtual const char *RetClassName() const;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcWaterZoneClass;
         static Fun_Runtime::cClass &StaticCreateClass();

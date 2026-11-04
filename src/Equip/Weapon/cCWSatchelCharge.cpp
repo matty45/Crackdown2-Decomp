@@ -1,3 +1,4 @@
+#include "Equip/cCWSatchelCharge.h"
 // src/Equip/Weapon/cCWSatchelCharge.cpp
 //
 // Class: cCWSatchelCharge (namespace: Equip). Set up automatically: no function is matched yet. The address range and
@@ -10,3 +11,11 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Equip/Weapon/cCWSatchelCharge.cpp
+
+namespace Equip
+{
+    const char *cCWSatchelCharge::RetClassName() const
+    {
+        return "cCWSatchelCharge";
+    }
+}

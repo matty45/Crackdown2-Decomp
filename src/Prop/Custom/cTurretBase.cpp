@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "Prop/cProp.h"
 #include "rws/classfactory.h"
@@ -116,4 +117,11 @@ namespace Prop
 {
     static Fun_Runtime::cInheritanceRegistrar cTurretBasecPropInheritRegistrar(
         Prop::cTurretBase::StaticCreateClass(), Prop::cProp::StaticCreateClass());
+}
+
+// CD2 0x82FFC7E0: register the class descriptor and placement factory.
+namespace Prop
+{
+    static GOM::cProtoRegistrar cTurretBaseSpawningRegistrar(
+        cTurretBase::StaticCreateClass(), cTurretBase::SpawnFromPrototype);
 }

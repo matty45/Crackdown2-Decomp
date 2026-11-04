@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "AI/cAgressiveResponseBase.h"
 #include "AI/cAgressiveResponseChaseBehaviour.h"
@@ -53,4 +54,11 @@ namespace AI
 {
     static Fun_Runtime::cInheritanceRegistrar cAgressiveResponseChaseBehaviourcAgressiveResponseBaseInheritRegistrar(
         AI::cAgressiveResponseChaseBehaviour::StaticCreateClass(), AI::cAgressiveResponseBase::StaticCreateClass());
+}
+
+// CD2 0x82F99518: register the class descriptor and placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar cAgressiveResponseChaseBehaviourSpawningRegistrar(
+        cAgressiveResponseChaseBehaviour::StaticCreateClass(), cAgressiveResponseChaseBehaviour::SpawnFromPrototype);
 }

@@ -27,3 +27,11 @@ namespace Anim
     static RWS::CClassFactory::CRegistrar cCharacterAnimSetManagerRegistrar(
         "cCharacterAnimSetManager", cCharacterAnimSetManager::MakeNew, 0x1400, false);
 }
+
+namespace Anim
+{
+    const Fun_Runtime::cClass &cCharacterAnimSetManager::RetClass() const
+    {
+        return *ms_pccCharacterAnimSetManagerClass;
+    }
+}

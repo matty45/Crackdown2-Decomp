@@ -346,7 +346,7 @@ namespace AI
         virtual void Slot2();     // cSafeDeletable slot 2: cChaseBehaviour's own (0x824CE808, not yet matched)
 
         static Fun_Runtime::cClass &StaticCreateClass();
-        static RWS::CAttributeHandler *SpawnFromPrototype(void *proto, void *mem);
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *proto, void *mem);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
 
         CD2_LAYOUT_CHECKS(cChaseBehaviour,

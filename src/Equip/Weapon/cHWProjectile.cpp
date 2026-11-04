@@ -1,3 +1,5 @@
+#include "cd2/memory.h"
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "Equip/cFlocket.h"
 #include "Equip/cWeaponProjectile.h"
@@ -25,4 +27,29 @@ namespace Equip
 
     static Fun_Runtime::cInheritanceRegistrar cHWProjectilecWeaponProjectileInheritRegistrar(
         Equip::cHWProjectile::StaticCreateClass(), Equip::cWeaponProjectile::StaticCreateClass());
+}
+
+// CD2 0x82FD27B0: register the class descriptor and placement factory.
+namespace Equip
+{
+    static GOM::cProtoRegistrar cHWProjectileSpawningRegistrar(
+        cHWProjectile::StaticCreateClass(), cHWProjectile::SpawnFromPrototype);
+}
+
+namespace Equip
+{
+    const char *cHWProjectile::RetClassName() const
+    {
+        return "cHWProjectile";
+    }
+}
+
+namespace Equip
+{
+    RWS::CAttributeHandler *cHWProjectile::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cHWProjectile;
+        return 0;
+    }
 }

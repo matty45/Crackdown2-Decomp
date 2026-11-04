@@ -1,3 +1,4 @@
+#include "gom/object_prototype.h"
 #ifndef AI_REAPER_H
 #define AI_REAPER_H
 
@@ -10,6 +11,8 @@ namespace AI
     class Reaper : public cNonGameBase
     {
     public:
+        // CD2 spawning initializer 0x82F93F90 names placement factory 0x824b26a8.
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pReaperClass;
 

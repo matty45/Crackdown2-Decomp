@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "Prop/cSlidingDoor.h"
 #include "rws/classfactory.h"
@@ -51,4 +52,11 @@ namespace Prop
 {
     static Fun_Runtime::cInheritanceRegistrar cTODSlidingDoorcSlidingDoorInheritRegistrar(
         Prop::cTODSlidingDoor::StaticCreateClass(), Prop::cSlidingDoor::StaticCreateClass());
+}
+
+// CD2 0x82FFC0C8: register the class descriptor and placement factory.
+namespace Prop
+{
+    static GOM::cProtoRegistrar cTODSlidingDoorSpawningRegistrar(
+        cTODSlidingDoor::StaticCreateClass(), cTODSlidingDoor::SpawnFromPrototype);
 }

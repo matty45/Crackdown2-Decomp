@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "CHARACTER/cCwTransCharacter.h"
 // src/cCwTransCharacterWrapper.cpp
@@ -42,4 +43,19 @@ namespace CHARACTER
 {
     static Fun_Runtime::cInheritanceRegistrar cCwTransCharacterWrappercCwTransCharacterInheritRegistrar(
         CHARACTER::cCwTransCharacterWrapper::StaticCreateClass(), CHARACTER::cCwTransCharacter::StaticCreateClass());
+}
+
+// CD2 0x82FAC1F0: register the class descriptor and placement factory.
+namespace CHARACTER
+{
+    static GOM::cProtoRegistrar cCwTransCharacterWrapperSpawningRegistrar(
+        cCwTransCharacterWrapper::StaticCreateClass(), cCwTransCharacterWrapper::SpawnFromPrototype);
+}
+
+namespace CHARACTER
+{
+    const char *cCwTransCharacterWrapper::RetClassName() const
+    {
+        return "cCwTransCharacterWrapper";
+    }
 }

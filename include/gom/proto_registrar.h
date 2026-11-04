@@ -13,7 +13,8 @@ namespace GOM
     {
         cProtoRegistrar(const Fun_Runtime::cClass &,
             RWS::CAttributeHandler *(*)(cObjectPrototype *, void *));
-        virtual ~cProtoRegistrar();
+        // The CD2 atexit body only restores this registrar vptr.
+        virtual ~cProtoRegistrar() {}
 
         CD2_LAYOUT_CHECKS(cProtoRegistrar, CD2_SIZE(cProtoRegistrar, 4))
     };

@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "gom/game_base.h"
 #include "rws/classfactory.h"
@@ -37,4 +38,37 @@ namespace unknown
 {
     static Fun_Runtime::cInheritanceRegistrar cPhantomBodycGameBaseInheritRegistrar(
         unknown::cPhantomBody::StaticCreateClass(), cGameBase::StaticCreateClass());
+}
+
+// CD2 0x82FE0118: register the class descriptor and placement factory.
+namespace unknown
+{
+    static GOM::cProtoRegistrar cPhantomBodySpawningRegistrar(
+        cPhantomBody::StaticCreateClass(), cPhantomBody::SpawnFromPrototype);
+}
+
+namespace unknown
+{
+    const char *cPhantomBody::RetClassName() const
+    {
+        return "cPhantomBody";
+    }
+}
+
+namespace unknown
+{
+    const Fun_Runtime::cClass &cPhantomBody::RetClass() const
+    {
+        return *ms_pcPhantomBodyClass;
+    }
+}
+
+namespace unknown
+{
+    RWS::CAttributeHandler *cPhantomBody::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cPhantomBody;
+        return 0;
+    }
 }

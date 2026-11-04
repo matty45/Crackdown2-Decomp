@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "rws/classfactory.h"
 // src/Prop/Custom/cExplosiveBarrel.cpp
 //
@@ -70,4 +71,19 @@ namespace Prop
 {
     static RWS::CClassFactory::CRegistrar cExplosiveBarrelRegistrar(
         "cExplosiveBarrel", cExplosiveBarrel::MakeNew, 0xe40, false);
+}
+
+// CD2 0x82FFA918: class descriptor and placement factory.
+namespace Prop
+{
+    static GOM::cProtoRegistrar cExplosiveBarrelSpawningRegistrar(
+        cExplosiveBarrel::StaticCreateClass(), cExplosiveBarrel::SpawnFromPrototype);
+}
+
+namespace Prop
+{
+    const Fun_Runtime::cClass &cExplosiveBarrel::RetClass() const
+    {
+        return *ms_pccExplosiveBarrelClass;
+    }
 }

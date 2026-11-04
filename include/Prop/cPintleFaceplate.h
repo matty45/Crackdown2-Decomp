@@ -1,3 +1,4 @@
+#include "gom/object_prototype.h"
 #ifndef Prop_cPintleFaceplate_H
 #define Prop_cPintleFaceplate_H
 
@@ -10,6 +11,8 @@ namespace Prop
     class cPintleFaceplate : public cProp
     {
     public:
+        // CD2 spawning initializer 0x82FFB720 names placement factory 0x82745208.
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         virtual ~cPintleFaceplate();
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         static const Fun_Runtime::cClass *ms_pcPintleFaceplateClass;

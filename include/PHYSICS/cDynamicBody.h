@@ -10,6 +10,10 @@ namespace PHYSICS
     class cDynamicBody : public cBody, public cIgnitable, public hkEntityActivationListener
     {
     public:
+        // Interface-only prototype stand-in: name and base from RuffKing.
+        // Instance fields and complete size are not recovered; this is not an allocation layout.
+        class cDynamicBodyPrototype : public cBody::cBodyPrototype {};
+
         // CD2 0x82684C80 creates the named runtime descriptor.
         static Fun_Runtime::cClass &StaticCreateClass();
         virtual ~cDynamicBody();

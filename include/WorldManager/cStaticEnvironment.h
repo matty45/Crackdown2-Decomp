@@ -11,6 +11,8 @@ namespace WorldManager
     class cStaticEnvironment
     {
     public:
+        // CD2 0x82808970: primary virtual slot 11 returns the registered class name.
+        virtual const char *RetClassName() const;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcStaticEnvironmentClass;
         static Fun_Runtime::cClass &StaticCreateClass();

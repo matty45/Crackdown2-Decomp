@@ -1,3 +1,5 @@
+#include "AI/cMission.h"
+// Mission base restored from the registered parent and reference hierarchy; instance fields remain incomplete.
 #ifndef AI_cDocksMission_H
 #define AI_cDocksMission_H
 
@@ -6,7 +8,7 @@
 
 namespace AI
 {
-    class cDocksMission : public RWS::CAttributeHandler
+    class cDocksMission : public AI::cMission
     {
     public:
         virtual bool IsA(const Fun_Runtime::cClass &) const;

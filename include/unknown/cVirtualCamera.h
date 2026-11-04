@@ -11,6 +11,8 @@ namespace unknown
     class cVirtualCamera
     {
     public:
+        // CD2 0x8252CDC0: primary virtual slot 11 returns the registered class name.
+        virtual const char *RetClassName() const;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcVirtualCameraClass;
         static Fun_Runtime::cClass &StaticCreateClass();

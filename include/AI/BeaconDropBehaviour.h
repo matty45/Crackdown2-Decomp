@@ -1,3 +1,4 @@
+#include "gom/object_prototype.h"
 #ifndef AI_BEACONDROPBEHAVIOUR_H
 #define AI_BEACONDROPBEHAVIOUR_H
 
@@ -10,6 +11,8 @@ namespace AI
     class BeaconDropBehaviour : public cNonGameBase
     {
     public:
+        // CD2 spawning initializer 0x82F98000 names placement factory 0x824c77c8.
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pBeaconDropBehaviourClass;
 

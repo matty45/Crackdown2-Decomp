@@ -1,3 +1,4 @@
+#include "gom/object_prototype.h"
 #ifndef AI_TRAININGDUMMY_H
 #define AI_TRAININGDUMMY_H
 
@@ -10,6 +11,8 @@ namespace AI
     class TrainingDummy : public cNonGameBase
     {
     public:
+        // CD2 spawning initializer 0x82F98870 names placement factory 0x824c82d8.
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pTrainingDummyClass;
 

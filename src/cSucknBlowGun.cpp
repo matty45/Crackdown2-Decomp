@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "Equip/cCWWeapon.h"
 #include "rws/classfactory.h"
@@ -37,4 +38,29 @@ namespace unknown
 {
     static Fun_Runtime::cInheritanceRegistrar cSucknBlowGuncCWWeaponInheritRegistrar(
         unknown::cSucknBlowGun::StaticCreateClass(), Equip::cCWWeapon::StaticCreateClass());
+}
+
+// CD2 0x82FD3FB8: register the class descriptor and placement factory.
+namespace unknown
+{
+    static GOM::cProtoRegistrar cSucknBlowGunSpawningRegistrar(
+        cSucknBlowGun::StaticCreateClass(), cSucknBlowGun::SpawnFromPrototype);
+}
+
+namespace unknown
+{
+    const char *cSucknBlowGun::RetClassName() const
+    {
+        return "cSucknBlowGun";
+    }
+}
+
+namespace unknown
+{
+    RWS::CAttributeHandler *cSucknBlowGun::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cSucknBlowGun;
+        return 0;
+    }
 }

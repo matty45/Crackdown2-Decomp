@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "Prop/cHingedProp.h"
 #include "Prop/cHingedDoor.h"
@@ -44,4 +45,11 @@ namespace Prop
 {
     static Fun_Runtime::cInheritanceRegistrar cHingedDoorcHingedPropInheritRegistrar(
         Prop::cHingedDoor::StaticCreateClass(), Prop::cHingedProp::StaticCreateClass());
+}
+
+// CD2 0x82FFAFA8: register the class descriptor and placement factory.
+namespace Prop
+{
+    static GOM::cProtoRegistrar cHingedDoorSpawningRegistrar(
+        cHingedDoor::StaticCreateClass(), cHingedDoor::SpawnFromPrototype);
 }

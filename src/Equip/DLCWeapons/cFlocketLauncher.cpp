@@ -1,3 +1,6 @@
+#include "Equip/cCWHeavyWeapon.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/proto_registrar.h"
 #include "rws/classfactory.h"
 // src/Equip/DLCWeapons/cFlocketLauncher.cpp
 //
@@ -30,4 +33,34 @@ namespace Equip
 {
     static RWS::CClassFactory::CRegistrar cFlocketLauncherRegistrar(
         "cFlocketLauncher", cFlocketLauncher::MakeNew, 0xA30, false);
+}
+
+// CD2 0x82FD33B0: register the class descriptor and placement factory.
+namespace Equip
+{
+    static GOM::cProtoRegistrar cFlocketLauncherSpawningRegistrar(
+        cFlocketLauncher::StaticCreateClass(), cFlocketLauncher::SpawnFromPrototype);
+}
+
+// CD2 0x82FD32F8: runtime class inheritance registration.
+namespace Equip
+{
+    static Fun_Runtime::cInheritanceRegistrar cFlocketLaunchercCWHeavyWeaponInheritRegistrar(
+        Equip::cFlocketLauncher::StaticCreateClass(), Equip::cCWHeavyWeapon::StaticCreateClass());
+}
+
+namespace Equip
+{
+    const char *cFlocketLauncher::RetClassName() const
+    {
+        return "cFlocketLauncher";
+    }
+}
+
+namespace Equip
+{
+    const Fun_Runtime::cClass &cFlocketLauncher::RetClass() const
+    {
+        return *ms_pcFlocketLauncherClass;
+    }
 }

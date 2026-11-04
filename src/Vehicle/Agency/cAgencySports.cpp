@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "rws/classfactory.h"
 // src/Vehicle/Agency/cAgencySports.cpp
 //
@@ -30,4 +31,27 @@ namespace Vehicle
 {
     static RWS::CClassFactory::CRegistrar cAgencySportsRegistrar(
         "cAgencySports", cAgencySports::MakeNew, 0x30C0, false);
+}
+
+// CD2 0x82FEB980: register the class descriptor and placement factory.
+namespace Vehicle
+{
+    static GOM::cProtoRegistrar cAgencySportsSpawningRegistrar(
+        cAgencySports::StaticCreateClass(), cAgencySports::SpawnFromPrototype);
+}
+
+namespace Vehicle
+{
+    const char *cAgencySports::RetClassName() const
+    {
+        return "cAgencySports";
+    }
+}
+
+namespace Vehicle
+{
+    const Fun_Runtime::cClass &cAgencySports::RetClass() const
+    {
+        return *ms_pcAgencySportsClass;
+    }
 }

@@ -1,3 +1,5 @@
+#include "fun_runtime/retval.h"
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "Prop/cHingedProp.h"
 #include "rws/classfactory.h"
@@ -37,4 +39,35 @@ namespace unknown
 {
     static Fun_Runtime::cInheritanceRegistrar cSpawnPortalcHingedPropInheritRegistrar(
         unknown::cSpawnPortal::StaticCreateClass(), Prop::cHingedProp::StaticCreateClass());
+}
+
+// CD2 0x82FF8CC8: register the class descriptor and placement factory.
+namespace unknown
+{
+    static GOM::cProtoRegistrar cSpawnPortalSpawningRegistrar(
+        cSpawnPortal::StaticCreateClass(), cSpawnPortal::SpawnFromPrototype);
+}
+
+namespace unknown
+{
+    const char *cSpawnPortal::RetClassName() const
+    {
+        return "cSpawnPortal";
+    }
+}
+
+namespace unknown
+{
+    const Fun_Runtime::cClass &cSpawnPortal::RetClass() const
+    {
+        return *ms_pcSpawnPortalClass;
+    }
+}
+
+namespace unknown
+{
+    Fun_Runtime::RetVal cSpawnPortal::cSpawnPortalPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
 }

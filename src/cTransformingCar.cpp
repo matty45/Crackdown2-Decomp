@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "rws/classfactory.h"
 // src/cTransformingCar.cpp
 //
@@ -28,4 +29,19 @@ namespace unknown
 {
     static RWS::CClassFactory::CRegistrar cTransformingCarRegistrar(
         "cTransformingCar", cTransformingCar::MakeNew, 0x67D0, false);
+}
+
+// CD2 0x82FE7220: register the class descriptor and placement factory.
+namespace unknown
+{
+    static GOM::cProtoRegistrar cTransformingCarSpawningRegistrar(
+        cTransformingCar::StaticCreateClass(), cTransformingCar::SpawnFromPrototype);
+}
+
+namespace unknown
+{
+    const char *cTransformingCar::RetClassName() const
+    {
+        return "cTransformingCar";
+    }
 }

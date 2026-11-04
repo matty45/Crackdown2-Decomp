@@ -1,3 +1,4 @@
+#include "gom/object_prototype.h"
 #ifndef AI_SCROUNGERKAMIKAZE_H
 #define AI_SCROUNGERKAMIKAZE_H
 
@@ -10,6 +11,8 @@ namespace AI
     class ScroungerKamikaze : public cNonGameBase
     {
     public:
+        // CD2 spawning initializer 0x82F94800 names placement factory 0x824bddf0.
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pScroungerKamikazeClass;
 

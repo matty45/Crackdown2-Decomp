@@ -1,3 +1,4 @@
+#include "gom/object_prototype.h"
 #ifndef AI_TRAININGPILOT_H
 #define AI_TRAININGPILOT_H
 
@@ -10,6 +11,8 @@ namespace AI
     class TrainingPilot : public cNonGameBase
     {
     public:
+        // CD2 spawning initializer 0x82F98CA8 names placement factory 0x824c8da8.
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pTrainingPilotClass;
 

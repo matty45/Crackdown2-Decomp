@@ -1,3 +1,5 @@
+#include "AI/cMission.h"
+// Mission base restored from the registered parent and reference hierarchy; instance fields remain incomplete.
 #ifndef AI_CBEACONMISSION_H
 #define AI_CBEACONMISSION_H
 
@@ -7,7 +9,7 @@
 
 namespace AI
 {
-    class cBeaconMission : public cNonGameBase
+    class cBeaconMission : public AI::cMission
     {
     public:
         static Fun_Runtime::cClass &StaticCreateClass();

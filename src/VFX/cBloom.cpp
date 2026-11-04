@@ -27,3 +27,11 @@ namespace VFX
     static RWS::CClassFactory::CRegistrar cBloomRegistrar(
         "cBloom", cBloom::MakeNew, 0x80, false);
 }
+
+namespace VFX
+{
+    const Fun_Runtime::cClass &cBloom::RetClass() const
+    {
+        return *ms_pccBloomClass;
+    }
+}

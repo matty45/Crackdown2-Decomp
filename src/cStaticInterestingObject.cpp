@@ -29,3 +29,11 @@ namespace unknown
     static RWS::CClassFactory::CRegistrar cStaticInterestingObjectRegistrar(
         "cStaticInterestingObject", cStaticInterestingObject::MakeNew, 0xC0, false);
 }
+
+namespace unknown
+{
+    const Fun_Runtime::cClass &cStaticInterestingObject::RetClass() const
+    {
+        return *ms_pcStaticInterestingObjectClass;
+    }
+}

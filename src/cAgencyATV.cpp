@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "rws/classfactory.h"
 // src/cAgencyATV.cpp
 //
@@ -28,4 +29,27 @@ namespace unknown
 {
     static RWS::CClassFactory::CRegistrar cAgencyATVRegistrar(
         "cAgencyATV", cAgencyATV::MakeNew, 0x31F0, false);
+}
+
+// CD2 0x82FEAD28: register the class descriptor and placement factory.
+namespace unknown
+{
+    static GOM::cProtoRegistrar cAgencyATVSpawningRegistrar(
+        cAgencyATV::StaticCreateClass(), cAgencyATV::SpawnFromPrototype);
+}
+
+namespace unknown
+{
+    const char *cAgencyATV::RetClassName() const
+    {
+        return "cAgencyATV";
+    }
+}
+
+namespace unknown
+{
+    const Fun_Runtime::cClass &cAgencyATV::RetClass() const
+    {
+        return *ms_pcAgencyATVClass;
+    }
 }

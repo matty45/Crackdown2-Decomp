@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "AI/NPCBehaviour.h"
 #include "AI/cAmbientTrafficBehaviour.h"
@@ -53,4 +54,21 @@ namespace AI
 {
     static Fun_Runtime::cInheritanceRegistrar cAmbientTrafficBehaviourNPCBehaviourInheritRegistrar(
         AI::cAmbientTrafficBehaviour::StaticCreateClass(), AI::NPCBehaviour::StaticCreateClass());
+}
+
+// CD2 0x82F99950: register the class descriptor and placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar cAmbientTrafficBehaviourSpawningRegistrar(
+        cAmbientTrafficBehaviour::StaticCreateClass(), cAmbientTrafficBehaviour::SpawnFromPrototype);
+}
+
+namespace AI
+{
+    RWS::CAttributeHandler *cAmbientTrafficBehaviour::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cAmbientTrafficBehaviour;
+        return 0;
+    }
 }

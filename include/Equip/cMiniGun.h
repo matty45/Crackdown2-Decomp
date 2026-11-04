@@ -1,3 +1,4 @@
+#include "gom/object_prototype.h"
 #include "rws/attributes.h"
 // Equip::cMiniGun (Crackdown 2): STAND-IN with only its runtime class descriptor; its bases are not modelled yet.
 // StaticCreateClass (0x8263B320) builds cClass(0x13268, "cMiniGun", 0xAC0); 0xAC0 is the size its registrar gives.
@@ -11,6 +12,10 @@ namespace Equip
     class cMiniGun
     {
     public:
+        // CD2 0x8263B240: primary virtual slot 11 returns the registered class name.
+        virtual const char *RetClassName() const;
+        // CD2 spawning initializer 0x82FD4718 names placement factory 0x8263b250.
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcMiniGunClass;
         static Fun_Runtime::cClass &StaticCreateClass();

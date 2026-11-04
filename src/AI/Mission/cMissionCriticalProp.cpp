@@ -1,3 +1,5 @@
+#include "fun_runtime/retval.h"
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "Prop/cProp.h"
 #include "rws/classfactory.h"
@@ -51,4 +53,19 @@ namespace AI
 {
     static Fun_Runtime::cInheritanceRegistrar cMissionCriticalPropcPropInheritRegistrar(
         AI::cMissionCriticalProp::StaticCreateClass(), Prop::cProp::StaticCreateClass());
+}
+
+// CD2 0x82F873A0: register the class descriptor and placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar cMissionCriticalPropSpawningRegistrar(
+        cMissionCriticalProp::StaticCreateClass(), cMissionCriticalProp::SpawnFromPrototype);
+}
+
+namespace AI
+{
+    Fun_Runtime::RetVal cMissionCriticalProp::cMissionCriticalPropPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
 }

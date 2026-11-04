@@ -1,3 +1,4 @@
+#include "gom/object_prototype.h"
 #include "rws/attributes.h"
 // unknown::cAgencySquadChopper (Crackdown 2): STAND-IN with only its runtime class descriptor; its bases are not modelled yet.
 // StaticCreateClass (0x826EDBC8) builds cClass(0x12066, "cAgencySquadChopper", 0x2360); 0x2360 is the size its registrar gives.
@@ -11,6 +12,10 @@ namespace unknown
     class cAgencySquadChopper
     {
     public:
+        // CD2 0x826EDB50: primary virtual slot 11 returns the registered class name.
+        virtual const char *RetClassName() const;
+        // CD2 spawning initializer 0x82FEBDB8 names placement factory 0x826edb60.
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcAgencySquadChopperClass;
         static Fun_Runtime::cClass &StaticCreateClass();

@@ -1,3 +1,4 @@
+#include "fun_runtime/inheritance_registrar.h"
 #include "rws/classfactory.h"
 // src/AI/Mission/cAmbientEventMission.cpp
 //
@@ -30,4 +31,11 @@ namespace AI
 {
     static RWS::CClassFactory::CRegistrar cAmbientEventMissionRegistrar(
         "cAmbientEventMission", cAmbientEventMission::MakeNew, 0x3B0, false);
+}
+
+// CD2 0x82F900E0: runtime mission inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar cAmbientEventMissioncMissionBaseInheritRegistrar(
+        AI::cAmbientEventMission::StaticCreateClass(), AI::cMissionBase::StaticCreateClass());
 }

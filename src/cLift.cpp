@@ -1,3 +1,5 @@
+#include "fun_runtime/retval.h"
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "Prop/cPrismaticProp.h"
 #include "rws/classfactory.h"
@@ -37,4 +39,35 @@ namespace unknown
 {
     static Fun_Runtime::cInheritanceRegistrar cLiftcPrismaticPropInheritRegistrar(
         unknown::cLift::StaticCreateClass(), Prop::cPrismaticProp::StaticCreateClass());
+}
+
+// CD2 0x82FF7828: register the class descriptor and placement factory.
+namespace unknown
+{
+    static GOM::cProtoRegistrar cLiftSpawningRegistrar(
+        cLift::StaticCreateClass(), cLift::SpawnFromPrototype);
+}
+
+namespace unknown
+{
+    const char *cLift::RetClassName() const
+    {
+        return "cLift";
+    }
+}
+
+namespace unknown
+{
+    const Fun_Runtime::cClass &cLift::RetClass() const
+    {
+        return *ms_pcLiftClass;
+    }
+}
+
+namespace unknown
+{
+    Fun_Runtime::RetVal cLift::cLiftPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
 }

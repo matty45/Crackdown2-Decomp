@@ -1,3 +1,5 @@
+#include "fun_runtime/retval.h"
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "Equip/cCWWeapon.h"
 #include "rws/classfactory.h"
@@ -39,4 +41,27 @@ namespace Equip
 {
     static Fun_Runtime::cInheritanceRegistrar cPulseRiflecCWWeaponInheritRegistrar(
         Equip::cPulseRifle::StaticCreateClass(), Equip::cCWWeapon::StaticCreateClass());
+}
+
+// CD2 0x82FCD2D8: register the class descriptor and placement factory.
+namespace Equip
+{
+    static GOM::cProtoRegistrar cPulseRifleSpawningRegistrar(
+        cPulseRifle::StaticCreateClass(), cPulseRifle::SpawnFromPrototype);
+}
+
+namespace Equip
+{
+    const char *cPulseRifle::RetClassName() const
+    {
+        return "cPulseRifle";
+    }
+}
+
+namespace Equip
+{
+    Fun_Runtime::RetVal cPulseRifle::cPulseRiflePrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
 }

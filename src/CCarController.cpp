@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "VEHICLE_CONTROL/cHelicopterController.h"
 #include "rws/classfactory.h"
@@ -37,4 +38,37 @@ namespace unknown
 {
     static Fun_Runtime::cInheritanceRegistrar CCarControllercVehicleControllerInheritRegistrar(
         unknown::CCarController::StaticCreateClass(), VEHICLE_CONTROL::cVehicleController::StaticCreateClass());
+}
+
+// CD2 0x83004BE0: register the class descriptor and placement factory.
+namespace unknown
+{
+    static GOM::cProtoRegistrar CCarControllerSpawningRegistrar(
+        CCarController::StaticCreateClass(), CCarController::SpawnFromPrototype);
+}
+
+namespace unknown
+{
+    const char *CCarController::RetClassName() const
+    {
+        return "CCarController";
+    }
+}
+
+namespace unknown
+{
+    const Fun_Runtime::cClass &CCarController::RetClass() const
+    {
+        return *ms_pCCarControllerClass;
+    }
+}
+
+namespace unknown
+{
+    RWS::CAttributeHandler *CCarController::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) CCarController;
+        return 0;
+    }
 }

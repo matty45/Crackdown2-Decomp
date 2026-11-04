@@ -29,3 +29,11 @@ namespace unknown
     static RWS::CClassFactory::CRegistrar cNetGameAISpawnPointRegistrar(
         "cNetGameAISpawnPoint", cNetGameAISpawnPoint::MakeNew, 0xA0, false);
 }
+
+namespace unknown
+{
+    const char *cNetGameAISpawnPoint::RetClassName() const
+    {
+        return "cNetGameAISpawnPoint";
+    }
+}

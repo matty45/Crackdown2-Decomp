@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "AI/cPilotBase.h"
 #include "AI/BeaconDropBehaviour.h"
@@ -53,4 +54,11 @@ namespace AI
 {
     static Fun_Runtime::cInheritanceRegistrar BeaconDropBehaviourcPilotBaseInheritRegistrar(
         AI::BeaconDropBehaviour::StaticCreateClass(), AI::cPilotBase::StaticCreateClass());
+}
+
+// CD2 0x82F98000: register the class descriptor and placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar BeaconDropBehaviourSpawningRegistrar(
+        BeaconDropBehaviour::StaticCreateClass(), BeaconDropBehaviour::SpawnFromPrototype);
 }

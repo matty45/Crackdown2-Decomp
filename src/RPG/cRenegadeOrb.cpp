@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "PHYSICS/cBody.h"
 #include "rws/classfactory.h"
@@ -39,4 +40,29 @@ namespace RPG
 {
     static Fun_Runtime::cInheritanceRegistrar cRenegadeOrbcBodyInheritRegistrar(
         RPG::cRenegadeOrb::StaticCreateClass(), PHYSICS::cBody::StaticCreateClass());
+}
+
+// CD2 0x82FFE5C8: register the class descriptor and placement factory.
+namespace RPG
+{
+    static GOM::cProtoRegistrar cRenegadeOrbSpawningRegistrar(
+        cRenegadeOrb::StaticCreateClass(), cRenegadeOrb::SpawnFromPrototype);
+}
+
+namespace RPG
+{
+    const char *cRenegadeOrb::RetClassName() const
+    {
+        return "cRenegadeOrb";
+    }
+}
+
+namespace RPG
+{
+    RWS::CAttributeHandler *cRenegadeOrb::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cRenegadeOrb;
+        return 0;
+    }
 }

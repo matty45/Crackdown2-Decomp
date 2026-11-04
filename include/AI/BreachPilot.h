@@ -1,3 +1,4 @@
+#include "gom/object_prototype.h"
 #ifndef AI_BREACHPILOT_H
 #define AI_BREACHPILOT_H
 
@@ -10,6 +11,8 @@ namespace AI
     class BreachPilot : public cNonGameBase
     {
     public:
+        // CD2 spawning initializer 0x82F9B2A0 names placement factory 0x824d16e0.
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pBreachPilotClass;
 

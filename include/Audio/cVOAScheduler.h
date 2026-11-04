@@ -1,3 +1,4 @@
+#include "fun_runtime/class.h"
 // Audio::cVOAScheduler (Crackdown 2): STAND-IN for the class name only. Base RWS::CAttributeHandler, as in RuffKing's
 // header; RetClassName (0x82836EA8) is slot 11 of the vtable at 0x8215A420, as cNonGameBase's RetClassName.
 #ifndef AUDIO_CVOASCHEDULER_H
@@ -10,6 +11,9 @@ namespace Audio
     class cVOAScheduler : public RWS::CAttributeHandler
     {
     public:
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        // CD2 descriptor pointer 0x8392c9a4; its initializer names cVOAScheduler.
+        static const Fun_Runtime::cClass *ms_pccVOASchedulerClass;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
     };

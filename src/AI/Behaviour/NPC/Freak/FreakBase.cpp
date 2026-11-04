@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "AI/cChaseBehaviour.h"
 #include "rws/classfactory.h"
@@ -77,4 +78,11 @@ namespace AI
 {
     static Fun_Runtime::cInheritanceRegistrar FreakBaseNPCBehaviourSMInheritRegistrar(
         AI::FreakBase::StaticCreateClass(), AI::NPCBehaviourSM::StaticCreateClass());
+}
+
+// CD2 0x82F93720: register the class descriptor and placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar FreakBaseSpawningRegistrar(
+        FreakBase::StaticCreateClass(), FreakBase::SpawnFromPrototype);
 }

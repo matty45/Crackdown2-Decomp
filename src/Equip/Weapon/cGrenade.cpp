@@ -1,3 +1,6 @@
+#include "cd2/memory.h"
+#include "Equip/cGrenade.h"
+#include "gom/proto_registrar.h"
 // src/Equip/Weapon/cGrenade.cpp
 //
 // Class: cGrenade (namespace: Equip). Set up automatically: no function is matched yet. The address range and the
@@ -10,3 +13,28 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Equip/Weapon/cGrenade.cpp
+
+// CD2 0x82FCFF88: class descriptor and placement factory.
+namespace Equip
+{
+    static GOM::cProtoRegistrar cGrenadeSpawningRegistrar(
+        cGrenade::StaticCreateClass(), cGrenade::SpawnFromPrototype);
+}
+
+namespace Equip
+{
+    const char *cGrenade::RetClassName() const
+    {
+        return "cGrenade";
+    }
+}
+
+namespace Equip
+{
+    RWS::CAttributeHandler *cGrenade::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cGrenade;
+        return 0;
+    }
+}

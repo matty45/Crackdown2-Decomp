@@ -38,3 +38,11 @@ namespace unknown
     static Fun_Runtime::cInheritanceRegistrar cScriptManagercNonGameBaseInheritRegistrar(
         unknown::cScriptManager::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }
+
+namespace unknown
+{
+    const char *cScriptManager::RetClassName() const
+    {
+        return "cScriptManager";
+    }
+}

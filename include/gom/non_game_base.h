@@ -51,6 +51,10 @@ private:
     unsigned char m_pad68[0x7C - 0x68];
 
 public:
+        // Interface-only prototype stand-in: name and base from RuffKing.
+        // Instance fields and complete size are not recovered; this is not an allocation layout.
+        class cNonGameBasePrototype : public GOM::cObjectPrototype {};
+
     static Fun_Runtime::cClass &StaticCreateClass(); // CD2 0x82652FE0
     cNonGameBase();
     virtual ~cNonGameBase();

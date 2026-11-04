@@ -1,3 +1,5 @@
+#include "Prop/cPrismaticProp.h"
+#include "gom/object_prototype.h"
 #include "rws/attributes.h"
 // unknown::cWeaponCabinetDoor (Crackdown 2): STAND-IN with only its runtime class descriptor; its bases are not modelled yet.
 // StaticCreateClass (0x82741100) builds cClass(0x1021, "cWeaponCabinetDoor", 0xEE0); 0xEE0 is the size its registrar gives.
@@ -11,6 +13,21 @@ namespace unknown
     class cWeaponCabinetDoor
     {
     public:
+        // Prototype name ours, from cWeaponCabinetDoor::MakeNew (0x82740FA8).
+        // CD2 confirms the shared parent constructor and Init slot 5 (0x82741570).
+        // Interface only: this does not describe instance fields or allocation size.
+        class cWeaponCabinetDoorPrototype : public Prop::cPrismaticProp::cPrismaticPropPrototype
+        {
+        public:
+            virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
+        };
+
+        // CD2 0x82740F38: registered-class virtual slot 0 reads this class descriptor.
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        // CD2 0x82741018: primary virtual slot 11 returns the registered class name.
+        virtual const char *RetClassName() const;
+        // CD2 spawning initializer 0x82FF9E08 names placement factory 0x82741028.
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcWeaponCabinetDoorClass;
         static Fun_Runtime::cClass &StaticCreateClass();

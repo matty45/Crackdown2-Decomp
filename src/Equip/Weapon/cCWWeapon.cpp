@@ -1,3 +1,6 @@
+#include "Equip/cWeapon.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/proto_registrar.h"
 #include "rws/classfactory.h"
 // src/Equip/Weapon/cCWWeapon.cpp
 //
@@ -30,4 +33,36 @@ namespace Equip
 {
     static RWS::CClassFactory::CRegistrar cCWWeaponRegistrar(
         "cCWWeapon", cCWWeapon::MakeNew, 0xA10, false);
+}
+
+// CD2 0x82FCB890: register the class descriptor and placement factory.
+namespace Equip
+{
+    static GOM::cProtoRegistrar cCWWeaponSpawningRegistrar(
+        cCWWeapon::StaticCreateClass(), cCWWeapon::SpawnFromPrototype);
+}
+
+// CD2 0x82FCB7D8: runtime class inheritance registration.
+namespace Equip
+{
+    static Fun_Runtime::cInheritanceRegistrar cCWWeaponcWeaponInheritRegistrar(
+        Equip::cCWWeapon::StaticCreateClass(), Equip::cWeapon::StaticCreateClass());
+}
+
+namespace Equip
+{
+    const char *cCWWeapon::RetClassName() const
+    {
+        return "cCWWeapon";
+    }
+}
+
+namespace Equip
+{
+    RWS::CAttributeHandler *cCWWeapon::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cCWWeapon;
+        return 0;
+    }
 }

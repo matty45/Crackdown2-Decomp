@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "Equip/cCWWeapon.h"
 #include "rws/classfactory.h"
@@ -39,4 +40,29 @@ namespace Equip
 {
     static Fun_Runtime::cInheritanceRegistrar cCWFirearmcCWWeaponInheritRegistrar(
         Equip::cCWFirearm::StaticCreateClass(), Equip::cCWWeapon::StaticCreateClass());
+}
+
+// CD2 0x82FCEA40: register the class descriptor and placement factory.
+namespace Equip
+{
+    static GOM::cProtoRegistrar cCWFirearmSpawningRegistrar(
+        cCWFirearm::StaticCreateClass(), cCWFirearm::SpawnFromPrototype);
+}
+
+namespace Equip
+{
+    const char *cCWFirearm::RetClassName() const
+    {
+        return "cCWFirearm";
+    }
+}
+
+namespace Equip
+{
+    RWS::CAttributeHandler *cCWFirearm::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cCWFirearm;
+        return 0;
+    }
 }

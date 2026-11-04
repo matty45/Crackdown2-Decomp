@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "AI/NPCArmedBehaviour.h"
 #include "AI/CellRocket.h"
@@ -53,4 +54,11 @@ namespace AI
 {
     static Fun_Runtime::cInheritanceRegistrar CellRocketNPCArmedBehaviourInheritRegistrar(
         AI::CellRocket::StaticCreateClass(), AI::NPCArmedBehaviour::StaticCreateClass());
+}
+
+// CD2 0x82F963F8: register the class descriptor and placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar CellRocketSpawningRegistrar(
+        CellRocket::StaticCreateClass(), CellRocket::SpawnFromPrototype);
 }

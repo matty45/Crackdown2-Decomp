@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "Vehicle/cHelicopter.h"
 #include "rws/classfactory.h"
@@ -37,4 +38,27 @@ namespace unknown
 {
     static Fun_Runtime::cInheritanceRegistrar cWeaponisedHelicoptercHelicopterInheritRegistrar(
         unknown::cWeaponisedHelicopter::StaticCreateClass(), Vehicle::cHelicopter::StaticCreateClass());
+}
+
+// CD2 0x82FEA550: register the class descriptor and placement factory.
+namespace unknown
+{
+    static GOM::cProtoRegistrar cWeaponisedHelicopterSpawningRegistrar(
+        cWeaponisedHelicopter::StaticCreateClass(), cWeaponisedHelicopter::SpawnFromPrototype);
+}
+
+namespace unknown
+{
+    const char *cWeaponisedHelicopter::RetClassName() const
+    {
+        return "cWeaponisedHelicopter";
+    }
+}
+
+namespace unknown
+{
+    const Fun_Runtime::cClass &cWeaponisedHelicopter::RetClass() const
+    {
+        return *ms_pcWeaponisedHelicopterClass;
+    }
 }

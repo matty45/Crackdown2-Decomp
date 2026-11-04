@@ -1,3 +1,4 @@
+#include "fun_runtime/inheritance_registrar.h"
 #include "AI/cCellStrongholdMission.h"
 #include "rws/classfactory.h"
 
@@ -43,4 +44,11 @@ namespace AI
         static Fun_Runtime::cClass *cCellStrongholdMissionClass = new Fun_Runtime::cClass(0x1D97C, "cCellStrongholdMission", 0x410);
         return *cCellStrongholdMissionClass;
     }
+}
+
+// CD2 0x82F8A870: runtime mission inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar cCellStrongholdMissioncMissionInheritRegistrar(
+        AI::cCellStrongholdMission::StaticCreateClass(), AI::cMission::StaticCreateClass());
 }

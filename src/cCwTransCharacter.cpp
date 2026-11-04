@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "CHARACTER/cCharacter.h"
 // src/cCwTransCharacter.cpp
@@ -95,4 +96,11 @@ namespace CHARACTER
 {
     static Fun_Runtime::cInheritanceRegistrar cCwTransCharactercCharacterInheritRegistrar(
         CHARACTER::cCwTransCharacter::StaticCreateClass(), CHARACTER::cCharacter::StaticCreateClass());
+}
+
+// CD2 0x82FABD80: register the class descriptor and placement factory.
+namespace CHARACTER
+{
+    static GOM::cProtoRegistrar cCwTransCharacterSpawningRegistrar(
+        cCwTransCharacter::StaticCreateClass(), cCwTransCharacter::SpawnFromPrototype);
 }

@@ -1,3 +1,5 @@
+#include "fun_runtime/retval.h"
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "gom/game_base.h"
 #include "rws/classfactory.h"
@@ -37,4 +39,35 @@ namespace unknown
 {
     static Fun_Runtime::cInheritanceRegistrar cSupplyEntryPointcGameBaseInheritRegistrar(
         unknown::cSupplyEntryPoint::StaticCreateClass(), cGameBase::StaticCreateClass());
+}
+
+// CD2 0x82FF9598: register the class descriptor and placement factory.
+namespace unknown
+{
+    static GOM::cProtoRegistrar cSupplyEntryPointSpawningRegistrar(
+        cSupplyEntryPoint::StaticCreateClass(), cSupplyEntryPoint::SpawnFromPrototype);
+}
+
+namespace unknown
+{
+    const char *cSupplyEntryPoint::RetClassName() const
+    {
+        return "cSupplyEntryPoint";
+    }
+}
+
+namespace unknown
+{
+    const Fun_Runtime::cClass &cSupplyEntryPoint::RetClass() const
+    {
+        return *ms_pcSupplyEntryPointClass;
+    }
+}
+
+namespace unknown
+{
+    Fun_Runtime::RetVal cSupplyEntryPoint::cSupplyEntryPointPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
 }

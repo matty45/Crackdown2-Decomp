@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "gom/non_game_base.h"
 // src/CHARACTER/cCharacterInterface.cpp
@@ -109,4 +110,11 @@ namespace CHARACTER
 {
     static Fun_Runtime::cInheritanceRegistrar cCharacterInterfacecNonGameBaseInheritRegistrar(
         CHARACTER::cCharacterInterface::StaticCreateClass(), cNonGameBase::StaticCreateClass());
+}
+
+// CD2 0x82FADCD0: register the class descriptor and placement factory.
+namespace CHARACTER
+{
+    static GOM::cProtoRegistrar cCharacterInterfaceSpawningRegistrar(
+        cCharacterInterface::StaticCreateClass(), cCharacterInterface::SpawnFromPrototype);
 }

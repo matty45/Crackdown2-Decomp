@@ -1,3 +1,4 @@
+#include "gom/object_prototype.h"
 #ifndef AI_CAGENTPICKUP_H
 #define AI_CAGENTPICKUP_H
 
@@ -10,6 +11,8 @@ namespace AI
     class cAgentPickup : public cNonGameBase
     {
     public:
+        // CD2 spawning initializer 0x82F9AA30 names placement factory 0x824d0018.
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pcAgentPickupClass;
 

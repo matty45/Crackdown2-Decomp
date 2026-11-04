@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "AI/FreakBase.h"
 #include "AI/Reaper.h"
@@ -53,4 +54,11 @@ namespace AI
 {
     static Fun_Runtime::cInheritanceRegistrar ReaperFreakBaseInheritRegistrar(
         AI::Reaper::StaticCreateClass(), AI::FreakBase::StaticCreateClass());
+}
+
+// CD2 0x82F93F90: register the class descriptor and placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar ReaperSpawningRegistrar(
+        Reaper::StaticCreateClass(), Reaper::SpawnFromPrototype);
 }

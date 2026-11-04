@@ -46,3 +46,19 @@ namespace unknown
     static Fun_Runtime::cInheritanceRegistrar cZoneManagercDebugPageHandlerInheritRegistrar(
         unknown::cZoneManager::StaticCreateClass(), GDb::cDebugPageHandler::StaticCreateClass());
 }
+
+namespace unknown
+{
+    const char *cZoneManager::RetClassName() const
+    {
+        return "cZoneManager";
+    }
+}
+
+namespace unknown
+{
+    const Fun_Runtime::cClass &cZoneManager::RetClass() const
+    {
+        return *ms_pcZoneManagerClass;
+    }
+}

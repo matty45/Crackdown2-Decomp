@@ -3,18 +3,7 @@
 
 #include "rws/attributes.h"
 
-namespace SaveGame
-{
-    class cLoadStream;
-    class cSaveStream;
-    class cLoadSaveObject
-    {
-    public:
-        // RuffKing's interface vtable contains Load and Save only; no virtual destructor.
-        virtual void Load(cLoadStream *pStream) {}
-        virtual void Save(cSaveStream *pStream) {}
-    };
-}
+#include "SaveGame/cLoadSaveObject.h"
 
 namespace UI
 {

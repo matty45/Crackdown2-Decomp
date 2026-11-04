@@ -1,3 +1,7 @@
+#include "fun_runtime/retval.h"
+#include "Equip/cExplosiveGrenade.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/proto_registrar.h"
 #include "rws/classfactory.h"
 // src/Equip/Weapon/cShrapnelGrenade.cpp
 //
@@ -30,4 +34,42 @@ namespace Equip
 {
     static RWS::CClassFactory::CRegistrar cShrapnelGrenadeRegistrar(
         "cShrapnelGrenade", cShrapnelGrenade::MakeNew, 0x9D0, false);
+}
+
+// CD2 0x82FD0998: register the class descriptor and placement factory.
+namespace Equip
+{
+    static GOM::cProtoRegistrar cShrapnelGrenadeSpawningRegistrar(
+        cShrapnelGrenade::StaticCreateClass(), cShrapnelGrenade::SpawnFromPrototype);
+}
+
+// CD2 0x82FD08E0: runtime class inheritance registration.
+namespace Equip
+{
+    static Fun_Runtime::cInheritanceRegistrar cShrapnelGrenadecExplosiveGrenadeInheritRegistrar(
+        Equip::cShrapnelGrenade::StaticCreateClass(), Equip::cExplosiveGrenade::StaticCreateClass());
+}
+
+namespace Equip
+{
+    const char *cShrapnelGrenade::RetClassName() const
+    {
+        return "cShrapnelGrenade";
+    }
+}
+
+namespace Equip
+{
+    const Fun_Runtime::cClass &cShrapnelGrenade::RetClass() const
+    {
+        return *ms_pcShrapnelGrenadeClass;
+    }
+}
+
+namespace Equip
+{
+    Fun_Runtime::RetVal cShrapnelGrenade::cShrapnelGrenadePrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
 }

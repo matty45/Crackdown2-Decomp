@@ -1,3 +1,4 @@
+#include "gom/object_prototype.h"
 #ifndef AI_EQUIPMENTDROPBEHAVIOUR_H
 #define AI_EQUIPMENTDROPBEHAVIOUR_H
 
@@ -10,6 +11,8 @@ namespace AI
     class EquipmentDropBehaviour : public cNonGameBase
     {
     public:
+        // CD2 spawning initializer 0x82F9BA00 names placement factory 0x824d2b60.
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pEquipmentDropBehaviourClass;
 

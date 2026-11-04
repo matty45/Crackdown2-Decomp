@@ -1,3 +1,4 @@
+#include "gom/object_prototype.h"
 // VEHICLE_CONTROL::cHelicopterController: AI helicopter flight controller (CD2 object size 0x8C0).
 // CD2 layout, worked out from F36 (ctor), F29/F30/F32, F35 and the base ctor F09 (0x82781B38):
 //   0x000 cVehicleController (size 0x840, STAND-IN, see below)
@@ -41,6 +42,10 @@ namespace Vehicle
     };
     class cVehicle : public cVehicleRoot, public cVehicleIface {
     public:
+        // CD2 0x826CC760: primary virtual slot 11 returns the registered class name.
+        virtual const char *RetClassName() const;
+        // CD2 spawning initializer 0x82FE9A28 names placement factory 0x826cc770.
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         // CD2 0x826CC860 creates the named runtime descriptor.
         static Fun_Runtime::cClass &StaticCreateClass();
 };
@@ -51,6 +56,10 @@ namespace VEHICLE_CONTROL
     class cVehicleController : public cNonGameBase
     {
     public:
+        // CD2 0x82781A68: primary virtual slot 11 returns the registered class name.
+        virtual const char *RetClassName() const;
+        // CD2 spawning initializer 0x83005340 names placement factory 0x82781a78.
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         // CD2 0x82781AA0 creates the named runtime descriptor.
         static Fun_Runtime::cClass &StaticCreateClass();
         // RuffKing: cVehicleControllerPrototype : cNonGameBase::cNonGameBasePrototype (: GOM::cObjectPrototype).
@@ -197,7 +206,7 @@ namespace VEHICLE_CONTROL
 
         static Fun_Runtime::cClass &StaticCreateClass();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
-        static cHelicopterController *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
 
         CD2_LAYOUT_CHECKS(cHelicopterController,
             CD2_SIZE(cHelicopterController, 0x8C0)

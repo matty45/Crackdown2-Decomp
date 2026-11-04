@@ -6,6 +6,12 @@ codegen change) that will help with other functions. What you tried on one funct
 end, in one line, and is removed when the function matches. History belongs in git, not here.
 
 ## Shared bases
+- **Replication alignment is a shared-base requirement.** cMissionBase's CD2 constructor (0x8245A748) places
+  cReplicatedClass at +0x10 after a four-byte cRegisteredClass base, net role at +0x240 and attributes at +0x248.
+  The reference replication class starts its first field at +0x10 and its bit stream at +0x20. A/B: with the old
+  four-byte alignment, the mission's named net-role/attribute field checks fail; declaring cReplicatedClass with
+  16-byte alignment makes both CD2_OFFSET checks pass. Its size remains 0x230. The earlier physics chain already
+  ended at an aligned +0x510, which concealed this requirement; do not insert a padding base to obtain it.
 - **Every game object is a cNonGameBase** (`include/gom/non_game_base.h`; constructor 0x82653588, 48 callers):
   - CAttributeHandler at 0;
   - RWS::CEventHandler at 0x18 (6 slots);
@@ -48,6 +54,12 @@ end, in one line, and is removed when the function matches. History belongs in g
   cPositionalProxy and also remains exact using that shared type.
 
 ## Codegen idioms
+- **Spawning registrars are another shared initializer family.** A static GOM::cProtoRegistrar constructed from
+  `Class::StaticCreateClass()` and `Class::SpawnFromPrototype` reproduces 117 72-byte initializers. The shared
+  constructor at 0x82657690 takes a typed placement factory returning RWS::CAttributeHandler*. CD2 atexit bodies
+  restore the registrar vptr, supporting the inline empty virtual destructor. A/B at 0x82F9A1C0: the old
+  void* prototype parameter makes the registrar fail to compile; correcting it to GOM::cObjectPrototype*
+  makes the initializer EXACT and preserves the existing factory match. The type matters even when unused.
 - **Shader reload callbacks form callback/getter pairs.** The 100-byte callback guards its concrete singleton,
   calls virtual slot 2 (`Reload(bool)`), reloads that singleton and passes its vertex/pixel shaders to the cached
   shader setters at 0x82B8A7B0/0x82B8A780. The following 12-byte virtual getter returns the callback. CD2's
@@ -368,6 +380,56 @@ One line each: what is ruled out. Remove the line when the function matches.
   emit it. Shader constructors also encode an object-derived integer ID; recovering that interface is separate
   work under R4. Destructor probe reverted; the 38 callback/getter pairs are promoted independently.
 - Runtime inheritance registration: 133 more 104-byte initializers match using the shared cInheritanceRegistrar.
-  The remaining 33 in this family need individual missing parent/child type and hierarchy recovery; the two
+  The remaining 12 in this family need individual missing parent/child type and hierarchy recovery; the two
   cVector push_back calls followed by RecursivelyAddParent are already identified.
-- Spawning-registration follow-up: 117 remaining 72-byte initializers share the StaticCreateClass / cProtoRegistrar / atexit shape. Representative initializer 0x82F866D0 checked EXACT with placement factory 0x82457C20; the probe was reverted at the requested stop before batch validation. Its atexit target 0x8303AED0 is not a claimable scaffolded function. No spawning registrations were promoted in this pass.
+- Spawning-registration remainder: the distinct 80-byte cGrappler initializer (0x82FD3740) needs its missing class/base declarations recovered. All 117 initializers in the 72-byte family are EXACT; their atexit functions are outside claimable scaffolded splits.
+- Equipment hierarchy follow-up: CD2 constructors confirm cEquipment : cNetDynamicBody + cStateMachine,
+  cWeapon : cEquipment, cCWWeapon/cGrenade : cWeapon, cCWHeavyWeapon : cCWWeapon,
+  cCloakingDevice/cExplosiveGrenade : cGrenade, and cCWSatchelCharge : cExplosiveGrenade. The explosion callback
+  is at +0x9C0 in cExplosiveGrenade. These shared declarations unlocked 13 more inheritance initializers and the
+  final 3 spawning initializers. Descriptor bodies at 0x822E5B60/0x8262FE78 are outside claimable scaffolded splits;
+  keep their declarations and do not put their bodies in a neighbouring source file.
+- Script metadata getter lead (38 registered script-type objects, 81 name strings and 2 other pointer targets
+  in a scan of 121 12-byte global-address getters): representative 0x824556F8 returns
+  the 0x24-byte object initialized by 0x82F85E30 through 0x82772828 with child/parent script-type names. This is
+  cScriptHost virtual slot 1, currently unnamed; recover the shared metadata interface and actual class ownership
+  before adding more getters. Do not copy the historical byte-global/GetPtr stand-ins to other game classes.
+- Class-query batch: 64 class-name getters and 26 RetClass descriptor getters are EXACT. Classification needs
+  both target data and virtual-slot evidence: name strings at primary slot 11 identify RetClassName; descriptor
+  loads at registered-class slot 0 identify RetClass. The same three-instruction size also includes script metadata
+  and enum-name getters; it does not establish ownership or return type by itself.
+- Sim::cTimeOfDay::RetClassName (0x82773BF0): adding a virtual to the historical field-only stand-in shifts its
+  checked phase offset. Recover its actual C++ bases before adding the getter; probe reverted.
+- IsA batch: cCrowdZoneDataHolder (0x8244A810) is EXACT in plain and LTCG builds. The former
+  cFactionConfigData attribution at 0x82676298 was removed: IDA identifies cFactionInfo instead. cRefractor (0x826105F0) and the existing FreakBase body (0x824ABBB0) are plain EXACT but 21/23 under
+  LTCG without a live vtable; do not promote them. cCharacterInterface (0x8254E7B0) has EXACT instructions in both
+  builds but conflicts with its constructor's distinct g_GlobalConstants target (0x830ACBD8 versus 0x830C0E04).
+  The new cRefractor/cCharacterInterface probes were reverted; FreakBase's pre-existing body is unchanged.
+- Placement-factory batch: 26 guarded 24-byte factories are EXACT in both builds using placement new and the
+  CD2 constructor ABI that takes only this. Later reference constructors take a prototype argument, but the CD2
+  factory does not forward one. Constructor chain evidence restored the shared AI and equipment bases; the
+  cNPCArmourySetup attribute tag is an empty global type in RuffKing, not an invented padding base.
+  cHelicopter (0x826B8AE0), cLandVehicle (0x826C0E20), and the remaining vehicle factories require further shared
+  vehicle-base recovery; their new probes were reverted rather than relying on the historical flat stand-ins.
+- Descriptor ownership correction: 0x82676288/0x82676298 read the cFactionInfo descriptor (ID 1038, size 0x220),
+  installed by cFactionInfo's constructor 0x826766E0 at +0x14. They are not cFactionConfigData methods; the prior
+  misattributed IsA manifest entry and source were removed. Likewise, 0x82676DB8 belongs to cGangInfo,
+  0x827FA5E0 to cLinkedVFXSpawner and 0x82802398 to cBeamManager. Do not name folded helpers after the source file.
+  Six further RetClass getters with confirmed matching descriptor names are promoted independently.
+- Script metadata classification: 0x82772828 registers both game-class and AI-event descriptors. Getter ownership
+  must follow the registered child name: for example 0x824D82C0 is AIE_SQUAD_TARGET, not Squad;
+  0x82676318 is AIE_GANG_ENFORCER_LEVEL_CHANGED, not cFactionConfigData. The descriptor getters in the
+  equipment, camera, hinged-prop and world-manager files remain candidates once the shared metadata interface
+  is recovered. Targets 0x834146C4 and 0x82274520 are not registered script-type objects in this scan.
+- Prototype Init batch: 18 slot-5 CAttributeHandler::Init overrides return the file-local Ret_OK object and
+  check EXACT in plain and LTCG builds. Prototype ownership comes from the MakeNew constructor that installs
+  the table. Shared interface declarations follow the reference prototype chain from cNonGameBase/cGameBase
+  through cBody/cDynamicBody and equipment/weapon/grenade variants. These declarations do not establish
+  instance fields or allocation sizes; do not use their incomplete sizeof values in factories.
+  Remaining candidates need vehicle/character prototype recovery or reconciliation of the existing namespace-level
+  cHWProjectilePrototype with the reference nested type; do not create a second definition for it.
+- Mission inheritance batch: 8 additional 104-byte initializers are EXACT in plain and LTCG builds after
+  restoring cMissionBase's standalone mission interfaces, cMission, and the child mission bases. Shared Load/Save
+  declarations now live in SaveGame/cLoadSaveObject.h; the UI interface is unchanged. Named inherited-field checks
+  establish the mission interface offsets, not the complete instance storage or sizes for allocation. Those fields
+  and the pre-existing constructor/factory WIPs still require individual recovery.

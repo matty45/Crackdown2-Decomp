@@ -38,3 +38,19 @@ namespace unknown
     static Fun_Runtime::cInheritanceRegistrar cRenderToTextureManagercNonGameBaseInheritRegistrar(
         unknown::cRenderToTextureManager::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }
+
+namespace unknown
+{
+    const char *cRenderToTextureManager::RetClassName() const
+    {
+        return "cRenderToTextureManager";
+    }
+}
+
+namespace unknown
+{
+    const Fun_Runtime::cClass &cRenderToTextureManager::RetClass() const
+    {
+        return *ms_pcRenderToTextureManagerClass;
+    }
+}

@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "VEHICLE_CONTROL/cHelicopterController.h"
 #include "rws/classfactory.h"
@@ -37,4 +38,19 @@ namespace unknown
 {
     static Fun_Runtime::cInheritanceRegistrar cAgencySquadChoppercVehicleInheritRegistrar(
         unknown::cAgencySquadChopper::StaticCreateClass(), Vehicle::cVehicle::StaticCreateClass());
+}
+
+// CD2 0x82FEBDB8: register the class descriptor and placement factory.
+namespace unknown
+{
+    static GOM::cProtoRegistrar cAgencySquadChopperSpawningRegistrar(
+        cAgencySquadChopper::StaticCreateClass(), cAgencySquadChopper::SpawnFromPrototype);
+}
+
+namespace unknown
+{
+    const char *cAgencySquadChopper::RetClassName() const
+    {
+        return "cAgencySquadChopper";
+    }
 }

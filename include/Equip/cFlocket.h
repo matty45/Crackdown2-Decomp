@@ -1,3 +1,4 @@
+#include "gom/object_prototype.h"
 // Hierarchy correction: cPoly420 below is superseded by the shared cPositionalProxy
 // (same sole ResetProxy slot and 0xF0-byte extent, CD2 table 0x82120E8C).
 // Equip::cFlocket and Equip::cFlocket::cFlocketPrototype (Crackdown 2). CD2 object size 0x9B0, prototype 0x360.
@@ -73,6 +74,8 @@ namespace Equip
         public cRegClassC, public cPoly870
     {
     public:
+        // CD2 spawning initializer 0x82FD27B0 names placement factory 0x8262a7e0.
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         // CD2 0x8262A7F8 creates the named runtime descriptor.
         static Fun_Runtime::cClass &StaticCreateClass();
         cHWProjectile();

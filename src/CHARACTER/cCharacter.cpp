@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "CHARACTER/cCharacterMotion.h"
 // src/CHARACTER/cCharacter.cpp
@@ -69,4 +70,11 @@ namespace CHARACTER
 {
     static Fun_Runtime::cInheritanceRegistrar cCharactercCharacterMotionInheritRegistrar(
         CHARACTER::cCharacter::StaticCreateClass(), CHARACTER::cCharacterMotion::StaticCreateClass());
+}
+
+// CD2 0x82FAD7A8: register the class descriptor and placement factory.
+namespace CHARACTER
+{
+    static GOM::cProtoRegistrar cCharacterSpawningRegistrar(
+        cCharacter::StaticCreateClass(), cCharacter::SpawnFromPrototype);
 }

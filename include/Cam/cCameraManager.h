@@ -11,6 +11,10 @@ namespace Cam
     class cCameraManager
     {
     public:
+        // CD2 0x8252BF60: registered-class virtual slot 0 reads this class descriptor.
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        // CD2 0x8252C018: primary virtual slot 11 returns the registered class name.
+        virtual const char *RetClassName() const;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcCameraManagerClass;
         static Fun_Runtime::cClass &StaticCreateClass();

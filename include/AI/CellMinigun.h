@@ -1,3 +1,4 @@
+#include "gom/object_prototype.h"
 #ifndef AI_CELLMINIGUN_H
 #define AI_CELLMINIGUN_H
 
@@ -10,6 +11,8 @@ namespace AI
     class CellMinigun : public cNonGameBase
     {
     public:
+        // CD2 spawning initializer 0x82F95FC0 names placement factory 0x824c3228.
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pCellMinigunClass;
 

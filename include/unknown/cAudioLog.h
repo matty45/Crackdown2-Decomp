@@ -11,6 +11,10 @@ namespace unknown
     class cAudioLog
     {
     public:
+        // CD2 0x8270EB50: registered-class virtual slot 0 reads this class descriptor.
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        // CD2 0x8270EC08: primary virtual slot 11 returns the registered class name.
+        virtual const char *RetClassName() const;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcAudioLogClass;
         static Fun_Runtime::cClass &StaticCreateClass();

@@ -1,3 +1,4 @@
+#include "gom/object_prototype.h"
 // Hierarchy correction: CD2 debug subobject at 0x120, cBody size 0x250.
 #include "rws/attributes.h"
 // PHYSICS::cBody (Crackdown 2): STAND-IN with only its runtime class descriptor; its bases are not modelled yet.
@@ -14,6 +15,14 @@ namespace PHYSICS
     class cBody : public cGameBase, public GDb::cDebugPageHandler
     {
     public:
+        // Interface-only prototype stand-in: name and base from RuffKing.
+        // Instance fields and complete size are not recovered; this is not an allocation layout.
+        class cBodyPrototype : public cGameBase::cGameBasePrototype {};
+
+        // CD2 0x826832F0: primary virtual slot 11 returns the registered class name.
+        virtual const char *RetClassName() const;
+        // CD2 spawning initializer 0x82FDF730 names placement factory 0x82683300.
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         virtual ~cBody();
         virtual const Fun_Runtime::cClass &RetClass() const;
         virtual bool IsA(const Fun_Runtime::cClass &) const;

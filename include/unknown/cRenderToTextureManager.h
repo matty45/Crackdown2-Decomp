@@ -11,6 +11,10 @@ namespace unknown
     class cRenderToTextureManager
     {
     public:
+        // CD2 0x827A9AB0: registered-class virtual slot 0 reads this class descriptor.
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        // CD2 0x827A9B68: primary virtual slot 11 returns the registered class name.
+        virtual const char *RetClassName() const;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcRenderToTextureManagerClass;
         static Fun_Runtime::cClass &StaticCreateClass();

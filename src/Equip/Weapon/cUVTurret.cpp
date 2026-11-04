@@ -1,3 +1,5 @@
+#include "fun_runtime/retval.h"
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "Equip/cCWFirearm.h"
 #include "rws/classfactory.h"
@@ -39,4 +41,35 @@ namespace Equip
 {
     static Fun_Runtime::cInheritanceRegistrar cUVTurretcCWFirearmInheritRegistrar(
         Equip::cUVTurret::StaticCreateClass(), Equip::cCWFirearm::StaticCreateClass());
+}
+
+// CD2 0x82FD4B50: register the class descriptor and placement factory.
+namespace Equip
+{
+    static GOM::cProtoRegistrar cUVTurretSpawningRegistrar(
+        cUVTurret::StaticCreateClass(), cUVTurret::SpawnFromPrototype);
+}
+
+namespace Equip
+{
+    const char *cUVTurret::RetClassName() const
+    {
+        return "cUVTurret";
+    }
+}
+
+namespace Equip
+{
+    const Fun_Runtime::cClass &cUVTurret::RetClass() const
+    {
+        return *ms_pcUVTurretClass;
+    }
+}
+
+namespace Equip
+{
+    Fun_Runtime::RetVal cUVTurret::cUVTurretPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
 }

@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "Prop/cVehicleDamageProp.h"
 #include "unknown/cTransVehicleDamageProp.h"
@@ -38,4 +39,11 @@ namespace unknown
 {
     static Fun_Runtime::cInheritanceRegistrar cTransVehicleDamagePropcVehicleDamagePropInheritRegistrar(
         unknown::cTransVehicleDamageProp::StaticCreateClass(), Prop::cVehicleDamageProp::StaticCreateClass());
+}
+
+// CD2 0x82FF5B30: register the class descriptor and placement factory.
+namespace unknown
+{
+    static GOM::cProtoRegistrar cTransVehicleDamagePropSpawningRegistrar(
+        cTransVehicleDamageProp::StaticCreateClass(), cTransVehicleDamageProp::SpawnFromPrototype);
 }

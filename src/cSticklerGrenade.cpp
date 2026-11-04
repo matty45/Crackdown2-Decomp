@@ -1,3 +1,6 @@
+#include "Equip/cExplosiveGrenade.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/proto_registrar.h"
 #include "rws/classfactory.h"
 // src/cSticklerGrenade.cpp
 //
@@ -28,4 +31,26 @@ namespace unknown
 {
     static RWS::CClassFactory::CRegistrar cSticklerGrenadeRegistrar(
         "cSticklerGrenade", cSticklerGrenade::MakeNew, 0x9E0, false);
+}
+
+// CD2 0x82FD14E0: register the class descriptor and placement factory.
+namespace unknown
+{
+    static GOM::cProtoRegistrar cSticklerGrenadeSpawningRegistrar(
+        cSticklerGrenade::StaticCreateClass(), cSticklerGrenade::SpawnFromPrototype);
+}
+
+// CD2 0x82FD1428: runtime class inheritance registration.
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar cSticklerGrenadecExplosiveGrenadeInheritRegistrar(
+        unknown::cSticklerGrenade::StaticCreateClass(), Equip::cExplosiveGrenade::StaticCreateClass());
+}
+
+namespace unknown
+{
+    const char *cSticklerGrenade::RetClassName() const
+    {
+        return "cSticklerGrenade";
+    }
 }

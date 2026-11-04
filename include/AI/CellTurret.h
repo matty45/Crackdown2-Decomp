@@ -1,3 +1,4 @@
+#include "gom/object_prototype.h"
 #ifndef AI_CELLTURRET_H
 #define AI_CELLTURRET_H
 
@@ -10,6 +11,8 @@ namespace AI
     class CellTurret : public cNonGameBase
     {
     public:
+        // CD2 spawning initializer 0x82F96830 names placement factory 0x824c5250.
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pCellTurretClass;
 

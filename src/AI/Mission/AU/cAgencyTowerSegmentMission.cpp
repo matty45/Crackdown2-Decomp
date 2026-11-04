@@ -1,3 +1,4 @@
+#include "fun_runtime/inheritance_registrar.h"
 #include "AI/cAgencyTowerSegmentMission.h"
 #include "rws/classfactory.h"
 
@@ -43,4 +44,11 @@ namespace AI
         static Fun_Runtime::cClass *cAgencyTowerSegmentMissionClass = new Fun_Runtime::cClass(0x2104E, "cAgencyTowerSegmentMission", 0x710);
         return *cAgencyTowerSegmentMissionClass;
     }
+}
+
+// CD2 0x82F88028: runtime mission inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar cAgencyTowerSegmentMissioncMissionInheritRegistrar(
+        AI::cAgencyTowerSegmentMission::StaticCreateClass(), AI::cMission::StaticCreateClass());
 }

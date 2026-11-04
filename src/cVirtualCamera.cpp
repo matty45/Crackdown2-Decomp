@@ -46,3 +46,11 @@ namespace unknown
     static Fun_Runtime::cInheritanceRegistrar cVirtualCameracDebugPageHandlerInheritRegistrar(
         unknown::cVirtualCamera::StaticCreateClass(), GDb::cDebugPageHandler::StaticCreateClass());
 }
+
+namespace unknown
+{
+    const char *cVirtualCamera::RetClassName() const
+    {
+        return "cVirtualCamera";
+    }
+}

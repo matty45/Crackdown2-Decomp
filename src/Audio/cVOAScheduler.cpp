@@ -27,3 +27,11 @@ namespace Audio
     static RWS::CClassFactory::CRegistrar cVOASchedulerRegistrar(
         "cVOAScheduler", cVOAScheduler::MakeNew, 0x480, false);
 }
+
+namespace Audio
+{
+    const Fun_Runtime::cClass &cVOAScheduler::RetClass() const
+    {
+        return *ms_pccVOASchedulerClass;
+    }
+}

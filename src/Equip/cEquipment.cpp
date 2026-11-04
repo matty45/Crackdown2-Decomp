@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "PHYSICS/cNetDynamicBody.h"
 #include "rws/classfactory.h"
@@ -39,4 +40,29 @@ namespace Equip
 {
     static Fun_Runtime::cInheritanceRegistrar cEquipmentcNetDynamicBodyInheritRegistrar(
         Equip::cEquipment::StaticCreateClass(), PHYSICS::cNetDynamicBody::StaticCreateClass());
+}
+
+// CD2 0x82FCB2A0: register the class descriptor and placement factory.
+namespace Equip
+{
+    static GOM::cProtoRegistrar cEquipmentSpawningRegistrar(
+        cEquipment::StaticCreateClass(), cEquipment::SpawnFromPrototype);
+}
+
+namespace Equip
+{
+    const char *cEquipment::RetClassName() const
+    {
+        return "cEquipment";
+    }
+}
+
+namespace Equip
+{
+    RWS::CAttributeHandler *cEquipment::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cEquipment;
+        return 0;
+    }
 }

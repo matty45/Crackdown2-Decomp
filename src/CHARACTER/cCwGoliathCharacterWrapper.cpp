@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "CHARACTER/cCwCharacter.h"
 #include "CHARACTER/cCwGoliathCharacterWrapper.h"
@@ -38,4 +39,11 @@ namespace CHARACTER
 {
     static Fun_Runtime::cInheritanceRegistrar cCwGoliathCharacterWrappercCwCharacterInheritRegistrar(
         CHARACTER::cCwGoliathCharacterWrapper::StaticCreateClass(), CHARACTER::cCwCharacter::StaticCreateClass());
+}
+
+// CD2 0x82FAD370: register the class descriptor and placement factory.
+namespace CHARACTER
+{
+    static GOM::cProtoRegistrar cCwGoliathCharacterWrapperSpawningRegistrar(
+        cCwGoliathCharacterWrapper::StaticCreateClass(), cCwGoliathCharacterWrapper::SpawnFromPrototype);
 }

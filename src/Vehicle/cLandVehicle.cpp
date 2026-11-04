@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "VEHICLE_CONTROL/cHelicopterController.h"
 #include "Vehicle/cLandVehicle.h"
@@ -38,4 +39,11 @@ namespace Vehicle
 {
     static Fun_Runtime::cInheritanceRegistrar cLandVehiclecVehicleInheritRegistrar(
         Vehicle::cLandVehicle::StaticCreateClass(), Vehicle::cVehicle::StaticCreateClass());
+}
+
+// CD2 0x82FE8A70: register the class descriptor and placement factory.
+namespace Vehicle
+{
+    static GOM::cProtoRegistrar cLandVehicleSpawningRegistrar(
+        cLandVehicle::StaticCreateClass(), cLandVehicle::SpawnFromPrototype);
 }

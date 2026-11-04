@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "Prop/cPrismaticProp.h"
 #include "rws/classfactory.h"
@@ -37,4 +38,19 @@ namespace unknown
 {
     static Fun_Runtime::cInheritanceRegistrar cAgencyGaragePlatformcPrismaticPropInheritRegistrar(
         unknown::cAgencyGaragePlatform::StaticCreateClass(), Prop::cPrismaticProp::StaticCreateClass());
+}
+
+// CD2 0x82FF6CA0: register the class descriptor and placement factory.
+namespace unknown
+{
+    static GOM::cProtoRegistrar cAgencyGaragePlatformSpawningRegistrar(
+        cAgencyGaragePlatform::StaticCreateClass(), cAgencyGaragePlatform::SpawnFromPrototype);
+}
+
+namespace unknown
+{
+    const char *cAgencyGaragePlatform::RetClassName() const
+    {
+        return "cAgencyGaragePlatform";
+    }
 }

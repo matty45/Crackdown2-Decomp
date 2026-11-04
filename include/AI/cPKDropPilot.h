@@ -1,3 +1,4 @@
+#include "gom/object_prototype.h"
 #ifndef AI_CPKDROPPILOT_H
 #define AI_CPKDROPPILOT_H
 
@@ -10,6 +11,8 @@ namespace AI
     class cPKDropPilot : public cNonGameBase
     {
     public:
+        // CD2 spawning initializer 0x82F9C6A8 names placement factory 0x824d4b88.
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pcPKDropPilotClass;
 

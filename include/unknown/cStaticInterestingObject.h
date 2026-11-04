@@ -11,6 +11,8 @@ namespace unknown
     class cStaticInterestingObject
     {
     public:
+        // CD2 0x82455708: registered-class virtual slot 0 reads this class descriptor.
+        virtual const Fun_Runtime::cClass &RetClass() const;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcStaticInterestingObjectClass;
         static Fun_Runtime::cClass &StaticCreateClass();

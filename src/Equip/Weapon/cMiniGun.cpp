@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "Equip/cCWFirearm.h"
 #include "rws/classfactory.h"
@@ -39,4 +40,19 @@ namespace Equip
 {
     static Fun_Runtime::cInheritanceRegistrar cMiniGuncCWFirearmInheritRegistrar(
         Equip::cMiniGun::StaticCreateClass(), Equip::cCWFirearm::StaticCreateClass());
+}
+
+// CD2 0x82FD4718: register the class descriptor and placement factory.
+namespace Equip
+{
+    static GOM::cProtoRegistrar cMiniGunSpawningRegistrar(
+        cMiniGun::StaticCreateClass(), cMiniGun::SpawnFromPrototype);
+}
+
+namespace Equip
+{
+    const char *cMiniGun::RetClassName() const
+    {
+        return "cMiniGun";
+    }
 }

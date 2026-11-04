@@ -1,3 +1,4 @@
+#include "gom/object_prototype.h"
 // CHARACTER::cCwTransCharacterWrapper: the player's character class in Crackdown 2 (CD2 only; Burn renamed it
 // cPlayerCharacterWrapper: Burn's CHARACTER::EmitTransCharacterClassSizeBreakDown, in cPlayerCharacterWrapper.cpp,
 // prints the "Trans Character" sizes). STAND-IN, sized to CD2; only what matched code needs so far. Evidence (CD2):
@@ -29,6 +30,10 @@ namespace CHARACTER
         unsigned char m_pad3620[0x5B40 - 0x3620];
 
     public:
+        // CD2 0x8253EDD8: primary virtual slot 11 returns the registered class name.
+        virtual const char *RetClassName() const;
+        // CD2 spawning initializer 0x82FAC1F0 names placement factory 0x8253ede8.
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static Fun_Runtime::cClass &StaticCreateClass();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcCwTransCharacterWrapperClass;     // 0x83823D4C

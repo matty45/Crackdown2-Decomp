@@ -1,3 +1,4 @@
+#include "gom/object_prototype.h"
 #include "rws/attributes.h"
 // AI::Goliath (Crackdown 2): STAND-IN for the class name only. Base AI::NPCBehaviourSM, as in RuffKing's header;
 // RetClassName (0x824B0F18) is slot 11 of the vtable at 0x821096A0, as cNonGameBase's RetClassName.
@@ -11,6 +12,8 @@ namespace AI
     class Goliath : public AI::NPCBehaviourSM
     {
     public:
+        // CD2 spawning initializer 0x82F93B58 names placement factory 0x824b0f28.
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         static const Fun_Runtime::cClass *ms_pGoliathClass;

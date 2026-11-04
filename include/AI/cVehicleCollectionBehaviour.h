@@ -1,3 +1,4 @@
+#include "gom/object_prototype.h"
 #ifndef AI_CVEHICLECOLLECTIONBEHAVIOUR_H
 #define AI_CVEHICLECOLLECTIONBEHAVIOUR_H
 
@@ -10,6 +11,8 @@ namespace AI
     class cVehicleCollectionBehaviour : public cNonGameBase
     {
     public:
+        // CD2 spawning initializer 0x82F9CF18 names placement factory 0x824d68b8.
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pcVehicleCollectionBehaviourClass;
 

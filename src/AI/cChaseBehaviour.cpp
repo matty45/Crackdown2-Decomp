@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "AI/NPCBehaviour.h"
 // AI/cChaseBehaviour.cpp: cChaseBehaviour of Crackdown 2.
@@ -39,7 +40,7 @@ namespace AI
     {
     }
 
-    RWS::CAttributeHandler *cChaseBehaviour::SpawnFromPrototype(void *, void *mem)
+    RWS::CAttributeHandler *cChaseBehaviour::SpawnFromPrototype(GOM::cObjectPrototype *, void *mem)
     {
         if (mem)
             return new (mem) cChaseBehaviour;
@@ -263,4 +264,11 @@ namespace AI
 {
     static Fun_Runtime::cInheritanceRegistrar cChaseBehaviourNPCBehaviourInheritRegistrar(
         AI::cChaseBehaviour::StaticCreateClass(), AI::NPCBehaviour::StaticCreateClass());
+}
+
+// CD2 0x82F9A1C0: register the class descriptor and placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar cChaseBehaviourSpawningRegistrar(
+        cChaseBehaviour::StaticCreateClass(), cChaseBehaviour::SpawnFromPrototype);
 }

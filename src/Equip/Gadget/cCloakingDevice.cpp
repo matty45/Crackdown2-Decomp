@@ -1,3 +1,6 @@
+#include "fun_runtime/retval.h"
+#include "Equip/cCloakingDevice.h"
+#include "gom/proto_registrar.h"
 // src/Equip/Gadget/cCloakingDevice.cpp
 //
 // Class: cCloakingDevice (namespace: Equip). Set up automatically: no function is matched yet. The address range and
@@ -10,3 +13,26 @@
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Equip/Gadget/cCloakingDevice.cpp
+
+// CD2 0x82FCC770: class descriptor and placement factory.
+namespace Equip
+{
+    static GOM::cProtoRegistrar cCloakingDeviceSpawningRegistrar(
+        cCloakingDevice::StaticCreateClass(), cCloakingDevice::SpawnFromPrototype);
+}
+
+namespace Equip
+{
+    const char *cCloakingDevice::RetClassName() const
+    {
+        return "cCloakingDevice";
+    }
+}
+
+namespace Equip
+{
+    Fun_Runtime::RetVal cCloakingDevice::cCloakingDevicePrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
+}

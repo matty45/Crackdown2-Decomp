@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "VEHICLE_CONTROL/cHelicopterController.h"
 #include "gom/non_game_base.h"
@@ -27,4 +28,29 @@ namespace VEHICLE_CONTROL
 
     static Fun_Runtime::cInheritanceRegistrar cVehicleControllercNonGameBaseInheritRegistrar(
         VEHICLE_CONTROL::cVehicleController::StaticCreateClass(), cNonGameBase::StaticCreateClass());
+}
+
+// CD2 0x83005340: register the class descriptor and placement factory.
+namespace VEHICLE_CONTROL
+{
+    static GOM::cProtoRegistrar cVehicleControllerSpawningRegistrar(
+        cVehicleController::StaticCreateClass(), cVehicleController::SpawnFromPrototype);
+}
+
+namespace VEHICLE_CONTROL
+{
+    const char *cVehicleController::RetClassName() const
+    {
+        return "cVehicleController";
+    }
+}
+
+namespace VEHICLE_CONTROL
+{
+    RWS::CAttributeHandler *cVehicleController::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cVehicleController;
+        return 0;
+    }
 }

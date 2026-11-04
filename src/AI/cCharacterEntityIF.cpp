@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "CHARACTER/cCharacterInterface.h"
 // src/AI/cCharacterEntityIF.cpp
@@ -296,4 +297,11 @@ namespace AI
 {
     static Fun_Runtime::cInheritanceRegistrar cCharacterEntityIFcCharacterInterfaceInheritRegistrar(
         AI::cCharacterEntityIF::StaticCreateClass(), CHARACTER::cCharacterInterface::StaticCreateClass());
+}
+
+// CD2 0x82F60E10: register the class descriptor and placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar cCharacterEntityIFSpawningRegistrar(
+        cCharacterEntityIF::StaticCreateClass(), cCharacterEntityIF::SpawnFromPrototype);
 }

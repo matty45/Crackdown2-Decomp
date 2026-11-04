@@ -40,3 +40,11 @@ namespace WorldManager
     static Fun_Runtime::cInheritanceRegistrar cStaticEnvironmentcStaticBodyInheritRegistrar(
         WorldManager::cStaticEnvironment::StaticCreateClass(), PHYSICS::cStaticBody::StaticCreateClass());
 }
+
+namespace WorldManager
+{
+    const char *cStaticEnvironment::RetClassName() const
+    {
+        return "cStaticEnvironment";
+    }
+}

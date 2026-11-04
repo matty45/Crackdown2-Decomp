@@ -11,6 +11,8 @@ namespace unknown
     class cPopulationZone
     {
     public:
+        // CD2 0x8280BFF8: registered-class virtual slot 0 reads this class descriptor.
+        virtual const Fun_Runtime::cClass &RetClass() const;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcPopulationZoneClass;
         static Fun_Runtime::cClass &StaticCreateClass();

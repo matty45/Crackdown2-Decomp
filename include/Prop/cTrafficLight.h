@@ -1,3 +1,5 @@
+#include "fun_runtime/class.h"
+#include "gom/object_prototype.h"
 // Prop::cTrafficLight (CD2 layout, 0xE60 bytes) and its prototype (0x510 bytes). Evidence:
 // - Sizes: the registrar (0x82FFC358) registers cTrafficLight with size 0xE60; the prototype's MakeNew (0x827473C0)
 //   allocates 0x510 bytes and calls cPropPrototype's constructor (0x8272D390), then zeroes 0x4F0 and sets the byte at
@@ -29,6 +31,9 @@ namespace Prop
     class cTrafficLight : public cProp
     {
     public:
+        // CD2 descriptor 0x8237e118 names this class; spawning registration 0x82FFC3A8.
+        static Fun_Runtime::cClass &StaticCreateClass();
+
         // RuffKing names; CD2 RetClass/IsA read the descriptor at 0x8384C1BC.
         static const Fun_Runtime::cClass *ms_pcTrafficLightClass;
         virtual const Fun_Runtime::cClass &RetClass() const;

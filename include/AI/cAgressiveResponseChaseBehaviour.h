@@ -1,3 +1,4 @@
+#include "gom/object_prototype.h"
 #ifndef AI_CAGRESSIVERESPONSECHASEBEHAVIOUR_H
 #define AI_CAGRESSIVERESPONSECHASEBEHAVIOUR_H
 
@@ -10,6 +11,8 @@ namespace AI
     class cAgressiveResponseChaseBehaviour : public cNonGameBase
     {
     public:
+        // CD2 spawning initializer 0x82F99518 names placement factory 0x824c92b0.
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pcAgressiveResponseChaseBehaviourClass;
 

@@ -38,3 +38,19 @@ namespace unknown
     static Fun_Runtime::cInheritanceRegistrar cAudioLogcPickupBaseInheritRegistrar(
         unknown::cAudioLog::StaticCreateClass(), PHYSICS::cPickupBase::StaticCreateClass());
 }
+
+namespace unknown
+{
+    const char *cAudioLog::RetClassName() const
+    {
+        return "cAudioLog";
+    }
+}
+
+namespace unknown
+{
+    const Fun_Runtime::cClass &cAudioLog::RetClass() const
+    {
+        return *ms_pcAudioLogClass;
+    }
+}

@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "AI/cAmbientTrafficBehaviour.h"
 #include "AI/cAmbientWanderAttackBehaviour.h"
@@ -52,4 +53,21 @@ namespace AI
 {
     static Fun_Runtime::cInheritanceRegistrar cAmbientWanderAttackBehaviourcAmbientTrafficBehaviourInheritRegistrar(
         AI::cAmbientWanderAttackBehaviour::StaticCreateClass(), AI::cAmbientTrafficBehaviour::StaticCreateClass());
+}
+
+// CD2 0x82F99D88: register the class descriptor and placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar cAmbientWanderAttackBehaviourSpawningRegistrar(
+        cAmbientWanderAttackBehaviour::StaticCreateClass(), cAmbientWanderAttackBehaviour::SpawnFromPrototype);
+}
+
+namespace AI
+{
+    RWS::CAttributeHandler *cAmbientWanderAttackBehaviour::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cAmbientWanderAttackBehaviour;
+        return 0;
+    }
 }

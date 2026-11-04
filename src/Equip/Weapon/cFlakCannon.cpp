@@ -1,3 +1,6 @@
+#include "Equip/cCWHeavyWeapon.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/proto_registrar.h"
 #include "rws/classfactory.h"
 // src/Equip/Weapon/cFlakCannon.cpp
 //
@@ -30,4 +33,26 @@ namespace Equip
 {
     static RWS::CClassFactory::CRegistrar cFlakCannonRegistrar(
         "cFlakCannon", cFlakCannon::MakeNew, 0xA30, false);
+}
+
+// CD2 0x82FD4368: register the class descriptor and placement factory.
+namespace Equip
+{
+    static GOM::cProtoRegistrar cFlakCannonSpawningRegistrar(
+        cFlakCannon::StaticCreateClass(), cFlakCannon::SpawnFromPrototype);
+}
+
+// CD2 0x82FD42B0: runtime class inheritance registration.
+namespace Equip
+{
+    static Fun_Runtime::cInheritanceRegistrar cFlakCannoncCWHeavyWeaponInheritRegistrar(
+        Equip::cFlakCannon::StaticCreateClass(), Equip::cCWHeavyWeapon::StaticCreateClass());
+}
+
+namespace Equip
+{
+    const char *cFlakCannon::RetClassName() const
+    {
+        return "cFlakCannon";
+    }
 }

@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "AI/cPilotBase.h"
 #include "AI/cVehicleCollectionBehaviour.h"
@@ -53,4 +54,11 @@ namespace AI
 {
     static Fun_Runtime::cInheritanceRegistrar cVehicleCollectionBehaviourcPilotBaseInheritRegistrar(
         AI::cVehicleCollectionBehaviour::StaticCreateClass(), AI::cPilotBase::StaticCreateClass());
+}
+
+// CD2 0x82F9CF18: register the class descriptor and placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar cVehicleCollectionBehaviourSpawningRegistrar(
+        cVehicleCollectionBehaviour::StaticCreateClass(), cVehicleCollectionBehaviour::SpawnFromPrototype);
 }

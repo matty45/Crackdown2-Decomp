@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "unknown/cPhantomBody.h"
 #include "rws/classfactory.h"
@@ -37,4 +38,27 @@ namespace unknown
 {
     static Fun_Runtime::cInheritanceRegistrar cPrismaticTriggercPhantomBodyInheritRegistrar(
         unknown::cPrismaticTrigger::StaticCreateClass(), unknown::cPhantomBody::StaticCreateClass());
+}
+
+// CD2 0x82FF8890: register the class descriptor and placement factory.
+namespace unknown
+{
+    static GOM::cProtoRegistrar cPrismaticTriggerSpawningRegistrar(
+        cPrismaticTrigger::StaticCreateClass(), cPrismaticTrigger::SpawnFromPrototype);
+}
+
+namespace unknown
+{
+    const char *cPrismaticTrigger::RetClassName() const
+    {
+        return "cPrismaticTrigger";
+    }
+}
+
+namespace unknown
+{
+    const Fun_Runtime::cClass &cPrismaticTrigger::RetClass() const
+    {
+        return *ms_pcPrismaticTriggerClass;
+    }
 }

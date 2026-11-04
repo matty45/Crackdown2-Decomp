@@ -1,3 +1,6 @@
+// CD2 constructor 0x824D32E0 confirms this behaviour-base chain; remaining instance fields are incomplete.
+#include "AI/NPCBehaviour.h"
+#include "gom/object_prototype.h"
 #ifndef AI_CPILOTBASE_H
 #define AI_CPILOTBASE_H
 
@@ -7,9 +10,11 @@
 
 namespace AI
 {
-    class cPilotBase : public cNonGameBase
+    class cPilotBase : public AI::NPCBehaviour
     {
     public:
+        // CD2 spawning initializer 0x82F9BE38 names placement factory 0x824d31b0.
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pcPilotBaseClass;
 

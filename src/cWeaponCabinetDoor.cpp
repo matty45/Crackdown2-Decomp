@@ -1,3 +1,5 @@
+#include "fun_runtime/retval.h"
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "Prop/cPrismaticProp.h"
 #include "rws/classfactory.h"
@@ -37,4 +39,35 @@ namespace unknown
 {
     static Fun_Runtime::cInheritanceRegistrar cWeaponCabinetDoorcPrismaticPropInheritRegistrar(
         unknown::cWeaponCabinetDoor::StaticCreateClass(), Prop::cPrismaticProp::StaticCreateClass());
+}
+
+// CD2 0x82FF9E08: register the class descriptor and placement factory.
+namespace unknown
+{
+    static GOM::cProtoRegistrar cWeaponCabinetDoorSpawningRegistrar(
+        cWeaponCabinetDoor::StaticCreateClass(), cWeaponCabinetDoor::SpawnFromPrototype);
+}
+
+namespace unknown
+{
+    const char *cWeaponCabinetDoor::RetClassName() const
+    {
+        return "cWeaponCabinetDoor";
+    }
+}
+
+namespace unknown
+{
+    const Fun_Runtime::cClass &cWeaponCabinetDoor::RetClass() const
+    {
+        return *ms_pcWeaponCabinetDoorClass;
+    }
+}
+
+namespace unknown
+{
+    Fun_Runtime::RetVal cWeaponCabinetDoor::cWeaponCabinetDoorPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
 }

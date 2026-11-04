@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "Equip/cCWWeapon.h"
 #include "rws/classfactory.h"
@@ -39,4 +40,37 @@ namespace Equip
 {
     static Fun_Runtime::cInheritanceRegistrar cRefractorcCWWeaponInheritRegistrar(
         Equip::cRefractor::StaticCreateClass(), Equip::cCWWeapon::StaticCreateClass());
+}
+
+// CD2 0x82FCD710: register the class descriptor and placement factory.
+namespace Equip
+{
+    static GOM::cProtoRegistrar cRefractorSpawningRegistrar(
+        cRefractor::StaticCreateClass(), cRefractor::SpawnFromPrototype);
+}
+
+namespace Equip
+{
+    const char *cRefractor::RetClassName() const
+    {
+        return "cRefractor";
+    }
+}
+
+namespace Equip
+{
+    const Fun_Runtime::cClass &cRefractor::RetClass() const
+    {
+        return *ms_pcRefractorClass;
+    }
+}
+
+namespace Equip
+{
+    RWS::CAttributeHandler *cRefractor::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cRefractor;
+        return 0;
+    }
 }

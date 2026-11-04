@@ -1,3 +1,6 @@
+#include "Equip/cCWSatchelCharge.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/proto_registrar.h"
 #include "rws/classfactory.h"
 // src/cStickler.cpp
 //
@@ -28,4 +31,26 @@ namespace unknown
 {
     static RWS::CClassFactory::CRegistrar cSticklerRegistrar(
         "cStickler", cStickler::MakeNew, 0xAE0, false);
+}
+
+// CD2 0x82FD10A8: register the class descriptor and placement factory.
+namespace unknown
+{
+    static GOM::cProtoRegistrar cSticklerSpawningRegistrar(
+        cStickler::StaticCreateClass(), cStickler::SpawnFromPrototype);
+}
+
+// CD2 0x82FD0FF0: runtime class inheritance registration.
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar cSticklercCWSatchelChargeInheritRegistrar(
+        unknown::cStickler::StaticCreateClass(), Equip::cCWSatchelCharge::StaticCreateClass());
+}
+
+namespace unknown
+{
+    const char *cStickler::RetClassName() const
+    {
+        return "cStickler";
+    }
 }

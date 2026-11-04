@@ -1,3 +1,4 @@
+#include "gom/object_prototype.h"
 // CHARACTER::cCharacter (Crackdown 2): STAND-IN, sized to CD2. Only what matched code needs so far. Evidence:
 //   - Size 0x2CC0: its StaticCreateClass builds cClass(0, "cCharacter", 0x2CC0); its constructor is 0x82543408.
 //   - Bases: RuffKing's cCharacter derives from cCharacterMotion and others down to cGameBase; they are not modelled.
@@ -25,6 +26,8 @@ namespace CHARACTER
         bool m_bIsOnFire;
         unsigned char m_pad262[0x548 - 0x262];
     public:
+        // CD2 spawning initializer 0x82FAD7A8 names placement factory 0x822643a0.
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static const Fun_Runtime::cClass *ms_pcCharacterClass;
         static Fun_Runtime::cClass &StaticCreateClass();
         unsigned int m_field548;

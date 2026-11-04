@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "rws/classfactory.h"
 // src/Vehicle/Agency/cAgencyTank.cpp
 //
@@ -30,4 +31,19 @@ namespace Vehicle
 {
     static RWS::CClassFactory::CRegistrar cAgencyTankRegistrar(
         "cAgencyTank", cAgencyTank::MakeNew, 0x3150, false);
+}
+
+// CD2 0x82FEC660: register the class descriptor and placement factory.
+namespace Vehicle
+{
+    static GOM::cProtoRegistrar cAgencyTankSpawningRegistrar(
+        cAgencyTank::StaticCreateClass(), cAgencyTank::SpawnFromPrototype);
+}
+
+namespace Vehicle
+{
+    const char *cAgencyTank::RetClassName() const
+    {
+        return "cAgencyTank";
+    }
 }

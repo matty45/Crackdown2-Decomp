@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "Equip/cFlocket.h"
 #include "rws/classfactory.h"
@@ -51,4 +52,11 @@ namespace Equip
 {
     static Fun_Runtime::cInheritanceRegistrar cHWGrenadeProjectilecHWProjectileInheritRegistrar(
         Equip::cHWGrenadeProjectile::StaticCreateClass(), Equip::cHWProjectile::StaticCreateClass());
+}
+
+// CD2 0x82FD2320: register the class descriptor and placement factory.
+namespace Equip
+{
+    static GOM::cProtoRegistrar cHWGrenadeProjectileSpawningRegistrar(
+        cHWGrenadeProjectile::StaticCreateClass(), cHWGrenadeProjectile::SpawnFromPrototype);
 }

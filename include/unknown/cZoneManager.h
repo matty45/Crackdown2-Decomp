@@ -11,6 +11,10 @@ namespace unknown
     class cZoneManager
     {
     public:
+        // CD2 0x8280B900: registered-class virtual slot 0 reads this class descriptor.
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        // CD2 0x8280B9B8: primary virtual slot 11 returns the registered class name.
+        virtual const char *RetClassName() const;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcZoneManagerClass;
         static Fun_Runtime::cClass &StaticCreateClass();

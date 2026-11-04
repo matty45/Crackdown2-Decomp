@@ -1,3 +1,6 @@
+#include "Equip/cGrenade.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/proto_registrar.h"
 #include "rws/classfactory.h"
 // src/cBoostPack.cpp
 //
@@ -28,4 +31,26 @@ namespace unknown
 {
     static RWS::CClassFactory::CRegistrar cBoostPackRegistrar(
         "cBoostPack", cBoostPack::MakeNew, 0x9D0, false);
+}
+
+// CD2 0x82FCC368: register the class descriptor and placement factory.
+namespace unknown
+{
+    static GOM::cProtoRegistrar cBoostPackSpawningRegistrar(
+        cBoostPack::StaticCreateClass(), cBoostPack::SpawnFromPrototype);
+}
+
+// CD2 0x82FCC2B0: runtime class inheritance registration.
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar cBoostPackcGrenadeInheritRegistrar(
+        unknown::cBoostPack::StaticCreateClass(), Equip::cGrenade::StaticCreateClass());
+}
+
+namespace unknown
+{
+    const char *cBoostPack::RetClassName() const
+    {
+        return "cBoostPack";
+    }
 }

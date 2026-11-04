@@ -27,3 +27,11 @@ namespace Vehicle
     static RWS::CClassFactory::CRegistrar cGenVehicleProfileRegistrar(
         "cGenVehicleProfile", cGenVehicleProfile::MakeNew, 0x7c, false);
 }
+
+namespace Vehicle
+{
+    const Fun_Runtime::cClass &cGenVehicleProfile::RetClass() const
+    {
+        return *ms_pccGenVehicleProfileClass;
+    }
+}

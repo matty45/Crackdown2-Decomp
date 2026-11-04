@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "GDb/cDebugPageHandler.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "AI/cCharacterEntityIF.h"
@@ -165,4 +166,11 @@ namespace PLAYER
 {
     static Fun_Runtime::cInheritanceRegistrar cPlayercDebugPageHandlerInheritRegistrar(
         PLAYER::cPlayer::StaticCreateClass(), GDb::cDebugPageHandler::StaticCreateClass());
+}
+
+// CD2 0x82FF3D80: register the class descriptor and placement factory.
+namespace PLAYER
+{
+    static GOM::cProtoRegistrar cPlayerSpawningRegistrar(
+        cPlayer::StaticCreateClass(), cPlayer::SpawnFromPrototype);
 }

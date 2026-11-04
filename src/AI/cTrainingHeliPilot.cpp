@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "AI/cPilotBase.h"
 #include "AI/cTrainingHeliPilot.h"
@@ -53,4 +54,11 @@ namespace AI
 {
     static Fun_Runtime::cInheritanceRegistrar cTrainingHeliPilotcPilotBaseInheritRegistrar(
         AI::cTrainingHeliPilot::StaticCreateClass(), AI::cPilotBase::StaticCreateClass());
+}
+
+// CD2 0x82F9CAE0: register the class descriptor and placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar cTrainingHeliPilotSpawningRegistrar(
+        cTrainingHeliPilot::StaticCreateClass(), cTrainingHeliPilot::SpawnFromPrototype);
 }

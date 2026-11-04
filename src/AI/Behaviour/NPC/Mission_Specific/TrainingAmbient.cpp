@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "AI/NPCBehaviour.h"
 #include "AI/TrainingAmbient.h"
@@ -50,4 +51,11 @@ namespace AI
 {
     static Fun_Runtime::cInheritanceRegistrar TrainingAmbientNPCBehaviourInheritRegistrar(
         AI::TrainingAmbient::StaticCreateClass(), AI::NPCBehaviour::StaticCreateClass());
+}
+
+// CD2 0x82F98438: register the class descriptor and placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar TrainingAmbientSpawningRegistrar(
+        TrainingAmbient::StaticCreateClass(), TrainingAmbient::SpawnFromPrototype);
 }

@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "AI/cCharacterEntityIF.h"
 // AI/cAiPlayer.cpp. Names and layouts: include/AI/cAiPlayer.h. Some functions in this file's range belong to other
@@ -291,4 +292,11 @@ namespace AI
 {
     static Fun_Runtime::cInheritanceRegistrar cAiPlayercCharacterEntityIFInheritRegistrar(
         AI::cAiPlayer::StaticCreateClass(), AI::cCharacterEntityIF::StaticCreateClass());
+}
+
+// CD2 0x82F60588: register the class descriptor and placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar cAiPlayerSpawningRegistrar(
+        cAiPlayer::StaticCreateClass(), cAiPlayer::SpawnFromPrototype);
 }

@@ -1,3 +1,5 @@
+#include "cd2/memory.h"
+#include "gom/proto_registrar.h"
 #include "AI/Peacekeeper.h"
 #include "rws/classfactory.h"
 
@@ -32,4 +34,21 @@ namespace AI
 {
     static RWS::CClassFactory::CRegistrar PeacekeeperRegistrar(
         "Peacekeeper", Peacekeeper::MakeNew, 0x1E0, false);
+}
+
+// CD2 0x82F978A8: class descriptor and placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar PeacekeeperSpawningRegistrar(
+        Peacekeeper::StaticCreateClass(), Peacekeeper::SpawnFromPrototype);
+}
+
+namespace AI
+{
+    RWS::CAttributeHandler *Peacekeeper::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) Peacekeeper;
+        return 0;
+    }
 }

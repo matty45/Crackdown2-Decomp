@@ -4,7 +4,9 @@
 #include "fun_runtime/class.h"
 #include "Network/SNetworkHeader.h"
 enum etGameMessageType { };
-class cReplicatedClass
+// CD2 cMissionBase places this base at +0x10 after a four-byte registered-class base.
+// The reference starts its first field at +0x10 and its bit stream at +0x20.
+__declspec(align(16)) class cReplicatedClass
 {
 public:
     virtual const Fun_Runtime::cClass &RetClass() const;

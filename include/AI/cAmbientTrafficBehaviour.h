@@ -1,3 +1,6 @@
+// CD2 constructor 0x824CCBE8 confirms this behaviour-base chain; remaining instance fields are incomplete.
+#include "AI/NPCBehaviour.h"
+#include "gom/object_prototype.h"
 #ifndef AI_CAMBIENTTRAFFICBEHAVIOUR_H
 #define AI_CAMBIENTTRAFFICBEHAVIOUR_H
 
@@ -7,9 +10,11 @@
 
 namespace AI
 {
-    class cAmbientTrafficBehaviour : public cNonGameBase
+    class cAmbientTrafficBehaviour : public AI::NPCBehaviour
     {
     public:
+        // CD2 spawning initializer 0x82F99950 names placement factory 0x824ccab8.
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pcAmbientTrafficBehaviourClass;
 

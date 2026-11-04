@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "Vehicle/cTruck.h"
 #include "rws/classfactory.h"
@@ -37,4 +38,19 @@ namespace unknown
 {
     static Fun_Runtime::cInheritanceRegistrar cTransformingTruckcTruckInheritRegistrar(
         unknown::cTransformingTruck::StaticCreateClass(), Vehicle::cTruck::StaticCreateClass());
+}
+
+// CD2 0x82FE76F8: register the class descriptor and placement factory.
+namespace unknown
+{
+    static GOM::cProtoRegistrar cTransformingTruckSpawningRegistrar(
+        cTransformingTruck::StaticCreateClass(), cTransformingTruck::SpawnFromPrototype);
+}
+
+namespace unknown
+{
+    const char *cTransformingTruck::RetClassName() const
+    {
+        return "cTransformingTruck";
+    }
 }

@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "rws/classfactory.h"
 // src/Prop/cVehicleDamageProp.cpp
 //
@@ -42,4 +43,11 @@ namespace Prop
             return new (memory) cVehicleDamageProp(prototype);
         return 0;
     }
+}
+
+// CD2 0x82FF5EE0: register the class descriptor and placement factory.
+namespace Prop
+{
+    static GOM::cProtoRegistrar cVehicleDamagePropSpawningRegistrar(
+        cVehicleDamageProp::StaticCreateClass(), cVehicleDamageProp::SpawnFromPrototype);
 }

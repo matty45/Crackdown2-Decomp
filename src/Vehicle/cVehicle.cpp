@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "VEHICLE_CONTROL/cHelicopterController.h"
 #include "PHYSICS/cNetDynamicBody.h"
@@ -19,4 +20,19 @@ namespace Vehicle
 {
     static Fun_Runtime::cInheritanceRegistrar cVehiclecNetDynamicBodyInheritRegistrar(
         Vehicle::cVehicle::StaticCreateClass(), PHYSICS::cNetDynamicBody::StaticCreateClass());
+}
+
+// CD2 0x82FE9A28: register the class descriptor and placement factory.
+namespace Vehicle
+{
+    static GOM::cProtoRegistrar cVehicleSpawningRegistrar(
+        cVehicle::StaticCreateClass(), cVehicle::SpawnFromPrototype);
+}
+
+namespace Vehicle
+{
+    const char *cVehicle::RetClassName() const
+    {
+        return "cVehicle";
+    }
 }

@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "AI/cPilotBase.h"
 #include "AI/EquipmentDropBehaviour.h"
@@ -53,4 +54,11 @@ namespace AI
 {
     static Fun_Runtime::cInheritanceRegistrar EquipmentDropBehaviourcPilotBaseInheritRegistrar(
         AI::EquipmentDropBehaviour::StaticCreateClass(), AI::cPilotBase::StaticCreateClass());
+}
+
+// CD2 0x82F9BA00: register the class descriptor and placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar EquipmentDropBehaviourSpawningRegistrar(
+        EquipmentDropBehaviour::StaticCreateClass(), EquipmentDropBehaviour::SpawnFromPrototype);
 }

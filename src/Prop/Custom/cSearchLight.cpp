@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "Prop/cProp.h"
 // The shared cProp hierarchy now reproduces the inherited vptr stores exactly.
@@ -115,4 +116,11 @@ namespace Prop
 {
     static Fun_Runtime::cInheritanceRegistrar cSearchLightcPropInheritRegistrar(
         Prop::cSearchLight::StaticCreateClass(), Prop::cProp::StaticCreateClass());
+}
+
+// CD2 0x82FFBA00: register the class descriptor and placement factory.
+namespace Prop
+{
+    static GOM::cProtoRegistrar cSearchLightSpawningRegistrar(
+        cSearchLight::StaticCreateClass(), cSearchLight::SpawnFromPrototype);
 }

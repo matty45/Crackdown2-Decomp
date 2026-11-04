@@ -38,3 +38,11 @@ namespace unknown
     static Fun_Runtime::cInheritanceRegistrar cNetGameAIVehicleSpawnPointcNetGameAISpawnPointInheritRegistrar(
         unknown::cNetGameAIVehicleSpawnPoint::StaticCreateClass(), unknown::cNetGameAISpawnPoint::StaticCreateClass());
 }
+
+namespace unknown
+{
+    const char *cNetGameAIVehicleSpawnPoint::RetClassName() const
+    {
+        return "cNetGameAIVehicleSpawnPoint";
+    }
+}

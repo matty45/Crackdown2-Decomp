@@ -40,3 +40,11 @@ namespace PHYSICS
     static Fun_Runtime::cInheritanceRegistrar cWaterZonecNonGameBaseInheritRegistrar(
         PHYSICS::cWaterZone::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }
+
+namespace PHYSICS
+{
+    const char *cWaterZone::RetClassName() const
+    {
+        return "cWaterZone";
+    }
+}

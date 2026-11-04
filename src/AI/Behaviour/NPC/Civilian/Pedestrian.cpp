@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "AI/cPedestrianBase.h"
 #include "AI/Pedestrian.h"
@@ -55,4 +56,11 @@ namespace AI
 {
     static Fun_Runtime::cInheritanceRegistrar PedestriancPedestrianBaseInheritRegistrar(
         AI::Pedestrian::StaticCreateClass(), AI::cPedestrianBase::StaticCreateClass());
+}
+
+// CD2 0x82F92630: register the class descriptor and placement factory.
+namespace AI
+{
+    static GOM::cProtoRegistrar PedestrianSpawningRegistrar(
+        Pedestrian::StaticCreateClass(), Pedestrian::SpawnFromPrototype);
 }

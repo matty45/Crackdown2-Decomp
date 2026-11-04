@@ -1,3 +1,4 @@
+#include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 // Equip/cFlocket.cpp: cFlocket of Crackdown 2.
 // Measurement batch 2 (2026-10-23, Sonnet 5.5): 28 functions byte-exact, 0 tracked as work in progress
@@ -182,4 +183,11 @@ namespace Equip
 {
     static Fun_Runtime::cInheritanceRegistrar cFlocketcHWProjectileInheritRegistrar(
         Equip::cFlocket::StaticCreateClass(), Equip::cHWProjectile::StaticCreateClass());
+}
+
+// CD2 0x82FD1AB0: register the class descriptor and placement factory.
+namespace Equip
+{
+    static GOM::cProtoRegistrar cFlocketSpawningRegistrar(
+        cFlocket::StaticCreateClass(), cFlocket::SpawnFromPrototype);
 }
