@@ -10,6 +10,9 @@ namespace Anim
     class cSprintAnimationProfile : public cSpecificAnimationProfile, public cProfileDataSprint
     {
     public:
+        // __forceinline: CD2 inlines this constructor into MakeNew (0x825218B8) over cSpecificAnimationProfile's
+        // out-of-line constructor (0x824E00A8).
+        __forceinline cSprintAnimationProfile() : cProfileDataSprint(static_cast<cSpecificAnimationProfile &>(*this)) {}
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
         virtual void HandleAttributes(const RWS::CAttributePacket &);

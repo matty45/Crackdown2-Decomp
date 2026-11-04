@@ -39,3 +39,12 @@ namespace VFX
     static Fun_Runtime::cInheritanceRegistrar cTracerscNonGameBaseInheritRegistrar(
         VFX::cTracers::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }
+
+// CD2 0x827B9928: the class-factory constructor; the constructor stays out of line.
+namespace VFX
+{
+    RWS::CAttributeHandler *cTracers::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cTracers;
+    }
+}

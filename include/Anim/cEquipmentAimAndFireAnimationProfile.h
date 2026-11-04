@@ -10,6 +10,9 @@ namespace Anim
     class cEquipmentAimAndFireAnimationProfile : public cSpecificAnimationProfile, public cProfileDataEquipmentAimAndFire
     {
     public:
+        // __forceinline: CD2 inlines this constructor into MakeNew (0x82510510) over cSpecificAnimationProfile's
+        // out-of-line constructor (0x824E00A8).
+        __forceinline cEquipmentAimAndFireAnimationProfile() : cProfileDataEquipmentAimAndFire(static_cast<cSpecificAnimationProfile &>(*this)) {}
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
         virtual void HandleAttributes(const RWS::CAttributePacket &);

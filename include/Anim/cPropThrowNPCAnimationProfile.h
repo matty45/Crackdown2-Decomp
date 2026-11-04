@@ -10,6 +10,9 @@ namespace Anim
     class cPropThrowNPCAnimationProfile : public cSpecificAnimationProfile, public cProfileDataPropThrowNPC
     {
     public:
+        // __forceinline: CD2 inlines this constructor into MakeNew (0x824EBE98) over cSpecificAnimationProfile's
+        // out-of-line constructor (0x824E00A8).
+        __forceinline cPropThrowNPCAnimationProfile() : cProfileDataPropThrowNPC(static_cast<cSpecificAnimationProfile &>(*this)) {}
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
         virtual void HandleAttributes(const RWS::CAttributePacket &);

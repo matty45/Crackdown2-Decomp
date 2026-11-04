@@ -9,6 +9,8 @@ namespace Anim
     class cProfileDataBeaconPulseHover : public cAnimProfileData
     {
     public:
+        // __forceinline: CD2 inlines it into the profile's factory.
+        __forceinline cProfileDataBeaconPulseHover(cSpecificAnimationProfile &profile) : cAnimProfileData(profile) {}
         virtual void HandleAttributeData(cSpecificAnimationProfile &, const RWS::CAttributePacket &);
         CD2_LAYOUT_CHECKS(cProfileDataBeaconPulseHover,
             CD2_SIZE(cProfileDataBeaconPulseHover, 0x4))

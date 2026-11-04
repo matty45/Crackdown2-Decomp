@@ -69,7 +69,25 @@ namespace AI
         class cAiPlayerPrototype : public GOM::cObjectPrototype
         {
         public:
+            // __forceinline: CD2 inlines this constructor into MakeNew (0x823E78A8), which allocates 0x90 bytes and
+            // initialises the fields below (names ours) after the vtables.
+            __forceinline cAiPlayerPrototype(const RWS::CAttributePacket &packet)
+                : GOM::cObjectPrototype(packet), m_nUnknown70(0), m_nUnknown74(0), m_nUnknown78(3),
+                  m_bUnknown7C(true), m_bUnknown7D(false), m_nUnknown80(0) {}
             virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &attr);
+
+        private:
+            unsigned int m_nUnknown70; // 0x70
+            unsigned int m_nUnknown74; // 0x74
+            unsigned int m_nUnknown78; // 0x78
+            bool m_bUnknown7C;         // 0x7C
+            bool m_bUnknown7D;         // 0x7D
+            unsigned int m_nUnknown80; // 0x80
+            unsigned char m_pad84[0x90 - 0x84];
+
+            CD2_LAYOUT_CHECKS(cAiPlayerPrototype,
+                CD2_SIZE(cAiPlayerPrototype, 0x90)
+                CD2_OFFSET(cAiPlayerPrototype, m_nUnknown70, 0x70))
         };
 
         enum etMapStatus

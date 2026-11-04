@@ -9,6 +9,8 @@ namespace Anim
     class cLedgeProfileData : public cAnimProfileData
     {
     public:
+        // __forceinline: CD2 inlines it into the profile's factory.
+        __forceinline cLedgeProfileData(cSpecificAnimationProfile &profile) : cAnimProfileData(profile) {}
         virtual void HandleAttributeData(cSpecificAnimationProfile &, const RWS::CAttributePacket &);
         CD2_LAYOUT_CHECKS(cLedgeProfileData,
             CD2_SIZE(cLedgeProfileData, 0x4))

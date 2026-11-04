@@ -65,3 +65,12 @@ namespace RPG
     static Fun_Runtime::cInheritanceRegistrar cSkillProfilecNonGameBaseInheritRegistrar(
         RPG::cSkillProfile::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }
+
+// CD2 0x827534A0: the class-factory constructor; the constructor stays out of line.
+namespace RPG
+{
+    RWS::CAttributeHandler *cSkillProfile::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cSkillProfile(packet);
+    }
+}

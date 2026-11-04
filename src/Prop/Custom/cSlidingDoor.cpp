@@ -27,3 +27,14 @@ namespace Prop
     static RWS::CClassFactory::CRegistrar cSlidingDoorRegistrar(
         "cSlidingDoor", cSlidingDoor::MakeNew, 0xf00, false);
 }
+
+#include "cd2/memory.h"
+
+// CD2 0x827468e8: the class factory builds the prototype.
+namespace Prop
+{
+    RWS::CAttributeHandler *cSlidingDoor::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cSlidingDoorPrototype(packet);
+    }
+}

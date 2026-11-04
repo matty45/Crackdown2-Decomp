@@ -65,3 +65,12 @@ namespace AudioLogic
     static Fun_Runtime::cInheritanceRegistrar cAudioBaseProfilecScriptHostInheritRegistrar(
         AudioLogic::cAudioBaseProfile::StaticCreateClass(), Fun_Runtime::cScriptHost::StaticCreateClass());
 }
+
+// CD2 0x82527770: the class-factory constructor; the constructor stays out of line.
+namespace AudioLogic
+{
+    RWS::CAttributeHandler *cAudioBaseProfile::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cAudioBaseProfile;
+    }
+}

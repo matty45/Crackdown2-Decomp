@@ -11,6 +11,10 @@ namespace AI
         static Fun_Runtime::cClass &StaticCreateClass();
     private:
         unsigned char m_unmodelledC0[0xF0 - 0xC0];
+    public:
+        // Out of line: CD2 0x824A8070 (it first calls NPCBehaviour's 0x824A89C8).
+        NPCArmedBehaviour();
+    private:
         CD2_LAYOUT_CHECKS(NPCArmedBehaviour, CD2_SIZE(NPCArmedBehaviour, 0xF0))
     };
 }

@@ -52,3 +52,12 @@ namespace VFX
     static Fun_Runtime::cInheritanceRegistrar cGlobalLightManagercNonGameBaseInheritRegistrar(
         VFX::cGlobalLightManager::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }
+
+// CD2 0x827FAFE0: the class-factory constructor; the constructor stays out of line.
+namespace VFX
+{
+    RWS::CAttributeHandler *cGlobalLightManager::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cGlobalLightManager;
+    }
+}

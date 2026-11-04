@@ -10,6 +10,9 @@ namespace Anim
     class cNPCBargeAnimationProfile : public cSpecificAnimationProfile, public cProfileDataNPCBarge
     {
     public:
+        // __forceinline: CD2 inlines this constructor into MakeNew (0x824EAF90) over cSpecificAnimationProfile's
+        // out-of-line constructor (0x824E00A8).
+        __forceinline cNPCBargeAnimationProfile() : cProfileDataNPCBarge(static_cast<cSpecificAnimationProfile &>(*this)) {}
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
         virtual void HandleAttributes(const RWS::CAttributePacket &);

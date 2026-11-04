@@ -21,3 +21,12 @@ namespace Anim
     static RWS::CClassFactory::CRegistrar cCoverAnimationProfileRegistrar(
         "cCoverAnimationProfile", cCoverAnimationProfile::MakeNew, 0x40, false);
 }
+
+// CD2 0x824E7A30: the class factory.
+namespace Anim
+{
+    RWS::CAttributeHandler *cCoverAnimationProfile::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cCoverAnimationProfile;
+    }
+}

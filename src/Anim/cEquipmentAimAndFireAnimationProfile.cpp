@@ -20,3 +20,14 @@ namespace Anim
     static RWS::CClassFactory::CRegistrar cEquipmentAimAndFireAnimationProfileRegistrar(
         "cEquipmentAimAndFireAnimationProfile", cEquipmentAimAndFireAnimationProfile::MakeNew, 0x40, false);
 }
+
+#include "cd2/memory.h"
+
+// CD2 0x82510510: the class factory.
+namespace Anim
+{
+    RWS::CAttributeHandler *cEquipmentAimAndFireAnimationProfile::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cEquipmentAimAndFireAnimationProfile;
+    }
+}

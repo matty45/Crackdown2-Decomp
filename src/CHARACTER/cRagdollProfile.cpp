@@ -52,3 +52,12 @@ namespace CHARACTER
     static Fun_Runtime::cInheritanceRegistrar cRagdollProfilecNonGameBaseInheritRegistrar(
         CHARACTER::cRagdollProfile::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }
+
+// CD2 0x82575E48: the class-factory constructor; the constructor stays out of line.
+namespace CHARACTER
+{
+    RWS::CAttributeHandler *cRagdollProfile::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cRagdollProfile;
+    }
+}

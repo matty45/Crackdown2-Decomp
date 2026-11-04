@@ -20,3 +20,14 @@ namespace Anim
     static RWS::CClassFactory::CRegistrar cReaperJumpAnimationProfileRegistrar(
         "cReaperJumpAnimationProfile", cReaperJumpAnimationProfile::MakeNew, 0x40, false);
 }
+
+#include "cd2/memory.h"
+
+// CD2 0x824F66A0: the class factory.
+namespace Anim
+{
+    RWS::CAttributeHandler *cReaperJumpAnimationProfile::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cReaperJumpAnimationProfile;
+    }
+}

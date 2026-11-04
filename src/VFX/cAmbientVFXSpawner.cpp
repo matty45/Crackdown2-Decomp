@@ -171,3 +171,9 @@ namespace VFX
     static Fun_Runtime::cInheritanceRegistrar cAmbientVFXSpawnercAmbientVFXSpawnerBaseInheritRegistrar(
         VFX::cAmbientVFXSpawner::StaticCreateClass(), VFX::cAmbientVFXSpawnerBase::StaticCreateClass());
 }
+
+// CD2 0x8300AEB8 initializes the descriptor pointer through StaticCreateClass.
+namespace VFX
+{
+    const Fun_Runtime::cClass *cAmbientVFXSpawner::ms_pcAmbientVFXSpawnerClass = &cAmbientVFXSpawner::StaticCreateClass();
+}

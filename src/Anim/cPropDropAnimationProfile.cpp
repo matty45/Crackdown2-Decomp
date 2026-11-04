@@ -20,3 +20,14 @@ namespace Anim
     static RWS::CClassFactory::CRegistrar cPropDropAnimationProfileRegistrar(
         "cPropDropAnimationProfile", cPropDropAnimationProfile::MakeNew, 0x40, false);
 }
+
+#include "cd2/memory.h"
+
+// CD2 0x8250C270: the class factory.
+namespace Anim
+{
+    RWS::CAttributeHandler *cPropDropAnimationProfile::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cPropDropAnimationProfile;
+    }
+}

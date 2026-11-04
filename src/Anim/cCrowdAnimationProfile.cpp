@@ -20,3 +20,14 @@ namespace Anim
     static RWS::CClassFactory::CRegistrar cCrowdAnimationProfileRegistrar(
         "cCrowdAnimationProfile", cCrowdAnimationProfile::MakeNew, 0x40, false);
 }
+
+#include "cd2/memory.h"
+
+// CD2 0x82524D88: the class factory.
+namespace Anim
+{
+    RWS::CAttributeHandler *cCrowdAnimationProfile::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cCrowdAnimationProfile;
+    }
+}

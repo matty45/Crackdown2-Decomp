@@ -52,3 +52,12 @@ namespace VFX
     static Fun_Runtime::cInheritanceRegistrar cOutlinescNonGameBaseInheritRegistrar(
         VFX::cOutlines::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }
+
+// CD2 0x827A0B98: the class-factory constructor; the constructor stays out of line.
+namespace VFX
+{
+    RWS::CAttributeHandler *cOutlines::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cOutlines;
+    }
+}
