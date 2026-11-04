@@ -47,3 +47,13 @@ namespace unknown
         return "cStaticInterestingObject";
     }
 }
+
+#include "fun_runtime/inheritance_registrar.h"
+#include "unknown/cInterestingObject.h"
+
+// CD2 0x82F85EB0: runtime class inheritance registration.
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar cStaticInterestingObjectcInterestingObjectInheritRegistrar(
+        unknown::cStaticInterestingObject::StaticCreateClass(), unknown::cInterestingObject::StaticCreateClass());
+}

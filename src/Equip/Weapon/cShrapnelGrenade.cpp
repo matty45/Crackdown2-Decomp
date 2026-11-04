@@ -49,3 +49,13 @@ namespace Equip
         return "cShrapnelGrenade";
     }
 }
+
+#include "fun_runtime/inheritance_registrar.h"
+#include "Equip/cExplosiveGrenade.h"
+
+// CD2 0x82FD08E0: runtime class inheritance registration.
+namespace Equip
+{
+    static Fun_Runtime::cInheritanceRegistrar cShrapnelGrenadecExplosiveGrenadeInheritRegistrar(
+        Equip::cShrapnelGrenade::StaticCreateClass(), Equip::cExplosiveGrenade::StaticCreateClass());
+}

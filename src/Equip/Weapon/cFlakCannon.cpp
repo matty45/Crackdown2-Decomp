@@ -31,3 +31,13 @@ namespace Equip
     static RWS::CClassFactory::CRegistrar cFlakCannonRegistrar(
         "cFlakCannon", cFlakCannon::MakeNew, 0xA30, false);
 }
+
+#include "fun_runtime/inheritance_registrar.h"
+#include "Equip/cCWHeavyWeapon.h"
+
+// CD2 0x82FD42B0: runtime class inheritance registration.
+namespace Equip
+{
+    static Fun_Runtime::cInheritanceRegistrar cFlakCannoncCWHeavyWeaponInheritRegistrar(
+        Equip::cFlakCannon::StaticCreateClass(), Equip::cCWHeavyWeapon::StaticCreateClass());
+}

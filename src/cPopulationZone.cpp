@@ -47,3 +47,13 @@ namespace unknown
         return "cPopulationZone";
     }
 }
+
+#include "fun_runtime/inheritance_registrar.h"
+#include "unknown/cZone.h"
+
+// CD2 0x8300DD08: runtime class inheritance registration.
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar cPopulationZonecZoneInheritRegistrar(
+        unknown::cPopulationZone::StaticCreateClass(), unknown::cZone::StaticCreateClass());
+}

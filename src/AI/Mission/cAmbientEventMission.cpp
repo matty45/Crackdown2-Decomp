@@ -40,3 +40,13 @@ namespace AI
         return "cAmbientEventMission";
     }
 }
+
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/cMissionBase.h"
+
+// CD2 0x82F900E0: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar cAmbientEventMissioncMissionBaseInheritRegistrar(
+        AI::cAmbientEventMission::StaticCreateClass(), AI::cMissionBase::StaticCreateClass());
+}

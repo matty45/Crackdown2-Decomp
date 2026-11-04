@@ -47,3 +47,12 @@ namespace unknown
         return "cTransformingTruck";
     }
 }
+
+#include "unknown/cTransforming.h"
+
+// CD2 0x82FE7640: runtime class inheritance registration.
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar cTransformingTruckcTransformingInheritRegistrar(
+        unknown::cTransformingTruck::StaticCreateClass(), unknown::cTransforming::StaticCreateClass());
+}

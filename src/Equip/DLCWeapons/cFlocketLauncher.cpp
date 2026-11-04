@@ -40,3 +40,13 @@ namespace Equip
         return *ms_pcFlocketLauncherClass;
     }
 }
+
+#include "fun_runtime/inheritance_registrar.h"
+#include "Equip/cCWHeavyWeapon.h"
+
+// CD2 0x82FD32F8: runtime class inheritance registration.
+namespace Equip
+{
+    static Fun_Runtime::cInheritanceRegistrar cFlocketLaunchercCWHeavyWeaponInheritRegistrar(
+        Equip::cFlocketLauncher::StaticCreateClass(), Equip::cCWHeavyWeapon::StaticCreateClass());
+}

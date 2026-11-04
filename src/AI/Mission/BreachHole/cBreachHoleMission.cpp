@@ -44,3 +44,13 @@ namespace AI
         return *cBreachHoleMissionClass;
     }
 }
+
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/cMission.h"
+
+// CD2 0x82F89E38: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar cBreachHoleMissioncMissionInheritRegistrar(
+        AI::cBreachHoleMission::StaticCreateClass(), AI::cMission::StaticCreateClass());
+}

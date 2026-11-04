@@ -41,3 +41,13 @@ namespace AI
         return *cAUMissionClass;
     }
 }
+
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/cMission.h"
+
+// CD2 0x82F88418: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar cAUMissioncMissionInheritRegistrar(
+        AI::cAUMission::StaticCreateClass(), AI::cMission::StaticCreateClass());
+}

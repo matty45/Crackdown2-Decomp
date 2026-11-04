@@ -31,3 +31,13 @@ namespace Equip
     static RWS::CClassFactory::CRegistrar cCWWeaponRegistrar(
         "cCWWeapon", cCWWeapon::MakeNew, 0xA10, false);
 }
+
+#include "fun_runtime/inheritance_registrar.h"
+#include "Equip/cWeapon.h"
+
+// CD2 0x82FCB7D8: runtime class inheritance registration.
+namespace Equip
+{
+    static Fun_Runtime::cInheritanceRegistrar cCWWeaponcWeaponInheritRegistrar(
+        Equip::cCWWeapon::StaticCreateClass(), Equip::cWeapon::StaticCreateClass());
+}

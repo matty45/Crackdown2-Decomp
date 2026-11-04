@@ -40,3 +40,13 @@ namespace Equip
         return "cPortableLaunchPad";
     }
 }
+
+#include "fun_runtime/inheritance_registrar.h"
+#include "Equip/cCWSatchelCharge.h"
+
+// CD2 0x82FCCDE8: runtime class inheritance registration.
+namespace Equip
+{
+    static Fun_Runtime::cInheritanceRegistrar cPortableLaunchPadcCWSatchelChargeInheritRegistrar(
+        Equip::cPortableLaunchPad::StaticCreateClass(), Equip::cCWSatchelCharge::StaticCreateClass());
+}

@@ -71,3 +71,13 @@ namespace Vehicle
         return "cTruck";
     }
 }
+
+#include "fun_runtime/inheritance_registrar.h"
+#include "Vehicle/cCar.h"
+
+// CD2 0x82FE9510: runtime class inheritance registration.
+namespace Vehicle
+{
+    static Fun_Runtime::cInheritanceRegistrar cTruckcCarInheritRegistrar(
+        Vehicle::cTruck::StaticCreateClass(), Vehicle::cCar::StaticCreateClass());
+}

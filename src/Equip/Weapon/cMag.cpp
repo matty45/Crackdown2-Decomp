@@ -40,3 +40,13 @@ namespace Equip
         return "cMag";
     }
 }
+
+#include "fun_runtime/inheritance_registrar.h"
+#include "Equip/cCWSatchelCharge.h"
+
+// CD2 0x82FCCB48: runtime class inheritance registration.
+namespace Equip
+{
+    static Fun_Runtime::cInheritanceRegistrar cMagcCWSatchelChargeInheritRegistrar(
+        Equip::cMag::StaticCreateClass(), Equip::cCWSatchelCharge::StaticCreateClass());
+}

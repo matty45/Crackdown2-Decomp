@@ -29,3 +29,13 @@ namespace unknown
     static RWS::CClassFactory::CRegistrar cBoostPackRegistrar(
         "cBoostPack", cBoostPack::MakeNew, 0x9D0, false);
 }
+
+#include "fun_runtime/inheritance_registrar.h"
+#include "Equip/cGrenade.h"
+
+// CD2 0x82FCC2B0: runtime class inheritance registration.
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar cBoostPackcGrenadeInheritRegistrar(
+        unknown::cBoostPack::StaticCreateClass(), Equip::cGrenade::StaticCreateClass());
+}

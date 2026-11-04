@@ -31,3 +31,13 @@ namespace Vehicle
     static RWS::CClassFactory::CRegistrar cAgencyTankRegistrar(
         "cAgencyTank", cAgencyTank::MakeNew, 0x3150, false);
 }
+
+#include "fun_runtime/inheritance_registrar.h"
+#include "Vehicle/cAgencyCar.h"
+
+// CD2 0x82FEC5A8: runtime class inheritance registration.
+namespace Vehicle
+{
+    static Fun_Runtime::cInheritanceRegistrar cAgencyTankcAgencyCarInheritRegistrar(
+        Vehicle::cAgencyTank::StaticCreateClass(), Vehicle::cAgencyCar::StaticCreateClass());
+}

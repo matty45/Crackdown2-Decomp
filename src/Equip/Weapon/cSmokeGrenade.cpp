@@ -49,3 +49,13 @@ namespace Equip
         return "cSmokeGrenade";
     }
 }
+
+#include "fun_runtime/inheritance_registrar.h"
+#include "Equip/cGrenade.h"
+
+// CD2 0x82FD0BB8: runtime class inheritance registration.
+namespace Equip
+{
+    static Fun_Runtime::cInheritanceRegistrar cSmokeGrenadecGrenadeInheritRegistrar(
+        Equip::cSmokeGrenade::StaticCreateClass(), Equip::cGrenade::StaticCreateClass());
+}

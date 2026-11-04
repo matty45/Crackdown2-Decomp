@@ -2470,6 +2470,11 @@
         "address": "0x82474380",
         "size": 12,
         "symbol": "?RetClass@cDocksMission@AI@@"
+      },
+      {
+        "address": "0x82F8A480",
+        "size": 104,
+        "symbol": "??__EcDocksMissioncMissionInheritRegistrar@AI@@"
       }
     ],
     "src/AI/Behaviour/NPC/Cell/CellGuard.cpp": [
@@ -6562,6 +6567,11 @@
         "address": "0x8245C788",
         "size": 12,
         "symbol": "?RetClassName@cAgencyTowerSegmentMission@AI@@"
+      },
+      {
+        "address": "0x82F88028",
+        "size": 104,
+        "symbol": "??__EcAgencyTowerSegmentMissioncMissionInheritRegistrar@AI@@"
       }
     ],
     "src/AI/cAgentPickup.cpp": [
@@ -6777,6 +6787,11 @@
         "address": "0x82F883F0",
         "size": 40,
         "symbol": "??__E?ms_pcAUMissionClass@cAUMission@AI@@"
+      },
+      {
+        "address": "0x82F88418",
+        "size": 104,
+        "symbol": "??__EcAUMissioncMissionInheritRegistrar@AI@@"
       }
     ],
     "src/AI/Mission/AchievementMissions/cBaseJumperMission.cpp": [
@@ -6873,6 +6888,11 @@
         "address": "0x82F88BF8",
         "size": 40,
         "symbol": "??__E?ms_pcBeaconMissionClass@cBeaconMission@AI@@"
+      },
+      {
+        "address": "0x82F88C20",
+        "size": 104,
+        "symbol": "??__EcBeaconMissioncMissionInheritRegistrar@AI@@"
       }
     ],
     "src/AI/cBreachHole.cpp": [
@@ -6947,6 +6967,11 @@
         "address": "0x824713B0",
         "size": 12,
         "symbol": "?RetClassName@cBreachHoleMission@AI@@"
+      },
+      {
+        "address": "0x82F89E38",
+        "size": 104,
+        "symbol": "??__EcBreachHoleMissioncMissionInheritRegistrar@AI@@"
       }
     ],
     "src/AI/Mission/cCellStrongholdMission.cpp": [
@@ -6984,6 +7009,11 @@
         "address": "0x82474F50",
         "size": 12,
         "symbol": "?RetClassName@cCellStrongholdMission@AI@@"
+      },
+      {
+        "address": "0x82F8A870",
+        "size": 104,
+        "symbol": "??__EcCellStrongholdMissioncMissionInheritRegistrar@AI@@"
       }
     ],
     "src/AI/Mission/AchievementMissions/cCityGliderMission.cpp": [
@@ -7199,6 +7229,11 @@
         "address": "0x8246A870",
         "size": 12,
         "symbol": "?RetClassName@cFinalMission@AI@@"
+      },
+      {
+        "address": "0x82F89330",
+        "size": 104,
+        "symbol": "??__EcFinalMissioncMissionInheritRegistrar@AI@@"
       }
     ],
     "src/AI/cFreakSniperEvent.cpp": [
@@ -8537,6 +8572,11 @@
         "address": "0x826CB448",
         "size": 12,
         "symbol": "?RetClassName@cTruck@Vehicle@@"
+      },
+      {
+        "address": "0x82FE9510",
+        "size": 104,
+        "symbol": "??__EcTruckcCarInheritRegistrar@Vehicle@@"
       }
     ],
     "src/cCwTransCharacter.cpp": [
@@ -10652,6 +10692,11 @@
         "address": "0x824557B8",
         "size": 12,
         "symbol": "?RetClassName@cStaticInterestingObject@unknown@@"
+      },
+      {
+        "address": "0x82F85EB0",
+        "size": 104,
+        "symbol": "??__EcStaticInterestingObjectcInterestingObjectInheritRegistrar@unknown@@"
       }
     ],
     "src/AI/Mission/cAmbientEventMission.cpp": [
@@ -10679,6 +10724,11 @@
         "address": "0x8248DAD0",
         "size": 12,
         "symbol": "?RetClassName@cAmbientEventMission@AI@@"
+      },
+      {
+        "address": "0x82F900E0",
+        "size": 104,
+        "symbol": "??__EcAmbientEventMissioncMissionBaseInheritRegistrar@AI@@"
       }
     ],
     "src/Cam/Camera_Manager/cCameraManager.cpp": [
@@ -10812,6 +10862,11 @@
         "address": "0x8303F320",
         "size": 12,
         "symbol": "??__FcCWWeaponRegistrar@Equip@@"
+      },
+      {
+        "address": "0x82FCB7D8",
+        "size": 104,
+        "symbol": "??__EcCWWeaponcWeaponInheritRegistrar@Equip@@"
       }
     ],
     "src/cBoostPack.cpp": [
@@ -10834,6 +10889,11 @@
         "address": "0x8303F3D8",
         "size": 12,
         "symbol": "??__FcBoostPackRegistrar@unknown@@"
+      },
+      {
+        "address": "0x82FCC2B0",
+        "size": 104,
+        "symbol": "??__EcBoostPackcGrenadeInheritRegistrar@unknown@@"
       }
     ],
     "src/Equip/Weapon/cMag.cpp": [
@@ -10861,6 +10921,11 @@
         "address": "0x8260BC50",
         "size": 12,
         "symbol": "?RetClassName@cMag@Equip@@"
+      },
+      {
+        "address": "0x82FCCB48",
+        "size": 104,
+        "symbol": "??__EcMagcCWSatchelChargeInheritRegistrar@Equip@@"
       }
     ],
     "src/Equip/Gadget/cPortableLaunchPad.cpp": [
@@ -10888,6 +10953,11 @@
         "address": "0x8260DE40",
         "size": 12,
         "symbol": "?RetClassName@cPortableLaunchPad@Equip@@"
+      },
+      {
+        "address": "0x82FCCDE8",
+        "size": 104,
+        "symbol": "??__EcPortableLaunchPadcCWSatchelChargeInheritRegistrar@Equip@@"
       }
     ],
     "src/Equip/Gadget/cPulseRifle.cpp": [
@@ -11048,6 +11118,11 @@
         "address": "0x826197B8",
         "size": 12,
         "symbol": "?RetClassName@cClusterGrenade@Equip@@"
+      },
+      {
+        "address": "0x82FCF178",
+        "size": 104,
+        "symbol": "??__EcClusterGrenadecExplosiveGrenadeInheritRegistrar@Equip@@"
       }
     ],
     "src/Equip/DLCWeapons/cProxMine.cpp": [
@@ -11080,6 +11155,11 @@
         "address": "0x8261F938",
         "size": 12,
         "symbol": "?RetClassName@cProxMine@Equip@@"
+      },
+      {
+        "address": "0x82FD03B8",
+        "size": 104,
+        "symbol": "??__EcProxMinecCWSatchelChargeInheritRegistrar@Equip@@"
       }
     ],
     "src/Equip/Weapon/cShrapnelGrenade.cpp": [
@@ -11112,6 +11192,11 @@
         "address": "0x82621B50",
         "size": 12,
         "symbol": "?RetClassName@cShrapnelGrenade@Equip@@"
+      },
+      {
+        "address": "0x82FD08E0",
+        "size": 104,
+        "symbol": "??__EcShrapnelGrenadecExplosiveGrenadeInheritRegistrar@Equip@@"
       }
     ],
     "src/Equip/Weapon/cSmokeGrenade.cpp": [
@@ -11144,6 +11229,11 @@
         "address": "0x826226C0",
         "size": 12,
         "symbol": "?RetClassName@cSmokeGrenade@Equip@@"
+      },
+      {
+        "address": "0x82FD0BB8",
+        "size": 104,
+        "symbol": "??__EcSmokeGrenadecGrenadeInheritRegistrar@Equip@@"
       }
     ],
     "src/cStickler.cpp": [
@@ -11171,6 +11261,11 @@
         "address": "0x82622EC8",
         "size": 12,
         "symbol": "?RetClassName@cStickler@unknown@@"
+      },
+      {
+        "address": "0x82FD0FF0",
+        "size": 104,
+        "symbol": "??__EcSticklercCWSatchelChargeInheritRegistrar@unknown@@"
       }
     ],
     "src/cSticklerGrenade.cpp": [
@@ -11198,6 +11293,11 @@
         "address": "0x82623240",
         "size": 12,
         "symbol": "?RetClassName@cSticklerGrenade@unknown@@"
+      },
+      {
+        "address": "0x82FD1428",
+        "size": 104,
+        "symbol": "??__EcSticklerGrenadecExplosiveGrenadeInheritRegistrar@unknown@@"
       }
     ],
     "src/Equip/DLCWeapons/cFlocketLauncher.cpp": [
@@ -11225,6 +11325,11 @@
         "address": "0x82630CF0",
         "size": 12,
         "symbol": "?RetClass@cFlocketLauncher@Equip@@"
+      },
+      {
+        "address": "0x82FD32F8",
+        "size": 104,
+        "symbol": "??__EcFlocketLaunchercCWHeavyWeaponInheritRegistrar@Equip@@"
       }
     ],
     "src/Equip/Gadget/cRealNadeLauncher.cpp": [
@@ -11252,6 +11357,11 @@
         "address": "0x82634928",
         "size": 12,
         "symbol": "?RetClass@cRealNadeLauncher@Equip@@"
+      },
+      {
+        "address": "0x82FD3AC8",
+        "size": 104,
+        "symbol": "??__EcRealNadeLaunchercCWHeavyWeaponInheritRegistrar@Equip@@"
       }
     ],
     "src/cSucknBlowGun.cpp": [
@@ -11301,6 +11411,11 @@
         "address": "0x8303FAC8",
         "size": 12,
         "symbol": "??__FcFlakCannonRegistrar@Equip@@"
+      },
+      {
+        "address": "0x82FD42B0",
+        "size": 104,
+        "symbol": "??__EcFlakCannoncCWHeavyWeaponInheritRegistrar@Equip@@"
       }
     ],
     "src/Equip/Weapon/cMiniGun.cpp": [
@@ -11486,6 +11601,16 @@
         "address": "0x826AB518",
         "size": 12,
         "symbol": "?RetClassName@cTransformingCar@unknown@@"
+      },
+      {
+        "address": "0x82FE7100",
+        "size": 104,
+        "symbol": "??__EcTransformingCarcCarInheritRegistrar@unknown@@"
+      },
+      {
+        "address": "0x82FE7168",
+        "size": 104,
+        "symbol": "??__EcTransformingCarcTransformingInheritRegistrar@unknown@@"
       }
     ],
     "src/cTransformingTruck.cpp": [
@@ -11518,6 +11643,11 @@
         "address": "0x826B1BF0",
         "size": 12,
         "symbol": "?RetClassName@cTransformingTruck@unknown@@"
+      },
+      {
+        "address": "0x82FE7640",
+        "size": 104,
+        "symbol": "??__EcTransformingTruckcTransformingInheritRegistrar@unknown@@"
       }
     ],
     "src/cWeaponisedHelicopter.cpp": [
@@ -11587,6 +11717,11 @@
         "address": "0x826E23C8",
         "size": 12,
         "symbol": "?RetClassName@cAgencyATV@unknown@@"
+      },
+      {
+        "address": "0x82FEAC70",
+        "size": 104,
+        "symbol": "??__EcAgencyATVcAgencyCarInheritRegistrar@unknown@@"
       }
     ],
     "src/Vehicle/Agency/cAgencyBuggy.cpp": [
@@ -11614,6 +11749,11 @@
         "address": "0x826E9960",
         "size": 12,
         "symbol": "?RetClassName@cAgencyBuggy@Vehicle@@"
+      },
+      {
+        "address": "0x82FEB0E0",
+        "size": 104,
+        "symbol": "??__EcAgencyBuggycAgencyCarInheritRegistrar@Vehicle@@"
       }
     ],
     "src/Vehicle/Agency/cAgencySports.cpp": [
@@ -11646,6 +11786,11 @@
         "address": "0x826ECF90",
         "size": 12,
         "symbol": "?RetClassName@cAgencySports@Vehicle@@"
+      },
+      {
+        "address": "0x82FEB8C8",
+        "size": 104,
+        "symbol": "??__EcAgencySportscAgencyCarInheritRegistrar@Vehicle@@"
       }
     ],
     "src/cAgencySquadChopper.cpp": [
@@ -11700,6 +11845,11 @@
         "address": "0x83040AF8",
         "size": 12,
         "symbol": "??__FcAgencySUVRegistrar@Vehicle@@"
+      },
+      {
+        "address": "0x82FEC170",
+        "size": 104,
+        "symbol": "??__EcAgencySUVcAgencyCarInheritRegistrar@Vehicle@@"
       }
     ],
     "src/Vehicle/Agency/cAgencyTank.cpp": [
@@ -11722,6 +11872,11 @@
         "address": "0x83040B28",
         "size": 12,
         "symbol": "??__FcAgencyTankRegistrar@Vehicle@@"
+      },
+      {
+        "address": "0x82FEC5A8",
+        "size": 104,
+        "symbol": "??__EcAgencyTankcAgencyCarInheritRegistrar@Vehicle@@"
       }
     ],
     "src/PHYSICS/cWaterZone.cpp": [
@@ -12405,6 +12560,11 @@
         "address": "0x8280BFE8",
         "size": 12,
         "symbol": "?RetClassName@cPopulationZone@unknown@@"
+      },
+      {
+        "address": "0x8300DD08",
+        "size": 104,
+        "symbol": "??__EcPopulationZonecZoneInheritRegistrar@unknown@@"
       }
     ],
     "src/cNetGameAISpawnPoint.cpp": [

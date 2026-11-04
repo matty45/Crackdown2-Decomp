@@ -38,3 +38,13 @@ namespace unknown
         return "cSticklerGrenade";
     }
 }
+
+#include "fun_runtime/inheritance_registrar.h"
+#include "Equip/cExplosiveGrenade.h"
+
+// CD2 0x82FD1428: runtime class inheritance registration.
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar cSticklerGrenadecExplosiveGrenadeInheritRegistrar(
+        unknown::cSticklerGrenade::StaticCreateClass(), Equip::cExplosiveGrenade::StaticCreateClass());
+}

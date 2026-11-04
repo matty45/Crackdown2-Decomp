@@ -38,3 +38,13 @@ namespace unknown
         return "cStickler";
     }
 }
+
+#include "fun_runtime/inheritance_registrar.h"
+#include "Equip/cCWSatchelCharge.h"
+
+// CD2 0x82FD0FF0: runtime class inheritance registration.
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar cSticklercCWSatchelChargeInheritRegistrar(
+        unknown::cStickler::StaticCreateClass(), Equip::cCWSatchelCharge::StaticCreateClass());
+}

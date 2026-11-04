@@ -43,3 +43,13 @@ namespace AI
         return ms_pcDocksMissionClass->IsA(c);
     }
 }
+
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/cMission.h"
+
+// CD2 0x82F8A480: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar cDocksMissioncMissionInheritRegistrar(
+        AI::cDocksMission::StaticCreateClass(), AI::cMission::StaticCreateClass());
+}

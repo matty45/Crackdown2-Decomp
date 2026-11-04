@@ -40,3 +40,13 @@ namespace Equip
         return "cClusterGrenade";
     }
 }
+
+#include "fun_runtime/inheritance_registrar.h"
+#include "Equip/cExplosiveGrenade.h"
+
+// CD2 0x82FCF178: runtime class inheritance registration.
+namespace Equip
+{
+    static Fun_Runtime::cInheritanceRegistrar cClusterGrenadecExplosiveGrenadeInheritRegistrar(
+        Equip::cClusterGrenade::StaticCreateClass(), Equip::cExplosiveGrenade::StaticCreateClass());
+}

@@ -49,3 +49,13 @@ namespace Vehicle
         return "cAgencySports";
     }
 }
+
+#include "fun_runtime/inheritance_registrar.h"
+#include "Vehicle/cAgencyCar.h"
+
+// CD2 0x82FEB8C8: runtime class inheritance registration.
+namespace Vehicle
+{
+    static Fun_Runtime::cInheritanceRegistrar cAgencySportscAgencyCarInheritRegistrar(
+        Vehicle::cAgencySports::StaticCreateClass(), Vehicle::cAgencyCar::StaticCreateClass());
+}

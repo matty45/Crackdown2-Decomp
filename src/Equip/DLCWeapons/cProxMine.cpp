@@ -49,3 +49,13 @@ namespace Equip
         return "cProxMine";
     }
 }
+
+#include "fun_runtime/inheritance_registrar.h"
+#include "Equip/cCWSatchelCharge.h"
+
+// CD2 0x82FD03B8: runtime class inheritance registration.
+namespace Equip
+{
+    static Fun_Runtime::cInheritanceRegistrar cProxMinecCWSatchelChargeInheritRegistrar(
+        Equip::cProxMine::StaticCreateClass(), Equip::cCWSatchelCharge::StaticCreateClass());
+}

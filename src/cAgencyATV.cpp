@@ -47,3 +47,13 @@ namespace unknown
         return "cAgencyATV";
     }
 }
+
+#include "fun_runtime/inheritance_registrar.h"
+#include "Vehicle/cAgencyCar.h"
+
+// CD2 0x82FEAC70: runtime class inheritance registration.
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar cAgencyATVcAgencyCarInheritRegistrar(
+        unknown::cAgencyATV::StaticCreateClass(), Vehicle::cAgencyCar::StaticCreateClass());
+}

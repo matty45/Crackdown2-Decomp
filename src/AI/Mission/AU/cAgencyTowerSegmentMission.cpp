@@ -44,3 +44,13 @@ namespace AI
         return *cAgencyTowerSegmentMissionClass;
     }
 }
+
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/cMission.h"
+
+// CD2 0x82F88028: runtime class inheritance registration.
+namespace AI
+{
+    static Fun_Runtime::cInheritanceRegistrar cAgencyTowerSegmentMissioncMissionInheritRegistrar(
+        AI::cAgencyTowerSegmentMission::StaticCreateClass(), AI::cMission::StaticCreateClass());
+}

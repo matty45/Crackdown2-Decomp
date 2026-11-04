@@ -38,3 +38,22 @@ namespace unknown
         return "cTransformingCar";
     }
 }
+
+#include "fun_runtime/inheritance_registrar.h"
+#include "Vehicle/cCar.h"
+
+// CD2 0x82FE7100: runtime class inheritance registration.
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar cTransformingCarcCarInheritRegistrar(
+        unknown::cTransformingCar::StaticCreateClass(), Vehicle::cCar::StaticCreateClass());
+}
+
+#include "unknown/cTransforming.h"
+
+// CD2 0x82FE7168: runtime class inheritance registration.
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar cTransformingCarcTransformingInheritRegistrar(
+        unknown::cTransformingCar::StaticCreateClass(), unknown::cTransforming::StaticCreateClass());
+}

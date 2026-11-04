@@ -40,3 +40,13 @@ namespace Equip
         return *ms_pcRealNadeLauncherClass;
     }
 }
+
+#include "fun_runtime/inheritance_registrar.h"
+#include "Equip/cCWHeavyWeapon.h"
+
+// CD2 0x82FD3AC8: runtime class inheritance registration.
+namespace Equip
+{
+    static Fun_Runtime::cInheritanceRegistrar cRealNadeLaunchercCWHeavyWeaponInheritRegistrar(
+        Equip::cRealNadeLauncher::StaticCreateClass(), Equip::cCWHeavyWeapon::StaticCreateClass());
+}
