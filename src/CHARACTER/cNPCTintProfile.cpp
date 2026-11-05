@@ -4,6 +4,7 @@
 //   0x8255DF80 MakeNew            0x8255DFD8 RetClassName
 //   0x821D0A20 scalar deleting destructor (compiler-generated, emitted here)
 //   0x82FAF4E0 / 0x8303D140 dynamic initializer / at-exit destructor of cNPCTintProfileRegistrar
+
 #include "CHARACTER/cNPCTintProfile.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"

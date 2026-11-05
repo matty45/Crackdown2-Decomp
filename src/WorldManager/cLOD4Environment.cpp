@@ -1,6 +1,3 @@
-#include "fun_runtime/inheritance_registrar.h"
-#include "gom/game_base.h"
-#include "rws/classfactory.h"
 // src/WorldManager/cLOD4Environment.cpp
 //
 // Class: cLOD4Environment (namespace: WorldManager). Set up automatically: no function is matched yet. The address
@@ -14,6 +11,9 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/WorldManager/cLOD4Environment.cpp
 
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/game_base.h"
+#include "rws/classfactory.h"
 #include "WorldManager/cLOD4Environment.h"
 #include "cd2/memory.h"
 
@@ -26,31 +26,19 @@ namespace WorldManager
         static Fun_Runtime::cClass *cLOD4EnvironmentClass = new Fun_Runtime::cClass(0x199E, "cLOD4Environment", 0x2C0);
         return *cLOD4EnvironmentClass;
     }
-}
 
-namespace WorldManager
-{
     static RWS::CClassFactory::CRegistrar cLOD4EnvironmentRegistrar(
         "cLOD4Environment", cLOD4Environment::MakeNew, 0x2C0, false);
-}
 
-// CD2 0x8300C8D0: runtime class inheritance registration.
-namespace WorldManager
-{
+    // CD2 0x8300C8D0: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cLOD4EnvironmentcGameBaseInheritRegistrar(
         WorldManager::cLOD4Environment::StaticCreateClass(), cGameBase::StaticCreateClass());
-}
 
-namespace WorldManager
-{
     const char *cLOD4Environment::RetClassName() const
     {
         return "cLOD4Environment";
     }
-}
 
-namespace WorldManager
-{
     const Fun_Runtime::cClass &cLOD4Environment::RetClass() const
     {
         return *ms_pcLOD4EnvironmentClass;

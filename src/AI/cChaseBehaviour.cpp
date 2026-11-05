@@ -1,19 +1,21 @@
-#include "gom/proto_registrar.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "AI/NPCBehaviour.h"
 // AI/cChaseBehaviour.cpp: cChaseBehaviour of Crackdown 2.
 // All 28 mapped functions are byte-exact (checked 2026-10-26; config/matched_functions.json).
 // Unknown bases and callees are stand-ins named in the header; out-of-line
 // callees without a known name are declared as Ext_<address>.
 // AI/cChaseBehaviour.cpp: cChaseBehaviour, the vehicle chase behaviour of Crackdown 2 (measurement batch 2, round 2).
+
+
+// Out-of-line functions of other files (unknown names).
+
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/NPCBehaviour.h"
 #include "AI/cChaseBehaviour.h"
 #include "CHARACTER/cCharacter.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
-
 #include <new>
 
-// Out-of-line functions of other files (unknown names).
 void *g_pBehaviourTable;     // global pointer variable at 0x83800988
 unsigned int Ext_8243F860(void *, unsigned int);
 void Ext_824A8848(void *proto, AI::NPCHost *host);
@@ -257,18 +259,12 @@ namespace AI
         &cChaseBehaviour::Slot112, &cChaseBehaviour::Slot105, &cChaseBehaviour::Slot113, &cChaseBehaviour::V106,
         &cChaseBehaviour::Slot110, &cChaseBehaviour::Slot114, &cChaseBehaviour::Slot103
     };
-}
 
-// CD2 0x82F9A108: runtime class inheritance registration.
-namespace AI
-{
+    // CD2 0x82F9A108: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cChaseBehaviourNPCBehaviourInheritRegistrar(
         AI::cChaseBehaviour::StaticCreateClass(), AI::NPCBehaviour::StaticCreateClass());
-}
 
-// CD2 0x82F9A1C0: register the class descriptor and placement factory.
-namespace AI
-{
+    // CD2 0x82F9A1C0: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cChaseBehaviourSpawningRegistrar(
         cChaseBehaviour::StaticCreateClass(), cChaseBehaviour::SpawnFromPrototype);
 }

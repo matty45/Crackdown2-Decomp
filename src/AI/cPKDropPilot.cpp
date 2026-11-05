@@ -3,6 +3,8 @@
 #include "AI/cPilotBase.h"
 #include "AI/cPKDropPilot.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
+#include "AI/BehaviourClassID.h"
 
 namespace AI
 {
@@ -29,36 +31,21 @@ namespace AI
     {
         return new cPKDropPilot();
     }
-}
 
-namespace AI
-{
     static RWS::CClassFactory::CRegistrar cPKDropPilotRegistrar(
         "cPKDropPilot", cPKDropPilot::MakeNew, 0x150, false);
-}
 
-#include "cd2/memory.h"
-#include "AI/BehaviourClassID.h"
-
-namespace AI
-{
     Fun_Runtime::cClass &cPKDropPilot::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cPKDropPilotClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "cPKDropPilot", 0x150);
         return *cPKDropPilotClass;
     }
-}
 
-// CD2 0x82F9C5F0: runtime class inheritance registration.
-namespace AI
-{
+    // CD2 0x82F9C5F0: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cPKDropPilotcPilotBaseInheritRegistrar(
         AI::cPKDropPilot::StaticCreateClass(), AI::cPilotBase::StaticCreateClass());
-}
 
-// CD2 0x82F9C6A8: register the class descriptor and placement factory.
-namespace AI
-{
+    // CD2 0x82F9C6A8: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cPKDropPilotSpawningRegistrar(
         cPKDropPilot::StaticCreateClass(), cPKDropPilot::SpawnFromPrototype);
 }

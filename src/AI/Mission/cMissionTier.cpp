@@ -26,10 +26,7 @@ namespace AI
     {
         return new cMissionTier();
     }
-}
 
-namespace AI
-{
     static RWS::CClassFactory::CRegistrar cMissionTierRegistrar(
         "cMissionTier", cMissionTier::MakeNew, 0x64, false);
 }

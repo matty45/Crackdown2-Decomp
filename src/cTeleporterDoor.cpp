@@ -1,7 +1,3 @@
-#include "gom/proto_registrar.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "Prop/cPrismaticProp.h"
-#include "rws/classfactory.h"
 // src/cTeleporterDoor.cpp
 //
 // Class: cTeleporterDoor (namespace: unknown). Set up automatically: no function is matched yet. The address range and
@@ -13,6 +9,10 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/cTeleporterDoor.cpp
 
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "Prop/cPrismaticProp.h"
+#include "rws/classfactory.h"
 #include "unknown/cTeleporterDoor.h"
 #include "cd2/memory.h"
 
@@ -25,30 +25,18 @@ namespace unknown
         static Fun_Runtime::cClass *cTeleporterDoorClass = new Fun_Runtime::cClass(0x1022, "cTeleporterDoor", 0xEF0);
         return *cTeleporterDoorClass;
     }
-}
 
-namespace unknown
-{
     static RWS::CClassFactory::CRegistrar cTeleporterDoorRegistrar(
         "cTeleporterDoor", cTeleporterDoor::MakeNew, 0xEF0, false);
-}
 
-// CD2 0x82FF9918: runtime class inheritance registration.
-namespace unknown
-{
+    // CD2 0x82FF9918: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cTeleporterDoorcPrismaticPropInheritRegistrar(
         unknown::cTeleporterDoor::StaticCreateClass(), Prop::cPrismaticProp::StaticCreateClass());
-}
 
-// CD2 0x82FF99D0: register the class descriptor and placement factory.
-namespace unknown
-{
+    // CD2 0x82FF99D0: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cTeleporterDoorSpawningRegistrar(
         cTeleporterDoor::StaticCreateClass(), cTeleporterDoor::SpawnFromPrototype);
-}
 
-namespace unknown
-{
     const char *cTeleporterDoor::RetClassName() const
     {
         return "cTeleporterDoor";

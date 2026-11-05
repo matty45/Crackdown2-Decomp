@@ -1,7 +1,3 @@
-#include "fun_runtime/script_type_registrar.h"
-#include "gom/proto_registrar.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "gom/non_game_base.h"
 // src/CHARACTER/cCharacterInterface.cpp
 //
 // Class: CHARACTER::cCharacterInterface. Script setters and registration are reconstructed below.
@@ -15,10 +11,13 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/CHARACTER/cCharacterInterface.cpp
 
+#include "fun_runtime/script_type_registrar.h"
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/non_game_base.h"
 #include "CHARACTER/cCharacterInterface.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
-
 #include <new>
 
 Fun_Runtime::cScriptTypeRegistrar<CHARACTER::cCharacterInterface> g_cCharacterInterface("cCharacterInterface", "cNonGameBase");     // global at 0x838241E0
@@ -103,19 +102,12 @@ namespace CHARACTER
 
     static RWS::CClassFactory::CRegistrar cCharacterInterfaceRegistrar(
         "cCharacterInterface", cCharacterInterface::MakeNew, 0xC0, false);
-}
 
-
-// CD2 0x82FADC18: runtime class inheritance registration.
-namespace CHARACTER
-{
+    // CD2 0x82FADC18: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cCharacterInterfacecNonGameBaseInheritRegistrar(
         CHARACTER::cCharacterInterface::StaticCreateClass(), cNonGameBase::StaticCreateClass());
-}
 
-// CD2 0x82FADCD0: register the class descriptor and placement factory.
-namespace CHARACTER
-{
+    // CD2 0x82FADCD0: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cCharacterInterfaceSpawningRegistrar(
         cCharacterInterface::StaticCreateClass(), cCharacterInterface::SpawnFromPrototype);
 }

@@ -1,7 +1,3 @@
-#include "gom/proto_registrar.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "unknown/cPhantomBody.h"
-#include "rws/classfactory.h"
 // src/cPrismaticTrigger.cpp
 //
 // Class: cPrismaticTrigger (namespace: unknown). Set up automatically: no function is matched yet. The address range
@@ -13,6 +9,10 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/cPrismaticTrigger.cpp
 
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "unknown/cPhantomBody.h"
+#include "rws/classfactory.h"
 #include "unknown/cPrismaticTrigger.h"
 #include "cd2/memory.h"
 
@@ -25,38 +25,23 @@ namespace unknown
         static Fun_Runtime::cClass *cPrismaticTriggerClass = new Fun_Runtime::cClass(0xCB57, "cPrismaticTrigger", 0x160);
         return *cPrismaticTriggerClass;
     }
-}
 
-namespace unknown
-{
     static RWS::CClassFactory::CRegistrar cPrismaticTriggerRegistrar(
         "cPrismaticTrigger", cPrismaticTrigger::MakeNew, 0x160, false);
-}
 
-// CD2 0x82FF87D8: runtime class inheritance registration.
-namespace unknown
-{
+    // CD2 0x82FF87D8: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cPrismaticTriggercPhantomBodyInheritRegistrar(
         unknown::cPrismaticTrigger::StaticCreateClass(), unknown::cPhantomBody::StaticCreateClass());
-}
 
-// CD2 0x82FF8890: register the class descriptor and placement factory.
-namespace unknown
-{
+    // CD2 0x82FF8890: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cPrismaticTriggerSpawningRegistrar(
         cPrismaticTrigger::StaticCreateClass(), cPrismaticTrigger::SpawnFromPrototype);
-}
 
-namespace unknown
-{
     const char *cPrismaticTrigger::RetClassName() const
     {
         return "cPrismaticTrigger";
     }
-}
 
-namespace unknown
-{
     const Fun_Runtime::cClass &cPrismaticTrigger::RetClass() const
     {
         return *ms_pcPrismaticTriggerClass;

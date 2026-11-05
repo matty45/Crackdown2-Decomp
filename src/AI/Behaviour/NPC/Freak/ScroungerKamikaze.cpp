@@ -3,6 +3,8 @@
 #include "AI/Scrounger.h"
 #include "AI/ScroungerKamikaze.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
+#include "AI/BehaviourClassID.h"
 
 namespace AI
 {
@@ -29,36 +31,21 @@ namespace AI
     {
         return new ScroungerKamikaze();
     }
-}
 
-namespace AI
-{
     static RWS::CClassFactory::CRegistrar ScroungerKamikazeRegistrar(
         "ScroungerKamikaze", ScroungerKamikaze::MakeNew, 0x140, false);
-}
 
-#include "cd2/memory.h"
-#include "AI/BehaviourClassID.h"
-
-namespace AI
-{
     Fun_Runtime::cClass &ScroungerKamikaze::StaticCreateClass()
     {
         static Fun_Runtime::cClass *ScroungerKamikazeClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "ScroungerKamikaze", 0x140);
         return *ScroungerKamikazeClass;
     }
-}
 
-// CD2 0x82F94748: runtime class inheritance registration.
-namespace AI
-{
+    // CD2 0x82F94748: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar ScroungerKamikazeScroungerInheritRegistrar(
         AI::ScroungerKamikaze::StaticCreateClass(), AI::Scrounger::StaticCreateClass());
-}
 
-// CD2 0x82F94800: register the class descriptor and placement factory.
-namespace AI
-{
+    // CD2 0x82F94800: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar ScroungerKamikazeSpawningRegistrar(
         ScroungerKamikaze::StaticCreateClass(), ScroungerKamikaze::SpawnFromPrototype);
 }

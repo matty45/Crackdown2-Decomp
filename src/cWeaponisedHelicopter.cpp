@@ -1,7 +1,3 @@
-#include "gom/proto_registrar.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "Vehicle/cHelicopter.h"
-#include "rws/classfactory.h"
 // src/cWeaponisedHelicopter.cpp
 //
 // Class: cWeaponisedHelicopter (namespace: unknown). Set up automatically: no function is matched yet. The address
@@ -13,6 +9,10 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/cWeaponisedHelicopter.cpp
 
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "Vehicle/cHelicopter.h"
+#include "rws/classfactory.h"
 #include "unknown/cWeaponisedHelicopter.h"
 #include "cd2/memory.h"
 
@@ -25,38 +25,23 @@ namespace unknown
         static Fun_Runtime::cClass *cWeaponisedHelicopterClass = new Fun_Runtime::cClass(0x4C70, "cWeaponisedHelicopter", 0x2DB0);
         return *cWeaponisedHelicopterClass;
     }
-}
 
-namespace unknown
-{
     static RWS::CClassFactory::CRegistrar cWeaponisedHelicopterRegistrar(
         "cWeaponisedHelicopter", cWeaponisedHelicopter::MakeNew, 0x2DB0, false);
-}
 
-// CD2 0x82FEA498: runtime class inheritance registration.
-namespace unknown
-{
+    // CD2 0x82FEA498: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cWeaponisedHelicoptercHelicopterInheritRegistrar(
         unknown::cWeaponisedHelicopter::StaticCreateClass(), Vehicle::cHelicopter::StaticCreateClass());
-}
 
-// CD2 0x82FEA550: register the class descriptor and placement factory.
-namespace unknown
-{
+    // CD2 0x82FEA550: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cWeaponisedHelicopterSpawningRegistrar(
         cWeaponisedHelicopter::StaticCreateClass(), cWeaponisedHelicopter::SpawnFromPrototype);
-}
 
-namespace unknown
-{
     const char *cWeaponisedHelicopter::RetClassName() const
     {
         return "cWeaponisedHelicopter";
     }
-}
 
-namespace unknown
-{
     const Fun_Runtime::cClass &cWeaponisedHelicopter::RetClass() const
     {
         return *ms_pcWeaponisedHelicopterClass;

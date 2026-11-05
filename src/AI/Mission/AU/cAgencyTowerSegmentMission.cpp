@@ -1,10 +1,13 @@
+
+// The surviving singleton accessor is folded into this split. CD2's world-manager
+// constructor 0x82278B80 stores this in the global read by 0x8245C8A8.
+
 #include "fun_runtime/inheritance_registrar.h"
 #include "AI/cAgencyTowerSegmentMission.h"
 #include "rws/classfactory.h"
 #include "WorldManager/cWorldManager.h"
+#include "cd2/memory.h"
 
-// The surviving singleton accessor is folded into this split. CD2's world-manager
-// constructor 0x82278B80 stores this in the global read by 0x8245C8A8.
 namespace WorldManager
 {
     cWorldManager *cWorldManager::RetInstance()
@@ -38,28 +41,17 @@ namespace AI
     {
         return new cAgencyTowerSegmentMission();
     }
-}
 
-namespace AI
-{
     static RWS::CClassFactory::CRegistrar cAgencyTowerSegmentMissionRegistrar(
         "cAgencyTowerSegmentMission", cAgencyTowerSegmentMission::MakeNew, 0x710, false);
-}
 
-#include "cd2/memory.h"
-
-namespace AI
-{
     Fun_Runtime::cClass &cAgencyTowerSegmentMission::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cAgencyTowerSegmentMissionClass = new Fun_Runtime::cClass(0x2104E, "cAgencyTowerSegmentMission", 0x710);
         return *cAgencyTowerSegmentMissionClass;
     }
-}
 
-// CD2 0x82F88028: runtime mission inheritance registration.
-namespace AI
-{
+    // CD2 0x82F88028: runtime mission inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cAgencyTowerSegmentMissioncMissionInheritRegistrar(
         AI::cAgencyTowerSegmentMission::StaticCreateClass(), AI::cMission::StaticCreateClass());
 }

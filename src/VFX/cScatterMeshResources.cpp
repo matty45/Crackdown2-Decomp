@@ -15,16 +15,10 @@ namespace VFX
     {
         return "cScatterMeshResources";
     }
-}
 
-namespace VFX
-{
     static RWS::CClassFactory::CRegistrar cScatterMeshResourcesRegistrar(
         "cScatterMeshResources", cScatterMeshResources::MakeNew, 0x1c, false);
-}
 
-namespace VFX
-{
     cScatterUnpackIndexedShader *cScatterUnpackIndexedShader::ms_pInstance;
 
     bool cScatterUnpackIndexedShader::ReloadInstance(bool revert)
@@ -43,10 +37,7 @@ namespace VFX
     {
         return ReloadInstance;
     }
-}
 
-namespace VFX
-{
     cScatterUnpackShader *cScatterUnpackShader::ms_pInstance;
 
     bool cScatterUnpackShader::ReloadInstance(bool revert)

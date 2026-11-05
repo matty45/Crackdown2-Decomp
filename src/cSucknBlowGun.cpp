@@ -1,7 +1,3 @@
-#include "gom/proto_registrar.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "Equip/cCWWeapon.h"
-#include "rws/classfactory.h"
 // src/cSucknBlowGun.cpp
 //
 // Class: cSucknBlowGun (namespace: unknown). Set up automatically: no function is matched yet. The address range and
@@ -13,8 +9,13 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/cSucknBlowGun.cpp
 
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "Equip/cCWWeapon.h"
+#include "rws/classfactory.h"
 #include "unknown/cSucknBlowGun.h"
 #include "cd2/memory.h"
+#include "unknown/cSucknBlowGunPrototype.h"
 
 namespace unknown
 {
@@ -25,50 +26,30 @@ namespace unknown
         static Fun_Runtime::cClass *cSucknBlowGunClass = new Fun_Runtime::cClass(0x27418, "cSucknBlowGun", 0xDF0);
         return *cSucknBlowGunClass;
     }
-}
 
-namespace unknown
-{
     static RWS::CClassFactory::CRegistrar cSucknBlowGunRegistrar(
         "cSucknBlowGun", cSucknBlowGun::MakeNew, 0xDF0, false);
-}
 
-// CD2 0x82FD3F00: runtime class inheritance registration.
-namespace unknown
-{
+    // CD2 0x82FD3F00: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cSucknBlowGuncCWWeaponInheritRegistrar(
         unknown::cSucknBlowGun::StaticCreateClass(), Equip::cCWWeapon::StaticCreateClass());
-}
 
-// CD2 0x82FD3FB8: register the class descriptor and placement factory.
-namespace unknown
-{
+    // CD2 0x82FD3FB8: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cSucknBlowGunSpawningRegistrar(
         cSucknBlowGun::StaticCreateClass(), cSucknBlowGun::SpawnFromPrototype);
-}
 
-namespace unknown
-{
     const char *cSucknBlowGun::RetClassName() const
     {
         return "cSucknBlowGun";
     }
-}
 
-namespace unknown
-{
     RWS::CAttributeHandler *cSucknBlowGun::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
     {
         if (memory)
             return new (memory) cSucknBlowGun;
         return 0;
     }
-}
 
-#include "unknown/cSucknBlowGunPrototype.h"
-
-namespace unknown
-{
     Fun_Runtime::RetVal cSucknBlowGunPrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;

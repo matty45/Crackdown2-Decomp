@@ -1,8 +1,3 @@
-#include "fun_runtime/retval.h"
-#include "Equip/cExplosiveGrenade.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "gom/proto_registrar.h"
-#include "rws/classfactory.h"
 // src/Equip/Weapon/cShrapnelGrenade.cpp
 //
 // Class: cShrapnelGrenade (namespace: Equip). Set up automatically: no function is matched yet. The address range and
@@ -16,6 +11,11 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Equip/Weapon/cShrapnelGrenade.cpp
 
+#include "fun_runtime/retval.h"
+#include "Equip/cExplosiveGrenade.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/proto_registrar.h"
+#include "rws/classfactory.h"
 #include "Equip/cShrapnelGrenade.h"
 #include "cd2/memory.h"
 
@@ -28,30 +28,18 @@ namespace Equip
         static Fun_Runtime::cClass *cShrapnelGrenadeClass = new Fun_Runtime::cClass(0x3E8C, "cShrapnelGrenade", 0x9D0);
         return *cShrapnelGrenadeClass;
     }
-}
 
-namespace Equip
-{
     static RWS::CClassFactory::CRegistrar cShrapnelGrenadeRegistrar(
         "cShrapnelGrenade", cShrapnelGrenade::MakeNew, 0x9D0, false);
-}
 
-// CD2 0x82FD0998: register the class descriptor and placement factory.
-namespace Equip
-{
+    // CD2 0x82FD0998: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cShrapnelGrenadeSpawningRegistrar(
         cShrapnelGrenade::StaticCreateClass(), cShrapnelGrenade::SpawnFromPrototype);
-}
 
-// CD2 0x82FD08E0: runtime class inheritance registration.
-namespace Equip
-{
+    // CD2 0x82FD08E0: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cShrapnelGrenadecExplosiveGrenadeInheritRegistrar(
         Equip::cShrapnelGrenade::StaticCreateClass(), Equip::cExplosiveGrenade::StaticCreateClass());
-}
 
-namespace Equip
-{
     const char *cShrapnelGrenade::RetClassName() const
     {
         return "cShrapnelGrenade";
@@ -63,10 +51,7 @@ namespace Equip
             return new (memory) cShrapnelGrenade;
         return 0;
     }
-}
 
-namespace Equip
-{
     const Fun_Runtime::cClass &cShrapnelGrenade::RetClass() const
     {
         return *ms_pcShrapnelGrenadeClass;
@@ -81,10 +66,7 @@ namespace Equip
     cShrapnelGrenade::~cShrapnelGrenade()
     {
     }
-}
 
-namespace Equip
-{
     Fun_Runtime::RetVal cShrapnelGrenade::cShrapnelGrenadePrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;

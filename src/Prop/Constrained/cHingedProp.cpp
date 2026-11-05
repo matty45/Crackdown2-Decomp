@@ -1,7 +1,3 @@
-#include "gom/proto_registrar.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "Prop/cPivotBasedProp.h"
-#include "rws/classfactory.h"
 // src/Prop/Constrained/cHingedProp.cpp
 //
 // Class: cHingedProp (namespace: Prop). Set up automatically: no function is matched yet. The address range and the
@@ -15,8 +11,14 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Prop/Constrained/cHingedProp.cpp
 
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "Prop/cPivotBasedProp.h"
+#include "rws/classfactory.h"
 #include "Prop/cHingedProp.h"
 #include <new>
+#include "cd2/memory.h"
+#include "fun_runtime/script_type_registrar.h"
 
 namespace Prop
 {
@@ -34,66 +36,37 @@ namespace Prop
     cHingedProp::~cHingedProp()
     {
     }
-}
 
-#include "cd2/memory.h"
-
-namespace Prop
-{
     Fun_Runtime::cClass &cHingedProp::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cHingedPropClass = new Fun_Runtime::cClass(0x101D, "cHingedProp", 0xEB0);
         return *cHingedPropClass;
     }
-}
 
-namespace Prop
-{
     const Fun_Runtime::cClass *cHingedProp::ms_pcHingedPropClass = &cHingedProp::StaticCreateClass();
-}
 
-namespace Prop
-{
     static RWS::CClassFactory::CRegistrar cHingedPropRegistrar(
         "cHingedProp", cHingedProp::MakeNew, 0xEB0, false);
-}
 
-namespace Prop
-{
     RWS::CAttributeHandler *cHingedProp::SpawnFromPrototype(GOM::cObjectPrototype *prototype, void *memory)
     {
         if (memory)
             return new (memory) cHingedProp(prototype);
         return 0;
     }
-}
 
-// CD2 0x82FF70D0: runtime class inheritance registration.
-namespace Prop
-{
+    // CD2 0x82FF70D0: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cHingedPropcPivotBasedPropInheritRegistrar(
         Prop::cHingedProp::StaticCreateClass(), Prop::cPivotBasedProp::StaticCreateClass());
-}
 
-// CD2 0x82FF7188: register the class descriptor and placement factory.
-namespace Prop
-{
+    // CD2 0x82FF7188: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cHingedPropSpawningRegistrar(
         cHingedProp::StaticCreateClass(), cHingedProp::SpawnFromPrototype);
-}
 
-#include "Prop/cHingedProp.h"
-#include "fun_runtime/script_type_registrar.h"
-
-namespace Prop
-{
     // CD2 script-type registration; constructor/table evidence identifies the child and parent.
     static Fun_Runtime::cScriptTypeRegistrar<cHingedProp> cHingedPropScriptRegistrar(
         "cHingedProp", "cProp");
-}
 
-namespace Prop
-{
     const Fun_Runtime::cScriptTypeRegistration *cHingedProp::RetScriptTypeRegistration() const
     {
         return &cHingedPropScriptRegistrar;

@@ -17,10 +17,7 @@ namespace unknown
     {
         return "cNoiseVolumesControl";
     }
-}
 
-namespace unknown
-{
     static RWS::CClassFactory::CRegistrar cNoiseVolumesControlRegistrar(
         "cNoiseVolumesControl", cNoiseVolumesControl::MakeNew, 0x1c, false);
 }
@@ -45,10 +42,7 @@ namespace VFX
     {
         return ReloadInstance;
     }
-}
 
-namespace VFX
-{
     cNoiseVolumes2OctavesShader *cNoiseVolumes2OctavesShader::ms_pInstance;
 
     bool cNoiseVolumes2OctavesShader::ReloadInstance(bool revert)
@@ -67,10 +61,7 @@ namespace VFX
     {
         return ReloadInstance;
     }
-}
 
-namespace VFX
-{
     cNoiseVolumes3OctavesShader *cNoiseVolumes3OctavesShader::ms_pInstance;
 
     bool cNoiseVolumes3OctavesShader::ReloadInstance(bool revert)
@@ -89,10 +80,7 @@ namespace VFX
     {
         return ReloadInstance;
     }
-}
 
-namespace VFX
-{
     cNoiseVolumes4OctavesShader *cNoiseVolumes4OctavesShader::ms_pInstance;
 
     bool cNoiseVolumes4OctavesShader::ReloadInstance(bool revert)
@@ -111,10 +99,7 @@ namespace VFX
     {
         return ReloadInstance;
     }
-}
 
-namespace VFX
-{
     cNoiseVolumes5OctavesShader *cNoiseVolumes5OctavesShader::ms_pInstance;
 
     bool cNoiseVolumes5OctavesShader::ReloadInstance(bool revert)
@@ -133,10 +118,7 @@ namespace VFX
     {
         return ReloadInstance;
     }
-}
 
-namespace VFX
-{
     cNoiseVolumesPassThroughShader *cNoiseVolumesPassThroughShader::ms_pInstance;
 
     bool cNoiseVolumesPassThroughShader::ReloadInstance(bool revert)
@@ -155,10 +137,7 @@ namespace VFX
     {
         return ReloadInstance;
     }
-}
 
-namespace VFX
-{
     cNoiseVolumesFogComposeShader *cNoiseVolumesFogComposeShader::ms_pInstance;
 
     bool cNoiseVolumesFogComposeShader::ReloadInstance(bool revert)
@@ -177,10 +156,7 @@ namespace VFX
     {
         return ReloadInstance;
     }
-}
 
-namespace VFX
-{
     cNoiseVolumesFogComposeEdgeShader *cNoiseVolumesFogComposeEdgeShader::ms_pInstance;
 
     bool cNoiseVolumesFogComposeEdgeShader::ReloadInstance(bool revert)
@@ -199,10 +175,7 @@ namespace VFX
     {
         return ReloadInstance;
     }
-}
 
-namespace VFX
-{
     cNoiseVolumesEdgeDetectShader *cNoiseVolumesEdgeDetectShader::ms_pInstance;
 
     bool cNoiseVolumesEdgeDetectShader::ReloadInstance(bool revert)
@@ -221,10 +194,7 @@ namespace VFX
     {
         return ReloadInstance;
     }
-}
 
-namespace VFX
-{
     cNoiseVolumesRestoreDepthShader *cNoiseVolumesRestoreDepthShader::ms_pInstance;
 
     bool cNoiseVolumesRestoreDepthShader::ReloadInstance(bool revert)

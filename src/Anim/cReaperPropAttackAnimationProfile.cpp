@@ -1,5 +1,6 @@
 #include "Anim/cReaperPropAttackAnimationProfile.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
 
 namespace Anim
 {
@@ -13,19 +14,11 @@ namespace Anim
     {
         return "cReaperPropAttackAnimationProfile";
     }
-}
 
-namespace Anim
-{
     static RWS::CClassFactory::CRegistrar cReaperPropAttackAnimationProfileRegistrar(
         "cReaperPropAttackAnimationProfile", cReaperPropAttackAnimationProfile::MakeNew, 0x44, false);
-}
 
-#include "cd2/memory.h"
-
-// CD2 0x824EC6E0: the class factory.
-namespace Anim
-{
+    // CD2 0x824EC6E0: the class factory.
     RWS::CAttributeHandler *cReaperPropAttackAnimationProfile::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cReaperPropAttackAnimationProfile;

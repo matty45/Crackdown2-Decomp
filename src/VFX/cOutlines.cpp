@@ -1,6 +1,3 @@
-#include "fun_runtime/inheritance_registrar.h"
-#include "gom/non_game_base.h"
-#include "rws/classfactory.h"
 // src/VFX/cOutlines.cpp
 //
 // Class: cOutlines (namespace: VFX). Set up automatically: no function is matched yet. The address range and the
@@ -14,7 +11,11 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/VFX/cOutlines.cpp
 
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/non_game_base.h"
+#include "rws/classfactory.h"
 #include "VFX/cOutlines.h"
+#include "cd2/memory.h"
 
 namespace VFX
 {
@@ -22,40 +23,23 @@ namespace VFX
     {
         return "cOutlines";
     }
-}
 
-#include "cd2/memory.h"
-
-namespace VFX
-{
     Fun_Runtime::cClass &cOutlines::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cOutlinesClass = new Fun_Runtime::cClass(0x1027FA, "cOutlines", 0x460);
         return *cOutlinesClass;
     }
-}
 
-namespace VFX
-{
     const Fun_Runtime::cClass *cOutlines::ms_pcOutlinesClass = &cOutlines::StaticCreateClass();
-}
 
-namespace VFX
-{
     static RWS::CClassFactory::CRegistrar cOutlinesRegistrar(
         "cOutlines", cOutlines::MakeNew, 0x460, false);
-}
 
-// CD2 0x83007820: runtime class inheritance registration.
-namespace VFX
-{
+    // CD2 0x83007820: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cOutlinescNonGameBaseInheritRegistrar(
         VFX::cOutlines::StaticCreateClass(), cNonGameBase::StaticCreateClass());
-}
 
-// CD2 0x827A0B98: the class-factory constructor; the constructor stays out of line.
-namespace VFX
-{
+    // CD2 0x827A0B98: the class-factory constructor; the constructor stays out of line.
     RWS::CAttributeHandler *cOutlines::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cOutlines;

@@ -1,5 +1,6 @@
 #include "rws/classfactory.h"
 #include "unknown/cHunterGathererGameModePrototype.h"
+#include "cd2/memory.h"
 
 namespace unknown
 {
@@ -7,19 +8,11 @@ namespace unknown
     {
         return "cHunterGathererGameModePrototype";
     }
-}
 
-namespace unknown
-{
     static RWS::CClassFactory::CRegistrar cHunterGathererGameModePrototypeRegistrar(
         "cHunterGathererGameModePrototype", cHunterGathererGameModePrototype::MakeNew, 0x198, false);
-}
 
-#include "cd2/memory.h"
-
-// CD2 0x8287E1E8: the class-factory constructor; the constructor stays out of line.
-namespace unknown
-{
+    // CD2 0x8287E1E8: the class-factory constructor; the constructor stays out of line.
     RWS::CAttributeHandler *cHunterGathererGameModePrototype::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cHunterGathererGameModePrototype;

@@ -1,6 +1,3 @@
-#include "fun_runtime/retval.h"
-#include "Equip/cCloakingDevice.h"
-#include "gom/proto_registrar.h"
 // src/Equip/Gadget/cCloakingDevice.cpp
 //
 // Class: cCloakingDevice (namespace: Equip). Set up automatically: no function is matched yet. The address range and
@@ -15,51 +12,38 @@
 //     py -I tools/cd2.py tasks src/Equip/Gadget/cCloakingDevice.cpp
 
 // CD2 0x82FCC770: class descriptor and placement factory.
-namespace Equip
-{
-    static GOM::cProtoRegistrar cCloakingDeviceSpawningRegistrar(
-        cCloakingDevice::StaticCreateClass(), cCloakingDevice::SpawnFromPrototype);
-}
 
-namespace Equip
-{
-    const char *cCloakingDevice::RetClassName() const
-    {
-        return "cCloakingDevice";
-    }
-}
-
-namespace Equip
-{
-    Fun_Runtime::RetVal cCloakingDevice::cCloakingDevicePrototype::Init(const RWS::CAttributePacket &)
-    {
-        return Ret_OK;
-    }
-}
-
+#include "fun_runtime/retval.h"
 #include "Equip/cCloakingDevice.h"
+#include "gom/proto_registrar.h"
 #include "fun_runtime/script_type_registrar.h"
-
-namespace Equip
-{
-    // CD2 script-type registration names this child and parent.
-    static Fun_Runtime::cScriptTypeRegistrar<cCloakingDevice> cCloakingDeviceScriptRegistrar(
-        "cCloakingDevice", "cGrenade");
-}
-
 #include "cd2/memory.h"
 
 namespace Equip
 {
+    static GOM::cProtoRegistrar cCloakingDeviceSpawningRegistrar(
+        cCloakingDevice::StaticCreateClass(), cCloakingDevice::SpawnFromPrototype);
+
+    const char *cCloakingDevice::RetClassName() const
+    {
+        return "cCloakingDevice";
+    }
+
+    Fun_Runtime::RetVal cCloakingDevice::cCloakingDevicePrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
+
+    // CD2 script-type registration names this child and parent.
+    static Fun_Runtime::cScriptTypeRegistrar<cCloakingDevice> cCloakingDeviceScriptRegistrar(
+        "cCloakingDevice", "cGrenade");
+
     Fun_Runtime::cClass &cCloakingDevice::StaticCreateClass()
     {
         static Fun_Runtime::cClass *descriptor = new Fun_Runtime::cClass(0x10140, "cCloakingDevice", 0x9C0);
         return *descriptor;
     }
-}
 
-namespace Equip
-{
     const Fun_Runtime::cClass *cCloakingDevice::ms_pcCloakingDeviceClass = &cCloakingDevice::StaticCreateClass();
 
     const Fun_Runtime::cClass &cCloakingDevice::RetClass() const
@@ -76,10 +60,7 @@ namespace Equip
     cCloakingDevice::~cCloakingDevice()
     {
     }
-}
 
-namespace Equip
-{
     const Fun_Runtime::cScriptTypeRegistration *cCloakingDevice::RetScriptTypeRegistration() const
     {
         return &cCloakingDeviceScriptRegistrar;

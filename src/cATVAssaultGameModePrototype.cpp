@@ -1,5 +1,6 @@
 #include "rws/classfactory.h"
 #include "unknown/cATVAssaultGameModePrototype.h"
+#include "cd2/memory.h"
 
 namespace unknown
 {
@@ -7,19 +8,11 @@ namespace unknown
     {
         return "cATVAssaultGameModePrototype";
     }
-}
 
-namespace unknown
-{
     static RWS::CClassFactory::CRegistrar cATVAssaultGameModePrototypeRegistrar(
         "cATVAssaultGameModePrototype", cATVAssaultGameModePrototype::MakeNew, 0x260, false);
-}
 
-#include "cd2/memory.h"
-
-// CD2 0x8287B300: the class-factory constructor; the constructor stays out of line.
-namespace unknown
-{
+    // CD2 0x8287B300: the class-factory constructor; the constructor stays out of line.
     RWS::CAttributeHandler *cATVAssaultGameModePrototype::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cATVAssaultGameModePrototype;

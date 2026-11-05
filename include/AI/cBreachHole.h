@@ -14,6 +14,8 @@ namespace AI
         static const Fun_Runtime::cClass *ms_pcBreachHoleClass;
 
         cBreachHole();
+        // Out of line (CD2 0x8246EB40): the deleting wrapper calls it.
+        virtual ~cBreachHole();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &packet, bool);
 
         virtual const Fun_Runtime::cClass &RetClass() const;

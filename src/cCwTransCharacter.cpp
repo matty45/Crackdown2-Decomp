@@ -1,6 +1,3 @@
-#include "gom/proto_registrar.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "CHARACTER/cCharacter.h"
 // src/cCwTransCharacter.cpp
 //
 // Class: CHARACTER::cCwTransCharacter. Accessors and registration are reconstructed below.
@@ -13,10 +10,13 @@
 //     py -I tools/cd2.py tasks src/cCwTransCharacter.cpp
 
 // Not named yet: GetByte2D20/2DA4/2DA6, SetByte2DA5/2DA6, GetWord2DD0 and their fields have no script or reference name.
+
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "CHARACTER/cCharacter.h"
 #include "CHARACTER/cCwTransCharacter.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
-
 #include <new>
 
 namespace CHARACTER
@@ -75,32 +75,20 @@ namespace CHARACTER
     {
         return m_word2DD0;
     }
-}
 
-namespace CHARACTER
-{
     Fun_Runtime::cClass &cCwTransCharacter::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cCwTransCharacterClass = new Fun_Runtime::cClass(0x6A1, "cCwTransCharacter", 0x2E00);
         return *cCwTransCharacterClass;
     }
-}
 
-namespace CHARACTER
-{
     const Fun_Runtime::cClass *cCwTransCharacter::ms_pcCwTransCharacterClass = &cCwTransCharacter::StaticCreateClass();
-}
 
-// CD2 0x82FABCC8: runtime class inheritance registration.
-namespace CHARACTER
-{
+    // CD2 0x82FABCC8: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cCwTransCharactercCharacterInheritRegistrar(
         CHARACTER::cCwTransCharacter::StaticCreateClass(), CHARACTER::cCharacter::StaticCreateClass());
-}
 
-// CD2 0x82FABD80: register the class descriptor and placement factory.
-namespace CHARACTER
-{
+    // CD2 0x82FABD80: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cCwTransCharacterSpawningRegistrar(
         cCwTransCharacter::StaticCreateClass(), cCwTransCharacter::SpawnFromPrototype);
 }

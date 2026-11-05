@@ -7,10 +7,12 @@ namespace Vehicle
     {
         return "cSixWheelerProfile";
     }
-}
 
-namespace Vehicle
-{
+    cSixWheelerProfile::~cSixWheelerProfile()
+    {
+        UnRegisterMsg(m_Msg_Data_Modified);
+    }
+
     static RWS::CClassFactory::CRegistrar cSixWheelerProfileRegistrar(
         "cSixWheelerProfile", cSixWheelerProfile::MakeNew, 0x900, false);
 }

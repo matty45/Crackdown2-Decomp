@@ -12,10 +12,7 @@ namespace unknown
     {
         return "cGodRaysControl";
     }
-}
 
-namespace unknown
-{
     static RWS::CClassFactory::CRegistrar cGodRaysControlRegistrar(
         "cGodRaysControl", cGodRaysControl::MakeNew, 0x1c, false);
 }
@@ -40,10 +37,7 @@ namespace VFX
     {
         return ReloadInstance;
     }
-}
 
-namespace VFX
-{
     cGodRaysPassThroughShader *cGodRaysPassThroughShader::ms_pInstance;
 
     bool cGodRaysPassThroughShader::ReloadInstance(bool revert)
@@ -62,10 +56,7 @@ namespace VFX
     {
         return ReloadInstance;
     }
-}
 
-namespace VFX
-{
     cGodRaysRestoreDepthShader *cGodRaysRestoreDepthShader::ms_pInstance;
 
     bool cGodRaysRestoreDepthShader::ReloadInstance(bool revert)
@@ -84,10 +75,7 @@ namespace VFX
     {
         return ReloadInstance;
     }
-}
 
-namespace VFX
-{
     cGodRaysRaysRectShader *cGodRaysRaysRectShader::ms_pInstance;
 
     bool cGodRaysRaysRectShader::ReloadInstance(bool revert)
@@ -106,10 +94,7 @@ namespace VFX
     {
         return ReloadInstance;
     }
-}
 
-namespace VFX
-{
     cGodRaysRadialBlurShader *cGodRaysRadialBlurShader::ms_pInstance;
 
     bool cGodRaysRadialBlurShader::ReloadInstance(bool revert)

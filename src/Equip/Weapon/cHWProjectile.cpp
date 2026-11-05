@@ -1,8 +1,3 @@
-#include "cd2/memory.h"
-#include "gom/proto_registrar.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "Equip/cFlocket.h"
-#include "Equip/cWeaponProjectile.h"
 // src/Equip/Weapon/cHWProjectile.cpp
 //
 // Class: cHWProjectile (namespace: Equip). Set up automatically: no function is matched yet. The address range and the
@@ -17,6 +12,13 @@
 //     py -I tools/cd2.py tasks src/Equip/Weapon/cHWProjectile.cpp
 
 // CD2 0x82FD26F8: runtime class inheritance registration.
+
+#include "cd2/memory.h"
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "Equip/cFlocket.h"
+#include "Equip/cWeaponProjectile.h"
+
 namespace Equip
 {
     Fun_Runtime::cClass &cHWProjectile::StaticCreateClass()
@@ -27,25 +29,16 @@ namespace Equip
 
     static Fun_Runtime::cInheritanceRegistrar cHWProjectilecWeaponProjectileInheritRegistrar(
         Equip::cHWProjectile::StaticCreateClass(), Equip::cWeaponProjectile::StaticCreateClass());
-}
 
-// CD2 0x82FD27B0: register the class descriptor and placement factory.
-namespace Equip
-{
+    // CD2 0x82FD27B0: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cHWProjectileSpawningRegistrar(
         cHWProjectile::StaticCreateClass(), cHWProjectile::SpawnFromPrototype);
-}
 
-namespace Equip
-{
     const char *cHWProjectile::RetClassName() const
     {
         return "cHWProjectile";
     }
-}
 
-namespace Equip
-{
     RWS::CAttributeHandler *cHWProjectile::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
     {
         if (memory)

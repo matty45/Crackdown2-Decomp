@@ -1,7 +1,3 @@
-#include "gom/proto_registrar.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "VEHICLE_CONTROL/cHelicopterController.h"
-#include "rws/classfactory.h"
 // src/cAgencySquadChopper.cpp
 //
 // Class: cAgencySquadChopper (namespace: unknown). Set up automatically: no function is matched yet. The address range
@@ -13,6 +9,10 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/cAgencySquadChopper.cpp
 
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "VEHICLE_CONTROL/cHelicopterController.h"
+#include "rws/classfactory.h"
 #include "unknown/cAgencySquadChopper.h"
 #include "cd2/memory.h"
 
@@ -25,30 +25,18 @@ namespace unknown
         static Fun_Runtime::cClass *cAgencySquadChopperClass = new Fun_Runtime::cClass(0x12066, "cAgencySquadChopper", 0x2360);
         return *cAgencySquadChopperClass;
     }
-}
 
-namespace unknown
-{
     static RWS::CClassFactory::CRegistrar cAgencySquadChopperRegistrar(
         "cAgencySquadChopper", cAgencySquadChopper::MakeNew, 0x2360, false);
-}
 
-// CD2 0x82FEBD00: runtime class inheritance registration.
-namespace unknown
-{
+    // CD2 0x82FEBD00: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cAgencySquadChoppercVehicleInheritRegistrar(
         unknown::cAgencySquadChopper::StaticCreateClass(), Vehicle::cVehicle::StaticCreateClass());
-}
 
-// CD2 0x82FEBDB8: register the class descriptor and placement factory.
-namespace unknown
-{
+    // CD2 0x82FEBDB8: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cAgencySquadChopperSpawningRegistrar(
         cAgencySquadChopper::StaticCreateClass(), cAgencySquadChopper::SpawnFromPrototype);
-}
 
-namespace unknown
-{
     const char *cAgencySquadChopper::RetClassName() const
     {
         return "cAgencySquadChopper";

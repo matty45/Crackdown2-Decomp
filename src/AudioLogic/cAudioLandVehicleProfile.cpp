@@ -1,6 +1,3 @@
-#include "fun_runtime/inheritance_registrar.h"
-#include "gom/non_game_base.h"
-#include "rws/classfactory.h"
 // src/AudioLogic/cAudioLandVehicleProfile.cpp
 //
 // Class: cAudioLandVehicleProfile (namespace: AudioLogic). Set up automatically: no function is matched yet. The
@@ -15,7 +12,11 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/AudioLogic/cAudioLandVehicleProfile.cpp
 
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/non_game_base.h"
+#include "rws/classfactory.h"
 #include "AudioLogic/cAudioLandVehicleProfile.h"
+#include "cd2/memory.h"
 
 namespace AudioLogic
 {
@@ -23,46 +24,29 @@ namespace AudioLogic
     {
         return "cAudioLandVehicleProfile";
     }
-}
 
-#include "cd2/memory.h"
-
-namespace AudioLogic
-{
     Fun_Runtime::cClass &cAudioLandVehicleProfile::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cAudioLandVehicleProfileClass = new Fun_Runtime::cClass(0xAF1, "cAudioLandVehicleProfile", 0x7C);
         return *cAudioLandVehicleProfileClass;
     }
-}
 
-namespace AudioLogic
-{
     const Fun_Runtime::cClass *cAudioLandVehicleProfile::ms_pcAudioLandVehicleProfileClass = &cAudioLandVehicleProfile::StaticCreateClass();
 
     const Fun_Runtime::cClass &cAudioLandVehicleProfile::RetClass() const
     {
         return *ms_pcAudioLandVehicleProfileClass;
     }
-}
 
-namespace AudioLogic
-{
     bool cAudioLandVehicleProfile::IsA(const Fun_Runtime::cClass &c) const
     {
         return ms_pcAudioLandVehicleProfileClass->IsA(c);
     }
-}
 
-namespace AudioLogic
-{
     static RWS::CClassFactory::CRegistrar cAudioLandVehicleProfileRegistrar(
         "cAudioLandVehicleProfile", cAudioLandVehicleProfile::MakeNew, 0x7C, false);
-}
 
-// CD2 0x82FAA0D0: runtime class inheritance registration.
-namespace AudioLogic
-{
+    // CD2 0x82FAA0D0: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cAudioLandVehicleProfilecNonGameBaseInheritRegistrar(
         AudioLogic::cAudioLandVehicleProfile::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }

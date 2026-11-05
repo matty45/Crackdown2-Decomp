@@ -7,10 +7,7 @@ namespace VFX
     {
         return "cLinkedVFXPrototype";
     }
-}
 
-namespace VFX
-{
     static RWS::CClassFactory::CRegistrar cLinkedVFXPrototypeRegistrar(
         "cLinkedVFXPrototype", cLinkedVFXPrototype::MakeNew, 0x44, false);
 }

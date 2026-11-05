@@ -9,21 +9,20 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/cExplosivesSkillProfile.cpp
 
+
+// CD2 0x82753190.
+
 #include "rws/classfactory.h"
 #include "unknown/cExplosivesSkillProfile.h"
 
-// CD2 0x82753190.
 namespace unknown
 {
     const char *cExplosivesSkillProfile::RetClassName() const
     {
         return "cExplosivesSkillProfile";
     }
-}
 
-// CD2 0x82FFD408 (initializer) and 0x83041D40 (at-exit destructor).
-namespace unknown
-{
+    // CD2 0x82FFD408 (initializer) and 0x83041D40 (at-exit destructor).
     static RWS::CClassFactory::CRegistrar cExplosivesSkillProfileRegistrar(
         "cExplosivesSkillProfile", cExplosivesSkillProfile::MakeNew, 0xA4, false);
 }

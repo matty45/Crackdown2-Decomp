@@ -6,6 +6,7 @@
 #include "rws/classfactory.h"
 #include "VFX/cDeityRay.h"
 #include "VFX/cDeityRayOccludeShader.h"
+#include "cd2/memory.h"
 
 namespace VFX
 {
@@ -32,16 +33,10 @@ namespace VFX
     {
         return "cDeityRay";
     }
-}
 
-namespace VFX
-{
     static RWS::CClassFactory::CRegistrar cDeityRayRegistrar(
         "cDeityRay", cDeityRay::MakeNew, 0x6b0, false);
-}
 
-namespace VFX
-{
     cDeityRayShader *cDeityRayShader::ms_pInstance;
 
     bool cDeityRayShader::ReloadInstance(bool revert)
@@ -60,10 +55,7 @@ namespace VFX
     {
         return ReloadInstance;
     }
-}
 
-namespace VFX
-{
     cDeityRayBlurOcclusionShader *cDeityRayBlurOcclusionShader::ms_pInstance;
 
     bool cDeityRayBlurOcclusionShader::ReloadInstance(bool revert)
@@ -82,10 +74,7 @@ namespace VFX
     {
         return ReloadInstance;
     }
-}
 
-namespace VFX
-{
     cDeityRayFalloffShader *cDeityRayFalloffShader::ms_pInstance;
 
     bool cDeityRayFalloffShader::ReloadInstance(bool revert)
@@ -104,10 +93,7 @@ namespace VFX
     {
         return ReloadInstance;
     }
-}
 
-namespace VFX
-{
     cDeityRayAverageShader *cDeityRayAverageShader::ms_pInstance;
 
     bool cDeityRayAverageShader::ReloadInstance(bool revert)
@@ -126,10 +112,7 @@ namespace VFX
     {
         return ReloadInstance;
     }
-}
 
-namespace VFX
-{
     cDeityRaySampleMipsShader *cDeityRaySampleMipsShader::ms_pInstance;
 
     bool cDeityRaySampleMipsShader::ReloadInstance(bool revert)
@@ -148,13 +131,8 @@ namespace VFX
     {
         return ReloadInstance;
     }
-}
 
-#include "cd2/memory.h"
-
-// CD2 0x82791B00: the class-factory constructor; the constructor stays out of line.
-namespace VFX
-{
+    // CD2 0x82791B00: the class-factory constructor; the constructor stays out of line.
     RWS::CAttributeHandler *cDeityRay::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cDeityRay;

@@ -1,6 +1,3 @@
-#include "cd2/memory.h"
-#include "Equip/cGrenade.h"
-#include "gom/proto_registrar.h"
 // src/Equip/Weapon/cGrenade.cpp
 //
 // Class: cGrenade (namespace: Equip). Set up automatically: no function is matched yet. The address range and the
@@ -15,63 +12,46 @@
 //     py -I tools/cd2.py tasks src/Equip/Weapon/cGrenade.cpp
 
 // CD2 0x82FCFF88: class descriptor and placement factory.
+
+#include "cd2/memory.h"
+#include "Equip/cGrenade.h"
+#include "gom/proto_registrar.h"
+#include "fun_runtime/script_type_registrar.h"
+
 namespace Equip
 {
     static GOM::cProtoRegistrar cGrenadeSpawningRegistrar(
         cGrenade::StaticCreateClass(), cGrenade::SpawnFromPrototype);
-}
 
-namespace Equip
-{
     const char *cGrenade::RetClassName() const
     {
         return "cGrenade";
     }
-}
 
-namespace Equip
-{
     RWS::CAttributeHandler *cGrenade::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
     {
         if (memory)
             return new (memory) cGrenade;
         return 0;
     }
-}
 
-#include "Equip/cGrenade.h"
-#include "fun_runtime/script_type_registrar.h"
-
-namespace Equip
-{
     // CD2 script-type registration names this child and parent.
     static Fun_Runtime::cScriptTypeRegistrar<cGrenade> cGrenadeScriptRegistrar(
         "cGrenade", "cWeapon");
-}
 
-#include "cd2/memory.h"
-
-namespace Equip
-{
     Fun_Runtime::cClass &cGrenade::StaticCreateClass()
     {
         static Fun_Runtime::cClass *descriptor = new Fun_Runtime::cClass(0x3E8A, "cGrenade", 0x9C0);
         return *descriptor;
     }
-}
 
-namespace Equip
-{
     const Fun_Runtime::cClass *cGrenade::ms_pcGrenadeClass = &cGrenade::StaticCreateClass();
 
     const Fun_Runtime::cClass &cGrenade::RetClass() const
     {
         return *ms_pcGrenadeClass;
     }
-}
 
-namespace Equip
-{
     const Fun_Runtime::cScriptTypeRegistration *cGrenade::RetScriptTypeRegistration() const
     {
         return &cGrenadeScriptRegistrar;

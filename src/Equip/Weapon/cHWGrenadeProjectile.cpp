@@ -1,7 +1,3 @@
-#include "gom/proto_registrar.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "Equip/cFlocket.h"
-#include "rws/classfactory.h"
 // src/Equip/Weapon/cHWGrenadeProjectile.cpp
 //
 // Class: cHWGrenadeProjectile (namespace: Equip). Set up automatically: no function is matched yet. The address range
@@ -15,7 +11,13 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Equip/Weapon/cHWGrenadeProjectile.cpp
 
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "Equip/cFlocket.h"
+#include "rws/classfactory.h"
 #include "Equip/cHWGrenadeProjectile.h"
+#include "cd2/memory.h"
+#include "fun_runtime/script_type_registrar.h"
 
 namespace Equip
 {
@@ -23,56 +25,30 @@ namespace Equip
     {
         return "cHWGrenadeProjectile";
     }
-}
 
-#include "cd2/memory.h"
-
-namespace Equip
-{
     Fun_Runtime::cClass &cHWGrenadeProjectile::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cHWGrenadeProjectileClass = new Fun_Runtime::cClass(0x4275, "cHWGrenadeProjectile", 0xA40);
         return *cHWGrenadeProjectileClass;
     }
-}
 
-namespace Equip
-{
     const Fun_Runtime::cClass *cHWGrenadeProjectile::ms_pcHWGrenadeProjectileClass = &cHWGrenadeProjectile::StaticCreateClass();
-}
 
-namespace Equip
-{
     static RWS::CClassFactory::CRegistrar cHWGrenadeProjectileRegistrar(
         "cHWGrenadeProjectile", cHWGrenadeProjectile::MakeNew, 0xA40, false);
-}
 
-// CD2 0x82FD2268: runtime class inheritance registration.
-namespace Equip
-{
+    // CD2 0x82FD2268: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cHWGrenadeProjectilecHWProjectileInheritRegistrar(
         Equip::cHWGrenadeProjectile::StaticCreateClass(), Equip::cHWProjectile::StaticCreateClass());
-}
 
-// CD2 0x82FD2320: register the class descriptor and placement factory.
-namespace Equip
-{
+    // CD2 0x82FD2320: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cHWGrenadeProjectileSpawningRegistrar(
         cHWGrenadeProjectile::StaticCreateClass(), cHWGrenadeProjectile::SpawnFromPrototype);
-}
 
-#include "Equip/cHWGrenadeProjectile.h"
-#include "fun_runtime/script_type_registrar.h"
-
-namespace Equip
-{
     // CD2 script-type registration; constructor/table evidence identifies the child and parent.
     static Fun_Runtime::cScriptTypeRegistrar<cHWGrenadeProjectile> cHWGrenadeProjectileScriptRegistrar(
         "cHWGrenadeProjectile", "cHWProjectile");
-}
 
-namespace Equip
-{
     const Fun_Runtime::cScriptTypeRegistration *cHWGrenadeProjectile::RetScriptTypeRegistration() const
     {
         return &cHWGrenadeProjectileScriptRegistrar;

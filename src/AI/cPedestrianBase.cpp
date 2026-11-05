@@ -5,7 +5,6 @@
 #include "rws/classfactory.h"
 #include "AI/BehaviourClassID.h"
 #include "cd2/memory.h"
-
 #include <new>
 
 namespace AI
@@ -49,24 +48,15 @@ namespace AI
     {
         return "cPedestrianBase";
     }
-}
 
-namespace AI
-{
     static RWS::CClassFactory::CRegistrar cPedestrianBaseRegistrar(
         "cPedestrianBase", cPedestrianBase::MakeNew, 0x120, false);
-}
 
-// CD2 0x82F929B0: runtime class inheritance registration.
-namespace AI
-{
+    // CD2 0x82F929B0: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cPedestrianBaseNPCBehaviourInheritRegistrar(
         AI::cPedestrianBase::StaticCreateClass(), AI::NPCBehaviour::StaticCreateClass());
-}
 
-// CD2 0x82F92A68: register the class descriptor and placement factory.
-namespace AI
-{
+    // CD2 0x82F92A68: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cPedestrianBaseSpawningRegistrar(
         cPedestrianBase::StaticCreateClass(), cPedestrianBase::SpawnFromPrototype);
 }

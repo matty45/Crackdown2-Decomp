@@ -1,6 +1,7 @@
 #include "fun_runtime/inheritance_registrar.h"
 #include "AI/cFinalMission.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
 
 namespace AI
 {
@@ -27,28 +28,17 @@ namespace AI
     {
         return new cFinalMission();
     }
-}
 
-namespace AI
-{
     static RWS::CClassFactory::CRegistrar cFinalMissionRegistrar(
         "cFinalMission", cFinalMission::MakeNew, 0xC50, false);
-}
 
-#include "cd2/memory.h"
-
-namespace AI
-{
     Fun_Runtime::cClass &cFinalMission::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cFinalMissionClass = new Fun_Runtime::cClass(0x2A1FD, "cFinalMission", 0xC50);
         return *cFinalMissionClass;
     }
-}
 
-// CD2 0x82F89330: runtime mission inheritance registration.
-namespace AI
-{
+    // CD2 0x82F89330: runtime mission inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cFinalMissioncMissionInheritRegistrar(
         AI::cFinalMission::StaticCreateClass(), AI::cMission::StaticCreateClass());
 }

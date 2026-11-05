@@ -10,7 +10,7 @@
 // (69), SetSpeedLimit (76), GetSpeedLimit (77), ResetSpeedLimit (78); RuffKing declares all four in cVehicleController.
 // The rest are placeholders vfN. Its Term is inline: CD2 emits it out of line at 0x82781CF0 (cNonGameBase::Term, then
 // that file's Ret_OK) and inlines it into the helicopter's Term. Prototypes derive from GOM::cObjectPrototype.
-// Vehicle::cVehicle: polymorphic interface at +0x30 (slot 1 = type test), physics data pointer at +0x1948.
+// AssignVehicle reads the helicopter prototype's m_fMaxThrustVelo through Vehicle::cHelicopter (Vehicle/cHelicopter.h).
 #ifndef VEHICLE_CONTROL_CHELICOPTERCONTROLLER_H
 #define VEHICLE_CONTROL_CHELICOPTERCONTROLLER_H
 
@@ -21,39 +21,13 @@
 #include "fun_runtime/retval.h"
 #include "gom/non_game_base.h"
 #include "PHYSICS/cDynamicBody.h"
+#include "Vehicle/cHelicopter.h"
 
 // Globals cHelicopterController.cpp uses; their real owners and names are not known (the names are ours).
 extern float g_fCrossLimit;         // 0x83207580
 
 namespace Fun_Runtime
 {
-}
-
-namespace Vehicle
-{
-    class cVehiclePhysics { public: unsigned char m_pad[872]; float m_fMaxSpeed; };
-    class cVehicleRoot { public: virtual void vf0(); unsigned char m_pad[0x2C]; };
-    class cVehicleIface
-    {
-    public:
-        virtual void vf0();
-        virtual bool IsKindOf(const Fun_Runtime::cClass &cls);
-        unsigned char m_pad[0x1914];
-        cVehiclePhysics *m_pPhysics;
-    };
-    class cVehicle : public cVehicleRoot, public cVehicleIface {
-    public:
-        // Interface-only stand-in from RuffKing; CD2 prototype chain reaches cDynamicBodyPrototype.
-        // Complete storage is unrecovered; do not use this declaration for allocation.
-        class cVehiclePrototype : public PHYSICS::cDynamicBody::cDynamicBodyPrototype {};
-        // CD2 0x826CC760: primary virtual slot 11 returns the registered class name.
-        virtual const char *RetClassName() const;
-        // CD2 spawning initializer 0x82FE9A28 names placement factory 0x826cc770.
-        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
-        // CD2 0x826CC860 creates the named runtime descriptor.
-        static Fun_Runtime::cClass &StaticCreateClass();
-        static const Fun_Runtime::cClass *ms_pcVehicleClass;
-};
 }
 
 namespace VEHICLE_CONTROL

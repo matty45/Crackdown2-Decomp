@@ -1,8 +1,3 @@
-#include "fun_runtime/retval.h"
-#include "Equip/cCWHeavyWeapon.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "gom/proto_registrar.h"
-#include "rws/classfactory.h"
 // src/Equip/Gadget/cRealNadeLauncher.cpp
 //
 // Class: cRealNadeLauncher (namespace: Equip). Set up automatically: no function is matched yet. The address range and
@@ -16,6 +11,11 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Equip/Gadget/cRealNadeLauncher.cpp
 
+#include "fun_runtime/retval.h"
+#include "Equip/cCWHeavyWeapon.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/proto_registrar.h"
+#include "rws/classfactory.h"
 #include "Equip/cRealNadeLauncher.h"
 #include "cd2/memory.h"
 
@@ -28,38 +28,23 @@ namespace Equip
         static Fun_Runtime::cClass *cRealNadeLauncherClass = new Fun_Runtime::cClass(0x6067, "cRealNadeLauncher", 0xA20);
         return *cRealNadeLauncherClass;
     }
-}
 
-namespace Equip
-{
     static RWS::CClassFactory::CRegistrar cRealNadeLauncherRegistrar(
         "cRealNadeLauncher", cRealNadeLauncher::MakeNew, 0xA20, false);
-}
 
-// CD2 0x82FD3B80: register the class descriptor and placement factory.
-namespace Equip
-{
+    // CD2 0x82FD3B80: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cRealNadeLauncherSpawningRegistrar(
         cRealNadeLauncher::StaticCreateClass(), cRealNadeLauncher::SpawnFromPrototype);
-}
 
-// CD2 0x82FD3AC8: runtime class inheritance registration.
-namespace Equip
-{
+    // CD2 0x82FD3AC8: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cRealNadeLaunchercCWHeavyWeaponInheritRegistrar(
         Equip::cRealNadeLauncher::StaticCreateClass(), Equip::cCWHeavyWeapon::StaticCreateClass());
-}
 
-namespace Equip
-{
     const char *cRealNadeLauncher::RetClassName() const
     {
         return "cRealNadeLauncher";
     }
-}
 
-namespace Equip
-{
     const Fun_Runtime::cClass &cRealNadeLauncher::RetClass() const
     {
         return *ms_pcRealNadeLauncherClass;
@@ -74,10 +59,7 @@ namespace Equip
     cRealNadeLauncher::~cRealNadeLauncher()
     {
     }
-}
 
-namespace Equip
-{
     Fun_Runtime::RetVal cRealNadeLauncher::cRealNadeLauncherPrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;

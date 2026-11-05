@@ -13,10 +13,7 @@ namespace Anim
     {
         return "cSwimAnimationProfile";
     }
-}
 
-namespace Anim
-{
     static RWS::CClassFactory::CRegistrar cSwimAnimationProfileRegistrar(
         "cSwimAnimationProfile", cSwimAnimationProfile::MakeNew, 0x4C, false);
 }

@@ -3,6 +3,7 @@
 #include "Prop/cVehicleDamageProp.h"
 #include "unknown/cTransVehicleDamageProp.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
 
 namespace unknown
 {
@@ -22,40 +23,23 @@ namespace unknown
     cTransVehicleDamageProp::~cTransVehicleDamageProp()
     {
     }
-}
 
-namespace unknown
-{
     static RWS::CClassFactory::CRegistrar cTransVehicleDamagePropRegistrar(
         "cTransVehicleDamageProp", cTransVehicleDamageProp::MakeNew, 0xEE0, false);
-}
 
-#include "cd2/memory.h"
-
-namespace unknown
-{
     Fun_Runtime::cClass &cTransVehicleDamageProp::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cTransVehicleDamagePropClass = new Fun_Runtime::cClass(0x14A2D, "cTransVehicleDamageProp", 0xEE0);
         return *cTransVehicleDamagePropClass;
     }
-}
 
-namespace unknown
-{
     const Fun_Runtime::cClass *cTransVehicleDamageProp::ms_pcTransVehicleDamagePropClass = &cTransVehicleDamageProp::StaticCreateClass();
-}
 
-// CD2 0x82FF5A78: runtime class inheritance registration.
-namespace unknown
-{
+    // CD2 0x82FF5A78: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cTransVehicleDamagePropcVehicleDamagePropInheritRegistrar(
         unknown::cTransVehicleDamageProp::StaticCreateClass(), Prop::cVehicleDamageProp::StaticCreateClass());
-}
 
-// CD2 0x82FF5B30: register the class descriptor and placement factory.
-namespace unknown
-{
+    // CD2 0x82FF5B30: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cTransVehicleDamagePropSpawningRegistrar(
         cTransVehicleDamageProp::StaticCreateClass(), cTransVehicleDamageProp::SpawnFromPrototype);
 }

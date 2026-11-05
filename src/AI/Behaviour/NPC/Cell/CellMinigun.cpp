@@ -3,6 +3,8 @@
 #include "AI/NPCArmedBehaviour.h"
 #include "AI/CellMinigun.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
+#include "AI/BehaviourClassID.h"
 
 namespace AI
 {
@@ -29,36 +31,21 @@ namespace AI
     {
         return new CellMinigun();
     }
-}
 
-namespace AI
-{
     static RWS::CClassFactory::CRegistrar CellMinigunRegistrar(
         "CellMinigun", CellMinigun::MakeNew, 0x100, false);
-}
 
-#include "cd2/memory.h"
-#include "AI/BehaviourClassID.h"
-
-namespace AI
-{
     Fun_Runtime::cClass &CellMinigun::StaticCreateClass()
     {
         static Fun_Runtime::cClass *CellMinigunClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "CellMinigun", 0x100);
         return *CellMinigunClass;
     }
-}
 
-// CD2 0x82F95F08: runtime class inheritance registration.
-namespace AI
-{
+    // CD2 0x82F95F08: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar CellMinigunNPCArmedBehaviourInheritRegistrar(
         AI::CellMinigun::StaticCreateClass(), AI::NPCArmedBehaviour::StaticCreateClass());
-}
 
-// CD2 0x82F95FC0: register the class descriptor and placement factory.
-namespace AI
-{
+    // CD2 0x82F95FC0: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar CellMinigunSpawningRegistrar(
         CellMinigun::StaticCreateClass(), CellMinigun::SpawnFromPrototype);
 }

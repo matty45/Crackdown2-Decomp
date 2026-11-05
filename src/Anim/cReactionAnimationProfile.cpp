@@ -1,5 +1,6 @@
 #include "Anim/cReactionAnimationProfile.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
 
 namespace Anim
 {
@@ -13,19 +14,11 @@ namespace Anim
     {
         return "cReactionAnimationProfile";
     }
-}
 
-namespace Anim
-{
     static RWS::CClassFactory::CRegistrar cReactionAnimationProfileRegistrar(
         "cReactionAnimationProfile", cReactionAnimationProfile::MakeNew, 0x40, false);
-}
 
-#include "cd2/memory.h"
-
-// CD2 0x824ED960: the class factory.
-namespace Anim
-{
+    // CD2 0x824ED960: the class factory.
     RWS::CAttributeHandler *cReactionAnimationProfile::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cReactionAnimationProfile;

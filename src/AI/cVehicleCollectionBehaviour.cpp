@@ -3,6 +3,8 @@
 #include "AI/cPilotBase.h"
 #include "AI/cVehicleCollectionBehaviour.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
+#include "AI/BehaviourClassID.h"
 
 namespace AI
 {
@@ -29,36 +31,21 @@ namespace AI
     {
         return new cVehicleCollectionBehaviour();
     }
-}
 
-namespace AI
-{
     static RWS::CClassFactory::CRegistrar cVehicleCollectionBehaviourRegistrar(
         "cVehicleCollectionBehaviour", cVehicleCollectionBehaviour::MakeNew, 0x160, false);
-}
 
-#include "cd2/memory.h"
-#include "AI/BehaviourClassID.h"
-
-namespace AI
-{
     Fun_Runtime::cClass &cVehicleCollectionBehaviour::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cVehicleCollectionBehaviourClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "cVehicleCollectionBehaviour", 0x160);
         return *cVehicleCollectionBehaviourClass;
     }
-}
 
-// CD2 0x82F9CE60: runtime class inheritance registration.
-namespace AI
-{
+    // CD2 0x82F9CE60: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cVehicleCollectionBehaviourcPilotBaseInheritRegistrar(
         AI::cVehicleCollectionBehaviour::StaticCreateClass(), AI::cPilotBase::StaticCreateClass());
-}
 
-// CD2 0x82F9CF18: register the class descriptor and placement factory.
-namespace AI
-{
+    // CD2 0x82F9CF18: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cVehicleCollectionBehaviourSpawningRegistrar(
         cVehicleCollectionBehaviour::StaticCreateClass(), cVehicleCollectionBehaviour::SpawnFromPrototype);
 }

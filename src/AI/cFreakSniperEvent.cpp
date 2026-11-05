@@ -53,5 +53,4 @@ namespace AI
 
     static RWS::CClassFactory::CRegistrar cFreakSniperEventRegistrar(
         "cFreakSniperEvent", cFreakSniperEvent::MakeNew, 0x90, false);
-
 }

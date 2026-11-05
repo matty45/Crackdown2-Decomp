@@ -1,5 +1,6 @@
 #include "GangManager/cGangInfoPrototype.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
 
 namespace GangManager
 {
@@ -7,19 +8,11 @@ namespace GangManager
     {
         return "cGangInfoPrototype";
     }
-}
 
-namespace GangManager
-{
     static RWS::CClassFactory::CRegistrar cGangInfoPrototypeRegistrar(
         "cGangInfoPrototype", cGangInfoPrototype::MakeNew, 0xD0, false);
-}
 
-#include "cd2/memory.h"
-
-// CD2 0x82676D60: the class-factory constructor; the constructor stays out of line.
-namespace GangManager
-{
+    // CD2 0x82676D60: the class-factory constructor; the constructor stays out of line.
     RWS::CAttributeHandler *cGangInfoPrototype::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cGangInfoPrototype;

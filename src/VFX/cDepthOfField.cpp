@@ -2,6 +2,7 @@
 #include "VFX/cDOFCalcBlurShader.h"
 #include "rws/classfactory.h"
 #include "VFX/cDepthOfField.h"
+#include "cd2/memory.h"
 
 namespace VFX
 {
@@ -9,16 +10,10 @@ namespace VFX
     {
         return "cDepthOfField";
     }
-}
 
-namespace VFX
-{
     static RWS::CClassFactory::CRegistrar cDepthOfFieldRegistrar(
         "cDepthOfField", cDepthOfField::MakeNew, 0x8c, false);
-}
 
-namespace VFX
-{
     cDOFCalcBlurShader *cDOFCalcBlurShader::ms_pInstance;
 
     bool cDOFCalcBlurShader::ReloadInstance(bool revert)
@@ -37,10 +32,7 @@ namespace VFX
     {
         return ReloadInstance;
     }
-}
 
-namespace VFX
-{
     cDOFShader *cDOFShader::ms_pInstance;
 
     bool cDOFShader::ReloadInstance(bool revert)
@@ -59,13 +51,8 @@ namespace VFX
     {
         return ReloadInstance;
     }
-}
 
-#include "cd2/memory.h"
-
-// CD2 0x82795510: the class-factory constructor; the constructor stays out of line.
-namespace VFX
-{
+    // CD2 0x82795510: the class-factory constructor; the constructor stays out of line.
     RWS::CAttributeHandler *cDepthOfField::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cDepthOfField;

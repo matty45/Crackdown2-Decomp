@@ -1,5 +1,6 @@
 #include "Anim/cBeaconPulseHoverAnimationProfile.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
 
 namespace Anim
 {
@@ -13,19 +14,11 @@ namespace Anim
     {
         return "cBeaconPulseHoverAnimationProfile";
     }
-}
 
-namespace Anim
-{
     static RWS::CClassFactory::CRegistrar cBeaconPulseHoverAnimationProfileRegistrar(
         "cBeaconPulseHoverAnimationProfile", cBeaconPulseHoverAnimationProfile::MakeNew, 0x40, false);
-}
 
-#include "cd2/memory.h"
-
-// CD2 0x824EC1A0: the class factory.
-namespace Anim
-{
+    // CD2 0x824EC1A0: the class factory.
     RWS::CAttributeHandler *cBeaconPulseHoverAnimationProfile::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cBeaconPulseHoverAnimationProfile;

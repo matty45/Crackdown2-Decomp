@@ -1,7 +1,3 @@
-#include "Equip/cCWHeavyWeapon.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "gom/proto_registrar.h"
-#include "rws/classfactory.h"
 // src/Equip/DLCWeapons/cFlocketLauncher.cpp
 //
 // Class: cFlocketLauncher (namespace: Equip). Set up automatically: no function is matched yet. The address range and
@@ -15,6 +11,10 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Equip/DLCWeapons/cFlocketLauncher.cpp
 
+#include "Equip/cCWHeavyWeapon.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/proto_registrar.h"
+#include "rws/classfactory.h"
 #include "Equip/cFlocketLauncher.h"
 #include "cd2/memory.h"
 
@@ -27,38 +27,23 @@ namespace Equip
         static Fun_Runtime::cClass *cFlocketLauncherClass = new Fun_Runtime::cClass(0x605F, "cFlocketLauncher", 0xA30);
         return *cFlocketLauncherClass;
     }
-}
 
-namespace Equip
-{
     static RWS::CClassFactory::CRegistrar cFlocketLauncherRegistrar(
         "cFlocketLauncher", cFlocketLauncher::MakeNew, 0xA30, false);
-}
 
-// CD2 0x82FD33B0: register the class descriptor and placement factory.
-namespace Equip
-{
+    // CD2 0x82FD33B0: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cFlocketLauncherSpawningRegistrar(
         cFlocketLauncher::StaticCreateClass(), cFlocketLauncher::SpawnFromPrototype);
-}
 
-// CD2 0x82FD32F8: runtime class inheritance registration.
-namespace Equip
-{
+    // CD2 0x82FD32F8: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cFlocketLaunchercCWHeavyWeaponInheritRegistrar(
         Equip::cFlocketLauncher::StaticCreateClass(), Equip::cCWHeavyWeapon::StaticCreateClass());
-}
 
-namespace Equip
-{
     const char *cFlocketLauncher::RetClassName() const
     {
         return "cFlocketLauncher";
     }
-}
 
-namespace Equip
-{
     const Fun_Runtime::cClass &cFlocketLauncher::RetClass() const
     {
         return *ms_pcFlocketLauncherClass;

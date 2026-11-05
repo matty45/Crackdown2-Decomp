@@ -18,16 +18,10 @@ namespace AI
     {
         return "cCrowdZoneDataHolder";
     }
-}
 
-namespace AI
-{
     static RWS::CClassFactory::CRegistrar cCrowdZoneDataHolderRegistrar(
         "cCrowdZoneDataHolder", cCrowdZoneDataHolder::MakeNew, 0x7C, false);
-}
 
-namespace AI
-{
     bool cCrowdZoneDataHolder::IsA(const Fun_Runtime::cClass &testClass) const
     {
         return ms_pcCrowdZoneDataHolderClass->IsA(testClass);

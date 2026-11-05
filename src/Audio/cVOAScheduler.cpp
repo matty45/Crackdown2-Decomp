@@ -1,4 +1,3 @@
-#include "rws/classfactory.h"
 // src/Audio/cVOAScheduler.cpp
 //
 // Class: cVOAScheduler (namespace: Audio). Set up automatically: no function is matched yet. The address range and the
@@ -12,7 +11,9 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Audio/cVOAScheduler.cpp
 
+#include "rws/classfactory.h"
 #include "Audio/cVOAScheduler.h"
+#include "cd2/memory.h"
 
 namespace Audio
 {
@@ -20,16 +21,10 @@ namespace Audio
     {
         return "cVOAScheduler";
     }
-}
 
-namespace Audio
-{
     static RWS::CClassFactory::CRegistrar cVOASchedulerRegistrar(
         "cVOAScheduler", cVOAScheduler::MakeNew, 0x480, false);
-}
 
-namespace Audio
-{
     const Fun_Runtime::cClass &cVOAScheduler::RetClass() const
     {
         return *ms_pccVOASchedulerClass;
@@ -45,12 +40,7 @@ namespace Audio
         UnLinkMsg(RWS::iMsgRunningTick);
         ms_pInstance = 0;
     }
-}
 
-#include "cd2/memory.h"
-
-namespace Audio
-{
     RWS::CAttributeHandler *cVOAScheduler::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cVOAScheduler;

@@ -1,6 +1,3 @@
-#include "fun_runtime/inheritance_registrar.h"
-#include "fun_runtime/scripthost.h"
-#include "rws/classfactory.h"
 // src/AudioLogic/cAudioBaseProfile.cpp
 //
 // Class: cAudioBaseProfile (namespace: AudioLogic). Set up automatically: no function is matched yet. The address range
@@ -14,7 +11,11 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/AudioLogic/cAudioBaseProfile.cpp
 
+#include "fun_runtime/inheritance_registrar.h"
+#include "fun_runtime/scripthost.h"
+#include "rws/classfactory.h"
 #include "AudioLogic/cAudioBaseProfile.h"
+#include "cd2/memory.h"
 
 namespace AudioLogic
 {
@@ -22,53 +23,33 @@ namespace AudioLogic
     {
         return "cAudioBaseProfile";
     }
-}
 
-#include "cd2/memory.h"
-
-namespace AudioLogic
-{
     Fun_Runtime::cClass &cAudioBaseProfile::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cAudioBaseProfileClass = new Fun_Runtime::cClass(0xAF0, "cAudioBaseProfile", 0x60);
         return *cAudioBaseProfileClass;
     }
-}
 
-namespace AudioLogic
-{
     const Fun_Runtime::cClass *cAudioBaseProfile::ms_pcAudioBaseProfileClass = &cAudioBaseProfile::StaticCreateClass();
 
     const Fun_Runtime::cClass &cAudioBaseProfile::RetClass() const
     {
         return *ms_pcAudioBaseProfileClass;
     }
-}
 
-namespace AudioLogic
-{
     bool cAudioBaseProfile::IsA(const Fun_Runtime::cClass &c) const
     {
         return ms_pcAudioBaseProfileClass->IsA(c);
     }
-}
 
-namespace AudioLogic
-{
     static RWS::CClassFactory::CRegistrar cAudioBaseProfileRegistrar(
         "cAudioBaseProfile", cAudioBaseProfile::MakeNew, 0x60, false);
-}
 
-// CD2 0x82FA9ED8: runtime class inheritance registration.
-namespace AudioLogic
-{
+    // CD2 0x82FA9ED8: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cAudioBaseProfilecScriptHostInheritRegistrar(
         AudioLogic::cAudioBaseProfile::StaticCreateClass(), Fun_Runtime::cScriptHost::StaticCreateClass());
-}
 
-// CD2 0x82527770: the class-factory constructor; the constructor stays out of line.
-namespace AudioLogic
-{
+    // CD2 0x82527770: the class-factory constructor; the constructor stays out of line.
     RWS::CAttributeHandler *cAudioBaseProfile::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cAudioBaseProfile;

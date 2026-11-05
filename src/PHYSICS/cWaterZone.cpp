@@ -1,6 +1,3 @@
-#include "fun_runtime/inheritance_registrar.h"
-#include "gom/non_game_base.h"
-#include "rws/classfactory.h"
 // src/PHYSICS/cWaterZone.cpp
 //
 // Class: cWaterZone (namespace: PHYSICS). Set up automatically: no function is matched yet. The address range and the
@@ -14,6 +11,9 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/PHYSICS/cWaterZone.cpp
 
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/non_game_base.h"
+#include "rws/classfactory.h"
 #include "PHYSICS/cWaterZone.h"
 #include "cd2/memory.h"
 
@@ -26,23 +26,14 @@ namespace PHYSICS
         static Fun_Runtime::cClass *cWaterZoneClass = new Fun_Runtime::cClass(0x10F, "cWaterZone", 0x120);
         return *cWaterZoneClass;
     }
-}
 
-namespace PHYSICS
-{
     static RWS::CClassFactory::CRegistrar cWaterZoneRegistrar(
         "cWaterZone", cWaterZone::MakeNew, 0x120, false);
-}
 
-// CD2 0x82FEFBD0: runtime class inheritance registration.
-namespace PHYSICS
-{
+    // CD2 0x82FEFBD0: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cWaterZonecNonGameBaseInheritRegistrar(
         PHYSICS::cWaterZone::StaticCreateClass(), cNonGameBase::StaticCreateClass());
-}
 
-namespace PHYSICS
-{
     const char *cWaterZone::RetClassName() const
     {
         return "cWaterZone";

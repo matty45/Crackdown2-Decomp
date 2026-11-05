@@ -7,10 +7,7 @@ namespace Anim
     {
         return "cStandAnimationProfile";
     }
-}
 
-namespace Anim
-{
     static RWS::CClassFactory::CRegistrar cStandAnimationProfileRegistrar(
         "cStandAnimationProfile", cStandAnimationProfile::MakeNew, 0x60, false);
 }

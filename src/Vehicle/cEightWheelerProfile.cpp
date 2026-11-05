@@ -7,10 +7,12 @@ namespace Vehicle
     {
         return "cEightWheelerProfile";
     }
-}
 
-namespace Vehicle
-{
+    cEightWheelerProfile::~cEightWheelerProfile()
+    {
+        UnRegisterMsg(m_Msg_Data_Modified);
+    }
+
     static RWS::CClassFactory::CRegistrar cEightWheelerProfileRegistrar(
         "cEightWheelerProfile", cEightWheelerProfile::MakeNew, 0x8F0, false);
 }

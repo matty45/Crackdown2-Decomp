@@ -1,6 +1,3 @@
-#include "gom/proto_registrar.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "CHARACTER/cCwTransCharacter.h"
 // src/cCwTransCharacterWrapper.cpp
 //
 // Class: cCwTransCharacterWrapper (namespace: unknown). Set up automatically: no function is matched yet. The address
@@ -12,59 +9,42 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/cCwTransCharacterWrapper.cpp
 
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "CHARACTER/cCwTransCharacter.h"
 #include "CHARACTER/cCwTransCharacterWrapper.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
+#include "CHARACTER/cCwTransCharacterWrapperPrototype.h"
+#include "fun_runtime/retval.h"
 
 namespace CHARACTER
 {
     // CD2 0x82FAC1A0 registers the prototype factory 0x8253ED68 for this 0x5B40-byte character.
     static RWS::CClassFactory::CRegistrar cCwTransCharacterWrapperRegistrar(
         "cCwTransCharacterWrapper", cCwTransCharacterWrapper::MakeNew, 0x5B40, false);
-}
 
-#include "cd2/memory.h"
-
-namespace CHARACTER
-{
     Fun_Runtime::cClass &cCwTransCharacterWrapper::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cCwTransCharacterWrapperClass = new Fun_Runtime::cClass(0x672, "cCwTransCharacterWrapper", 0x5B40);
         return *cCwTransCharacterWrapperClass;
     }
-}
 
-namespace CHARACTER
-{
     const Fun_Runtime::cClass *cCwTransCharacterWrapper::ms_pcCwTransCharacterWrapperClass = &cCwTransCharacterWrapper::StaticCreateClass();
-}
 
-// CD2 0x82FAC138: runtime class inheritance registration.
-namespace CHARACTER
-{
+    // CD2 0x82FAC138: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cCwTransCharacterWrappercCwTransCharacterInheritRegistrar(
         CHARACTER::cCwTransCharacterWrapper::StaticCreateClass(), CHARACTER::cCwTransCharacter::StaticCreateClass());
-}
 
-// CD2 0x82FAC1F0: register the class descriptor and placement factory.
-namespace CHARACTER
-{
+    // CD2 0x82FAC1F0: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cCwTransCharacterWrapperSpawningRegistrar(
         cCwTransCharacterWrapper::StaticCreateClass(), cCwTransCharacterWrapper::SpawnFromPrototype);
-}
 
-namespace CHARACTER
-{
     const char *cCwTransCharacterWrapper::RetClassName() const
     {
         return "cCwTransCharacterWrapper";
     }
-}
 
-#include "CHARACTER/cCwTransCharacterWrapperPrototype.h"
-#include "fun_runtime/retval.h"
-
-namespace CHARACTER
-{
     Fun_Runtime::RetVal cCwTransCharacterWrapperPrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;

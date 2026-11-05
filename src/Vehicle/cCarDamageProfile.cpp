@@ -1,5 +1,6 @@
 #include "Vehicle/cCarDamageProfile.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
 
 namespace Vehicle
 {
@@ -7,19 +8,11 @@ namespace Vehicle
     {
         return "cCarDamageProfile";
     }
-}
 
-namespace Vehicle
-{
     static RWS::CClassFactory::CRegistrar cCarDamageProfileRegistrar(
         "cCarDamageProfile", cCarDamageProfile::MakeNew, 0x230, false);
-}
 
-#include "cd2/memory.h"
-
-// CD2 0x826A55F0: the class-factory constructor; the constructor stays out of line.
-namespace Vehicle
-{
+    // CD2 0x826A55F0: the class-factory constructor; the constructor stays out of line.
     RWS::CAttributeHandler *cCarDamageProfile::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cCarDamageProfile;

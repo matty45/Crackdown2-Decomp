@@ -1,7 +1,3 @@
-#include "fun_runtime/script_type_registrar.h"
-#include "gom/proto_registrar.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "AI/cCharacterEntityIF.h"
 // AI/cAiPlayer.cpp. Names and layouts: include/AI/cAiPlayer.h. Some functions in this file's range belong to other
 // classes: the linker folded identical getters and kept the copies from this object (Sim::cTimeOfDay::RetPhase,
 // AI::cAiTargetInfo::IsPrimaryFireBlocked / IsTargetVisible, AI::cAIEvent::RetSource, AI::cObjectInstigatorEvent::
@@ -13,6 +9,11 @@
 //   - SetFields4F8 (0x823E92B8) and m_n4F8/m_n4FC/m_n500 are unnamed (slot 125 of cAiPlayer vtable).
 //   - RetConstantC8 (0x823E7B30) is slot 26 of the vtable 0x820FB114, whose object 0x82377190 builds; its class is not
 //     known.
+
+#include "fun_runtime/script_type_registrar.h"
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/cCharacterEntityIF.h"
 #include "AI/cAiPlayer.h"
 #include "rws/classfactory.h"
 #include "AI/AIUtil.h"
@@ -22,7 +23,6 @@
 #include "AI/cObjectInstigatorEvent.h"
 #include "Sim/cTimeOfDay.h"
 #include "cd2/memory.h"
-
 #include <new>
 
 Fun_Runtime::cScriptTypeRegistrar<AI::cAiPlayer> g_cAiPlayer("cAIPlayer", "cCharacterEntityIF");     // global at 0x83803448
@@ -280,24 +280,15 @@ namespace AI
         }
         return false;
     }
-}
 
-namespace AI
-{
     static RWS::CClassFactory::CRegistrar cAiPlayerRegistrar(
         "cAiPlayer", cAiPlayer::MakeNew, 0x620, false);
-}
 
-// CD2 0x82F604D0: runtime class inheritance registration.
-namespace AI
-{
+    // CD2 0x82F604D0: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cAiPlayercCharacterEntityIFInheritRegistrar(
         AI::cAiPlayer::StaticCreateClass(), AI::cCharacterEntityIF::StaticCreateClass());
-}
 
-// CD2 0x82F60588: register the class descriptor and placement factory.
-namespace AI
-{
+    // CD2 0x82F60588: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cAiPlayerSpawningRegistrar(
         cAiPlayer::StaticCreateClass(), cAiPlayer::SpawnFromPrototype);
 }

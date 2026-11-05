@@ -3,8 +3,9 @@
 #include "AI/cPedestrianBase.h"
 #include "AI/Pedestrian.h"
 #include "rws/classfactory.h"
-
 #include <new>
+#include "cd2/memory.h"
+#include "AI/BehaviourClassID.h"
 
 namespace AI
 {
@@ -31,36 +32,21 @@ namespace AI
     {
         return "Pedestrian";
     }
-}
 
-namespace AI
-{
     static RWS::CClassFactory::CRegistrar PedestrianRegistrar(
         "Pedestrian", Pedestrian::MakeNew, 0x120, false);
-}
 
-#include "cd2/memory.h"
-#include "AI/BehaviourClassID.h"
-
-namespace AI
-{
     Fun_Runtime::cClass &Pedestrian::StaticCreateClass()
     {
         static Fun_Runtime::cClass *PedestrianClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "Pedestrian", 0x120);
         return *PedestrianClass;
     }
-}
 
-// CD2 0x82F92578: runtime class inheritance registration.
-namespace AI
-{
+    // CD2 0x82F92578: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar PedestriancPedestrianBaseInheritRegistrar(
         AI::Pedestrian::StaticCreateClass(), AI::cPedestrianBase::StaticCreateClass());
-}
 
-// CD2 0x82F92630: register the class descriptor and placement factory.
-namespace AI
-{
+    // CD2 0x82F92630: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar PedestrianSpawningRegistrar(
         Pedestrian::StaticCreateClass(), Pedestrian::SpawnFromPrototype);
 }

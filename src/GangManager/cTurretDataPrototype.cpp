@@ -17,10 +17,7 @@ namespace GangManager
     {
         return "cTurretDataPrototype";
     }
-}
 
-namespace GangManager
-{
     static RWS::CClassFactory::CRegistrar cTurretDataPrototypeRegistrar(
         "cTurretDataPrototype", cTurretDataPrototype::MakeNew, 0x40, false);
 }

@@ -1,5 +1,3 @@
-#include "gom/proto_registrar.h"
-#include "rws/classfactory.h"
 // src/Prop/Custom/cExplosiveBarrel.cpp
 //
 // Class: cExplosiveBarrel (namespace: Prop). Set up automatically: no function is matched yet. The address range and
@@ -13,6 +11,8 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Prop/Custom/cExplosiveBarrel.cpp
 
+#include "gom/proto_registrar.h"
+#include "rws/classfactory.h"
 #include "Prop/cExplosiveBarrel.h"
 #include "Prop/cExplosiveBarrelPrototype.h"
 #include "rw/rwmem.h"
@@ -65,23 +65,14 @@ namespace Prop
     {
         return "cExplosiveBarrel";
     }
-}
 
-namespace Prop
-{
     static RWS::CClassFactory::CRegistrar cExplosiveBarrelRegistrar(
         "cExplosiveBarrel", cExplosiveBarrel::MakeNew, 0xe40, false);
-}
 
-// CD2 0x82FFA918: class descriptor and placement factory.
-namespace Prop
-{
+    // CD2 0x82FFA918: class descriptor and placement factory.
     static GOM::cProtoRegistrar cExplosiveBarrelSpawningRegistrar(
         cExplosiveBarrel::StaticCreateClass(), cExplosiveBarrel::SpawnFromPrototype);
-}
 
-namespace Prop
-{
     const Fun_Runtime::cClass &cExplosiveBarrel::RetClass() const
     {
         return *ms_pccExplosiveBarrelClass;

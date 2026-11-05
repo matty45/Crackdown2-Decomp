@@ -1,7 +1,3 @@
-#include "gom/proto_registrar.h"
-#include "GDb/cDebugPageHandler.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "AI/cCharacterEntityIF.h"
 // src/PLAYER/cPlayer.cpp
 //
 // Class: PLAYER::cPlayer. The recovered script accessors are defined below.
@@ -16,13 +12,18 @@
 //     py -I tools/cd2.py tasks src/PLAYER/cPlayer.cpp
 
 // Not named yet: GetByteD99/m_byteD99 and m_fEC4 have no script or reference name.
+
+#include "gom/proto_registrar.h"
+#include "GDb/cDebugPageHandler.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/cCharacterEntityIF.h"
 #include "PLAYER/cPlayer.h"
 #include "GMan/cGameManager.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
 #include <stddef.h>
-
 #include <new>
+#include "fun_runtime/script_type_registrar.h"
 
 namespace PLAYER
 {
@@ -146,47 +147,26 @@ namespace PLAYER
         }
         m_bIsAITargeting = bAITargeting;
     }
-}
 
-namespace PLAYER
-{
     static RWS::CClassFactory::CRegistrar cPlayerRegistrar(
         "cPlayer", cPlayer::MakeNew, 0x1160, false);
-}
 
-// CD2 0x82FF3CC8: runtime class inheritance registration.
-namespace PLAYER
-{
+    // CD2 0x82FF3CC8: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cPlayercCharacterEntityIFInheritRegistrar(
         PLAYER::cPlayer::StaticCreateClass(), AI::cCharacterEntityIF::StaticCreateClass());
-}
 
-// CD2 0x82FF3C60: runtime class inheritance registration.
-namespace PLAYER
-{
+    // CD2 0x82FF3C60: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cPlayercDebugPageHandlerInheritRegistrar(
         PLAYER::cPlayer::StaticCreateClass(), GDb::cDebugPageHandler::StaticCreateClass());
-}
 
-// CD2 0x82FF3D80: register the class descriptor and placement factory.
-namespace PLAYER
-{
+    // CD2 0x82FF3D80: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cPlayerSpawningRegistrar(
         cPlayer::StaticCreateClass(), cPlayer::SpawnFromPrototype);
-}
 
-#include "PLAYER/cPlayer.h"
-#include "fun_runtime/script_type_registrar.h"
-
-namespace PLAYER
-{
     // CD2 script-type registration; constructor/table evidence identifies the child and parent.
     static Fun_Runtime::cScriptTypeRegistrar<cPlayer> cPlayerScriptRegistrar(
         "cPlayer", "cCharacterEntityIF");
-}
 
-namespace PLAYER
-{
     const Fun_Runtime::cScriptTypeRegistration *cPlayer::RetScriptTypeRegistration() const
     {
         return &cPlayerScriptRegistrar;

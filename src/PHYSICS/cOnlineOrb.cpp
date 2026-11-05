@@ -2,6 +2,7 @@
 #include "PHYSICS/cPickupBase.h"
 #include "PHYSICS/cOnlineOrb.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
 
 namespace PHYSICS
 {
@@ -9,27 +10,16 @@ namespace PHYSICS
     {
         return "cOnlineOrb";
     }
-}
 
-namespace PHYSICS
-{
     static RWS::CClassFactory::CRegistrar cOnlineOrbRegistrar(
         "cOnlineOrb", cOnlineOrb::MakeNew, 0x170, false);
-}
 
-#include "cd2/memory.h"
-
-namespace PHYSICS
-{
     Fun_Runtime::cClass &cOnlineOrb::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cOnlineOrbClass = new Fun_Runtime::cClass(0x116, "cOnlineOrb", 0x170);
         return *cOnlineOrbClass;
     }
-}
 
-namespace PHYSICS
-{
     const Fun_Runtime::cClass *cOnlineOrb::ms_pcOnlineOrbClass = &cOnlineOrb::StaticCreateClass();
 
     const Fun_Runtime::cClass &cOnlineOrb::RetClass() const
@@ -41,11 +31,8 @@ namespace PHYSICS
     {
         return new cOnlineOrb();
     }
-}
 
-// CD2 0x82FF1A68: runtime class inheritance registration.
-namespace PHYSICS
-{
+    // CD2 0x82FF1A68: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cOnlineOrbcPickupBaseInheritRegistrar(
         PHYSICS::cOnlineOrb::StaticCreateClass(), PHYSICS::cPickupBase::StaticCreateClass());
 }

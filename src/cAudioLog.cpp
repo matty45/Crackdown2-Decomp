@@ -1,6 +1,3 @@
-#include "fun_runtime/inheritance_registrar.h"
-#include "PHYSICS/cPickupBase.h"
-#include "rws/classfactory.h"
 // src/cAudioLog.cpp
 //
 // Class: cAudioLog (namespace: unknown). Set up automatically: no function is matched yet. The address range and the
@@ -12,6 +9,9 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/cAudioLog.cpp
 
+#include "fun_runtime/inheritance_registrar.h"
+#include "PHYSICS/cPickupBase.h"
+#include "rws/classfactory.h"
 #include "unknown/cAudioLog.h"
 #include "cd2/memory.h"
 
@@ -24,31 +24,19 @@ namespace unknown
         static Fun_Runtime::cClass *cAudioLogClass = new Fun_Runtime::cClass(0x115, "cAudioLog", 0x1A0);
         return *cAudioLogClass;
     }
-}
 
-namespace unknown
-{
     static RWS::CClassFactory::CRegistrar cAudioLogRegistrar(
         "cAudioLog", cAudioLog::MakeNew, 0x1A0, false);
-}
 
-// CD2 0x82FF10F0: runtime class inheritance registration.
-namespace unknown
-{
+    // CD2 0x82FF10F0: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cAudioLogcPickupBaseInheritRegistrar(
         unknown::cAudioLog::StaticCreateClass(), PHYSICS::cPickupBase::StaticCreateClass());
-}
 
-namespace unknown
-{
     const char *cAudioLog::RetClassName() const
     {
         return "cAudioLog";
     }
-}
 
-namespace unknown
-{
     const Fun_Runtime::cClass &cAudioLog::RetClass() const
     {
         return *ms_pcAudioLogClass;
@@ -63,10 +51,7 @@ namespace unknown
     cAudioLog::~cAudioLog()
     {
     }
-}
 
-namespace unknown
-{
     RWS::CAttributeHandler *cAudioLog::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cAudioLog;

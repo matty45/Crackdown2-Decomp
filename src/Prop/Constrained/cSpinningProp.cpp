@@ -1,8 +1,3 @@
-#include "gom/proto_registrar.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "Prop/cPivotBasedProp.h"
-#include <new>
-#include "rws/classfactory.h"
 // src/Prop/Constrained/cSpinningProp.cpp
 //
 // Class: cSpinningProp (namespace: Prop). Set up automatically: no function is matched yet. The address range and the
@@ -16,7 +11,14 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Prop/Constrained/cSpinningProp.cpp
 
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "Prop/cPivotBasedProp.h"
+#include <new>
+#include "rws/classfactory.h"
 #include "Prop/cSpinningProp.h"
+#include "cd2/memory.h"
+#include "fun_runtime/script_type_registrar.h"
 
 namespace Prop
 {
@@ -34,59 +36,33 @@ namespace Prop
     cSpinningProp::~cSpinningProp()
     {
     }
-}
 
-#include "cd2/memory.h"
-
-namespace Prop
-{
     Fun_Runtime::cClass &cSpinningProp::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cSpinningPropClass = new Fun_Runtime::cClass(0x101C, "cSpinningProp", 0xE50);
         return *cSpinningPropClass;
     }
-}
 
-namespace Prop
-{
     const Fun_Runtime::cClass *cSpinningProp::ms_pcSpinningPropClass = &cSpinningProp::StaticCreateClass();
-}
 
-namespace Prop
-{
     static RWS::CClassFactory::CRegistrar cSpinningPropRegistrar(
         "cSpinningProp", cSpinningProp::MakeNew, 0xE50, false);
-}
 
-namespace Prop
-{
     RWS::CAttributeHandler *cSpinningProp::SpawnFromPrototype(GOM::cObjectPrototype *prototype, void *memory)
     {
         if (memory)
             return new (memory) cSpinningProp(prototype);
         return 0;
     }
-}
 
-// CD2 0x82FF8EF0: runtime class inheritance registration.
-namespace Prop
-{
+    // CD2 0x82FF8EF0: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cSpinningPropcPivotBasedPropInheritRegistrar(
         Prop::cSpinningProp::StaticCreateClass(), Prop::cPivotBasedProp::StaticCreateClass());
-}
 
-// CD2 0x82FF8FA8: register the class descriptor and placement factory.
-namespace Prop
-{
+    // CD2 0x82FF8FA8: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cSpinningPropSpawningRegistrar(
         cSpinningProp::StaticCreateClass(), cSpinningProp::SpawnFromPrototype);
-}
 
-#include "Prop/cSpinningProp.h"
-#include "fun_runtime/script_type_registrar.h"
-
-namespace Prop
-{
     // CD2 script-type registration; constructor/table evidence identifies the child and parent.
     static Fun_Runtime::cScriptTypeRegistrar<cSpinningProp> cSpinningPropScriptRegistrar(
         "cSpinningProp", "cProp");

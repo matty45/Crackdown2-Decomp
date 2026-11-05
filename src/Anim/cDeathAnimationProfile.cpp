@@ -1,5 +1,6 @@
 #include "Anim/cDeathAnimationProfile.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
 
 namespace Anim
 {
@@ -13,19 +14,11 @@ namespace Anim
     {
         return "cDeathAnimationProfile";
     }
-}
 
-namespace Anim
-{
     static RWS::CClassFactory::CRegistrar cDeathAnimationProfileRegistrar(
         "cDeathAnimationProfile", cDeathAnimationProfile::MakeNew, 0x44, false);
-}
 
-#include "cd2/memory.h"
-
-// CD2 0x824FD660: the class factory.
-namespace Anim
-{
+    // CD2 0x824FD660: the class factory.
     RWS::CAttributeHandler *cDeathAnimationProfile::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cDeathAnimationProfile;

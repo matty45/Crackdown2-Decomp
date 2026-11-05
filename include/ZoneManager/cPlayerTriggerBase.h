@@ -23,6 +23,8 @@ namespace ZoneManager
                                public SaveGame::cLoadSaveObject
     {
     public:
+        // CD2 0x8280DB80 (RuffKing's signature; the zones' MakeNew functions call it with false or true).
+        cPlayerTriggerBase(bool bAllowDeadCharacters);
         // CD2 0x8280DCC0 (out of line: the derived destructors call it).
         virtual ~cPlayerTriggerBase();
 

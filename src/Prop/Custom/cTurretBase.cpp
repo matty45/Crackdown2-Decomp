@@ -1,7 +1,3 @@
-#include "gom/proto_registrar.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "Prop/cProp.h"
-#include "rws/classfactory.h"
 // src/Prop/Custom/cTurretBase.cpp
 //
 // Class: cTurretBase (namespace: Prop). Set up automatically: no function is matched yet. The address range and the
@@ -15,9 +11,14 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Prop/Custom/cTurretBase.cpp
 
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "Prop/cProp.h"
+#include "rws/classfactory.h"
 #include "Prop/cTurretBase.h"
 #include <new>
 #include "rw/rwmem.h"
+#include "cd2/memory.h"
 
 namespace Prop
 {
@@ -65,63 +66,40 @@ namespace Prop
     {
         return "cTurretBase";
     }
-}
 
-#include "cd2/memory.h"
-
-namespace Prop
-{
     Fun_Runtime::cClass &cTurretBase::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cTurretBaseClass = new Fun_Runtime::cClass(0x1027, "cTurretBase", 0x1080);
         return *cTurretBaseClass;
     }
-}
 
-namespace Prop
-{
     const Fun_Runtime::cClass *cTurretBase::ms_pcTurretBaseClass = &cTurretBase::StaticCreateClass();
 
     const Fun_Runtime::cClass &cTurretBase::RetClass() const
     {
         return *ms_pcTurretBaseClass;
     }
-}
 
-namespace Prop
-{
     bool cTurretBase::IsA(const Fun_Runtime::cClass &c) const
     {
         return ms_pcTurretBaseClass->IsA(c);
     }
-}
 
-namespace Prop
-{
     static RWS::CClassFactory::CRegistrar cTurretBaseRegistrar(
         "cTurretBase", cTurretBase::MakeNew, 0x1080, false);
-}
 
-namespace Prop
-{
     RWS::CAttributeHandler *cTurretBase::SpawnFromPrototype(GOM::cObjectPrototype *prototype, void *memory)
     {
         if (memory)
             return new (memory) cTurretBase(prototype);
         return 0;
     }
-}
 
-// CD2 0x82FFC728: runtime class inheritance registration.
-namespace Prop
-{
+    // CD2 0x82FFC728: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cTurretBasecPropInheritRegistrar(
         Prop::cTurretBase::StaticCreateClass(), Prop::cProp::StaticCreateClass());
-}
 
-// CD2 0x82FFC7E0: register the class descriptor and placement factory.
-namespace Prop
-{
+    // CD2 0x82FFC7E0: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cTurretBaseSpawningRegistrar(
         cTurretBase::StaticCreateClass(), cTurretBase::SpawnFromPrototype);
 }

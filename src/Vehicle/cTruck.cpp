@@ -1,70 +1,58 @@
-#include "gom/proto_registrar.h"
-// src/Vehicle/cTruck.cpp
-//
-// Class: cTruck (namespace: Vehicle). Set up automatically: no function is matched yet. The address range and the
-// evidence for it are in config/splits.txt; RuffKing's object for it is cTruck.obj.
-//
-// Reference layout from a later build of the same codebase (a starting point, not CD2's: verify it against CD2's code;
-// refs/ is not in the public repository: maintainers provide it on request; see AGENTS.md):
-// refs/ruffking_pdb_ref/DevBranches/Kingdoms/Source/Code/Libraries/Shared/Vehicle/cTruck.h.
-//
-// Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
-// include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
-//     py -I tools/cd2.py tasks src/Vehicle/cTruck.cpp
+// src/Vehicle/cTruck.cpp: Vehicle::cTruck (include/Vehicle/cTruck.h). Definitions follow CD2's order: the static
+// registrars' initializers (0x82FE94E8..0x82FE95C8), then the functions from 0x826CB3D8.
 
 #include "Vehicle/cTruck.h"
 #include "rws/classfactory.h"
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "cd2/memory.h"
+#include <new>
 
 namespace Vehicle
 {
     const Fun_Runtime::cClass *cTruck::ms_pcTruckClass = &cTruck::StaticCreateClass();
 
+    // CD2 0x82FE9510: runtime class inheritance registration.
+    static Fun_Runtime::cInheritanceRegistrar cTruckcCarInheritRegistrar(
+        cTruck::StaticCreateClass(), cCar::StaticCreateClass());
+
+    static RWS::CClassFactory::CRegistrar cTruckRegistrar(
+        "cTruck", cTruck::MakeNew, 0x3290, false);
+
+    // CD2 0x82FE95C8: register the class descriptor and placement factory.
+    static GOM::cProtoRegistrar cTruckSpawningRegistrar(
+        cTruck::StaticCreateClass(), cTruck::SpawnFromPrototype);
+
     bool cTruck::IsA(const Fun_Runtime::cClass &c) const
     {
         return ms_pcTruckClass->IsA(c);
     }
-}
 
-namespace Vehicle
-{
-    static RWS::CClassFactory::CRegistrar cTruckRegistrar(
-        "cTruck", cTruck::MakeNew, 0x3290, false);
-}
-
-#include "cd2/memory.h"
-
-namespace Vehicle
-{
-    Fun_Runtime::cClass &cTruck::StaticCreateClass()
+    RWS::CAttributeHandler *cTruck::MakeNew(const RWS::CAttributePacket &packet, bool)
     {
-        static Fun_Runtime::cClass *cTruckClass = new Fun_Runtime::cClass(0x11, "cTruck", 0x3290);
-        return *cTruckClass;
+        return new cTruckPrototype(packet);
     }
-}
 
-#include <new>
+    const char *cTruck::RetClassName() const
+    {
+        return "cTruck";
+    }
 
-namespace Vehicle
-{
     RWS::CAttributeHandler *cTruck::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
     {
         if (memory)
             return new (memory) cTruck;
         return 0;
     }
-}
 
-// CD2 0x82FE95C8: register the class descriptor and placement factory.
-namespace Vehicle
-{
-    static GOM::cProtoRegistrar cTruckSpawningRegistrar(
-        cTruck::StaticCreateClass(), cTruck::SpawnFromPrototype);
-}
-
-namespace Vehicle
-{
-    const char *cTruck::RetClassName() const
+    Fun_Runtime::cClass &cTruck::StaticCreateClass()
     {
-        return "cTruck";
+        static Fun_Runtime::cClass *cTruckClass = new Fun_Runtime::cClass(0x11, "cTruck", 0x3290);
+        return *cTruckClass;
+    }
+
+    Fun_Runtime::RetVal cTruck::cTruckPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
     }
 }

@@ -1,6 +1,7 @@
 // GameManagement/cGameModeArena.cpp: game-mode arena definitions of Crackdown 2.
 // 11 of the file's 13 mapped functions are exact (checked 2026-10-26; config/matched_functions.json).
 // Work in progress: GetRandSpawnPointInList<T> (87.3%; register allocation in the modulo sequence).
+
 #include <string.h>
 #include "GameManagement/cGameModeArena.h"
 #include "GameManagement/cNetGamePlayerSpawnPoint.h"

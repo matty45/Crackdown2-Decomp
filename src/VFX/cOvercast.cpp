@@ -7,10 +7,7 @@ namespace VFX
     {
         return "cOvercast";
     }
-}
 
-namespace VFX
-{
     static RWS::CClassFactory::CRegistrar cOvercastRegistrar(
         "cOvercast", cOvercast::MakeNew, 0x48, false);
 }

@@ -1,7 +1,3 @@
-#include "fun_runtime/script_type_registrar.h"
-#include "gom/proto_registrar.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "CHARACTER/cCharacterInterface.h"
 // src/AI/cCharacterEntityIF.cpp
 //
 // Class: cCharacterEntityIF (namespace: AI). Set up automatically: no function is matched yet. The address range and
@@ -16,9 +12,15 @@
 //     py -I tools/cd2.py tasks src/AI/cCharacterEntityIF.cpp
 
 // Not named yet: GetBool38_50 (0x823EC378) is an unnamed boolean accessor; m_p50 (0x50) is untyped storage.
+
+#include "fun_runtime/script_type_registrar.h"
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "CHARACTER/cCharacterInterface.h"
 #include "AI/cCharacterEntityIF.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
+#include <new>
 
 namespace AI
 {
@@ -27,8 +29,6 @@ namespace AI
         return m_pAIEntity->IsInViewCone(object);
     }
 }
-
-#include <new>
 
 Fun_Runtime::cScriptTypeRegistrar<AI::cCharacterEntityIF> g_cCharacterEntityIF("cCharacterEntityIF", "cCharacterInterface");     // global at 0x838035CC
 unsigned char g_AIE_OBJECT_APPROACHING;     // global at 0x8381764C
@@ -293,24 +293,15 @@ namespace AI
             return 180.0f;
         return t->m_fViewingAngle;
     }
-}
 
-namespace AI
-{
     static RWS::CClassFactory::CRegistrar cCharacterEntityIFRegistrar(
         "cCharacterEntityIF", cCharacterEntityIF::MakeNew, 0x540, false);
-}
 
-// CD2 0x82F60D58: runtime class inheritance registration.
-namespace AI
-{
+    // CD2 0x82F60D58: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cCharacterEntityIFcCharacterInterfaceInheritRegistrar(
         AI::cCharacterEntityIF::StaticCreateClass(), CHARACTER::cCharacterInterface::StaticCreateClass());
-}
 
-// CD2 0x82F60E10: register the class descriptor and placement factory.
-namespace AI
-{
+    // CD2 0x82F60E10: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cCharacterEntityIFSpawningRegistrar(
         cCharacterEntityIF::StaticCreateClass(), cCharacterEntityIF::SpawnFromPrototype);
 }

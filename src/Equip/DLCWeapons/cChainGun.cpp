@@ -1,7 +1,3 @@
-#include "gom/proto_registrar.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "Equip/cCWFirearm.h"
-#include "rws/classfactory.h"
 // src/Equip/DLCWeapons/cChainGun.cpp
 //
 // Class: cChainGun (namespace: Equip). Set up automatically: no function is matched yet. The address range and the
@@ -15,6 +11,10 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Equip/DLCWeapons/cChainGun.cpp
 
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "Equip/cCWFirearm.h"
+#include "rws/classfactory.h"
 #include "Equip/cChainGun.h"
 #include "cd2/memory.h"
 
@@ -27,30 +27,18 @@ namespace Equip
         static Fun_Runtime::cClass *cChainGunClass = new Fun_Runtime::cClass(0x13266, "cChainGun", 0xAC0);
         return *cChainGunClass;
     }
-}
 
-namespace Equip
-{
     static RWS::CClassFactory::CRegistrar cChainGunRegistrar(
         "cChainGun", cChainGun::MakeNew, 0xAC0, false);
-}
 
-// CD2 0x82FCE550: runtime class inheritance registration.
-namespace Equip
-{
+    // CD2 0x82FCE550: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cChainGuncCWFirearmInheritRegistrar(
         Equip::cChainGun::StaticCreateClass(), Equip::cCWFirearm::StaticCreateClass());
-}
 
-// CD2 0x82FCE608: register the class descriptor and placement factory.
-namespace Equip
-{
+    // CD2 0x82FCE608: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cChainGunSpawningRegistrar(
         cChainGun::StaticCreateClass(), cChainGun::SpawnFromPrototype);
-}
 
-namespace Equip
-{
     const char *cChainGun::RetClassName() const
     {
         return "cChainGun";

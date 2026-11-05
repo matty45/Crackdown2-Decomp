@@ -1,64 +1,71 @@
+// src/Vehicle/cVehicle.cpp: Vehicle::cVehicle (include/Vehicle/cVehicle.h). The address range and its evidence are in
+// config/splits.txt; RuffKing's object for it is cVehicle.obj. Definitions follow CD2's order: the static registrars'
+// initializers (0x82FE9948..0x82FE9A70), then the functions from 0x826CC708.
+
+#include "Vehicle/cVehicle.h"
+#include "PHYSICS/cNetDynamicBody.h"
+#include "rws/classfactory.h"
 #include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
-#include "VEHICLE_CONTROL/cHelicopterController.h"
-#include "PHYSICS/cNetDynamicBody.h"
-// src/Vehicle/cVehicle.cpp
-//
-// Class: cVehicle (namespace: Vehicle). Set up automatically: no function is matched yet. The address range and the
-// evidence for it are in config/splits.txt; RuffKing's object for it is cVehicle.obj.
-//
-// Reference layout from a later build of the same codebase (a starting point, not CD2's: verify it against CD2's code;
-// refs/ is not in the public repository: maintainers provide it on request; see AGENTS.md):
-// refs/ruffking_pdb_ref/DevBranches/Kingdoms/Source/Code/Libraries/Shared/Vehicle/cVehicle.h.
-//
-// Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
-// include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
-//     py -I tools/cd2.py tasks src/Vehicle/cVehicle.cpp
+#include "fun_runtime/script_type_registrar.h"
+#include "cd2/memory.h"
+#include <new>
 
-// CD2 0x82FE9970: runtime class inheritance registration.
 namespace Vehicle
 {
+    const Fun_Runtime::cClass *cVehicle::ms_pcVehicleClass = &cVehicle::StaticCreateClass();
+
+    // CD2 0x82FE9970: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cVehiclecNetDynamicBodyInheritRegistrar(
-        Vehicle::cVehicle::StaticCreateClass(), PHYSICS::cNetDynamicBody::StaticCreateClass());
-}
+        cVehicle::StaticCreateClass(), PHYSICS::cNetDynamicBody::StaticCreateClass());
 
-// CD2 0x82FE9A28: register the class descriptor and placement factory.
-namespace Vehicle
-{
+    // CD2 0x82FE99D8: the class factory builds a cVehiclePrototype from a packet.
+    static RWS::CClassFactory::CRegistrar cVehicleRegistrar(
+        "cVehicle", cVehicle::MakeNew, 0x1740, false);
+
+    // CD2 0x82FE9A28: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cVehicleSpawningRegistrar(
         cVehicle::StaticCreateClass(), cVehicle::SpawnFromPrototype);
-}
 
-namespace Vehicle
-{
+    // CD2 script-type registration names this child and parent.
+    static Fun_Runtime::cScriptTypeRegistrar<cVehicle> cVehicleScriptRegistrar(
+        "cVehicle", "cDynamicBody");
+
+    const Fun_Runtime::cClass &cVehicle::RetClass() const
+    {
+        return *ms_pcVehicleClass;
+    }
+
+    RWS::CAttributeHandler *cVehicle::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cVehiclePrototype(packet);
+    }
+
     const char *cVehicle::RetClassName() const
     {
         return "cVehicle";
     }
-}
 
-#include "VEHICLE_CONTROL/cHelicopterController.h"
-#include "fun_runtime/script_type_registrar.h"
+    RWS::CAttributeHandler *cVehicle::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cVehicle;
+        return 0;
+    }
 
-namespace Vehicle
-{
-    // CD2 script-type registration names this child and parent.
-    static Fun_Runtime::cScriptTypeRegistrar<cVehicle> cVehicleScriptRegistrar(
-        "cVehicle", "cDynamicBody");
-}
+    float cVehicle::RetTheoreticalMaxMPH()
+    {
+        return Fun_Runtime::g_GlobalConstants.CONST_FLOAT_0;
+    }
 
-#include "cd2/memory.h"
+    void cVehicle::SetIsBeingHiJackedByAI(bool bHiJacked)
+    {
+        m_bIsBeingHiJackedByAI = bHiJacked;
+    }
 
-namespace Vehicle
-{
     Fun_Runtime::cClass &cVehicle::StaticCreateClass()
     {
         static Fun_Runtime::cClass *descriptor = new Fun_Runtime::cClass(0x1, "cVehicle", 0x1740);
         return *descriptor;
     }
-}
-
-namespace Vehicle
-{
-    const Fun_Runtime::cClass *cVehicle::ms_pcVehicleClass = &cVehicle::StaticCreateClass();
 }

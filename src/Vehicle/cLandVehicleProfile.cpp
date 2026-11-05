@@ -8,16 +8,14 @@ namespace Vehicle
     {
         return "cLandVehicleProfile";
     }
-}
 
-namespace Vehicle
-{
+    cLandVehicleProfile::~cLandVehicleProfile()
+    {
+    }
+
     static RWS::CClassFactory::CRegistrar cLandVehicleProfileRegistrar(
         "cLandVehicleProfile", cLandVehicleProfile::MakeNew, 0x8E0, false);
-}
 
-namespace Vehicle
-{
     Fun_Runtime::RetVal cLandVehicleProfile::Term()
     {
         return Ret_OK;

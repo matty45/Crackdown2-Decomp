@@ -1,6 +1,3 @@
-#include "fun_runtime/inheritance_registrar.h"
-#include "gom/non_game_base.h"
-#include "rws/classfactory.h"
 // src/AudioLogic/cAudioLandVehicleExtrasProfile.cpp
 //
 // Class: cAudioLandVehicleExtrasProfile (namespace: AudioLogic). Set up automatically: no function is matched yet. The
@@ -15,7 +12,11 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/AudioLogic/cAudioLandVehicleExtrasProfile.cpp
 
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/non_game_base.h"
+#include "rws/classfactory.h"
 #include "AudioLogic/cAudioLandVehicleExtrasProfile.h"
+#include "cd2/memory.h"
 
 namespace AudioLogic
 {
@@ -23,46 +24,29 @@ namespace AudioLogic
     {
         return "cAudioLandVehicleExtrasProfile";
     }
-}
 
-#include "cd2/memory.h"
-
-namespace AudioLogic
-{
     Fun_Runtime::cClass &cAudioLandVehicleExtrasProfile::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cAudioLandVehicleExtrasProfileClass = new Fun_Runtime::cClass(0xAF5, "cAudioLandVehicleExtrasProfile", 0x18C);
         return *cAudioLandVehicleExtrasProfileClass;
     }
-}
 
-namespace AudioLogic
-{
     const Fun_Runtime::cClass *cAudioLandVehicleExtrasProfile::ms_pcAudioLandVehicleExtrasProfileClass = &cAudioLandVehicleExtrasProfile::StaticCreateClass();
 
     const Fun_Runtime::cClass &cAudioLandVehicleExtrasProfile::RetClass() const
     {
         return *ms_pcAudioLandVehicleExtrasProfileClass;
     }
-}
 
-namespace AudioLogic
-{
     bool cAudioLandVehicleExtrasProfile::IsA(const Fun_Runtime::cClass &c) const
     {
         return ms_pcAudioLandVehicleExtrasProfileClass->IsA(c);
     }
-}
 
-namespace AudioLogic
-{
     static RWS::CClassFactory::CRegistrar cAudioLandVehicleExtrasProfileRegistrar(
         "cAudioLandVehicleExtrasProfile", cAudioLandVehicleExtrasProfile::MakeNew, 0x18C, false);
-}
 
-// CD2 0x82FA9FF0: runtime class inheritance registration.
-namespace AudioLogic
-{
+    // CD2 0x82FA9FF0: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cAudioLandVehicleExtrasProfilecNonGameBaseInheritRegistrar(
         AudioLogic::cAudioLandVehicleExtrasProfile::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }

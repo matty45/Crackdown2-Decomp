@@ -3,6 +3,8 @@
 #include "AI/FreakBase.h"
 #include "AI/Reaper.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
+#include "AI/BehaviourClassID.h"
 
 namespace AI
 {
@@ -29,36 +31,21 @@ namespace AI
     {
         return new Reaper();
     }
-}
 
-namespace AI
-{
     static RWS::CClassFactory::CRegistrar ReaperRegistrar(
         "Reaper", Reaper::MakeNew, 0x220, false);
-}
 
-#include "cd2/memory.h"
-#include "AI/BehaviourClassID.h"
-
-namespace AI
-{
     Fun_Runtime::cClass &Reaper::StaticCreateClass()
     {
         static Fun_Runtime::cClass *ReaperClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "Reaper", 0x220);
         return *ReaperClass;
     }
-}
 
-// CD2 0x82F93ED8: runtime class inheritance registration.
-namespace AI
-{
+    // CD2 0x82F93ED8: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar ReaperFreakBaseInheritRegistrar(
         AI::Reaper::StaticCreateClass(), AI::FreakBase::StaticCreateClass());
-}
 
-// CD2 0x82F93F90: register the class descriptor and placement factory.
-namespace AI
-{
+    // CD2 0x82F93F90: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar ReaperSpawningRegistrar(
         Reaper::StaticCreateClass(), Reaper::SpawnFromPrototype);
 }

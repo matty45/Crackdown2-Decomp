@@ -7,10 +7,7 @@ namespace Billboard
     {
         return "BillboardAudioEmitter";
     }
-}
 
-namespace Billboard
-{
     static RWS::CClassFactory::CRegistrar BillboardAudioEmitterRegistrar(
         "BillboardAudioEmitter", BillboardAudioEmitter::MakeNew, 0x70, false);
 }

@@ -27,10 +27,7 @@ namespace GameManagement
     {
         return "cGameModeSpawnPoint";
     }
-}
 
-namespace GameManagement
-{
     static RWS::CClassFactory::CRegistrar cGameModeSpawnPointRegistrar(
         "cGameModeSpawnPoint", cGameModeSpawnPoint::MakeNew, 0x60, false);
 }

@@ -24,6 +24,8 @@ namespace unknown
         virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         // CD2 0x8280BFF8: registered-class virtual slot 0 reads this class descriptor.
         virtual const Fun_Runtime::cClass &RetClass() const;
+        // CD2 0x8280C498 clears both gang pointers before cZone's and CAttributeHandler's destructors run.
+        virtual ~cPopulationZone();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcPopulationZoneClass;
         static Fun_Runtime::cClass &StaticCreateClass();

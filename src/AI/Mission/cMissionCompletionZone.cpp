@@ -7,10 +7,7 @@ namespace AI
     {
         return "cMissionCompletionZone";
     }
-}
 
-namespace AI
-{
     static RWS::CClassFactory::CRegistrar cMissionCompletionZoneRegistrar(
         "cMissionCompletionZone", cMissionCompletionZone::MakeNew, 0xF0, false);
 }

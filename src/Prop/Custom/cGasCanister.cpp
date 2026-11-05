@@ -1,4 +1,3 @@
-#include "rws/classfactory.h"
 // src/Prop/Custom/cGasCanister.cpp
 //
 // Class: cGasCanister (namespace: Prop). The address range and the
@@ -11,6 +10,7 @@
 // Open functions:
 //     py -I tools/cd2.py tasks src/Prop/Custom/cGasCanister.cpp
 
+#include "rws/classfactory.h"
 #include "Prop/cGasCanister.h"
 #include "Prop/cGasCanisterPrototype.h"
 #include "gom/proto_registrar.h"
@@ -100,18 +100,12 @@ namespace Prop
     {
         return "cGasCanister";
     }
-}
 
-namespace Prop
-{
     static RWS::CClassFactory::CRegistrar cGasCanisterRegistrar(
         "cGasCanister", cGasCanister::MakeNew, 0xe40, false);
     static GOM::cProtoRegistrar cGasCanisterSpawningRegistrar(
         cGasCanister::StaticCreateClass(), cGasCanister::SpawnFromPrototype);
-}
 
-namespace Prop
-{
     RWS::CAttributeHandler *cGasCanister::SpawnFromPrototype(GOM::cObjectPrototype *prototype, void *memory)
     {
         if (memory)

@@ -12,6 +12,7 @@
 //     py -I tools/cd2.py tasks src/ExplosionManager/cExplosionManager.cpp
 
 #include "ExplosionManager/cExplosionManager.h"
+#include "rws/classfactory.h"
 
 namespace ExplosionManager
 {
@@ -19,13 +20,8 @@ namespace ExplosionManager
     {
         return "cExplosionManager";
     }
-}
 
-#include "rws/classfactory.h"
-
-// CD2 0x82FD5840 (initializer) and 0x8303FBD8 (at-exit destructor).
-namespace ExplosionManager
-{
+    // CD2 0x82FD5840 (initializer) and 0x8303FBD8 (at-exit destructor).
     static RWS::CClassFactory::CRegistrar cExplosionManagerRegistrar(
         "cExplosionManager", cExplosionManager::MakeNew, 0x928B0, false);
 }

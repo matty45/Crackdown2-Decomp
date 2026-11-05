@@ -26,10 +26,7 @@ namespace AI
     {
         return new cTrainingRouteEvent();
     }
-}
 
-namespace AI
-{
     static RWS::CClassFactory::CRegistrar cTrainingRouteEventRegistrar(
         "cTrainingRouteEvent", cTrainingRouteEvent::MakeNew, 0x90, false);
 }

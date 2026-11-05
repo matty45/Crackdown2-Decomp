@@ -1,4 +1,3 @@
-#include "rws/classfactory.h"
 // src/Activity/LongDistanceProps/cLongDistancePropManager.cpp
 //
 // Class: cLongDistancePropManager (namespace: Activity). Set up automatically: no function is matched yet. The address
@@ -12,6 +11,7 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Activity/LongDistanceProps/cLongDistancePropManager.cpp
 
+#include "rws/classfactory.h"
 #include "Activity/cLongDistancePropManager.h"
 #include "cd2/memory.h"
 
@@ -41,10 +41,7 @@ namespace Activity
     {
         return "cLongDistancePropManager";
     }
-}
 
-namespace Activity
-{
     static RWS::CClassFactory::CRegistrar cLongDistancePropManagerRegistrar(
         "cLongDistancePropManager", cLongDistancePropManager::MakeNew, 0x94, false);
 }

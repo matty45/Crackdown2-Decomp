@@ -7,10 +7,7 @@ namespace GameManagement
     {
         return "cTagGameModePrototype";
     }
-}
 
-namespace GameManagement
-{
     static RWS::CClassFactory::CRegistrar cTagGameModePrototypeRegistrar(
         "cTagGameModePrototype", cTagGameModePrototype::MakeNew, 0x1d8, false);
 }

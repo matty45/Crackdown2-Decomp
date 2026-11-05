@@ -3,6 +3,8 @@
 #include "AI/NPCBehaviour.h"
 #include "AI/TrainingPilot.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
+#include "AI/BehaviourClassID.h"
 
 namespace AI
 {
@@ -39,9 +41,6 @@ namespace AI
 static RWS::CClassFactory::CRegistrar TrainingPilotRegistrar(
     "TrainingPilot", AI::TrainingPilot::MakeNew, 0xD0, false);
 
-#include "cd2/memory.h"
-#include "AI/BehaviourClassID.h"
-
 namespace AI
 {
     Fun_Runtime::cClass &TrainingPilot::StaticCreateClass()
@@ -49,18 +48,12 @@ namespace AI
         static Fun_Runtime::cClass *TrainingPilotClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "TrainingPilot", 0xD0);
         return *TrainingPilotClass;
     }
-}
 
-// CD2 0x82F98BF0: runtime class inheritance registration.
-namespace AI
-{
+    // CD2 0x82F98BF0: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar TrainingPilotNPCBehaviourInheritRegistrar(
         AI::TrainingPilot::StaticCreateClass(), AI::NPCBehaviour::StaticCreateClass());
-}
 
-// CD2 0x82F98CA8: register the class descriptor and placement factory.
-namespace AI
-{
+    // CD2 0x82F98CA8: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar TrainingPilotSpawningRegistrar(
         TrainingPilot::StaticCreateClass(), TrainingPilot::SpawnFromPrototype);
 }

@@ -7,10 +7,7 @@ namespace unknown
     {
         return "cNetGamePickupGroupSpawnPoint";
     }
-}
 
-namespace unknown
-{
     static RWS::CClassFactory::CRegistrar cNetGamePickupGroupSpawnPointRegistrar(
         "cNetGamePickupGroupSpawnPoint", cNetGamePickupGroupSpawnPoint::MakeNew, 0x120, false);
 }

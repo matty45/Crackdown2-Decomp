@@ -3,6 +3,7 @@
 //   0x82452100 scalar deleting destructor (compiler-generated, emitted here)
 //   0x82452160 HandleAttributes
 //   0x82F84518 / 0x8303AD98 dynamic initializer / at-exit destructor of cFactionTargetingProfileRegistrar
+
 #include <string.h>
 #include "AI/cFactionTargetingProfile.h"
 #include "rws/classfactory.h"

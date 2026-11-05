@@ -1,12 +1,12 @@
 // Script registrar source ownership: CD2 initializer 0x82FD68E8 names cGameBase,
 // and cleanup 0x8303FD60 destroys the same descriptor. Shared interface names are ours.
+
 #include "gom/game_base.h"
 #include "fun_runtime/script_type_registrar.h"
+#include "cd2/memory.h"
 
     static Fun_Runtime::cScriptTypeRegistrar<cGameBase> cGameBaseScriptRegistrar(
         "cGameBase", "cNonGameBase");
-
-#include "cd2/memory.h"
 
     Fun_Runtime::cClass &cGameBase::StaticCreateClass()
     {
@@ -15,4 +15,3 @@
     }
 
     const Fun_Runtime::cClass *cGameBase::ms_pcGameBaseClass = &cGameBase::StaticCreateClass();
-

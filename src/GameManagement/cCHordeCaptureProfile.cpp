@@ -7,10 +7,7 @@ namespace GameManagement
     {
         return "cCHordeCaptureProfile";
     }
-}
 
-namespace GameManagement
-{
     static RWS::CClassFactory::CRegistrar cCHordeCaptureProfileRegistrar(
         "cCHordeCaptureProfile", cCHordeCaptureProfile::MakeNew, 0x48, false);
 }

@@ -13,6 +13,8 @@
 
 #include "Prop/cProp.h"
 #include "rws/classfactory.h"
+#include "fun_runtime/script_type_registrar.h"
+#include "cd2/memory.h"
 
 namespace Prop
 {
@@ -24,31 +26,17 @@ namespace Prop
     // CD2 0x82FF5298 registers the prototype factory 0x82729378 for a 0xE30-byte cProp.
     static RWS::CClassFactory::CRegistrar cPropRegistrar(
         "cProp", cProp::MakeNew, 0xE30, false);
-}
 
-#include "Prop/cProp.h"
-#include "fun_runtime/script_type_registrar.h"
-
-namespace Prop
-{
     // CD2 script-type registration names this child and parent.
     static Fun_Runtime::cScriptTypeRegistrar<cProp> cPropScriptRegistrar(
         "cProp", "cDynamicBody");
-}
 
-#include "cd2/memory.h"
-
-namespace Prop
-{
     Fun_Runtime::cClass &cProp::StaticCreateClass()
     {
         static Fun_Runtime::cClass *descriptor = new Fun_Runtime::cClass(0x2, "cProp", 0xE30);
         return *descriptor;
     }
-}
 
-namespace Prop
-{
     const Fun_Runtime::cClass *cProp::ms_pcPropClass = &cProp::StaticCreateClass();
 
     const Fun_Runtime::cClass &cProp::RetClass() const

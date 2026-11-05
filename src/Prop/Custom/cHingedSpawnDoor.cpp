@@ -1,8 +1,3 @@
-#include "gom/proto_registrar.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "Prop/cHingedProp.h"
-#include <new>
-#include "rws/classfactory.h"
 // src/Prop/Custom/cHingedSpawnDoor.cpp
 //
 // Class: cHingedSpawnDoor (namespace: Prop). Set up automatically: no function is matched yet. The address range and
@@ -16,7 +11,14 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Prop/Custom/cHingedSpawnDoor.cpp
 
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "Prop/cHingedProp.h"
+#include <new>
+#include "rws/classfactory.h"
 #include "Prop/cHingedSpawnDoor.h"
+#include "cd2/memory.h"
+#include "fun_runtime/script_type_registrar.h"
 
 namespace Prop
 {
@@ -24,66 +26,37 @@ namespace Prop
     {
         return "cHingedSpawnDoor";
     }
-}
 
-#include "cd2/memory.h"
-
-namespace Prop
-{
     Fun_Runtime::cClass &cHingedSpawnDoor::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cHingedSpawnDoorClass = new Fun_Runtime::cClass(0x13880, "cHingedSpawnDoor", 0xEE0);
         return *cHingedSpawnDoorClass;
     }
-}
 
-namespace Prop
-{
     const Fun_Runtime::cClass *cHingedSpawnDoor::ms_pcHingedSpawnDoorClass = &cHingedSpawnDoor::StaticCreateClass();
-}
 
-namespace Prop
-{
     static RWS::CClassFactory::CRegistrar cHingedSpawnDoorRegistrar(
         "cHingedSpawnDoor", cHingedSpawnDoor::MakeNew, 0xEE0, false);
-}
 
-namespace Prop
-{
     RWS::CAttributeHandler *cHingedSpawnDoor::SpawnFromPrototype(GOM::cObjectPrototype *prototype, void *memory)
     {
         if (memory)
             return new (memory) cHingedSpawnDoor(prototype);
         return 0;
     }
-}
 
-// CD2 0x82FFB2D8: runtime class inheritance registration.
-namespace Prop
-{
+    // CD2 0x82FFB2D8: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cHingedSpawnDoorcHingedPropInheritRegistrar(
         Prop::cHingedSpawnDoor::StaticCreateClass(), Prop::cHingedProp::StaticCreateClass());
-}
 
-// CD2 0x82FFB390: register the class descriptor and placement factory.
-namespace Prop
-{
+    // CD2 0x82FFB390: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cHingedSpawnDoorSpawningRegistrar(
         cHingedSpawnDoor::StaticCreateClass(), cHingedSpawnDoor::SpawnFromPrototype);
-}
 
-#include "Prop/cHingedSpawnDoor.h"
-#include "fun_runtime/script_type_registrar.h"
-
-namespace Prop
-{
     // CD2 script-type registration; constructor/table evidence identifies the child and parent.
     static Fun_Runtime::cScriptTypeRegistrar<cHingedSpawnDoor> cHingedSpawnDoorScriptRegistrar(
         "cHingedSpawnDoor", "cHingedProp");
-}
 
-namespace Prop
-{
     const Fun_Runtime::cScriptTypeRegistration *cHingedSpawnDoor::RetScriptTypeRegistration() const
     {
         return &cHingedSpawnDoorScriptRegistrar;

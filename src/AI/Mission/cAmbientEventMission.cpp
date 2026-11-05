@@ -1,5 +1,3 @@
-#include "fun_runtime/inheritance_registrar.h"
-#include "rws/classfactory.h"
 // src/AI/Mission/cAmbientEventMission.cpp
 //
 // Class: cAmbientEventMission (namespace: AI). Set up automatically: no function is matched yet. The address range and
@@ -13,11 +11,18 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/AI/Mission/cAmbientEventMission.cpp
 
+#include "fun_runtime/inheritance_registrar.h"
+#include "rws/classfactory.h"
 #include "AI/cAmbientEventMission.h"
 #include "cd2/memory.h"
 
 namespace AI
 {
+    const char *cAmbientEventMission::RetClassName() const
+    {
+        return "cAmbientEventMission";
+    }
+
     const Fun_Runtime::cClass *cAmbientEventMission::ms_pcAmbientEventMissionClass = &cAmbientEventMission::StaticCreateClass();
 
     Fun_Runtime::cClass &cAmbientEventMission::StaticCreateClass()
@@ -25,17 +30,11 @@ namespace AI
         static Fun_Runtime::cClass *cAmbientEventMissionClass = new Fun_Runtime::cClass(0x9FE8B, "cAmbientEventMission", 0x3B0);
         return *cAmbientEventMissionClass;
     }
-}
 
-namespace AI
-{
     static RWS::CClassFactory::CRegistrar cAmbientEventMissionRegistrar(
         "cAmbientEventMission", cAmbientEventMission::MakeNew, 0x3B0, false);
-}
 
-// CD2 0x82F900E0: runtime mission inheritance registration.
-namespace AI
-{
+    // CD2 0x82F900E0: runtime mission inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cAmbientEventMissioncMissionBaseInheritRegistrar(
         AI::cAmbientEventMission::StaticCreateClass(), AI::cMissionBase::StaticCreateClass());
 }

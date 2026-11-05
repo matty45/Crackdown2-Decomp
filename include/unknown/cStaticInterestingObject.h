@@ -19,6 +19,8 @@ namespace unknown
         virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         // CD2 0x82455708: registered-class virtual slot 0 reads this class descriptor.
         virtual const Fun_Runtime::cClass &RetClass() const;
+        // CD2 0x824557B8: returns the class name.
+        virtual const char *RetClassName() const;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcStaticInterestingObjectClass;
         static Fun_Runtime::cClass &StaticCreateClass();

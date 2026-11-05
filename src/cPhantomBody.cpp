@@ -1,7 +1,3 @@
-#include "gom/proto_registrar.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "gom/game_base.h"
-#include "rws/classfactory.h"
 // src/cPhantomBody.cpp
 //
 // Class: cPhantomBody (namespace: unknown). Set up automatically: no function is matched yet. The address range and the
@@ -13,6 +9,10 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/cPhantomBody.cpp
 
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/game_base.h"
+#include "rws/classfactory.h"
 #include "unknown/cPhantomBody.h"
 #include "cd2/memory.h"
 
@@ -25,46 +25,28 @@ namespace unknown
         static Fun_Runtime::cClass *cPhantomBodyClass = new Fun_Runtime::cClass(0x7, "cPhantomBody", 0x140);
         return *cPhantomBodyClass;
     }
-}
 
-namespace unknown
-{
     static RWS::CClassFactory::CRegistrar cPhantomBodyRegistrar(
         "cPhantomBody", cPhantomBody::MakeNew, 0x140, false);
-}
 
-// CD2 0x82FE0060: runtime class inheritance registration.
-namespace unknown
-{
+    // CD2 0x82FE0060: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cPhantomBodycGameBaseInheritRegistrar(
         unknown::cPhantomBody::StaticCreateClass(), cGameBase::StaticCreateClass());
-}
 
-// CD2 0x82FE0118: register the class descriptor and placement factory.
-namespace unknown
-{
+    // CD2 0x82FE0118: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cPhantomBodySpawningRegistrar(
         cPhantomBody::StaticCreateClass(), cPhantomBody::SpawnFromPrototype);
-}
 
-namespace unknown
-{
     const char *cPhantomBody::RetClassName() const
     {
         return "cPhantomBody";
     }
-}
 
-namespace unknown
-{
     const Fun_Runtime::cClass &cPhantomBody::RetClass() const
     {
         return *ms_pcPhantomBodyClass;
     }
-}
 
-namespace unknown
-{
     RWS::CAttributeHandler *cPhantomBody::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
     {
         if (memory)

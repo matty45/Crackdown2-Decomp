@@ -59,6 +59,12 @@ search for either.
    layouts need evidence: see "Finding names and layouts" below.
 5. **Stay in the file.** Write a function in the source file that owns its address (`config/splits.txt`).
 6. **Nothing from the game in the repository.** Never paste the game's bytes or assembly into a committed file.
+7. **Lay a source file out as a programmer would.** All `#include` lines go at the top of the file, after its header
+   comment, and nowhere else. A namespace gets one block per file: put a new definition inside the existing block, at
+   the place CD2's addresses give it (definitions stay in CD2's order, which also fixes the order of static
+   initializers), never in a new `namespace X { ... }` block appended to the file. A second block of the same namespace
+   is right only when something that must stay outside it sits in between, such as a global-scope registrar. Scripts
+   that add functions in bulk must insert them the same way.
 
 ## The loop
 

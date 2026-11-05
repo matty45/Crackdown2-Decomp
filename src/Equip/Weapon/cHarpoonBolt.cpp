@@ -1,7 +1,3 @@
-#include "gom/proto_registrar.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "Equip/cWeaponProjectile.h"
-#include "rws/classfactory.h"
 // src/Equip/Weapon/cHarpoonBolt.cpp
 //
 // Class: cHarpoonBolt (namespace: Equip). Set up automatically: no function is matched yet. The address range and the
@@ -15,7 +11,13 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Equip/Weapon/cHarpoonBolt.cpp
 
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "Equip/cWeaponProjectile.h"
+#include "rws/classfactory.h"
 #include "Equip/cHarpoonBolt.h"
+#include "cd2/memory.h"
+#include <new>
 
 namespace Equip
 {
@@ -23,52 +25,30 @@ namespace Equip
     {
         return "cHarpoonBolt";
     }
-}
 
-#include "cd2/memory.h"
-
-namespace Equip
-{
     Fun_Runtime::cClass &cHarpoonBolt::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cHarpoonBoltClass = new Fun_Runtime::cClass(0x42CB, "cHarpoonBolt", 0x910);
         return *cHarpoonBoltClass;
     }
-}
 
-namespace Equip
-{
     const Fun_Runtime::cClass *cHarpoonBolt::ms_pcHarpoonBoltClass = &cHarpoonBolt::StaticCreateClass();
-}
 
-#include <new>
-
-namespace Equip
-{
     RWS::CAttributeHandler *cHarpoonBolt::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
     {
         if (memory)
             return new (memory) cHarpoonBolt;
         return 0;
     }
-}
 
-namespace Equip
-{
     static RWS::CClassFactory::CRegistrar cHarpoonBoltRegistrar(
         "cHarpoonBolt", cHarpoonBolt::MakeNew, 0x910, false);
-}
 
-// CD2 0x82FD1E30: runtime class inheritance registration.
-namespace Equip
-{
+    // CD2 0x82FD1E30: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cHarpoonBoltcWeaponProjectileInheritRegistrar(
         Equip::cHarpoonBolt::StaticCreateClass(), Equip::cWeaponProjectile::StaticCreateClass());
-}
 
-// CD2 0x82FD1EE8: register the class descriptor and placement factory.
-namespace Equip
-{
+    // CD2 0x82FD1EE8: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cHarpoonBoltSpawningRegistrar(
         cHarpoonBolt::StaticCreateClass(), cHarpoonBolt::SpawnFromPrototype);
 }

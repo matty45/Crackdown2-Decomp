@@ -13,6 +13,8 @@ namespace AI
         static const Fun_Runtime::cClass *ms_pcRefineryMissionClass;
 
         cRefineryMission();
+        // Out of line (CD2 0x82456C20): the deleting wrapper calls it.
+        virtual ~cRefineryMission();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &packet, bool);
 
         virtual const Fun_Runtime::cClass &RetClass() const;

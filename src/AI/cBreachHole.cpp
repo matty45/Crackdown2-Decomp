@@ -1,5 +1,6 @@
 #include "AI/cBreachHole.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
 
 namespace AI
 {
@@ -30,8 +31,6 @@ namespace AI
 
 static RWS::CClassFactory::CRegistrar cBreachHoleRegistrar(
     "cBreachHole", AI::cBreachHole::MakeNew, 0x1C0, false);
-
-#include "cd2/memory.h"
 
 namespace AI
 {

@@ -1,8 +1,3 @@
-#include "fun_runtime/retval.h"
-#include "gom/proto_registrar.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "Equip/cCWFirearm.h"
-#include "rws/classfactory.h"
 // src/Equip/Weapon/cUVTurret.cpp
 //
 // Class: cUVTurret (namespace: Equip). Set up automatically: no function is matched yet. The address range and the
@@ -16,6 +11,11 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Equip/Weapon/cUVTurret.cpp
 
+#include "fun_runtime/retval.h"
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "Equip/cCWFirearm.h"
+#include "rws/classfactory.h"
 #include "Equip/cUVTurret.h"
 #include "cd2/memory.h"
 
@@ -28,38 +28,23 @@ namespace Equip
         static Fun_Runtime::cClass *cUVTurretClass = new Fun_Runtime::cClass(0x1326A, "cUVTurret", 0xAB0);
         return *cUVTurretClass;
     }
-}
 
-namespace Equip
-{
     static RWS::CClassFactory::CRegistrar cUVTurretRegistrar(
         "cUVTurret", cUVTurret::MakeNew, 0xAB0, false);
-}
 
-// CD2 0x82FD4A98: runtime class inheritance registration.
-namespace Equip
-{
+    // CD2 0x82FD4A98: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cUVTurretcCWFirearmInheritRegistrar(
         Equip::cUVTurret::StaticCreateClass(), Equip::cCWFirearm::StaticCreateClass());
-}
 
-// CD2 0x82FD4B50: register the class descriptor and placement factory.
-namespace Equip
-{
+    // CD2 0x82FD4B50: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cUVTurretSpawningRegistrar(
         cUVTurret::StaticCreateClass(), cUVTurret::SpawnFromPrototype);
-}
 
-namespace Equip
-{
     const char *cUVTurret::RetClassName() const
     {
         return "cUVTurret";
     }
-}
 
-namespace Equip
-{
     const Fun_Runtime::cClass &cUVTurret::RetClass() const
     {
         return *ms_pcUVTurretClass;
@@ -74,10 +59,7 @@ namespace Equip
     cUVTurret::~cUVTurret()
     {
     }
-}
 
-namespace Equip
-{
     Fun_Runtime::RetVal cUVTurret::cUVTurretPrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;

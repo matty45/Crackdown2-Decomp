@@ -96,8 +96,10 @@ public:
     virtual void Slot35();
     virtual void Slot36();
     virtual void Slot37();
-    virtual void Slot38();
-    virtual void Slot39();
+    // Slot 38: RuffKing's cBody::Reinitialise has the body of CD2's cBody slot 38 (0x82683780).
+    virtual Fun_Runtime::RetVal Reinitialise(const GOM::cSpawner *);
+    // Slot 39: RuffKing's cBody::TermForReuse has the body of CD2's cBody slot 39 (0x82683738).
+    virtual Fun_Runtime::RetVal TermForReuse();
     virtual void Slot40();
     virtual void Slot41();
     virtual void Slot42();

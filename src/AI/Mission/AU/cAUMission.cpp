@@ -1,6 +1,7 @@
 #include "fun_runtime/inheritance_registrar.h"
 #include "AI/cAUMission.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
 
 namespace AI
 {
@@ -32,8 +33,6 @@ namespace AI
 static RWS::CClassFactory::CRegistrar cAUMissionRegistrar(
     "cAUMission", AI::cAUMission::MakeNew, 0x5F0, false);
 
-#include "cd2/memory.h"
-
 namespace AI
 {
     Fun_Runtime::cClass &cAUMission::StaticCreateClass()
@@ -41,11 +40,8 @@ namespace AI
         static Fun_Runtime::cClass *cAUMissionClass = new Fun_Runtime::cClass(0x205C2, "cAUMission", 0x5F0);
         return *cAUMissionClass;
     }
-}
 
-// CD2 0x82F88418: runtime mission inheritance registration.
-namespace AI
-{
+    // CD2 0x82F88418: runtime mission inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cAUMissioncMissionInheritRegistrar(
         AI::cAUMission::StaticCreateClass(), AI::cMission::StaticCreateClass());
 }

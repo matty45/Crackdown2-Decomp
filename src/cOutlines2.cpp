@@ -1,6 +1,3 @@
-#include "fun_runtime/inheritance_registrar.h"
-#include "gom/non_game_base.h"
-#include "rws/classfactory.h"
 // src/cOutlines2.cpp
 //
 // Class: cOutlines2 (namespace: unknown). Set up automatically: no function is matched yet. The address range and the
@@ -12,6 +9,9 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/cOutlines2.cpp
 
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/non_game_base.h"
+#include "rws/classfactory.h"
 #include "unknown/cOutlines2.h"
 #include "cd2/memory.h"
 
@@ -44,17 +44,11 @@ namespace unknown
         static Fun_Runtime::cClass *cOutlines2Class = new Fun_Runtime::cClass(0x1027FB, "cOutlines2", 0x7C);
         return *cOutlines2Class;
     }
-}
 
-namespace unknown
-{
     static RWS::CClassFactory::CRegistrar cOutlines2Registrar(
         "cOutlines2", cOutlines2::MakeNew, 0x7C, false);
-}
 
-// CD2 0x83007900: runtime class inheritance registration.
-namespace unknown
-{
+    // CD2 0x83007900: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cOutlines2cNonGameBaseInheritRegistrar(
         unknown::cOutlines2::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }

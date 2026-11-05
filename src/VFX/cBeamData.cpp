@@ -1,23 +1,27 @@
 #include "VFX/cGlobalLightShader.h"
 #include "rws/classfactory.h"
 #include "VFX/cBeamData.h"
+#include "cd2/memory.h"
 
 namespace VFX
 {
+    RWS::CAttributeHandler *cBeamData::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cBeamData;
+    }
+
+    cBeamData::~cBeamData()
+    {
+    }
+
     const char *cBeamData::RetClassName() const
     {
         return "cBeamData";
     }
-}
 
-namespace VFX
-{
     static RWS::CClassFactory::CRegistrar cBeamDataRegistrar(
         "cBeamData", cBeamData::MakeNew, 0x88, false);
-}
 
-namespace VFX
-{
     cGlobalLightShader *cGlobalLightShader::ms_pInstance;
 
     bool cGlobalLightShader::ReloadInstance(bool revert)

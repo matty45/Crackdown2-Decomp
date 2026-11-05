@@ -3,6 +3,9 @@
 #include "AI/NPCBehaviour.h"
 #include "AI/TrainingDummy.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
+#include "gom/game_base.h"
+#include "AI/BehaviourClassID.h"
 
 namespace AI
 {
@@ -34,23 +37,16 @@ namespace AI
     {
         return new TrainingDummy();
     }
-}
 
-namespace AI
-{
     static RWS::CClassFactory::CRegistrar TrainingDummyRegistrar(
         "TrainingDummy", TrainingDummy::MakeNew, 0xD0, false);
 }
-
-#include "cd2/memory.h"
-#include "gom/game_base.h"
 
 // cGameBase's setter is folded into this split; TrainingDummy itself is only 0xD0 bytes.
 void cGameBase::SetFullHealth(float health)
 {
     m_fFullHealth = health;
 }
-#include "AI/BehaviourClassID.h"
 
 namespace AI
 {
@@ -59,18 +55,12 @@ namespace AI
         static Fun_Runtime::cClass *TrainingDummyClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "TrainingDummy", 0xD0);
         return *TrainingDummyClass;
     }
-}
 
-// CD2 0x82F987B8: runtime class inheritance registration.
-namespace AI
-{
+    // CD2 0x82F987B8: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar TrainingDummyNPCBehaviourInheritRegistrar(
         AI::TrainingDummy::StaticCreateClass(), AI::NPCBehaviour::StaticCreateClass());
-}
 
-// CD2 0x82F98870: register the class descriptor and placement factory.
-namespace AI
-{
+    // CD2 0x82F98870: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar TrainingDummySpawningRegistrar(
         TrainingDummy::StaticCreateClass(), TrainingDummy::SpawnFromPrototype);
 }

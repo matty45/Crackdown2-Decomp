@@ -1,8 +1,3 @@
-#include "fun_runtime/retval.h"
-#include "gom/proto_registrar.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "Prop/cPrismaticProp.h"
-#include "rws/classfactory.h"
 // src/cWeaponCabinetDoor.cpp
 //
 // Class: cWeaponCabinetDoor (namespace: unknown). Set up automatically: no function is matched yet. The address range
@@ -14,6 +9,11 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/cWeaponCabinetDoor.cpp
 
+#include "fun_runtime/retval.h"
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "Prop/cPrismaticProp.h"
+#include "rws/classfactory.h"
 #include "unknown/cWeaponCabinetDoor.h"
 #include "cd2/memory.h"
 
@@ -26,38 +26,23 @@ namespace unknown
         static Fun_Runtime::cClass *cWeaponCabinetDoorClass = new Fun_Runtime::cClass(0x1021, "cWeaponCabinetDoor", 0xEE0);
         return *cWeaponCabinetDoorClass;
     }
-}
 
-namespace unknown
-{
     static RWS::CClassFactory::CRegistrar cWeaponCabinetDoorRegistrar(
         "cWeaponCabinetDoor", cWeaponCabinetDoor::MakeNew, 0xEE0, false);
-}
 
-// CD2 0x82FF9D50: runtime class inheritance registration.
-namespace unknown
-{
+    // CD2 0x82FF9D50: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cWeaponCabinetDoorcPrismaticPropInheritRegistrar(
         unknown::cWeaponCabinetDoor::StaticCreateClass(), Prop::cPrismaticProp::StaticCreateClass());
-}
 
-// CD2 0x82FF9E08: register the class descriptor and placement factory.
-namespace unknown
-{
+    // CD2 0x82FF9E08: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cWeaponCabinetDoorSpawningRegistrar(
         cWeaponCabinetDoor::StaticCreateClass(), cWeaponCabinetDoor::SpawnFromPrototype);
-}
 
-namespace unknown
-{
     const char *cWeaponCabinetDoor::RetClassName() const
     {
         return "cWeaponCabinetDoor";
     }
-}
 
-namespace unknown
-{
     const Fun_Runtime::cClass &cWeaponCabinetDoor::RetClass() const
     {
         return *ms_pcWeaponCabinetDoorClass;
@@ -72,10 +57,7 @@ namespace unknown
     cWeaponCabinetDoor::~cWeaponCabinetDoor()
     {
     }
-}
 
-namespace unknown
-{
     Fun_Runtime::RetVal cWeaponCabinetDoor::cWeaponCabinetDoorPrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;

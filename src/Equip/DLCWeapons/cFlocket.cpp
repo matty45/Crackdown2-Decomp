@@ -1,15 +1,15 @@
-#include "gom/proto_registrar.h"
-#include "fun_runtime/inheritance_registrar.h"
 // Equip/cFlocket.cpp: cFlocket of Crackdown 2.
 // Measurement batch 2 (2026-10-23, Sonnet 5.5): 28 functions byte-exact, 0 tracked as work in progress
 // (config/matched_functions.json). Unknown bases and callees are stand-ins named in the header; out-of-line
 // callees without a known name are declared as Ext_<address>.
 // Equip/cFlocket.cpp: the Flocket (homing swarm) projectile and its attribute prototype, Crackdown 2.
 // Measurement batch 2 (gameplay logic). See cFlocket.h for the layout and the stand-in bases.
+
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
 #include <new>
 #include "Equip/cFlocket.h"
 #include "rw/rwmem.h"
-
 #include "VFX/cGlobalLightPool.h"
 
 namespace VFX
@@ -118,7 +118,6 @@ namespace Equip
         }
     }
 
-
     inline void cFlocket::DestroyFlocketLight()
     {
         if (m_pFlockLight)
@@ -167,27 +166,17 @@ namespace Equip
     }
     static RWS::CClassFactory::CRegistrar cFlocketRegistrar(
         "cFlocket", cFlocketPrototype::MakeNew, 0x9B0, false);
-}
 
-
-namespace Equip
-{
     Fun_Runtime::RetVal cFlocketPrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;
     }
-}
 
-// CD2 0x82FD19F8: runtime class inheritance registration.
-namespace Equip
-{
+    // CD2 0x82FD19F8: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cFlocketcHWProjectileInheritRegistrar(
         Equip::cFlocket::StaticCreateClass(), Equip::cHWProjectile::StaticCreateClass());
-}
 
-// CD2 0x82FD1AB0: register the class descriptor and placement factory.
-namespace Equip
-{
+    // CD2 0x82FD1AB0: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cFlocketSpawningRegistrar(
         cFlocket::StaticCreateClass(), cFlocket::SpawnFromPrototype);
 }

@@ -1,18 +1,19 @@
-#include "gom/proto_registrar.h"
-#include "fun_runtime/inheritance_registrar.h"
 // VEHICLE_CONTROL/cHelicopterController.cpp: cHelicopterController of Crackdown 2.
 // Measurement batch 2 (2026-10-23, Sonnet 5.5): 17 functions byte-exact, 1 tracked as work in progress
 // (config/matched_functions.json). Unknown bases and callees are stand-ins named in the header; out-of-line
 // callees without a known name are declared as Ext_<address>.
 // VEHICLE_CONTROL/cHelicopterController.cpp: AI helicopter flight controller (measurement batch 2).
+
+// Ret_OK and Ret_FAIL (fun_runtime/retval.h): this file's copies are at 0x8385253C and 0x8320731C
+
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
 #include "VEHICLE_CONTROL/cHelicopterController.h"
 #include "Vehicle/cHelicopter.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
 #include <new>
 #include <math.h>
-
-// Ret_OK and Ret_FAIL (fun_runtime/retval.h): this file's copies are at 0x8385253C and 0x8320731C
 
 namespace VEHICLE_CONTROL
 {
@@ -63,8 +64,9 @@ namespace VEHICLE_CONTROL
     void cHelicopterController::AssignVehicle(Vehicle::cVehicle *pVehicle)
     {
         m_pVehicle = pVehicle;
-        Vehicle::cVehicle *v = (pVehicle && pVehicle->IsKindOf(*Vehicle::cHelicopter::ms_pcHelicopterClass)) ? pVehicle : 0;
-        float f = v->m_pPhysics->m_fMaxSpeed;
+        Vehicle::cHelicopter *pHeli = (pVehicle && pVehicle->IsA(*Vehicle::cHelicopter::ms_pcHelicopterClass))
+            ? static_cast<Vehicle::cHelicopter *>(pVehicle) : 0;
+        float f = pHeli->m_pHeliPrototype->m_fMaxThrustVelo;
         m_pVehicleRaw = pVehicle;
         m_fDefaultMaxSpeed = f;
     }
@@ -98,13 +100,7 @@ namespace VEHICLE_CONTROL
 
     static RWS::CClassFactory::CRegistrar cHelicopterControllerRegistrar(
         "cHelicopterController", cHelicopterController::MakeNew, 2240, false);
-}
 
-
-
-
-namespace VEHICLE_CONTROL
-{
     Fun_Runtime::RetVal cHelicopterController::Init(const GOM::cSpawner *pSpawnArgs)
     {
         SetSpeedLimit(25.0f);
@@ -200,36 +196,24 @@ namespace VEHICLE_CONTROL
             }
         }
     }
-}
 
-namespace VEHICLE_CONTROL
-{
     const Fun_Runtime::cClass *cHelicopterController::ms_pcHelicopterControllerClass = &cHelicopterController::StaticCreateClass();
 
     const Fun_Runtime::cClass &cHelicopterController::RetClass() const
     {
         return *ms_pcHelicopterControllerClass;
     }
-}
 
-namespace VEHICLE_CONTROL
-{
     bool cHelicopterController::IsA(const Fun_Runtime::cClass &c) const
     {
         return ms_pcHelicopterControllerClass->IsA(c);
     }
-}
 
-// CD2 0x83005708: runtime class inheritance registration.
-namespace VEHICLE_CONTROL
-{
+    // CD2 0x83005708: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cHelicopterControllercVehicleControllerInheritRegistrar(
         VEHICLE_CONTROL::cHelicopterController::StaticCreateClass(), VEHICLE_CONTROL::cVehicleController::StaticCreateClass());
-}
 
-// CD2 0x830057C0: register the class descriptor and placement factory.
-namespace VEHICLE_CONTROL
-{
+    // CD2 0x830057C0: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cHelicopterControllerSpawningRegistrar(
         cHelicopterController::StaticCreateClass(), cHelicopterController::SpawnFromPrototype);
 }

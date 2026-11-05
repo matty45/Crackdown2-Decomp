@@ -7,10 +7,7 @@ namespace GangManager
     {
         return "cPedestrainDataPrototype";
     }
-}
 
-namespace GangManager
-{
     static RWS::CClassFactory::CRegistrar cPedestrainDataPrototypeRegistrar(
         "cPedestrainDataPrototype", cPedestrainDataPrototype::MakeNew, 0x44, false);
 }

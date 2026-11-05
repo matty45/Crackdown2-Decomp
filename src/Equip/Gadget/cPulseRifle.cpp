@@ -1,8 +1,3 @@
-#include "fun_runtime/retval.h"
-#include "gom/proto_registrar.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "Equip/cCWWeapon.h"
-#include "rws/classfactory.h"
 // src/Equip/Gadget/cPulseRifle.cpp
 //
 // Class: cPulseRifle (namespace: Equip). Set up automatically: no function is matched yet. The address range and the
@@ -16,6 +11,11 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Equip/Gadget/cPulseRifle.cpp
 
+#include "fun_runtime/retval.h"
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "Equip/cCWWeapon.h"
+#include "rws/classfactory.h"
 #include "Equip/cPulseRifle.h"
 #include "cd2/memory.h"
 
@@ -28,38 +28,23 @@ namespace Equip
         static Fun_Runtime::cClass *cPulseRifleClass = new Fun_Runtime::cClass(0x27413, "cPulseRifle", 0xA80);
         return *cPulseRifleClass;
     }
-}
 
-namespace Equip
-{
     static RWS::CClassFactory::CRegistrar cPulseRifleRegistrar(
         "cPulseRifle", cPulseRifle::MakeNew, 0xA80, false);
-}
 
-// CD2 0x82FCD220: runtime class inheritance registration.
-namespace Equip
-{
+    // CD2 0x82FCD220: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cPulseRiflecCWWeaponInheritRegistrar(
         Equip::cPulseRifle::StaticCreateClass(), Equip::cCWWeapon::StaticCreateClass());
-}
 
-// CD2 0x82FCD2D8: register the class descriptor and placement factory.
-namespace Equip
-{
+    // CD2 0x82FCD2D8: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cPulseRifleSpawningRegistrar(
         cPulseRifle::StaticCreateClass(), cPulseRifle::SpawnFromPrototype);
-}
 
-namespace Equip
-{
     const char *cPulseRifle::RetClassName() const
     {
         return "cPulseRifle";
     }
-}
 
-namespace Equip
-{
     Fun_Runtime::RetVal cPulseRifle::cPulseRiflePrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;

@@ -1,6 +1,7 @@
 #include "fun_runtime/inheritance_registrar.h"
 #include "AI/cCellStrongholdMission.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
 
 namespace AI
 {
@@ -27,28 +28,17 @@ namespace AI
     {
         return new cCellStrongholdMission();
     }
-}
 
-namespace AI
-{
     static RWS::CClassFactory::CRegistrar cCellStrongholdMissionRegistrar(
         "cCellStrongholdMission", cCellStrongholdMission::MakeNew, 0x410, false);
-}
 
-#include "cd2/memory.h"
-
-namespace AI
-{
     Fun_Runtime::cClass &cCellStrongholdMission::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cCellStrongholdMissionClass = new Fun_Runtime::cClass(0x1D97C, "cCellStrongholdMission", 0x410);
         return *cCellStrongholdMissionClass;
     }
-}
 
-// CD2 0x82F8A870: runtime mission inheritance registration.
-namespace AI
-{
+    // CD2 0x82F8A870: runtime mission inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cCellStrongholdMissioncMissionInheritRegistrar(
         AI::cCellStrongholdMission::StaticCreateClass(), AI::cMission::StaticCreateClass());
 }

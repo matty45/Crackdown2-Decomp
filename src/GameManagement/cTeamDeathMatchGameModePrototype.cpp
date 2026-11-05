@@ -10,10 +10,12 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/GameManagement/cTeamDeathMatchGameModePrototype.cpp
 
+
+// CD2 0x83018738 (initializer) and 0x83043DA8 (at-exit destructor).
+
 #include "rws/classfactory.h"
 #include "GameManagement/cTeamDeathMatchGameModePrototype.h"
 
-// CD2 0x83018738 (initializer) and 0x83043DA8 (at-exit destructor).
 namespace GameManagement
 {
     static RWS::CClassFactory::CRegistrar cTeamDeathMatchGameModePrototypeRegistrar(

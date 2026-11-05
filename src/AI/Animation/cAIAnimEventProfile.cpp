@@ -1,5 +1,3 @@
-#include "rws/classfactory.h"
-#include "fun_runtime/retval.h"
 // src/AI/Animation/cAIAnimEventProfile.cpp
 //
 // Class: cAIAnimEventProfile (namespace: AI). Set up automatically: no function is matched yet. The address range and
@@ -13,10 +11,13 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/AI/Animation/cAIAnimEventProfile.cpp
 
+#include "rws/classfactory.h"
+#include "fun_runtime/retval.h"
 #include "AI/cAIAnimEventProfile.h"
 #include "rw/rwmem.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "gom/non_game_base.h"
+#include "cd2/memory.h"
 
 namespace AI
 {
@@ -60,39 +61,25 @@ namespace AI
     {
         return "cAIAnimEventProfile";
     }
-}
 
-#include "cd2/memory.h"
-
-namespace AI
-{
     Fun_Runtime::cClass &cAIAnimEventProfile::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cAIAnimEventProfileClass = new Fun_Runtime::cClass(0x9FCE4, "cAIAnimEventProfile", 0x4C);
         return *cAIAnimEventProfileClass;
     }
-}
 
-namespace AI
-{
     const Fun_Runtime::cClass *cAIAnimEventProfile::ms_pcAIAnimEventProfileClass = &cAIAnimEventProfile::StaticCreateClass();
 
     const Fun_Runtime::cClass &cAIAnimEventProfile::RetClass() const
     {
         return *ms_pcAIAnimEventProfileClass;
     }
-}
 
-namespace AI
-{
     bool cAIAnimEventProfile::IsA(const Fun_Runtime::cClass &c) const
     {
         return ms_pcAIAnimEventProfileClass->IsA(c);
     }
-}
 
-namespace AI
-{
     Fun_Runtime::RetVal cAIAnimEventProfile::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;
@@ -102,10 +89,7 @@ namespace AI
     {
         return Ret_OK;
     }
-}
 
-namespace AI
-{
     static RWS::CClassFactory::CRegistrar cAIAnimEventProfileRegistrar(
         "cAIAnimEventProfile", cAIAnimEventProfile::MakeNew, 0x4C, false);
 }

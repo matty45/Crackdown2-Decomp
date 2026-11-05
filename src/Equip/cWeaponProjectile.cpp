@@ -18,23 +18,14 @@ namespace Equip
     cWeaponProjectile::~cWeaponProjectile()
     {
     }
-}
 
-namespace Equip
-{
     static RWS::CClassFactory::CRegistrar cWeaponProjectileRegistrar(
         "cWeaponProjectile", cWeaponProjectile::MakeNew, 0x870, false);
-}
 
-// CD2 0x82FCBFB8: register the class descriptor and placement factory.
-namespace Equip
-{
+    // CD2 0x82FCBFB8: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cWeaponProjectileSpawningRegistrar(
         cWeaponProjectile::StaticCreateClass(), cWeaponProjectile::SpawnFromPrototype);
-}
 
-namespace Equip
-{
     RWS::CAttributeHandler *cWeaponProjectile::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
     {
         if (memory)

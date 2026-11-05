@@ -7,10 +7,7 @@ namespace GameManagement
     {
         return "cTrainingModePrototype";
     }
-}
 
-namespace GameManagement
-{
     static RWS::CClassFactory::CRegistrar cTrainingModePrototypeRegistrar(
         "cTrainingModePrototype", cTrainingModePrototype::MakeNew, 0x110, false);
 }

@@ -1,6 +1,3 @@
-#include "fun_runtime/inheritance_registrar.h"
-#include "gom/non_game_base.h"
-#include "rws/classfactory.h"
 // src/VFX/cVFXSurfaceProfile.cpp
 //
 // Class: cVFXSurfaceProfile (namespace: VFX). Set up automatically: no function is matched yet. The address range and
@@ -14,7 +11,11 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/VFX/cVFXSurfaceProfile.cpp
 
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/non_game_base.h"
+#include "rws/classfactory.h"
 #include "VFX/cVFXSurfaceProfile.h"
+#include "cd2/memory.h"
 
 namespace VFX
 {
@@ -27,46 +28,29 @@ namespace VFX
     {
         return "cVFXSurfaceProfile";
     }
-}
 
-#include "cd2/memory.h"
-
-namespace VFX
-{
     Fun_Runtime::cClass &cVFXSurfaceProfile::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cVFXSurfaceProfileClass = new Fun_Runtime::cClass(0x1564, "cVFXSurfaceProfile", 0x80);
         return *cVFXSurfaceProfileClass;
     }
-}
 
-namespace VFX
-{
     const Fun_Runtime::cClass *cVFXSurfaceProfile::ms_pcVFXSurfaceProfileClass = &cVFXSurfaceProfile::StaticCreateClass();
 
     const Fun_Runtime::cClass &cVFXSurfaceProfile::RetClass() const
     {
         return *ms_pcVFXSurfaceProfileClass;
     }
-}
 
-namespace VFX
-{
     bool cVFXSurfaceProfile::IsA(const Fun_Runtime::cClass &c) const
     {
         return ms_pcVFXSurfaceProfileClass->IsA(c);
     }
-}
 
-namespace VFX
-{
     static RWS::CClassFactory::CRegistrar cVFXSurfaceProfileRegistrar(
         "cVFXSurfaceProfile", cVFXSurfaceProfile::MakeNew, 0x80, false);
-}
 
-// CD2 0x830089F8: runtime class inheritance registration.
-namespace VFX
-{
+    // CD2 0x830089F8: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cVFXSurfaceProfilecNonGameBaseInheritRegistrar(
         VFX::cVFXSurfaceProfile::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }

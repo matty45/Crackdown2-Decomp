@@ -1,4 +1,3 @@
-#include "rws/classfactory.h"
 // src/cPopulationZone.cpp
 //
 // Class: cPopulationZone (namespace: unknown). Set up automatically: no function is matched yet. The address range and
@@ -10,9 +9,11 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/cPopulationZone.cpp
 
+#include "rws/classfactory.h"
 #include "unknown/cPopulationZone.h"
 #include "cd2/memory.h"
 #include "fun_runtime/inheritance_registrar.h"
+#include "fun_runtime/script_type_registrar.h"
 
 namespace unknown
 {
@@ -31,16 +32,19 @@ namespace unknown
             m_pInitialGangInControl = gang;
     }
 
+    cPopulationZone::~cPopulationZone()
+    {
+        m_pGangInControl = 0;
+        m_pInitialGangInControl = 0;
+    }
+
     void cPopulationZone::SetInitialGangInControl(GangManager::cGangInfo *gang)
     {
         m_pInitialGangInControl = gang;
         if (!m_pGangInControl)
             m_pGangInControl = gang;
     }
-}
 
-namespace unknown
-{
     const Fun_Runtime::cClass *cPopulationZone::ms_pcPopulationZoneClass = &cPopulationZone::StaticCreateClass();
 
     Fun_Runtime::cClass &cPopulationZone::StaticCreateClass()
@@ -48,34 +52,19 @@ namespace unknown
         static Fun_Runtime::cClass *cPopulationZoneClass = new Fun_Runtime::cClass(0x416, "cPopulationZone", 0x150);
         return *cPopulationZoneClass;
     }
-}
 
-namespace unknown
-{
     static RWS::CClassFactory::CRegistrar cPopulationZoneRegistrar(
         "cPopulationZone", cPopulationZone::MakeNew, 0x150, false);
-}
 
-namespace unknown
-{
     const Fun_Runtime::cClass &cPopulationZone::RetClass() const
     {
         return *ms_pcPopulationZoneClass;
     }
-}
 
-#include "unknown/cPopulationZone.h"
-#include "fun_runtime/script_type_registrar.h"
-
-namespace unknown
-{
     // CD2 script-type registration; constructor/table evidence identifies the child and parent.
     static Fun_Runtime::cScriptTypeRegistrar<cPopulationZone> cPopulationZoneScriptRegistrar(
         "cPopulationZone", "cScriptHost");
-}
 
-namespace unknown
-{
     const Fun_Runtime::cScriptTypeRegistration *cPopulationZone::RetScriptTypeRegistration() const
     {
         return &cPopulationZoneScriptRegistrar;

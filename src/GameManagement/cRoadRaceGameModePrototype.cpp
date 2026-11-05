@@ -7,10 +7,7 @@ namespace GameManagement
     {
         return "cRoadRaceGameModePrototype";
     }
-}
 
-namespace GameManagement
-{
     static RWS::CClassFactory::CRegistrar cRoadRaceGameModePrototypeRegistrar(
         "cRoadRaceGameModePrototype", cRoadRaceGameModePrototype::MakeNew, 0x148, false);
 }

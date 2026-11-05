@@ -1,8 +1,3 @@
-#include "fun_runtime/retval.h"
-#include "Equip/cExplosiveGrenade.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "gom/proto_registrar.h"
-#include "rws/classfactory.h"
 // src/Equip/Weapon/cClusterGrenade.cpp
 //
 // Class: cClusterGrenade (namespace: Equip). Set up automatically: no function is matched yet. The address range and
@@ -16,6 +11,11 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Equip/Weapon/cClusterGrenade.cpp
 
+#include "fun_runtime/retval.h"
+#include "Equip/cExplosiveGrenade.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/proto_registrar.h"
+#include "rws/classfactory.h"
 #include "Equip/cClusterGrenade.h"
 #include "cd2/memory.h"
 
@@ -28,30 +28,18 @@ namespace Equip
         static Fun_Runtime::cClass *cClusterGrenadeClass = new Fun_Runtime::cClass(0x3E8E, "cClusterGrenade", 0x9D0);
         return *cClusterGrenadeClass;
     }
-}
 
-namespace Equip
-{
     static RWS::CClassFactory::CRegistrar cClusterGrenadeRegistrar(
         "cClusterGrenade", cClusterGrenade::MakeNew, 0x9D0, false);
-}
 
-// CD2 0x82FCF230: register the class descriptor and placement factory.
-namespace Equip
-{
+    // CD2 0x82FCF230: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cClusterGrenadeSpawningRegistrar(
         cClusterGrenade::StaticCreateClass(), cClusterGrenade::SpawnFromPrototype);
-}
 
-// CD2 0x82FCF178: runtime class inheritance registration.
-namespace Equip
-{
+    // CD2 0x82FCF178: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cClusterGrenadecExplosiveGrenadeInheritRegistrar(
         Equip::cClusterGrenade::StaticCreateClass(), Equip::cExplosiveGrenade::StaticCreateClass());
-}
 
-namespace Equip
-{
     const char *cClusterGrenade::RetClassName() const
     {
         return "cClusterGrenade";
@@ -63,10 +51,7 @@ namespace Equip
             return new (memory) cClusterGrenade;
         return 0;
     }
-}
 
-namespace Equip
-{
     Fun_Runtime::RetVal cClusterGrenade::cClusterGrenadePrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;

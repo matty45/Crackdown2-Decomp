@@ -12,10 +12,12 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/GangManager/cAgressiveResponseTurretVehicleSetup.cpp
 
+
+// CD2 0x82FDBE70 (initializer) and 0x83040218 (at-exit destructor).
+
 #include "rws/classfactory.h"
 #include "GangManager/cAgressiveResponseTurretVehicleSetup.h"
 
-// CD2 0x82FDBE70 (initializer) and 0x83040218 (at-exit destructor).
 namespace GangManager
 {
     static RWS::CClassFactory::CRegistrar cAgressiveResponseTurretVehicleSetupRegistrar(

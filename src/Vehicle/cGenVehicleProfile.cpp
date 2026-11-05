@@ -1,4 +1,3 @@
-#include "rws/classfactory.h"
 // src/Vehicle/cGenVehicleProfile.cpp
 //
 // Class: cGenVehicleProfile (namespace: Vehicle). Set up automatically: no function is matched yet. The address range
@@ -12,7 +11,9 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Vehicle/cGenVehicleProfile.cpp
 
+#include "rws/classfactory.h"
 #include "Vehicle/cGenVehicleProfile.h"
+#include "cd2/memory.h"
 
 namespace Vehicle
 {
@@ -37,42 +38,25 @@ namespace Vehicle
             m_fPlayerCharacterDamageModifier[i] = 0.0f;
         m_fAIGearChangeRatio = 0.6f;
     }
-}
 
-namespace Vehicle
-{
     bool cGenVehicleProfile::IsA(const Fun_Runtime::cClass &testClass) const
     {
         return ms_pccGenVehicleProfileClass->IsA(testClass);
     }
-}
 
-namespace Vehicle
-{
     const char *cGenVehicleProfile::RetClassName() const
     {
         return "cGenVehicleProfile";
     }
-}
 
-namespace Vehicle
-{
     static RWS::CClassFactory::CRegistrar cGenVehicleProfileRegistrar(
         "cGenVehicleProfile", cGenVehicleProfile::MakeNew, 0x7c, false);
-}
 
-namespace Vehicle
-{
     const Fun_Runtime::cClass &cGenVehicleProfile::RetClass() const
     {
         return *ms_pccGenVehicleProfileClass;
     }
-}
 
-#include "cd2/memory.h"
-
-namespace Vehicle
-{
     RWS::CAttributeHandler *cGenVehicleProfile::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cGenVehicleProfile;

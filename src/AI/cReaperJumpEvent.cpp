@@ -53,5 +53,4 @@ namespace AI
 
     static RWS::CClassFactory::CRegistrar cReaperPropAttackEventRegistrar(
         "cReaperPropAttackEvent", cReaperPropAttackEvent::MakeNew, 0x90, false);
-
 }

@@ -1,7 +1,3 @@
-#include "gom/proto_registrar.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "Equip/cCWFirearm.h"
-#include "rws/classfactory.h"
 // src/Equip/Weapon/cMiniGun.cpp
 //
 // Class: cMiniGun (namespace: Equip). Set up automatically: no function is matched yet. The address range and the
@@ -15,6 +11,10 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Equip/Weapon/cMiniGun.cpp
 
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "Equip/cCWFirearm.h"
+#include "rws/classfactory.h"
 #include "Equip/cMiniGun.h"
 #include "cd2/memory.h"
 
@@ -27,30 +27,18 @@ namespace Equip
         static Fun_Runtime::cClass *cMiniGunClass = new Fun_Runtime::cClass(0x13268, "cMiniGun", 0xAC0);
         return *cMiniGunClass;
     }
-}
 
-namespace Equip
-{
     static RWS::CClassFactory::CRegistrar cMiniGunRegistrar(
         "cMiniGun", cMiniGun::MakeNew, 0xAC0, false);
-}
 
-// CD2 0x82FD4660: runtime class inheritance registration.
-namespace Equip
-{
+    // CD2 0x82FD4660: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cMiniGuncCWFirearmInheritRegistrar(
         Equip::cMiniGun::StaticCreateClass(), Equip::cCWFirearm::StaticCreateClass());
-}
 
-// CD2 0x82FD4718: register the class descriptor and placement factory.
-namespace Equip
-{
+    // CD2 0x82FD4718: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cMiniGunSpawningRegistrar(
         cMiniGun::StaticCreateClass(), cMiniGun::SpawnFromPrototype);
-}
 
-namespace Equip
-{
     const char *cMiniGun::RetClassName() const
     {
         return "cMiniGun";

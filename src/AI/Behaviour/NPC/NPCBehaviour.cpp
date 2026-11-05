@@ -38,24 +38,15 @@ namespace AI
     {
         return new NPCBehaviour();
     }
-}
 
-namespace AI
-{
     static RWS::CClassFactory::CRegistrar NPCBehaviourRegistrar(
         "NPCBehaviour", NPCBehaviour::MakeNew, 0xC0, false);
-}
 
-// CD2 0x82F91D08: runtime class inheritance registration.
-namespace AI
-{
+    // CD2 0x82F91D08: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar NPCBehaviourAIBehaviourInheritRegistrar(
         AI::NPCBehaviour::StaticCreateClass(), AI::AIBehaviour::StaticCreateClass());
-}
 
-// CD2 0x82F91658: runtime class inheritance registration.
-namespace AI
-{
+    // CD2 0x82F91658: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar NPCArmedBehaviourNPCBehaviourInheritRegistrar(
         AI::NPCArmedBehaviour::StaticCreateClass(), AI::NPCBehaviour::StaticCreateClass());
 }

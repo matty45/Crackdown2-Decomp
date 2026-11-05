@@ -7,10 +7,12 @@ namespace Vehicle
     {
         return "cCarProfile";
     }
-}
 
-namespace Vehicle
-{
+    cCarProfile::~cCarProfile()
+    {
+        UnRegisterMsg(m_Msg_Data_Modified);
+    }
+
     static RWS::CClassFactory::CRegistrar cCarProfileRegistrar(
         "cCarProfile", cCarProfile::MakeNew, 0x8F0, false);
 }

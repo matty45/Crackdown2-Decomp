@@ -1544,12 +1544,15 @@ src/cTransformingTruck.cpp
   init 0x82FE76F8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Vehicle/cCar.cpp
-  text 0x826B5D18 0x826B5D7C   # auto: cCar; RuffKing cCar.obj; 2 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x826B5CA8 0x826B7D28   # auto: cCar; RuffKing cCar.obj; 2 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-05 by 2 function(s) before and 37 after on CD2 evidence: cCar's own vtable slots (those that differ from cWheelGroup's table), the secondary tables only its constructor/destructor install, its factories and prototype, and the functions contiguous between them
   init 0x82FE7AE0
   atexit 0x830407B0
+  init 0x82FE7A50   # 2026-11-05: initializer-region function whose code references only this file's functions (ms_pcCarClass)
+  init 0x82FE7A78   # 2026-11-05: initializer-region function whose code references only this file's functions (inheritance cCar : cWheelGroup)
+  init 0x82FE7B30   # 2026-11-05: initializer-region function whose code references only this file's functions (spawning registrar)
 
 src/Vehicle/cHelicopter.cpp
-  text 0x826B8A78 0x826BBF50   # auto: cHelicopter; RuffKing cHelicopter.obj; 7 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x826B8A08 0x826C06D8   # auto: cHelicopter; RuffKing cHelicopter.obj; 7 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-05 by 2 function(s) before and 64 after on CD2 evidence: cHelicopter's own vtable slots (those that differ from cVehicle's table), the secondary tables only its constructor/destructor install, its factories and prototype, and the functions contiguous between them
   init 0x82FE8550
   atexit 0x830407F8
   init 0x82FE84C0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -1562,7 +1565,7 @@ src/Vehicle/cHelicopterDamageProfile.cpp
   atexit 0x83040888
 
 src/Vehicle/cLandVehicle.cpp
-  text 0x826C0DB8 0x826C6328   # auto: cLandVehicle; RuffKing cLandVehicle.obj; 14 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x826C0D48 0x826C8B10   # auto: cLandVehicle; RuffKing cLandVehicle.obj; 14 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-05 by 2 function(s) before and 33 after on CD2 evidence: cLandVehicle's own vtable slots (those that differ from cVehicle's table), the secondary tables only its constructor/destructor install, its factories and prototype, and the functions contiguous between them
   init 0x82FE8A20
   atexit 0x830408A0
   init 0x82FE8990   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -1570,7 +1573,7 @@ src/Vehicle/cLandVehicle.cpp
   init 0x82FE8A70   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Vehicle/cTruck.cpp
-  text 0x826CB3D8 0x826CB668   # auto: cTruck; RuffKing cTruck.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x826CB378 0x826CC518   # auto: cTruck; RuffKing cTruck.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-05 by 1 function(s) before and 20 after on CD2 evidence: cTruck's own vtable slots (those that differ from cCar's table), the secondary tables only its constructor/destructor install, its factories and prototype, and the functions contiguous between them
   init 0x82FE9578
   atexit 0x830408E8
   init 0x82FE94E8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -1580,7 +1583,7 @@ src/Vehicle/cTruck.cpp
 src/Vehicle/cVehicle.cpp
   atexit 0x83040948   # script registrar for cVehicle; table 0x82135538
   init 0x82FE9A70   # script registrar for cVehicle; table 0x82135538
-  text 0x826CC708 0x826D260C   # auto: cVehicle; RuffKing cVehicle.obj; 10 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x826CC6F8 0x826DF8B8   # auto: cVehicle; RuffKing cVehicle.obj; 10 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-05 by 1 function(s) before and 142 after on CD2 evidence: cVehicle's own vtable slots (those that differ from cNetDynamicBody's table), the secondary tables only its constructor/destructor install, its factories and prototype, and the functions contiguous between them
   init 0x82FE99D8
   atexit 0x83040920
   init 0x82FE9948   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -1617,9 +1620,12 @@ src/Vehicle/Agency/cAgencyBuggy.cpp
   init 0x82FEB198   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
 
 src/Vehicle/Agency/cAgencyCar.cpp
-  text 0x826EC108 0x826EC184   # auto: cAgencyCar; RuffKing cAgencyCar.obj; 2 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x826EC098 0x826ECEC8   # auto: cAgencyCar; RuffKing cAgencyCar.obj; 2 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-05 by 2 function(s) before and 13 after on CD2 evidence: cAgencyCar's own vtable slots (those that differ from cCar's table), the secondary tables only its constructor/destructor install, its factories and prototype, and the functions contiguous between them
   init 0x82FEB4F8
   atexit 0x83040A50
+  init 0x82FEB468   # 2026-11-05: initializer-region function whose code references only this file's functions (ms_pcAgencyCarClass)
+  init 0x82FEB490   # 2026-11-05: initializer-region function whose code references only this file's functions (inheritance cAgencyCar : cCar)
+  init 0x82FEB548   # 2026-11-05: initializer-region function whose code references only this file's functions (spawning registrar)
 
 src/Vehicle/Agency/cAgencySports.cpp
   text 0x826ECEC8 0x826ED9F0   # auto: cAgencySports; RuffKing cAgencySports.obj; 8 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 12 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)

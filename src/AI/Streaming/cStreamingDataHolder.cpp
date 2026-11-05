@@ -2,6 +2,7 @@
 #include "gom/non_game_base.h"
 #include "AI/cStreamingDataHolder.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
 
 namespace AI
 {
@@ -33,8 +34,6 @@ namespace AI
 static RWS::CClassFactory::CRegistrar cStreamingDataHolderRegistrar(
     "cStreamingDataHolder", AI::cStreamingDataHolder::MakeNew, 0x7C, false);
 
-#include "cd2/memory.h"
-
 namespace AI
 {
     Fun_Runtime::cClass &cStreamingDataHolder::StaticCreateClass()
@@ -42,11 +41,8 @@ namespace AI
         static Fun_Runtime::cClass *cStreamingDataHolderClass = new Fun_Runtime::cClass(0x1D4A, "cStreamingDataHolder", 0x7C);
         return *cStreamingDataHolderClass;
     }
-}
 
-// CD2 0x82F80EB8: runtime class inheritance registration.
-namespace AI
-{
+    // CD2 0x82F80EB8: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cStreamingDataHoldercNonGameBaseInheritRegistrar(
         AI::cStreamingDataHolder::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 }

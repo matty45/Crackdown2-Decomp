@@ -1,4 +1,3 @@
-#include "rws/classfactory.h"
 // src/AI/Behaviour/AIBehaviour.cpp
 //
 // Class: AIBehaviour (namespace: AI). Set up automatically: no function is matched yet. The address range and the
@@ -12,7 +11,9 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/AI/Behaviour/AIBehaviour.cpp
 
+#include "rws/classfactory.h"
 #include "AI/AIBehaviour.h"
+#include "cd2/memory.h"
 
 namespace AI
 {
@@ -20,19 +21,11 @@ namespace AI
     {
         return "AIBehaviour";
     }
-}
 
-namespace AI
-{
     static RWS::CClassFactory::CRegistrar AIBehaviourRegistrar(
         "AIBehaviour", AIBehaviour::MakeNew, 0x7c, false);
-}
 
-#include "cd2/memory.h"
-
-// CD2 0x824a4a10: the class factory builds the prototype.
-namespace AI
-{
+    // CD2 0x824a4a10: the class factory builds the prototype.
     RWS::CAttributeHandler *AIBehaviour::MakeNew(const RWS::CAttributePacket &packet, bool)
     {
         return new AIBehaviourPrototype(packet);

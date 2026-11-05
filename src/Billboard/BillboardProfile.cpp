@@ -7,10 +7,7 @@ namespace Billboard
     {
         return "BillboardProfile";
     }
-}
 
-namespace Billboard
-{
     static RWS::CClassFactory::CRegistrar BillboardProfileRegistrar(
         "BillboardProfile", BillboardProfile::MakeNew, 0x64, false);
 }

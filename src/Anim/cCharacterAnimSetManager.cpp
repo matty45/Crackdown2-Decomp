@@ -1,4 +1,3 @@
-#include "rws/classfactory.h"
 // src/Anim/cCharacterAnimSetManager.cpp
 //
 // Class: cCharacterAnimSetManager (namespace: Anim). Set up automatically: no function is matched yet. The address
@@ -12,7 +11,9 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Anim/cCharacterAnimSetManager.cpp
 
+#include "rws/classfactory.h"
 #include "Anim/cCharacterAnimSetManager.h"
+#include "cd2/memory.h"
 
 namespace Anim
 {
@@ -20,26 +21,15 @@ namespace Anim
     {
         return "cCharacterAnimSetManager";
     }
-}
 
-namespace Anim
-{
     static RWS::CClassFactory::CRegistrar cCharacterAnimSetManagerRegistrar(
         "cCharacterAnimSetManager", cCharacterAnimSetManager::MakeNew, 0x1400, false);
-}
 
-namespace Anim
-{
     const Fun_Runtime::cClass &cCharacterAnimSetManager::RetClass() const
     {
         return *ms_pccCharacterAnimSetManagerClass;
     }
-}
 
-#include "cd2/memory.h"
-
-namespace Anim
-{
     RWS::CAttributeHandler *cCharacterAnimSetManager::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cCharacterAnimSetManager;

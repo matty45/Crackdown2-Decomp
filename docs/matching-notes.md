@@ -24,6 +24,12 @@ end, in one line, and is removed when the function matches. History belongs in g
 - **Every prototype is a GOM::cObjectPrototype** (`include/gom/object_prototype.h`; constructor 0x82654118, which takes
   the packet only): ResourceManager::cStreamingResourceClient at 0x18, 0x70 bytes. Its client vtable 0x821327A4 is
   shared by every derived prototype (ICF).
+- **Primary slot counts of the body chain** (from the table each CD2 constructor stores at offset 0): cNonGameBase 68,
+  cGameBase 141 (0x8212CA20), cBody 227 (0x8200C938), cDynamicBody 304 (0x8200D058), cNetDynamicBody 314 (0x82131E80),
+  cVehicle 442 (0x82015B40). The headers declare every slot, unnamed ones as `vfN` (N = the slot index), so a class
+  derived from them gets its own virtuals at CD2's slots. A class's own count is a hard check on its declarations:
+  `/d1reportSingleClassLayout<Class>` lists the table. The reference builds' counts differ in every class, so
+  name a slot from RuffKing only where the CD2 body lines up with RuffKing's declaration order (cVehicle.h).
 - **An out-of-line base constructor hides the base layout.** The derived constructor then stores every subobject vptr
   (0, 0x18, 0x1C, 0x30, 0x38) from the base chain alone, and the bytes match with any bases of the right size and
   polymorphism. Vtable contents are not compared either. To identify a base:
@@ -350,7 +356,7 @@ end, in one line, and is removed when the function matches. History belongs in g
 
 ## Open functions
 One line each: what is ruled out. Remove the line when the function matches.
-- `AI::cPedestrianBase` destructor pair in Pedestrian.cpp (0x824A8E68 deleting, 0x824A8EB8 body): the deleting wrapper is shared by cPedestrianBase, Pedestrian and PedestrianGuard (slot 0 of 0x8200B1F8, 0x82108DB0, 0x8200AE78), so 0x824A8EB8 is the implicit `~cPedestrianBase` (Pedestrian.obj's COMDAT copy; it tail-calls `~cNonGameBase` 0x826536C8), not `~Pedestrian`. With implicit destructors `??_GPedestrian` is plain EXACT and the body LTCG EXACT, but the single-file LTCG model inlines `~cPedestrianBase` into `??_GPedestrian` (5/20 words) where CD2's whole-program build kept the call; left out until the model sees its other callers.
+- `AI::Pedestrian` deleting destructor (0x824A8E68): shared by cPedestrianBase, Pedestrian and PedestrianGuard (slot 0 of 0x8200B1F8, 0x82108DB0, 0x8200AE78); its callee 0x824A8EB8 is the implicit `~cPedestrianBase` (Pedestrian.obj's COMDAT copy, now matched). With implicit destructors `??_GPedestrian` is plain EXACT, but the single-file LTCG model inlines `~cPedestrianBase` into it (5/20 words) where CD2's whole-program build kept the call; left out until the model sees its other callers.
 - `PHYSICS::cSurfaceProfile::MakeNew` (0x82695F98), `VFX::cVFXSurfaceProfile::MakeNew` (0x827CCBD0), `unknown::cOutlines2::MakeNew` (0x827A4000): recovered cNonGameBase hierarchy gives EXACT deleting wrappers and IsA methods, but factories retain this in r31 instead of using the base constructor's return in r3 under plain and standard LTCG builds (same cross-module constructor-return issue as the crowd/streaming factories).
 - `GameManagement::cGameModeSpawnPoint::MakeNew` (0x8284D6F0): identity-matrix initialization has the correct stores, but misses CD2's matrix-address calculation; an inline `SetIdentity` helper, including its reference return, and standard source search did not restore it. Destructor is EXACT.
 - `Prop::cGasCanister::MakeNew` (0x82743708): reconstructed the prototype's identity matrix and defaults; forcing the constructor inline restores its stores, but plain and standard LTCG checks remain 32.8% because the constant loads and scheduling differ. Standard source search found no improvement. Moving the scalar defaults into the constructor body and routing matrix construction through the reference SetIdentity helper produce no codegen change (both experiments reverted).
@@ -418,8 +424,9 @@ One line each: what is ruled out. Remove the line when the function matches.
   CD2 constructor ABI that takes only this. Later reference constructors take a prototype argument, but the CD2
   factory does not forward one. Constructor chain evidence restored the shared AI and equipment bases; the
   cNPCArmourySetup attribute tag is an empty global type in RuffKing, not an invented padding base.
-  cHelicopter (0x826B8AE0), cLandVehicle (0x826C0E20), and the remaining vehicle factories require further shared
-  vehicle-base recovery; their new probes were reverted rather than relying on the historical flat stand-ins.
+  cVehicle, cLandVehicle and cHelicopter's factories are now EXACT on the recovered vehicle chain (cVehicle :
+  cNetDynamicBody + the three prop interfaces; cLandVehicle, cWheelGroup, cCar). cTruck, the agency and transforming
+  vehicles still use flat stand-ins.
 - Descriptor ownership correction: 0x82676288/0x82676298 read the cFactionInfo descriptor (ID 1038, size 0x220),
   installed by cFactionInfo's constructor 0x826766E0 at +0x14. They are not cFactionConfigData methods; the prior
   misattributed IsA manifest entry and source were removed. Likewise, 0x82676DB8 belongs to cGangInfo,
@@ -456,7 +463,7 @@ One line each: what is ruled out. Remove the line when the function matches.
 - Split follow-up: newly owned shared-base methods add 14 EXACT StaticCreateClass bodies, 14 class-pointer
   initializers and 10 registered-class RetClass getters. CD2 descriptor names/IDs/sizes and slot-0 tables
   establish ownership. Initializer 0x82FDFAE0 belongs to cDynamicBody, correcting its old cBody attribution.
-  cVehicle/cInterestingObject still need actual instance bases before adding virtual getters to their stand-ins.
+  cInterestingObject still needs its actual instance bases before adding virtual getters to its stand-in.
   cGameBase::RetClass (0x824CDC40) and cScriptHost::RetClass (0x823E5800) are byte-exact probes but lie
   outside both the order-list region and their classes' cold ranges; excluded until their surviving COMDAT
   copies' actual source ownership is established. Do not disguise cold code as a hot split entry.
@@ -527,3 +534,7 @@ One line each: what is ruled out. Remove the line when the function matches.
   the compiler's vector-destruction helper passes allocator/tag arguments absent from CD2's two-argument helper,
   and the stack frame and singleton/vptr scheduling differ. Standard and Fun_Runtime allocators and search
   do not resolve this. Its RetClass/IsA targets are outside the scaffolded split and remain declarations only.
+- Vehicle chain follow-up: cVehicle's destructor (0x826CE0E8) is the only in-file function that installs its table; it
+  needs typed members (m_VehicleAudio 0x7D0, safe pointers 0xD08/0x10E0/0x10F0, seats 0x11B0, turret vector 0x1410,
+  string 0x15C4; see Vehicle/cVehicle.h). cLandVehicle's small virtuals (slots 326, 327, 353, 354, 359, 363, 364) read
+  the Havok vehicle instance at 0x1DA4 and wait for that type (PHYSICS::cCustomVehicleInstance).

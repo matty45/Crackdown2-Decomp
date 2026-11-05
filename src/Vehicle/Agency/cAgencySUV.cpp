@@ -1,5 +1,3 @@
-#include "gom/proto_registrar.h"
-#include "rws/classfactory.h"
 // src/Vehicle/Agency/cAgencySUV.cpp
 //
 // Class: cAgencySUV (namespace: Vehicle). Set up automatically: no function is matched yet. The address range and the
@@ -13,8 +11,13 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Vehicle/Agency/cAgencySUV.cpp
 
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "rws/classfactory.h"
 #include "Vehicle/cAgencySUV.h"
 #include "cd2/memory.h"
+#include <new>
+#include "Vehicle/cAgencySUVPrototype.h"
 
 namespace Vehicle
 {
@@ -25,33 +28,30 @@ namespace Vehicle
         static Fun_Runtime::cClass *cAgencySUVClass = new Fun_Runtime::cClass(0x12060, "cAgencySUV", 0x30C0);
         return *cAgencySUVClass;
     }
-}
 
-namespace Vehicle
-{
+    // CD2 0x82FEC170: runtime class inheritance registration.
+    static Fun_Runtime::cInheritanceRegistrar cAgencySUVcAgencyCarInheritRegistrar(
+        cAgencySUV::StaticCreateClass(), cAgencyCar::StaticCreateClass());
+
     static RWS::CClassFactory::CRegistrar cAgencySUVRegistrar(
         "cAgencySUV", cAgencySUV::MakeNew, 0x30C0, false);
-}
 
-// CD2 0x82FEC228: register the class descriptor and placement factory.
-namespace Vehicle
-{
+    // CD2 0x82FEC228: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cAgencySUVSpawningRegistrar(
         cAgencySUV::StaticCreateClass(), cAgencySUV::SpawnFromPrototype);
-}
 
-namespace Vehicle
-{
     const char *cAgencySUV::RetClassName() const
     {
         return "cAgencySUV";
     }
-}
 
-#include "Vehicle/cAgencySUVPrototype.h"
+    RWS::CAttributeHandler *cAgencySUV::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cAgencySUV;
+        return 0;
+    }
 
-namespace Vehicle
-{
     Fun_Runtime::RetVal cAgencySUVPrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;

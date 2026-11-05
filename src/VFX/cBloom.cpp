@@ -1,4 +1,3 @@
-#include "rws/classfactory.h"
 // src/VFX/cBloom.cpp
 //
 // Class: cBloom (namespace: VFX). Set up automatically: no function is matched yet. The address range and the evidence
@@ -12,6 +11,7 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/VFX/cBloom.cpp
 
+#include "rws/classfactory.h"
 #include "VFX/cBloom.h"
 #include "cd2/memory.h"
 
@@ -21,16 +21,10 @@ namespace VFX
     {
         return "cBloom";
     }
-}
 
-namespace VFX
-{
     static RWS::CClassFactory::CRegistrar cBloomRegistrar(
         "cBloom", cBloom::MakeNew, 0x80, false);
-}
 
-namespace VFX
-{
     const Fun_Runtime::cClass &cBloom::RetClass() const
     {
         return *ms_pccBloomClass;

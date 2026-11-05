@@ -1,5 +1,3 @@
-#include "VFX/cSkidMarksShader.h"
-#include "rws/classfactory.h"
 // src/VFX/cSkidMarks.cpp
 //
 // Class: cSkidMarks (namespace: VFX). Set up automatically: no function is matched yet. The address range and the
@@ -13,7 +11,10 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/VFX/cSkidMarks.cpp
 
+#include "VFX/cSkidMarksShader.h"
+#include "rws/classfactory.h"
 #include "VFX/cSkidMarks.h"
+#include "cd2/memory.h"
 
 namespace VFX
 {
@@ -21,16 +22,10 @@ namespace VFX
     {
         return "cSkidMarks";
     }
-}
 
-namespace VFX
-{
     static RWS::CClassFactory::CRegistrar cSkidMarksRegistrar(
         "cSkidMarks", cSkidMarks::MakeNew, 0x2cc, false);
-}
 
-namespace VFX
-{
     cSkidMarksShader *cSkidMarksShader::ms_pInstance;
 
     bool cSkidMarksShader::ReloadInstance(bool revert)
@@ -49,13 +44,8 @@ namespace VFX
     {
         return ReloadInstance;
     }
-}
 
-#include "cd2/memory.h"
-
-// CD2 0x827B7A90: the class-factory constructor; the constructor stays out of line.
-namespace VFX
-{
+    // CD2 0x827B7A90: the class-factory constructor; the constructor stays out of line.
     RWS::CAttributeHandler *cSkidMarks::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cSkidMarks;

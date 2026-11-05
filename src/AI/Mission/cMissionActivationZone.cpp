@@ -12,10 +12,7 @@ namespace AI
     cMissionActivationZone::~cMissionActivationZone()
     {
     }
-}
 
-namespace AI
-{
     static RWS::CClassFactory::CRegistrar cMissionActivationZoneRegistrar(
         "cMissionActivationZone", cMissionActivationZone::MakeNew, 0x100, false);
 }

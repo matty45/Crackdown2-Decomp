@@ -1,5 +1,3 @@
-#include "gom/proto_registrar.h"
-#include "rws/classfactory.h"
 // src/Vehicle/Agency/cAgencyTank.cpp
 //
 // Class: cAgencyTank (namespace: Vehicle). Set up automatically: no function is matched yet. The address range and the
@@ -13,8 +11,13 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Vehicle/Agency/cAgencyTank.cpp
 
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "rws/classfactory.h"
 #include "Vehicle/cAgencyTank.h"
 #include "cd2/memory.h"
+#include <new>
+#include "Vehicle/cAgencyTankPrototype.h"
 
 namespace Vehicle
 {
@@ -25,33 +28,30 @@ namespace Vehicle
         static Fun_Runtime::cClass *cAgencyTankClass = new Fun_Runtime::cClass(0x120AB, "cAgencyTank", 0x3150);
         return *cAgencyTankClass;
     }
-}
 
-namespace Vehicle
-{
+    // CD2 0x82FEC5A8: runtime class inheritance registration.
+    static Fun_Runtime::cInheritanceRegistrar cAgencyTankcAgencyCarInheritRegistrar(
+        cAgencyTank::StaticCreateClass(), cAgencyCar::StaticCreateClass());
+
     static RWS::CClassFactory::CRegistrar cAgencyTankRegistrar(
         "cAgencyTank", cAgencyTank::MakeNew, 0x3150, false);
-}
 
-// CD2 0x82FEC660: register the class descriptor and placement factory.
-namespace Vehicle
-{
+    // CD2 0x82FEC660: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cAgencyTankSpawningRegistrar(
         cAgencyTank::StaticCreateClass(), cAgencyTank::SpawnFromPrototype);
-}
 
-namespace Vehicle
-{
     const char *cAgencyTank::RetClassName() const
     {
         return "cAgencyTank";
     }
-}
 
-#include "Vehicle/cAgencyTankPrototype.h"
+    RWS::CAttributeHandler *cAgencyTank::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cAgencyTank;
+        return 0;
+    }
 
-namespace Vehicle
-{
     Fun_Runtime::RetVal cAgencyTankPrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;

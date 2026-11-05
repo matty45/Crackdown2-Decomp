@@ -3,6 +3,8 @@
 #include "AI/PedestrianGuard.h"
 #include "AI/PedestrianInjured.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
+#include "AI/BehaviourClassID.h"
 
 namespace AI
 {
@@ -29,36 +31,21 @@ namespace AI
     {
         return new PedestrianInjured();
     }
-}
 
-namespace AI
-{
     static RWS::CClassFactory::CRegistrar PedestrianInjuredRegistrar(
         "PedestrianInjured", PedestrianInjured::MakeNew, 0x130, false);
-}
 
-#include "cd2/memory.h"
-#include "AI/BehaviourClassID.h"
-
-namespace AI
-{
     Fun_Runtime::cClass &PedestrianInjured::StaticCreateClass()
     {
         static Fun_Runtime::cClass *PedestrianInjuredClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "PedestrianInjured", 0x130);
         return *PedestrianInjuredClass;
     }
-}
 
-// CD2 0x82F93230: runtime class inheritance registration.
-namespace AI
-{
+    // CD2 0x82F93230: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar PedestrianInjuredPedestrianGuardInheritRegistrar(
         AI::PedestrianInjured::StaticCreateClass(), AI::PedestrianGuard::StaticCreateClass());
-}
 
-// CD2 0x82F932E8: register the class descriptor and placement factory.
-namespace AI
-{
+    // CD2 0x82F932E8: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar PedestrianInjuredSpawningRegistrar(
         PedestrianInjured::StaticCreateClass(), PedestrianInjured::SpawnFromPrototype);
 }

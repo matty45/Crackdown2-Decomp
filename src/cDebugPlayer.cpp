@@ -1,7 +1,3 @@
-#include "fun_runtime/retval.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "gom/non_game_base.h"
-#include "rws/classfactory.h"
 // src/cDebugPlayer.cpp
 //
 // Class: cDebugPlayer (namespace: unknown). Set up automatically: no function is matched yet. The address range and the
@@ -13,6 +9,10 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/cDebugPlayer.cpp
 
+#include "fun_runtime/retval.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/non_game_base.h"
+#include "rws/classfactory.h"
 #include "unknown/cDebugPlayer.h"
 #include "cd2/memory.h"
 
@@ -25,31 +25,19 @@ namespace unknown
         static Fun_Runtime::cClass *cDebugPlayerClass = new Fun_Runtime::cClass(0x63D, "cDebugPlayer", 0x190);
         return *cDebugPlayerClass;
     }
-}
 
-namespace unknown
-{
     static RWS::CClassFactory::CRegistrar cDebugPlayerRegistrar(
         "cDebugPlayer", cDebugPlayer::MakeNew, 0x190, false);
-}
 
-// CD2 0x82FF2CD8: runtime class inheritance registration.
-namespace unknown
-{
+    // CD2 0x82FF2CD8: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cDebugPlayercNonGameBaseInheritRegistrar(
         unknown::cDebugPlayer::StaticCreateClass(), cNonGameBase::StaticCreateClass());
-}
 
-namespace unknown
-{
     const char *cDebugPlayer::RetClassName() const
     {
         return "cDebugPlayer";
     }
-}
 
-namespace unknown
-{
     const Fun_Runtime::cClass &cDebugPlayer::RetClass() const
     {
         return *ms_pcDebugPlayerClass;
@@ -65,10 +53,7 @@ namespace unknown
     {
         Term();
     }
-}
 
-namespace unknown
-{
     RWS::CAttributeHandler *cDebugPlayer::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cDebugPlayer;

@@ -7,10 +7,7 @@ namespace GameManagement
     {
         return "cStreamedArenaConfig";
     }
-}
 
-namespace GameManagement
-{
     static RWS::CClassFactory::CRegistrar cStreamedArenaConfigRegistrar(
         "cStreamedArenaConfig", cStreamedArenaConfig::MakeNew, 0x28, false);
 }

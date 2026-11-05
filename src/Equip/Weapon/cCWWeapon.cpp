@@ -1,7 +1,3 @@
-#include "Equip/cWeapon.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "gom/proto_registrar.h"
-#include "rws/classfactory.h"
 // src/Equip/Weapon/cCWWeapon.cpp
 //
 // Class: cCWWeapon (namespace: Equip). Set up automatically: no function is matched yet. The address range and the
@@ -15,8 +11,13 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Equip/Weapon/cCWWeapon.cpp
 
+#include "Equip/cWeapon.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/proto_registrar.h"
+#include "rws/classfactory.h"
 #include "Equip/cCWWeapon.h"
 #include "cd2/memory.h"
+#include "fun_runtime/script_type_registrar.h"
 
 namespace Equip
 {
@@ -28,10 +29,7 @@ namespace Equip
         return m_uiAINumberOfShotsToReachFullAccuracy;
     }
     unsigned int cCWWeapon::RetNumberOfShotsTaken() const { return m_uiShotCount; }
-}
 
-namespace Equip
-{
     const Fun_Runtime::cClass *cCWWeapon::ms_pcCWWeaponClass = &cCWWeapon::StaticCreateClass();
 
     Fun_Runtime::cClass &cCWWeapon::StaticCreateClass()
@@ -39,58 +37,34 @@ namespace Equip
         static Fun_Runtime::cClass *cCWWeaponClass = new Fun_Runtime::cClass(0x3E82, "cCWWeapon", 0xA10);
         return *cCWWeaponClass;
     }
-}
 
-namespace Equip
-{
     static RWS::CClassFactory::CRegistrar cCWWeaponRegistrar(
         "cCWWeapon", cCWWeapon::MakeNew, 0xA10, false);
-}
 
-// CD2 0x82FCB890: register the class descriptor and placement factory.
-namespace Equip
-{
+    // CD2 0x82FCB890: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cCWWeaponSpawningRegistrar(
         cCWWeapon::StaticCreateClass(), cCWWeapon::SpawnFromPrototype);
-}
 
-// CD2 0x82FCB7D8: runtime class inheritance registration.
-namespace Equip
-{
+    // CD2 0x82FCB7D8: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cCWWeaponcWeaponInheritRegistrar(
         Equip::cCWWeapon::StaticCreateClass(), Equip::cWeapon::StaticCreateClass());
-}
 
-namespace Equip
-{
     const char *cCWWeapon::RetClassName() const
     {
         return "cCWWeapon";
     }
-}
 
-namespace Equip
-{
     RWS::CAttributeHandler *cCWWeapon::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
     {
         if (memory)
             return new (memory) cCWWeapon;
         return 0;
     }
-}
 
-#include "Equip/cCWWeapon.h"
-#include "fun_runtime/script_type_registrar.h"
-
-namespace Equip
-{
     // CD2 script-type registration; constructor/table evidence identifies the child and parent.
     static Fun_Runtime::cScriptTypeRegistrar<cCWWeapon> cCWWeaponScriptRegistrar(
         "cCWWeapon", "cWeapon");
-}
 
-namespace Equip
-{
     const Fun_Runtime::cScriptTypeRegistration *cCWWeapon::RetScriptTypeRegistration() const
     {
         return &cCWWeaponScriptRegistrar;

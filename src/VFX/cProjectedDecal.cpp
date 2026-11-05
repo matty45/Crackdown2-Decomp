@@ -1,15 +1,3 @@
-#include "VFX/cClippedPlanarDecalShader.h"
-#include "VFX/cLargePlanarDecalMultiplicativeShader.h"
-#include "VFX/cLargePlanarDecalShader.h"
-#include "VFX/cHemisphericalDecalMultiplicativeShader.h"
-#include "VFX/cHemisphericalDecalShader.h"
-#include "VFX/cPlanarDecalMultiplicativeShader.h"
-#include "VFX/cPlanarDecalShader.h"
-#include "VFX/cSphericalDecalMultiplicativeShader.h"
-#include "VFX/cSphericalDecalShader.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "gom/non_game_base.h"
-#include "rws/classfactory.h"
 // src/VFX/cProjectedDecal.cpp
 //
 // Class: cProjectedDecal (namespace: VFX). Set up automatically: no function is matched yet. The address range and the
@@ -23,7 +11,20 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/VFX/cProjectedDecal.cpp
 
+#include "VFX/cClippedPlanarDecalShader.h"
+#include "VFX/cLargePlanarDecalMultiplicativeShader.h"
+#include "VFX/cLargePlanarDecalShader.h"
+#include "VFX/cHemisphericalDecalMultiplicativeShader.h"
+#include "VFX/cHemisphericalDecalShader.h"
+#include "VFX/cPlanarDecalMultiplicativeShader.h"
+#include "VFX/cPlanarDecalShader.h"
+#include "VFX/cSphericalDecalMultiplicativeShader.h"
+#include "VFX/cSphericalDecalShader.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/non_game_base.h"
+#include "rws/classfactory.h"
 #include "VFX/cProjectedDecal.h"
+#include "cd2/memory.h"
 
 namespace VFX
 {
@@ -31,39 +32,22 @@ namespace VFX
     {
         return "cProjectedDecal";
     }
-}
 
-#include "cd2/memory.h"
-
-namespace VFX
-{
     Fun_Runtime::cClass &cProjectedDecal::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cProjectedDecalClass = new Fun_Runtime::cClass(0x1EE7F00D, "cProjectedDecal", 0x28C);
         return *cProjectedDecalClass;
     }
-}
 
-namespace VFX
-{
     const Fun_Runtime::cClass *cProjectedDecal::ms_pcProjectedDecalClass = &cProjectedDecal::StaticCreateClass();
-}
 
-namespace VFX
-{
     static RWS::CClassFactory::CRegistrar cProjectedDecalRegistrar(
         "cProjectedDecal", cProjectedDecal::MakeNew, 0x28C, false);
-}
 
-// CD2 0x83007BF8: runtime class inheritance registration.
-namespace VFX
-{
+    // CD2 0x83007BF8: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cProjectedDecalcNonGameBaseInheritRegistrar(
         VFX::cProjectedDecal::StaticCreateClass(), cNonGameBase::StaticCreateClass());
-}
 
-namespace VFX
-{
     cSphericalDecalShader *cSphericalDecalShader::ms_pInstance;
 
     bool cSphericalDecalShader::ReloadInstance(bool revert)
@@ -82,10 +66,7 @@ namespace VFX
     {
         return ReloadInstance;
     }
-}
 
-namespace VFX
-{
     cSphericalDecalMultiplicativeShader *cSphericalDecalMultiplicativeShader::ms_pInstance;
 
     bool cSphericalDecalMultiplicativeShader::ReloadInstance(bool revert)
@@ -104,10 +85,7 @@ namespace VFX
     {
         return ReloadInstance;
     }
-}
 
-namespace VFX
-{
     cPlanarDecalShader *cPlanarDecalShader::ms_pInstance;
 
     bool cPlanarDecalShader::ReloadInstance(bool revert)
@@ -126,10 +104,7 @@ namespace VFX
     {
         return ReloadInstance;
     }
-}
 
-namespace VFX
-{
     cPlanarDecalMultiplicativeShader *cPlanarDecalMultiplicativeShader::ms_pInstance;
 
     bool cPlanarDecalMultiplicativeShader::ReloadInstance(bool revert)
@@ -148,10 +123,7 @@ namespace VFX
     {
         return ReloadInstance;
     }
-}
 
-namespace VFX
-{
     cHemisphericalDecalShader *cHemisphericalDecalShader::ms_pInstance;
 
     bool cHemisphericalDecalShader::ReloadInstance(bool revert)
@@ -170,10 +142,7 @@ namespace VFX
     {
         return ReloadInstance;
     }
-}
 
-namespace VFX
-{
     cHemisphericalDecalMultiplicativeShader *cHemisphericalDecalMultiplicativeShader::ms_pInstance;
 
     bool cHemisphericalDecalMultiplicativeShader::ReloadInstance(bool revert)
@@ -192,10 +161,7 @@ namespace VFX
     {
         return ReloadInstance;
     }
-}
 
-namespace VFX
-{
     cLargePlanarDecalShader *cLargePlanarDecalShader::ms_pInstance;
 
     bool cLargePlanarDecalShader::ReloadInstance(bool revert)
@@ -214,10 +180,7 @@ namespace VFX
     {
         return ReloadInstance;
     }
-}
 
-namespace VFX
-{
     cLargePlanarDecalMultiplicativeShader *cLargePlanarDecalMultiplicativeShader::ms_pInstance;
 
     bool cLargePlanarDecalMultiplicativeShader::ReloadInstance(bool revert)
@@ -236,10 +199,7 @@ namespace VFX
     {
         return ReloadInstance;
     }
-}
 
-namespace VFX
-{
     cClippedPlanarDecalShader *cClippedPlanarDecalShader::ms_pInstance;
 
     bool cClippedPlanarDecalShader::ReloadInstance(bool revert)
@@ -258,11 +218,8 @@ namespace VFX
     {
         return ReloadInstance;
     }
-}
 
-// CD2 0x827A5640: the class-factory constructor; the constructor stays out of line.
-namespace VFX
-{
+    // CD2 0x827A5640: the class-factory constructor; the constructor stays out of line.
     RWS::CAttributeHandler *cProjectedDecal::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cProjectedDecal;

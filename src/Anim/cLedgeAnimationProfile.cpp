@@ -1,5 +1,6 @@
 #include "Anim/cLedgeAnimationProfile.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
 
 namespace Anim
 {
@@ -13,19 +14,11 @@ namespace Anim
     {
         return "cLedgeAnimationProfile";
     }
-}
 
-namespace Anim
-{
     static RWS::CClassFactory::CRegistrar cLedgeAnimationProfileRegistrar(
         "cLedgeAnimationProfile", cLedgeAnimationProfile::MakeNew, 0x40, false);
-}
 
-#include "cd2/memory.h"
-
-// CD2 0x825019E8: the class factory.
-namespace Anim
-{
+    // CD2 0x825019E8: the class factory.
     RWS::CAttributeHandler *cLedgeAnimationProfile::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cLedgeAnimationProfile;

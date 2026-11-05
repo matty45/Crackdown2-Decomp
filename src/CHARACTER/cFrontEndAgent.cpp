@@ -1,7 +1,3 @@
-#include "gom/proto_registrar.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "CHARACTER/cCwTransCharacter.h"
-#include "rws/classfactory.h"
 // src/CHARACTER/cFrontEndAgent.cpp
 //
 // Class: cFrontEndAgent (namespace: CHARACTER). Set up automatically: no function is matched yet. The address range and
@@ -15,8 +11,13 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/CHARACTER/cFrontEndAgent.cpp
 
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "CHARACTER/cCwTransCharacter.h"
+#include "rws/classfactory.h"
 #include "CHARACTER/cFrontEndAgent.h"
 #include "cd2/memory.h"
+#include "fun_runtime/retval.h"
 
 namespace CHARACTER
 {
@@ -27,49 +28,28 @@ namespace CHARACTER
         static Fun_Runtime::cClass *cFrontEndAgentClass = new Fun_Runtime::cClass(0x67D, "cFrontEndAgent", 0x3EC0);
         return *cFrontEndAgentClass;
     }
-}
 
-namespace CHARACTER
-{
     static RWS::CClassFactory::CRegistrar cFrontEndAgentRegistrar(
         "cFrontEndAgent", cFrontEndAgent::MakeNew, 0x3EC0, false);
-}
 
-// CD2 0x83022DD0: runtime class inheritance registration.
-namespace CHARACTER
-{
+    // CD2 0x83022DD0: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cFrontEndAgentcCwTransCharacterInheritRegistrar(
         CHARACTER::cFrontEndAgent::StaticCreateClass(), CHARACTER::cCwTransCharacter::StaticCreateClass());
-}
 
-// CD2 0x83022E88: register the class descriptor and placement factory.
-namespace CHARACTER
-{
+    // CD2 0x83022E88: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cFrontEndAgentSpawningRegistrar(
         cFrontEndAgent::StaticCreateClass(), cFrontEndAgent::SpawnFromPrototype);
-}
 
-namespace CHARACTER
-{
     const char *cFrontEndAgent::RetClassName() const
     {
         return "cFrontEndAgent";
     }
-}
 
-namespace CHARACTER
-{
     const Fun_Runtime::cClass &cFrontEndAgent::RetClass() const
     {
         return *ms_pcFrontEndAgentClass;
     }
-}
 
-#include "CHARACTER/cFrontEndAgent.h"
-#include "fun_runtime/retval.h"
-
-namespace CHARACTER
-{
     Fun_Runtime::RetVal cFrontEndAgent::cFrontEndAgentPrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;

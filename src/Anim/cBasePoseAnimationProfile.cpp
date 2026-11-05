@@ -13,10 +13,7 @@ namespace Anim
     {
         return "cBasePoseAnimationProfile";
     }
-}
 
-namespace Anim
-{
     static RWS::CClassFactory::CRegistrar cBasePoseAnimationProfileRegistrar(
         "cBasePoseAnimationProfile", cBasePoseAnimationProfile::MakeNew, 0x40, false);
 }

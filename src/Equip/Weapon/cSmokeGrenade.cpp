@@ -1,8 +1,3 @@
-#include "fun_runtime/retval.h"
-#include "Equip/cGrenade.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "gom/proto_registrar.h"
-#include "rws/classfactory.h"
 // src/Equip/Weapon/cSmokeGrenade.cpp
 //
 // Class: cSmokeGrenade (namespace: Equip). Set up automatically: no function is matched yet. The address range and the
@@ -16,6 +11,11 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Equip/Weapon/cSmokeGrenade.cpp
 
+#include "fun_runtime/retval.h"
+#include "Equip/cGrenade.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/proto_registrar.h"
+#include "rws/classfactory.h"
 #include "Equip/cSmokeGrenade.h"
 #include "cd2/memory.h"
 
@@ -28,38 +28,23 @@ namespace Equip
         static Fun_Runtime::cClass *cSmokeGrenadeClass = new Fun_Runtime::cClass(0x3E8D, "cSmokeGrenade", 0x9D0);
         return *cSmokeGrenadeClass;
     }
-}
 
-namespace Equip
-{
     static RWS::CClassFactory::CRegistrar cSmokeGrenadeRegistrar(
         "cSmokeGrenade", cSmokeGrenade::MakeNew, 0x9D0, false);
-}
 
-// CD2 0x82FD0C70: register the class descriptor and placement factory.
-namespace Equip
-{
+    // CD2 0x82FD0C70: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cSmokeGrenadeSpawningRegistrar(
         cSmokeGrenade::StaticCreateClass(), cSmokeGrenade::SpawnFromPrototype);
-}
 
-// CD2 0x82FD0BB8: runtime class inheritance registration.
-namespace Equip
-{
+    // CD2 0x82FD0BB8: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cSmokeGrenadecGrenadeInheritRegistrar(
         Equip::cSmokeGrenade::StaticCreateClass(), Equip::cGrenade::StaticCreateClass());
-}
 
-namespace Equip
-{
     const char *cSmokeGrenade::RetClassName() const
     {
         return "cSmokeGrenade";
     }
-}
 
-namespace Equip
-{
     const Fun_Runtime::cClass &cSmokeGrenade::RetClass() const
     {
         return *ms_pcSmokeGrenadeClass;
@@ -76,10 +61,7 @@ namespace Equip
             return new (memory) cSmokeGrenade;
         return 0;
     }
-}
 
-namespace Equip
-{
     Fun_Runtime::RetVal cSmokeGrenade::cSmokeGrenadePrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;

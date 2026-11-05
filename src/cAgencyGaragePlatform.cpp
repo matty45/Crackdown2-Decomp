@@ -1,7 +1,3 @@
-#include "gom/proto_registrar.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "Prop/cPrismaticProp.h"
-#include "rws/classfactory.h"
 // src/cAgencyGaragePlatform.cpp
 //
 // Class: cAgencyGaragePlatform (namespace: unknown). Set up automatically: no function is matched yet. The address
@@ -13,8 +9,13 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/cAgencyGaragePlatform.cpp
 
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "Prop/cPrismaticProp.h"
+#include "rws/classfactory.h"
 #include "unknown/cAgencyGaragePlatform.h"
 #include "cd2/memory.h"
+#include "unknown/cAgencyGaragePlatformPrototype.h"
 
 namespace unknown
 {
@@ -25,30 +26,18 @@ namespace unknown
         static Fun_Runtime::cClass *cAgencyGaragePlatformClass = new Fun_Runtime::cClass(0x1024, "cAgencyGaragePlatform", 0xEE0);
         return *cAgencyGaragePlatformClass;
     }
-}
 
-namespace unknown
-{
     static RWS::CClassFactory::CRegistrar cAgencyGaragePlatformRegistrar(
         "cAgencyGaragePlatform", cAgencyGaragePlatform::MakeNew, 0xEE0, false);
-}
 
-// CD2 0x82FF6BE8: runtime class inheritance registration.
-namespace unknown
-{
+    // CD2 0x82FF6BE8: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cAgencyGaragePlatformcPrismaticPropInheritRegistrar(
         unknown::cAgencyGaragePlatform::StaticCreateClass(), Prop::cPrismaticProp::StaticCreateClass());
-}
 
-// CD2 0x82FF6CA0: register the class descriptor and placement factory.
-namespace unknown
-{
+    // CD2 0x82FF6CA0: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cAgencyGaragePlatformSpawningRegistrar(
         cAgencyGaragePlatform::StaticCreateClass(), cAgencyGaragePlatform::SpawnFromPrototype);
-}
 
-namespace unknown
-{
     const char *cAgencyGaragePlatform::RetClassName() const
     {
         return "cAgencyGaragePlatform";
@@ -58,12 +47,7 @@ namespace unknown
     cAgencyGaragePlatform::~cAgencyGaragePlatform()
     {
     }
-}
 
-#include "unknown/cAgencyGaragePlatformPrototype.h"
-
-namespace unknown
-{
     Fun_Runtime::RetVal cAgencyGaragePlatformPrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;

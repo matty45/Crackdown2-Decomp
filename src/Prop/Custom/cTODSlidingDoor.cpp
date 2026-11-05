@@ -1,7 +1,3 @@
-#include "gom/proto_registrar.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "Prop/cSlidingDoor.h"
-#include "rws/classfactory.h"
 // src/Prop/Custom/cTODSlidingDoor.cpp
 //
 // Class: cTODSlidingDoor (namespace: Prop). Set up automatically: no function is matched yet. The address range and the
@@ -15,7 +11,12 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Prop/Custom/cTODSlidingDoor.cpp
 
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "Prop/cSlidingDoor.h"
+#include "rws/classfactory.h"
 #include "Prop/cTODSlidingDoor.h"
+#include "cd2/memory.h"
 
 namespace Prop
 {
@@ -23,40 +24,23 @@ namespace Prop
     {
         return "cTODSlidingDoor";
     }
-}
 
-#include "cd2/memory.h"
-
-namespace Prop
-{
     Fun_Runtime::cClass &cTODSlidingDoor::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cTODSlidingDoorClass = new Fun_Runtime::cClass(0x5D31C, "cTODSlidingDoor", 0xF00);
         return *cTODSlidingDoorClass;
     }
-}
 
-namespace Prop
-{
     const Fun_Runtime::cClass *cTODSlidingDoor::ms_pcTODSlidingDoorClass = &cTODSlidingDoor::StaticCreateClass();
-}
 
-namespace Prop
-{
     static RWS::CClassFactory::CRegistrar cTODSlidingDoorRegistrar(
         "cTODSlidingDoor", cTODSlidingDoor::MakeNew, 0xF00, false);
-}
 
-// CD2 0x82FFC010: runtime class inheritance registration.
-namespace Prop
-{
+    // CD2 0x82FFC010: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cTODSlidingDoorcSlidingDoorInheritRegistrar(
         Prop::cTODSlidingDoor::StaticCreateClass(), Prop::cSlidingDoor::StaticCreateClass());
-}
 
-// CD2 0x82FFC0C8: register the class descriptor and placement factory.
-namespace Prop
-{
+    // CD2 0x82FFC0C8: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cTODSlidingDoorSpawningRegistrar(
         cTODSlidingDoor::StaticCreateClass(), cTODSlidingDoor::SpawnFromPrototype);
 }

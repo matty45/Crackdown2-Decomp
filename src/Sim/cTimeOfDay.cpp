@@ -4,6 +4,7 @@
 #include "fun_runtime/scripthost.h"
 #include "rws/classfactory.h"
 #include "Sim/cTimeOfDay.h"
+#include "cd2/memory.h"
 
 Fun_Runtime::cScriptTypeRegistrar<Sim::cTimeOfDay> g_cTimeOfDay("cTimeOfDay", "cScriptHost");     // global at 0x838518A0
 unsigned char g_AIE_TODDUSK;     // global at 0x83851758
@@ -31,40 +32,23 @@ namespace Sim
     {
         return &g_AIE_TIME_PERIOD_CHANGED;
     }
-}
 
-#include "cd2/memory.h"
-
-namespace Sim
-{
     Fun_Runtime::cClass &cTimeOfDay::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cTimeOfDayClass = new Fun_Runtime::cClass(0x3F9, "cTimeOfDay", 0x2B0);
         return *cTimeOfDayClass;
     }
-}
 
-namespace Sim
-{
     const Fun_Runtime::cClass *cTimeOfDay::ms_pcTimeOfDayClass = &cTimeOfDay::StaticCreateClass();
-}
 
-namespace Sim
-{
     static RWS::CClassFactory::CRegistrar cTimeOfDayRegistrar(
         "cTimeOfDay", cTimeOfDay::MakeNew, 0x2B0, false);
-}
 
-// CD2 0x830020B8: runtime class inheritance registration.
-namespace Sim
-{
+    // CD2 0x830020B8: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cTimeOfDaycScriptHostInheritRegistrar(
         Sim::cTimeOfDay::StaticCreateClass(), Fun_Runtime::cScriptHost::StaticCreateClass());
-}
 
-// CD2 0x83002120: runtime class inheritance registration.
-namespace Sim
-{
+    // CD2 0x83002120: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cTimeOfDaycDebugPageHandlerInheritRegistrar(
         Sim::cTimeOfDay::StaticCreateClass(), GDb::cDebugPageHandler::StaticCreateClass());
 }

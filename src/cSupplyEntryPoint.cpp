@@ -1,8 +1,3 @@
-#include "fun_runtime/retval.h"
-#include "gom/proto_registrar.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "gom/game_base.h"
-#include "rws/classfactory.h"
 // src/cSupplyEntryPoint.cpp
 //
 // Class: cSupplyEntryPoint (namespace: unknown). Set up automatically: no function is matched yet. The address range
@@ -14,6 +9,11 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/cSupplyEntryPoint.cpp
 
+#include "fun_runtime/retval.h"
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/game_base.h"
+#include "rws/classfactory.h"
 #include "unknown/cSupplyEntryPoint.h"
 #include "cd2/memory.h"
 
@@ -26,46 +26,28 @@ namespace unknown
         static Fun_Runtime::cClass *cSupplyEntryPointClass = new Fun_Runtime::cClass(0x101F, "cSupplyEntryPoint", 0x140);
         return *cSupplyEntryPointClass;
     }
-}
 
-namespace unknown
-{
     static RWS::CClassFactory::CRegistrar cSupplyEntryPointRegistrar(
         "cSupplyEntryPoint", cSupplyEntryPoint::MakeNew, 0x140, false);
-}
 
-// CD2 0x82FF94E0: runtime class inheritance registration.
-namespace unknown
-{
+    // CD2 0x82FF94E0: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cSupplyEntryPointcGameBaseInheritRegistrar(
         unknown::cSupplyEntryPoint::StaticCreateClass(), cGameBase::StaticCreateClass());
-}
 
-// CD2 0x82FF9598: register the class descriptor and placement factory.
-namespace unknown
-{
+    // CD2 0x82FF9598: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cSupplyEntryPointSpawningRegistrar(
         cSupplyEntryPoint::StaticCreateClass(), cSupplyEntryPoint::SpawnFromPrototype);
-}
 
-namespace unknown
-{
     const char *cSupplyEntryPoint::RetClassName() const
     {
         return "cSupplyEntryPoint";
     }
-}
 
-namespace unknown
-{
     const Fun_Runtime::cClass &cSupplyEntryPoint::RetClass() const
     {
         return *ms_pcSupplyEntryPointClass;
     }
-}
 
-namespace unknown
-{
     Fun_Runtime::RetVal cSupplyEntryPoint::cSupplyEntryPointPrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;

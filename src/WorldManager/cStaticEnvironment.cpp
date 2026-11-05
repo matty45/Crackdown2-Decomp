@@ -1,6 +1,3 @@
-#include "fun_runtime/inheritance_registrar.h"
-#include "PHYSICS/cStaticBody.h"
-#include "rws/classfactory.h"
 // src/WorldManager/cStaticEnvironment.cpp
 //
 // Class: cStaticEnvironment (namespace: WorldManager). Set up automatically: no function is matched yet. The address
@@ -14,6 +11,9 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/WorldManager/cStaticEnvironment.cpp
 
+#include "fun_runtime/inheritance_registrar.h"
+#include "PHYSICS/cStaticBody.h"
+#include "rws/classfactory.h"
 #include "WorldManager/cStaticEnvironment.h"
 #include "cd2/memory.h"
 
@@ -26,23 +26,14 @@ namespace WorldManager
         static Fun_Runtime::cClass *cStaticEnvironmentClass = new Fun_Runtime::cClass(0x3, "cStaticEnvironment", 0x2E0);
         return *cStaticEnvironmentClass;
     }
-}
 
-namespace WorldManager
-{
     static RWS::CClassFactory::CRegistrar cStaticEnvironmentRegistrar(
         "cStaticEnvironment", cStaticEnvironment::MakeNew, 0x2E0, false);
-}
 
-// CD2 0x8300CB78: runtime class inheritance registration.
-namespace WorldManager
-{
+    // CD2 0x8300CB78: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cStaticEnvironmentcStaticBodyInheritRegistrar(
         WorldManager::cStaticEnvironment::StaticCreateClass(), PHYSICS::cStaticBody::StaticCreateClass());
-}
 
-namespace WorldManager
-{
     const char *cStaticEnvironment::RetClassName() const
     {
         return "cStaticEnvironment";

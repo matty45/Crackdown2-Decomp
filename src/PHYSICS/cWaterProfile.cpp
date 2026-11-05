@@ -1,7 +1,3 @@
-#include "GDb/cDebugPageHandler.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "gom/non_game_base.h"
-#include "rws/classfactory.h"
 // src/PHYSICS/cWaterProfile.cpp
 //
 // Class: cWaterProfile (namespace: PHYSICS). Set up automatically: no function is matched yet. The address range and
@@ -15,7 +11,12 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/PHYSICS/cWaterProfile.cpp
 
+#include "GDb/cDebugPageHandler.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/non_game_base.h"
+#include "rws/classfactory.h"
 #include "PHYSICS/cWaterProfile.h"
+#include "cd2/memory.h"
 
 namespace PHYSICS
 {
@@ -23,53 +24,33 @@ namespace PHYSICS
     {
         return "cWaterProfile";
     }
-}
 
-#include "cd2/memory.h"
-
-namespace PHYSICS
-{
     Fun_Runtime::cClass &cWaterProfile::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cWaterProfileClass = new Fun_Runtime::cClass(0x5FF, "cWaterProfile", 0x7C);
         return *cWaterProfileClass;
     }
-}
 
-namespace PHYSICS
-{
     const Fun_Runtime::cClass *cWaterProfile::ms_pcWaterProfileClass = &cWaterProfile::StaticCreateClass();
 
     const Fun_Runtime::cClass &cWaterProfile::RetClass() const
     {
         return *ms_pcWaterProfileClass;
     }
-}
 
-namespace PHYSICS
-{
     bool cWaterProfile::IsA(const Fun_Runtime::cClass &c) const
     {
         return ms_pcWaterProfileClass->IsA(c);
     }
-}
 
-namespace PHYSICS
-{
     static RWS::CClassFactory::CRegistrar cWaterProfileRegistrar(
         "cWaterProfile", cWaterProfile::MakeNew, 0x7C, false);
-}
 
-// CD2 0x82FE2670: runtime class inheritance registration.
-namespace PHYSICS
-{
+    // CD2 0x82FE2670: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cWaterProfilecNonGameBaseInheritRegistrar(
         PHYSICS::cWaterProfile::StaticCreateClass(), cNonGameBase::StaticCreateClass());
-}
 
-// CD2 0x82FE26D8: runtime class inheritance registration.
-namespace PHYSICS
-{
+    // CD2 0x82FE26D8: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cWaterProfilecDebugPageHandlerInheritRegistrar(
         PHYSICS::cWaterProfile::StaticCreateClass(), GDb::cDebugPageHandler::StaticCreateClass());
 }

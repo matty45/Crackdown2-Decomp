@@ -7,10 +7,7 @@ namespace Anim
     {
         return "cEquipmentDetonatorAnimationProfile";
     }
-}
 
-namespace Anim
-{
     static RWS::CClassFactory::CRegistrar cEquipmentDetonatorAnimationProfileRegistrar(
         "cEquipmentDetonatorAnimationProfile", cEquipmentDetonatorAnimationProfile::MakeNew, 0x40, false);
 }

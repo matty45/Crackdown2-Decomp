@@ -13,6 +13,8 @@ namespace Audio
         static const Fun_Runtime::cClass *ms_pcVOALineClass;
 
         cVOALine();
+        // Out of line (CD2 0x82835FE0): the deleting wrapper calls it.
+        virtual ~cVOALine();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &packet, bool);
 
         virtual const Fun_Runtime::cClass &RetClass() const;

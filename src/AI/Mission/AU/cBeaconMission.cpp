@@ -1,6 +1,7 @@
 #include "fun_runtime/inheritance_registrar.h"
 #include "AI/cBeaconMission.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
 
 namespace AI
 {
@@ -32,8 +33,6 @@ namespace AI
 static RWS::CClassFactory::CRegistrar cBeaconMissionRegistrar(
     "cBeaconMission", AI::cBeaconMission::MakeNew, 0x2300, false);
 
-#include "cd2/memory.h"
-
 namespace AI
 {
     Fun_Runtime::cClass &cBeaconMission::StaticCreateClass()
@@ -41,11 +40,8 @@ namespace AI
         static Fun_Runtime::cClass *cBeaconMissionClass = new Fun_Runtime::cClass(0x205C3, "cBeaconMission", 0x2300);
         return *cBeaconMissionClass;
     }
-}
 
-// CD2 0x82F88C20: runtime mission inheritance registration.
-namespace AI
-{
+    // CD2 0x82F88C20: runtime mission inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cBeaconMissioncMissionInheritRegistrar(
         AI::cBeaconMission::StaticCreateClass(), AI::cMission::StaticCreateClass());
 }

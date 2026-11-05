@@ -1,5 +1,6 @@
 #include "rws/classfactory.h"
 #include "VFX/cLightData.h"
+#include "cd2/memory.h"
 
 namespace VFX
 {
@@ -7,19 +8,15 @@ namespace VFX
     {
         return "cLightData";
     }
-}
 
-namespace VFX
-{
+    cLightData::~cLightData()
+    {
+    }
+
     static RWS::CClassFactory::CRegistrar cLightDataRegistrar(
         "cLightData", cLightData::MakeNew, 0x1a0, false);
-}
 
-#include "cd2/memory.h"
-
-// CD2 0x82800710: the class-factory constructor; the constructor stays out of line.
-namespace VFX
-{
+    // CD2 0x82800710: the class-factory constructor; the constructor stays out of line.
     RWS::CAttributeHandler *cLightData::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cLightData;

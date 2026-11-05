@@ -7,10 +7,7 @@ namespace GameManagement
     {
         return "cMultiPlayerTriggerZone";
     }
-}
 
-namespace GameManagement
-{
     static RWS::CClassFactory::CRegistrar cMultiPlayerTriggerZoneRegistrar(
         "cMultiPlayerTriggerZone", cMultiPlayerTriggerZone::MakeNew, 0x70, false);
 }

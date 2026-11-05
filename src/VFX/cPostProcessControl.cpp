@@ -9,16 +9,10 @@ namespace VFX
     {
         return "cPostProcessControl";
     }
-}
 
-namespace VFX
-{
     static RWS::CClassFactory::CRegistrar cPostProcessControlRegistrar(
         "cPostProcessControl", cPostProcessControl::MakeNew, 0x1c, false);
-}
 
-namespace VFX
-{
     cPostProcessShader *cPostProcessShader::ms_pInstance;
 
     bool cPostProcessShader::ReloadInstance(bool revert)
@@ -37,10 +31,7 @@ namespace VFX
     {
         return ReloadInstance;
     }
-}
 
-namespace VFX
-{
     cSimplePostProcessShader *cSimplePostProcessShader::ms_pInstance;
 
     bool cSimplePostProcessShader::ReloadInstance(bool revert)

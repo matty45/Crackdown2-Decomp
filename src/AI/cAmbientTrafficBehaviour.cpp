@@ -3,6 +3,8 @@
 #include "AI/NPCBehaviour.h"
 #include "AI/cAmbientTrafficBehaviour.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
+#include "AI/BehaviourClassID.h"
 
 namespace AI
 {
@@ -29,42 +31,24 @@ namespace AI
     {
         return new cAmbientTrafficBehaviour();
     }
-}
 
-namespace AI
-{
     static RWS::CClassFactory::CRegistrar cAmbientTrafficBehaviourRegistrar(
         "cAmbientTrafficBehaviour", cAmbientTrafficBehaviour::MakeNew, 0x140, false);
-}
 
-#include "cd2/memory.h"
-#include "AI/BehaviourClassID.h"
-
-namespace AI
-{
     Fun_Runtime::cClass &cAmbientTrafficBehaviour::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cAmbientTrafficBehaviourClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "cAmbientTrafficBehaviour", 0x140);
         return *cAmbientTrafficBehaviourClass;
     }
-}
 
-// CD2 0x82F99898: runtime class inheritance registration.
-namespace AI
-{
+    // CD2 0x82F99898: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cAmbientTrafficBehaviourNPCBehaviourInheritRegistrar(
         AI::cAmbientTrafficBehaviour::StaticCreateClass(), AI::NPCBehaviour::StaticCreateClass());
-}
 
-// CD2 0x82F99950: register the class descriptor and placement factory.
-namespace AI
-{
+    // CD2 0x82F99950: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cAmbientTrafficBehaviourSpawningRegistrar(
         cAmbientTrafficBehaviour::StaticCreateClass(), cAmbientTrafficBehaviour::SpawnFromPrototype);
-}
 
-namespace AI
-{
     RWS::CAttributeHandler *cAmbientTrafficBehaviour::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
     {
         if (memory)

@@ -7,10 +7,7 @@ namespace GameManagement
     {
         return "cCheckpointArena";
     }
-}
 
-namespace GameManagement
-{
     static RWS::CClassFactory::CRegistrar cCheckpointArenaRegistrar(
         "cCheckpointArena", cCheckpointArena::MakeNew, 0x120, false);
 }

@@ -1,7 +1,3 @@
-#include "gom/proto_registrar.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "Equip/cCWWeapon.h"
-#include "rws/classfactory.h"
 // src/Equip/Weapon/cCWFirearm.cpp
 //
 // Class: cCWFirearm (namespace: Equip). Set up automatically: no function is matched yet. The address range and the
@@ -15,8 +11,13 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Equip/Weapon/cCWFirearm.cpp
 
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "Equip/cCWWeapon.h"
+#include "rws/classfactory.h"
 #include "Equip/cCWFirearm.h"
 #include "cd2/memory.h"
+#include "fun_runtime/script_type_registrar.h"
 
 namespace Equip
 {
@@ -27,51 +28,30 @@ namespace Equip
         static Fun_Runtime::cClass *cCWFirearmClass = new Fun_Runtime::cClass(0x3E81, "cCWFirearm", 0xAB0);
         return *cCWFirearmClass;
     }
-}
 
-namespace Equip
-{
     static RWS::CClassFactory::CRegistrar cCWFirearmRegistrar(
         "cCWFirearm", cCWFirearm::MakeNew, 0xAB0, false);
-}
 
-// CD2 0x82FCE988: runtime class inheritance registration.
-namespace Equip
-{
+    // CD2 0x82FCE988: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cCWFirearmcCWWeaponInheritRegistrar(
         Equip::cCWFirearm::StaticCreateClass(), Equip::cCWWeapon::StaticCreateClass());
-}
 
-// CD2 0x82FCEA40: register the class descriptor and placement factory.
-namespace Equip
-{
+    // CD2 0x82FCEA40: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cCWFirearmSpawningRegistrar(
         cCWFirearm::StaticCreateClass(), cCWFirearm::SpawnFromPrototype);
-}
 
-namespace Equip
-{
     const char *cCWFirearm::RetClassName() const
     {
         return "cCWFirearm";
     }
-}
 
-namespace Equip
-{
     RWS::CAttributeHandler *cCWFirearm::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
     {
         if (memory)
             return new (memory) cCWFirearm;
         return 0;
     }
-}
 
-#include "Equip/cCWFirearm.h"
-#include "fun_runtime/script_type_registrar.h"
-
-namespace Equip
-{
     // CD2 script-type registration; constructor/table evidence identifies the child and parent.
     static Fun_Runtime::cScriptTypeRegistrar<cCWFirearm> cCWFirearmScriptRegistrar(
         "cCWFirearm", "cCWWeapon");

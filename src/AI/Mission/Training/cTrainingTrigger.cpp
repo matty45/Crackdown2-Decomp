@@ -1,5 +1,6 @@
 #include "AI/cTrainingTrigger.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
 
 namespace AI
 {
@@ -12,19 +13,11 @@ namespace AI
     cTrainingTrigger::~cTrainingTrigger()
     {
     }
-}
 
-namespace AI
-{
     static RWS::CClassFactory::CRegistrar cTrainingTriggerRegistrar(
         "cTrainingTrigger", cTrainingTrigger::MakeNew, 0x110, false);
-}
 
-#include "cd2/memory.h"
-
-// CD2 0x82485588: the class-factory constructor; the constructor stays out of line.
-namespace AI
-{
+    // CD2 0x82485588: the class-factory constructor; the constructor stays out of line.
     RWS::CAttributeHandler *cTrainingTrigger::MakeNew(const RWS::CAttributePacket &packet, bool)
     {
         return new cTrainingTrigger(packet);

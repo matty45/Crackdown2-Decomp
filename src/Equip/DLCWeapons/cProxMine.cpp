@@ -1,8 +1,3 @@
-#include "fun_runtime/retval.h"
-#include "Equip/cCWSatchelCharge.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "gom/proto_registrar.h"
-#include "rws/classfactory.h"
 // src/Equip/DLCWeapons/cProxMine.cpp
 //
 // Class: cProxMine (namespace: Equip). Set up automatically: no function is matched yet. The address range and the
@@ -16,6 +11,11 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Equip/DLCWeapons/cProxMine.cpp
 
+#include "fun_runtime/retval.h"
+#include "Equip/cCWSatchelCharge.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/proto_registrar.h"
+#include "rws/classfactory.h"
 #include "Equip/cProxMine.h"
 #include "cd2/memory.h"
 
@@ -28,38 +28,23 @@ namespace Equip
         static Fun_Runtime::cClass *cProxMineClass = new Fun_Runtime::cClass(0x13265, "cProxMine", 0xB10);
         return *cProxMineClass;
     }
-}
 
-namespace Equip
-{
     static RWS::CClassFactory::CRegistrar cProxMineRegistrar(
         "cProxMine", cProxMine::MakeNew, 0xB10, false);
-}
 
-// CD2 0x82FD0470: register the class descriptor and placement factory.
-namespace Equip
-{
+    // CD2 0x82FD0470: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cProxMineSpawningRegistrar(
         cProxMine::StaticCreateClass(), cProxMine::SpawnFromPrototype);
-}
 
-// CD2 0x82FD03B8: runtime class inheritance registration.
-namespace Equip
-{
+    // CD2 0x82FD03B8: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cProxMinecCWSatchelChargeInheritRegistrar(
         Equip::cProxMine::StaticCreateClass(), Equip::cCWSatchelCharge::StaticCreateClass());
-}
 
-namespace Equip
-{
     const char *cProxMine::RetClassName() const
     {
         return "cProxMine";
     }
-}
 
-namespace Equip
-{
     const Fun_Runtime::cClass &cProxMine::RetClass() const
     {
         return *ms_pcProxMineClass;
@@ -74,20 +59,14 @@ namespace Equip
     cProxMine::~cProxMine()
     {
     }
-}
 
-namespace Equip
-{
     RWS::CAttributeHandler *cProxMine::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
     {
         if (memory)
             return new (memory) cProxMine;
         return 0;
     }
-}
 
-namespace Equip
-{
     Fun_Runtime::RetVal cProxMine::cProxMinePrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;

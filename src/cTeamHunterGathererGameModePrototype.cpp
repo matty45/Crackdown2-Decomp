@@ -7,10 +7,7 @@ namespace unknown
     {
         return "cTeamHunterGathererGameModePrototype";
     }
-}
 
-namespace unknown
-{
     static RWS::CClassFactory::CRegistrar cTeamHunterGathererGameModePrototypeRegistrar(
         "cTeamHunterGathererGameModePrototype", cTeamHunterGathererGameModePrototype::MakeNew, 0x198, false);
 }

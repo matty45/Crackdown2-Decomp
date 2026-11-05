@@ -17,10 +17,7 @@ namespace GangManager
     {
         return "cVehicleDataPrototype";
     }
-}
 
-namespace GangManager
-{
     static RWS::CClassFactory::CRegistrar cVehicleDataPrototypeRegistrar(
         "cVehicleDataPrototype", cVehicleDataPrototype::MakeNew, 0x58, false);
 }

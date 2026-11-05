@@ -1,8 +1,3 @@
-#include "gom/proto_registrar.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "VEHICLE_CONTROL/cHelicopterController.h"
-#include "gom/non_game_base.h"
-#include "cd2/memory.h"
 // src/Vehicle/cVehicleController.cpp
 //
 // Class: cVehicleController (namespace: Vehicle). Set up automatically: no function is matched yet. The address range
@@ -17,6 +12,13 @@
 //     py -I tools/cd2.py tasks src/Vehicle/cVehicleController.cpp
 
 // CD2 0x83005288: runtime class inheritance registration.
+
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "VEHICLE_CONTROL/cHelicopterController.h"
+#include "gom/non_game_base.h"
+#include "cd2/memory.h"
+
 namespace VEHICLE_CONTROL
 {
     Fun_Runtime::cClass &cVehicleController::StaticCreateClass()
@@ -28,25 +30,16 @@ namespace VEHICLE_CONTROL
 
     static Fun_Runtime::cInheritanceRegistrar cVehicleControllercNonGameBaseInheritRegistrar(
         VEHICLE_CONTROL::cVehicleController::StaticCreateClass(), cNonGameBase::StaticCreateClass());
-}
 
-// CD2 0x83005340: register the class descriptor and placement factory.
-namespace VEHICLE_CONTROL
-{
+    // CD2 0x83005340: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cVehicleControllerSpawningRegistrar(
         cVehicleController::StaticCreateClass(), cVehicleController::SpawnFromPrototype);
-}
 
-namespace VEHICLE_CONTROL
-{
     const char *cVehicleController::RetClassName() const
     {
         return "cVehicleController";
     }
-}
 
-namespace VEHICLE_CONTROL
-{
     RWS::CAttributeHandler *cVehicleController::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
     {
         if (memory)

@@ -7,10 +7,7 @@ namespace unknown
     {
         return "cLaunchPadLocation";
     }
-}
 
-namespace unknown
-{
     static RWS::CClassFactory::CRegistrar cLaunchPadLocationRegistrar(
         "cLaunchPadLocation", cLaunchPadLocation::MakeNew, 0xA0, false);
 }

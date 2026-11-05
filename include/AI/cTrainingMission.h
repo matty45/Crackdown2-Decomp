@@ -13,6 +13,8 @@ namespace AI
         static const Fun_Runtime::cClass *ms_pcTrainingMissionClass;
 
         cTrainingMission();
+        // The body (0x82206500) lies in the order-list region; its deleting wrapper (0x8247F3F8) calls it.
+        virtual ~cTrainingMission();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &packet, bool);
 
         virtual const Fun_Runtime::cClass &RetClass() const;

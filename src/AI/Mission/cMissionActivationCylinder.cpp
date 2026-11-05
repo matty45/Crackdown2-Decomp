@@ -12,10 +12,7 @@ namespace AI
     cMissionActivationCylinder::~cMissionActivationCylinder()
     {
     }
-}
 
-namespace AI
-{
     static RWS::CClassFactory::CRegistrar cMissionActivationCylinderRegistrar(
         "cMissionActivationCylinder", cMissionActivationCylinder::MakeNew, 0x110, false);
 }

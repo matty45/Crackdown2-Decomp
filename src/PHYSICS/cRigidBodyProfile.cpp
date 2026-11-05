@@ -8,16 +8,16 @@ namespace PHYSICS
     {
         return "cRigidBodyProfile";
     }
-}
 
-namespace PHYSICS
-{
+    cRigidBodyProfile::~cRigidBodyProfile()
+    {
+        UnLinkMsg(m_Msg_Return_RB_Self);
+        UnRegisterMsg(m_Msg_Return_RB_Self);
+    }
+
     static RWS::CClassFactory::CRegistrar cRigidBodyProfileRegistrar(
         "cRigidBodyProfile", cRigidBodyProfile::MakeNew, 0x300, false);
-}
 
-namespace PHYSICS
-{
     Fun_Runtime::RetVal cRigidBodyProfile::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;

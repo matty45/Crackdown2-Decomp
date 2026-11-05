@@ -1,6 +1,3 @@
-#include "fun_runtime/inheritance_registrar.h"
-#include "gom/non_game_base.h"
-#include "rws/classfactory.h"
 // src/RPG/cSkillProfile.cpp
 //
 // Class: cSkillProfile (namespace: RPG). Set up automatically: no function is matched yet. The address range and the
@@ -14,7 +11,11 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/RPG/cSkillProfile.cpp
 
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/non_game_base.h"
+#include "rws/classfactory.h"
 #include "RPG/cSkillProfile.h"
+#include "cd2/memory.h"
 
 namespace RPG
 {
@@ -22,53 +23,33 @@ namespace RPG
     {
         return "cSkillProfile";
     }
-}
 
-#include "cd2/memory.h"
-
-namespace RPG
-{
     Fun_Runtime::cClass &cSkillProfile::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cSkillProfileClass = new Fun_Runtime::cClass(0x609, "cSkillProfile", 0x5A8);
         return *cSkillProfileClass;
     }
-}
 
-namespace RPG
-{
     const Fun_Runtime::cClass *cSkillProfile::ms_pcSkillProfileClass = &cSkillProfile::StaticCreateClass();
 
     const Fun_Runtime::cClass &cSkillProfile::RetClass() const
     {
         return *ms_pcSkillProfileClass;
     }
-}
 
-namespace RPG
-{
     bool cSkillProfile::IsA(const Fun_Runtime::cClass &c) const
     {
         return ms_pcSkillProfileClass->IsA(c);
     }
-}
 
-namespace RPG
-{
     static RWS::CClassFactory::CRegistrar cSkillProfileRegistrar(
         "cSkillProfile", cSkillProfile::MakeNew, 0x5A8, false);
-}
 
-// CD2 0x82FFD480: runtime class inheritance registration.
-namespace RPG
-{
+    // CD2 0x82FFD480: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cSkillProfilecNonGameBaseInheritRegistrar(
         RPG::cSkillProfile::StaticCreateClass(), cNonGameBase::StaticCreateClass());
-}
 
-// CD2 0x827534A0: the class-factory constructor; the constructor stays out of line.
-namespace RPG
-{
+    // CD2 0x827534A0: the class-factory constructor; the constructor stays out of line.
     RWS::CAttributeHandler *cSkillProfile::MakeNew(const RWS::CAttributePacket &packet, bool)
     {
         return new cSkillProfile(packet);

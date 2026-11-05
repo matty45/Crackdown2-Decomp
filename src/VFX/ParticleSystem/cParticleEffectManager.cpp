@@ -1,4 +1,3 @@
-#include "rws/classfactory.h"
 // src/VFX/ParticleSystem/cParticleEffectManager.cpp
 //
 // Class: cParticleEffectManager (namespace: VFX). Set up automatically: no function is matched yet. The address range
@@ -12,7 +11,9 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/VFX/ParticleSystem/cParticleEffectManager.cpp
 
+#include "rws/classfactory.h"
 #include "VFX/cParticleEffectManager.h"
+#include "cd2/memory.h"
 
 namespace VFX
 {
@@ -20,19 +21,11 @@ namespace VFX
     {
         return "cParticleEffectManager";
     }
-}
 
-namespace VFX
-{
     static RWS::CClassFactory::CRegistrar cParticleEffectManagerRegistrar(
         "cParticleEffectManager", cParticleEffectManager::MakeNew, 0x370, false);
-}
 
-#include "cd2/memory.h"
-
-// CD2 0x827DEDB0: the class-factory constructor; the constructor stays out of line.
-namespace VFX
-{
+    // CD2 0x827DEDB0: the class-factory constructor; the constructor stays out of line.
     RWS::CAttributeHandler *cParticleEffectManager::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cParticleEffectManager;

@@ -11,10 +11,12 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/AI/Mission/cPlayerRejectionZone.cpp
 
+
+// CD2 0x8248B970.
+
 #include "rws/classfactory.h"
 #include "AI/cPlayerRejectionZone.h"
 
-// CD2 0x8248B970.
 namespace AI
 {
     const char *cPlayerRejectionZone::RetClassName() const
@@ -26,11 +28,8 @@ namespace AI
     cPlayerRejectionZone::~cPlayerRejectionZone()
     {
     }
-}
 
-// CD2 0x82F8FD58 (initializer) and 0x8303B2F8 (at-exit destructor).
-namespace AI
-{
+    // CD2 0x82F8FD58 (initializer) and 0x8303B2F8 (at-exit destructor).
     static RWS::CClassFactory::CRegistrar cPlayerRejectionZoneRegistrar(
         "cPlayerRejectionZone", cPlayerRejectionZone::MakeNew, 0x100, false);
 }

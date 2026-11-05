@@ -9,10 +9,12 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/cAudioLogContainer.cpp
 
+
+// CD2 0x82FF1518 (initializer) and 0x83040CA8 (at-exit destructor).
+
 #include "rws/classfactory.h"
 #include "unknown/cAudioLogContainer.h"
 
-// CD2 0x82FF1518 (initializer) and 0x83040CA8 (at-exit destructor).
 namespace unknown
 {
     static RWS::CClassFactory::CRegistrar cAudioLogContainerRegistrar(

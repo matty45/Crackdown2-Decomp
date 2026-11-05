@@ -1,5 +1,3 @@
-#include "gom/proto_registrar.h"
-#include "rws/classfactory.h"
 // src/Vehicle/Agency/cAgencySports.cpp
 //
 // Class: cAgencySports (namespace: Vehicle). Set up automatically: no function is matched yet. The address range and
@@ -13,8 +11,13 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Vehicle/Agency/cAgencySports.cpp
 
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "rws/classfactory.h"
 #include "Vehicle/cAgencySports.h"
 #include "cd2/memory.h"
+#include <new>
+#include "Vehicle/cAgencySportsPrototype.h"
 
 namespace Vehicle
 {
@@ -25,41 +28,35 @@ namespace Vehicle
         static Fun_Runtime::cClass *cAgencySportsClass = new Fun_Runtime::cClass(0x12061, "cAgencySports", 0x30C0);
         return *cAgencySportsClass;
     }
-}
 
-namespace Vehicle
-{
+    // CD2 0x82FEB8C8: runtime class inheritance registration.
+    static Fun_Runtime::cInheritanceRegistrar cAgencySportscAgencyCarInheritRegistrar(
+        cAgencySports::StaticCreateClass(), cAgencyCar::StaticCreateClass());
+
     static RWS::CClassFactory::CRegistrar cAgencySportsRegistrar(
         "cAgencySports", cAgencySports::MakeNew, 0x30C0, false);
-}
 
-// CD2 0x82FEB980: register the class descriptor and placement factory.
-namespace Vehicle
-{
+    // CD2 0x82FEB980: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cAgencySportsSpawningRegistrar(
         cAgencySports::StaticCreateClass(), cAgencySports::SpawnFromPrototype);
-}
 
-namespace Vehicle
-{
     const char *cAgencySports::RetClassName() const
     {
         return "cAgencySports";
     }
-}
 
-namespace Vehicle
-{
+    RWS::CAttributeHandler *cAgencySports::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cAgencySports;
+        return 0;
+    }
+
     const Fun_Runtime::cClass &cAgencySports::RetClass() const
     {
         return *ms_pcAgencySportsClass;
     }
-}
 
-#include "Vehicle/cAgencySportsPrototype.h"
-
-namespace Vehicle
-{
     Fun_Runtime::RetVal cAgencySportsPrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;

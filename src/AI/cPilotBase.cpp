@@ -3,6 +3,8 @@
 #include "AI/NPCBehaviour.h"
 #include "AI/cPilotBase.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
+#include "AI/BehaviourClassID.h"
 
 namespace AI
 {
@@ -29,42 +31,24 @@ namespace AI
     {
         return new cPilotBase();
     }
-}
 
-namespace AI
-{
     static RWS::CClassFactory::CRegistrar cPilotBaseRegistrar(
         "cPilotBase", cPilotBase::MakeNew, 0x140, false);
-}
 
-#include "cd2/memory.h"
-#include "AI/BehaviourClassID.h"
-
-namespace AI
-{
     Fun_Runtime::cClass &cPilotBase::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cPilotBaseClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "cPilotBase", 0x140);
         return *cPilotBaseClass;
     }
-}
 
-// CD2 0x82F9BD80: runtime class inheritance registration.
-namespace AI
-{
+    // CD2 0x82F9BD80: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cPilotBaseNPCBehaviourInheritRegistrar(
         AI::cPilotBase::StaticCreateClass(), AI::NPCBehaviour::StaticCreateClass());
-}
 
-// CD2 0x82F9BE38: register the class descriptor and placement factory.
-namespace AI
-{
+    // CD2 0x82F9BE38: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cPilotBaseSpawningRegistrar(
         cPilotBase::StaticCreateClass(), cPilotBase::SpawnFromPrototype);
-}
 
-namespace AI
-{
     RWS::CAttributeHandler *cPilotBase::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
     {
         if (memory)

@@ -1,5 +1,6 @@
 #include "Anim/cNPCBargeAnimationProfile.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
 
 namespace Anim
 {
@@ -13,19 +14,11 @@ namespace Anim
     {
         return "cNPCBargeAnimationProfile";
     }
-}
 
-namespace Anim
-{
     static RWS::CClassFactory::CRegistrar cNPCBargeAnimationProfileRegistrar(
         "cNPCBargeAnimationProfile", cNPCBargeAnimationProfile::MakeNew, 0x50, false);
-}
 
-#include "cd2/memory.h"
-
-// CD2 0x824EAF90: the class factory.
-namespace Anim
-{
+    // CD2 0x824EAF90: the class factory.
     RWS::CAttributeHandler *cNPCBargeAnimationProfile::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cNPCBargeAnimationProfile;

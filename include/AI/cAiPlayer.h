@@ -65,6 +65,8 @@ namespace AI
     public:
         // CD2 0x823E7950 placement-constructs this class through 0x823E8650.
         cAiPlayer();
+        // The body (0x822FFE70) lies in the order-list region; its deleting wrapper (0x823E87F8) calls it.
+        virtual ~cAiPlayer();
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *memory);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         class cAiPlayerPrototype : public GOM::cObjectPrototype

@@ -1,5 +1,6 @@
 #include "Anim/cPropPickUpFullAnimationProfile.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
 
 namespace Anim
 {
@@ -13,19 +14,11 @@ namespace Anim
     {
         return "cPropPickUpFullAnimationProfile";
     }
-}
 
-namespace Anim
-{
     static RWS::CClassFactory::CRegistrar cPropPickUpFullAnimationProfileRegistrar(
         "cPropPickUpFullAnimationProfile", cPropPickUpFullAnimationProfile::MakeNew, 0x40, false);
-}
 
-#include "cd2/memory.h"
-
-// CD2 0x8250CF18: the class factory.
-namespace Anim
-{
+    // CD2 0x8250CF18: the class factory.
     RWS::CAttributeHandler *cPropPickUpFullAnimationProfile::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cPropPickUpFullAnimationProfile;

@@ -1,5 +1,6 @@
 #include "Anim/cGoliathAnimationProfile.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
 
 namespace Anim
 {
@@ -13,19 +14,11 @@ namespace Anim
     {
         return "cGoliathAnimationProfile";
     }
-}
 
-namespace Anim
-{
     static RWS::CClassFactory::CRegistrar cGoliathAnimationProfileRegistrar(
         "cGoliathAnimationProfile", cGoliathAnimationProfile::MakeNew, 0x4C, false);
-}
 
-#include "cd2/memory.h"
-
-// CD2 0x824ECF80: the class factory.
-namespace Anim
-{
+    // CD2 0x824ECF80: the class factory.
     RWS::CAttributeHandler *cGoliathAnimationProfile::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cGoliathAnimationProfile;

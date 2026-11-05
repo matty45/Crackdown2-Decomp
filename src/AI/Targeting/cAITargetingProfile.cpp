@@ -5,6 +5,7 @@
 //   0x82F841B8 / 0x8303AD80 dynamic initializer / at-exit destructor of cAITargetingProfileRegistrar
 // The constructor zeroes m_TargetData with integer stores after building m_EventHandler: a memset in the body (value
 // initialization in the initializer list zeroes it first; float assignments use stfs).
+
 #include <string.h>
 #include "AI/cAITargetingProfile.h"
 #include "rws/classfactory.h"

@@ -1,8 +1,3 @@
-#include "fun_runtime/retval.h"
-#include "gom/proto_registrar.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "Prop/cProp.h"
-#include "rws/classfactory.h"
 // src/AI/Mission/cMissionCriticalProp.cpp
 //
 // Class: cMissionCriticalProp (namespace: AI). Set up automatically: no function is matched yet. The address range and
@@ -16,7 +11,13 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/AI/Mission/cMissionCriticalProp.cpp
 
+#include "fun_runtime/retval.h"
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "Prop/cProp.h"
+#include "rws/classfactory.h"
 #include "AI/cMissionCriticalProp.h"
+#include "cd2/memory.h"
 
 namespace AI
 {
@@ -29,46 +30,26 @@ namespace AI
     cMissionCriticalProp::~cMissionCriticalProp()
     {
     }
-}
 
-#include "cd2/memory.h"
-
-namespace AI
-{
     Fun_Runtime::cClass &cMissionCriticalProp::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cMissionCriticalPropClass = new Fun_Runtime::cClass(0x409, "cMissionCriticalProp", 0xE40);
         return *cMissionCriticalPropClass;
     }
-}
 
-namespace AI
-{
     const Fun_Runtime::cClass *cMissionCriticalProp::ms_pcMissionCriticalPropClass = &cMissionCriticalProp::StaticCreateClass();
-}
 
-namespace AI
-{
     static RWS::CClassFactory::CRegistrar cMissionCriticalPropRegistrar(
         "cMissionCriticalProp", cMissionCriticalProp::MakeNew, 0xE40, false);
-}
 
-// CD2 0x82F872E8: runtime class inheritance registration.
-namespace AI
-{
+    // CD2 0x82F872E8: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cMissionCriticalPropcPropInheritRegistrar(
         AI::cMissionCriticalProp::StaticCreateClass(), Prop::cProp::StaticCreateClass());
-}
 
-// CD2 0x82F873A0: register the class descriptor and placement factory.
-namespace AI
-{
+    // CD2 0x82F873A0: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cMissionCriticalPropSpawningRegistrar(
         cMissionCriticalProp::StaticCreateClass(), cMissionCriticalProp::SpawnFromPrototype);
-}
 
-namespace AI
-{
     Fun_Runtime::RetVal cMissionCriticalProp::cMissionCriticalPropPrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;

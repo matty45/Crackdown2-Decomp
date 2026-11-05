@@ -22,6 +22,10 @@ namespace PHYSICS
         virtual void SetPingedFieldStatesForNode(unsigned char);
         virtual SNetworkHeader::etNetworkDataType GetReplicatedObjectType() const;
         virtual unsigned int GetMaxReplicatedFields() const;
+        // Primary slots 304..313: cNetDynamicBody's own virtuals. CD2's cNetDynamicBody table (0x82131E80, stored by
+        // the constructor 0x82687ED0) has 314 slots. Names are not recovered yet; vfN is the slot index.
+        virtual void vf304(); virtual void vf305(); virtual void vf306(); virtual void vf307(); virtual void vf308(); virtual void vf309();
+        virtual void vf310(); virtual void vf311(); virtual void vf312(); virtual void vf313();
     private:
         unsigned char m_unknown740[0x7A0 - 0x740];
         CD2_LAYOUT_CHECKS(cNetDynamicBody, CD2_SIZE(cNetDynamicBody, 0x7A0))

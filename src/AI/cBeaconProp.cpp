@@ -1,8 +1,3 @@
-#include "fun_runtime/retval.h"
-#include "gom/proto_registrar.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "AI/cMissionCriticalProp.h"
-#include "rws/classfactory.h"
 // src/AI/cBeaconProp.cpp
 //
 // Class: cBeaconProp (namespace: AI). Set up automatically: no function is matched yet. The address range and the
@@ -16,7 +11,13 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/AI/cBeaconProp.cpp
 
+#include "fun_runtime/retval.h"
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/cMissionCriticalProp.h"
+#include "rws/classfactory.h"
 #include "AI/cBeaconProp.h"
+#include "cd2/memory.h"
 
 namespace AI
 {
@@ -24,59 +25,36 @@ namespace AI
     {
         return "cBeaconProp";
     }
-}
 
-#include "cd2/memory.h"
-
-namespace AI
-{
     Fun_Runtime::cClass &cBeaconProp::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cBeaconPropClass = new Fun_Runtime::cClass(0x4172, "cBeaconProp", 0xE50);
         return *cBeaconPropClass;
     }
-}
 
-namespace AI
-{
     const Fun_Runtime::cClass *cBeaconProp::ms_pcBeaconPropClass = &cBeaconProp::StaticCreateClass();
 
     const Fun_Runtime::cClass &cBeaconProp::RetClass() const
     {
         return *ms_pcBeaconPropClass;
     }
-}
 
-namespace AI
-{
     bool cBeaconProp::IsA(const Fun_Runtime::cClass &c) const
     {
         return ms_pcBeaconPropClass->IsA(c);
     }
-}
 
-namespace AI
-{
     static RWS::CClassFactory::CRegistrar cBeaconPropRegistrar(
         "cBeaconProp", cBeaconProp::MakeNew, 0xE50, false);
-}
 
-// CD2 0x82F87BF0: runtime class inheritance registration.
-namespace AI
-{
+    // CD2 0x82F87BF0: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cBeaconPropcMissionCriticalPropInheritRegistrar(
         AI::cBeaconProp::StaticCreateClass(), AI::cMissionCriticalProp::StaticCreateClass());
-}
 
-// CD2 0x82F87CA8: register the class descriptor and placement factory.
-namespace AI
-{
+    // CD2 0x82F87CA8: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cBeaconPropSpawningRegistrar(
         cBeaconProp::StaticCreateClass(), cBeaconProp::SpawnFromPrototype);
-}
 
-namespace AI
-{
     Fun_Runtime::RetVal cBeaconProp::cBeaconPropPrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;

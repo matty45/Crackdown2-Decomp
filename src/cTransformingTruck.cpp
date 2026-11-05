@@ -1,7 +1,3 @@
-#include "gom/proto_registrar.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "Vehicle/cTruck.h"
-#include "rws/classfactory.h"
 // src/cTransformingTruck.cpp
 //
 // Class: cTransformingTruck (namespace: unknown). Set up automatically: no function is matched yet. The address range
@@ -13,8 +9,13 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/cTransformingTruck.cpp
 
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "Vehicle/cTruck.h"
+#include "rws/classfactory.h"
 #include "unknown/cTransformingTruck.h"
 #include "cd2/memory.h"
+#include "unknown/cTransformingTruckPrototype.h"
 
 namespace unknown
 {
@@ -25,40 +26,23 @@ namespace unknown
         static Fun_Runtime::cClass *cTransformingTruckClass = new Fun_Runtime::cClass(0x15, "cTransformingTruck", 0x69E0);
         return *cTransformingTruckClass;
     }
-}
 
-namespace unknown
-{
     static RWS::CClassFactory::CRegistrar cTransformingTruckRegistrar(
         "cTransformingTruck", cTransformingTruck::MakeNew, 0x69E0, false);
-}
 
-// CD2 0x82FE75D8: runtime class inheritance registration.
-namespace unknown
-{
+    // CD2 0x82FE75D8: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cTransformingTruckcTruckInheritRegistrar(
         unknown::cTransformingTruck::StaticCreateClass(), Vehicle::cTruck::StaticCreateClass());
-}
 
-// CD2 0x82FE76F8: register the class descriptor and placement factory.
-namespace unknown
-{
+    // CD2 0x82FE76F8: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cTransformingTruckSpawningRegistrar(
         cTransformingTruck::StaticCreateClass(), cTransformingTruck::SpawnFromPrototype);
-}
 
-namespace unknown
-{
     const char *cTransformingTruck::RetClassName() const
     {
         return "cTransformingTruck";
     }
-}
 
-#include "unknown/cTransformingTruckPrototype.h"
-
-namespace unknown
-{
     Fun_Runtime::RetVal cTransformingTruckPrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;

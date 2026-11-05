@@ -1,5 +1,3 @@
-#include "gom/proto_registrar.h"
-#include "rws/classfactory.h"
 // src/Prop/cVehicleDamageProp.cpp
 //
 // Class: cVehicleDamageProp (namespace: Prop). Set up automatically: no function is matched yet. The address range and
@@ -13,6 +11,8 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Prop/cVehicleDamageProp.cpp
 
+#include "gom/proto_registrar.h"
+#include "rws/classfactory.h"
 #include "Prop/cVehicleDamageProp.h"
 #include <new>
 
@@ -27,27 +27,18 @@ namespace Prop
     {
         return "cVehicleDamageProp";
     }
-}
 
-namespace Prop
-{
     static RWS::CClassFactory::CRegistrar cVehicleDamagePropRegistrar(
         "cVehicleDamageProp", cVehicleDamageProp::MakeNew, 0xed0, false);
-}
 
-namespace Prop
-{
     RWS::CAttributeHandler *cVehicleDamageProp::SpawnFromPrototype(GOM::cObjectPrototype *prototype, void *memory)
     {
         if (memory)
             return new (memory) cVehicleDamageProp(prototype);
         return 0;
     }
-}
 
-// CD2 0x82FF5EE0: register the class descriptor and placement factory.
-namespace Prop
-{
+    // CD2 0x82FF5EE0: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cVehicleDamagePropSpawningRegistrar(
         cVehicleDamageProp::StaticCreateClass(), cVehicleDamageProp::SpawnFromPrototype);
 }

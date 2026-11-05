@@ -1,7 +1,3 @@
-#include "gom/proto_registrar.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "AI/cChaseBehaviour.h"
-#include "rws/classfactory.h"
 // src/AI/Behaviour/NPC/Freak/FreakBase.cpp
 //
 // Class: FreakBase (namespace: AI). Set up automatically: no function is matched yet. The address range and the
@@ -15,7 +11,14 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/AI/Behaviour/NPC/Freak/FreakBase.cpp
 
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "AI/cChaseBehaviour.h"
+#include "rws/classfactory.h"
 #include "AI/FreakBase.h"
+#include "cd2/memory.h"
+#include "AI/BehaviourClassID.h"
+#include <new>
 
 namespace AI
 {
@@ -23,66 +26,40 @@ namespace AI
     {
         return "FreakBase";
     }
-}
 
-#include "cd2/memory.h"
-#include "AI/BehaviourClassID.h"
-
-namespace AI
-{
     Fun_Runtime::cClass &FreakBase::StaticCreateClass()
     {
         static Fun_Runtime::cClass *FreakBaseClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "FreakBase", 0x120);
         return *FreakBaseClass;
     }
-}
 
-namespace AI
-{
     const Fun_Runtime::cClass *FreakBase::ms_pFreakBaseClass = &FreakBase::StaticCreateClass();
 
     const Fun_Runtime::cClass &FreakBase::RetClass() const
     {
         return *ms_pFreakBaseClass;
     }
-}
 
-namespace AI
-{
     bool FreakBase::IsA(const Fun_Runtime::cClass &c) const
     {
         return ms_pFreakBaseClass->IsA(c);
     }
-}
 
-#include <new>
-
-namespace AI
-{
     RWS::CAttributeHandler *FreakBase::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
     {
         if (memory)
             return new (memory) FreakBase;
         return 0;
     }
-}
 
-namespace AI
-{
     static RWS::CClassFactory::CRegistrar FreakBaseRegistrar(
         "FreakBase", FreakBase::MakeNew, 0x120, false);
-}
 
-// CD2 0x82F93668: runtime class inheritance registration.
-namespace AI
-{
+    // CD2 0x82F93668: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar FreakBaseNPCBehaviourSMInheritRegistrar(
         AI::FreakBase::StaticCreateClass(), AI::NPCBehaviourSM::StaticCreateClass());
-}
 
-// CD2 0x82F93720: register the class descriptor and placement factory.
-namespace AI
-{
+    // CD2 0x82F93720: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar FreakBaseSpawningRegistrar(
         FreakBase::StaticCreateClass(), FreakBase::SpawnFromPrototype);
 }

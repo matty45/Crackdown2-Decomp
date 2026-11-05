@@ -3,6 +3,8 @@
 #include "AI/NPCArmedBehaviour.h"
 #include "AI/CellRocket.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
+#include "AI/BehaviourClassID.h"
 
 namespace AI
 {
@@ -29,36 +31,21 @@ namespace AI
     {
         return new CellRocket();
     }
-}
 
-namespace AI
-{
     static RWS::CClassFactory::CRegistrar CellRocketRegistrar(
         "CellRocket", CellRocket::MakeNew, 0x110, false);
-}
 
-#include "cd2/memory.h"
-#include "AI/BehaviourClassID.h"
-
-namespace AI
-{
     Fun_Runtime::cClass &CellRocket::StaticCreateClass()
     {
         static Fun_Runtime::cClass *CellRocketClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "CellRocket", 0x110);
         return *CellRocketClass;
     }
-}
 
-// CD2 0x82F96340: runtime class inheritance registration.
-namespace AI
-{
+    // CD2 0x82F96340: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar CellRocketNPCArmedBehaviourInheritRegistrar(
         AI::CellRocket::StaticCreateClass(), AI::NPCArmedBehaviour::StaticCreateClass());
-}
 
-// CD2 0x82F963F8: register the class descriptor and placement factory.
-namespace AI
-{
+    // CD2 0x82F963F8: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar CellRocketSpawningRegistrar(
         CellRocket::StaticCreateClass(), CellRocket::SpawnFromPrototype);
 }

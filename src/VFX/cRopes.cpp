@@ -1,5 +1,3 @@
-#include "fun_runtime/inheritance_registrar.h"
-#include "gom/non_game_base.h"
 // Matching update (2026-10-28): ShowRopeSegments remains WIP, 29/34 words with
 // the standard verifier. The experimental callee-model extension was discarded.
 // Matching update (2026-10-28): the constructor is strict EXACT in plain and
@@ -10,11 +8,17 @@
 // Not done: Render (443 instructions, D3D/VMX128 internals), the constructor (CD2 has one extra dead addi),
 // ShowRopeSegments (stack frame 0x70 versus our 0x60) and the RetClass/IsA thunks at -0x4C.
 // ForceRangeInsert and ReloadShader are stand-ins that only reproduce code CD2 emits in this file.
-#include "VFX/cRopes.h"
-#include "rw/rwmem.h"
 
 // The reserve instantiation belongs to another translation unit (CD2 0x826104B8).
 // Keep its external definition, including its size argument, visible to LTCG.
+
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/non_game_base.h"
+#include "VFX/cRopes.h"
+#include "rw/rwmem.h"
+#include <stdio.h>
+#include "GDb/console.h"
+
 extern template void std::vector<VFX::RopeSegmentData *,
     Fun_Runtime::cAllocator<VFX::RopeSegmentData *> >::reserve(size_t);
 
@@ -24,8 +28,6 @@ namespace Fun_Runtime
 }
 
 D3DVertexDeclaration *CreateRopeVertexDecl(const D3DVERTEXELEMENT9 *);
-#include <stdio.h>
-#include "GDb/console.h"
 
 namespace VFX
 {
@@ -128,20 +130,14 @@ namespace VFX
     }
 
     static RWS::CClassFactory::CRegistrar cRopesRegistrar("cRopes", cRopes::MakeNew, 0xCC, false);
-}
 
-// Forces the std::vector range-insert instantiation that CD2 emits in this file (used by cVector copies in CD2).
-namespace VFX
-{
+    // Forces the std::vector range-insert instantiation that CD2 emits in this file (used by cVector copies in CD2).
     void ForceRangeInsert(Fun_Runtime::cVector<RopeSegmentData *> &a, Fun_Runtime::cVector<RopeSegmentData *> &b)
     {
         a.insert(a.begin(), b.begin(), b.end());
     }
-}
 
-// Shader reload callback: use the shared CD2 shader layout and cached shader setters.
-namespace VFX
-{
+    // Shader reload callback: use the shared CD2 shader layout and cached shader setters.
     cShader *g_pReloadable;
 
     bool ReloadShader(bool revert)
@@ -155,17 +151,11 @@ namespace VFX
         }
         return true;
     }
-}
 
-// CD2 0x8300C078: runtime class inheritance registration.
-namespace VFX
-{
+    // CD2 0x8300C078: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cRopescNonGameBaseInheritRegistrar(
         VFX::cRopes::StaticCreateClass(), cNonGameBase::StaticCreateClass());
-}
 
-// CD2 0x8300C050 initializes the descriptor pointer through StaticCreateClass.
-namespace VFX
-{
+    // CD2 0x8300C050 initializes the descriptor pointer through StaticCreateClass.
     const Fun_Runtime::cClass *const cRopes::ms_pcRopesClass = &cRopes::StaticCreateClass();
 }

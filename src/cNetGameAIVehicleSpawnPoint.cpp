@@ -1,6 +1,3 @@
-#include "fun_runtime/inheritance_registrar.h"
-#include "unknown/cNetGameAISpawnPoint.h"
-#include "rws/classfactory.h"
 // src/cNetGameAIVehicleSpawnPoint.cpp
 //
 // Class: cNetGameAIVehicleSpawnPoint (namespace: unknown). Set up automatically: no function is matched yet. The
@@ -12,6 +9,9 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/cNetGameAIVehicleSpawnPoint.cpp
 
+#include "fun_runtime/inheritance_registrar.h"
+#include "unknown/cNetGameAISpawnPoint.h"
+#include "rws/classfactory.h"
 #include "unknown/cNetGameAIVehicleSpawnPoint.h"
 #include "cd2/memory.h"
 
@@ -31,10 +31,7 @@ namespace unknown
     {
         return new cNetGameAIVehicleSpawnPoint;
     }
-}
 
-namespace unknown
-{
     const Fun_Runtime::cClass *cNetGameAIVehicleSpawnPoint::ms_pcNetGameAIVehicleSpawnPointClass = &cNetGameAIVehicleSpawnPoint::StaticCreateClass();
 
     Fun_Runtime::cClass &cNetGameAIVehicleSpawnPoint::StaticCreateClass()
@@ -42,23 +39,14 @@ namespace unknown
         static Fun_Runtime::cClass *cNetGameAIVehicleSpawnPointClass = new Fun_Runtime::cClass(0x489D, "cNetGameAIVehicleSpawnPoint", 0xB0);
         return *cNetGameAIVehicleSpawnPointClass;
     }
-}
 
-namespace unknown
-{
     static RWS::CClassFactory::CRegistrar cNetGameAIVehicleSpawnPointRegistrar(
         "cNetGameAIVehicleSpawnPoint", cNetGameAIVehicleSpawnPoint::MakeNew, 0xB0, false);
-}
 
-// CD2 0x83016D08: runtime class inheritance registration.
-namespace unknown
-{
+    // CD2 0x83016D08: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cNetGameAIVehicleSpawnPointcNetGameAISpawnPointInheritRegistrar(
         unknown::cNetGameAIVehicleSpawnPoint::StaticCreateClass(), unknown::cNetGameAISpawnPoint::StaticCreateClass());
-}
 
-namespace unknown
-{
     const char *cNetGameAIVehicleSpawnPoint::RetClassName() const
     {
         return "cNetGameAIVehicleSpawnPoint";

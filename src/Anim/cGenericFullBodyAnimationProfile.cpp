@@ -7,10 +7,7 @@ namespace Anim
     {
         return "cGenericFullBodyAnimationProfile";
     }
-}
 
-namespace Anim
-{
     static RWS::CClassFactory::CRegistrar cGenericFullBodyAnimationProfileRegistrar(
         "cGenericFullBodyAnimationProfile", cGenericFullBodyAnimationProfile::MakeNew, 0x40, false);
 }

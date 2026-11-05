@@ -1,4 +1,3 @@
-#include "rws/classfactory.h"
 // src/Prop/Custom/cSlidingDoor.cpp
 //
 // Class: cSlidingDoor (namespace: Prop). Set up automatically: no function is matched yet. The address range and the
@@ -12,7 +11,10 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Prop/Custom/cSlidingDoor.cpp
 
+#include "rws/classfactory.h"
 #include "Prop/cSlidingDoor.h"
+#include "cd2/memory.h"
+#include "fun_runtime/script_type_registrar.h"
 
 namespace Prop
 {
@@ -20,30 +22,16 @@ namespace Prop
     {
         return "cSlidingDoor";
     }
-}
 
-namespace Prop
-{
     static RWS::CClassFactory::CRegistrar cSlidingDoorRegistrar(
         "cSlidingDoor", cSlidingDoor::MakeNew, 0xf00, false);
-}
 
-#include "cd2/memory.h"
-
-// CD2 0x827468e8: the class factory builds the prototype.
-namespace Prop
-{
+    // CD2 0x827468e8: the class factory builds the prototype.
     RWS::CAttributeHandler *cSlidingDoor::MakeNew(const RWS::CAttributePacket &packet, bool)
     {
         return new cSlidingDoorPrototype(packet);
     }
-}
 
-#include "Prop/cSlidingDoor.h"
-#include "fun_runtime/script_type_registrar.h"
-
-namespace Prop
-{
     // CD2 script-type registration names this child and parent.
     static Fun_Runtime::cScriptTypeRegistrar<cSlidingDoor> cSlidingDoorScriptRegistrar(
         "cSlidingDoor", "cPrismaticProp");

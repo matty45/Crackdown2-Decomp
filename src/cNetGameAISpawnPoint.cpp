@@ -1,4 +1,3 @@
-#include "rws/classfactory.h"
 // src/cNetGameAISpawnPoint.cpp
 //
 // Class: cNetGameAISpawnPoint (namespace: unknown). Set up automatically: no function is matched yet. The address range
@@ -10,7 +9,9 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/cNetGameAISpawnPoint.cpp
 
+#include "rws/classfactory.h"
 #include "unknown/cNetGameAISpawnPoint.h"
+#include "cd2/memory.h"
 
 namespace unknown
 {
@@ -27,20 +28,12 @@ namespace unknown
     {
         return ms_pcNetGameAISpawnPointClass->IsA(testClass);
     }
-}
-#include "cd2/memory.h"
 
-namespace unknown
-{
     RWS::CAttributeHandler *cNetGameAISpawnPoint::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cNetGameAISpawnPoint;
     }
-}
-#include "cd2/memory.h"
 
-namespace unknown
-{
     const Fun_Runtime::cClass *cNetGameAISpawnPoint::ms_pcNetGameAISpawnPointClass = &cNetGameAISpawnPoint::StaticCreateClass();
 
     Fun_Runtime::cClass &cNetGameAISpawnPoint::StaticCreateClass()
@@ -48,16 +41,10 @@ namespace unknown
         static Fun_Runtime::cClass *cNetGameAISpawnPointClass = new Fun_Runtime::cClass(0x4884, "cNetGameAISpawnPoint", 0xA0);
         return *cNetGameAISpawnPointClass;
     }
-}
 
-namespace unknown
-{
     static RWS::CClassFactory::CRegistrar cNetGameAISpawnPointRegistrar(
         "cNetGameAISpawnPoint", cNetGameAISpawnPoint::MakeNew, 0xA0, false);
-}
 
-namespace unknown
-{
     const char *cNetGameAISpawnPoint::RetClassName() const
     {
         return "cNetGameAISpawnPoint";

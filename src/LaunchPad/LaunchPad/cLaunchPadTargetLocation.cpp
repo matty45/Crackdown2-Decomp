@@ -18,10 +18,7 @@ namespace LaunchPad
     {
         return "cLaunchPadTargetLocation";
     }
-}
 
-namespace LaunchPad
-{
     static RWS::CClassFactory::CRegistrar cLaunchPadTargetLocationRegistrar(
         "cLaunchPadTargetLocation", cLaunchPadTargetLocation::MakeNew, 0x40, false);
 }

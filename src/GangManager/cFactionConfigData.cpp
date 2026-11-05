@@ -7,6 +7,7 @@
 // Work in progress: MakeNew 0x826761B0. CD2 inlines the constructor into it; our code has the same stores, but its
 // register allocation needs r31 where CD2 fits in r4-r11 (instruction-scheduling puzzle).
 // Class names cConfigBase / cConfigB1 / cConfigB2 / cConfigList (see the header) are ours; the real names are unknown.
+
 #include "GangManager/cFactionConfigData.h"
 #include "AI/cFactionTargetingProfile.h"
 #include "editor/guid_event_handler.h"
@@ -117,5 +118,3 @@ namespace GangManager
     static RWS::CClassFactory::CRegistrar cFactionConfigDataRegistrar(
         "cFactionConfigData", cFactionConfigData::MakeNew, 0x50, false);
 }
-
-

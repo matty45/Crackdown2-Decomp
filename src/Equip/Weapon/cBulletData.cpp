@@ -1,5 +1,6 @@
 #include "Equip/cBulletData.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
 
 namespace Equip
 {
@@ -7,19 +8,11 @@ namespace Equip
     {
         return "cBulletData";
     }
-}
 
-namespace Equip
-{
     static RWS::CClassFactory::CRegistrar cBulletDataRegistrar(
         "cBulletData", cBulletData::MakeNew, 0x138, false);
-}
 
-#include "cd2/memory.h"
-
-// CD2 0x82623E60: the class-factory constructor; the constructor stays out of line.
-namespace Equip
-{
+    // CD2 0x82623E60: the class-factory constructor; the constructor stays out of line.
     RWS::CAttributeHandler *cBulletData::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cBulletData;

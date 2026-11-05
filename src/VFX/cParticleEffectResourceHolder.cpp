@@ -36,20 +36,14 @@ namespace VFX
     {
         return new cParticleEffectResourceHolder(packet);
     }
-}
 
-// CD2 0x827EDC28.
-namespace VFX
-{
+    // CD2 0x827EDC28.
     const char *cParticleEffectResourceHolder::RetClassName() const
     {
         return "cParticleEffectResourceHolder";
     }
-}
 
-// CD2 0x830099C0 (initializer) and 0x83042970 (at-exit destructor).
-namespace VFX
-{
+    // CD2 0x830099C0 (initializer) and 0x83042970 (at-exit destructor).
     static RWS::CClassFactory::CRegistrar cParticleEffectResourceHolderRegistrar(
         "cParticleEffectResourceHolder", cParticleEffectResourceHolder::MakeNew, 0x90, false);
 }

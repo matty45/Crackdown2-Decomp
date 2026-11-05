@@ -1,6 +1,3 @@
-#include "fun_runtime/inheritance_registrar.h"
-#include "gom/non_game_base.h"
-#include "rws/classfactory.h"
 // src/cRenderToTextureManager.cpp
 //
 // Class: cRenderToTextureManager (namespace: unknown). Set up automatically: no function is matched yet. The address
@@ -12,7 +9,11 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/cRenderToTextureManager.cpp
 
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/non_game_base.h"
+#include "rws/classfactory.h"
 #include "unknown/cRenderToTextureManager.h"
+#include "cd2/memory.h"
 
 namespace unknown
 {
@@ -27,20 +28,12 @@ namespace unknown
     {
         ms_pInstance = 0;
     }
-}
 
-#include "cd2/memory.h"
-
-namespace unknown
-{
     RWS::CAttributeHandler *cRenderToTextureManager::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cRenderToTextureManager;
     }
-}
 
-namespace unknown
-{
     const Fun_Runtime::cClass *cRenderToTextureManager::ms_pcRenderToTextureManagerClass = &cRenderToTextureManager::StaticCreateClass();
 
     Fun_Runtime::cClass &cRenderToTextureManager::StaticCreateClass()
@@ -48,31 +41,19 @@ namespace unknown
         static Fun_Runtime::cClass *cRenderToTextureManagerClass = new Fun_Runtime::cClass(0xCBED, "cRenderToTextureManager", 0x98);
         return *cRenderToTextureManagerClass;
     }
-}
 
-namespace unknown
-{
     static RWS::CClassFactory::CRegistrar cRenderToTextureManagerRegistrar(
         "cRenderToTextureManager", cRenderToTextureManager::MakeNew, 0x98, false);
-}
 
-// CD2 0x83007F20: runtime class inheritance registration.
-namespace unknown
-{
+    // CD2 0x83007F20: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cRenderToTextureManagercNonGameBaseInheritRegistrar(
         unknown::cRenderToTextureManager::StaticCreateClass(), cNonGameBase::StaticCreateClass());
-}
 
-namespace unknown
-{
     const char *cRenderToTextureManager::RetClassName() const
     {
         return "cRenderToTextureManager";
     }
-}
 
-namespace unknown
-{
     const Fun_Runtime::cClass &cRenderToTextureManager::RetClass() const
     {
         return *ms_pcRenderToTextureManagerClass;

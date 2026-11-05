@@ -3,6 +3,8 @@
 #include "AI/cPilotBase.h"
 #include "AI/cTrainingHeliPilot.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
+#include "AI/BehaviourClassID.h"
 
 namespace AI
 {
@@ -29,36 +31,21 @@ namespace AI
     {
         return new cTrainingHeliPilot();
     }
-}
 
-namespace AI
-{
     static RWS::CClassFactory::CRegistrar cTrainingHeliPilotRegistrar(
         "cTrainingHeliPilot", cTrainingHeliPilot::MakeNew, 0x150, false);
-}
 
-#include "cd2/memory.h"
-#include "AI/BehaviourClassID.h"
-
-namespace AI
-{
     Fun_Runtime::cClass &cTrainingHeliPilot::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cTrainingHeliPilotClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "cTrainingHeliPilot", 0x150);
         return *cTrainingHeliPilotClass;
     }
-}
 
-// CD2 0x82F9CA28: runtime class inheritance registration.
-namespace AI
-{
+    // CD2 0x82F9CA28: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cTrainingHeliPilotcPilotBaseInheritRegistrar(
         AI::cTrainingHeliPilot::StaticCreateClass(), AI::cPilotBase::StaticCreateClass());
-}
 
-// CD2 0x82F9CAE0: register the class descriptor and placement factory.
-namespace AI
-{
+    // CD2 0x82F9CAE0: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cTrainingHeliPilotSpawningRegistrar(
         cTrainingHeliPilot::StaticCreateClass(), cTrainingHeliPilot::SpawnFromPrototype);
 }

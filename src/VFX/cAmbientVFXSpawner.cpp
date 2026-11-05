@@ -1,7 +1,8 @@
-#include "fun_runtime/inheritance_registrar.h"
 // VFX/cAmbientVFXSpawner.cpp: ambient VFX spawner and prototype classes of Crackdown 2.
 // All 21 mapped functions are exact; the three CalcRand functions require LTCG. See config/matched_functions.json.
 // HandleAttributes uses GUID assignment before lookup to preserve the target's three GUID temporaries.
+
+#include "fun_runtime/inheritance_registrar.h"
 #include "VFX/cAmbientVFXSpawner.h"
 #include "editor/guid_event_handler.h"
 #include "rws/classfactory.h"
@@ -163,17 +164,10 @@ namespace VFX
     // Defined in this file: RuffKing's cAmbientVFXSpawner.obj holds its dynamic initializer and at-exit destructor.
     Fun_Runtime::cRandGen cAmbientVFXSpawnerBase::ms_RandGen;
 
-}
-
-// CD2 0x8300AEE0: runtime class inheritance registration.
-namespace VFX
-{
+    // CD2 0x8300AEE0: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cAmbientVFXSpawnercAmbientVFXSpawnerBaseInheritRegistrar(
         VFX::cAmbientVFXSpawner::StaticCreateClass(), VFX::cAmbientVFXSpawnerBase::StaticCreateClass());
-}
 
-// CD2 0x8300AEB8 initializes the descriptor pointer through StaticCreateClass.
-namespace VFX
-{
+    // CD2 0x8300AEB8 initializes the descriptor pointer through StaticCreateClass.
     const Fun_Runtime::cClass *cAmbientVFXSpawner::ms_pcAmbientVFXSpawnerClass = &cAmbientVFXSpawner::StaticCreateClass();
 }

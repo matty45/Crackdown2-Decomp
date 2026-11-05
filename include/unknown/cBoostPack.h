@@ -20,6 +20,10 @@ namespace unknown
         virtual const char *RetClassName() const;
         // CD2 0x8260AED8.
         virtual ~cBoostPack();
+        // CD2 0x8260AD98: float getter at offset 0x9C4.
+        virtual float GetField9C4() const;
+        int m_nWord9C0; // 0x9C0
+        float m_fField9C4; // 0x9C4
         // CD2 spawning initializer 0x82FCC368 names placement factory 0x8260ac68.
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);

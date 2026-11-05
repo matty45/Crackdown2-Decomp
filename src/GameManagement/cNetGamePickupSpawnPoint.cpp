@@ -8,18 +8,12 @@ namespace GameManagement
     {
         return new cNetGamePickupSpawnPoint;
     }
-}
 
-namespace GameManagement
-{
     const char *cNetGamePickupSpawnPoint::RetClassName() const
     {
         return "cNetGamePickupSpawnPoint";
     }
-}
 
-namespace GameManagement
-{
     static RWS::CClassFactory::CRegistrar cNetGamePickupSpawnPointRegistrar(
         "cNetGamePickupSpawnPoint", cNetGamePickupSpawnPoint::MakeNew, 0xa0, false);
 }

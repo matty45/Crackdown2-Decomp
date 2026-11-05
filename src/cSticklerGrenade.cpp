@@ -1,7 +1,3 @@
-#include "Equip/cExplosiveGrenade.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "gom/proto_registrar.h"
-#include "rws/classfactory.h"
 // src/cSticklerGrenade.cpp
 //
 // Class: cSticklerGrenade (namespace: unknown). Set up automatically: no function is matched yet. The address range and
@@ -13,8 +9,13 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/cSticklerGrenade.cpp
 
+#include "Equip/cExplosiveGrenade.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/proto_registrar.h"
+#include "rws/classfactory.h"
 #include "unknown/cSticklerGrenade.h"
 #include "cd2/memory.h"
+#include "fun_runtime/script_type_registrar.h"
 
 namespace unknown
 {
@@ -25,30 +26,18 @@ namespace unknown
         static Fun_Runtime::cClass *cSticklerGrenadeClass = new Fun_Runtime::cClass(0x10144, "cSticklerGrenade", 0x9E0);
         return *cSticklerGrenadeClass;
     }
-}
 
-namespace unknown
-{
     static RWS::CClassFactory::CRegistrar cSticklerGrenadeRegistrar(
         "cSticklerGrenade", cSticklerGrenade::MakeNew, 0x9E0, false);
-}
 
-// CD2 0x82FD14E0: register the class descriptor and placement factory.
-namespace unknown
-{
+    // CD2 0x82FD14E0: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cSticklerGrenadeSpawningRegistrar(
         cSticklerGrenade::StaticCreateClass(), cSticklerGrenade::SpawnFromPrototype);
-}
 
-// CD2 0x82FD1428: runtime class inheritance registration.
-namespace unknown
-{
+    // CD2 0x82FD1428: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cSticklerGrenadecExplosiveGrenadeInheritRegistrar(
         unknown::cSticklerGrenade::StaticCreateClass(), Equip::cExplosiveGrenade::StaticCreateClass());
-}
 
-namespace unknown
-{
     const char *cSticklerGrenade::RetClassName() const
     {
         return "cSticklerGrenade";
@@ -58,20 +47,11 @@ namespace unknown
     cSticklerGrenade::~cSticklerGrenade()
     {
     }
-}
 
-#include "unknown/cSticklerGrenade.h"
-#include "fun_runtime/script_type_registrar.h"
-
-namespace unknown
-{
     // CD2 script-type registration; constructor/table evidence identifies the child and parent.
     static Fun_Runtime::cScriptTypeRegistrar<cSticklerGrenade> cSticklerGrenadeScriptRegistrar(
         "cSticklerGrenade", "cExplosiveGrenade");
-}
 
-namespace unknown
-{
     const Fun_Runtime::cScriptTypeRegistration *cSticklerGrenade::RetScriptTypeRegistration() const
     {
         return &cSticklerGrenadeScriptRegistrar;

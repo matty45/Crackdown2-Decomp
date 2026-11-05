@@ -1,5 +1,3 @@
-#include "gom/proto_registrar.h"
-#include "rws/classfactory.h"
 // src/Vehicle/Agency/cAgencyBuggy.cpp
 //
 // Class: cAgencyBuggy (namespace: Vehicle). Set up automatically: no function is matched yet. The address range and the
@@ -13,8 +11,13 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Vehicle/Agency/cAgencyBuggy.cpp
 
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "rws/classfactory.h"
 #include "Vehicle/cAgencyBuggy.h"
 #include "cd2/memory.h"
+#include <new>
+#include "Vehicle/cAgencyBuggyPrototype.h"
 
 namespace Vehicle
 {
@@ -25,33 +28,30 @@ namespace Vehicle
         static Fun_Runtime::cClass *cAgencyBuggyClass = new Fun_Runtime::cClass(0x12064, "cAgencyBuggy", 0x30C0);
         return *cAgencyBuggyClass;
     }
-}
 
-namespace Vehicle
-{
+    // CD2 0x82FEB0E0: runtime class inheritance registration.
+    static Fun_Runtime::cInheritanceRegistrar cAgencyBuggycAgencyCarInheritRegistrar(
+        cAgencyBuggy::StaticCreateClass(), cAgencyCar::StaticCreateClass());
+
     static RWS::CClassFactory::CRegistrar cAgencyBuggyRegistrar(
         "cAgencyBuggy", cAgencyBuggy::MakeNew, 0x30C0, false);
-}
 
-// CD2 0x82FEB198: register the class descriptor and placement factory.
-namespace Vehicle
-{
+    // CD2 0x82FEB198: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cAgencyBuggySpawningRegistrar(
         cAgencyBuggy::StaticCreateClass(), cAgencyBuggy::SpawnFromPrototype);
-}
 
-namespace Vehicle
-{
     const char *cAgencyBuggy::RetClassName() const
     {
         return "cAgencyBuggy";
     }
-}
 
-#include "Vehicle/cAgencyBuggyPrototype.h"
+    RWS::CAttributeHandler *cAgencyBuggy::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cAgencyBuggy;
+        return 0;
+    }
 
-namespace Vehicle
-{
     Fun_Runtime::RetVal cAgencyBuggyPrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;

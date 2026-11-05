@@ -1,8 +1,4 @@
-#include "gom/proto_registrar.h"
-#include "fun_runtime/inheritance_registrar.h"
-#include "Prop/cProp.h"
 // The shared cProp hierarchy now reproduces the inherited vptr stores exactly.
-#include "rws/classfactory.h"
 // src/Prop/Custom/cSearchLight.cpp
 //
 // Class: cSearchLight (namespace: Prop). Set up automatically: no function is matched yet. The address range and the
@@ -16,9 +12,14 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Prop/Custom/cSearchLight.cpp
 
+#include "gom/proto_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "Prop/cProp.h"
+#include "rws/classfactory.h"
 #include "Prop/cSearchLight.h"
 #include <new>
 #include "rw/rwmem.h"
+#include "cd2/memory.h"
 
 namespace Prop
 {
@@ -64,63 +65,40 @@ namespace Prop
     {
         return "cSearchLight";
     }
-}
 
-#include "cd2/memory.h"
-
-namespace Prop
-{
     Fun_Runtime::cClass &cSearchLight::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cSearchLightClass = new Fun_Runtime::cClass(0x2704, "cSearchLight", 0xE70);
         return *cSearchLightClass;
     }
-}
 
-namespace Prop
-{
     const Fun_Runtime::cClass *cSearchLight::ms_pcSearchLightClass = &cSearchLight::StaticCreateClass();
 
     const Fun_Runtime::cClass &cSearchLight::RetClass() const
     {
         return *ms_pcSearchLightClass;
     }
-}
 
-namespace Prop
-{
     bool cSearchLight::IsA(const Fun_Runtime::cClass &c) const
     {
         return ms_pcSearchLightClass->IsA(c);
     }
-}
 
-namespace Prop
-{
     static RWS::CClassFactory::CRegistrar cSearchLightRegistrar(
         "cSearchLight", cSearchLight::MakeNew, 0xE70, false);
-}
 
-namespace Prop
-{
     RWS::CAttributeHandler *cSearchLight::SpawnFromPrototype(GOM::cObjectPrototype *prototype, void *memory)
     {
         if (memory)
             return new (memory) cSearchLight(prototype);
         return 0;
     }
-}
 
-// CD2 0x82FFB948: runtime class inheritance registration.
-namespace Prop
-{
+    // CD2 0x82FFB948: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cSearchLightcPropInheritRegistrar(
         Prop::cSearchLight::StaticCreateClass(), Prop::cProp::StaticCreateClass());
-}
 
-// CD2 0x82FFBA00: register the class descriptor and placement factory.
-namespace Prop
-{
+    // CD2 0x82FFBA00: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cSearchLightSpawningRegistrar(
         cSearchLight::StaticCreateClass(), cSearchLight::SpawnFromPrototype);
 }
