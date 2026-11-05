@@ -24,6 +24,11 @@ namespace AI
     {
         return "cSupplyValve";
     }
+
+    // CD2 0x822C8900 has no derived cleanup beyond vtable restoration.
+    cSupplyValve::~cSupplyValve()
+    {
+    }
 }
 
 #include "cd2/memory.h"

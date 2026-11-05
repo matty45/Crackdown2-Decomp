@@ -11,6 +11,8 @@ namespace Prop
     class cHingedSpawnDoor : public Prop::cHingedProp
     {
     public:
+        // CD2 0x82744AA8: cScriptHost slot 1; descriptive method name is ours.
+        virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         // CD2 placement factory 0x82744A88; constructor signature follows RuffKing.
         cHingedSpawnDoor(GOM::cObjectPrototype *);
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);

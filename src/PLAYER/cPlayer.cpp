@@ -184,3 +184,11 @@ namespace PLAYER
     static Fun_Runtime::cScriptTypeRegistrar<cPlayer> cPlayerScriptRegistrar(
         "cPlayer", "cCharacterEntityIF");
 }
+
+namespace PLAYER
+{
+    const Fun_Runtime::cScriptTypeRegistration *cPlayer::RetScriptTypeRegistration() const
+    {
+        return &cPlayerScriptRegistrar;
+    }
+}

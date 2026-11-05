@@ -9,6 +9,10 @@ namespace Equip
     class cCWHeavyWeapon : public cCWWeapon
     {
     public:
+        // CD2 0x8262FCA0: cScriptHost slot 1; descriptive method name is ours.
+        virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
+        // CD2 0x8262FCB0: restores this class's vtables, then calls the base destructor (out of line: derived destructors call it).
+        virtual ~cCWHeavyWeapon();
         // Interface-only prototype stand-in: name and base from RuffKing.
         // Instance fields and complete size are not recovered; this is not an allocation layout.
         class cCWHeavyWeaponPrototype : public cCWWeapon::cCWWeaponPrototype {};
@@ -20,6 +24,8 @@ namespace Equip
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pcCWHeavyWeaponClass;
         virtual const Fun_Runtime::cClass &RetClass() const;
+        // CD2 0x8262FBC0: registered-class virtual slot 1.
+        virtual bool IsA(const Fun_Runtime::cClass &c) const;
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
     private:
         unsigned char m_unmodelledA10[0xA20 - 0xA10];

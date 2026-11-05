@@ -15,6 +15,10 @@ namespace GameManagement
         virtual ~cGameModeSpawnPoint() {}
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
+        // CD2 primary slots 12..14; names/order agree with RuffKing's interface.
+        virtual void Destruct();
+        virtual bool IsActive() const;
+        virtual int RetArenaIndex() const;
         virtual void HandleAttributes(const RWS::CAttributePacket &);
     protected:
         Fun_Runtime::Mtx m_Transform;

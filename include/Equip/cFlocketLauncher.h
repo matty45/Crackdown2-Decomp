@@ -1,6 +1,8 @@
+#include "Equip/cCWHeavyWeapon.h"
 #include "gom/object_prototype.h"
 #include "rws/attributes.h"
-// Equip::cFlocketLauncher (Crackdown 2): STAND-IN with only its runtime class descriptor; its bases are not modelled yet.
+// Equip::cFlocketLauncher (Crackdown 2): STAND-IN; derived storage is not modelled yet.
+// Base cCWHeavyWeapon: CD2's inheritance registrar names it, and the destructor 0x82630FF0 calls cCWHeavyWeapon's (0x8262FCB0).
 // StaticCreateClass (0x82630F08) builds cClass(0x605F, "cFlocketLauncher", 0xA30); 0xA30 is the size its registrar gives.
 #ifndef EQUIP_CFLOCKETLAUNCHER_H
 #define EQUIP_CFLOCKETLAUNCHER_H
@@ -9,11 +11,15 @@
 
 namespace Equip
 {
-    class cFlocketLauncher
+    class cFlocketLauncher : public cCWHeavyWeapon
     {
     public:
         // CD2 0x82630CF0: registered-class virtual slot 0 reads this class descriptor.
         virtual const Fun_Runtime::cClass &RetClass() const;
+        // CD2 0x82630D00: registered-class virtual slot 1.
+        virtual bool IsA(const Fun_Runtime::cClass &c) const;
+        // CD2 0x82630FF0.
+        virtual ~cFlocketLauncher();
         // CD2 0x82630E20: primary virtual slot 11 returns the registered class name.
         virtual const char *RetClassName() const;
         // CD2 spawning initializer 0x82FD33B0 names placement factory 0x82630e30.

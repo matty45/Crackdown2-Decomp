@@ -10,6 +10,18 @@ namespace unknown
     {
         return "cTransVehicleDamageProp";
     }
+
+    RWS::CAttributeHandler *cTransVehicleDamageProp::SpawnFromPrototype(GOM::cObjectPrototype *pPrototype, void *memory)
+    {
+        if (memory)
+            return new (memory) cTransVehicleDamageProp(pPrototype);
+        return 0;
+    }
+
+    // CD2 0x82730E98 has no derived cleanup beyond vtable restoration.
+    cTransVehicleDamageProp::~cTransVehicleDamageProp()
+    {
+    }
 }
 
 namespace unknown

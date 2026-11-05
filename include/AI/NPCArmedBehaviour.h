@@ -14,6 +14,10 @@ namespace AI
     public:
         // Out of line: CD2 0x824A8070 (it first calls NPCBehaviour's 0x824A89C8).
         NPCArmedBehaviour();
+        // Inline and empty: the deleting destructor 0x824C17F0 (shared by CellGuard, CellMinigun, CellRocket and
+        // Peacekeeper, identical code folded) restores this class's vtables (0x821089B0, which its constructor installs)
+        // and calls ~cNonGameBase directly; NPCBehaviour's own destructor stores none (~cPedestrianBase, 0x824A8EB8).
+        virtual ~NPCArmedBehaviour() {}
     private:
         CD2_LAYOUT_CHECKS(NPCArmedBehaviour, CD2_SIZE(NPCArmedBehaviour, 0xF0))
     };

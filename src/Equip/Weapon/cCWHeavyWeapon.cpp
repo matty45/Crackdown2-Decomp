@@ -68,4 +68,22 @@ namespace Equip
     {
         return *ms_pcCWHeavyWeaponClass;
     }
+
+    bool cCWHeavyWeapon::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcCWHeavyWeaponClass->IsA(c);
+    }
+
+    // CD2 0x8262FCB0 has no derived cleanup beyond vtable restoration.
+    cCWHeavyWeapon::~cCWHeavyWeapon()
+    {
+    }
+}
+
+namespace Equip
+{
+    const Fun_Runtime::cScriptTypeRegistration *cCWHeavyWeapon::RetScriptTypeRegistration() const
+    {
+        return &cCWHeavyWeaponScriptRegistrar;
+    }
 }

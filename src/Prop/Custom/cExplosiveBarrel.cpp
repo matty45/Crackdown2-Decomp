@@ -86,4 +86,16 @@ namespace Prop
     {
         return *ms_pccExplosiveBarrelClass;
     }
+
+    bool cExplosiveBarrel::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pccExplosiveBarrelClass->IsA(c);
+    }
+
+    RWS::CAttributeHandler *cExplosiveBarrel::SpawnFromPrototype(GOM::cObjectPrototype *pPrototype, void *memory)
+    {
+        if (memory)
+            return new (memory) cExplosiveBarrel(pPrototype);
+        return 0;
+    }
 }

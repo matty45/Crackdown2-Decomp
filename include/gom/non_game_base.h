@@ -65,7 +65,7 @@ public:
     virtual Fun_Runtime::RetVal Term();
     virtual int RetUniqueID();
     virtual void HandleEvents(RWS::CMsg &);
-    virtual void Slot1();
+    virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
     virtual const char *RetName() const;
 
     // primary slots 11..67

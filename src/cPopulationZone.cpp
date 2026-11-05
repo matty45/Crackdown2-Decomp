@@ -12,6 +12,32 @@
 
 #include "unknown/cPopulationZone.h"
 #include "cd2/memory.h"
+#include "fun_runtime/inheritance_registrar.h"
+
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar cPopulationZonecZoneInheritRegistrar(
+        cPopulationZone::StaticCreateClass(), cZone::StaticCreateClass());
+
+    GangManager::cGangInfo *cPopulationZone::RetGangInControl() const
+    {
+        return m_pGangInControl;
+    }
+
+    void cPopulationZone::SetGangInControl(GangManager::cGangInfo *gang)
+    {
+        m_pGangInControl = gang;
+        if (!m_pInitialGangInControl)
+            m_pInitialGangInControl = gang;
+    }
+
+    void cPopulationZone::SetInitialGangInControl(GangManager::cGangInfo *gang)
+    {
+        m_pInitialGangInControl = gang;
+        if (!m_pGangInControl)
+            m_pGangInControl = gang;
+    }
+}
 
 namespace unknown
 {
@@ -46,4 +72,12 @@ namespace unknown
     // CD2 script-type registration; constructor/table evidence identifies the child and parent.
     static Fun_Runtime::cScriptTypeRegistrar<cPopulationZone> cPopulationZoneScriptRegistrar(
         "cPopulationZone", "cScriptHost");
+}
+
+namespace unknown
+{
+    const Fun_Runtime::cScriptTypeRegistration *cPopulationZone::RetScriptTypeRegistration() const
+    {
+        return &cPopulationZoneScriptRegistrar;
+    }
 }

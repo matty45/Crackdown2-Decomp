@@ -7,6 +7,11 @@ namespace AI
     {
         return "cTrainingTrigger";
     }
+
+    // CD2 0x82485720: only the member's and the bases' destruction.
+    cTrainingTrigger::~cTrainingTrigger()
+    {
+    }
 }
 
 namespace AI

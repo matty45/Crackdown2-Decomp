@@ -63,6 +63,15 @@ namespace Equip
     {
         return *ms_pcRefractorClass;
     }
+
+    bool cRefractor::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcRefractorClass->IsA(c);
+    }
+
+    cRefractor::cRefractor()
+    {
+    }
 }
 
 namespace Equip

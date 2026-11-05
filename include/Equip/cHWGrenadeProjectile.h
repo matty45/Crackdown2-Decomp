@@ -12,6 +12,8 @@ namespace Equip
     class cHWGrenadeProjectile : public Equip::cHWProjectile
     {
     public:
+        // CD2 0x826293C0: cScriptHost slot 1; descriptive method name is ours.
+        virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         // CD2 spawning initializer 0x82FD2320 names placement factory 0x826293a0.
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);

@@ -9,6 +9,8 @@ namespace Equip
     class cCWSatchelCharge : public cExplosiveGrenade
     {
     public:
+        // CD2 0x8261A568: restores this class's vtables, then calls the base destructor (out of line: cProxMine's calls it).
+        virtual ~cCWSatchelCharge();
         // Interface-only prototype stand-in: name and base from RuffKing.
         // Instance fields and complete size are not recovered; this is not an allocation layout.
         class cCWSatchelChargePrototype : public cExplosiveGrenade::cExplosiveGrenadePrototype {};

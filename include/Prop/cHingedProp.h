@@ -10,8 +10,13 @@ namespace Prop
     class cHingedProp : public Prop::cPivotBasedProp
     {
     public:
+        // CD2 0x82736E70: cScriptHost slot 1; descriptive method name is ours.
+        virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         // CD2 placement factory 0x82736E50; RuffKing signature.
         cHingedProp(GOM::cObjectPrototype *);
+        // CD2 0x82737698: restores this class's vtables (primary 0x8213E830), then calls the base destructor.
+        // Out of line: cSpawnPortal's destructor calls it.
+        virtual ~cHingedProp();
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         // RuffKing fields; CD2's factory allocates 0x530 and invokes the constructor

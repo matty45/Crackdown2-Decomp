@@ -1,15 +1,32 @@
+// Base and fields from RuffKing (same offsets in CD2; size 0x110). CD2's destructor (0x8248B058) destroys the GUID handler and
+// calls the inline empty destructor of the base, then cPlayerTriggerBase's (0x8280DCC0).
 #ifndef AI_cMissionActivationCylinder_H
 #define AI_cMissionActivationCylinder_H
+
+#include "ZoneManager/cPlayerTriggerCylinder.h"
+#include "editor/guid_event_handler.h"
+#include "cd2/layout.h"
 
 #include "rws/attributes.h"
 
 namespace AI
 {
-    class cMissionActivationCylinder : public RWS::CAttributeHandler
+    class cMissionActivationCylinder : public ZoneManager::cPlayerTriggerCylinder
     {
     public:
+        // CD2 0x8248B058.
+        virtual ~cMissionActivationCylinder();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
+
+    protected:
+        Editor::cGUIDEventHandler<cMissionActivationCylinder> m_EventHandler;
+        bool m_bMissionCritical;
+
+        CD2_LAYOUT_CHECKS(cMissionActivationCylinder,
+            CD2_SIZE(cMissionActivationCylinder, 0x110)
+            CD2_OFFSET(cMissionActivationCylinder, m_EventHandler, 0xF0)
+            CD2_OFFSET(cMissionActivationCylinder, m_bMissionCritical, 0x104))
     };
 }
 

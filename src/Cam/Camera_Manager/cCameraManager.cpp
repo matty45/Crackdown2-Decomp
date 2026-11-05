@@ -15,6 +15,24 @@
 //     py -I tools/cd2.py tasks src/Cam/Camera_Manager/cCameraManager.cpp
 
 #include "Cam/cCameraManager.h"
+
+namespace Cam
+{
+    bool cCameraManager::IsA(const Fun_Runtime::cClass &testClass) const
+    {
+        return ms_pcCameraManagerClass->IsA(testClass);
+    }
+}
+
+namespace Cam
+{
+    cCameraManager *cCameraManager::sm_pInstance;
+
+    cCameraManager *cCameraManager::RetInstance()
+    {
+        return sm_pInstance;
+    }
+}
 #include "cd2/memory.h"
 
 namespace Cam
@@ -65,4 +83,20 @@ namespace Cam
     // CD2 script-type registration; constructor/table evidence identifies the child and parent.
     static Fun_Runtime::cScriptTypeRegistrar<cCameraManager> cCameraManagerScriptRegistrar(
         "CameraManager", "cNonGameBase");
+}
+
+namespace Cam
+{
+    const Fun_Runtime::cScriptTypeRegistration *cCameraManager::RetScriptTypeRegistration() const
+    {
+        return &cCameraManagerScriptRegistrar;
+    }
+}
+
+namespace Cam
+{
+    RWS::CAttributeHandler *cCameraManager::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cCameraManager;
+    }
 }

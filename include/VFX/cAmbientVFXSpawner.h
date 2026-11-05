@@ -18,6 +18,7 @@
 #include "fun_runtime/randgen.h"
 #include "fun_runtime/vec3.h"
 #include "Sim/cTimeOfDay.h"
+#include "rws/time.h"
 
 namespace Fun_Runtime
 {
@@ -25,17 +26,6 @@ namespace Fun_Runtime
     __declspec(align(16)) struct Quat { float v[4]; };
 }
 
-namespace RWS
-{
-    namespace Time
-    {
-        // Game time in milliseconds; CD2 inlines the "frozen/replay time" test. Names are ours.
-        extern unsigned char g_bUseStoredTime;
-        extern unsigned int g_nStoredTime;
-        unsigned int CalcGameTime();
-        inline unsigned int RetGameTime() { return g_bUseStoredTime ? g_nStoredTime : CalcGameTime(); }
-    }
-}
 
 namespace VFX
 {

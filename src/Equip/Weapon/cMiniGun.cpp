@@ -55,4 +55,9 @@ namespace Equip
     {
         return "cMiniGun";
     }
+
+    // CD2 0x8263B410 has no derived cleanup beyond vtable restoration.
+    cMiniGun::~cMiniGun()
+    {
+    }
 }

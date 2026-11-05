@@ -9,6 +9,9 @@ namespace PHYSICS
     class cIgnitable
     {
     public:
+        // RuffKing names the flag at +0x11; CD2's registered RetIsOnFire getter
+        // reads it at cDynamicBody +0x261, after this base's +0x250 adjustment.
+        bool IsOnFire() const { return m_bIsOnFire; }
         virtual ~cIgnitable();
         virtual float RetCatchFireTime() const;
     protected:
@@ -24,8 +27,12 @@ namespace PHYSICS
         virtual void EventTriggerOnFire();
         virtual void EventTriggerEndFire();
     private:
-        unsigned char m_unknown4[0x44 - 4];
-        CD2_LAYOUT_CHECKS(cIgnitable, CD2_SIZE(cIgnitable, 0x44))
+        unsigned char m_unknown4[0x11 - 4];
+        bool m_bIsOnFire;
+        unsigned char m_unknown12[0x44 - 0x12];
+        CD2_LAYOUT_CHECKS(cIgnitable,
+            CD2_SIZE(cIgnitable, 0x44)
+            CD2_OFFSET(cIgnitable, m_bIsOnFire, 0x11))
     };
 }
 #endif

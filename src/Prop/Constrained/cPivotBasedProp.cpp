@@ -29,6 +29,11 @@ namespace Prop
     {
         return "cPivotBasedProp";
     }
+
+    // CD2 0x823616B8 has no derived cleanup beyond vtable restoration.
+    cPivotBasedProp::~cPivotBasedProp()
+    {
+    }
 }
 
 #include "cd2/memory.h"

@@ -35,3 +35,13 @@ namespace Anim
         return *ms_pccCharacterAnimSetManagerClass;
     }
 }
+
+#include "cd2/memory.h"
+
+namespace Anim
+{
+    RWS::CAttributeHandler *cCharacterAnimSetManager::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cCharacterAnimSetManager;
+    }
+}

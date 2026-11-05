@@ -26,6 +26,10 @@ namespace Equip
         cProxMine();
         // CD2 0x8261F870: registered-class virtual slot 0 reads this class descriptor.
         virtual const Fun_Runtime::cClass &RetClass() const;
+        // CD2 0x8261F880: registered-class virtual slot 1.
+        virtual bool IsA(const Fun_Runtime::cClass &c) const;
+        // CD2 0x8261FB48.
+        virtual ~cProxMine();
         // CD2 0x8261F938: primary virtual slot 11 returns the registered class name.
         virtual const char *RetClassName() const;
         // CD2 spawning initializer 0x82FD0470 names placement factory 0x8261f948.

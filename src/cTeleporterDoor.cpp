@@ -53,4 +53,9 @@ namespace unknown
     {
         return "cTeleporterDoor";
     }
+
+    // CD2 0x82740B40 has no derived cleanup beyond vtable restoration.
+    cTeleporterDoor::~cTeleporterDoor()
+    {
+    }
 }

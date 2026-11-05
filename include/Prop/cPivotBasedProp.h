@@ -11,6 +11,8 @@ namespace Prop
     class cPivotBasedProp : public Prop::cProp
     {
     public:
+        // CD2 0x823616B8: restores this class's vtables (primary 0x8213FEB8), then calls cProp's destructor.
+        virtual ~cPivotBasedProp();
         // CD2 placement factory 0x8273AEE8; RuffKing signature.
         cPivotBasedProp(GOM::cObjectPrototype *);
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);

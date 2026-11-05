@@ -20,6 +20,14 @@
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
 
+namespace AI
+{
+    bool cCharacterEntityIF::IsInViewCone(Fun_Runtime::cScriptHost *object)
+    {
+        return m_pAIEntity->IsInViewCone(object);
+    }
+}
+
 #include <new>
 
 Fun_Runtime::cScriptTypeRegistrar<AI::cCharacterEntityIF> g_cCharacterEntityIF("cCharacterEntityIF", "cCharacterInterface");     // global at 0x838035CC

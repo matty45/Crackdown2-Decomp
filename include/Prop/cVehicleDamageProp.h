@@ -12,6 +12,8 @@ namespace Prop
     class cVehicleDamageProp : public Prop::cProp
     {
     public:
+        // CD2 0x8234EC90: restores this class's vtables (primary 0x82011120), then calls cProp's destructor.
+        virtual ~cVehicleDamageProp();
         // CD2 0x8232A5E8 creates the named runtime descriptor.
         static Fun_Runtime::cClass &StaticCreateClass();
         // CD2 placement factory 0x82731E20 tail-calls constructor 0x82731E40.

@@ -13,7 +13,31 @@
 //     py -I tools/cd2.py tasks src/cRenderToTextureManager.cpp
 
 #include "unknown/cRenderToTextureManager.h"
+
+namespace unknown
+{
+    cRenderToTextureManager *cRenderToTextureManager::ms_pInstance;
+
+    bool cRenderToTextureManager::IsA(const Fun_Runtime::cClass &testClass) const
+    {
+        return ms_pcRenderToTextureManagerClass->IsA(testClass);
+    }
+
+    cRenderToTextureManager::~cRenderToTextureManager()
+    {
+        ms_pInstance = 0;
+    }
+}
+
 #include "cd2/memory.h"
+
+namespace unknown
+{
+    RWS::CAttributeHandler *cRenderToTextureManager::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cRenderToTextureManager;
+    }
+}
 
 namespace unknown
 {

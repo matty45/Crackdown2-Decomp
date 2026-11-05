@@ -64,6 +64,16 @@ namespace Equip
     {
         return *ms_pcUVTurretClass;
     }
+
+    bool cUVTurret::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcUVTurretClass->IsA(c);
+    }
+
+    // CD2 0x8263BD10 has no derived cleanup beyond vtable restoration.
+    cUVTurret::~cUVTurret()
+    {
+    }
 }
 
 namespace Equip

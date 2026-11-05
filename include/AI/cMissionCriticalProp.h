@@ -25,6 +25,8 @@ namespace AI
         static const Fun_Runtime::cClass *ms_pcMissionCriticalPropClass;
         static Fun_Runtime::cClass &StaticCreateClass();
         virtual const char *RetClassName() const;
+        // CD2 0x8245B1E0.
+        virtual ~cMissionCriticalProp();
     };
 }
 

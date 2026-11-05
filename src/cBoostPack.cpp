@@ -53,6 +53,11 @@ namespace unknown
     {
         return "cBoostPack";
     }
+
+    // CD2 0x8260AED8 has no derived cleanup beyond vtable restoration.
+    cBoostPack::~cBoostPack()
+    {
+    }
 }
 
 #include "unknown/cBoostPack.h"
@@ -63,4 +68,12 @@ namespace unknown
     // CD2 script-type registration; constructor/table evidence identifies the child and parent.
     static Fun_Runtime::cScriptTypeRegistrar<cBoostPack> cBoostPackScriptRegistrar(
         "cBoostPack", "cGrenade");
+}
+
+namespace unknown
+{
+    const Fun_Runtime::cScriptTypeRegistration *cBoostPack::RetScriptTypeRegistration() const
+    {
+        return &cBoostPackScriptRegistrar;
+    }
 }

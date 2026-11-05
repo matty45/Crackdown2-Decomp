@@ -1,7 +1,8 @@
 #include "Prop/cHingedProp.h"
 #include "gom/object_prototype.h"
 #include "rws/attributes.h"
-// unknown::cSpawnPortal (Crackdown 2): STAND-IN with only its runtime class descriptor; its bases are not modelled yet.
+// unknown::cSpawnPortal (Crackdown 2): STAND-IN; derived storage is not modelled yet.
+// Base cHingedProp: its prototype derives from cHingedProp's, and the destructor 0x8273E238 calls cHingedProp's (0x82737698).
 // StaticCreateClass (0x8273E150) builds cClass(0x1025, "cSpawnPortal", 0xEC0); 0xEC0 is the size its registrar gives.
 #ifndef UNKNOWN_CSPAWNPORTAL_H
 #define UNKNOWN_CSPAWNPORTAL_H
@@ -10,7 +11,7 @@
 
 namespace unknown
 {
-    class cSpawnPortal
+    class cSpawnPortal : public Prop::cHingedProp
     {
     public:
         // Prototype name ours, from cSpawnPortal::MakeNew (0x8273DFE8).
@@ -24,6 +25,10 @@ namespace unknown
 
         // CD2 0x8273DF78: registered-class virtual slot 0 reads this class descriptor.
         virtual const Fun_Runtime::cClass &RetClass() const;
+        // CD2 0x8273DF88: registered-class virtual slot 1.
+        virtual bool IsA(const Fun_Runtime::cClass &c) const;
+        // CD2 0x8273E238.
+        virtual ~cSpawnPortal();
         // CD2 0x8273E058: primary virtual slot 11 returns the registered class name.
         virtual const char *RetClassName() const;
         // CD2 spawning initializer 0x82FF8CC8 names placement factory 0x8273e068.

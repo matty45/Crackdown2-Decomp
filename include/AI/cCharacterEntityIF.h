@@ -72,6 +72,8 @@ namespace AI
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         void *RetUpperbodyAnimationParams();
         void *RetFullbodyAnimationParams();
+        // CD2 0x823EC030 forwards to the owning AI entity's cone test.
+        bool IsInViewCone(Fun_Runtime::cScriptHost *object);
         unsigned char RetMovementType() const;
         unsigned int RetMaxAiToAiVisibilityLevel() const;
         void SetMaxAiToAiVisibilityLevel(unsigned int value);

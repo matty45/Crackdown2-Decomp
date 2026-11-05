@@ -6,6 +6,11 @@
 
 namespace WorldManager
 {
+    cWorldManager *cWorldManager::ms_pInstance;
+}
+
+namespace WorldManager
+{
     const char *cWorldManager::RetClassName() const
     {
         return "cWorldManager";
@@ -65,4 +70,12 @@ namespace WorldManager
     // CD2 script-type registration; constructor/table evidence identifies the child and parent.
     static Fun_Runtime::cScriptTypeRegistrar<cWorldManager> cWorldManagerScriptRegistrar(
         "cWorldManager", "cNonGameBase");
+}
+
+namespace WorldManager
+{
+    const Fun_Runtime::cScriptTypeRegistration *cWorldManager::RetScriptTypeRegistration() const
+    {
+        return &cWorldManagerScriptRegistrar;
+    }
 }

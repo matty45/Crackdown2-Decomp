@@ -53,6 +53,11 @@ namespace unknown
     {
         return "cAgencyGaragePlatform";
     }
+
+    // CD2 0x82736538 has no derived cleanup beyond vtable restoration.
+    cAgencyGaragePlatform::~cAgencyGaragePlatform()
+    {
+    }
 }
 
 #include "unknown/cAgencyGaragePlatformPrototype.h"

@@ -13,12 +13,28 @@
 //     py -I tools/cd2.py tasks src/Activity/LongDistanceProps/cLongDistancePropManager.cpp
 
 #include "Activity/cLongDistancePropManager.h"
+#include "cd2/memory.h"
 
 namespace Activity
 {
     const Fun_Runtime::cClass &cLongDistancePropManager::RetClass() const
     {
         return *ms_pcLongDistancePropManagerClass;
+    }
+
+    bool cLongDistancePropManager::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcLongDistancePropManagerClass->IsA(c);
+    }
+
+    RWS::CAttributeHandler *cLongDistancePropManager::MakeNew(const RWS::CAttributePacket &attr, bool)
+    {
+        return new cLongDistancePropManager(attr);
+    }
+
+    cLongDistancePropManager::~cLongDistancePropManager()
+    {
+        UnLinkMsg(RWS::iMsgRunningTick);
     }
 
     const char *cLongDistancePropManager::RetClassName() const

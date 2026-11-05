@@ -55,4 +55,9 @@ namespace Equip
     {
         return "cFlakCannon";
     }
+
+    // CD2 0x8263A940 has no derived cleanup beyond vtable restoration.
+    cFlakCannon::~cFlakCannon()
+    {
+    }
 }

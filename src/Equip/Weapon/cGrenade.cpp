@@ -69,3 +69,11 @@ namespace Equip
         return *ms_pcGrenadeClass;
     }
 }
+
+namespace Equip
+{
+    const Fun_Runtime::cScriptTypeRegistration *cGrenade::RetScriptTypeRegistration() const
+    {
+        return &cGrenadeScriptRegistrar;
+    }
+}

@@ -29,6 +29,11 @@ namespace Prop
     {
         return "cSpinningProp";
     }
+
+    // CD2 0x8273EB20 has no derived cleanup beyond vtable restoration.
+    cSpinningProp::~cSpinningProp()
+    {
+    }
 }
 
 #include "cd2/memory.h"

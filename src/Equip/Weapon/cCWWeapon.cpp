@@ -88,3 +88,11 @@ namespace Equip
     static Fun_Runtime::cScriptTypeRegistrar<cCWWeapon> cCWWeaponScriptRegistrar(
         "cCWWeapon", "cWeapon");
 }
+
+namespace Equip
+{
+    const Fun_Runtime::cScriptTypeRegistration *cCWWeapon::RetScriptTypeRegistration() const
+    {
+        return &cCWWeaponScriptRegistrar;
+    }
+}

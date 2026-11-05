@@ -14,6 +14,36 @@
 //     py -I tools/cd2.py tasks src/cZoneManager.cpp
 
 #include "unknown/cZoneManager.h"
+#include "rws/logic.h"
+
+namespace unknown
+{
+    bool cZoneManager::IsA(const Fun_Runtime::cClass &testClass) const
+    {
+        return ms_pcZoneManagerClass->IsA(testClass);
+    }
+
+    cZoneManager::~cZoneManager()
+    {
+        if (m_pPopulationZonePool)
+        {
+            delete m_pPopulationZonePool;
+            m_pPopulationZonePool = 0;
+        }
+        ms_pInstance = 0;
+        UnLinkMsg(RWS::iMsgRunningTick);
+    }
+}
+
+namespace unknown
+{
+    cZoneManager *cZoneManager::ms_pInstance;
+
+    cZoneManager *cZoneManager::RetInstance()
+    {
+        return ms_pInstance;
+    }
+}
 #include "cd2/memory.h"
 
 namespace unknown
@@ -71,4 +101,20 @@ namespace unknown
     // CD2 script-type registration; constructor/table evidence identifies the child and parent.
     static Fun_Runtime::cScriptTypeRegistrar<cZoneManager> cZoneManagerScriptRegistrar(
         "cZoneManager", "cNonGameBase");
+}
+
+namespace unknown
+{
+    const Fun_Runtime::cScriptTypeRegistration *cZoneManager::RetScriptTypeRegistration() const
+    {
+        return &cZoneManagerScriptRegistrar;
+    }
+}
+
+namespace unknown
+{
+    RWS::CAttributeHandler *cZoneManager::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cZoneManager;
+    }
 }

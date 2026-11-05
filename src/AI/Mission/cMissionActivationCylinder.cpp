@@ -7,6 +7,11 @@ namespace AI
     {
         return "cMissionActivationCylinder";
     }
+
+    // CD2 0x8248B058: only the member's and the bases' destruction.
+    cMissionActivationCylinder::~cMissionActivationCylinder()
+    {
+    }
 }
 
 namespace AI

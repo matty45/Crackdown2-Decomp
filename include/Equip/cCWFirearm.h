@@ -14,6 +14,8 @@ namespace Equip
     class cCWFirearm : public Equip::cCWWeapon
     {
     public:
+        // CD2 0x82617EB8: restores this class's vtables, then calls the base destructor (out of line: cUVTurret's calls it).
+        virtual ~cCWFirearm();
         // Interface-only prototype stand-in: name and base from RuffKing.
         // Instance fields and complete size are not recovered; this is not an allocation layout.
         class cCWFirearmPrototype : public cCWWeapon::cCWWeaponPrototype {};

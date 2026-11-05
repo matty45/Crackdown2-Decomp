@@ -20,3 +20,13 @@ namespace Anim
     static RWS::CClassFactory::CRegistrar cRunWalkAnimationProfileRegistrar(
         "cRunWalkAnimationProfile", cRunWalkAnimationProfile::MakeNew, 0x1B0, false);
 }
+
+#include "cd2/memory.h"
+
+namespace Anim
+{
+    RWS::CAttributeHandler *cRunWalkAnimationProfile::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cRunWalkAnimationProfile;
+    }
+}

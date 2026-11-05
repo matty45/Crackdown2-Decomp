@@ -13,6 +13,7 @@
 //     py -I tools/cd2.py tasks src/VFX/cBloom.cpp
 
 #include "VFX/cBloom.h"
+#include "cd2/memory.h"
 
 namespace VFX
 {
@@ -33,5 +34,21 @@ namespace VFX
     const Fun_Runtime::cClass &cBloom::RetClass() const
     {
         return *ms_pccBloomClass;
+    }
+
+    bool cBloom::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pccBloomClass->IsA(c);
+    }
+
+    RWS::CAttributeHandler *cBloom::MakeNew(const RWS::CAttributePacket &attr, bool)
+    {
+        return new cBloom(attr);
+    }
+
+    cBloom::~cBloom()
+    {
+        g_pBloom = 0;
+        UnLinkMsg(RWS::iMsgRunningTick);
     }
 }

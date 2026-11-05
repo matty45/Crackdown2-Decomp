@@ -1,3 +1,4 @@
+#include "fun_runtime/retval.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "gom/non_game_base.h"
 #include "rws/classfactory.h"
@@ -52,5 +53,24 @@ namespace unknown
     const Fun_Runtime::cClass &cDebugPlayer::RetClass() const
     {
         return *ms_pcDebugPlayerClass;
+    }
+
+    bool cDebugPlayer::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcDebugPlayerClass->IsA(c);
+    }
+
+    // CD2 0x82714730.
+    cDebugPlayer::~cDebugPlayer()
+    {
+        Term();
+    }
+}
+
+namespace unknown
+{
+    RWS::CAttributeHandler *cDebugPlayer::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cDebugPlayer;
     }
 }

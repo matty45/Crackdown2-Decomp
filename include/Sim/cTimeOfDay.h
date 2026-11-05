@@ -23,9 +23,13 @@ namespace Sim
         static Fun_Runtime::cClass &StaticCreateClass();
         unsigned char m_pad[0x278];
         float m_fPhase;                         // 0x278
+        unsigned char m_unmodelled27C[0x284 - 0x27C];
+        // RetPeriod's folded CD2 copy (0x825EC2E8); RuffKing names this field at phase +0xC too.
+        float m_fPeriod;
         static cTimeOfDay *ms_pInstance;
 
         float RetPhase();
+        float RetPeriod();
 
         void *GetPtrcTimeOfDay() const;
         void *GetPtrAIE_TODDUSK() const;
@@ -33,7 +37,8 @@ namespace Sim
         void *GetPtrAIE_TIME_PERIOD_CHANGED() const;
 
         CD2_LAYOUT_CHECKS(cTimeOfDay,
-            CD2_OFFSET(cTimeOfDay, m_fPhase, 0x278))
+            CD2_OFFSET(cTimeOfDay, m_fPhase, 0x278)
+            CD2_OFFSET(cTimeOfDay, m_fPeriod, 0x284))
     };
 }
 

@@ -62,6 +62,16 @@ namespace unknown
     {
         return *ms_pcWeaponCabinetDoorClass;
     }
+
+    bool cWeaponCabinetDoor::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcWeaponCabinetDoorClass->IsA(c);
+    }
+
+    // CD2 0x827411E8 has no derived cleanup beyond vtable restoration.
+    cWeaponCabinetDoor::~cWeaponCabinetDoor()
+    {
+    }
 }
 
 namespace unknown

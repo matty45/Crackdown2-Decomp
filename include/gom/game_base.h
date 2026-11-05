@@ -17,9 +17,15 @@ __declspec(align(16)) class cGameBase : public RWS::CSystemCommands, public cNon
         virtual const Fun_Runtime::cClass &RetClass() const;
 
 public:
+    // CD2 script registration names the setter at 0x824C83F8; RuffKing names the member.
+    void SetFullHealth(float);
     virtual ~cGameBase();
 private:
-    unsigned char m_unknown7C[0x120 - 0x7C];
-    CD2_LAYOUT_CHECKS(cGameBase, CD2_SIZE(cGameBase, 0x120))
+    unsigned char m_unknown7C[0x114 - 0x7C];
+    float m_fFullHealth;
+    unsigned char m_unknown118[0x120 - 0x118];
+    CD2_LAYOUT_CHECKS(cGameBase,
+        CD2_SIZE(cGameBase, 0x120)
+        CD2_OFFSET(cGameBase, m_fFullHealth, 0x114))
 };
 #endif

@@ -5,7 +5,16 @@
 
 namespace RWS
 {
-    class CSystemCommands {};
+    class CSystemCommands
+    {
+    public:
+        static const char *pCSystemCommandsClassID;
+        enum LoadParameterTypes
+        {
+            CMD_AttachResource = 0,
+            CMD_LoadMatrix = 1
+        };
+    };
 }
 
 #endif

@@ -12,11 +12,18 @@ namespace Anim
     class cCharacterAnimSetManager : public cNonGameBase
     {
     public:
+        // CD2 0x824E4390: the allocation factory calls this constructor out of line.
+        cCharacterAnimSetManager();
         virtual const Fun_Runtime::cClass &RetClass() const;
         // CD2 descriptor pointer 0x838214ec; its initializer names cCharacterAnimSetManager.
         static const Fun_Runtime::cClass *ms_pccCharacterAnimSetManagerClass;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
+
+    private:
+        // Descriptor and factory allocation agree on the complete size; own fields remain unrecovered.
+        unsigned char m_unmodelled7C[0x1400 - 0x7C];
+        CD2_LAYOUT_CHECKS(cCharacterAnimSetManager, CD2_SIZE(cCharacterAnimSetManager, 0x1400))
     };
 }
 

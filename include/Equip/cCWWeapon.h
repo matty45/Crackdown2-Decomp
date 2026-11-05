@@ -13,6 +13,10 @@ namespace Equip
     class cCWWeapon : public cWeapon
     {
     public:
+        // CD2 0x82607BD0: cScriptHost slot 1; descriptive method name is ours.
+        virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
+        // CD2 0x82256348 (out of line: cCWHeavyWeapon's and cCWFirearm's destructors call it).
+        virtual ~cCWWeapon();
         // Interface-only prototype stand-in: name and base from RuffKing.
         // Instance fields and complete size are not recovered; this is not an allocation layout.
         class cCWWeaponPrototype : public cWeapon::cWeaponPrototype {};

@@ -63,4 +63,14 @@ namespace Equip
     {
         return *ms_pcFlocketLauncherClass;
     }
+
+    bool cFlocketLauncher::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcFlocketLauncherClass->IsA(c);
+    }
+
+    // CD2 0x82630FF0 has no derived cleanup beyond vtable restoration.
+    cFlocketLauncher::~cFlocketLauncher()
+    {
+    }
 }

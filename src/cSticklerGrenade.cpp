@@ -53,6 +53,11 @@ namespace unknown
     {
         return "cSticklerGrenade";
     }
+
+    // CD2 0x82623420 has no derived cleanup beyond vtable restoration.
+    cSticklerGrenade::~cSticklerGrenade()
+    {
+    }
 }
 
 #include "unknown/cSticklerGrenade.h"
@@ -63,4 +68,12 @@ namespace unknown
     // CD2 script-type registration; constructor/table evidence identifies the child and parent.
     static Fun_Runtime::cScriptTypeRegistrar<cSticklerGrenade> cSticklerGrenadeScriptRegistrar(
         "cSticklerGrenade", "cExplosiveGrenade");
+}
+
+namespace unknown
+{
+    const Fun_Runtime::cScriptTypeRegistration *cSticklerGrenade::RetScriptTypeRegistration() const
+    {
+        return &cSticklerGrenadeScriptRegistrar;
+    }
 }

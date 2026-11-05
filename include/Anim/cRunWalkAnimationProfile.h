@@ -10,6 +10,8 @@ namespace Anim
     class cRunWalkAnimationProfile : public cSpecificAnimationProfile, public cProfileDataRunWalk
     {
     public:
+        // CD2 0x824F7850: the allocation factory calls this constructor out of line.
+        cRunWalkAnimationProfile();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
         virtual void HandleAttributes(const RWS::CAttributePacket &);

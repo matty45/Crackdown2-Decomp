@@ -15,6 +15,9 @@ namespace VFX
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
         int RetEffectId(const char *); // RuffKing name; CD2 0x827EB880
+        // RuffKing names this resource operation. CD2 0x827EA810 takes only the
+        // resource name and obtains its manager from the singleton internally.
+        static void UnregisterParticleEffectResource(const char *);
     public:
         // Out of line: CD2 0x82358538 (MakeNew calls it).
         cParticleEffectManager();

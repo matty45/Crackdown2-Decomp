@@ -63,3 +63,11 @@ namespace Prop
     static Fun_Runtime::cScriptTypeRegistrar<cHingedDoor> cHingedDoorScriptRegistrar(
         "cHingedDoor", "cHingedProp");
 }
+
+namespace Prop
+{
+    const Fun_Runtime::cScriptTypeRegistration *cHingedDoor::RetScriptTypeRegistration() const
+    {
+        return &cHingedDoorScriptRegistrar;
+    }
+}

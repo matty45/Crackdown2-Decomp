@@ -10,6 +10,7 @@
 #include "fun_runtime/safedeletable.h"
 #include "fun_runtime/class.h"
 namespace Fun_Runtime {
+class cScriptTypeRegistration;
 class cScriptHost : public cSafeDeletable, public cRegisteredClass {
     public:
         // CD2 0x8276ED30 creates the named runtime descriptor.
@@ -19,7 +20,9 @@ class cScriptHost : public cSafeDeletable, public cRegisteredClass {
 public:
     cScriptHost() : m_bFlag(false) {}
     virtual ~cScriptHost();
-    virtual void Slot1();
+    // Descriptive name is ours: CD2 slot 1 returns the 0x24-byte script registrar
+    // constructed by 0x82772828. Concrete overrides return their own registrar.
+    virtual const cScriptTypeRegistration *RetScriptTypeRegistration() const;
     virtual void Slot2();
     virtual Vec3 RetPosition() const;
     virtual const char *RetName() const;

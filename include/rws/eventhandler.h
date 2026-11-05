@@ -26,6 +26,8 @@ namespace RWS
         virtual unsigned int RetMasterNetCommID();
         virtual void SendEventToNetComm(CMsg &);
         virtual void HandleEvents(CMsg &) = 0;
+        // RuffKing signature; CD2 0x82F021B8 (cLongDistancePropManager's factory passes 0 and 0x8000).
+        void LinkMsg(CEventId &, const char *p_formatstring, unsigned short priority);
         void UnLinkMsg(CEventId &);
         static void RegisterMsg(CEventId &, const char *msgName, const char *formatString);
         static void UnRegisterMsg(CEventId &);

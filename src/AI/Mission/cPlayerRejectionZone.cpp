@@ -21,6 +21,11 @@ namespace AI
     {
         return "cPlayerRejectionZone";
     }
+
+    // CD2 0x8248B9D0: only the member's and the bases' destruction.
+    cPlayerRejectionZone::~cPlayerRejectionZone()
+    {
+    }
 }
 
 // CD2 0x82F8FD58 (initializer) and 0x8303B2F8 (at-exit destructor).

@@ -10,6 +10,8 @@ namespace PHYSICS
     class cNetDynamicBody : public cDynamicBody, public cPositionalProxy, public cReplicatedClass
     {
     public:
+        // CD2 initializer 0x82FDFC60 calls this class's descriptor factory.
+        static const Fun_Runtime::cClass *ms_pcNetDynamicBodyClass;
         // CD2 0x82687E38 creates the named runtime descriptor.
         static Fun_Runtime::cClass &StaticCreateClass();
         virtual ~cNetDynamicBody();

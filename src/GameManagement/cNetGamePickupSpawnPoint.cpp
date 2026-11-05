@@ -1,5 +1,14 @@
 #include "rws/classfactory.h"
 #include "GameManagement/cNetGamePickupSpawnPoint.h"
+#include "cd2/memory.h"
+
+namespace GameManagement
+{
+    RWS::CAttributeHandler *cNetGamePickupSpawnPoint::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cNetGamePickupSpawnPoint;
+    }
+}
 
 namespace GameManagement
 {

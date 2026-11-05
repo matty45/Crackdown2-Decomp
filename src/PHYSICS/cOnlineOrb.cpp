@@ -36,6 +36,11 @@ namespace PHYSICS
     {
         return *ms_pcOnlineOrbClass;
     }
+
+    RWS::CAttributeHandler *cOnlineOrb::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cOnlineOrb();
+    }
 }
 
 // CD2 0x82FF1A68: runtime class inheritance registration.

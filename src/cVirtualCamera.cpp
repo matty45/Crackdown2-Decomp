@@ -18,6 +18,14 @@
 
 namespace unknown
 {
+    RWS::CAttributeHandler *cVirtualCamera::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cVirtualCamera;
+    }
+}
+
+namespace unknown
+{
     const Fun_Runtime::cClass *cVirtualCamera::ms_pcVirtualCameraClass = &cVirtualCamera::StaticCreateClass();
 
     Fun_Runtime::cClass &cVirtualCamera::StaticCreateClass()
@@ -63,4 +71,12 @@ namespace unknown
     // CD2 script-type registration; constructor/table evidence identifies the child and parent.
     static Fun_Runtime::cScriptTypeRegistrar<cVirtualCamera> cVirtualCameraScriptRegistrar(
         "cVirtualCamera", "cGameBase");
+}
+
+namespace unknown
+{
+    const Fun_Runtime::cScriptTypeRegistration *cVirtualCamera::RetScriptTypeRegistration() const
+    {
+        return &cVirtualCameraScriptRegistrar;
+    }
 }

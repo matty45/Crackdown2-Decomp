@@ -56,6 +56,8 @@ namespace PLAYER
         unsigned char m_padF1C[0x1160 - 0xF1C];
 
     public:
+        // CD2 0x8271F140: cScriptHost slot 1; descriptive method name is ours.
+        virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         // CD2's prototype allocation is 0x70 bytes; its slot 5 (0x82725740) is Init, as in RuffKing. Base as in RuffKing.
         // MakeNew (0x8271F0A8) calls GOM::cObjectPrototype's constructor with the packet and installs the vtables
         // 0x8213D518 (at 0) and 0x821327A4 (at 0x18, shared by every prototype).

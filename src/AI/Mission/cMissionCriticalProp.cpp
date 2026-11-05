@@ -24,6 +24,11 @@ namespace AI
     {
         return "cMissionCriticalProp";
     }
+
+    // CD2 0x8245B1E0 has no derived cleanup beyond vtable restoration.
+    cMissionCriticalProp::~cMissionCriticalProp()
+    {
+    }
 }
 
 #include "cd2/memory.h"

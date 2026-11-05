@@ -62,6 +62,16 @@ namespace unknown
     {
         return *ms_pcSpawnPortalClass;
     }
+
+    bool cSpawnPortal::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcSpawnPortalClass->IsA(c);
+    }
+
+    // CD2 0x8273E238 has no derived cleanup beyond vtable restoration.
+    cSpawnPortal::~cSpawnPortal()
+    {
+    }
 }
 
 namespace unknown

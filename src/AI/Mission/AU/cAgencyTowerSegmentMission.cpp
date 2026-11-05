@@ -1,6 +1,17 @@
 #include "fun_runtime/inheritance_registrar.h"
 #include "AI/cAgencyTowerSegmentMission.h"
 #include "rws/classfactory.h"
+#include "WorldManager/cWorldManager.h"
+
+// The surviving singleton accessor is folded into this split. CD2's world-manager
+// constructor 0x82278B80 stores this in the global read by 0x8245C8A8.
+namespace WorldManager
+{
+    cWorldManager *cWorldManager::RetInstance()
+    {
+        return ms_pInstance;
+    }
+}
 
 namespace AI
 {

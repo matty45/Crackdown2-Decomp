@@ -11,6 +11,32 @@
 //     py -I tools/cd2.py tasks src/cNetGameAISpawnPoint.cpp
 
 #include "unknown/cNetGameAISpawnPoint.h"
+
+namespace unknown
+{
+    cNetGameAISpawnPoint::cNetGameAISpawnPoint() : m_word80(0), m_word88(0)
+    {
+    }
+
+    const Fun_Runtime::cClass &cNetGameAISpawnPoint::RetClass() const
+    {
+        return *ms_pcNetGameAISpawnPointClass;
+    }
+
+    bool cNetGameAISpawnPoint::IsA(const Fun_Runtime::cClass &testClass) const
+    {
+        return ms_pcNetGameAISpawnPointClass->IsA(testClass);
+    }
+}
+#include "cd2/memory.h"
+
+namespace unknown
+{
+    RWS::CAttributeHandler *cNetGameAISpawnPoint::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cNetGameAISpawnPoint;
+    }
+}
 #include "cd2/memory.h"
 
 namespace unknown

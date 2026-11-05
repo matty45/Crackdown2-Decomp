@@ -14,6 +14,8 @@
 #include "fun_runtime/vec3.h"
 #include "cd2/layout.h"
 
+namespace Fun_Runtime { class cScriptHost; }
+
 namespace AI
 {
     class cCharacterEntityIF;
@@ -23,6 +25,9 @@ namespace AI
     private:
         unsigned char m_pad0[0x4];
     public:
+        // CD2 0x823238B0 takes the script interface: it queries the registered
+        // class at +0x14 and reaches the owning game object through its -0x1C base adjustment.
+        bool IsInViewCone(Fun_Runtime::cScriptHost *object);
         const char *m_name;                         // 0x4
     private:
         unsigned char m_pad8[0x88 - 0x8];

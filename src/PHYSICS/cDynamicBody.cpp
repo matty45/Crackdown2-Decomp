@@ -1,10 +1,23 @@
 // Script registrar source ownership: CD2 initializer 0x82FDFC08 names cDynamicBody,
 // and cleanup 0x830403C0 destroys the same descriptor. Shared interface names are ours.
 #include "PHYSICS/cDynamicBody.h"
+#include "PHYSICS/cNetDynamicBody.h"
 #include "fun_runtime/script_type_registrar.h"
 
 namespace PHYSICS
 {
+    bool cDynamicBody::RetIsOnFire() const
+    {
+        return IsOnFire();
+    }
+
+    // The registered-class getter's descriptor is cNetDynamicBody's, and its
+    // table at 0x82132398 is installed by that class's constructor.
+    const Fun_Runtime::cClass &cNetDynamicBody::RetClass() const
+    {
+        return *ms_pcNetDynamicBodyClass;
+    }
+
     static Fun_Runtime::cScriptTypeRegistrar<cDynamicBody> cDynamicBodyScriptRegistrar(
         "cDynamicBody", "cBody");
 }
@@ -27,5 +40,13 @@ namespace PHYSICS
     const Fun_Runtime::cClass &cDynamicBody::RetClass() const
     {
         return *ms_pcDynamicBodyClass;
+    }
+}
+
+namespace PHYSICS
+{
+    const Fun_Runtime::cScriptTypeRegistration *cDynamicBody::RetScriptTypeRegistration() const
+    {
+        return &cDynamicBodyScriptRegistrar;
     }
 }

@@ -66,4 +66,22 @@ namespace Equip
     {
         return *ms_pcCloakingDeviceClass;
     }
+
+    bool cCloakingDevice::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcCloakingDeviceClass->IsA(c);
+    }
+
+    // CD2 0x8260B4B0 has no derived cleanup beyond vtable restoration.
+    cCloakingDevice::~cCloakingDevice()
+    {
+    }
+}
+
+namespace Equip
+{
+    const Fun_Runtime::cScriptTypeRegistration *cCloakingDevice::RetScriptTypeRegistration() const
+    {
+        return &cCloakingDeviceScriptRegistrar;
+    }
 }

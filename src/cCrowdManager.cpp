@@ -1,5 +1,15 @@
 #include "unknown/cCrowdManager.h"
 #include "rws/classfactory.h"
+#include "Sim/cTimeOfDay.h"
+
+// CD2's script registration at 0x8239B420 names the surviving RetPeriod copy.
+namespace Sim
+{
+    float cTimeOfDay::RetPeriod()
+    {
+        return m_fPeriod;
+    }
+}
 
 namespace unknown
 {

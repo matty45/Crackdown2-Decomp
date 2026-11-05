@@ -11,6 +11,32 @@
 
 #include "rws/classfactory.h"
 #include "VFX/cParticleEffectResourceHolder.h"
+#include "cd2/memory.h"
+#include "VFX/cParticleEffectManager.h"
+
+namespace VFX
+{
+    cParticleEffectResourceHolder::~cParticleEffectResourceHolder()
+    {
+        for (unsigned int i = 0; i < m_vResources.size(); ++i)
+            cParticleEffectManager::UnregisterParticleEffectResource(m_vResources[i]);
+    }
+
+    const Fun_Runtime::cClass &cParticleEffectResourceHolder::RetClass() const
+    {
+        return *ms_pcParticleEffectResourceHolderClass;
+    }
+
+    bool cParticleEffectResourceHolder::IsA(const Fun_Runtime::cClass &testClass) const
+    {
+        return ms_pcParticleEffectResourceHolderClass->IsA(testClass);
+    }
+
+    RWS::CAttributeHandler *cParticleEffectResourceHolder::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cParticleEffectResourceHolder(packet);
+    }
+}
 
 // CD2 0x827EDC28.
 namespace VFX

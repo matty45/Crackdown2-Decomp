@@ -55,4 +55,9 @@ namespace Equip
     {
         return "cChainGun";
     }
+
+    // CD2 0x82616780 has no derived cleanup beyond vtable restoration.
+    cChainGun::~cChainGun()
+    {
+    }
 }

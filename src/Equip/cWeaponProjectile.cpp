@@ -9,6 +9,15 @@ namespace Equip
     {
         return "cWeaponProjectile";
     }
+
+    // CD2 0x82609610 and 0x826096C0: no derived construction or cleanup beyond the vtables.
+    cWeaponProjectile::cWeaponProjectile()
+    {
+    }
+
+    cWeaponProjectile::~cWeaponProjectile()
+    {
+    }
 }
 
 namespace Equip

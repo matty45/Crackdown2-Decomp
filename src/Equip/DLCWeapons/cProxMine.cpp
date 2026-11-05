@@ -64,6 +64,16 @@ namespace Equip
     {
         return *ms_pcProxMineClass;
     }
+
+    bool cProxMine::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcProxMineClass->IsA(c);
+    }
+
+    // CD2 0x8261FB48 has no derived cleanup beyond vtable restoration.
+    cProxMine::~cProxMine()
+    {
+    }
 }
 
 namespace Equip

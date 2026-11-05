@@ -10,6 +10,8 @@ namespace Anim
     class cHand2HandFullAnimationProfile : public cSpecificAnimationProfile, public cProfileDataHand2HandFull
     {
     public:
+        // CD2 0x825160F8: the allocation factory calls this constructor out of line.
+        cHand2HandFullAnimationProfile();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
         virtual void HandleAttributes(const RWS::CAttributePacket &);

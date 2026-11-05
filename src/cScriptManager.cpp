@@ -17,6 +17,18 @@
 
 namespace unknown
 {
+    cScriptManager *cScriptManager::ms_pInstance;
+
+    cScriptManager::~cScriptManager()
+    {
+        ms_pInstance = 0;
+        RWS::CEventHandler::UnRegisterMsg(iMsgScriptManagerBeginPlay);
+        RWS::CEventHandler::UnRegisterMsg(iMsgScriptManagerEndPlay);
+    }
+}
+
+namespace unknown
+{
     const Fun_Runtime::cClass *cScriptManager::ms_pcScriptManagerClass = &cScriptManager::StaticCreateClass();
 
     Fun_Runtime::cClass &cScriptManager::StaticCreateClass()
@@ -55,4 +67,20 @@ namespace unknown
     // CD2 script-type registration; constructor/table evidence identifies the child and parent.
     static Fun_Runtime::cScriptTypeRegistrar<cScriptManager> cScriptManagerScriptRegistrar(
         "cScriptManager", "cNonGameBase");
+}
+
+namespace unknown
+{
+    const Fun_Runtime::cScriptTypeRegistration *cScriptManager::RetScriptTypeRegistration() const
+    {
+        return &cScriptManagerScriptRegistrar;
+    }
+}
+
+namespace unknown
+{
+    RWS::CAttributeHandler *cScriptManager::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cScriptManager;
+    }
 }

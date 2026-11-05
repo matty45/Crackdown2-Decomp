@@ -14,6 +14,9 @@ namespace AI
         static const Fun_Runtime::cClass *ms_pcStreamingDataHolderClass;
 
         cStreamingDataHolder();
+        // CD2's deleting destructor 0x8244C1A8 restores the five cNonGameBase vptrs before calling ~cNonGameBase: a
+        // user-declared empty destructor, inlined there (docs/matching-notes.md, Destructors).
+        virtual ~cStreamingDataHolder() {}
         virtual const Fun_Runtime::cClass &RetClass() const;
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         virtual const char *RetClassName() const;

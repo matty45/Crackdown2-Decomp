@@ -7,6 +7,11 @@ namespace AI
     {
         return "cMissionActivationZone";
     }
+
+    // CD2 0x8248B510: only the member's and the bases' destruction.
+    cMissionActivationZone::~cMissionActivationZone()
+    {
+    }
 }
 
 namespace AI

@@ -9,6 +9,8 @@ namespace Equip
     class cCloakingDevice : public cGrenade
     {
     public:
+        // CD2 0x8260B350: cScriptHost slot 1; descriptive method name is ours.
+        virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         // RuffKing prototype name/base; CD2 Init is primary slot 5 (0x8260BA80).
         // Interface only: instance fields and allocation size remain unrecovered.
         class cCloakingDevicePrototype : public cGrenade::cGrenadePrototype
@@ -22,6 +24,10 @@ namespace Equip
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pcCloakingDeviceClass;
         virtual const Fun_Runtime::cClass &RetClass() const;
+        // CD2 0x8260B188: registered-class virtual slot 1.
+        virtual bool IsA(const Fun_Runtime::cClass &c) const;
+        // CD2 0x8260B4B0.
+        virtual ~cCloakingDevice();
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         CD2_LAYOUT_CHECKS(cCloakingDevice, CD2_SIZE(cCloakingDevice, 0x9C0))
     };

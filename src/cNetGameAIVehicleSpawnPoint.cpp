@@ -17,6 +17,24 @@
 
 namespace unknown
 {
+    const Fun_Runtime::cClass &cNetGameAIVehicleSpawnPoint::RetClass() const
+    {
+        return *ms_pcNetGameAIVehicleSpawnPointClass;
+    }
+
+    bool cNetGameAIVehicleSpawnPoint::IsA(const Fun_Runtime::cClass &testClass) const
+    {
+        return ms_pcNetGameAIVehicleSpawnPointClass->IsA(testClass);
+    }
+
+    RWS::CAttributeHandler *cNetGameAIVehicleSpawnPoint::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cNetGameAIVehicleSpawnPoint;
+    }
+}
+
+namespace unknown
+{
     const Fun_Runtime::cClass *cNetGameAIVehicleSpawnPoint::ms_pcNetGameAIVehicleSpawnPointClass = &cNetGameAIVehicleSpawnPoint::StaticCreateClass();
 
     Fun_Runtime::cClass &cNetGameAIVehicleSpawnPoint::StaticCreateClass()

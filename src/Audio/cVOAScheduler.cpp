@@ -34,4 +34,25 @@ namespace Audio
     {
         return *ms_pccVOASchedulerClass;
     }
+
+    bool cVOAScheduler::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pccVOASchedulerClass->IsA(c);
+    }
+
+    cVOAScheduler::~cVOAScheduler()
+    {
+        UnLinkMsg(RWS::iMsgRunningTick);
+        ms_pInstance = 0;
+    }
+}
+
+#include "cd2/memory.h"
+
+namespace Audio
+{
+    RWS::CAttributeHandler *cVOAScheduler::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cVOAScheduler;
+    }
 }

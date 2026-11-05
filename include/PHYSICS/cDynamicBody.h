@@ -10,6 +10,10 @@ namespace PHYSICS
     class cDynamicBody : public cBody, public cIgnitable, public hkEntityActivationListener
     {
     public:
+        // CD2 0x82684BD0 registered as RetIsOnFire; cIgnitable owns the flag.
+        bool RetIsOnFire() const;
+        // CD2 0x82684BC0: cScriptHost slot 1; descriptive method name is ours.
+        virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         // Interface-only prototype stand-in: name and base from RuffKing.
         // Instance fields and complete size are not recovered; this is not an allocation layout.
         class cDynamicBodyPrototype : public cBody::cBodyPrototype {};

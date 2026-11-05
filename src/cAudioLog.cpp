@@ -53,4 +53,22 @@ namespace unknown
     {
         return *ms_pcAudioLogClass;
     }
+
+    bool cAudioLog::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcAudioLogClass->IsA(c);
+    }
+
+    // CD2 0x8270EC18: only the members' and the base's destruction.
+    cAudioLog::~cAudioLog()
+    {
+    }
+}
+
+namespace unknown
+{
+    RWS::CAttributeHandler *cAudioLog::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cAudioLog;
+    }
 }

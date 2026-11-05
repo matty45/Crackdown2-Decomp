@@ -11,6 +11,13 @@
 //     py -I tools/cd2.py tasks src/cStaticInterestingObject.cpp
 
 #include "unknown/cStaticInterestingObject.h"
+#include "fun_runtime/inheritance_registrar.h"
+
+namespace unknown
+{
+    static Fun_Runtime::cInheritanceRegistrar cStaticInterestingObjectcInterestingObjectInheritRegistrar(
+        cStaticInterestingObject::StaticCreateClass(), cInterestingObject::StaticCreateClass());
+}
 #include "cd2/memory.h"
 #include "fun_runtime/script_type_registrar.h"
 
@@ -42,5 +49,13 @@ namespace unknown
     const Fun_Runtime::cClass &cStaticInterestingObject::RetClass() const
     {
         return *ms_pcStaticInterestingObjectClass;
+    }
+}
+
+namespace unknown
+{
+    const Fun_Runtime::cScriptTypeRegistration *cStaticInterestingObject::RetScriptTypeRegistration() const
+    {
+        return &cStaticInterestingObjectScriptRegistrar;
     }
 }

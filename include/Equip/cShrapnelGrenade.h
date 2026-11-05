@@ -1,7 +1,8 @@
 #include "Equip/cExplosiveGrenade.h"
 #include "gom/object_prototype.h"
 #include "rws/attributes.h"
-// Equip::cShrapnelGrenade (Crackdown 2): STAND-IN with only its runtime class descriptor; its bases are not modelled yet.
+// Equip::cShrapnelGrenade (Crackdown 2): STAND-IN; derived storage is not modelled yet.
+// Base cExplosiveGrenade: the destructor 0x82621D08 calls cExplosiveGrenade's (0x8261D3F0).
 // StaticCreateClass (0x82621C20) builds cClass(0x3E8C, "cShrapnelGrenade", 0x9D0); 0x9D0 is the size its registrar gives.
 #ifndef EQUIP_CSHRAPNELGRENADE_H
 #define EQUIP_CSHRAPNELGRENADE_H
@@ -10,9 +11,12 @@
 
 namespace Equip
 {
-    class cShrapnelGrenade
+    class cShrapnelGrenade : public cExplosiveGrenade
     {
     public:
+        // __forceinline: CD2's placement factory 0x82621B60 inlines this constructor (base call and every vtable
+        // store); /Ob1 declines a plain inline constructor with this many stores (docs/matching-notes.md, Inlining).
+        __forceinline cShrapnelGrenade() {}
         // RuffKing prototype name/base; CD2 Init is primary slot 5 (0x82622568).
         // Interface only: instance fields and allocation size remain unrecovered.
         class cShrapnelGrenadePrototype : public cExplosiveGrenade::cExplosiveGrenadePrototype
@@ -23,6 +27,10 @@ namespace Equip
 
         // CD2 0x82621A60: registered-class virtual slot 0 reads this class descriptor.
         virtual const Fun_Runtime::cClass &RetClass() const;
+        // CD2 0x82621A70: registered-class virtual slot 1.
+        virtual bool IsA(const Fun_Runtime::cClass &c) const;
+        // CD2 0x82621D08.
+        virtual ~cShrapnelGrenade();
         // CD2 0x82621B50: primary virtual slot 11 returns the registered class name.
         virtual const char *RetClassName() const;
         // CD2 spawning initializer 0x82FD0998 names placement factory 0x82621b60.

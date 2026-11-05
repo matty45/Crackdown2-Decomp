@@ -1,7 +1,8 @@
 #include "Equip/cCWHeavyWeapon.h"
 #include "gom/object_prototype.h"
 #include "rws/attributes.h"
-// Equip::cRealNadeLauncher (Crackdown 2): STAND-IN with only its runtime class descriptor; its bases are not modelled yet.
+// Equip::cRealNadeLauncher (Crackdown 2): STAND-IN; derived storage is not modelled yet.
+// Base cCWHeavyWeapon: CD2's inheritance registrar names it, and the destructor 0x82634BE8 calls cCWHeavyWeapon's (0x8262FCB0).
 // StaticCreateClass (0x82634B00) builds cClass(0x6067, "cRealNadeLauncher", 0xA20); 0xA20 is the size its registrar gives.
 #ifndef EQUIP_CREALNADELAUNCHER_H
 #define EQUIP_CREALNADELAUNCHER_H
@@ -10,7 +11,7 @@
 
 namespace Equip
 {
-    class cRealNadeLauncher
+    class cRealNadeLauncher : public cCWHeavyWeapon
     {
     public:
         // RuffKing prototype name/base; CD2 Init is primary slot 5 (0x82635418).
@@ -23,6 +24,10 @@ namespace Equip
 
         // CD2 0x82634928: registered-class virtual slot 0 reads this class descriptor.
         virtual const Fun_Runtime::cClass &RetClass() const;
+        // CD2 0x82634938: registered-class virtual slot 1.
+        virtual bool IsA(const Fun_Runtime::cClass &c) const;
+        // CD2 0x82634BE8.
+        virtual ~cRealNadeLauncher();
         // CD2 0x82634A28: primary virtual slot 11 returns the registered class name.
         virtual const char *RetClassName() const;
         // CD2 spawning initializer 0x82FD3B80 names placement factory 0x82634a38.

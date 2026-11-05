@@ -5,6 +5,11 @@
 
 namespace AI
 {
+    bool cAiTargetInfo::IsPrimaryFireInRange() const
+    {
+        return m_bPrimaryFireInRange;
+    }
+
     static Fun_Runtime::cScriptTypeRegistrar<cAiTargetInfo> cAiTargetInfoScriptRegistrar(
         "cAiTargetInfo", "cScriptHost");
 }

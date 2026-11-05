@@ -10,6 +10,10 @@ namespace Equip
     class cExplosiveGrenade : public cGrenade, public ExplosionManager::cExplosionCallback
     {
     public:
+        // CD2 0x8261D3F0: restores this class's vtables, then calls cGrenade's destructor.
+        virtual ~cExplosiveGrenade();
+        // CD2 0x8261D2E0, called by cClusterGrenade's placement factory with only this.
+        cExplosiveGrenade();
         // Interface-only prototype stand-in: name and base from RuffKing.
         // Instance fields and complete size are not recovered; this is not an allocation layout.
         class cExplosiveGrenadePrototype : public cGrenade::cGrenadePrototype {};

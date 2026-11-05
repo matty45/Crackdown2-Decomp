@@ -64,6 +64,18 @@ namespace Equip
     {
         return *ms_pcSmokeGrenadeClass;
     }
+
+    bool cSmokeGrenade::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcSmokeGrenadeClass->IsA(c);
+    }
+
+    RWS::CAttributeHandler *cSmokeGrenade::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cSmokeGrenade;
+        return 0;
+    }
 }
 
 namespace Equip

@@ -29,6 +29,11 @@ namespace Prop
     {
         return "cHingedProp";
     }
+
+    // CD2 0x82737698 has no derived cleanup beyond vtable restoration.
+    cHingedProp::~cHingedProp()
+    {
+    }
 }
 
 #include "cd2/memory.h"
@@ -85,4 +90,12 @@ namespace Prop
     // CD2 script-type registration; constructor/table evidence identifies the child and parent.
     static Fun_Runtime::cScriptTypeRegistrar<cHingedProp> cHingedPropScriptRegistrar(
         "cHingedProp", "cProp");
+}
+
+namespace Prop
+{
+    const Fun_Runtime::cScriptTypeRegistration *cHingedProp::RetScriptTypeRegistration() const
+    {
+        return &cHingedPropScriptRegistrar;
+    }
 }

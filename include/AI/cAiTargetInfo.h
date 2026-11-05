@@ -14,7 +14,10 @@ namespace AI
     class cAiTargetInfo
     {
     private:
-        unsigned char m_pad0[0x20];
+        unsigned char m_pad0[0x1C];
+        // RuffKing field name; CD2 registers the getter at 0x8244D9A0 under this name.
+        bool m_bPrimaryFireInRange;
+        unsigned char m_pad1D[0x20 - 0x1D];
     protected:
         bool m_bPrimaryFireBlocked;             // 0x20
     private:
@@ -23,10 +26,12 @@ namespace AI
         bool m_bVisible;                        // 0x2E
 
     public:
+        bool IsPrimaryFireInRange() const;
         bool IsPrimaryFireBlocked() const;
         bool IsTargetVisible() const;
 
         CD2_LAYOUT_CHECKS(cAiTargetInfo,
+            CD2_OFFSET(cAiTargetInfo, m_bPrimaryFireInRange, 0x1C)
             CD2_OFFSET(cAiTargetInfo, m_bPrimaryFireBlocked, 0x20)
             CD2_OFFSET(cAiTargetInfo, m_bVisible, 0x2E))
     };

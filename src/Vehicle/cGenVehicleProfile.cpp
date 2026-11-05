@@ -16,6 +16,39 @@
 
 namespace Vehicle
 {
+    int cGenVehicleProfile::m_aVehicleVFX[26];
+    float cGenVehicleProfile::m_fAICharacterDamageThreshold[12];
+    float cGenVehicleProfile::m_fPlayerCharacterDamageThreshold[12];
+    float cGenVehicleProfile::m_fAICharacterDamageModifier[12];
+    float cGenVehicleProfile::m_fPlayerCharacterDamageModifier[12];
+    float cGenVehicleProfile::m_fAIGearChangeRatio = 0.6f;
+
+    cGenVehicleProfile::cGenVehicleProfile()
+    {
+        for (int i = 0; i < 26; ++i)
+            m_aVehicleVFX[i] = -1;
+        for (int i = 0; i < 12; ++i)
+            m_fAICharacterDamageThreshold[i] = 0.0f;
+        for (int i = 0; i < 12; ++i)
+            m_fPlayerCharacterDamageThreshold[i] = 0.0f;
+        for (int i = 0; i < 12; ++i)
+            m_fAICharacterDamageModifier[i] = 0.0f;
+        for (int i = 0; i < 12; ++i)
+            m_fPlayerCharacterDamageModifier[i] = 0.0f;
+        m_fAIGearChangeRatio = 0.6f;
+    }
+}
+
+namespace Vehicle
+{
+    bool cGenVehicleProfile::IsA(const Fun_Runtime::cClass &testClass) const
+    {
+        return ms_pccGenVehicleProfileClass->IsA(testClass);
+    }
+}
+
+namespace Vehicle
+{
     const char *cGenVehicleProfile::RetClassName() const
     {
         return "cGenVehicleProfile";
@@ -33,5 +66,15 @@ namespace Vehicle
     const Fun_Runtime::cClass &cGenVehicleProfile::RetClass() const
     {
         return *ms_pccGenVehicleProfileClass;
+    }
+}
+
+#include "cd2/memory.h"
+
+namespace Vehicle
+{
+    RWS::CAttributeHandler *cGenVehicleProfile::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cGenVehicleProfile;
     }
 }

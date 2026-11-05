@@ -70,3 +70,11 @@ namespace Equip
     static Fun_Runtime::cScriptTypeRegistrar<cHWGrenadeProjectile> cHWGrenadeProjectileScriptRegistrar(
         "cHWGrenadeProjectile", "cHWProjectile");
 }
+
+namespace Equip
+{
+    const Fun_Runtime::cScriptTypeRegistration *cHWGrenadeProjectile::RetScriptTypeRegistration() const
+    {
+        return &cHWGrenadeProjectileScriptRegistrar;
+    }
+}

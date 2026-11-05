@@ -12,6 +12,9 @@ namespace Prop
     public:
         // CD2 placement factory 0x8273B5B0; constructor signature follows RuffKing.
         cPrismaticProp(GOM::cObjectPrototype *);
+        // CD2 0x8273BC98: restores this class's vtables (primary 0x821405E8), then calls the base destructor.
+        // Out of line: cLift's and cWeaponCabinetDoor's destructors call it.
+        virtual ~cPrismaticProp();
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         // RuffKing layout; CD2 factory 0x8273B548 allocates 0x530 and calls constructor 0x8273CBD0.

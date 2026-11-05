@@ -9,6 +9,10 @@ namespace Equip
     class cGrenade : public cWeapon
     {
     public:
+        // CD2 0x8261DFC0: cScriptHost slot 1; descriptive method name is ours.
+        virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
+        // CD2 0x8261E460 (out of line: cExplosiveGrenade's and cCloakingDevice's destructors call it).
+        virtual ~cGrenade();
         // Interface-only prototype stand-in: name and base from RuffKing.
         // Instance fields and complete size are not recovered; this is not an allocation layout.
         class cGrenadePrototype : public cWeapon::cWeaponPrototype {};

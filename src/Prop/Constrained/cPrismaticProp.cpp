@@ -29,6 +29,11 @@ namespace Prop
     {
         return "cPrismaticProp";
     }
+
+    // CD2 0x8273BC98 has no derived cleanup beyond vtable restoration.
+    cPrismaticProp::~cPrismaticProp()
+    {
+    }
 }
 
 #include "cd2/memory.h"

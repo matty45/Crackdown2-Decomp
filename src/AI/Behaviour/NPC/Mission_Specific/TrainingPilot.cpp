@@ -8,7 +8,12 @@ namespace AI
 {
     const Fun_Runtime::cClass *TrainingPilot::ms_pTrainingPilotClass = &TrainingPilot::StaticCreateClass();
 
-    TrainingPilot::TrainingPilot() {}
+    RWS::CAttributeHandler *TrainingPilot::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) TrainingPilot;
+        return 0;
+    }
 
     const Fun_Runtime::cClass &TrainingPilot::RetClass() const
     {

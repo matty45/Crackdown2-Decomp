@@ -62,6 +62,23 @@ namespace unknown
     {
         return *ms_pcLiftClass;
     }
+
+    bool cLift::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcLiftClass->IsA(c);
+    }
+
+    RWS::CAttributeHandler *cLift::SpawnFromPrototype(GOM::cObjectPrototype *prototype, void *memory)
+    {
+        if (memory)
+            return new (memory) cLift(prototype);
+        return 0;
+    }
+
+    // CD2 0x82739178 has no derived cleanup beyond vtable restoration.
+    cLift::~cLift()
+    {
+    }
 }
 
 namespace unknown

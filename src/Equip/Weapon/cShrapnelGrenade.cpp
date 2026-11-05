@@ -56,6 +56,13 @@ namespace Equip
     {
         return "cShrapnelGrenade";
     }
+
+    RWS::CAttributeHandler *cShrapnelGrenade::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cShrapnelGrenade;
+        return 0;
+    }
 }
 
 namespace Equip
@@ -63,6 +70,16 @@ namespace Equip
     const Fun_Runtime::cClass &cShrapnelGrenade::RetClass() const
     {
         return *ms_pcShrapnelGrenadeClass;
+    }
+
+    bool cShrapnelGrenade::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcShrapnelGrenadeClass->IsA(c);
+    }
+
+    // CD2 0x82621D08 has no derived cleanup beyond vtable restoration.
+    cShrapnelGrenade::~cShrapnelGrenade()
+    {
     }
 }
 

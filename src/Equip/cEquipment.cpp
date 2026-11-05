@@ -76,3 +76,11 @@ namespace Equip
     static Fun_Runtime::cScriptTypeRegistrar<cEquipment> cEquipmentScriptRegistrar(
         "cEquipment", "cDynamicBody");
 }
+
+namespace Equip
+{
+    const Fun_Runtime::cScriptTypeRegistration *cEquipment::RetScriptTypeRegistration() const
+    {
+        return &cEquipmentScriptRegistrar;
+    }
+}

@@ -14,6 +14,10 @@ namespace Equip
     class cEquipment : public PHYSICS::cNetDynamicBody, public Fun_Runtime::cStateMachine
     {
     public:
+        // CD2 0x826046D0: cScriptHost slot 1; descriptive method name is ours.
+        virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
+        // CD2 0x82604CA8 (out of line: cWeaponProjectile's destructor 0x826096C0 calls it).
+        virtual ~cEquipment();
         // Interface-only prototype stand-in: name and base from RuffKing.
         // Instance fields and complete size are not recovered; this is not an allocation layout.
         class cEquipmentPrototype : public PHYSICS::cDynamicBody::cDynamicBodyPrototype {};

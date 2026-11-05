@@ -64,6 +64,16 @@ namespace Equip
     {
         return *ms_pcRealNadeLauncherClass;
     }
+
+    bool cRealNadeLauncher::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcRealNadeLauncherClass->IsA(c);
+    }
+
+    // CD2 0x82634BE8 has no derived cleanup beyond vtable restoration.
+    cRealNadeLauncher::~cRealNadeLauncher()
+    {
+    }
 }
 
 namespace Equip

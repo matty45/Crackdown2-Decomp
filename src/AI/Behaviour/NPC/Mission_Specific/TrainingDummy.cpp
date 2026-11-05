@@ -8,7 +8,12 @@ namespace AI
 {
     const Fun_Runtime::cClass *TrainingDummy::ms_pTrainingDummyClass = &TrainingDummy::StaticCreateClass();
 
-    TrainingDummy::TrainingDummy() {}
+    RWS::CAttributeHandler *TrainingDummy::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) TrainingDummy;
+        return 0;
+    }
 
     const Fun_Runtime::cClass &TrainingDummy::RetClass() const
     {
@@ -38,6 +43,13 @@ namespace AI
 }
 
 #include "cd2/memory.h"
+#include "gom/game_base.h"
+
+// cGameBase's setter is folded into this split; TrainingDummy itself is only 0xD0 bytes.
+void cGameBase::SetFullHealth(float health)
+{
+    m_fFullHealth = health;
+}
 #include "AI/BehaviourClassID.h"
 
 namespace AI

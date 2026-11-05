@@ -11,6 +11,8 @@ namespace Prop
     class cHingedDoor : public RWS::CAttributeHandler
     {
     public:
+        // CD2 0x82744380: cScriptHost slot 1; descriptive method name is ours.
+        virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         // CD2 spawning initializer 0x82FFAFA8 names placement factory 0x82744360.
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static const Fun_Runtime::cClass *ms_pcHingedDoorClass;

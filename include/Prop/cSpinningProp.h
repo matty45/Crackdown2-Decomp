@@ -10,6 +10,8 @@ namespace Prop
     class cSpinningProp : public Prop::cPivotBasedProp
     {
     public:
+        // CD2 0x8273EB20: restores this class's vtables, then calls cPivotBasedProp's destructor.
+        virtual ~cSpinningProp();
         // CD2 placement factory 0x8273E680; constructor signature follows RuffKing.
         cSpinningProp(GOM::cObjectPrototype *);
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);

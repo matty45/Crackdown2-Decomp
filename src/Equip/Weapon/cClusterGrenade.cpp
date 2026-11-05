@@ -56,6 +56,13 @@ namespace Equip
     {
         return "cClusterGrenade";
     }
+
+    RWS::CAttributeHandler *cClusterGrenade::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cClusterGrenade;
+        return 0;
+    }
 }
 
 namespace Equip
