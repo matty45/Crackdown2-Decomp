@@ -10,6 +10,20 @@
 
 namespace AI
 {
+    // RuffKing: AI::FreakPrototype : NPCBehaviourPrototype, 176 bytes. CD2's FreakBase::MakeNew (0x824ABC10) allocates
+    // 0xB0 and calls this constructor (0x824B0B78), which calls NPCBehaviourPrototype's (0x824A8608).
+    class FreakPrototype : public NPCBehaviourPrototype
+    {
+    public:
+        FreakPrototype(const RWS::CAttributePacket &);
+
+    private:
+        unsigned char m_unmodelled90[0xB0 - 0x90];
+
+        CD2_LAYOUT_CHECKS(FreakPrototype,
+            CD2_SIZE(FreakPrototype, 0xB0))
+    };
+
     class FreakBase : public AI::NPCBehaviourSM
     {
     public:

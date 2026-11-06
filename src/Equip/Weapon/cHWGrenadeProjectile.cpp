@@ -18,6 +18,7 @@
 #include "Equip/cHWGrenadeProjectile.h"
 #include "cd2/memory.h"
 #include "fun_runtime/script_type_registrar.h"
+#include <new>
 
 namespace Equip
 {
@@ -48,6 +49,13 @@ namespace Equip
     // CD2 script-type registration; constructor/table evidence identifies the child and parent.
     static Fun_Runtime::cScriptTypeRegistrar<cHWGrenadeProjectile> cHWGrenadeProjectileScriptRegistrar(
         "cHWGrenadeProjectile", "cHWProjectile");
+
+    RWS::CAttributeHandler *cHWGrenadeProjectile::SpawnFromPrototype(GOM::cObjectPrototype *pPrototype, void *pMem)
+    {
+        if (pMem)
+            return new (pMem) cHWGrenadeProjectile(pPrototype);
+        return 0;
+    }
 
     const Fun_Runtime::cScriptTypeRegistration *cHWGrenadeProjectile::RetScriptTypeRegistration() const
     {

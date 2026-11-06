@@ -18,10 +18,18 @@
 #include "rws/classfactory.h"
 #include "Equip/cRealNadeLauncher.h"
 #include "cd2/memory.h"
+#include <new>
 
 namespace Equip
 {
     const Fun_Runtime::cClass *cRealNadeLauncher::ms_pcRealNadeLauncherClass = &cRealNadeLauncher::StaticCreateClass();
+
+    RWS::CAttributeHandler *cRealNadeLauncher::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cRealNadeLauncher;
+        return 0;
+    }
 
     Fun_Runtime::cClass &cRealNadeLauncher::StaticCreateClass()
     {

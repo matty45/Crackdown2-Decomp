@@ -27,7 +27,7 @@ namespace PHYSICS
             cBodyPrototype(const RWS::CAttributePacket &);
 
         private:
-            unsigned char m_unmodelled70[0x1F0 - 0x70];
+            unsigned char m_unmodelledE0[0x1F0 - 0xE0];
 
             CD2_LAYOUT_CHECKS(cBodyPrototype,
                 CD2_SIZE(cBodyPrototype, 0x1F0))

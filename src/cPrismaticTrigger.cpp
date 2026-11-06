@@ -37,6 +37,11 @@ namespace unknown
     static GOM::cProtoRegistrar cPrismaticTriggerSpawningRegistrar(
         cPrismaticTrigger::StaticCreateClass(), cPrismaticTrigger::SpawnFromPrototype);
 
+    RWS::CAttributeHandler *cPrismaticTrigger::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cPrismaticTriggerPrototype(packet);
+    }
+
     const char *cPrismaticTrigger::RetClassName() const
     {
         return "cPrismaticTrigger";

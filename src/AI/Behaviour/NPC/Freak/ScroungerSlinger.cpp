@@ -5,16 +5,27 @@
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
 #include "AI/BehaviourClassID.h"
+#include <new>
 
 namespace AI
 {
     const Fun_Runtime::cClass *ScroungerSlinger::ms_pScroungerSlingerClass = &ScroungerSlinger::StaticCreateClass();
 
-    ScroungerSlinger::ScroungerSlinger() {}
+    RWS::CAttributeHandler *ScroungerSlinger::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) ScroungerSlinger;
+        return 0;
+    }
 
     const Fun_Runtime::cClass &ScroungerSlinger::RetClass() const
     {
         return *ms_pScroungerSlingerClass;
+    }
+
+    RWS::CAttributeHandler *ScroungerSlinger::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new ScroungerSlingerPrototype(packet);
     }
 
     const char *ScroungerSlinger::RetClassName() const
@@ -25,11 +36,6 @@ namespace AI
     bool ScroungerSlinger::IsA(const Fun_Runtime::cClass &c) const
     {
         return ms_pScroungerSlingerClass->IsA(c);
-    }
-
-    RWS::CAttributeHandler *ScroungerSlinger::MakeNew(const RWS::CAttributePacket &packet, bool)
-    {
-        return new ScroungerSlinger();
     }
 
     static RWS::CClassFactory::CRegistrar ScroungerSlingerRegistrar(

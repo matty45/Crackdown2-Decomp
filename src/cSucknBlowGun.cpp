@@ -38,6 +38,11 @@ namespace unknown
     static GOM::cProtoRegistrar cSucknBlowGunSpawningRegistrar(
         cSucknBlowGun::StaticCreateClass(), cSucknBlowGun::SpawnFromPrototype);
 
+    RWS::CAttributeHandler *cSucknBlowGun::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cSucknBlowGunPrototype(packet);
+    }
+
     const char *cSucknBlowGun::RetClassName() const
     {
         return "cSucknBlowGun";

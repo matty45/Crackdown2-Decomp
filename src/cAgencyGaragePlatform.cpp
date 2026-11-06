@@ -38,6 +38,11 @@ namespace unknown
     static GOM::cProtoRegistrar cAgencyGaragePlatformSpawningRegistrar(
         cAgencyGaragePlatform::StaticCreateClass(), cAgencyGaragePlatform::SpawnFromPrototype);
 
+    RWS::CAttributeHandler *cAgencyGaragePlatform::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cAgencyGaragePlatformPrototype(packet);
+    }
+
     const char *cAgencyGaragePlatform::RetClassName() const
     {
         return "cAgencyGaragePlatform";

@@ -5,12 +5,18 @@
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
 #include "AI/BehaviourClassID.h"
+#include <new>
 
 namespace AI
 {
     const Fun_Runtime::cClass *cPKDropPilot::ms_pcPKDropPilotClass = &cPKDropPilot::StaticCreateClass();
 
-    cPKDropPilot::cPKDropPilot() {}
+    RWS::CAttributeHandler *cPKDropPilot::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cPKDropPilot;
+        return 0;
+    }
 
     const Fun_Runtime::cClass &cPKDropPilot::RetClass() const
     {

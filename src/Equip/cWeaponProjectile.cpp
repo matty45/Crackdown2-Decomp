@@ -5,6 +5,11 @@
 
 namespace Equip
 {
+    RWS::CAttributeHandler *cWeaponProjectile::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cWeaponProjectilePrototype(packet);
+    }
+
     const char *cWeaponProjectile::RetClassName() const
     {
         return "cWeaponProjectile";

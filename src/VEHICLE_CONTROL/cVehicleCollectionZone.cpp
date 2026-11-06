@@ -29,4 +29,4 @@ namespace VEHICLE_CONTROL
 }
 
 static RWS::CClassFactory::CRegistrar cVehicleCollectionZoneRegistrar(
-    "cVehicleCollectionZone", VEHICLE_CONTROL::cVehicleCollectionZone::MakeNew, 0x7C, false);
+    "cVehicleCollectionZone", VEHICLE_CONTROL::cVehicleCollectionZone::MakeNew, 0x210, false);   // CD2 0x83006B88

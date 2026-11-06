@@ -15,9 +15,15 @@
 #include "rws/classfactory.h"
 #include "fun_runtime/script_type_registrar.h"
 #include "cd2/memory.h"
+#include <new>
 
 namespace Prop
 {
+    RWS::CAttributeHandler *cProp::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cPropPrototype(packet);
+    }
+
     const char *cProp::RetClassName() const
     {
         return "cProp";
@@ -30,6 +36,13 @@ namespace Prop
     // CD2 script-type registration names this child and parent.
     static Fun_Runtime::cScriptTypeRegistrar<cProp> cPropScriptRegistrar(
         "cProp", "cDynamicBody");
+
+    RWS::CAttributeHandler *cProp::SpawnFromPrototype(GOM::cObjectPrototype *pPrototype, void *pMem)
+    {
+        if (pMem)
+            return new (pMem) cProp(pPrototype);
+        return 0;
+    }
 
     Fun_Runtime::cClass &cProp::StaticCreateClass()
     {

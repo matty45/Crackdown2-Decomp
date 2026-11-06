@@ -17,6 +17,11 @@ namespace AI
         return *ms_pReaperClass;
     }
 
+    RWS::CAttributeHandler *Reaper::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new ReaperPrototype(packet);
+    }
+
     const char *Reaper::RetClassName() const
     {
         return "Reaper";
@@ -25,11 +30,6 @@ namespace AI
     bool Reaper::IsA(const Fun_Runtime::cClass &c) const
     {
         return ms_pReaperClass->IsA(c);
-    }
-
-    RWS::CAttributeHandler *Reaper::MakeNew(const RWS::CAttributePacket &packet, bool)
-    {
-        return new Reaper();
     }
 
     static RWS::CClassFactory::CRegistrar ReaperRegistrar(

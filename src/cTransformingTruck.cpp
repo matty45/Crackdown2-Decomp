@@ -16,6 +16,7 @@
 #include "unknown/cTransformingTruck.h"
 #include "cd2/memory.h"
 #include "unknown/cTransformingTruckPrototype.h"
+#include "unknown/cTransforming.h"
 
 namespace unknown
 {
@@ -33,6 +34,10 @@ namespace unknown
     // CD2 0x82FE75D8: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cTransformingTruckcTruckInheritRegistrar(
         unknown::cTransformingTruck::StaticCreateClass(), Vehicle::cTruck::StaticCreateClass());
+
+    // CD2 0x82FE7640: runtime class inheritance registration under its second parent.
+    static Fun_Runtime::cInheritanceRegistrar cTransformingTruckcTransformingInheritRegistrar(
+        unknown::cTransformingTruck::StaticCreateClass(), unknown::cTransforming::StaticCreateClass());
 
     // CD2 0x82FE76F8: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cTransformingTruckSpawningRegistrar(

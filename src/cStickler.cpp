@@ -38,6 +38,11 @@ namespace unknown
     static Fun_Runtime::cInheritanceRegistrar cSticklercCWSatchelChargeInheritRegistrar(
         unknown::cStickler::StaticCreateClass(), Equip::cCWSatchelCharge::StaticCreateClass());
 
+    RWS::CAttributeHandler *cStickler::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cSticklerPrototype(packet);
+    }
+
     const char *cStickler::RetClassName() const
     {
         return "cStickler";

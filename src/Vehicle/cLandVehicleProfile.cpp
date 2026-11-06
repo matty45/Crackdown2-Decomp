@@ -4,6 +4,11 @@
 
 namespace Vehicle
 {
+    RWS::CAttributeHandler *cLandVehicleProfile::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cLandVehicleProfile;
+    }
+
     const char *cLandVehicleProfile::RetClassName() const
     {
         return "cLandVehicleProfile";

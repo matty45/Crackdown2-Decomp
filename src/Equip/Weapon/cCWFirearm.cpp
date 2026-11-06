@@ -40,6 +40,11 @@ namespace Equip
     static GOM::cProtoRegistrar cCWFirearmSpawningRegistrar(
         cCWFirearm::StaticCreateClass(), cCWFirearm::SpawnFromPrototype);
 
+    RWS::CAttributeHandler *cCWFirearm::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cCWFirearmPrototype(packet);
+    }
+
     const char *cCWFirearm::RetClassName() const
     {
         return "cCWFirearm";
@@ -55,4 +60,9 @@ namespace Equip
     // CD2 script-type registration; constructor/table evidence identifies the child and parent.
     static Fun_Runtime::cScriptTypeRegistrar<cCWFirearm> cCWFirearmScriptRegistrar(
         "cCWFirearm", "cCWWeapon");
+
+    // CD2 0x82617EB8: restores this class's vtables, then calls cCWWeapon's destructor.
+    cCWFirearm::~cCWFirearm()
+    {
+    }
 }

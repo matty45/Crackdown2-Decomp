@@ -40,6 +40,11 @@ namespace Equip
     static GOM::cProtoRegistrar cPulseRifleSpawningRegistrar(
         cPulseRifle::StaticCreateClass(), cPulseRifle::SpawnFromPrototype);
 
+    RWS::CAttributeHandler *cPulseRifle::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cPulseRiflePrototype(packet);
+    }
+
     const char *cPulseRifle::RetClassName() const
     {
         return "cPulseRifle";

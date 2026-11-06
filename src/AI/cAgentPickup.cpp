@@ -5,12 +5,18 @@
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
 #include "AI/BehaviourClassID.h"
+#include <new>
 
 namespace AI
 {
     const Fun_Runtime::cClass *cAgentPickup::ms_pcAgentPickupClass = &cAgentPickup::StaticCreateClass();
 
-    cAgentPickup::cAgentPickup() {}
+    RWS::CAttributeHandler *cAgentPickup::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cAgentPickup;
+        return 0;
+    }
 
     const Fun_Runtime::cClass &cAgentPickup::RetClass() const
     {

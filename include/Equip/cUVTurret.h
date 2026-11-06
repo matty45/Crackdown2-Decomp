@@ -14,12 +14,19 @@ namespace Equip
     class cUVTurret : public cCWFirearm
     {
     public:
+        // Inline: CD2's placement factory (0x8263BB58) calls cCWFirearm's (0x821F0768) constructor, then stores this class's vptrs.
+        __forceinline cUVTurret() {}
         // RuffKing prototype name/base; CD2 Init is primary slot 5 (0x8263BE20).
-        // Interface only: instance fields and allocation size remain unrecovered.
+        // CD2's MakeNew (0x8263BAD8) allocates 0x6E0 and inlines the constructor: no fields of its own.
         class cUVTurretPrototype : public cCWFirearm::cCWFirearmPrototype
         {
         public:
+            __forceinline cUVTurretPrototype(const RWS::CAttributePacket &packet)
+                : cCWFirearm::cCWFirearmPrototype(packet) {}
             virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
+
+            CD2_LAYOUT_CHECKS(cUVTurretPrototype,
+                CD2_SIZE(cUVTurretPrototype, 0x6E0))
         };
 
         // CD2 0x8263BA68: registered-class virtual slot 0 reads this class descriptor.

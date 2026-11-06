@@ -18,12 +18,25 @@
 #include "rws/classfactory.h"
 #include "AI/cBeaconProp.h"
 #include "cd2/memory.h"
+#include <new>
 
 namespace AI
 {
+    RWS::CAttributeHandler *cBeaconProp::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cBeaconPropPrototype(packet);
+    }
+
     const char *cBeaconProp::RetClassName() const
     {
         return "cBeaconProp";
+    }
+
+    RWS::CAttributeHandler *cBeaconProp::SpawnFromPrototype(GOM::cObjectPrototype *pPrototype, void *pMem)
+    {
+        if (pMem)
+            return new (pMem) cBeaconProp(pPrototype);
+        return 0;
     }
 
     Fun_Runtime::cClass &cBeaconProp::StaticCreateClass()

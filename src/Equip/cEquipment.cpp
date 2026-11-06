@@ -40,6 +40,11 @@ namespace Equip
     static GOM::cProtoRegistrar cEquipmentSpawningRegistrar(
         cEquipment::StaticCreateClass(), cEquipment::SpawnFromPrototype);
 
+    RWS::CAttributeHandler *cEquipment::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cEquipmentPrototype(packet);
+    }
+
     const char *cEquipment::RetClassName() const
     {
         return "cEquipment";
@@ -59,5 +64,40 @@ namespace Equip
     const Fun_Runtime::cScriptTypeRegistration *cEquipment::RetScriptTypeRegistration() const
     {
         return &cEquipmentScriptRegistrar;
+    }
+
+    float cEquipment::cEquipmentPrototype::RetDroppedDeletionTime() const
+    {
+        return m_fDroppedDeletionTime;
+    }
+
+    bool cEquipment::cEquipmentPrototype::CanZoom() const
+    {
+        return m_bCanZoom && m_fMaxZoomFactor > 0.0f;
+    }
+
+    float cEquipment::cEquipmentPrototype::RetMaxZoomFactor() const
+    {
+        return m_fMaxZoomFactor;
+    }
+
+    float cEquipment::cEquipmentPrototype::RetZoomSpeed() const
+    {
+        return m_fZoomSpeed;
+    }
+
+    int cEquipment::cEquipmentPrototype::RetInInvPickupVFXID() const
+    {
+        return m_nInInvPickupId;
+    }
+
+    int cEquipment::cEquipmentPrototype::RetNotInInvPickupVFXID() const
+    {
+        return m_nNotInInvPickupId;
+    }
+
+    bool cEquipment::cEquipmentPrototype::RetLoadedCmdSpawn() const
+    {
+        return m_bLoadedCmdSpawn;
     }
 }

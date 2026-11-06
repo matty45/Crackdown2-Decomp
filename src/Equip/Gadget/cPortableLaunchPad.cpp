@@ -40,6 +40,11 @@ namespace Equip
     static Fun_Runtime::cInheritanceRegistrar cPortableLaunchPadcCWSatchelChargeInheritRegistrar(
         Equip::cPortableLaunchPad::StaticCreateClass(), Equip::cCWSatchelCharge::StaticCreateClass());
 
+    RWS::CAttributeHandler *cPortableLaunchPad::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cJumpPadPrototype(packet);
+    }
+
     const char *cPortableLaunchPad::RetClassName() const
     {
         return "cPortableLaunchPad";

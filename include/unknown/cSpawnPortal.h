@@ -16,11 +16,16 @@ namespace unknown
     public:
         // Prototype name ours, from cSpawnPortal::MakeNew (0x8273DFE8).
         // CD2 confirms the shared parent constructor and Init slot 5 (0x8273E538).
-        // Interface only: this does not describe instance fields or allocation size.
+        // MakeNew allocates 0x530 and inlines the constructor over cHingedPropPrototype's (0x82738740): no fields of its own.
         class cSpawnPortalPrototype : public Prop::cHingedProp::cHingedPropPrototype
         {
         public:
+            __forceinline cSpawnPortalPrototype(const RWS::CAttributePacket &packet)
+                : Prop::cHingedProp::cHingedPropPrototype(packet) {}
             virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
+
+            CD2_LAYOUT_CHECKS(cSpawnPortalPrototype,
+                CD2_SIZE(cSpawnPortalPrototype, 0x530))
         };
 
         // CD2 0x8273DF78: registered-class virtual slot 0 reads this class descriptor.

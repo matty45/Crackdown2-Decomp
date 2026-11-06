@@ -18,9 +18,12 @@
 #include "VEHICLE_CONTROL/cHelicopterController.h"
 #include "gom/non_game_base.h"
 #include "cd2/memory.h"
+#include "rws/classfactory.h"
 
 namespace VEHICLE_CONTROL
 {
+    const Fun_Runtime::cClass *cVehicleController::ms_pcVehicleControllerClass = &cVehicleController::StaticCreateClass();
+
     Fun_Runtime::cClass &cVehicleController::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cVehicleControllerClass =
@@ -31,9 +34,18 @@ namespace VEHICLE_CONTROL
     static Fun_Runtime::cInheritanceRegistrar cVehicleControllercNonGameBaseInheritRegistrar(
         VEHICLE_CONTROL::cVehicleController::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 
+    // CD2 0x830052F0: register the class factory.
+    static RWS::CClassFactory::CRegistrar cVehicleControllerRegistrar(
+        "cVehicleController", cVehicleController::MakeNew, 0x840, false);
+
     // CD2 0x83005340: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cVehicleControllerSpawningRegistrar(
         cVehicleController::StaticCreateClass(), cVehicleController::SpawnFromPrototype);
+
+    RWS::CAttributeHandler *cVehicleController::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cVehicleControllerPrototype(packet);
+    }
 
     const char *cVehicleController::RetClassName() const
     {

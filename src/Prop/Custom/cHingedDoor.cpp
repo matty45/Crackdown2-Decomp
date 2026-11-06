@@ -42,6 +42,13 @@ namespace Prop
     static Fun_Runtime::cScriptTypeRegistrar<cHingedDoor> cHingedDoorScriptRegistrar(
         "cHingedDoor", "cHingedProp");
 
+    RWS::CAttributeHandler *cHingedDoor::SpawnFromPrototype(GOM::cObjectPrototype *pPrototype, void *pMem)
+    {
+        if (pMem)
+            return new (pMem) cHingedDoor(pPrototype);
+        return 0;
+    }
+
     const Fun_Runtime::cScriptTypeRegistration *cHingedDoor::RetScriptTypeRegistration() const
     {
         return &cHingedDoorScriptRegistrar;

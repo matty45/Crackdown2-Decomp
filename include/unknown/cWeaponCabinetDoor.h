@@ -16,11 +16,20 @@ namespace unknown
     public:
         // Prototype name ours, from cWeaponCabinetDoor::MakeNew (0x82740FA8).
         // CD2 confirms the shared parent constructor and Init slot 5 (0x82741570).
-        // Interface only: this does not describe instance fields or allocation size.
+        // MakeNew allocates 0x540 and inlines the constructor over cPrismaticPropPrototype's (0x8273CBD0); it initializes
+        // none of the prototype's own fields, which are not recovered.
         class cWeaponCabinetDoorPrototype : public Prop::cPrismaticProp::cPrismaticPropPrototype
         {
         public:
+            __forceinline cWeaponCabinetDoorPrototype(const RWS::CAttributePacket &packet)
+                : Prop::cPrismaticProp::cPrismaticPropPrototype(packet) {}
             virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
+
+        private:
+            unsigned char m_unmodelled530[0x540 - 0x530];
+
+            CD2_LAYOUT_CHECKS(cWeaponCabinetDoorPrototype,
+                CD2_SIZE(cWeaponCabinetDoorPrototype, 0x540))
         };
 
         // CD2 0x82740F38: registered-class virtual slot 0 reads this class descriptor.

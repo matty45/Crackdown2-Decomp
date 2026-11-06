@@ -42,6 +42,7 @@ namespace Vehicle
         {
         public:
             cVehiclePrototype(const RWS::CAttributePacket &);   // CD2 0x826D95B8
+            virtual ~cVehiclePrototype();                       // CD2 0x826D9730 (derived deleting destructors call it)
 
         private:
             unsigned char m_unmodelled280[0x350 - 0x280];

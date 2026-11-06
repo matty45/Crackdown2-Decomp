@@ -1,12 +1,19 @@
 #include "Equip/cBulletData.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
+#include "rws/msg.h"
 
 namespace Equip
 {
     const char *cBulletData::RetClassName() const
     {
         return "cBulletData";
+    }
+
+    void cBulletData::HandleEvents(RWS::CMsg &msg)
+    {
+        if (msg.Id == m_RetreveEventID)
+            msg.pData = this;
     }
 
     static RWS::CClassFactory::CRegistrar cBulletDataRegistrar(

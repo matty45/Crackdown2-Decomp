@@ -8,6 +8,11 @@
 
 namespace AI
 {
+    RWS::CAttributeHandler *Scrounger::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new ScroungerPrototype(packet);
+    }
+
     const char *Scrounger::RetClassName() const
     {
         return "Scrounger";

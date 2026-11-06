@@ -4,6 +4,11 @@
 
 namespace PHYSICS
 {
+    RWS::CAttributeHandler *cRigidBodyProfile::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cRigidBodyProfile;
+    }
+
     const char *cRigidBodyProfile::RetClassName() const
     {
         return "cRigidBodyProfile";

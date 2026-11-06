@@ -65,6 +65,11 @@ namespace unknown
     static Fun_Runtime::cScriptTypeRegistrar<cPopulationZone> cPopulationZoneScriptRegistrar(
         "cPopulationZone", "cScriptHost");
 
+    bool cPopulationZone::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcPopulationZoneClass->IsA(c);
+    }
+
     const Fun_Runtime::cScriptTypeRegistration *cPopulationZone::RetScriptTypeRegistration() const
     {
         return &cPopulationZoneScriptRegistrar;

@@ -14,11 +14,18 @@ namespace Equip
     {
     public:
         // RuffKing prototype name/base; CD2 Init is primary slot 5 (0x8260EE18).
-        // Interface only: instance fields and allocation size remain unrecovered.
+        // CD2's MakeNew (0x8260ECE0) allocates 0x430 and calls the constructor (0x8260FEA8) out of line.
         class cPulseRiflePrototype : public cCWWeapon::cCWWeaponPrototype
         {
         public:
+            cPulseRiflePrototype(const RWS::CAttributePacket &);
             virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
+
+        private:
+            unsigned char m_unmodelled3E0[0x430 - 0x3E0];
+
+            CD2_LAYOUT_CHECKS(cPulseRiflePrototype,
+                CD2_SIZE(cPulseRiflePrototype, 0x430))
         };
 
         // CD2 0x8260ED38: primary virtual slot 11 returns the registered class name.

@@ -7,6 +7,11 @@
 
 namespace unknown
 {
+    RWS::CAttributeHandler *cTransVehicleDamageProp::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cTransVehicleDamagePropPrototype(packet);
+    }
+
     const char *cTransVehicleDamageProp::RetClassName() const
     {
         return "cTransVehicleDamageProp";

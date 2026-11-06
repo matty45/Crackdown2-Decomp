@@ -18,9 +18,58 @@ namespace Equip
         virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         // CD2 0x82604CA8 (out of line: cWeaponProjectile's destructor 0x826096C0 calls it).
         virtual ~cEquipment();
-        // Interface-only prototype stand-in: name and base from RuffKing.
-        // Instance fields and complete size are not recovered; this is not an allocation layout.
-        class cEquipmentPrototype : public PHYSICS::cDynamicBody::cDynamicBodyPrototype {};
+        // Name and base from RuffKing. CD2: cEquipment::MakeNew (0x82604650) allocates 0x2F0 and calls this constructor
+        // (0x826071F8), which calls cDynamicBodyPrototype's (0x82686DD8).
+        class cEquipmentPrototype : public PHYSICS::cDynamicBody::cDynamicBodyPrototype
+        {
+        public:
+            cEquipmentPrototype(const RWS::CAttributePacket &);
+            // CD2 0x82607328 (out of line: cWeaponProjectilePrototype's deleting destructor calls it).
+            virtual ~cEquipmentPrototype();
+            // Prototype table slots 14..25 (0x8211EED8; slots 11..13 come from the body prototypes, which do not
+            // declare them yet). Names, order and fields are RuffKing's, one slot later there; the getters read
+            // RuffKing's offsets except the two pickup-VFX IDs, which are 4 bytes higher in CD2.
+            virtual float RetDroppedDeletionTime() const;       // 14
+            virtual float RetPickupDeletionTime() const;        // 15 (folded: 0x825EC2E8)
+            virtual bool CanZoom() const;                       // 16
+            virtual float RetMaxZoomFactor() const;             // 17
+            virtual float RetZoomSpeed() const;                 // 18
+            virtual int RetInInvPickupVFXID() const;            // 19
+            virtual int RetNotInInvPickupVFXID() const;         // 20
+            virtual bool RetLoadedCmdSpawn() const;             // 21
+            virtual unsigned int RetPvPKillPoints() const;      // 22
+            virtual unsigned int RetHeadShotKillPoints() const; // 23
+            virtual unsigned int RetArmKillPoints() const;      // 24
+            virtual unsigned int RetLegKillPoints() const;      // 25
+
+        protected:
+            float m_fDroppedDeletionTime;   // 0x280
+            float m_fPickupDeletionTime;    // 0x284
+            float m_fMaxZoomFactor;         // 0x288
+            float m_fZoomSpeed;             // 0x28C
+            bool m_bCanZoom;                // 0x290
+            bool m_bScale;                  // 0x291
+            bool m_bLoadedCmdSpawn;         // 0x292
+
+        private:
+            unsigned char m_unmodelled293[0x2C4 - 0x293];
+
+        protected:
+            int m_nInInvPickupId;           // 0x2C4
+            int m_nNotInInvPickupId;        // 0x2C8
+
+        private:
+            unsigned char m_unmodelled2CC[0x2F0 - 0x2CC];
+
+            CD2_LAYOUT_CHECKS(cEquipmentPrototype,
+                CD2_SIZE(cEquipmentPrototype, 0x2F0)
+                CD2_OFFSET(cEquipmentPrototype, m_fDroppedDeletionTime, 0x280)
+                CD2_OFFSET(cEquipmentPrototype, m_fMaxZoomFactor, 0x288)
+                CD2_OFFSET(cEquipmentPrototype, m_bCanZoom, 0x290)
+                CD2_OFFSET(cEquipmentPrototype, m_bLoadedCmdSpawn, 0x292)
+                CD2_OFFSET(cEquipmentPrototype, m_nInInvPickupId, 0x2C4)
+                CD2_OFFSET(cEquipmentPrototype, m_nNotInInvPickupId, 0x2C8))
+        };
 
         // CD2 placement factory forwards only this; later reference builds add a prototype argument.
         cEquipment();

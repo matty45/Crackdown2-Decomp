@@ -17,10 +17,18 @@
 #include "rws/classfactory.h"
 #include "Equip/cFlakCannon.h"
 #include "cd2/memory.h"
+#include <new>
 
 namespace Equip
 {
     const Fun_Runtime::cClass *cFlakCannon::ms_pcFlakCannonClass = &cFlakCannon::StaticCreateClass();
+
+    RWS::CAttributeHandler *cFlakCannon::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cFlakCannon;
+        return 0;
+    }
 
     Fun_Runtime::cClass &cFlakCannon::StaticCreateClass()
     {
@@ -38,6 +46,11 @@ namespace Equip
     // CD2 0x82FD42B0: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cFlakCannoncCWHeavyWeaponInheritRegistrar(
         Equip::cFlakCannon::StaticCreateClass(), Equip::cCWHeavyWeapon::StaticCreateClass());
+
+    RWS::CAttributeHandler *cFlakCannon::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cFlakCannonPrototype(packet);
+    }
 
     const char *cFlakCannon::RetClassName() const
     {

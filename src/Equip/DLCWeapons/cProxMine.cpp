@@ -40,6 +40,11 @@ namespace Equip
     static Fun_Runtime::cInheritanceRegistrar cProxMinecCWSatchelChargeInheritRegistrar(
         Equip::cProxMine::StaticCreateClass(), Equip::cCWSatchelCharge::StaticCreateClass());
 
+    RWS::CAttributeHandler *cProxMine::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cProxMinePrototype(packet);
+    }
+
     const char *cProxMine::RetClassName() const
     {
         return "cProxMine";

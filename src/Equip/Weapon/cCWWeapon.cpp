@@ -49,6 +49,11 @@ namespace Equip
     static Fun_Runtime::cInheritanceRegistrar cCWWeaponcWeaponInheritRegistrar(
         Equip::cCWWeapon::StaticCreateClass(), Equip::cWeapon::StaticCreateClass());
 
+    RWS::CAttributeHandler *cCWWeapon::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cCWWeaponPrototype(packet);
+    }
+
     const char *cCWWeapon::RetClassName() const
     {
         return "cCWWeapon";

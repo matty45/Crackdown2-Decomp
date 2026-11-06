@@ -18,10 +18,18 @@
 #include "CHARACTER/cFrontEndAgent.h"
 #include "cd2/memory.h"
 #include "fun_runtime/retval.h"
+#include <new>
 
 namespace CHARACTER
 {
     const Fun_Runtime::cClass *cFrontEndAgent::ms_pcFrontEndAgentClass = &cFrontEndAgent::StaticCreateClass();
+
+    RWS::CAttributeHandler *cFrontEndAgent::SpawnFromPrototype(GOM::cObjectPrototype *pPrototype, void *pMem)
+    {
+        if (pMem)
+            return new (pMem) cFrontEndAgent(pPrototype);
+        return 0;
+    }
 
     Fun_Runtime::cClass &cFrontEndAgent::StaticCreateClass()
     {
@@ -39,6 +47,11 @@ namespace CHARACTER
     // CD2 0x83022E88: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cFrontEndAgentSpawningRegistrar(
         cFrontEndAgent::StaticCreateClass(), cFrontEndAgent::SpawnFromPrototype);
+
+    RWS::CAttributeHandler *cFrontEndAgent::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cFrontEndAgentPrototype(packet);
+    }
 
     const char *cFrontEndAgent::RetClassName() const
     {

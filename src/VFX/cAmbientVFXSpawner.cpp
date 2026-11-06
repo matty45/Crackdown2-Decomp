@@ -158,6 +158,10 @@ namespace VFX
         return false;
     }
 
+    // CD2 0x8300AE68: the prototype's own class-factory registration.
+    static RWS::CClassFactory::CRegistrar cAmbientVFXPrototypeRegistrar(
+        "cAmbientVFXPrototype", cAmbientVFXPrototype::MakeNew, 0x68, false);
+
     static RWS::CClassFactory::CRegistrar cAmbientVFXSpawnerRegistrar(
         "cAmbientVFXSpawner", cAmbientVFXSpawner::MakeNew, 0x50, false);
 

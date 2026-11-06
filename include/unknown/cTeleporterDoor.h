@@ -14,6 +14,18 @@ namespace unknown
     class cTeleporterDoor : public Prop::cPrismaticProp
     {
     public:
+        // Prototype name ours. CD2's MakeNew (0x827408F0) allocates 0x530, calls cPrismaticPropPrototype's constructor
+        // (0x8273CBD0) and stores this class's vptrs: the constructor is inline and adds no fields.
+        class cTeleporterDoorPrototype : public Prop::cPrismaticProp::cPrismaticPropPrototype
+        {
+        public:
+            __forceinline cTeleporterDoorPrototype(const RWS::CAttributePacket &packet)
+                : Prop::cPrismaticProp::cPrismaticPropPrototype(packet) {}
+
+            CD2_LAYOUT_CHECKS(cTeleporterDoorPrototype,
+                CD2_SIZE(cTeleporterDoorPrototype, 0x530))
+        };
+
         // CD2 0x82740960: primary virtual slot 11 returns the registered class name.
         virtual const char *RetClassName() const;
         // CD2 0x82740B40.

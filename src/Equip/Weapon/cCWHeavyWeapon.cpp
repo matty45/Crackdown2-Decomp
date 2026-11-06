@@ -17,11 +17,21 @@
 #include "Equip/cCWHeavyWeapon.h"
 #include "gom/proto_registrar.h"
 #include "fun_runtime/script_type_registrar.h"
+#include "rws/classfactory.h"
 
 namespace Equip
 {
+    // CD2 0x82FD2F58: register the class factory.
+    static RWS::CClassFactory::CRegistrar cCWHeavyWeaponRegistrar(
+        "cCWHeavyWeapon", cCWHeavyWeapon::MakeNew, 0xA20, false);
+
     static GOM::cProtoRegistrar cCWHeavyWeaponSpawningRegistrar(
         cCWHeavyWeapon::StaticCreateClass(), cCWHeavyWeapon::SpawnFromPrototype);
+
+    RWS::CAttributeHandler *cCWHeavyWeapon::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cCWHeavyWeaponPrototype(packet);
+    }
 
     const char *cCWHeavyWeapon::RetClassName() const
     {

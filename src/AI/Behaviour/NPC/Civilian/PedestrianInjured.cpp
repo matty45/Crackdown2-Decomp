@@ -5,12 +5,18 @@
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
 #include "AI/BehaviourClassID.h"
+#include <new>
 
 namespace AI
 {
     const Fun_Runtime::cClass *PedestrianInjured::ms_pPedestrianInjuredClass = &PedestrianInjured::StaticCreateClass();
 
-    PedestrianInjured::PedestrianInjured() {}
+    RWS::CAttributeHandler *PedestrianInjured::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) PedestrianInjured;
+        return 0;
+    }
 
     const Fun_Runtime::cClass &PedestrianInjured::RetClass() const
     {

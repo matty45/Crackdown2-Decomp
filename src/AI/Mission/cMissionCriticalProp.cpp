@@ -18,9 +18,15 @@
 #include "rws/classfactory.h"
 #include "AI/cMissionCriticalProp.h"
 #include "cd2/memory.h"
+#include <new>
 
 namespace AI
 {
+    RWS::CAttributeHandler *cMissionCriticalProp::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cMissionCriticalPropPrototype(packet);
+    }
+
     const char *cMissionCriticalProp::RetClassName() const
     {
         return "cMissionCriticalProp";
@@ -29,6 +35,13 @@ namespace AI
     // CD2 0x8245B1E0 has no derived cleanup beyond vtable restoration.
     cMissionCriticalProp::~cMissionCriticalProp()
     {
+    }
+
+    RWS::CAttributeHandler *cMissionCriticalProp::SpawnFromPrototype(GOM::cObjectPrototype *pPrototype, void *pMem)
+    {
+        if (pMem)
+            return new (pMem) cMissionCriticalProp(pPrototype);
+        return 0;
     }
 
     Fun_Runtime::cClass &cMissionCriticalProp::StaticCreateClass()

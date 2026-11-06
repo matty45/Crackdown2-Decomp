@@ -18,10 +18,18 @@
 #include "rws/classfactory.h"
 #include "Equip/cUVTurret.h"
 #include "cd2/memory.h"
+#include <new>
 
 namespace Equip
 {
     const Fun_Runtime::cClass *cUVTurret::ms_pcUVTurretClass = &cUVTurret::StaticCreateClass();
+
+    RWS::CAttributeHandler *cUVTurret::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cUVTurret;
+        return 0;
+    }
 
     Fun_Runtime::cClass &cUVTurret::StaticCreateClass()
     {
@@ -39,6 +47,11 @@ namespace Equip
     // CD2 0x82FD4B50: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cUVTurretSpawningRegistrar(
         cUVTurret::StaticCreateClass(), cUVTurret::SpawnFromPrototype);
+
+    RWS::CAttributeHandler *cUVTurret::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cUVTurretPrototype(packet);
+    }
 
     const char *cUVTurret::RetClassName() const
     {

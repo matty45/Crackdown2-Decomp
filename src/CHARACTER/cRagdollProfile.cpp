@@ -3,6 +3,7 @@
 #include "CHARACTER/cRagdollProfile.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
+#include "rws/msg.h"
 
 namespace CHARACTER
 {
@@ -18,6 +19,12 @@ namespace CHARACTER
     {
         static Fun_Runtime::cClass *cRagdollProfileClass = new Fun_Runtime::cClass(0x5EE, "cRagdollProfile", 0x3B0);
         return *cRagdollProfileClass;
+    }
+
+    void cRagdollProfile::HandleEvents(RWS::CMsg &msg)
+    {
+        if (msg.Id == m_Msg_Return_Self)
+            msg.pData = this;
     }
 
     const Fun_Runtime::cClass *cRagdollProfile::ms_pcRagdollProfileClass = &cRagdollProfile::StaticCreateClass();

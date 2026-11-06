@@ -15,15 +15,27 @@
 #include "rws/classfactory.h"
 #include "unknown/cWeaponisedHelicopter.h"
 #include "cd2/memory.h"
+#include <new>
 
 namespace unknown
 {
     const Fun_Runtime::cClass *cWeaponisedHelicopter::ms_pcWeaponisedHelicopterClass = &cWeaponisedHelicopter::StaticCreateClass();
 
+    RWS::CAttributeHandler *cWeaponisedHelicopter::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cWeaponisedHelicopter;
+        return 0;
+    }
+
     Fun_Runtime::cClass &cWeaponisedHelicopter::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cWeaponisedHelicopterClass = new Fun_Runtime::cClass(0x4C70, "cWeaponisedHelicopter", 0x2DB0);
         return *cWeaponisedHelicopterClass;
+    }
+
+    cWeaponisedHelicopter::~cWeaponisedHelicopter()
+    {
     }
 
     static RWS::CClassFactory::CRegistrar cWeaponisedHelicopterRegistrar(
@@ -36,6 +48,16 @@ namespace unknown
     // CD2 0x82FEA550: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cWeaponisedHelicopterSpawningRegistrar(
         cWeaponisedHelicopter::StaticCreateClass(), cWeaponisedHelicopter::SpawnFromPrototype);
+
+    bool cWeaponisedHelicopter::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcWeaponisedHelicopterClass->IsA(c);
+    }
+
+    RWS::CAttributeHandler *cWeaponisedHelicopter::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cWeaponisedHelicopterPrototype(packet);
+    }
 
     const char *cWeaponisedHelicopter::RetClassName() const
     {

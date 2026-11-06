@@ -34,6 +34,8 @@ namespace CHARACTER
         virtual const char *RetClassName() const;
         // CD2 spawning initializer 0x82FAC1F0 names placement factory 0x8253ede8.
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
+        // CD2 0x82267148: the placement factory (0x8253EDE8) calls it out of line with the prototype.
+        cCwTransCharacterWrapper(GOM::cObjectPrototype *);
         static Fun_Runtime::cClass &StaticCreateClass();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcCwTransCharacterWrapperClass;     // 0x83823D4C

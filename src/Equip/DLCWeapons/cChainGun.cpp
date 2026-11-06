@@ -17,10 +17,18 @@
 #include "rws/classfactory.h"
 #include "Equip/cChainGun.h"
 #include "cd2/memory.h"
+#include <new>
 
 namespace Equip
 {
     const Fun_Runtime::cClass *cChainGun::ms_pcChainGunClass = &cChainGun::StaticCreateClass();
+
+    RWS::CAttributeHandler *cChainGun::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cChainGun;
+        return 0;
+    }
 
     Fun_Runtime::cClass &cChainGun::StaticCreateClass()
     {
@@ -38,6 +46,11 @@ namespace Equip
     // CD2 0x82FCE608: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cChainGunSpawningRegistrar(
         cChainGun::StaticCreateClass(), cChainGun::SpawnFromPrototype);
+
+    RWS::CAttributeHandler *cChainGun::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cChainGunPrototype(packet);
+    }
 
     const char *cChainGun::RetClassName() const
     {

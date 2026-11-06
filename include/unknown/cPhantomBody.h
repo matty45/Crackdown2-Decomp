@@ -14,6 +14,21 @@ namespace unknown
     class cPhantomBody : public cGameBase
     {
     public:
+        // Prototype name ours. CD2's MakeNew (0x8268A368) allocates 0xF0, calls cGameBasePrototype's constructor
+        // (0x82652850), stores this class's vptrs and zero at 0xE0: the constructor is inline. The word's name is ours.
+        class cPhantomBodyPrototype : public cGameBase::cGameBasePrototype
+        {
+        public:
+            __forceinline cPhantomBodyPrototype(const RWS::CAttributePacket &packet)
+                : cGameBase::cGameBasePrototype(packet), m_nE0(0) {}
+
+            unsigned int m_nE0;
+
+            CD2_LAYOUT_CHECKS(cPhantomBodyPrototype,
+                CD2_SIZE(cPhantomBodyPrototype, 0xF0)
+                CD2_OFFSET(cPhantomBodyPrototype, m_nE0, 0xE0))
+        };
+
         // CD2 factory 0x8268A3F0 forwards only this, without a prototype argument.
         cPhantomBody();
         // CD2 0x8268A2F8: registered-class virtual slot 0 reads this class descriptor.

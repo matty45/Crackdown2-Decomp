@@ -17,10 +17,18 @@
 #include "rws/classfactory.h"
 #include "Equip/cFlocketLauncher.h"
 #include "cd2/memory.h"
+#include <new>
 
 namespace Equip
 {
     const Fun_Runtime::cClass *cFlocketLauncher::ms_pcFlocketLauncherClass = &cFlocketLauncher::StaticCreateClass();
+
+    RWS::CAttributeHandler *cFlocketLauncher::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cFlocketLauncher;
+        return 0;
+    }
 
     Fun_Runtime::cClass &cFlocketLauncher::StaticCreateClass()
     {

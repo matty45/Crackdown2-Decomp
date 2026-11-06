@@ -34,6 +34,11 @@ namespace unknown
     static RWS::CClassFactory::CRegistrar cStaticInterestingObjectRegistrar(
         "cStaticInterestingObject", cStaticInterestingObject::MakeNew, 0xC0, false);
 
+    RWS::CAttributeHandler *cStaticInterestingObject::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cStaticInterestingObject;
+    }
+
     const char *cStaticInterestingObject::RetClassName() const
     {
         return "cStaticInterestingObject";

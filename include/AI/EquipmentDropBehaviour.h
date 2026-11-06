@@ -3,12 +3,15 @@
 #define AI_EQUIPMENTDROPBEHAVIOUR_H
 
 #include "gom/non_game_base.h"
+#include "AI/cPilotBase.h"
 #include "fun_runtime/class.h"
 #include "rws/attributes.h"
 
 namespace AI
 {
-    class EquipmentDropBehaviour : public cNonGameBase
+    // Base from CD2's inheritance registrar; the placement factory (0x824D2B60) inlines this class's constructor over
+    // cPilotBase's (0x824D32E0).
+    class EquipmentDropBehaviour : public AI::cPilotBase
     {
     public:
         // CD2 spawning initializer 0x82F9BA00 names placement factory 0x824d2b60.
@@ -16,7 +19,7 @@ namespace AI
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pEquipmentDropBehaviourClass;
 
-        EquipmentDropBehaviour();
+        __forceinline EquipmentDropBehaviour() {}
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &packet, bool);
 
         virtual const Fun_Runtime::cClass &RetClass() const;

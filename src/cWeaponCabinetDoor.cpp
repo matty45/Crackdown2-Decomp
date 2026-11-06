@@ -38,6 +38,11 @@ namespace unknown
     static GOM::cProtoRegistrar cWeaponCabinetDoorSpawningRegistrar(
         cWeaponCabinetDoor::StaticCreateClass(), cWeaponCabinetDoor::SpawnFromPrototype);
 
+    RWS::CAttributeHandler *cWeaponCabinetDoor::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cWeaponCabinetDoorPrototype(packet);
+    }
+
     const char *cWeaponCabinetDoor::RetClassName() const
     {
         return "cWeaponCabinetDoor";

@@ -1,5 +1,6 @@
 #include "Vehicle/cCarProfile.h"
 #include "rws/classfactory.h"
+#include "rws/msg.h"
 
 namespace Vehicle
 {
@@ -11,6 +12,12 @@ namespace Vehicle
     cCarProfile::~cCarProfile()
     {
         UnRegisterMsg(m_Msg_Data_Modified);
+    }
+
+    void cCarProfile::HandleEvents(RWS::CMsg &msg)
+    {
+        if (msg.Id == m_Msg_Return_RB_Self)
+            msg.pData = this;
     }
 
     static RWS::CClassFactory::CRegistrar cCarProfileRegistrar(

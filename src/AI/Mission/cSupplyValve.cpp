@@ -21,6 +21,11 @@
 
 namespace AI
 {
+    RWS::CAttributeHandler *cSupplyValve::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cSupplyValvePrototype(packet);
+    }
+
     const char *cSupplyValve::RetClassName() const
     {
         return "cSupplyValve";

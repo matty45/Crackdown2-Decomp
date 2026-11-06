@@ -18,6 +18,7 @@
 #include "fun_runtime/inheritance_registrar.h"
 #include "Equip/cFlocket.h"
 #include "Equip/cWeaponProjectile.h"
+#include "rws/classfactory.h"
 
 namespace Equip
 {
@@ -27,8 +28,14 @@ namespace Equip
         return *cHWProjectileClass;
     }
 
+    const Fun_Runtime::cClass *cHWProjectile::ms_pcHWProjectileClass = &cHWProjectile::StaticCreateClass();
+
     static Fun_Runtime::cInheritanceRegistrar cHWProjectilecWeaponProjectileInheritRegistrar(
         Equip::cHWProjectile::StaticCreateClass(), Equip::cWeaponProjectile::StaticCreateClass());
+
+    // CD2 0x82FD2760: register the class factory.
+    static RWS::CClassFactory::CRegistrar cHWProjectileRegistrar(
+        "cHWProjectile", cHWProjectile::MakeNew, 0x970, false);
 
     // CD2 0x82FD27B0: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cHWProjectileSpawningRegistrar(

@@ -11,7 +11,19 @@ namespace Equip
     public:
         // Interface-only prototype stand-in: name and base from RuffKing.
         // Instance fields and complete size are not recovered; this is not an allocation layout.
-        class cWeaponPrototype : public cEquipment::cEquipmentPrototype {};
+        // Name and base from RuffKing. CD2's constructor (0x8260A370) calls cEquipmentPrototype's and initializes
+        // 0x29C..0x34B; cGrenadePrototype's constructor (0x8261F758) starts its own fields at 0x350.
+        class cWeaponPrototype : public cEquipment::cEquipmentPrototype
+        {
+        public:
+            cWeaponPrototype(const RWS::CAttributePacket &);
+
+        private:
+            unsigned char m_unmodelled2F0[0x350 - 0x2F0];
+
+            CD2_LAYOUT_CHECKS(cWeaponPrototype,
+                CD2_SIZE(cWeaponPrototype, 0x350))
+        };
 
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pcWeaponClass;

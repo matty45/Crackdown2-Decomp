@@ -16,6 +16,7 @@
 #include "unknown/cBoostPack.h"
 #include "cd2/memory.h"
 #include "fun_runtime/script_type_registrar.h"
+#include <new>
 
 namespace unknown
 {
@@ -56,6 +57,13 @@ namespace unknown
     // CD2 script-type registration; constructor/table evidence identifies the child and parent.
     static Fun_Runtime::cScriptTypeRegistrar<cBoostPack> cBoostPackScriptRegistrar(
         "cBoostPack", "cGrenade");
+
+    RWS::CAttributeHandler *cBoostPack::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cBoostPack;
+        return 0;
+    }
 
     const Fun_Runtime::cScriptTypeRegistration *cBoostPack::RetScriptTypeRegistration() const
     {

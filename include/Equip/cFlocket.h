@@ -78,6 +78,9 @@ namespace Equip
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         // CD2 0x8262A7F8 creates the named runtime descriptor.
         static Fun_Runtime::cClass &StaticCreateClass();
+        static const Fun_Runtime::cClass *ms_pcHWProjectileClass;     // RuffKing's name
+        // CD2 0x8262A778; its class-factory registrar (0x82FD2760) names it.
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         cHWProjectile();
         virtual ~cHWProjectile();
         virtual const char *RetClassName() const;      // slot 11

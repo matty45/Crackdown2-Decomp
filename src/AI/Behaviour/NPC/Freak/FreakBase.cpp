@@ -22,6 +22,11 @@
 
 namespace AI
 {
+    RWS::CAttributeHandler *FreakBase::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new FreakPrototype(packet);
+    }
+
     const char *FreakBase::RetClassName() const
     {
         return "FreakBase";

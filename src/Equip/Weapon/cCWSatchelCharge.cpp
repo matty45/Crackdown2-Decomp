@@ -14,17 +14,40 @@
 #include "Equip/cCWSatchelCharge.h"
 #include "fun_runtime/script_type_registrar.h"
 #include "cd2/memory.h"
+#include <new>
+#include "rws/classfactory.h"
 
 namespace Equip
 {
+    bool cCWSatchelCharge::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcCWSatchelChargeClass->IsA(c);
+    }
+
+    RWS::CAttributeHandler *cCWSatchelCharge::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cCWSatchelChargePrototype(packet);
+    }
+
     const char *cCWSatchelCharge::RetClassName() const
     {
         return "cCWSatchelCharge";
     }
 
+    // CD2 0x82FCF618: register the class factory.
+    static RWS::CClassFactory::CRegistrar cCWSatchelChargeRegistrar(
+        "cCWSatchelCharge", cCWSatchelCharge::MakeNew, 0xAE0, false);
+
     // CD2 script-type registration names this child and parent.
     static Fun_Runtime::cScriptTypeRegistrar<cCWSatchelCharge> cCWSatchelChargeScriptRegistrar(
         "cCWSatchelCharge", "cExplosiveGrenade");
+
+    RWS::CAttributeHandler *cCWSatchelCharge::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cCWSatchelCharge;
+        return 0;
+    }
 
     Fun_Runtime::cClass &cCWSatchelCharge::StaticCreateClass()
     {

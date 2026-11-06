@@ -16,6 +16,8 @@ namespace Equip
         virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         // CD2 spawning initializer 0x82FD2320 names placement factory 0x826293a0.
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
+        // CD2 0x82629500: the placement factory (0x826293A0) calls it out of line with the prototype.
+        cHWGrenadeProjectile(GOM::cObjectPrototype *);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcHWGrenadeProjectileClass;
         static Fun_Runtime::cClass &StaticCreateClass();

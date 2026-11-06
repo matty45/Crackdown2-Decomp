@@ -16,7 +16,7 @@ namespace AI
         return *cPedestrianBaseClass;
     }
 
-    const Fun_Runtime::cClass *cPedestrianBase::ms_pcPedestrianBaseClass = 0;
+    const Fun_Runtime::cClass *cPedestrianBase::ms_pcPedestrianBaseClass = &cPedestrianBase::StaticCreateClass();
     const float cPedestrianBase::m_fReactTimer = 8.0f;
 
     RWS::CAttributeHandler *cPedestrianBase::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)

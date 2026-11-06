@@ -15,11 +15,16 @@ namespace Equip
     {
     public:
         // RuffKing prototype name/base; CD2 Init is primary slot 5 (0x8260DE68).
-        // Interface only: instance fields and allocation size remain unrecovered.
+        // CD2's MakeNew (0x8260DDD0) allocates 0x430 and inlines the constructor: no fields of its own.
         class cJumpPadPrototype : public cCWSatchelCharge::cCWSatchelChargePrototype
         {
         public:
+            __forceinline cJumpPadPrototype(const RWS::CAttributePacket &packet)
+                : cCWSatchelCharge::cCWSatchelChargePrototype(packet) {}
             virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
+
+            CD2_LAYOUT_CHECKS(cJumpPadPrototype,
+                CD2_SIZE(cJumpPadPrototype, 0x430))
         };
 
         // CD2 factory 0x8260DE50 forwards only this, without a prototype argument.

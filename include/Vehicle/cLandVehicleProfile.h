@@ -24,6 +24,8 @@ namespace Vehicle
     class cLandVehicleProfile : public cLandVehicleData, public PHYSICS::cRigidBodyProfile
     {
     public:
+        // CD2 0x8269F780: MakeNew (0x8269F730) calls it out of line with only this.
+        cLandVehicleProfile();
         virtual ~cLandVehicleProfile();
         // CD2 0x8269FA58: attribute-handler vtable slot 6, returning Ret_OK.
         virtual Fun_Runtime::RetVal Term();

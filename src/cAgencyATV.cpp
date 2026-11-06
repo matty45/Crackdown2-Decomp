@@ -14,6 +14,8 @@
 #include "unknown/cAgencyATV.h"
 #include "cd2/memory.h"
 #include "unknown/cAgencyATVPrototype.h"
+#include "Vehicle/cAgencyCar.h"
+#include "fun_runtime/inheritance_registrar.h"
 
 namespace unknown
 {
@@ -25,12 +27,21 @@ namespace unknown
         return *cAgencyATVClass;
     }
 
+    // CD2 0x82FEAC70: runtime class inheritance registration.
+    static Fun_Runtime::cInheritanceRegistrar cAgencyATVcAgencyCarInheritRegistrar(
+        unknown::cAgencyATV::StaticCreateClass(), Vehicle::cAgencyCar::StaticCreateClass());
+
     static RWS::CClassFactory::CRegistrar cAgencyATVRegistrar(
         "cAgencyATV", cAgencyATV::MakeNew, 0x31F0, false);
 
     // CD2 0x82FEAD28: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cAgencyATVSpawningRegistrar(
         cAgencyATV::StaticCreateClass(), cAgencyATV::SpawnFromPrototype);
+
+    RWS::CAttributeHandler *cAgencyATV::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cAgencyATVPrototype(packet);
+    }
 
     const char *cAgencyATV::RetClassName() const
     {

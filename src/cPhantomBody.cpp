@@ -37,6 +37,11 @@ namespace unknown
     static GOM::cProtoRegistrar cPhantomBodySpawningRegistrar(
         cPhantomBody::StaticCreateClass(), cPhantomBody::SpawnFromPrototype);
 
+    RWS::CAttributeHandler *cPhantomBody::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cPhantomBodyPrototype(packet);
+    }
+
     const char *cPhantomBody::RetClassName() const
     {
         return "cPhantomBody";

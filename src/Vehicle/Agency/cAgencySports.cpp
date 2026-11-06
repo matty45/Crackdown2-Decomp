@@ -40,6 +40,11 @@ namespace Vehicle
     static GOM::cProtoRegistrar cAgencySportsSpawningRegistrar(
         cAgencySports::StaticCreateClass(), cAgencySports::SpawnFromPrototype);
 
+    RWS::CAttributeHandler *cAgencySports::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cAgencySportsPrototype(packet);
+    }
+
     const char *cAgencySports::RetClassName() const
     {
         return "cAgencySports";

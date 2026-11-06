@@ -21,6 +21,11 @@
 
 namespace AI
 {
+    RWS::CAttributeHandler *Goliath::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new GoliathPrototype(packet);
+    }
+
     const char *Goliath::RetClassName() const
     {
         return "Goliath";

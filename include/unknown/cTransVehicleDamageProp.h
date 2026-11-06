@@ -14,6 +14,19 @@ namespace unknown
     class cTransVehicleDamageProp : public Prop::cVehicleDamageProp
     {
     public:
+        // Prototype name ours. CD2's MakeNew (0x82730C38) allocates 0x4F0, calls cPropPrototype's constructor
+        // (0x8272D390) and stores this class's vptrs: this and cVehicleDamagePropPrototype's constructors are inline,
+        // no fields.
+        class cTransVehicleDamagePropPrototype : public Prop::cVehicleDamageProp::cVehicleDamagePropPrototype
+        {
+        public:
+            __forceinline cTransVehicleDamagePropPrototype(const RWS::CAttributePacket &packet)
+                : Prop::cVehicleDamageProp::cVehicleDamagePropPrototype(packet) {}
+
+            CD2_LAYOUT_CHECKS(cTransVehicleDamagePropPrototype,
+                CD2_SIZE(cTransVehicleDamagePropPrototype, 0x4F0))
+        };
+
         // CD2 0x82730D78, called by the placement factory 0x82730CB8.
         cTransVehicleDamageProp(GOM::cObjectPrototype *);
         // CD2 0x82730E98.

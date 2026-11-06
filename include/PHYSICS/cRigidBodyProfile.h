@@ -15,6 +15,8 @@ namespace PHYSICS
     class cRigidBodyProfile : public cRigidBodyData, public cNonGameBase
     {
     public:
+        // CD2 0x826A4250: MakeNew (0x826A4200) calls it out of line with only this.
+        cRigidBodyProfile();
         virtual ~cRigidBodyProfile();
         // CD2 0x826A4358: attribute-handler vtable slot 5, returning Ret_OK.
         virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);

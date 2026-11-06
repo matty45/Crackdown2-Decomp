@@ -13,6 +13,19 @@ namespace Equip
     class cHarpoonBolt : public Equip::cWeaponProjectile
     {
     public:
+        // Name and base from RuffKing. CD2's MakeNew (0x82627168) allocates 0x2F0, calls cEquipmentPrototype's
+        // constructor (0x826071F8) and stores this class's vptrs: both derived constructors are inline and add no
+        // fields.
+        class cHarpoonBoltPrototype : public cWeaponProjectile::cWeaponProjectilePrototype
+        {
+        public:
+            __forceinline cHarpoonBoltPrototype(const RWS::CAttributePacket &packet)
+                : cWeaponProjectile::cWeaponProjectilePrototype(packet) {}
+
+            CD2_LAYOUT_CHECKS(cHarpoonBoltPrototype,
+                CD2_SIZE(cHarpoonBoltPrototype, 0x2F0))
+        };
+
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         cHarpoonBolt();
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *memory);

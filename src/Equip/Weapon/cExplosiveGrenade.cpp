@@ -14,17 +14,35 @@
 #include "Equip/cExplosiveGrenade.h"
 #include "fun_runtime/script_type_registrar.h"
 #include "cd2/memory.h"
+#include <new>
+#include "rws/classfactory.h"
 
 namespace Equip
 {
+    RWS::CAttributeHandler *cExplosiveGrenade::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cExplosiveGrenadePrototype(packet);
+    }
+
     const char *cExplosiveGrenade::RetClassName() const
     {
         return "cExplosiveGrenade";
     }
 
+    // CD2 0x82FCFAA8: register the class factory.
+    static RWS::CClassFactory::CRegistrar cExplosiveGrenadeRegistrar(
+        "cExplosiveGrenade", cExplosiveGrenade::MakeNew, 0x9D0, false);
+
     // CD2 script-type registration names this child and parent.
     static Fun_Runtime::cScriptTypeRegistrar<cExplosiveGrenade> cExplosiveGrenadeScriptRegistrar(
         "cExplosiveGrenade", "cGrenade");
+
+    RWS::CAttributeHandler *cExplosiveGrenade::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cExplosiveGrenade;
+        return 0;
+    }
 
     Fun_Runtime::cClass &cExplosiveGrenade::StaticCreateClass()
     {

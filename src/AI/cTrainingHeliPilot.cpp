@@ -5,12 +5,18 @@
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
 #include "AI/BehaviourClassID.h"
+#include <new>
 
 namespace AI
 {
     const Fun_Runtime::cClass *cTrainingHeliPilot::ms_pcTrainingHeliPilotClass = &cTrainingHeliPilot::StaticCreateClass();
 
-    cTrainingHeliPilot::cTrainingHeliPilot() {}
+    RWS::CAttributeHandler *cTrainingHeliPilot::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cTrainingHeliPilot;
+        return 0;
+    }
 
     const Fun_Runtime::cClass &cTrainingHeliPilot::RetClass() const
     {

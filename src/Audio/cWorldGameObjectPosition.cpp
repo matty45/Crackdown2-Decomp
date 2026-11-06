@@ -29,4 +29,4 @@ namespace Audio
 }
 
 static RWS::CClassFactory::CRegistrar cWorldGameObjectPositionRegistrar(
-    "cWorldGameObjectPosition", Audio::cWorldGameObjectPosition::MakeNew, 0x7C, false);
+    "cWorldGameObjectPosition", Audio::cWorldGameObjectPosition::MakeNew, 0x50, false);   // CD2 0x83013B88

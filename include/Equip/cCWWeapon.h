@@ -17,9 +17,19 @@ namespace Equip
         virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         // CD2 0x82256348 (out of line: cCWHeavyWeapon's and cCWFirearm's destructors call it).
         virtual ~cCWWeapon();
-        // Interface-only prototype stand-in: name and base from RuffKing.
-        // Instance fields and complete size are not recovered; this is not an allocation layout.
-        class cCWWeaponPrototype : public cWeapon::cWeaponPrototype {};
+        // Name and base from RuffKing. CD2: cCWWeapon::MakeNew (0x82607B50) allocates 0x3E0 and calls this constructor
+        // (0x82608930), which calls cWeaponPrototype's (0x8260A370).
+        class cCWWeaponPrototype : public cWeapon::cWeaponPrototype
+        {
+        public:
+            cCWWeaponPrototype(const RWS::CAttributePacket &);
+
+        private:
+            unsigned char m_unmodelled350[0x3E0 - 0x350];
+
+            CD2_LAYOUT_CHECKS(cCWWeaponPrototype,
+                CD2_SIZE(cCWWeaponPrototype, 0x3E0))
+        };
 
         // CD2 factory 0x82607BB8 forwards only this, without a prototype argument.
         cCWWeapon();

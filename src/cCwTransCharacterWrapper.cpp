@@ -17,12 +17,20 @@
 #include "cd2/memory.h"
 #include "CHARACTER/cCwTransCharacterWrapperPrototype.h"
 #include "fun_runtime/retval.h"
+#include <new>
 
 namespace CHARACTER
 {
     // CD2 0x82FAC1A0 registers the prototype factory 0x8253ED68 for this 0x5B40-byte character.
     static RWS::CClassFactory::CRegistrar cCwTransCharacterWrapperRegistrar(
         "cCwTransCharacterWrapper", cCwTransCharacterWrapper::MakeNew, 0x5B40, false);
+
+    RWS::CAttributeHandler *cCwTransCharacterWrapper::SpawnFromPrototype(GOM::cObjectPrototype *pPrototype, void *pMem)
+    {
+        if (pMem)
+            return new (pMem) cCwTransCharacterWrapper(pPrototype);
+        return 0;
+    }
 
     Fun_Runtime::cClass &cCwTransCharacterWrapper::StaticCreateClass()
     {
@@ -39,6 +47,11 @@ namespace CHARACTER
     // CD2 0x82FAC1F0: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cCwTransCharacterWrapperSpawningRegistrar(
         cCwTransCharacterWrapper::StaticCreateClass(), cCwTransCharacterWrapper::SpawnFromPrototype);
+
+    RWS::CAttributeHandler *cCwTransCharacterWrapper::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cCwTransCharacterWrapperPrototype(packet);
+    }
 
     const char *cCwTransCharacterWrapper::RetClassName() const
     {

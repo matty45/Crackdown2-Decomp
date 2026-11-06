@@ -172,6 +172,8 @@ namespace Equip
         return Ret_OK;
     }
 
+    const Fun_Runtime::cClass *cFlocket::ms_pcFlocketClass = &cFlocket::StaticCreateClass();
+
     // CD2 0x82FD19F8: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cFlocketcHWProjectileInheritRegistrar(
         Equip::cFlocket::StaticCreateClass(), Equip::cHWProjectile::StaticCreateClass());

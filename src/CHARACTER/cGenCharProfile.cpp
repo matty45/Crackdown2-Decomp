@@ -16,6 +16,7 @@
 #include "rws/classfactory.h"
 #include "CHARACTER/cGenCharProfile.h"
 #include "cd2/memory.h"
+#include "rws/msg.h"
 
 namespace CHARACTER
 {
@@ -43,5 +44,11 @@ namespace CHARACTER
     RWS::CAttributeHandler *cGenCharProfile::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cGenCharProfile;
+    }
+
+    void cGenCharProfile::HandleEvents(RWS::CMsg &msg)
+    {
+        if (msg.Id == m_Msg_Return_Self)
+            msg.pData = this;
     }
 }

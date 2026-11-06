@@ -14,6 +14,8 @@ namespace Equip
     class cMiniGun : public cCWFirearm
     {
     public:
+        // Inline: CD2's placement factory (0x8263B250) calls cCWFirearm's (0x821F0768) constructor, then stores this class's vptrs.
+        __forceinline cMiniGun() : m_fBarrelSpeed(0.0f) {}
         // CD2 0x8263B240: primary virtual slot 11 returns the registered class name.
         virtual const char *RetClassName() const;
         // CD2 0x8263B410.
@@ -23,6 +25,13 @@ namespace Equip
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcMiniGunClass;
         static Fun_Runtime::cClass &StaticCreateClass();
+
+    private:
+        float m_fBarrelSpeed;                      // 0xAB0 (RuffKing's name)
+        unsigned char m_unmodelledAB4[0xAC0 - 0xAB4];
+
+        CD2_LAYOUT_CHECKS(cMiniGun,
+            CD2_SIZE(cMiniGun, 0xAC0))
     };
 }
 

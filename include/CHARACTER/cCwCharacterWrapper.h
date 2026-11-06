@@ -15,6 +15,8 @@ namespace CHARACTER
     public:
         // CD2 spawning initializer 0x82FACF38 names placement factory 0x82540b30.
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
+        // CD2 0x82540C00: the placement factory (0x82540B30) calls it out of line with the prototype.
+        cCwCharacterWrapper(GOM::cObjectPrototype *);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcCwCharacterWrapperClass;
         static Fun_Runtime::cClass &StaticCreateClass();

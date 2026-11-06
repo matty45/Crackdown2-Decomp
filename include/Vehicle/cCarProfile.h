@@ -14,6 +14,8 @@ namespace Vehicle
     public:
         virtual ~cCarProfile();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
+        // CD2 0x8269C210: CEventHandler slot 5 (this is the subobject at 0x278); RuffKing names the override.
+        virtual void HandleEvents(RWS::CMsg &);
         virtual const char *RetClassName() const;
 
     private:

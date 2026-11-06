@@ -5,12 +5,18 @@
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
 #include "AI/BehaviourClassID.h"
+#include <new>
 
 namespace AI
 {
     const Fun_Runtime::cClass *BeaconDropBehaviour::ms_pBeaconDropBehaviourClass = &BeaconDropBehaviour::StaticCreateClass();
 
-    BeaconDropBehaviour::BeaconDropBehaviour() {}
+    RWS::CAttributeHandler *BeaconDropBehaviour::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) BeaconDropBehaviour;
+        return 0;
+    }
 
     const Fun_Runtime::cClass &BeaconDropBehaviour::RetClass() const
     {

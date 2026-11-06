@@ -7,9 +7,17 @@
 __declspec(align(16)) class cGameBase : public RWS::CSystemCommands, public cNonGameBase
 {
     public:
-        // Interface-only prototype stand-in: name and base from RuffKing.
-        // Instance fields and complete size are not recovered; this is not an allocation layout.
-        class cGameBasePrototype : public cNonGameBase::cNonGameBasePrototype {};
+        // Name, base and size (224 bytes) from RuffKing. CD2's constructor (0x82652850) calls GOM::cObjectPrototype's;
+        // cBodyPrototype's constructor (0x826845A8) calls it, and cPhantomBody::MakeNew (0x8268A368) allocates 0xF0
+        // for a prototype that adds one word at 0xE0.
+        class cGameBasePrototype : public cNonGameBase::cNonGameBasePrototype
+        {
+        public:
+            cGameBasePrototype(const RWS::CAttributePacket &);
+
+        private:
+            unsigned char m_unmodelled70[0xE0 - 0x70];
+        };
 
         // CD2 0x82650268 creates the named runtime descriptor.
         static Fun_Runtime::cClass &StaticCreateClass();

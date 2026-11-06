@@ -2,11 +2,17 @@
 #include "fun_runtime/inheritance_registrar.h"
 #include "gom/non_game_base.h"
 #include "AI/Squad.h"
+#include "AI/SquadPrototype.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
 
 namespace AI
 {
+    RWS::CAttributeHandler *Squad::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new SquadPrototype(packet);
+    }
+
     const char *Squad::RetClassName() const
     {
         return "Squad";

@@ -28,6 +28,7 @@ namespace unknown
         virtual ~cPopulationZone();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcPopulationZoneClass;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         static Fun_Runtime::cClass &StaticCreateClass();
     private:
         unsigned char m_unmodelled50[4];

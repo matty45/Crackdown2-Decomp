@@ -37,6 +37,11 @@ namespace unknown
     static GOM::cProtoRegistrar cTeleporterDoorSpawningRegistrar(
         cTeleporterDoor::StaticCreateClass(), cTeleporterDoor::SpawnFromPrototype);
 
+    RWS::CAttributeHandler *cTeleporterDoor::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cTeleporterDoorPrototype(packet);
+    }
+
     const char *cTeleporterDoor::RetClassName() const
     {
         return "cTeleporterDoor";

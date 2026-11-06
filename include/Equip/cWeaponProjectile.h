@@ -14,6 +14,20 @@ namespace Equip
     class cWeaponProjectile : public cEquipment
     {
     public:
+        // Name and base from RuffKing. CD2's MakeNew (0x82609578) allocates 0x2F0, calls cEquipmentPrototype's
+        // constructor (0x826071F8) and stores this class's vptrs: the constructor is inline and adds no fields.
+        class cWeaponProjectilePrototype : public cEquipment::cEquipmentPrototype
+        {
+        public:
+            __forceinline cWeaponProjectilePrototype(const RWS::CAttributePacket &packet)
+                : cEquipment::cEquipmentPrototype(packet) {}
+            // Inline: CD2's deleting destructor (0x82609768) restores this class's vptrs, then calls the base's.
+            virtual ~cWeaponProjectilePrototype() {}
+
+            CD2_LAYOUT_CHECKS(cWeaponProjectilePrototype,
+                CD2_SIZE(cWeaponProjectilePrototype, 0x2F0))
+        };
+
         // CD2 factory 0x826095F8 forwards only this, without a prototype argument.
         cWeaponProjectile();
         // CD2 0x826096C0.

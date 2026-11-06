@@ -18,9 +18,15 @@
 #include "gom/proto_registrar.h"
 #include "fun_runtime/script_type_registrar.h"
 #include "cd2/memory.h"
+#include "rws/classfactory.h"
+#include <new>
 
 namespace Equip
 {
+    // CD2 0x82FCC720: register the class factory.
+    static RWS::CClassFactory::CRegistrar cCloakingDeviceRegistrar(
+        "cCloakingDevice", cCloakingDevice::MakeNew, 0x9C0, false);
+
     static GOM::cProtoRegistrar cCloakingDeviceSpawningRegistrar(
         cCloakingDevice::StaticCreateClass(), cCloakingDevice::SpawnFromPrototype);
 
@@ -59,6 +65,13 @@ namespace Equip
     // CD2 0x8260B4B0 has no derived cleanup beyond vtable restoration.
     cCloakingDevice::~cCloakingDevice()
     {
+    }
+
+    RWS::CAttributeHandler *cCloakingDevice::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cCloakingDevice;
+        return 0;
     }
 
     const Fun_Runtime::cScriptTypeRegistration *cCloakingDevice::RetScriptTypeRegistration() const

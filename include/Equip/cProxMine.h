@@ -15,11 +15,18 @@ namespace Equip
     {
     public:
         // RuffKing prototype name/base; CD2 Init is primary slot 5 (0x82621758).
-        // Interface only: instance fields and allocation size remain unrecovered.
+        // CD2's MakeNew (0x8261F8E0) allocates 0x480 and calls the constructor (0x82621370) out of line.
         class cProxMinePrototype : public cCWSatchelCharge::cCWSatchelChargePrototype
         {
         public:
+            cProxMinePrototype(const RWS::CAttributePacket &);
             virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
+
+        private:
+            unsigned char m_unmodelled430[0x480 - 0x430];
+
+            CD2_LAYOUT_CHECKS(cProxMinePrototype,
+                CD2_SIZE(cProxMinePrototype, 0x480))
         };
 
         // CD2 factory 0x8261F948 forwards only this, without a prototype argument.

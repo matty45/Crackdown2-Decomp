@@ -41,6 +41,9 @@ namespace VEHICLE_CONTROL
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         // CD2 0x82781AA0 creates the named runtime descriptor.
         static Fun_Runtime::cClass &StaticCreateClass();
+        static const Fun_Runtime::cClass *ms_pcVehicleControllerClass;
+        // CD2 0x827819F8 builds the prototype below.
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         // RuffKing: cVehicleControllerPrototype : cNonGameBase::cNonGameBasePrototype (: GOM::cObjectPrototype).
         // Its destructor is out of line (CD2 0x82783498); prototype destructors of derived controllers call it.
         class cVehicleControllerPrototype : public GOM::cObjectPrototype
@@ -57,7 +60,11 @@ namespace VEHICLE_CONTROL
             cNonGameBase::Term();
             return Ret_OK;
         }
-        // own virtuals, slots 68..95
+        // own virtuals, slots 68..103 (CD2's cVehicleController, CCarController and cHelicopterController tables have
+        // 104 primary slots). From slot 76 CD2's order is RuffKing's (cVehicleController.h) shifted by 34 slots; the
+        // base bodies agree (float getters share 0x82781A90, setters and DrawDebugGraph are empty, IsTraining returns
+        // false), as do CCarController's overrides. Slots 79/80 (RuffKing's two ClearSpeedBuffer overloads) stay
+        // unnamed.
         virtual void vf68();
         virtual void AssignVehicle(Vehicle::cVehicle *);
         virtual void vf70();
@@ -71,21 +78,29 @@ namespace VEHICLE_CONTROL
         virtual void ResetSpeedLimit();
         virtual void vf79();
         virtual void vf80();
-        virtual void vf81();
-        virtual void vf82();
-        virtual void vf83();
-        virtual void vf84();
-        virtual void vf85();
-        virtual void vf86();
-        virtual void vf87();
-        virtual void vf88();
-        virtual void vf89();
-        virtual void vf90();
-        virtual void vf91();
-        virtual void vf92();
-        virtual void vf93();
-        virtual void vf94();
-        virtual void vf95();
+        virtual void SetCatchupActive(bool);
+        virtual bool IsCatchupActive();
+        virtual void SaveTrainedData(const wchar_t *, unsigned char);
+        virtual bool IsTraining();
+        virtual void EnableTraining();
+        virtual void DisableTraining();
+        virtual float RetLookAheadDistance();
+        virtual float GetOptimalSpeed(int, float);
+        virtual float GetBrakeOptimalSpeed(int);
+        virtual float GetTargetSpeed();
+        virtual Fun_Runtime::Vec3 &RetSteeringTarget();
+        virtual void SetAssumedBrakingScale(float);
+        virtual void SetLateralAccelScale(float);
+        virtual float GetAssumedBrakingScale();
+        virtual float GetLateralAccelScale();
+        virtual void SetMaxLateralAccelAtSpeed(float);
+        virtual void SetMaxBrakingAccelAtSpeed(float);
+        virtual float GetSteeringGainEstimate();
+        virtual void CollisionEvent(float, PHYSICS::cBody *);
+        virtual float GetMaxLateralAccelAtSpeed(float);
+        virtual float GetMaxBrakingAccelAtSpeed(float);
+        virtual float RetFrictionFactor();
+        virtual void DrawDebugGraph();
         bool m_bFlag7C;
         bool m_bFlag7D;
         unsigned char m_pad7E[10];

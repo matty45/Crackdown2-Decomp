@@ -9,6 +9,8 @@ namespace Equip
     class cCloakingDevice : public cGrenade
     {
     public:
+        // Inline: CD2's placement factory (0x8260B288) calls cGrenade's (0x8261E238) constructor, then stores this class's vptrs.
+        __forceinline cCloakingDevice() {}
         // CD2 0x8260B350: cScriptHost slot 1; descriptive method name is ours.
         virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         // RuffKing prototype name/base; CD2 Init is primary slot 5 (0x8260BA80).
@@ -23,6 +25,8 @@ namespace Equip
         virtual const char *RetClassName() const;
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pcCloakingDeviceClass;
+        // CD2 0x8260B1E8; its class-factory registrar (0x82FCC720) names it.
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const Fun_Runtime::cClass &RetClass() const;
         // CD2 0x8260B188: registered-class virtual slot 1.
         virtual bool IsA(const Fun_Runtime::cClass &c) const;

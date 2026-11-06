@@ -17,10 +17,18 @@
 #include "rws/classfactory.h"
 #include "Equip/cMiniGun.h"
 #include "cd2/memory.h"
+#include <new>
 
 namespace Equip
 {
     const Fun_Runtime::cClass *cMiniGun::ms_pcMiniGunClass = &cMiniGun::StaticCreateClass();
+
+    RWS::CAttributeHandler *cMiniGun::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cMiniGun;
+        return 0;
+    }
 
     Fun_Runtime::cClass &cMiniGun::StaticCreateClass()
     {

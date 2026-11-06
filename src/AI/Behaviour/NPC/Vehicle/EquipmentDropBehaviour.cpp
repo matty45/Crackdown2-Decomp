@@ -5,12 +5,18 @@
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
 #include "AI/BehaviourClassID.h"
+#include <new>
 
 namespace AI
 {
     const Fun_Runtime::cClass *EquipmentDropBehaviour::ms_pEquipmentDropBehaviourClass = &EquipmentDropBehaviour::StaticCreateClass();
 
-    EquipmentDropBehaviour::EquipmentDropBehaviour() {}
+    RWS::CAttributeHandler *EquipmentDropBehaviour::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) EquipmentDropBehaviour;
+        return 0;
+    }
 
     const Fun_Runtime::cClass &EquipmentDropBehaviour::RetClass() const
     {

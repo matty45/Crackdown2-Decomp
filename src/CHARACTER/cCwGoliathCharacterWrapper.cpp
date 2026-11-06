@@ -4,6 +4,7 @@
 #include "CHARACTER/cCwGoliathCharacterWrapper.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
+#include <new>
 
 namespace CHARACTER
 {
@@ -14,6 +15,13 @@ namespace CHARACTER
 
     static RWS::CClassFactory::CRegistrar cCwGoliathCharacterWrapperRegistrar(
         "cCwGoliathCharacterWrapper", cCwGoliathCharacterWrapper::MakeNew, 0x34C0, false);
+
+    RWS::CAttributeHandler *cCwGoliathCharacterWrapper::SpawnFromPrototype(GOM::cObjectPrototype *pPrototype, void *pMem)
+    {
+        if (pMem)
+            return new (pMem) cCwGoliathCharacterWrapper(pPrototype);
+        return 0;
+    }
 
     Fun_Runtime::cClass &cCwGoliathCharacterWrapper::StaticCreateClass()
     {

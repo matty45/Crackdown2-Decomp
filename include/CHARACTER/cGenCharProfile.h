@@ -6,6 +6,7 @@
 #define CHARACTER_CGENCHARPROFILE_H
 
 #include "gom/non_game_base.h"
+#include "rws/eventid.h"
 
 namespace CHARACTER
 {
@@ -19,11 +20,16 @@ namespace CHARACTER
     public:
         // Out of line: CD2 0x82243C58 (MakeNew calls it).
         cGenCharProfile();
+        // CD2 0x82556458: CEventHandler slot 5 (this is the subobject at 0x18). RuffKing names the override and the
+        // event.
+        virtual void HandleEvents(RWS::CMsg &);
 
     private:
-        unsigned char m_unmodelled7C[0x84 - 0x7C];
+        RWS::CEventId m_Msg_Return_Self;            // 0x7C
 
-        CD2_LAYOUT_CHECKS(cGenCharProfile, CD2_SIZE(cGenCharProfile, 0x84))
+        CD2_LAYOUT_CHECKS(cGenCharProfile,
+            CD2_SIZE(cGenCharProfile, 0x84)
+            CD2_OFFSET(cGenCharProfile, m_Msg_Return_Self, 0x7C))
 
     };
 }

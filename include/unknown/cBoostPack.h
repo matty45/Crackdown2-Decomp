@@ -14,6 +14,8 @@ namespace unknown
     class cBoostPack : public Equip::cGrenade
     {
     public:
+        // Inline: CD2's placement factory (0x8260AC68) calls cGrenade's (0x8261E238) constructor, then stores this class's vptrs.
+        __forceinline cBoostPack() : m_fField9C4(100.0f) {}
         // CD2 0x8260AD38: cScriptHost slot 1; descriptive method name is ours.
         virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         // CD2 0x8260AC58: primary virtual slot 11 returns the registered class name.

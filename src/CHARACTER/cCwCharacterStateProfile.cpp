@@ -1,6 +1,7 @@
 #include "fun_runtime/retval.h"
 #include "CHARACTER/cCwCharacterStateProfile.h"
 #include "rws/classfactory.h"
+#include "rws/msg.h"
 
 namespace CHARACTER
 {
@@ -20,5 +21,11 @@ namespace CHARACTER
     Fun_Runtime::RetVal cCwCharacterStateProfile::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;
+    }
+
+    void cCwCharacterStateProfile::HandleEvents(RWS::CMsg &msg)
+    {
+        if (msg.Id == m_Msg_Return_Self)
+            msg.pData = this;
     }
 }

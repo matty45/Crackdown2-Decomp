@@ -13,9 +13,19 @@ namespace Equip
         virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         // CD2 0x8261E460 (out of line: cExplosiveGrenade's and cCloakingDevice's destructors call it).
         virtual ~cGrenade();
-        // Interface-only prototype stand-in: name and base from RuffKing.
-        // Instance fields and complete size are not recovered; this is not an allocation layout.
-        class cGrenadePrototype : public cWeapon::cWeaponPrototype {};
+        // Name and base from RuffKing. CD2: cGrenade::MakeNew (0x8261DF40) allocates 0x370 and calls this constructor
+        // (0x8261F758), which calls cWeaponPrototype's (0x8260A370).
+        class cGrenadePrototype : public cWeapon::cWeaponPrototype
+        {
+        public:
+            cGrenadePrototype(const RWS::CAttributePacket &);
+
+        private:
+            unsigned char m_unmodelled350[0x370 - 0x350];
+
+            CD2_LAYOUT_CHECKS(cGrenadePrototype,
+                CD2_SIZE(cGrenadePrototype, 0x370))
+        };
 
         // CD2 factory 0x8261DFA8 forwards only this, without a prototype argument.
         cGrenade();
@@ -25,6 +35,7 @@ namespace Equip
         static const Fun_Runtime::cClass *ms_pcGrenadeClass;
         virtual const Fun_Runtime::cClass &RetClass() const;
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
     private:
         unsigned char m_unmodelled8C0[0x9C0 - 0x8C0];
         CD2_LAYOUT_CHECKS(cGrenade, CD2_SIZE(cGrenade, 0x9C0))

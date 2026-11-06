@@ -16,9 +16,19 @@ namespace Equip
     public:
         // CD2 0x82617EB8: restores this class's vtables, then calls the base destructor (out of line: cUVTurret's calls it).
         virtual ~cCWFirearm();
-        // Interface-only prototype stand-in: name and base from RuffKing.
-        // Instance fields and complete size are not recovered; this is not an allocation layout.
-        class cCWFirearmPrototype : public cCWWeapon::cCWWeaponPrototype {};
+        // Name and base from RuffKing. CD2: cCWFirearm::MakeNew (0x82617D50) allocates 0x6E0 and calls this constructor
+        // (0x82618660), which calls cCWWeaponPrototype's (0x82608930).
+        class cCWFirearmPrototype : public cCWWeapon::cCWWeaponPrototype
+        {
+        public:
+            cCWFirearmPrototype(const RWS::CAttributePacket &);
+
+        private:
+            unsigned char m_unmodelled3E0[0x6E0 - 0x3E0];
+
+            CD2_LAYOUT_CHECKS(cCWFirearmPrototype,
+                CD2_SIZE(cCWFirearmPrototype, 0x6E0))
+        };
 
         // CD2 factory 0x82617DB8 forwards only this, without a prototype argument.
         cCWFirearm();
@@ -29,6 +39,12 @@ namespace Equip
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcCWFirearmClass;
         static Fun_Runtime::cClass &StaticCreateClass();
+
+    private:
+        // Own fields not recovered; 0xAB0 is the size its class-factory registrar gives (derived classes start there).
+        unsigned char m_unmodelledA10[0xAB0 - 0xA10];
+
+        CD2_LAYOUT_CHECKS(cCWFirearm, CD2_SIZE(cCWFirearm, 0xAB0))
     };
 }
 

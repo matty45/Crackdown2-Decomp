@@ -12,11 +12,21 @@ namespace AI
     class cSupplyValve : public Prop::cSpinningProp
     {
     public:
-        // Prototype interface from RuffKing; CD2 slot 5 at 0x82457DE0. Instance fields are not modelled.
+        // Name and base from RuffKing (1344 bytes); CD2 slot 5 at 0x82457DE0. CD2's MakeNew (0x82457BA0) allocates
+        // 0x540, calls cSpinningPropPrototype's constructor (0x8273F5C0) and stores this class's vptrs: the constructor
+        // is inline and initializes none of its own fields, which are not recovered.
         class cSupplyValvePrototype : public Prop::cSpinningProp::cSpinningPropPrototype
         {
         public:
+            __forceinline cSupplyValvePrototype(const RWS::CAttributePacket &packet)
+                : Prop::cSpinningProp::cSpinningPropPrototype(packet) {}
             virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
+
+        private:
+            unsigned char m_unmodelled530[0x540 - 0x530];
+
+            CD2_LAYOUT_CHECKS(cSupplyValvePrototype,
+                CD2_SIZE(cSupplyValvePrototype, 0x540))
         };
 
         // CD2 spawning initializer 0x82F866D0 names placement factory 0x82457c20.

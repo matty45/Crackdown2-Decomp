@@ -262,8 +262,39 @@ end, in one line, and is removed when the function matches. History belongs in g
   Identical `MakeNew`s are folded, so several registrars may pass one address (`config/symbol_aliases.txt`).
 - **`MakeNew`:** `return new X(packet);`, or `new X()` when the constructor gets only `this`. The class's own code starts
   at its `RetClassName` (lis/addi/blr returning the class name).
+  - Most build the class's prototype. The `li r3, size` before the allocation is the prototype's complete size: give
+    the prototype that size (opaque storage after the last recovered field) and take its base from the first call in
+    its constructor. Out-of-line constructor (88 bytes: allocate, `mr r4, packet`, `bl`): declare it. Inline constructor
+    (112 bytes: the base constructor call, then the prototype's vptrs at 0 and 0x18): `__forceinline` constructor
+    calling the base's; a store after the vptrs (120 bytes) is a field initialized in its mem-initializer list. 54
+    factories matched this way, both builds. The +0x18 vptr is a folded client table (`symbol_aliases.txt`, 0x821327A4,
+    or 0x82162A84 for the character prototypes).
+  - `new X` returning `addi r3, r3, N` after a null test (64 bytes) converts to a `CAttributeHandler` base at +N: the
+    class needs its real bases and complete size.
 - **`SpawnFromPrototype(proto, mem)`:** `if (pMem) return new (pMem) X(); return 0;` when CD2's constructor takes no
-  arguments (RuffKing's often takes the prototype).
+  arguments (RuffKing's often takes the prototype). The 32-byte form that swaps r3/r4 before `b ctor` is
+  `new (pMem) X(pPrototype)`: declare `X(GOM::cObjectPrototype *)`. Either needs a class that converts to
+  `RWS::CAttributeHandler *`, so a baseless stand-in first needs its base (the inheritance registrar names it).
+  - A large placement factory (144..216 bytes: the guard, `bl` a base constructor with `this`, then the class's vptrs
+    and any field initializers) inlines the class's constructor: `__forceinline X() : <fields>() {}` over the real
+    base, with the fields RuffKing names at CD2's offsets. 19 factories matched this way; four replaced fake
+    out-of-line `X::X() {}` definitions. Such a factory also emits the class's vtable, so its deleting destructor,
+    IsA and adjustor thunks can match in the same file (cWeaponisedHelicopter: 16 functions).
+- **A class's own empty destructor, when CD2's only stores vptrs and calls the base's**, emits the vtable: `X::~X() {}`
+  out of line (cCWFirearm, cWeaponisedHelicopter). Measured on the 90 open deleting destructors (2026-11-06): 86 call
+  destructors that free memory, unlink lists or destroy members, so each needs its members typed first; 4 were
+  trivial, 3 matched and the fourth (cAgencyGarageDoor) also clears two statics. The open adjustor thunks follow the
+  same destructors: pairing compiled thunks with every open one (40 files, 212 thunks) found that 38 objects emit none
+  (nothing installs the table), cRigidBodyProfile's 4 match, and cBaseJumperMission's adjust by cMissionBase's offsets
+  (0x10, 0x240, 0x248) where the stand-in is a cNonGameBase. IsA, all 38 attempts: 3 EXACT (cCWSatchelCharge,
+  cDynamicBody, cPopulationZone), 1 WRONG TARGET (cCharacterInterface), the other 34 PLAIN ONLY (LTCG 21/23) because
+  no function in their file installs the vtable. Six more read class pointers of classes not declared here
+  (cFactionInfo, cGangInfo, cBeamManager, cLinkedVFXSpawner and two unnamed); cAudioLogContainer is only forward-declared.
+- **Prototype deleting destructors that store vptrs and call a base prototype's destructor** come from an inline empty
+  destructor in the nearest class whose vptrs they store; derived prototypes without destructors fold into one copy.
+  A/B: `virtual ~cCarPrototype() {}` with `virtual ~cVehiclePrototype();` out of line makes 0x826EC1A0 (shared by
+  cAgencyCarPrototype, cTruckPrototype and the other car prototypes) EXACT. The copy only exists where an inline
+  prototype constructor emits the table.
 - **`RetClassName`:** returns the class-id string; define `static const char *const pcXClassID = "X";` in the `.cpp`
   (constant-folded to lis/addi, no load).
 - **`HandleAttributes`:** `for (RWS::CAttributeCommandIterator it(packet, pcXClassID); !it.IsFinished(); ++it)
@@ -538,3 +569,9 @@ One line each: what is ruled out. Remove the line when the function matches.
   needs typed members (m_VehicleAudio 0x7D0, safe pointers 0xD08/0x10E0/0x10F0, seats 0x11B0, turret vector 0x1410,
   string 0x15C4; see Vehicle/cVehicle.h). cLandVehicle's small virtuals (slots 326, 327, 353, 354, 359, 363, 364) read
   the Havok vehicle instance at 0x1DA4 and wait for that type (PHYSICS::cCustomVehicleInstance).
+- `cGrappler.cpp` (0x82631A38..0x82634920): its code is unoptimized (`StaticCreateClass` 0x82631B40 spills every
+  temporary to the stack; 0x826320A8 stores its arguments to their home slots), so the object was not built with the
+  game's `/Ox`. Its MakeNew, RetClassName and initializers are untouched until that file's flags are established.
+- Game-mode prototype factories (cRooftopRace, cRoadRace, cTeamATVAssault, cTeamHunterGatherer; 112 bytes) inline
+  their constructors over a shared base constructor (0x8283E2F8, probably cPvPGameModePrototype's, which RuffKing
+  derives from cGameModePrototype : cGMMResource); the stand-ins are flat CAttributeHandlers. Recover that chain first.

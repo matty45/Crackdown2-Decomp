@@ -40,6 +40,11 @@ namespace Vehicle
     static GOM::cProtoRegistrar cAgencyTankSpawningRegistrar(
         cAgencyTank::StaticCreateClass(), cAgencyTank::SpawnFromPrototype);
 
+    RWS::CAttributeHandler *cAgencyTank::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cAgencyTankPrototype(packet);
+    }
+
     const char *cAgencyTank::RetClassName() const
     {
         return "cAgencyTank";

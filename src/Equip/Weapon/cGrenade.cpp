@@ -17,11 +17,21 @@
 #include "Equip/cGrenade.h"
 #include "gom/proto_registrar.h"
 #include "fun_runtime/script_type_registrar.h"
+#include "rws/classfactory.h"
 
 namespace Equip
 {
+    // CD2 0x82FCFF38: register the class factory.
+    static RWS::CClassFactory::CRegistrar cGrenadeRegistrar(
+        "cGrenade", cGrenade::MakeNew, 0x9C0, false);
+
     static GOM::cProtoRegistrar cGrenadeSpawningRegistrar(
         cGrenade::StaticCreateClass(), cGrenade::SpawnFromPrototype);
+
+    RWS::CAttributeHandler *cGrenade::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cGrenadePrototype(packet);
+    }
 
     const char *cGrenade::RetClassName() const
     {

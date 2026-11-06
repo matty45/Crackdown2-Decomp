@@ -24,6 +24,12 @@ namespace AI
         virtual const Fun_Runtime::cClass &RetClass() const;
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         virtual const char *RetClassName() const;
+
+    private:
+        // Own fields not recovered; 0x140 is the size its registrar and descriptor give (derived pilots start there).
+        unsigned char m_unmodelledC0[0x140 - 0xC0];
+
+        CD2_LAYOUT_CHECKS(cPilotBase, CD2_SIZE(cPilotBase, 0x140))
     };
 }
 

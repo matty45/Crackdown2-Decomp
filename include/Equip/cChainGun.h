@@ -14,6 +14,22 @@ namespace Equip
     class cChainGun : public cCWFirearm
     {
     public:
+        // Inline: CD2's placement factory (0x826165B8) calls cCWFirearm's (0x821F0768) constructor, then stores this class's vptrs.
+        __forceinline cChainGun() : m_fBarrelSpeed(0.0f), m_fExtendTrans(0.0f) {}
+        // Name and base from RuffKing. CD2's MakeNew (0x82616550) allocates 0x780 and calls the constructor
+        // (0x82616EB0) out of line, which calls cCWFirearmPrototype's (0x82618660); own fields are not recovered.
+        class cChainGunPrototype : public cCWFirearm::cCWFirearmPrototype
+        {
+        public:
+            cChainGunPrototype(const RWS::CAttributePacket &);
+
+        private:
+            unsigned char m_unmodelled6E0[0x780 - 0x6E0];
+
+            CD2_LAYOUT_CHECKS(cChainGunPrototype,
+                CD2_SIZE(cChainGunPrototype, 0x780))
+        };
+
         // CD2 0x826165A8: primary virtual slot 11 returns the registered class name.
         virtual const char *RetClassName() const;
         // CD2 0x82616780.
@@ -23,6 +39,14 @@ namespace Equip
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcChainGunClass;
         static Fun_Runtime::cClass &StaticCreateClass();
+
+    private:
+        float m_fBarrelSpeed;                      // 0xAB0 (RuffKing's names)
+        float m_fExtendTrans;                      // 0xAB4
+        unsigned char m_unmodelledAB8[0xAC0 - 0xAB8];
+
+        CD2_LAYOUT_CHECKS(cChainGun,
+            CD2_SIZE(cChainGun, 0xAC0))
     };
 }
 

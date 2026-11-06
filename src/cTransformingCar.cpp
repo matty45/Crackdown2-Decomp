@@ -14,6 +14,9 @@
 #include "unknown/cTransformingCar.h"
 #include "cd2/memory.h"
 #include "unknown/cTransformingCarPrototype.h"
+#include "unknown/cTransforming.h"
+#include "Vehicle/cCar.h"
+#include "fun_runtime/inheritance_registrar.h"
 
 namespace unknown
 {
@@ -25,12 +28,24 @@ namespace unknown
         return *cTransformingCarClass;
     }
 
+    // CD2 0x82FE7100 and 0x82FE7168: runtime class inheritance registration under both parents.
+    static Fun_Runtime::cInheritanceRegistrar cTransformingCarcCarInheritRegistrar(
+        unknown::cTransformingCar::StaticCreateClass(), Vehicle::cCar::StaticCreateClass());
+
+    static Fun_Runtime::cInheritanceRegistrar cTransformingCarcTransformingInheritRegistrar(
+        unknown::cTransformingCar::StaticCreateClass(), unknown::cTransforming::StaticCreateClass());
+
     static RWS::CClassFactory::CRegistrar cTransformingCarRegistrar(
         "cTransformingCar", cTransformingCar::MakeNew, 0x67D0, false);
 
     // CD2 0x82FE7220: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cTransformingCarSpawningRegistrar(
         cTransformingCar::StaticCreateClass(), cTransformingCar::SpawnFromPrototype);
+
+    RWS::CAttributeHandler *cTransformingCar::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cTransformingCarPrototype(packet);
+    }
 
     const char *cTransformingCar::RetClassName() const
     {

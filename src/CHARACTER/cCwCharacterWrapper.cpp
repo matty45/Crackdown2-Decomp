@@ -17,12 +17,20 @@
 #include "rws/classfactory.h"
 #include "CHARACTER/cCwCharacterWrapper.h"
 #include "cd2/memory.h"
+#include <new>
 
 namespace CHARACTER
 {
     const char *cCwCharacterWrapper::RetClassName() const
     {
         return "cCwCharacterWrapper";
+    }
+
+    RWS::CAttributeHandler *cCwCharacterWrapper::SpawnFromPrototype(GOM::cObjectPrototype *pPrototype, void *pMem)
+    {
+        if (pMem)
+            return new (pMem) cCwCharacterWrapper(pPrototype);
+        return 0;
     }
 
     Fun_Runtime::cClass &cCwCharacterWrapper::StaticCreateClass()

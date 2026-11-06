@@ -38,6 +38,11 @@ namespace unknown
     static GOM::cProtoRegistrar cSpawnPortalSpawningRegistrar(
         cSpawnPortal::StaticCreateClass(), cSpawnPortal::SpawnFromPrototype);
 
+    RWS::CAttributeHandler *cSpawnPortal::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cSpawnPortalPrototype(packet);
+    }
+
     const char *cSpawnPortal::RetClassName() const
     {
         return "cSpawnPortal";

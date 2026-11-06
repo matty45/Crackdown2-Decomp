@@ -14,6 +14,9 @@ namespace Equip
     class cFlocketLauncher : public cCWHeavyWeapon
     {
     public:
+        // Inline: CD2's placement factory (0x82630E30) calls cCWHeavyWeapon's constructor (0x8262FF78), then stores this
+        // class's vptrs and clears the two fields below (RuffKing's names; 0xB0 lower in CD2).
+        __forceinline cFlocketLauncher() : m_fAttackTime(0.0f), m_nBarrelID(0) {}
         // CD2 0x82630CF0: registered-class virtual slot 0 reads this class descriptor.
         virtual const Fun_Runtime::cClass &RetClass() const;
         // CD2 0x82630D00: registered-class virtual slot 1.
@@ -27,6 +30,16 @@ namespace Equip
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcFlocketLauncherClass;
         static Fun_Runtime::cClass &StaticCreateClass();
+
+    private:
+        float m_fAttackTime;                        // 0xA20
+        unsigned char m_nBarrelID;                  // 0xA24
+        unsigned char m_unmodelledA25[0xA30 - 0xA25];
+
+        CD2_LAYOUT_CHECKS(cFlocketLauncher,
+            CD2_SIZE(cFlocketLauncher, 0xA30)
+            CD2_OFFSET(cFlocketLauncher, m_fAttackTime, 0xA20)
+            CD2_OFFSET(cFlocketLauncher, m_nBarrelID, 0xA24))
     };
 }
 

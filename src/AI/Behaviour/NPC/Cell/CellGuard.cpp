@@ -1,10 +1,16 @@
 #include "cd2/memory.h"
 #include "gom/proto_registrar.h"
 #include "AI/CellGuard.h"
+#include "AI/CellGuardPrototype.h"
 #include "rws/classfactory.h"
 
 namespace AI
 {
+    RWS::CAttributeHandler *CellGuard::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new CellGuardPrototype(packet);
+    }
+
     const char *CellGuard::RetClassName() const
     {
         return "CellGuard";

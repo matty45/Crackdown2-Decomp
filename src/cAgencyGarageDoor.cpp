@@ -4,9 +4,15 @@
 #include "unknown/cAgencyGarageDoor.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
+#include <new>
 
 namespace unknown
 {
+    RWS::CAttributeHandler *cAgencyGarageDoor::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cAgencyGarageDoorPrototype(packet);
+    }
+
     const char *cAgencyGarageDoor::RetClassName() const
     {
         return "cAgencyGarageDoor";
@@ -14,6 +20,13 @@ namespace unknown
 
     static RWS::CClassFactory::CRegistrar cAgencyGarageDoorRegistrar(
         "cAgencyGarageDoor", cAgencyGarageDoor::MakeNew, 0xF30, false);
+
+    RWS::CAttributeHandler *cAgencyGarageDoor::SpawnFromPrototype(GOM::cObjectPrototype *pPrototype, void *pMem)
+    {
+        if (pMem)
+            return new (pMem) cAgencyGarageDoor(pPrototype);
+        return 0;
+    }
 
     Fun_Runtime::cClass &cAgencyGarageDoor::StaticCreateClass()
     {

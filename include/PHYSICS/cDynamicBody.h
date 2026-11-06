@@ -10,6 +10,8 @@ namespace PHYSICS
     class cDynamicBody : public cBody, public cIgnitable, public hkEntityActivationListener
     {
     public:
+        // CD2 0x82684BA8: placement factory.
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         // CD2 0x82684BD0 registered as RetIsOnFire; cIgnitable owns the flag.
         bool RetIsOnFire() const;
         // CD2 0x82684BC0: cScriptHost slot 1; descriptive method name is ours.
@@ -28,9 +30,12 @@ namespace PHYSICS
                 CD2_SIZE(cDynamicBodyPrototype, 0x280))
         };
 
+        // CD2 0x82684B50 builds the prototype above.
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         // CD2 0x82684C80 creates the named runtime descriptor.
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pcDynamicBodyClass;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         virtual const Fun_Runtime::cClass &RetClass() const;
         virtual ~cDynamicBody();
         virtual void entityDeactivatedCallback(hkEntity *);

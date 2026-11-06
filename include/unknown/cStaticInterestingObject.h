@@ -24,6 +24,17 @@ namespace unknown
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcStaticInterestingObjectClass;
         static Fun_Runtime::cClass &StaticCreateClass();
+        // CD2 0x82455940: MakeNew (0x82455778) calls it out of line with only this.
+        cStaticInterestingObject();
+        // RWS::CEventHandler's pure slot: CD2 constructs the class, so it overrides it.
+        virtual void HandleEvents(RWS::CMsg &);
+
+    private:
+        // Own fields are not recovered; the descriptor and the factory's allocation give the complete size.
+        unsigned char m_unmodelled5C[0xC0 - 0x5C];
+
+        CD2_LAYOUT_CHECKS(cStaticInterestingObject,
+            CD2_SIZE(cStaticInterestingObject, 0xC0))
     };
 }
 

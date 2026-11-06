@@ -5,6 +5,7 @@
 #include "PHYSICS/cNetDynamicBody.h"
 #include "fun_runtime/script_type_registrar.h"
 #include "cd2/memory.h"
+#include <new>
 
 namespace PHYSICS
 {
@@ -34,6 +35,23 @@ namespace PHYSICS
     const Fun_Runtime::cClass &cDynamicBody::RetClass() const
     {
         return *ms_pcDynamicBodyClass;
+    }
+
+    bool cDynamicBody::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcDynamicBodyClass->IsA(c);
+    }
+
+    RWS::CAttributeHandler *cDynamicBody::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cDynamicBodyPrototype(packet);
+    }
+
+    RWS::CAttributeHandler *cDynamicBody::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cDynamicBody;
+        return 0;
     }
 
     const Fun_Runtime::cScriptTypeRegistration *cDynamicBody::RetScriptTypeRegistration() const

@@ -28,6 +28,8 @@ namespace Prop
         static Fun_Runtime::cClass &StaticCreateClass();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
+        // CD2 0x82746B78 (out of line: cAgencyGarageDoor's destructor calls it).
+        virtual ~cSlidingDoor();
     };
 }
 

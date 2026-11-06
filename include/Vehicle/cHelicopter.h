@@ -49,6 +49,7 @@ namespace Vehicle
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         // CD2 placement factory 0x826B8AE0 forwards only this.
         cHelicopter();                                      // CD2 0x82231520
+        virtual ~cHelicopter();                             // CD2 0x826B9DE0 (cWeaponisedHelicopter's destructor calls it)
 
         // cVehicle slot 360, CD2 0x826B8AF8 (RuffKing declares the override).
         virtual float RetTheoreticalMaxMPH();

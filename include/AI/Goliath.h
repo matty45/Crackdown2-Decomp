@@ -9,6 +9,19 @@
 
 namespace AI
 {
+    // RuffKing: AI::GoliathPrototype : NPCBehaviourPrototype, 144 bytes. CD2's Goliath::MakeNew (0x824B0EA8) allocates
+    // 0x90, calls NPCBehaviourPrototype's constructor (0x824A8608) and stores this class's vptrs; its table
+    // (0x82109670) overrides slot 1 with 0x824B2560.
+    class GoliathPrototype : public NPCBehaviourPrototype
+    {
+    public:
+        __forceinline GoliathPrototype(const RWS::CAttributePacket &packet) : NPCBehaviourPrototype(packet) {}
+        virtual void HandleAttributes(const RWS::CAttributePacket &);
+
+        CD2_LAYOUT_CHECKS(GoliathPrototype,
+            CD2_SIZE(GoliathPrototype, 0x90))
+    };
+
     class Goliath : public AI::NPCBehaviourSM
     {
     public:

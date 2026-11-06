@@ -15,6 +15,8 @@ namespace Prop
         virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         // CD2 spawning initializer 0x82FFAFA8 names placement factory 0x82744360.
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
+        // CD2 0x82744560: the placement factory (0x82744360) calls it out of line with the prototype.
+        cHingedDoor(GOM::cObjectPrototype *);
         static const Fun_Runtime::cClass *ms_pcHingedDoorClass;
         static Fun_Runtime::cClass &StaticCreateClass();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);

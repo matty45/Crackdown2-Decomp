@@ -21,6 +21,11 @@
 
 namespace Equip
 {
+    RWS::CAttributeHandler *cHarpoonBolt::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cHarpoonBoltPrototype(packet);
+    }
+
     const char *cHarpoonBolt::RetClassName() const
     {
         return "cHarpoonBolt";

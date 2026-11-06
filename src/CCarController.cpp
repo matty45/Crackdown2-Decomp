@@ -42,6 +42,11 @@ namespace unknown
     static GOM::cProtoRegistrar CCarControllerSpawningRegistrar(
         CCarController::StaticCreateClass(), CCarController::SpawnFromPrototype);
 
+    RWS::CAttributeHandler *CCarController::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cCarControllerPrototype(packet);
+    }
+
     const char *CCarController::RetClassName() const
     {
         return "CCarController";
@@ -57,5 +62,90 @@ namespace unknown
         if (memory)
             return new (memory) CCarController;
         return 0;
+    }
+
+    void CCarController::SetAssumedBrakingScale(float fBrakeFactor)
+    {
+        m_fAssumedBraking = fBrakeFactor;
+    }
+
+    void CCarController::SetLateralAccelScale(float fLatAccelScale)
+    {
+        m_fLateralAccelScale = fLatAccelScale;
+    }
+
+    float CCarController::GetAssumedBrakingScale()
+    {
+        return m_fAssumedBraking;
+    }
+
+    float CCarController::GetLateralAccelScale()
+    {
+        return m_fLateralAccelScale;
+    }
+
+    float CCarController::GetSpeedLimit()
+    {
+        return m_fMaxSpeed;
+    }
+
+    void CCarController::EnableTraining()
+    {
+        m_bTrainingEnabled = true;
+    }
+
+    void CCarController::DisableTraining()
+    {
+        m_bTrainingEnabled = false;
+    }
+
+    bool CCarController::IsTraining()
+    {
+        return m_bTrainingEnabled;
+    }
+
+    void CCarController::SetMaxLateralAccelAtSpeed(float fIn)
+    {
+        m_fLateralAccel = fIn;
+    }
+
+    void CCarController::SetMaxBrakingAccelAtSpeed(float fIn)
+    {
+        m_fBrakingAccel = fIn;
+    }
+
+    float CCarController::GetMaxLateralAccelAtSpeed(float)
+    {
+        return m_fLateralAccel;
+    }
+
+    float CCarController::GetMaxBrakingAccelAtSpeed(float)
+    {
+        return m_fBrakingAccel;
+    }
+
+    float CCarController::GetTargetSpeed()
+    {
+        return m_fTargetSpeed;
+    }
+
+    float CCarController::RetFrictionFactor()
+    {
+        return m_fFrictionFactor;
+    }
+
+    void CCarController::SetSpeedLimit(float fSpeed)
+    {
+        m_fMaxSpeed = fSpeed;
+    }
+
+    float CCarController::GetSteeringGainEstimate()
+    {
+        return m_fOverallSteeringResponse;
+    }
+
+    void CCarController::ResetSpeedLimit()
+    {
+        m_fMaxSpeed = m_fCarsTopSpeed;
     }
 }

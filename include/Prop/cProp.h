@@ -34,6 +34,8 @@ namespace Prop
         public AI::cDynamicObstacleOwner, public Equip::cSatchelChargeTarget
     {
     public:
+        // CD2 0x827293E0: placement factory.
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         // CD2 0x82729410 creates the named runtime descriptor.
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pcPropClass;

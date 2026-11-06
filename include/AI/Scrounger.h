@@ -9,6 +9,20 @@
 
 namespace AI
 {
+    // RuffKing: AI::ScroungerPrototype : FreakPrototype, 528 bytes. CD2's Scrounger::MakeNew (0x824BAA18) allocates
+    // 0x210 and calls this constructor (0x824BC850), which calls FreakPrototype's (0x824B0B78).
+    class ScroungerPrototype : public FreakPrototype
+    {
+    public:
+        ScroungerPrototype(const RWS::CAttributePacket &);
+
+    private:
+        unsigned char m_unmodelledB0[0x210 - 0xB0];
+
+        CD2_LAYOUT_CHECKS(ScroungerPrototype,
+            CD2_SIZE(ScroungerPrototype, 0x210))
+    };
+
     class Scrounger : public AI::FreakBase
     {
     public:
@@ -22,6 +36,12 @@ namespace AI
         static Fun_Runtime::cClass &StaticCreateClass();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
+
+    private:
+        // Own fields not recovered; 0x130 is the size its registrar and descriptor give.
+        unsigned char m_unmodelled120[0x130 - 0x120];
+
+        CD2_LAYOUT_CHECKS(Scrounger, CD2_SIZE(Scrounger, 0x130))
     };
 }
 

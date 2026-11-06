@@ -14,6 +14,8 @@ namespace Equip
     class cRealNadeLauncher : public cCWHeavyWeapon
     {
     public:
+        // Inline: CD2's placement factory (0x82634A38) calls cCWHeavyWeapon's (0x8262FF78) constructor, then stores this class's vptrs.
+        __forceinline cRealNadeLauncher() {}
         // RuffKing prototype name/base; CD2 Init is primary slot 5 (0x82635418).
         // Interface only: instance fields and allocation size remain unrecovered.
         class cRealNadeLauncherPrototype : public cCWHeavyWeapon::cCWHeavyWeaponPrototype

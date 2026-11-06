@@ -2,6 +2,7 @@
 #include "fun_runtime/inheritance_registrar.h"
 #include "AI/NPCArmedBehaviour.h"
 #include "AI/CellRocket.h"
+#include "AI/CellRocketPrototype.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
 #include "AI/BehaviourClassID.h"
@@ -17,6 +18,11 @@ namespace AI
         return *ms_pCellRocketClass;
     }
 
+    RWS::CAttributeHandler *CellRocket::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new CellRocketPrototype(packet);
+    }
+
     const char *CellRocket::RetClassName() const
     {
         return "CellRocket";
@@ -25,11 +31,6 @@ namespace AI
     bool CellRocket::IsA(const Fun_Runtime::cClass &c) const
     {
         return ms_pCellRocketClass->IsA(c);
-    }
-
-    RWS::CAttributeHandler *CellRocket::MakeNew(const RWS::CAttributePacket &packet, bool)
-    {
-        return new CellRocket();
     }
 
     static RWS::CClassFactory::CRegistrar CellRocketRegistrar(

@@ -14,6 +14,8 @@ namespace RWS
     public:
         CEventId();
         ~CEventId();
+        // RuffKing: HandleEvents overrides compare a message's Id with a member event through this conversion.
+        operator CRegisteredMsgs *() const { return pEventId; }
 
     private:
         CRegisteredMsgs *pEventId;
