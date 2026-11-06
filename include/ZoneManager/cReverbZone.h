@@ -12,6 +12,9 @@ namespace ZoneManager
     class cReverbZone : public cPlayerTriggerZone
     {
     public:
+        // The reference declares both callbacks; CD2 installs concrete entries at primary slots 16 and 17.
+        virtual void OnPlayerEnter(CHARACTER::cCharacter *);
+        virtual void OnPlayerLeave(CHARACTER::cCharacter *);
         // __forceinline: CD2 inlines it into MakeNew (0x8280EE88).
         __forceinline cReverbZone(const RWS::CAttributePacket &)
             : cPlayerTriggerZone(true), m_bPreviouslyEntered(false), m_bPreviouslyLeft(false) {}

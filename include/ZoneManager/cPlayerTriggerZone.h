@@ -11,6 +11,8 @@ namespace ZoneManager
     class cPlayerTriggerZone : public cPlayerTriggerBase
     {
     public:
+        virtual void HandleAttributes(const RWS::CAttributePacket &);
+        virtual bool IsWithin(const Fun_Runtime::Vec3 &) const;
         // Inline in CD2: the zones' MakeNew functions call cPlayerTriggerBase's constructor directly.
         __forceinline cPlayerTriggerZone(bool bAllowDeadCharacters) : cPlayerTriggerBase(bAllowDeadCharacters) {}
         virtual ~cPlayerTriggerZone() {}

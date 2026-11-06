@@ -13,28 +13,28 @@ contributor cannot influence.
 | | |
 |---|---|
 | Functions in the game | 74,551 (as split by jeff), 14.3 MB of code |
-| Source files set up | 389 |
-| Functions matched | 3,276 (3,271 in a plain build, 5 more under link-time code generation) |
+| Source files set up | 392 |
+| Functions matched | 3,332 (3,327 in a plain build, 5 more under link-time code generation) |
 | Full relink of the split game | byte-identical round trip (`tools/relink.py`) |
 
 ### How much is left
 
 Every function of the executable, by where it stands. Sizes are code bytes, which say more about the work than counts:
-the 24,181 unassigned initializers and at-exit destructors average 37 bytes.
+the 24,179 unassigned initializers and at-exit destructors average 37 bytes.
 
 **Game code (what this project decompiles)**
 
 | | Functions | Code | |
 |---|---:|---:|---:|
-| Matched | 3,275 + 1 folded copy | 185.3 KB | 1.3% |
+| Matched | 3,331 + 1 folded copy | 187.7 KB | 1.3% |
 | In progress | 3 | 0.5 KB | 0.0% |
-| Open in the set-up source files (64 claimed) | 3,576 | 1.15 MB | 8.0% |
-| Game span not yet split into source files | 15,524 | 3.96 MB | 27.7% |
+| Open in the set-up source files (68 claimed) | 3,548 | 1.15 MB | 8.1% |
+| Game span not yet split into source files | 15,498 | 3.96 MB | 27.6% |
 | Order-list region, not yet assigned (hot functions of every object, game and library) | 2,875 | 1.62 MB | 11.3% |
-| Initializers and at-exit destructors, not yet assigned (every object's) | 24,181 | 0.85 MB | 5.9% |
+| Initializers and at-exit destructors, not yet assigned (every object's) | 24,179 | 0.85 MB | 5.9% |
 
 That leaves at least 5.1 MB of game code to decompile, plus the game's share of the order-list region and of the
-initializers. Matched so far: 185.3 KB, about 2.6% of the game code (counting the whole order-list region as game code),
+initializers. Matched so far: 187.7 KB, about 2.6% of the game code (counting the whole order-list region as game code),
 1.3% of the executable.
 
 **Library code (linked from prebuilt libraries: identified in `config/library_splits.txt`, not decompiled)**

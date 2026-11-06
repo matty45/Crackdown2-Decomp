@@ -12,6 +12,9 @@ namespace ZoneManager
     class cVOAZone : public cPlayerTriggerZone
     {
     public:
+        // The reference declares both callbacks; CD2 installs concrete entries at primary slots 16 and 17.
+        virtual void OnPlayerEnter(CHARACTER::cCharacter *);
+        virtual void OnPlayerLeave(CHARACTER::cCharacter *);
         // __forceinline: CD2 inlines it into MakeNew (0x8280E980).
         __forceinline cVOAZone(const RWS::CAttributePacket &) : cPlayerTriggerZone(false) {}
         virtual ~cVOAZone();

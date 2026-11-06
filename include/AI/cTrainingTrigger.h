@@ -13,6 +13,9 @@ namespace AI
     class cTrainingTrigger : public ZoneManager::cPlayerTriggerZone
     {
     public:
+        // The reference declares both callbacks; CD2 installs concrete entries at primary slots 16 and 17.
+        virtual void OnPlayerEnter(CHARACTER::cCharacter *);
+        virtual void OnPlayerLeave(CHARACTER::cCharacter *);
         // CD2 0x82485720.
         virtual ~cTrainingTrigger();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);

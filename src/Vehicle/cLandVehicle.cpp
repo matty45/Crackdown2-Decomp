@@ -56,6 +56,11 @@ namespace Vehicle
         return *cLandVehicleClass;
     }
 
+    void cLandVehicle::SetMustStop(bool mustStop)
+    {
+        m_bMustStop = mustStop;
+    }
+
     Fun_Runtime::RetVal cLandVehicle::cLandVehiclePrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;

@@ -12,11 +12,18 @@ namespace Anim
         // __forceinline: CD2 inlines it into the profile's factory.
         __forceinline cProfileDataSprint(cSpecificAnimationProfile &profile) : cAnimProfileData(profile) {}
         virtual void HandleAttributeData(cSpecificAnimationProfile &, const RWS::CAttributePacket &);
+        // RuffKing names and offsets; CD2 0x825218B0 reads m_fSprintBargeHitTime.
+        virtual float RetSprintBargeHitTime() const;
+        float m_fSprintMinPlaybackSpeed;
+        float m_fSprintMaxPlaybackSpeed;
+        float m_fSyncToGroundSpeed;
+        bool m_bSyncToGround;
     private:
-        unsigned char m_unmodelledData4[0x2C];
+        float m_fSprintBargeHitTime;
+        float m_fBumpWeight[6];
         CD2_LAYOUT_CHECKS(cProfileDataSprint,
             CD2_SIZE(cProfileDataSprint, 0x30)
-            CD2_OFFSET(cProfileDataSprint, m_unmodelledData4, 4))
+            CD2_OFFSET(cProfileDataSprint, m_fSprintBargeHitTime, 0x14))
     };
 }
 #endif

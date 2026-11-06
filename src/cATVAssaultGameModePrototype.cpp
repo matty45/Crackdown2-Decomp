@@ -9,6 +9,11 @@ namespace unknown
         return "cATVAssaultGameModePrototype";
     }
 
+    int cATVAssaultGameModePrototype::RetStringID() const
+    {
+        return 0x77E10144;
+    }
+
     static RWS::CClassFactory::CRegistrar cATVAssaultGameModePrototypeRegistrar(
         "cATVAssaultGameModePrototype", cATVAssaultGameModePrototype::MakeNew, 0x260, false);
 

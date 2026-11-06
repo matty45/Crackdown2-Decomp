@@ -11,6 +11,8 @@ namespace ZoneManager
     class cPlayerTriggerCylinder : public cPlayerTriggerBase
     {
     public:
+        virtual void HandleAttributes(const RWS::CAttributePacket &);
+        virtual bool IsWithin(const Fun_Runtime::Vec3 &) const;
         virtual ~cPlayerTriggerCylinder() {}
 
     protected:

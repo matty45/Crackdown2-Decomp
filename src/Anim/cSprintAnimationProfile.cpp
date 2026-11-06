@@ -4,6 +4,11 @@
 
 namespace Anim
 {
+    float cProfileDataSprint::RetSprintBargeHitTime() const
+    {
+        return m_fSprintBargeHitTime;
+    }
+
     void cSprintAnimationProfile::HandleAttributes(const RWS::CAttributePacket &packet)
     {
         cSpecificAnimationProfile::HandleAttributes(packet);

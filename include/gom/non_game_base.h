@@ -114,7 +114,9 @@ public:
     virtual void Slot47();
     virtual void Slot48();
     virtual void Slot49();
-    virtual void Slot50();
+    // Actual CD2 slot 49: legacy SlotN labels above drift by one after EnterRenderableState.
+    // The character-interface override at 0x823E7778 reads its reference-named alive flag.
+    virtual bool IsAlive() const;
     virtual void Slot51();
     virtual void Slot52();
     virtual void Slot53();

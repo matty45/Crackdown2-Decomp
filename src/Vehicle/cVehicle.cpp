@@ -68,4 +68,19 @@ namespace Vehicle
         static Fun_Runtime::cClass *descriptor = new Fun_Runtime::cClass(0x1, "cVehicle", 0x1740);
         return *descriptor;
     }
+    bool cVehicle::CreateParts(const char **names, unsigned short count)
+    {
+        return LocateParts(names, count);
+    }
+
+    int cVehicle::RetNumberOfSeats()
+    {
+        return m_VehicleSeats.size();
+    }
+
+    unsigned short cVehicle::RetCollisionSystemGroup()
+    {
+        return m_nSystemGroup;
+    }
+
 }

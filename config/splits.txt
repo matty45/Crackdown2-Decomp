@@ -2287,6 +2287,9 @@ src/cNetGamePickupGroupSpawnPoint.cpp
   init 0x83016548
   atexit 0x83043BB0
 
+src/GameManagement/cPvPGameMode.cpp
+  text 0x8283E2C8 0x8283E380   # user-authorized: constructor 0x8283E2F8 installs cPvPGameModePrototype table 0x8215B308; slots 34/35/37/38 address the named limits/timeout members; RuffKing cPvPGameMode.cpp owns this type; neighbouring cPvPGameMode bodies remain outside this narrow range
+
 src/GameManagement/cNetGamePickupSpawnPoint.cpp
   text 0x8284BB40 0x8284C19C   # auto: cNetGamePickupSpawnPoint; RuffKing cNetGamePickupSpawnPoint.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x83016710
@@ -2479,6 +2482,14 @@ src/cTeamHunterGathererGameModePrototype.cpp
   text 0x82881B18 0x82881C74   # auto: cTeamHunterGathererGameModePrototype; not in RuffKing; 4 markers (RetClassName, MakeNew, own vtable slots)
   init 0x8301FB40
   atexit 0x83044390
+
+src/GameManagement/cGameModeCheckpoint.cpp
+  text 0x82881C78 0x828821E0   # user-authorized: class-factory 0x82881C78, RetClassName 0x82881D18 and its installed table 0x82006258 identify this contiguous object; next marker is cGameModeStartZone; RuffKing cGameModeCheckpoint.cpp
+  init 0x8301FEA0   # passes cGameModeCheckpoint name, factory and size 0x1C0
+  atexit 0x830443A8   # cleans up the same class-factory registrar at 0x8392F651
+
+src/GameManagement/cGameModeTriggerZone.cpp
+  text 0x82883AB8 0x828845FC   # user-authorized: constructor installs table 0x82160110; its own HandleAttributes string names cGameModeTriggerZone, and virtuals run through TermVFX 0x82884520; reference cGameModeTriggerZone.cpp; preceding start-zone code and following helper excluded
 
 src/GameManagement/cGameModeStartZone.cpp
   text 0x828821E0 0x828831B8   # auto: cGameModeStartZone; RuffKing cGameModeStartZone.obj; 12 markers (RetClassName, MakeNew, own vtable slots)

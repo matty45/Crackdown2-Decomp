@@ -27,9 +27,11 @@
 #include "ExplosionManager/cExplosionCallback.h"
 #include "AI/cDynamicObstacleOwner.h"
 #include "Equip/cSatchelChargeTarget.h"
+#include "fun_runtime/vectorip.h"
 
 namespace Vehicle
 {
+    class cVehicleSeat;
     class cVehicle : public PHYSICS::cNetDynamicBody, public ExplosionManager::cExplosionCallback,
         public AI::cDynamicObstacleOwner, public Equip::cSatchelChargeTarget
     {
@@ -68,6 +70,11 @@ namespace Vehicle
         // CD2 0x826CC798, registered as the script method "SetIsBeingHiJackedByAI".
         void SetIsBeingHiJackedByAI(bool bHiJacked);
 
+        // CD2 slot 197 reads the reference-named 16-bit collision-system group.
+        virtual unsigned short RetCollisionSystemGroup();
+        // CD2 script method 0x826D5008; counts the inline pointer vector.
+        int RetNumberOfSeats();
+
         // Interface overrides RuffKing declares; CD2 installs cVehicle's own tables at 0x7A0 (0x8213473C), 0x7A4
         // (0x82136BC8) and 0x7AC (0x821354E0).
         virtual void NotifyDetonation(cGameBase *, CHARACTER::cCharacterInterface *, unsigned char);
@@ -83,8 +90,8 @@ namespace Vehicle
         virtual void vf326(); virtual void vf327(); virtual void vf328(); virtual void vf329(); virtual void vf330(); virtual void vf331();
         virtual void vf332(); virtual void vf333(); virtual void vf334(); virtual void vf335(); virtual void vf336(); virtual void vf337();
         virtual void vf338(); virtual void vf339(); virtual void vf340(); virtual void vf341(); virtual void vf342(); virtual void vf343();
-        virtual void vf344(); virtual void vf345(); virtual void vf346(); virtual void vf347(); virtual void vf348(); virtual void vf349();
-        virtual void vf350(); virtual void vf351(); virtual void vf352(); virtual void vf353(); virtual void vf354(); virtual void vf355();
+        virtual void vf344(); virtual void vf345(); virtual void vf346(); virtual void vf347(); virtual void vf348(); virtual bool LocateParts(const char **, unsigned short);
+        virtual bool CreateParts(const char **, unsigned short); virtual void vf351(); virtual void vf352(); virtual void vf353(); virtual void vf354(); virtual void vf355();
         virtual void vf356(); virtual void vf357(); virtual void vf358(); virtual void vf359();
         virtual float RetTheoreticalMaxMPH();   // slot 360, CD2 0x826CC788
         virtual void vf361(); virtual void vf362(); virtual void vf363(); virtual void vf364(); virtual void vf365(); virtual void vf366();
@@ -96,20 +103,26 @@ namespace Vehicle
         virtual void vf397(); virtual void vf398(); virtual void vf399(); virtual void vf400(); virtual void vf401(); virtual void vf402();
         virtual void vf403(); virtual void vf404(); virtual void vf405(); virtual void vf406(); virtual void vf407(); virtual void vf408();
         virtual void vf409(); virtual void vf410(); virtual void vf411(); virtual void vf412(); virtual void vf413(); virtual void vf414();
-        virtual void vf415(); virtual void vf416(); virtual void vf417(); virtual void vf418(); virtual void vf419(); virtual void vf420();
+        virtual void vf415(); virtual bool MustStop(); virtual void SetMustStop(bool); virtual void vf418(); virtual void vf419(); virtual void vf420();
         virtual void vf421(); virtual void vf422(); virtual void vf423(); virtual void vf424(); virtual void vf425(); virtual void vf426();
         virtual void vf427(); virtual void vf428(); virtual void vf429(); virtual void vf430(); virtual void vf431(); virtual void vf432();
         virtual void vf433(); virtual void vf434(); virtual void vf435(); virtual void vf436(); virtual void vf437(); virtual void vf438();
         virtual void vf439(); virtual void vf440(); virtual void vf441();
 
     private:
-        unsigned char m_unmodelled7B4[0x15F7 - 0x7B4];
+        unsigned char m_unmodelled7B4[0x1180 - 0x7B4];
+        Fun_Runtime::cVectorip<cVehicleSeat *, 6> m_VehicleSeats;
+        unsigned char m_unmodelled11B0[0x15E6 - 0x11B0];
+        unsigned short m_nSystemGroup;
+        unsigned char m_unmodelled15E8[0x15F7 - 0x15E8];
         bool m_bIsBeingHiJackedByAI;                    // 0x15F7
         unsigned char m_unmodelled15F8[0x1740 - 0x15F8];
 
         CD2_LAYOUT_CHECKS(cVehicle,
             CD2_SIZE(cVehicle, 0x1740)
-            CD2_OFFSET(cVehicle, m_bIsBeingHiJackedByAI, 0x15F7))
+            CD2_OFFSET(cVehicle, m_bIsBeingHiJackedByAI, 0x15F7)
+            CD2_OFFSET(cVehicle, m_VehicleSeats, 0x1180)
+            CD2_OFFSET(cVehicle, m_nSystemGroup, 0x15E6))
     };
 }
 

@@ -15,6 +15,9 @@ namespace AI
     class cPlayerRejectionZone : public ZoneManager::cPlayerTriggerZone
     {
     public:
+        // The reference declares both callbacks; CD2 installs concrete entries at primary slots 16 and 17.
+        virtual void OnPlayerEnter(CHARACTER::cCharacter *);
+        virtual void OnPlayerLeave(CHARACTER::cCharacter *);
         // CD2 0x8248B9D0.
         virtual ~cPlayerRejectionZone();
         virtual const char *RetClassName() const;

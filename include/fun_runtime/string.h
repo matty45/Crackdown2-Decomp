@@ -6,6 +6,7 @@
 #define _SECURE_SCL 0
 #include <string>
 #include "fun_runtime/allocator.h"
+#include "fun_runtime/stringc.h"
 #include "cd2/layout.h"
 
 namespace Fun_Runtime
@@ -15,6 +16,8 @@ namespace Fun_Runtime
     public:
         cString() {}
         cString(const char *text);
+        // Reference cString.h names this wide-to-narrow conversion; CD2's arena linker calls it out of line.
+        cStringc c_strc() const;
 
         CD2_LAYOUT_CHECKS(cString, CD2_SIZE(cString, 0x1C))
     };

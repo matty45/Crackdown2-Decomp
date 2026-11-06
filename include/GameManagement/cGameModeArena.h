@@ -13,6 +13,7 @@
 
 #include <string.h>
 #include "rws/attributes.h"
+#include "GameManagement/cGMMResource.h"
 #include "rws/eventid.h"
 #include "rws/eventhandler.h"
 #include "cd2/layout.h"
@@ -31,36 +32,8 @@ namespace GameManagement
     class cNetGamePickupSpawnPoint;
 
     // Second base of every GMM resource (vptr at 0x18, 14 virtuals, virtual destructor first).
-    class cGMMEventBase
-    {
-    public:
-        virtual ~cGMMEventBase();
-        virtual void Ev1();
-        virtual void Ev2();
-        virtual void Ev3();
-        virtual void Ev4();
-        virtual void Ev5();
-        virtual void Ev6();
-        virtual void Ev7();
-        virtual void Ev8();
-        virtual void Ev9();
-        virtual void Ev10();
-        virtual void Ev11();
-        virtual void Ev12();
-        virtual void Ev13();
-    protected:
-        short m_nHandle;
-        short m_nPad;
-        unsigned char m_abData[0x40];
-    };
-
-    class cGMMResource : public RWS::CAttributeHandler, public cGMMEventBase
-    {
-    public:
-        cGMMResource();
-        virtual ~cGMMResource();
-        virtual void HandleAttributes(const RWS::CAttributePacket &);
-    };
+    // Historical stand-in description above: constructor 0x828498C0 now establishes the shared
+    // RWS::CEventHandler base and typed cGMMResource members in GameManagement/cGMMResource.h.
 
     // std::list<T*> with out-of-line push_back and destructor (CD2 0x827FAF00 / 0x82470DA8); constructor inline.
     struct cListNode
@@ -154,31 +127,13 @@ namespace GameManagement
     inline void SendMsg(cMsg &m) { if (m.m_ppTarget != g_ppMsgNull && *m.m_ppTarget != 0) DispatchMsg(m); }
 
     // MSVC 2008 std::string layout: allocator slot, 16 byte buffer or heap pointer, size, reserve. Destructor inline.
-    class cString
-    {
-    public:
-        ~cString()
-        {
-            if (m_nRes >= 16)
-                operator delete(m_u.m_pPtr);
-            m_nSize = 0;
-            m_nRes = 15;
-            m_u.m_acBuf[0] = 0;
-        }
-        const char *c_str() const { return m_nRes >= 16 ? m_u.m_pPtr : m_u.m_acBuf; }
-    private:
-        int m_nAlloc;
-        union { char m_acBuf[16]; char *m_pPtr; } m_u;
-        unsigned int m_nSize;
-        unsigned int m_nRes;
-    };
-    cString c_strc(const cString &);
+    // Historical narrow-string stand-in replaced by shared Fun_Runtime::cString/cStringc.
 
     class cGameModeArena;
     class cArenaLinker
     {
     public:
-        static cGameModeArena *GetArena(const cString &);
+        static cGameModeArena *GetArena(const Fun_Runtime::cString &);
     };
     short RegisterGMM(cGMMResource *);
     void UnregisterGMM(int);

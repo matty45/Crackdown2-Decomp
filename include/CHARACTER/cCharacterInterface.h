@@ -77,6 +77,8 @@ namespace CHARACTER
         // Script getter 0x825430D8 is folded into cCharacter.cpp, and reads this interface's flag.
         bool CanBePickedUpWhenAlive() const;
         bool RetIsOnFire() const;
+        // CD2 0x823E7778: shared character-interface override, outside the current source split.
+        virtual bool IsAlive() const { return m_bAlive; }
 
         cCharacter *RetCharacter() const
         {

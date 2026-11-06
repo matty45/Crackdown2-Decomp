@@ -57,7 +57,7 @@ namespace PHYSICS
         virtual void vf177(); virtual void vf178(); virtual void vf179(); virtual void vf180(); virtual void vf181(); virtual void vf182();
         virtual void vf183(); virtual void vf184(); virtual void vf185(); virtual void vf186(); virtual void vf187(); virtual void vf188();
         virtual void vf189(); virtual void vf190(); virtual void vf191(); virtual void vf192(); virtual void vf193(); virtual void vf194();
-        virtual void vf195(); virtual void vf196(); virtual void vf197(); virtual void vf198(); virtual void vf199(); virtual void vf200();
+        virtual void vf195(); virtual void vf196(); virtual unsigned short RetCollisionSystemGroup(); virtual void vf198(); virtual void vf199(); virtual void vf200();
         virtual void vf201(); virtual void vf202(); virtual void vf203(); virtual void vf204(); virtual void vf205(); virtual void vf206();
         virtual void vf207(); virtual void vf208(); virtual void vf209(); virtual void vf210(); virtual void vf211(); virtual void vf212();
         virtual void vf213(); virtual void vf214(); virtual void vf215(); virtual void vf216(); virtual void vf217(); virtual void vf218();

@@ -17,6 +17,8 @@
 #include "CHARACTER/cCharacter.h"
 #include "cd2/layout.h"
 
+namespace Vehicle { class cVehicle; }
+
 namespace ZoneManager
 {
     class cPlayerTriggerBase : public RWS::CSystemCommands, public RWS::CAttributeHandler, public RWS::DynamicAllocationPolicy,
@@ -27,6 +29,15 @@ namespace ZoneManager
         cPlayerTriggerBase(bool bAllowDeadCharacters);
         // CD2 0x8280DCC0 (out of line: the derived destructors call it).
         virtual ~cPlayerTriggerBase();
+        virtual void HandleAttributes(const RWS::CAttributePacket &);
+        // CD2 cPlayerTriggerZone table 0x82155B98 has 18 entries: these are slots 11..17.
+        virtual bool DoCollision(CHARACTER::cCharacter *);
+        virtual bool IsWithin(const Fun_Runtime::Vec3 &) const = 0;
+        virtual bool IsVehicleWithin(const Vehicle::cVehicle *) const;
+        virtual void InitTriggerZone();
+        virtual void TermTriggerZone();
+        virtual void OnPlayerEnter(CHARACTER::cCharacter *) = 0;
+        virtual void OnPlayerLeave(CHARACTER::cCharacter *) = 0;
 
     protected:
         Fun_Runtime::cVector<Fun_Runtime::cSafeDeletablePointer<CHARACTER::cCharacter> > m_vContainedPlayers;

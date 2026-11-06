@@ -32,7 +32,7 @@ namespace GameManagement
 
     cGameModeArena::~cGameModeArena()
     {
-        UnregisterGMM(m_nHandle);
+        UnregisterGMM(m_nResourceID);
     }
 
     const char *cGameModeArena::RetClassName() const
@@ -123,7 +123,7 @@ namespace GameManagement
             }
         }
         if (packet.IsInstanceCreationPacket())
-            m_nHandle = RegisterGMM(this);
+            m_nResourceID = RegisterGMM(this);
     }
 
     RWS::CAttributeHandler *cGameModeArena::MakeNew(const RWS::CAttributePacket &, bool)
@@ -145,10 +145,10 @@ namespace GameManagement
     template cNetGamePlayerSpawnPoint *cGameModeArena::GetRandSpawnPointInList<cNetGamePlayerSpawnPoint>(const cVec<cGameModeSpawnPoint *> &);
     template cNetGamePickupSpawnPoint *cGameModeArena::GetRandSpawnPointInList<cNetGamePickupSpawnPoint>(const cVec<cGameModeSpawnPoint *> &);
 
-    cGameModeArena *cArenaLinker::GetArena(const cString &name)
+    cGameModeArena *cArenaLinker::GetArena(const Fun_Runtime::cString &name)
     {
         RWS::CEventId id;
-        RWS::CEventHandler::RegisterMsg(id, c_strc(name).c_str(), "cGameModeArena*");
+        RWS::CEventHandler::RegisterMsg(id, name.c_strc().c_str(), "cGameModeArena*");
         cMsg msg(id, 0);
         SendMsg(msg);
         void *pData = msg.m_pData;

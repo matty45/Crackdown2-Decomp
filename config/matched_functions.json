@@ -1858,6 +1858,11 @@
         "address": "0x8287B300",
         "size": 68,
         "symbol": "?MakeNew@cATVAssaultGameModePrototype@unknown@@"
+      },
+      {
+        "address": "0x8287B528",
+        "size": 12,
+        "symbol": "?RetStringID@cATVAssaultGameModePrototype@unknown@@"
       }
     ],
     "src/cCharacterDLCVFXProfile.cpp": [
@@ -2052,6 +2057,61 @@
         "address": "0x8287E1E8",
         "size": 68,
         "symbol": "?MakeNew@cHunterGathererGameModePrototype@unknown@@"
+      },
+      {
+        "address": "0x8287E240",
+        "size": 8,
+        "symbol": "?RetFloat148@cHunterGathererGameModePrototype@unknown@@"
+      },
+      {
+        "address": "0x8287E248",
+        "size": 8,
+        "symbol": "?RetFloat14C@cHunterGathererGameModePrototype@unknown@@"
+      },
+      {
+        "address": "0x8287E250",
+        "size": 8,
+        "symbol": "?RetFloat150@cHunterGathererGameModePrototype@unknown@@"
+      },
+      {
+        "address": "0x8287E258",
+        "size": 8,
+        "symbol": "?RetFlag154@cHunterGathererGameModePrototype@unknown@@"
+      },
+      {
+        "address": "0x8287E260",
+        "size": 8,
+        "symbol": "?RetFlag155@cHunterGathererGameModePrototype@unknown@@"
+      },
+      {
+        "address": "0x8287E268",
+        "size": 8,
+        "symbol": "?RetFlag174@cHunterGathererGameModePrototype@unknown@@"
+      },
+      {
+        "address": "0x8287E270",
+        "size": 8,
+        "symbol": "?RetFloat178@cHunterGathererGameModePrototype@unknown@@"
+      },
+      {
+        "address": "0x8287E278",
+        "size": 8,
+        "symbol": "?RetFloat17C@cHunterGathererGameModePrototype@unknown@@"
+      },
+      {
+        "address": "0x8287E3A0",
+        "size": 12,
+        "symbol": "?RetStringID@cHunterGathererGameModePrototype@unknown@@"
+      },
+      {
+        "address": "0x8287E958",
+        "size": 16,
+        "symbol": "?RetEffectID@cHunterGathererGameModePrototype@unknown@@"
+      },
+      {
+        "address": "0x8287E350",
+        "size": 80,
+        "symbol": "??_GcHunterGathererGameModePrototype@unknown@@"
       }
     ],
     "src/cKeysToTheCityGameModePrototype.cpp": [
@@ -2332,6 +2392,16 @@
         "address": "0x830442E8",
         "size": 12,
         "symbol": "??__FcTeamATVAssaultGameModePrototypeRegistrar@unknown@@"
+      },
+      {
+        "address": "0x8287E080",
+        "size": 112,
+        "symbol": "?MakeNew@cTeamATVAssaultGameModePrototype@unknown@@"
+      },
+      {
+        "address": "0x8287E150",
+        "size": 12,
+        "symbol": "?RetStringID@cTeamATVAssaultGameModePrototype@unknown@@"
       }
     ],
     "src/cTeamHunterGathererGameModePrototype.cpp": [
@@ -2349,6 +2419,16 @@
         "address": "0x83044390",
         "size": 12,
         "symbol": "??__FcTeamHunterGathererGameModePrototypeRegistrar@unknown@@"
+      },
+      {
+        "address": "0x82881B98",
+        "size": 12,
+        "symbol": "?RetStringID@cTeamHunterGathererGameModePrototype@unknown@@"
+      },
+      {
+        "address": "0x82881B18",
+        "size": 112,
+        "symbol": "?MakeNew@cTeamHunterGathererGameModePrototype@unknown@@"
       }
     ],
     "src/cTransVehicleDamageProp.cpp": [
@@ -4110,6 +4190,11 @@
         "address": "0x825218B8",
         "size": 140,
         "symbol": "?MakeNew@cSprintAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x825218B0",
+        "size": 8,
+        "symbol": "?RetSprintBargeHitTime@cProfileDataSprint@Anim@@"
       }
     ],
     "src/Anim/cStandAnimationProfile.cpp": [
@@ -4963,6 +5048,46 @@
         "address": "0x83043CA8",
         "size": 12,
         "symbol": "??__FcCheckpointArenaRegistrar@GameManagement@@"
+      },
+      {
+        "address": "0x8284E0A8",
+        "size": 128,
+        "symbol": "?MakeNew@cCheckpointArena@GameManagement@@"
+      },
+      {
+        "address": "0x8284E138",
+        "size": 8,
+        "symbol": "?RetStartZone@cCheckpointArena@GameManagement@@"
+      },
+      {
+        "address": "0x8284E140",
+        "size": 20,
+        "symbol": "?RetNumCheckpoints@cCheckpointArena@GameManagement@@"
+      },
+      {
+        "address": "0x8284E158",
+        "size": 48,
+        "symbol": "?RetCheckpoint@cCheckpointArena@GameManagement@@"
+      },
+      {
+        "address": "0x8284E188",
+        "size": 96,
+        "symbol": "??_GcCheckpointArena@GameManagement@@"
+      },
+      {
+        "address": "0x8284E1E8",
+        "size": 88,
+        "symbol": "?OnShutDownLevel@cCheckpointArena@GameManagement@@"
+      },
+      {
+        "address": "0x8284E240",
+        "size": 8,
+        "symbol": "?AddStartZone@cCheckpointArena@GameManagement@@"
+      },
+      {
+        "address": "0x8284E248",
+        "size": 92,
+        "symbol": "?AddCheckpoint@cCheckpointArena@GameManagement@@"
       }
     ],
     "src/GameManagement/cCHordeArena.cpp": [
@@ -5146,6 +5271,31 @@
         "address": "0x828821E0",
         "size": 68,
         "symbol": "?MakeNew@cGameModeStartZone@GameManagement@@"
+      },
+      {
+        "address": "0x82882238",
+        "size": 8,
+        "symbol": "?RetGameModePrototype@cGameModeStartZone@GameManagement@@"
+      },
+      {
+        "address": "0x82882240",
+        "size": 8,
+        "symbol": "?RetMinimumAgilityLevel@cGameModeStartZone@GameManagement@@"
+      },
+      {
+        "address": "0x82882248",
+        "size": 8,
+        "symbol": "?RetMinNumParticipants@cGameModeStartZone@GameManagement@@"
+      },
+      {
+        "address": "0x82882250",
+        "size": 8,
+        "symbol": "?RetMaxNumParticipants@cGameModeStartZone@GameManagement@@"
+      },
+      {
+        "address": "0x82882258",
+        "size": 8,
+        "symbol": "?GetNumObjectIDBits@cGameModeStartZone@GameManagement@@"
       }
     ],
     "src/GameManagement/cGameModeVFXProfile.cpp": [
@@ -5244,6 +5394,21 @@
         "address": "0x830440D0",
         "size": 12,
         "symbol": "??__FcMultiPlayerTriggerZoneRegistrar@GameManagement@@"
+      },
+      {
+        "address": "0x828690C0",
+        "size": 12,
+        "symbol": "?InitTriggerZone@cMultiPlayerTriggerZone@GameManagement@@"
+      },
+      {
+        "address": "0x828690D0",
+        "size": 12,
+        "symbol": "?TermTriggerZone@cMultiPlayerTriggerZone@GameManagement@@"
+      },
+      {
+        "address": "0x828690E0",
+        "size": 20,
+        "symbol": "?CanTrigger@cMultiPlayerTriggerZone@GameManagement@@"
       }
     ],
     "src/GameManagement/cNetGamePickupSpawnPoint.cpp": [
@@ -5332,6 +5497,16 @@
         "address": "0x83043E50",
         "size": 12,
         "symbol": "??__FcRoadRaceGameModePrototypeRegistrar@GameManagement@@"
+      },
+      {
+        "address": "0x82854AC8",
+        "size": 12,
+        "symbol": "?RetStringID@cRoadRaceGameModePrototype@GameManagement@@"
+      },
+      {
+        "address": "0x82854A48",
+        "size": 112,
+        "symbol": "?MakeNew@cRoadRaceGameModePrototype@GameManagement@@"
       }
     ],
     "src/GameManagement/cRooftopRaceGameModePrototype.cpp": [
@@ -5349,6 +5524,16 @@
         "address": "0x83043E38",
         "size": 12,
         "symbol": "??__FcRooftopRaceGameModePrototypeRegistrar@GameManagement@@"
+      },
+      {
+        "address": "0x82854988",
+        "size": 12,
+        "symbol": "?RetStringID@cRooftopRaceGameModePrototype@GameManagement@@"
+      },
+      {
+        "address": "0x82854908",
+        "size": 112,
+        "symbol": "?MakeNew@cRooftopRaceGameModePrototype@GameManagement@@"
       }
     ],
     "src/GameManagement/cStreamedArenaConfig.cpp": [
@@ -6529,6 +6714,11 @@
         "address": "0x826C79B8",
         "size": 16,
         "symbol": "?Init@cLandVehiclePrototype@cLandVehicle@Vehicle@@"
+      },
+      {
+        "address": "0x826C6B88",
+        "size": 8,
+        "symbol": "?SetMustStop@cLandVehicle@Vehicle@@"
       }
     ],
     "src/Vehicle/cLandVehicleProfile.cpp": [
@@ -16340,6 +16530,21 @@
         "address": "0x826CC6F8",
         "size": 12,
         "symbol": "?RetClass@cVehicle@Vehicle@@"
+      },
+      {
+        "address": "0x826CF9C8",
+        "size": 16,
+        "symbol": "?CreateParts@cVehicle@Vehicle@@"
+      },
+      {
+        "address": "0x826D5008",
+        "size": 24,
+        "symbol": "?RetNumberOfSeats@cVehicle@Vehicle@@"
+      },
+      {
+        "address": "0x826D93E8",
+        "size": 8,
+        "symbol": "?RetCollisionSystemGroup@cVehicle@Vehicle@@"
       }
     ],
     "src/Vehicle/cVehicleController.cpp": [
@@ -17188,6 +17393,87 @@
         "address": "0x830009D8",
         "size": 40,
         "symbol": "??__E?ms_pcScriptHostClass@cScriptHost@Fun_Runtime@@"
+      }
+    ],
+    "src/GameManagement/cPvPGameMode.cpp": [
+      {
+        "address": "0x8283E2C8",
+        "size": 8,
+        "symbol": "?RetDefaultTimeLimit@cPvPGameModePrototype@GameManagement@@"
+      },
+      {
+        "address": "0x8283E2D0",
+        "size": 16,
+        "symbol": "?RetEndLimit@cPvPGameModePrototype@GameManagement@@"
+      },
+      {
+        "address": "0x8283E2E0",
+        "size": 16,
+        "symbol": "?RetTimeLimit@cPvPGameModePrototype@GameManagement@@"
+      },
+      {
+        "address": "0x8283E2F0",
+        "size": 8,
+        "symbol": "?RetSpawnPointTimeOut@cPvPGameModePrototype@GameManagement@@"
+      },
+      {
+        "address": "0x8283E2F8",
+        "size": 136,
+        "symbol": "??0cPvPGameModePrototype@GameManagement@@"
+      }
+    ],
+    "src/GameManagement/cGameModeCheckpoint.cpp": [
+      {
+        "address": "0x82881D18",
+        "size": 12,
+        "symbol": "?RetClassName@cGameModeCheckpoint@GameManagement@@"
+      },
+      {
+        "address": "0x82881DA0",
+        "size": 112,
+        "symbol": "?HandleAttributes@cGameModeCheckpoint@GameManagement@@"
+      },
+      {
+        "address": "0x82881E10",
+        "size": 104,
+        "symbol": "?RetGameModePrototype@cGameModeCheckpoint@GameManagement@@"
+      },
+      {
+        "address": "0x8301FEA0",
+        "size": 76,
+        "symbol": "??__EcGameModeCheckpointRegistrar@GameManagement@@"
+      },
+      {
+        "address": "0x830443A8",
+        "size": 12,
+        "symbol": "??__FcGameModeCheckpointRegistrar@GameManagement@@"
+      }
+    ],
+    "src/GameManagement/cGameModeTriggerZone.cpp": [
+      {
+        "address": "0x82883AB8",
+        "size": 136,
+        "symbol": "??0cGameModeTriggerZone@GameManagement@@"
+      },
+      {
+        "address": "0x82883B40",
+        "size": 80,
+        "symbol": "??_GcGameModeTriggerZone@GameManagement@@"
+      },
+      {
+        "address": "0x82883B90",
+        "size": 152,
+        "symbol": "??1cGameModeTriggerZone@GameManagement@@"
+      },
+      {
+        "address": "0x82883D68",
+        "size": 124,
+        "symbol": "?RetGameType@cGameModeTriggerZone@GameManagement@@"
+      },
+      {
+        "address": "0x82883DE8",
+        "size": 148,
+        "symbol": "?RetStartZone@cGameModeTriggerZone@GameManagement@@"
       }
     ]
   }

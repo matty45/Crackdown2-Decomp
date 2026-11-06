@@ -4,17 +4,44 @@
 
 namespace GameManagement
 {
-    const char *cGameModeStartZone::RetClassName() const
-    {
-        return "cGameModeStartZone";
-    }
-
-    static RWS::CClassFactory::CRegistrar cGameModeStartZoneRegistrar(
-        "cGameModeStartZone", cGameModeStartZone::MakeNew, 0x3d0, false);
-
     // CD2 0x828821E0: the class-factory constructor; the constructor stays out of line.
     RWS::CAttributeHandler *cGameModeStartZone::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cGameModeStartZone;
     }
+
+    const char *cGameModeStartZone::RetClassName() const
+    {
+        return "cGameModeStartZone";
+    }
+
+    cGameModePrototype *cGameModeStartZone::RetGameModePrototype() const
+    {
+        return m_pGameModePrototype;
+    }
+
+    unsigned char cGameModeStartZone::RetMinimumAgilityLevel() const
+    {
+        return m_nMinimumAgilityLevel;
+    }
+
+    unsigned char cGameModeStartZone::RetMinNumParticipants() const
+    {
+        return m_nMinNumParticipants;
+    }
+
+    unsigned char cGameModeStartZone::RetMaxNumParticipants() const
+    {
+        return m_nMaxNumParticipants;
+    }
+
+    unsigned int cGameModeStartZone::GetNumObjectIDBits() const
+    {
+        return 32;
+    }
+
+    static RWS::CClassFactory::CRegistrar cGameModeStartZoneRegistrar(
+        "cGameModeStartZone", cGameModeStartZone::MakeNew, 0x3d0, false);
+
+
 }

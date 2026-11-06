@@ -44,12 +44,17 @@ namespace Vehicle
         // Registered-class table 0x8213477C: slot 0 (0x826C0D48) and slot 1 (0x826C0D58).
         virtual const Fun_Runtime::cClass &RetClass() const;
         virtual bool IsA(const Fun_Runtime::cClass &) const;
+        // CD2 slot 417, 0x826C6B88; reference member name and offset agree.
+        virtual void SetMustStop(bool);
 
     private:
-        unsigned char m_unmodelled1740[0x28C0 - 0x1740];
+        unsigned char m_unmodelled1740[0x2894 - 0x1740];
+        bool m_bMustStop;
+        unsigned char m_unmodelled2895[0x28C0 - 0x2895];
 
         CD2_LAYOUT_CHECKS(cLandVehicle,
-            CD2_SIZE(cLandVehicle, 0x28C0))
+            CD2_SIZE(cLandVehicle, 0x28C0)
+            CD2_OFFSET(cLandVehicle, m_bMustStop, 0x2894))
     };
 }
 

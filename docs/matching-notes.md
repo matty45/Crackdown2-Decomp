@@ -6,6 +6,13 @@ codegen change) that will help with other functions. What you tried on one funct
 end, in one line, and is removed when the function matches. History belongs in git, not here.
 
 ## Shared bases
+- **CD2 player-trigger tables omit reference-build debug virtuals.** cPlayerTriggerZone's table 0x82155B98 has
+  18 entries, with OnPlayerEnter/OnPlayerLeave at 16/17. cGameModeTriggerZone adds slots 18..25; start-zone
+  getters are 23..25 and its own table ends at CreateGameSession (slot 30). The shared trigger base remains 0xE0;
+  cGameModeTriggerZone's wide arena name is at 0xE0 and its complete size is 0x120. cGameModeStartZone then places
+  cReplicatedClass at 0x120 and its own fields at 0x350. Its constructor and exact getters support these offsets.
+  cArenaLinker now takes shared Fun_Runtime::cString and calls its c_strc conversion to cStringc; all eleven
+  existing arena matches remain EXACT in both modes after removing the old auxiliary string stand-in.
 - **Replication alignment is a shared-base requirement.** cMissionBase's CD2 constructor (0x8245A748) places
   cReplicatedClass at +0x10 after a four-byte cRegisteredClass base, net role at +0x240 and attributes at +0x248.
   The reference replication class starts its first field at +0x10 and its bit stream at +0x20. A/B: with the old
@@ -60,6 +67,12 @@ end, in one line, and is removed when the function matches. History belongs in g
   cPositionalProxy and also remains exact using that shared type.
 
 ## Codegen idioms
+- **Checkpoint vectors need the real wrapper, and the clear call must select the intended layer.**
+  At cCheckpointArena::AddCheckpoint (0x8284E248), the legacy cVec declaration keeps the pointer parameter on
+  the stack across append; using the shared Fun_Runtime::cVector exposes its real append body and restores CD2's
+  preserved pointer register, making the 92-byte function EXACT. Top-level const on the parameter did not help.
+  At OnShutDownLevel (0x8284E1E8), cVector::clear calls its wrapper out of line, and explicit iterator erase reloads
+  the end pointer; qualifying the reference-named MyBase::clear inlines the standard-container clear and is EXACT.
 - **Spawning registrars are another shared initializer family.** A static GOM::cProtoRegistrar constructed from
   `Class::StaticCreateClass()` and `Class::SpawnFromPrototype` reproduces 117 72-byte initializers. The shared
   constructor at 0x82657690 takes a typed placement factory returning RWS::CAttributeHandler*. CD2 atexit bodies
@@ -572,6 +585,25 @@ One line each: what is ruled out. Remove the line when the function matches.
 - `cGrappler.cpp` (0x82631A38..0x82634920): its code is unoptimized (`StaticCreateClass` 0x82631B40 spills every
   temporary to the stack; 0x826320A8 stores its arguments to their home slots), so the object was not built with the
   game's `/Ox`. Its MakeNew, RetClassName and initializers are untouched until that file's flags are established.
-- Game-mode prototype factories (cRooftopRace, cRoadRace, cTeamATVAssault, cTeamHunterGatherer; 112 bytes) inline
-  their constructors over a shared base constructor (0x8283E2F8, probably cPvPGameModePrototype's, which RuffKing
-  derives from cGameModePrototype : cGMMResource); the stand-ins are flat CAttributeHandlers. Recover that chain first.
+- Game-mode prototype factories: the recovered cGMMResource/cGameModePrototype/cPvPGameModePrototype chain makes
+  the 112-byte cRooftopRace, cRoadRace and cTeamHunterGatherer factories byte-exact in plain and LTCG checks.
+  Their constructor stores establish the CEventHandler table alias group at 0x8215B180; the three factories are
+  promoted with that alias declaration. cTeamATVAssault instead calls cATVAssaultGameModePrototype's constructor
+  at 0x8287B358 and uses table 0x8215F738; its factory is independently EXACT and promoted.
+- cHunterGathererGameModePrototype constructor (0x8287E2B0): typed initializers and a flag initializer followed by
+  body assignments leave float-anchor and vptr-store scheduling differences; a bounded search found no improvement.
+  Its implicit deleting wrapper (0x8287E350) is independently EXACT with cPvPGameModePrototype's implicit destructor.
+  The three aggregate getters at 0x8287E280..0x8287E2A0 remain unidentified: Burn's Fun_Runtime::RGBA produces byte
+  copies rather than CD2's word copy, so that return-type probe was removed.
+- Shared PvP prototype follow-up: CD2's constructor and the four adjacent limit/timeout getters establish the
+  narrow cPvPGameMode.cpp range 0x8283E2C8..0x8283E380. All five functions are EXACT in plain and LTCG checks.
+  A/B: CRT memset expands into inline stores/loops for the six-entry arrays; XMemSet preserves CD2's two external
+  fill calls and makes the constructor byte-exact. Relocation validation independently fixes all three scalar
+  defaults to zero. The reference cGameModeArena stand-in's cGMMResource is consolidated into the shared typed
+  resource header; all eleven existing arena matches remain EXACT in both builds.
+- cMultiPlayerTriggerZone::MakeNew (0x82868D98): typed Mtx construction has the correct fields and values, but
+  scalar row-store ordering and CD2's retained matrix-address calculation differ in plain and LTCG builds.
+- cGameModeTriggerZone::HandleAttributes (0x82883C28) is plain byte-exact but only 15/80 words under LTCG; the
+  wide-string temporary/assignment and subsequent dispatch need further compiler-shape recovery. Not promoted.
+- cCheckpointArena's secondary deleting thunk (0x8284E2A8) is plain EXACT but 0/2 words under LTCG; its deleting
+  wrapper and seven ordinary member functions are independently EXACT in both modes. The thunk is unpromoted.

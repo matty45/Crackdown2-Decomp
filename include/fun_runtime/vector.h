@@ -13,6 +13,8 @@ namespace Fun_Runtime
     class cVector : public std::vector<T, cAllocator<T> >
     {
     public:
+        // Reference cvector.h exposes the standard-container base under this name.
+        typedef std::vector<T, cAllocator<T> > MyBase;
         void push_back(const T &value);
         void clear();
     };

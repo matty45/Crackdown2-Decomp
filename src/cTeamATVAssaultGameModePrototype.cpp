@@ -1,11 +1,22 @@
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
 #include "unknown/cTeamATVAssaultGameModePrototype.h"
 
 namespace unknown
 {
+    RWS::CAttributeHandler *cTeamATVAssaultGameModePrototype::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cTeamATVAssaultGameModePrototype;
+    }
+
     const char *cTeamATVAssaultGameModePrototype::RetClassName() const
     {
         return "cTeamATVAssaultGameModePrototype";
+    }
+
+    int cTeamATVAssaultGameModePrototype::RetStringID() const
+    {
+        return 0x310358CA;
     }
 
     static RWS::CClassFactory::CRegistrar cTeamATVAssaultGameModePrototypeRegistrar(
