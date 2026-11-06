@@ -8,46 +8,46 @@ Contributions are welcome **by hand or with any AI agent**. The tooling is built
 and so that nobody, person or model, can claim a match that is not real: every result is recomputed by tools the
 contributor cannot influence.
 
-## Status (2026-11-01)
+## Status (2026-11-06)
 
 | | |
 |---|---|
 | Functions in the game | 74,551 (as split by jeff), 14.3 MB of code |
-| Source files set up | 381 (9 by hand, 372 automatically) |
-| Functions matched | 1,785 (1,780 in a plain build, 5 more under link-time code generation) |
+| Source files set up | 389 |
+| Functions matched | 3,276 (3,271 in a plain build, 5 more under link-time code generation) |
 | Full relink of the split game | byte-identical round trip (`tools/relink.py`) |
 
 ### How much is left
 
 Every function of the executable, by where it stands. Sizes are code bytes, which say more about the work than counts:
-the 24,414 initializers average 38 bytes.
+the 24,181 unassigned initializers and at-exit destructors average 37 bytes.
 
 **Game code (what this project decompiles)**
 
 | | Functions | Code | |
 |---|---:|---:|---:|
-| Matched | 1,784 + 1 folded copy | 94 KB | 0.6% |
+| Matched | 3,275 + 1 folded copy | 185.3 KB | 1.3% |
 | In progress | 3 | 0.5 KB | 0.0% |
-| Open in the set-up source files (33 claimed) | 4,600 | 1.14 MB | 8.0% |
-| Game span not yet split into source files | 15,886 | 4.06 MB | 28.3% |
-| Order-list region, not yet assigned (hot functions of every object, game and library) | 2,883 | 1.62 MB | 11.3% |
-| Initializers and at-exit destructors, not yet assigned (every object's) | 24,414 | 0.88 MB | 6.2% |
+| Open in the set-up source files (64 claimed) | 3,576 | 1.15 MB | 8.0% |
+| Game span not yet split into source files | 15,524 | 3.96 MB | 27.7% |
+| Order-list region, not yet assigned (hot functions of every object, game and library) | 2,875 | 1.62 MB | 11.3% |
+| Initializers and at-exit destructors, not yet assigned (every object's) | 24,181 | 0.85 MB | 5.9% |
 
-That leaves at least 5.2 MB of game code to decompile, plus the game's share of the order-list region and of the
-initializers. Matched so far: 94 KB, about 1.3% of the game code (counting the whole order-list region as game code),
-0.6% of the executable.
+That leaves at least 5.1 MB of game code to decompile, plus the game's share of the order-list region and of the
+initializers. Matched so far: 185.3 KB, about 2.6% of the game code (counting the whole order-list region as game code),
+1.3% of the executable.
 
 **Library code (linked from prebuilt libraries: identified in `config/library_splits.txt`, not decompiled)**
 
 | | Functions | Code | |
 |---|---:|---:|---:|
-| XDK and C runtime | 7,548 | 2.80 MB | 19.5% |
-| Scaleform GFx | 6,544 | 1.40 MB | 9.8% |
+| XDK and C runtime | 7,549 | 2.80 MB | 19.5% |
+| Scaleform GFx | 6,572 | 1.41 MB | 9.8% |
 | Havok | 2,530 | 0.73 MB | 5.1% |
-| Wwise | 2,422 | 0.39 MB | 2.7% |
-| RenderWare AI | 198 | 45 KB | 0.3% |
-| Other (transport, xlip, libjpeg, ...) | 1,294 | 0.30 MB | 2.1% |
-| Library span not yet identified | 4,445 | 0.87 MB | 6.1% |
+| Wwise | 2,663 | 0.45 MB | 3.1% |
+| RenderWare AI | 198 | 45.8 KB | 0.3% |
+| Other (transport, xlip, libjpeg, ...) | 2,035 | 0.44 MB | 3.1% |
+| Library span not yet identified | 3,570 | 0.70 MB | 4.9% |
 
 - **Lua 5.0.2:** 641 of the unidentified library functions (114 KB, 0x82937FE0–0x82954CA0). Lua is open source (MIT),
   and a trial compiled 585 of its 642 functions byte-exact from upstream source with three small CD2 changes. It is
