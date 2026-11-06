@@ -128,7 +128,7 @@ class JumpTableTests(unittest.TestCase):
             address = '0x%08X' % self.address
             manifest.write_text(json.dumps(dict(files={'synthetic.cpp': [dict(address=address,
                                 size=len(code), symbol=self.name)]})))
-            snapshot = dict(functions={address: dict(size=len(code), plain=dict(
+            snapshot = dict(version=facts.FACTS_VERSION, functions={address: dict(size=len(code), plain=dict(
                 relocations=[4], absolute_relocations=[4], sha=facts.sha(facts.mask(target, relocation)),
                 targets=[[4, 'local address', '0x%08X' % (self.address + 12)]], constants={}, strings={}))})
             recorded.write_text(json.dumps(snapshot))

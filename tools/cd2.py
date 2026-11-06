@@ -62,7 +62,8 @@ import search as srch  # noqa: E402
 import bench  # noqa: E402
 import verify_ltcg  # noqa: E402
 from verify_src import (ROOT, XDK, BIN, FLAGS, EXPECTED_ENTRY, CODE_SECTIONS, pe_reader, toolchain_problems,  # noqa: E402
-                        local_config, run_compiler, flags_for, file_flags, ltcg_built, symbol_matches)
+                        local_config, run_compiler, flags_for, file_flags, ltcg_built, symbol_matches, vtable_fact,
+                        vtable_slot_problem)
 from check_integrity import load_splits  # noqa: E402
 
 XEX_SHA1 = 'EC7B163617CD725F50B0CCA665AAF943F9BC6D8A'
@@ -597,6 +598,10 @@ RULE_OF_WARNING = {'C4101': ('R17', 'an unused local variable'),
                    'C4099': ('R1', 'a type first declared with class and then with struct, or the reverse')}
 # a name holding a CD2 address (0x82000000-0x83FFFFFF: g_830BBDB4, GetPtr83818BE8), not an offset (m_pad1528)
 ADDRESS_NAME = re.compile(r'\b[A-Za-z_]\w*?(?<![0-9A-Fa-f])8[23][0-9A-Fa-f]{6}\b')
+# an address with its leading digits dropped (RetCE3F0 for 0x826CE3F0, Ext_82_B_8A7B0): 5 to 7 upper-case hex digits
+# ending a name or a part of it, with at least two decimal digits and one letter (no class reaches 0x10000 bytes, so a
+# field offset has at most 4 digits)
+SHORT_ADDRESS_NAME = re.compile(r'\b[A-Za-z_]\w*?(?<![0-9A-Fa-f])([0-9A-F]{5,7})(?![0-9A-Za-z])')
 RULE_EXCEPTION = re.compile(r'//\s*RULE-EXCEPTION:\s*(R\d+)\s*,\s*(\S.*)$')
 
 
@@ -717,6 +722,11 @@ def raw_rules_uncached(path, spans=()):
         for m in ADDRESS_NAME.finditer(l):
             if not re.match(r'0[xX]', m.group(0)) and not m.group(0).isdigit():
                 advisory.append((ln, 'an address-like name `%s` (name it from evidence)' % m.group(0)))
+        for m in SHORT_ADDRESS_NAME.finditer(l):
+            g = m.group(1)
+            if not re.match(r'0[xX]', m.group(0)) and sum(c.isdigit() for c in g) >= 2 and re.search('[A-F]', g):
+                advisory.append((ln, 'a name made from an address with its leading digits dropped `%s` (name it from '
+                                     'evidence)' % m.group(0)))
     return found, advisory, exceptions
 
 
@@ -1306,10 +1316,14 @@ def cmd_check(a):
     if a.explain:
         explain(src, results)
     pending = pending_functions(src, [r['symbol'] for r in results], ru['findings'])
+    refs = game_references()
     for r in results:
-        blocked = pending.get(r['symbol'])
+        blocked = [finding_text(x) for x in pending.get(r['symbol'], [])]
+        vp = vtable_slot_problem(r['name'], vtable_fact(r['address'], r['symbol'], refs)) if r.get('name') else None
+        if vp:  # from the object and the game, not the source: the bytes match whether the function is virtual or not
+            blocked.append('%s: %s' % (r['name'], vp))
         if blocked:
-            r['rules'] = [finding_text(x) for x in blocked]
+            r['rules'] = blocked
             r['bytes_exact'] = r['status'] in ('EXACT', 'LTCG EXACT')
             if r['bytes_exact']:
                 r['status'] = 'MATCH-PENDING'
@@ -1424,7 +1438,7 @@ def cmd_search(a):
 def cmd_facts(a):
     need_toolchain()
     import facts
-    f = facts.record(read)
+    f = facts.record(read, game_references())
     return dict(ok=True, functions=len(f['functions']), file=rel(facts.FACTS))
 
 

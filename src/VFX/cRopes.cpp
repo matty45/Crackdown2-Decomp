@@ -12,6 +12,8 @@
 // The reserve instantiation belongs to another translation unit (CD2 0x826104B8).
 // Keep its external definition, including its size argument, visible to LTCG.
 
+#include "PHYSICS/physicsconsts.h"
+#include "PHYSICS/physicsproject.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "gom/non_game_base.h"
 #include "VFX/cRopes.h"

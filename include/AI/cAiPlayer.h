@@ -16,12 +16,12 @@
 //     m_pAIEntity's name); ShouldTriggerFootStepEvent and ShouldTriggerBulletSoundEvent are primary slots 112 and 113
 //     (see CHARACTER/cCharacterInterface.h). Slot 125 (0x823E92B8) is the first virtual cAiPlayer adds (cCharacterEntityIF's
 //     primary vtable has 125 slots); RuffKing's and Burn's cAiPlayer have no counterpart, so SetFields4F8 is ours.
-//   - The globals g_cAiPlayer and g_AIE_* are named after the type each is registered as: CD2's initializers (0x82F605D0
-//     and others) pass the global, a name and its parent's name to 0x82772828 ("cAIPlayer" under "cCharacterEntityIF",
-//     "AIE_SHOTS_COUNTER" under "AIEvent"). The cAiPlayer registrar now uses the shared typed declaration;
-//     the event descriptors remain unmodelled. The GetPtr
-//     getters returning them are slot 1 of other classes' vtables (0x823E7AA0: the table 0x820FB114), not cAiPlayer
-//     methods, and their names are not known.
+//   - g_cAiPlayer is named after the type it is registered as: CD2's initializers (0x82F605D0 and others) pass the
+//     global, a name and its parent's name to 0x82772828 ("cAIPlayer" under "cCharacterEntityIF", "AIE_SHOTS_COUNTER"
+//     under "AIEvent"). RetScriptTypeRegistration (0x823E7978) returns it: slot 1 of the cScriptHost table at +0x1C
+//     (0x82001798, whose slot 4 is RetName). The getters next to it that return the AIE_* registrars (0x823E7AA0..
+//     0x823E7C08) are slot 1 of the AIE event classes' own tables (0x823E7AA0: 0x820FB114), installed by those classes'
+//     constructors: not cAiPlayer's, and open until the event classes are modelled.
 //   - cAiPlayerPrototype: MakeNew (0x823E78A8) builds it on GOM::cObjectPrototype's constructor and installs the vtable
 //     0x820FB0BC; its slot 5, CAttributeHandler::Init(const CAttributePacket &), is 0x823EB490, which returns Ret_OK.
 #ifndef AI_CAIPLAYER_H
@@ -147,6 +147,8 @@ namespace AI
         virtual const Fun_Runtime::cClass &RetClass() const;
         virtual const char *RetClassName() const;
     public:
+        // CD2 0x823E7978: cScriptHost slot 1; descriptive method name is ours.
+        virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         virtual const char *RetName() const;
         // CD2 forwards these primary slots to the attached character; names remain unknown.
         // Keep the shared base's provisional identifiers: Slot54/Slot60 compile to physical slots 53/59.
@@ -168,19 +170,9 @@ namespace AI
         cNonGameBase *RetOwnedVehicle() const;
         float RecallDamageCaused(CHARACTER::cCharacter *pCharacter);
 
-        // Not cAiPlayer's (see src/AI/cAiPlayer.cpp): kept here under their old names until their classes are known.
+        // Not cAiPlayer's (see src/AI/cAiPlayer.cpp): kept here under its old name until its class is known.
         static int RetConstantC8();
-        const char *RetTriggerEventFlags() const;
-        const char *RetEnemyStatus() const;
-        const char *RetMapStatus() const;
 
-        void *GetPtrcAiPlayer() const;
-        void *GetPtrAIE_SHOTS_COUNTER() const;
-        void *GetPtrAIE_ATTACKED() const;
-        void *GetPtrAIE_VOCAL() const;
-        void *GetPtrAIE_PAIN_VOCAL() const;
-        void *GetPtrAIE_DANGER_VOCAL() const;
-        void *GetPtrAIE_GRENADE_VOCAL() const;
         CD2_LAYOUT_CHECKS(cAiPlayer,
             CD2_SIZE(cAiPlayer, 0x620)
             CD2_OFFSET(cAiPlayer, m_DamageCache, 0x540)

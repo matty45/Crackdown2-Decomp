@@ -240,7 +240,11 @@ Matching rules (on the preprocessed source, so macros cannot hide them, and on e
   `;` statement (empty loop bodies and `case X: ;` are allowed); `do { } while (0)` outside a macro; a self-assignment;
   `+ 0`, `- 0` or `* 1`.
 - **R2, globals declared once, in their header:** an `extern` variable in a `.cpp`.
-- **R13, vtables from evidence:** a virtual named `pad`, `dummy` or `unused`.
+- **R13, vtables from evidence:** a virtual named `pad`, `dummy` or `unused`; and a matched function that CD2 puts in
+  a vtable but that compiles as a plain member function (neither virtual nor static). Its bytes match whether it is
+  virtual or not, so this check reads the compiled name and the game's vtables (`check`, and the `vtable` fact of
+  `config/target_facts.json` in `verify`). A script method CD2 registers under the function's own name is exempt: its
+  code was folded with a virtual's (`cTimeOfDay::RetPeriod`).
 - **R1, one declaration per type:** a `class`/`struct` keyword mismatch (C4099); duplicate definitions are the
   integrity gate's.
 
@@ -250,8 +254,8 @@ byte-forced deviation from a style rule and never excuse a matching rule.
 - Matched functions must be in an ordinary code section (`.text`, or the compiler's own `.text$yc`/`.text$yd` for
   static initializers and at-exit destructors).
 - Advisory (listed, never blocking): `goto`, which is rarely what the original source did; `#if 0` blocks; `!!x`;
-  placeholder names (`GetField50`, `m_word50C`, `Slot12`) and address-like names (`g_830BBDB4`), listed per file and
-  per header so they get named from evidence.
+  placeholder names (`GetField50`, `m_word50C`, `Slot12`) and address-like names (`g_830BBDB4`, and addresses with
+  their leading digits dropped such as `RetCE3F0`), listed per file and per header so they get named from evidence.
 - No invented duplicates of shared bases. Game classes derive from `cNonGameBase`, prototypes from
   `GOM::cObjectPrototype` (`include/README.md`).
 
@@ -309,12 +313,13 @@ entry (`cd2.py facts record`), and again by the maintainer from their own copy w
 - a hash of CD2's bytes with the linker-filled fields masked, and the positions of those fields;
 - the CD2 address each relocation resolves to;
 - the float constants referenced, and hashes of the referenced strings (their text is not stored);
-- for LTCG, the constants CD2 loads directly and a hash of the masked code.
+- for LTCG, the constants CD2 loads directly and a hash of the masked code;
+- whether CD2 puts the function in a vtable (its lowest slot, that slot's table and how many tables hold it), for R13.
 
 `cd2.py verify --facts` then reaches the same verdicts as the game-based gates, on a machine with the XDK but without
 the game. The normal `verify` also checks that the facts are current. `py -I tools/facts.py --self-test` plants a wrong
-call, a changed string, a changed constant and a changed constant in a function exact only under LTCG; each must be
-caught.
+call, a changed string, a changed constant, a changed constant in a function exact only under LTCG and a virtual
+declared as a plain member function; each must be caught.
 
 ## Trust model
 

@@ -1,6 +1,12 @@
 // src/Vehicle/cHelicopter.cpp: Vehicle::cHelicopter (include/Vehicle/cHelicopter.h). Definitions follow CD2's order: the
 // static registrars' initializers (0x82FE84C0..0x82FE85A0), then the functions from 0x826B8A78.
 
+#include "PHYSICS/physicsconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/characterconsts.h"
+#include "CHARACTER/cCharacterController.h"
+#include "CHARACTER/cRagdollProfile.h"
+#include "AI/aiconstants.h"
 #include "Vehicle/cHelicopter.h"
 #include "rws/classfactory.h"
 #include "gom/proto_registrar.h"

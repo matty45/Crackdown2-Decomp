@@ -11,14 +11,19 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/PLAYER/cPlayer.cpp
 
-// Not named yet: GetByteD99/m_byteD99 and m_fEC4 have no script or reference name.
+// Not named yet: m_byteD99 and m_fEC4 have no script or reference name.
 
+#include "PHYSICS/physicsconsts.h"
+#include "CHARACTER/characterconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/cCharacterController.h"
+#include "CHARACTER/cRagdollProfile.h"
+#include "AI/aiconstants.h"
 #include "gom/proto_registrar.h"
 #include "GDb/cDebugPageHandler.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "AI/cCharacterEntityIF.h"
 #include "PLAYER/cPlayer.h"
-#include "GMan/cGameManager.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
 #include <stddef.h>
@@ -27,16 +32,6 @@
 
 namespace PLAYER
 {
-    void cPlayer::ForceCharacterH2HContact()
-    {
-        m_nH2HContactFrame = GMan::cGameManager::ms_nGameTicks;
-    }
-
-    bool cPlayer::HasRecentlyHadH2HContact()
-    {
-        return GMan::cGameManager::ms_nGameTicks < m_nH2HContactFrame + 30;
-    }
-
     // CD2's initializer 0x82FF3C38 calls StaticCreateClass and stores the result in 0x8384A818.
     const Fun_Runtime::cClass *cPlayer::ms_pcPlayerClass = &cPlayer::StaticCreateClass();
 
@@ -108,33 +103,6 @@ namespace PLAYER
     void *cPlayer::RetCameraPtr() const
     {
         return m_pCamera;
-    }
-
-    unsigned char cPlayer::GetByteD99() const
-    {
-        return m_byteD99;
-    }
-
-    bool cPlayer::ShouldTriggerBulletSoundEvent()
-    {
-        float timer = GMan::cGameManager::ms_fGameTimerSecs;
-        if (m_fLastBulletSoundTime < timer - 1.0f)
-        {
-            m_fLastBulletSoundTime = timer;
-            return true;
-        }
-        return false;
-    }
-
-    bool cPlayer::ShouldTriggerFootStepEvent()
-    {
-        CHARACTER::cCharacter *p = static_cast<CHARACTER::cCharacter *>(m_pCharacter.m_pPtr);
-        return p->RetLODLevel() <= 1;
-    }
-
-    void cPlayer::ResetFloatEC4()
-    {
-        m_fEC4 = 0.0f;
     }
 
     void cPlayer::SetAITargeting(bool bAITargeting)

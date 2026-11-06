@@ -1,3 +1,5 @@
+#include "PHYSICS/physicsconsts.h"
+#include "PHYSICS/physicsproject.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "AI/cBreachHole.h"
 #include "AI/cGoliathBreachHole.h"

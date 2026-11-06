@@ -9,6 +9,11 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/cPrismaticTrigger.cpp
 
+#include "PHYSICS/physicsconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/characterconsts.h"
+#include "CHARACTER/cCharacterController.h"
+#include "CHARACTER/cRagdollProfile.h"
 #include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "unknown/cPhantomBody.h"

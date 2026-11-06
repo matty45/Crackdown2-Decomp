@@ -114,6 +114,64 @@ def symbol_matches(symbol, name):
     return symbol in name if symbol.startswith('?') else symbol == name
 
 
+_undname = None
+
+
+def undecorate(name):
+    """The C++ declaration a mangled name stands for (`public: virtual void __cdecl NS::cFoo::Bar(int)`), by Windows'
+    own dbghelp.dll (the XDK ships no undname.exe; the project runs on Windows only)."""
+    global _undname
+    import ctypes, threading
+    if _undname is None:
+        f = ctypes.windll.dbghelp.UnDecorateSymbolName
+        f.argtypes = [ctypes.c_char_p, ctypes.c_char_p, ctypes.c_uint32, ctypes.c_uint32]
+        _undname = (f, threading.Lock())  # dbghelp is not thread-safe
+    f, lock = _undname
+    buf = ctypes.create_string_buffer(4096)
+    with lock:
+        n = f(name.encode('latin-1'), buf, len(buf), 0)
+    if not n:
+        raise RuntimeError('dbghelp cannot undecorate %s' % name)
+    return buf.value.decode('latin-1')
+
+
+def plain_member(name):
+    """Whether a compiled function is a member function that is neither virtual nor static: the kind of function CD2
+    cannot have put in a vtable."""
+    return bool(name.startswith('?') and
+                re.match(r'(?:public|protected|private): (?!virtual |static )', undecorate(name)))
+
+
+def vtable_slot_problem(name, fact):
+    """A matched function CD2 puts in a vtable (fact: the recorded `vtable` fact, or None) declared as a plain member
+    function: its bytes match, but the class's vtable lacks the slot, or the function belongs to another class. None
+    when there is nothing to report."""
+    if not fact or not plain_member(name):
+        return None
+    return ('R13 (vtables from evidence): CD2 puts this function in a vtable (slot %d of the table at %s, %d table(s) '
+            'in all), but it is declared as a plain member function: declare it virtual in that slot of the class that '
+            'owns the table (AGENTS.md)' % (fact['slot'], fact['table'], fact['tables']))
+
+
+def vtable_fact(address, symbol, references):
+    """The `vtable` fact of a matched function, from the game's references (cd2.py game_references()): its lowest
+    slot, that slot's table and how many tables hold it, or None when no vtable holds it. None as well for C
+    functions, dynamic initializers and at-exit functions, which are never virtual (the tables that point at them, such
+    as the CRT's initializer list, are not vtables), and for an address CD2 registers as a script method under the
+    symbol's own name: a non-virtual method whose code was folded with a virtual's (cTimeOfDay::RetPeriod)."""
+    if not symbol.startswith('?') or symbol.startswith('??__'):
+        return None
+    address = '0x%08X' % int(address, 16)
+    tables = references['vtables'].get(address)
+    if not tables:
+        return None
+    m = re.match(r'\?([A-Za-z_]\w*)@', symbol)
+    if m and any(n == m.group(1) for _, n in references['names'].get(address, [])):
+        return None
+    table, slot, _ = min(tables, key=lambda t: t[1])
+    return dict(table=table, slot=slot, tables=len(tables))
+
+
 # a compiler failure that is about the file system, not the source: another process (a virus scanner, the indexer)
 # briefly holding a file the compiler must open or write
 TRANSIENT = ('C1083', 'C1085', 'Permission denied', 'being used by another process', 'Access is denied')

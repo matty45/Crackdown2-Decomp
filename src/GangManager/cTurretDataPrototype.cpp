@@ -1,3 +1,5 @@
+#include "PHYSICS/physicsconsts.h"
+#include "PHYSICS/physicsproject.h"
 #include "GangManager/cTurretDataPrototype.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"

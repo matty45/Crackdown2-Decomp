@@ -11,6 +11,9 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/Prop/Custom/cExplosiveBarrel.cpp
 
+#include "PHYSICS/physicsconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/characterconsts.h"
 #include "gom/proto_registrar.h"
 #include "rws/classfactory.h"
 #include "Prop/cExplosiveBarrel.h"

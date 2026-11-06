@@ -7,6 +7,12 @@
 
 // Out-of-line functions of other files (unknown names).
 
+#include "PHYSICS/physicsconsts.h"
+#include "CHARACTER/characterconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/cCharacterController.h"
+#include "CHARACTER/cRagdollProfile.h"
+#include "AI/aiconstants.h"
 #include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "AI/NPCBehaviour.h"

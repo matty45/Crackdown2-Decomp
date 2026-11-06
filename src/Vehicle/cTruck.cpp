@@ -1,6 +1,11 @@
 // src/Vehicle/cTruck.cpp: Vehicle::cTruck (include/Vehicle/cTruck.h). Definitions follow CD2's order: the static
 // registrars' initializers (0x82FE94E8..0x82FE95C8), then the functions from 0x826CB3D8.
 
+#include "PHYSICS/physicsconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/characterconsts.h"
+#include "CHARACTER/cCharacterController.h"
+#include "CHARACTER/cRagdollProfile.h"
 #include "Vehicle/cTruck.h"
 #include "rws/classfactory.h"
 #include "gom/proto_registrar.h"

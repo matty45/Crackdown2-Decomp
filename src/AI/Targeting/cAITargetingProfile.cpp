@@ -6,6 +6,12 @@
 // The constructor zeroes m_TargetData with integer stores after building m_EventHandler: a memset in the body (value
 // initialization in the initializer list zeroes it first; float assignments use stfs).
 
+#include "PHYSICS/physicsconsts.h"
+#include "CHARACTER/characterconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/cCharacterController.h"
+#include "CHARACTER/cRagdollProfile.h"
+#include "AI/aiconstants.h"
 #include <string.h>
 #include "AI/cAITargetingProfile.h"
 #include "rws/classfactory.h"

@@ -5,6 +5,11 @@
 // Equip/cFlocket.cpp: the Flocket (homing swarm) projectile and its attribute prototype, Crackdown 2.
 // Measurement batch 2 (gameplay logic). See cFlocket.h for the layout and the stand-in bases.
 
+#include "PHYSICS/physicsconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/characterconsts.h"
+#include "CHARACTER/cCharacterController.h"
+#include "CHARACTER/cRagdollProfile.h"
 #include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include <new>

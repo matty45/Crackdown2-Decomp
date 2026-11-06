@@ -1,6 +1,12 @@
 // src/Vehicle/cLandVehicle.cpp: Vehicle::cLandVehicle (include/Vehicle/cLandVehicle.h). Definitions follow CD2's order:
 // the static registrars' initializers (0x82FE8990..0x82FE8A70), then the functions from 0x826C0DB8.
 
+#include "PHYSICS/physicsconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/characterconsts.h"
+#include "CHARACTER/cCharacterController.h"
+#include "CHARACTER/cRagdollProfile.h"
+#include "AI/aiconstants.h"
 #include "Vehicle/cLandVehicle.h"
 #include "rws/classfactory.h"
 #include "gom/proto_registrar.h"

@@ -13,6 +13,12 @@
 
 // CD2 0x83005288: runtime class inheritance registration.
 
+#include "PHYSICS/physicsconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/characterconsts.h"
+#include "CHARACTER/cCharacterController.h"
+#include "CHARACTER/cRagdollProfile.h"
+#include "AI/aiconstants.h"
 #include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "VEHICLE_CONTROL/cHelicopterController.h"
@@ -50,6 +56,11 @@ namespace VEHICLE_CONTROL
     const char *cVehicleController::RetClassName() const
     {
         return "cVehicleController";
+    }
+
+    void cVehicleController::AssignVehicle(Vehicle::cVehicle *vehicle)
+    {
+        m_pVehicle = vehicle;
     }
 
     RWS::CAttributeHandler *cVehicleController::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)

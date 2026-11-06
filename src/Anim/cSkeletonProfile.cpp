@@ -1,3 +1,6 @@
+#include "PHYSICS/physicsconsts.h"
+#include "CHARACTER/characterconsts.h"
+#include "CHARACTER/cRagdollProfile.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "gom/non_game_base.h"
 #include "Anim/cSkeletonProfile.h"

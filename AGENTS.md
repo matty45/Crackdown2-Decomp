@@ -34,11 +34,17 @@ search for either.
      `static_cast<cNonGameBase *>(m_pInstigator)` with the member's real type), or casting through `void *` is the
      same thing. Pointer arithmetic gives the same instructions, but it proves nothing
      about the layout, and a hard-coded address has no relocation, so `check` cannot tell whether it is the right global.
+     Decompiler pseudocode (`a2`, `v3`, `return (int)this;`, `p - 7`) is full of exactly this: never paste it in and
+     tidy it up. A constant subtracted from a pointer just loaded is a cast from a base: find the member's real type.
    - **R17, no fake code:** no `volatile` local (a `volatile` member or global needs a `// volatile: <evidence>` note on
      its line), no unused local, no empty `if`/`else` body or bare `;` statement (empty loop bodies and `case X: ;` are
      fine), no `do { } while (0)` outside a macro, no self-assignment, no `+ 0` or `* 1`.
    - **R2, globals declared once, in their header:** no `extern` variable in a `.cpp`.
-   - **R13, vtables from evidence:** no virtuals named `pad`, `dummy` or `unused`; declare the slots CD2 has.
+   - **R13, vtables from evidence:** no virtuals named `pad`, `dummy` or `unused`; declare the slots CD2 has. A
+     function that `show` lists under `vtable` is a virtual: declare it `virtual`, in that slot, in the class that owns
+     the table. A two-instruction getter or setter with 0 direct callers is almost always one. Its bytes match whether
+     it is virtual or not, so `check` reads the compiled name: a plain member function that CD2 has in a vtable is
+     MATCH-PENDING. If the class's header does not declare the slots before it yet, leave the function open.
    - **R1, one declaration per type:** a type is defined once (in `include/`), and with the same `class` or `struct`
      keyword everywhere.
 
@@ -51,12 +57,16 @@ search for either.
    order), say why next to it, as `// RULE-EXCEPTION: R<n>, <the reason the bytes give>` when it bends a numbered rule,
    or in a plain comment otherwise, so the next person does not "clean it up". An exception can bend a style rule but
    never the rules above: fake code is never allowed. `lint` also lists advisory findings that do not block a match:
-   placeholder and address-like names (`GetField50`, `m_word50C`, `g_830BBDB4`), `goto`, `#if 0`, `!!x`.
+   placeholder and address-like names (`GetField50`, `m_word50C`, `g_830BBDB4`, or `RetCE3F0`: an address with its
+   leading digits dropped is still an address), `goto`, `#if 0`, `!!x`. Renaming a placeholder so that `lint` stops
+   listing it, without evidence for the new name, is evasion.
 4. **Use the shared headers** in `include/`. Game classes derive from `cNonGameBase` (`include/gom/non_game_base.h`);
    prototypes derive from `GOM::cObjectPrototype` (`include/gom/object_prototype.h`). Never define a second copy of a
    type that already exists: search `include/` first. A missing type gets its own header, one class per header, at
    `include/<Namespace>/<Class>.h`, marked as a stand-in with your evidence (see `include/README.md`). Names and
-   layouts need evidence: see "Finding names and layouts" below.
+   layouts need evidence: see "Finding names and layouts" below. Most files' initializer runs open with the same
+   header constants (fPhysicsSimulationTick, WORLD_UP_VECTOR, ...): they come from including the constants headers,
+   never from a definition in the `.cpp` (`docs/matching-notes.md`, "Header constants").
 5. **Stay in the file.** Write a function in the source file that owns its address (`config/splits.txt`).
 6. **Nothing from the game in the repository.** Never paste the game's bytes or assembly into a committed file.
 7. **Lay a source file out as a programmer would.** All `#include` lines go at the top of the file, after its header
@@ -82,7 +92,10 @@ py -I tools/cd2.py search <file.cpp> <address>     # automatic source variations
 
 How to work:
 1. Read `docs/matching-notes.md` before your first function, and the header of the class you work on.
-2. Write the function from the assembly in `show`. Get the structure right first: calls, branches, loads and stores.
+2. Work on one function at a time: claim it, write it from the assembly in `show`, `check` the file. Get the structure
+   right first: calls, branches, loads and stores. Keep the file compiling at every step: a file that does not compile
+   takes every matched function in it out of `verify`, not only the new one. A session can be cut off at any moment,
+   so before you stop, remove whatever is not exact.
 3. Read the `diff` findings and fix the **first** one; they are ordered from most to least fundamental. A wrong
    field offset is a header problem: fix the header, not the function.
 4. Floats: the game was built with link-time code generation. If a finding says "float constants: CD2 loads them the
@@ -119,7 +132,12 @@ Every name and every field needs evidence. Use the strongest you have:
 
 A function in your file whose `this` does not fit your class (it reads another class's fields, or several classes
 register it under different names) is another class's code that the linker folded into your file: name it after that
-class. Where nothing names a function or field, give it a descriptive name and say in the header that the name is ours.
+class. Check a virtual's owner the same way: compare its `vtable` lines with those of the class's own `RetClassName`
+(primary slot 11). A function in other tables, or in many, belongs to their common base or to a secondary base, and
+its offsets count from that subobject. Never pad a class out to a field's offset (`unsigned char m_pad[0x2F0];` before
+`m_field2F4`) when its base chain is not modelled (a STAND-IN header, or a base whose header says its layout is
+incomplete): the field belongs to a base, and the function waits until the bases are modelled. Where nothing names a
+function or field, give it a descriptive name and say in the header that the name is ours.
 `refs/` and IDA are evidence for names and layouts, never for a match (only `check` is), and nothing from them goes
 into the repository (rule 6).
 

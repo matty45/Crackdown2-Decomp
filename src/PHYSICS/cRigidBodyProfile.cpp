@@ -1,3 +1,5 @@
+#include "PHYSICS/physicsconsts.h"
+#include "PHYSICS/physicsproject.h"
 #include "fun_runtime/retval.h"
 #include "PHYSICS/cRigidBodyProfile.h"
 #include "rws/classfactory.h"

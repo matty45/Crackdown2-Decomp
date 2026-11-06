@@ -1,3 +1,6 @@
+#include "PHYSICS/physicsconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/characterconsts.h"
 #include "fun_runtime/retval.h"
 #include "CHARACTER/cCwCharacterStateProfile.h"
 #include "rws/classfactory.h"

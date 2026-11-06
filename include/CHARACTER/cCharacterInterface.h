@@ -15,7 +15,8 @@
 //   - Script setters 0x8254EA80 and 0x8254EA88 name the flags at 0xAE and 0xAF:
 //     SetCanShareVehicleWithPlayer and SetCanBePickedUpWhenAlive, respectively.
 // g_cCharacterInterface is named after the type it is registered as ("cCharacterInterface", through 0x82772828; see
-// AI/cAiPlayer.h). The name of its getter GetPtrcCharacterInterface is not known.
+// AI/cAiPlayer.h). RetScriptTypeRegistration (0x8254E8A8) returns it: slot 1 of the cScriptHost table 0x82113DF4, which
+// the constructor installs (0x8254ECC0). 0x8254E8B8 (returns "eLODLevel") is slot 1 of an enum registrar's table.
 #ifndef CHARACTER_CCHARACTERINTERFACE_H
 #define CHARACTER_CCHARACTERINTERFACE_H
 
@@ -72,6 +73,8 @@ namespace CHARACTER
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const Fun_Runtime::cClass &RetClass() const;
         virtual const char *RetClassName() const;
+        // CD2 0x8254E8A8: cScriptHost slot 1; descriptive method name is ours.
+        virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         void SetCanShareVehicleWithPlayer(bool enabled);
         void SetCanBePickedUpWhenAlive(bool enabled);
         // Script getter 0x825430D8 is folded into cCharacter.cpp, and reads this interface's flag.
@@ -87,8 +90,6 @@ namespace CHARACTER
 
         unsigned char RetLODLevel() const { return RetCharacter()->RetLODLevel(); }
 
-        void *GetPtrcCharacterInterface() const;
-        const char *GetPtrELODLevel() const;
         CD2_LAYOUT_CHECKS(cCharacterInterface,
             CD2_SIZE(cCharacterInterface, 0xC0)
             CD2_OFFSET(cCharacterInterface, m_pCharacter, 0x7C)

@@ -2,6 +2,12 @@
 // All 21 mapped functions are exact; the three CalcRand functions require LTCG. See config/matched_functions.json.
 // HandleAttributes uses GUID assignment before lookup to preserve the target's three GUID temporaries.
 
+#include "PHYSICS/physicsconsts.h"
+#include "CHARACTER/characterconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/cCharacterController.h"
+#include "CHARACTER/cRagdollProfile.h"
+#include "AI/aiconstants.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "VFX/cAmbientVFXSpawner.h"
 #include "editor/guid_event_handler.h"

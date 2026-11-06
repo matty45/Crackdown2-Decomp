@@ -1,3 +1,5 @@
+#include "PHYSICS/physicsconsts.h"
+#include "PHYSICS/physicsproject.h"
 #include "Vehicle/cSixWheelerProfile.h"
 #include "rws/classfactory.h"
 

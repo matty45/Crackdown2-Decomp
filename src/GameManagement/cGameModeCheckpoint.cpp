@@ -1,5 +1,11 @@
 // GameManagement::cGameModeCheckpoint: class-factory and virtual-table markers in CD2;
 // the reference cGameModeCheckpoint.cpp names this source object.
+#include "PHYSICS/physicsconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/characterconsts.h"
+#include "CHARACTER/cCharacterController.h"
+#include "CHARACTER/cRagdollProfile.h"
+#include "AI/aiconstants.h"
 #include "GameManagement/cGameModeCheckpoint.h"
 #include "rws/classfactory.h"
 #include "GameManagement/cGameModeArena.h"

@@ -9,6 +9,8 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/cNetGameAISpawnPoint.cpp
 
+#include "PHYSICS/physicsconsts.h"
+#include "PHYSICS/physicsproject.h"
 #include "rws/classfactory.h"
 #include "unknown/cNetGameAISpawnPoint.h"
 #include "cd2/memory.h"

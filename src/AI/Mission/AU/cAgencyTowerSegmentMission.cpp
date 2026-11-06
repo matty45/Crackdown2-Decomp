@@ -2,6 +2,12 @@
 // The surviving singleton accessor is folded into this split. CD2's world-manager
 // constructor 0x82278B80 stores this in the global read by 0x8245C8A8.
 
+#include "PHYSICS/physicsconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/characterconsts.h"
+#include "CHARACTER/cCharacterController.h"
+#include "CHARACTER/cRagdollProfile.h"
+#include "AI/aiconstants.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "AI/cAgencyTowerSegmentMission.h"
 #include "rws/classfactory.h"

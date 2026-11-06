@@ -13,6 +13,11 @@
 
 // CD2 0x82FCC770: class descriptor and placement factory.
 
+#include "PHYSICS/physicsconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/characterconsts.h"
+#include "CHARACTER/cCharacterController.h"
+#include "CHARACTER/cRagdollProfile.h"
 #include "fun_runtime/retval.h"
 #include "Equip/cCloakingDevice.h"
 #include "gom/proto_registrar.h"

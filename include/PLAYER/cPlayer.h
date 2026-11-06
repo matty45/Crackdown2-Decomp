@@ -17,8 +17,9 @@
 //   - Primary vtable 0x8200C0E0 (installed by the constructor): slots 112 and 113 are ShouldTriggerFootStepEvent
 //     (0x82725750, true while the character's LOD level is at most 1) and ShouldTriggerBulletSoundEvent (0x82725780,
 //     a 1 s interval), the slots cAiPlayer's overrides have; RuffKing's and Burn's cPlayer override both. Slot 94
-//     (0x82720FD0) is HasRecentlyHadH2HContact by its code (RuffKing's m_nH2HContactFrame test). Slot 97 (GetByteD99,
-//     0x8271F160) and slot 130 (ResetFloatEC4, 0x82720AC0, the 5th virtual cPlayer adds) have no reference counterpart.
+//     (0x82720FD0) is HasRecentlyHadH2HContact by its code (RuffKing's m_nH2HContactFrame test), slot 92 (0x82720FC0)
+//     ForceCharacterH2HContact. Slot 97 (0x8271F160, reads m_byteD99) and slot 130 (0x82720AC0, clears m_fEC4, the 5th
+//     virtual cPlayer adds) have no reference counterpart. None of these slots is declared yet, so they are open.
 #ifndef PLAYER_CPLAYER_H
 #define PLAYER_CPLAYER_H
 
@@ -87,13 +88,7 @@ namespace PLAYER
         bool IsAutomaticAIBreakout() const;
         int RetAutomaticAIBreakoutFlags() const;
         void *RetCameraPtr() const;
-        unsigned char GetByteD99() const;
-        bool ShouldTriggerBulletSoundEvent();
-        bool ShouldTriggerFootStepEvent();
-        void ResetFloatEC4();
         void SetAITargeting(bool bAITargeting);
-        void ForceCharacterH2HContact();
-        bool HasRecentlyHadH2HContact();
 
         CD2_LAYOUT_CHECKS(cPlayer,
             CD2_SIZE(cPlayer, 0x1160)

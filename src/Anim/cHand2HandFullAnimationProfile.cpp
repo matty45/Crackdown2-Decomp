@@ -1,3 +1,8 @@
+#include "PHYSICS/physicsconsts.h"
+#include "CHARACTER/characterconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/cCharacterController.h"
+#include "CHARACTER/cRagdollProfile.h"
 #include "Anim/cHand2HandFullAnimationProfile.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"

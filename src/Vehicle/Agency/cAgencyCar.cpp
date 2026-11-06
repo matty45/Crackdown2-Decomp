@@ -2,6 +2,11 @@
 // evidence are in config/splits.txt; RuffKing's object for it is cAgencyCar.obj. Definitions follow CD2's order: the
 // static registrars' initializers (0x82FEB468..0x82FEB548), then the functions from 0x826EC098.
 
+#include "PHYSICS/physicsconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/characterconsts.h"
+#include "CHARACTER/cCharacterController.h"
+#include "CHARACTER/cRagdollProfile.h"
 #include "Vehicle/cAgencyCar.h"
 #include "Vehicle/cAgencyCarPrototype.h"
 #include "rws/classfactory.h"

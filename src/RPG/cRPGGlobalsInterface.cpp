@@ -1,3 +1,6 @@
+#include "PHYSICS/physicsconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/characterconsts.h"
 #include "RPG/cRPGGlobalsInterface.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"

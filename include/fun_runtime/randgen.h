@@ -2,6 +2,9 @@
 // NOT YET VERIFIED: no function using it is byte-exact yet (VFX::cAmbientVFXSpawner::CalcRand*,
 // GameManagement::cGameModeArena::GetRandSpawnPointInList). Both batch-1 agents saw the same shape independently:
 // each Rand clears m_nSeed and steps m_nNext; the seeding constructor stores the seed into both words.
+// The default constructor zeroes both words (RuffKing's out-of-line body) and is inline here: CD2's initializer for
+// characterconsts.h's CHARACTER::gRandGen, in about a thousand objects, constructs with no code (the object is
+// initialised statically) and only registers the empty destructor; this inline pair reproduces both functions.
 #ifndef FUN_RUNTIME_RANDGEN_H
 #define FUN_RUNTIME_RANDGEN_H
 
@@ -14,7 +17,7 @@ namespace Fun_Runtime
         unsigned int m_nSeed;
 
     public:
-        cRandGen();
+        cRandGen() : m_nNext(0), m_nSeed(0) {}
         cRandGen(unsigned int seed) : m_nNext(seed), m_nSeed(seed) {}
         ~cRandGen() {}
         unsigned int Rand()

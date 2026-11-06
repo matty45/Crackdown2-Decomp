@@ -3,6 +3,12 @@
 // The constructor supplies the vtable used by the deleting destructor; its factory
 // has not been promoted as an exact match.
 
+#include "PHYSICS/physicsconsts.h"
+#include "CHARACTER/characterconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/cCharacterController.h"
+#include "CHARACTER/cRagdollProfile.h"
+#include "AI/aiconstants.h"
 #include "ExplosionManager/cExplosionLevelInfo.h"
 #include "cd2/memory.h"
 #include "rws/classfactory.h"

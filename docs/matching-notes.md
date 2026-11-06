@@ -269,6 +269,35 @@ end, in one line, and is removed when the function matches. History belongs in g
   id = id * mult + c;` with `mult` declared before `id`.
 
 ## Patterns by kind of function
+- **Header constants (the common initializer sequence).** About a thousand objects open their initializer run with
+  the same ~20 functions: static constants defined in headers, so every object that includes the header has its own
+  copy and its own `??__E` initializer. Names, headers and line order come from RuffKing's PDB line info (llvm-pdbutil
+  `dump -l --modi=N`): `PHYSICS/physicsconsts.h` (fPhysicsSimulationTick, fMAX_TIME_STEP, fSLIP_LIMIT, fSKID_LIMIT),
+  `CHARACTER/characterconsts.h` (CHARACTER::gRandGen, fWALK_VELOCITY_THRESHOLD_HALF_SQ, _DOUBLED_SQ),
+  `PHYSICS/physicsproject.h` (WORLD_RIGHT/UP/AT_VECTOR, ZERO_VECTOR, IDENTITY_TRANSFORM, IDENTITY_QUATERNION),
+  `CHARACTER/cCharacterController.h` (fSlopeDotLimit, fStepDotLimit, fStepDotTan), `CHARACTER/cRagdollProfile.h`
+  (nPART_PERCENT_WEIGHT) and `AI/aiconstants.h` (fFACING_TARGET_MIN_DOT_PRODUCT, AI::fTARGET_FACING_ME_MIN_DOT_PRODUCT,
+  fPOINT_LOCK_RADIUS_SQ). The blocks come in that order, except that characterconsts.h comes before or after
+  physicsproject.h; a file includes the headers whose blocks its run has. The run starts at fPhysicsSimulationTick
+  and ends at the file's own initializers (the class pointer, the registrars), which is the ownership evidence for the
+  `init` entries in `config/splits.txt`. 3907 initializers in 343 files matched this way (2026-11-06), all exact in
+  both builds. Mechanisms, each shown by A/B on src/AI/cAiPlayer.cpp:
+  - A constant computed from another (`X_SQ = X * X`) keeps its initializer; a constant of literals does not get one.
+    CD2's LTCG turned the computed middle values (fWALK_VELOCITY_THRESHOLD_HALF, fPOINT_LOCK_RADIUS) into initialised
+    data, so they have no initializer in CD2, but the squares load them.
+  - hkVector4's constructor from four floats must build the vector through `__lvx` of an aligned array: with plain
+    member stores the compiler initialises the object statically and emits no initializer at all ("missing").
+    IDENTITY_TRANSFORM also needs hkVector4's vector copy constructor (the default copy goes through two `ld`/`std`).
+  - gRandGen's initializer only registers its destructor (`b atexit`): cRandGen's default constructor is inline.
+  - `cos` of a float constant needs the double overload spelled out (`(float)cos((double)x)`, what the `cosf` macro
+    expands to): with the float overload the LTCG model differs.
+  Left open, with their `init` entries in place: the seven initializers whose constant CD2 loads through the LTCG pool
+  (fPhysicsSimulationTick, the three controller constants, nPART_PERCENT_WEIGHT, the two facing constants). They are
+  LTCG EXACT, but verify's LTCG relocation gate cannot name the statics they store to and attributes the stores to
+  the neighbouring public symbol. Also open: gRandGen's at-exit destructors (`blr`), since every file's has the same
+  internal name and the manifest's name map is global; and fMAX_TIME_STEP, fSLIP_LIMIT and fSKID_LIMIT in the 100 files
+  whose matched IsA reads another object's g_GlobalConstants copy (LTCG inlined HasAncestor's COMDAT from one object
+  everywhere), since the relocation check allows one address per name in a file.
 - **Class-factory registrar** (an initializer near 0x82F.., 76 bytes, and its at-exit destructor near 0x830..):
   `static RWS::CClassFactory::CRegistrar <Class>Registrar("<name>", <Class>::MakeNew, <size>, false);` in the class's
   namespace. The size argument is the class's size; the `MakeNew` it passes often builds the class's prototype.
@@ -387,6 +416,41 @@ end, in one line, and is removed when the function matches. History belongs in g
   names go in `config/symbol_aliases.txt` with the evidence.
 - **Tiny functions with the same shape** (`lis/lwz|addi/blr`) can be paired with the wrong one of ours by the diff tool:
   check by name and address, not only by the EXACT flag.
+- **A function that `show` lists under `vtable` is a virtual: declare it `virtual`, in that slot.** The body compares
+  the same whether it is declared virtual or not, and whatever slot it gets (`lbz r3, 0x22C(r3); blr`). Since
+  2026-11-06 `check` and `verify` read the compiled name: a plain member function that CD2 has in a vtable is
+  MATCH-PENDING (R13). They do not check the slot number. A two-instruction getter or setter with 0 direct callers is
+  almost always a slot. Use the slot the class's header already declares (cVehicleController's
+  `virtual void AssignVehicle(Vehicle::cVehicle *)`, slot 69). If the header does not declare the slots before it yet,
+  leave the function open. The gate removed 46 earlier entries declared this way (cPlayer slots 92..130,
+  cCwTransCharacter's accessors at character slots 391..445, and the script-type getters below). Three more came back
+  as the `RetScriptTypeRegistration` overrides they are (cAiPlayer, cCharacterEntityIF and cCharacterInterface:
+  cScriptHost slot 1, returning their own registrars). Exempt: a script method
+  CD2 registers under the function's own name, whose code was folded with a virtual's (`cTimeOfDay::RetPeriod`,
+  `cAIEvent::RetSource`, `cPlayer::IsAIActive`).
+- **Check whose table it is before you name the class.** Compare the function's `vtable` lines with those of the class's
+  own `RetClassName` (primary slot 11). If the function sits in other tables, or in many, it belongs to their common
+  base or to a secondary base, not to the file's class. 0x826AB570 (`lbz 0x3601`) is in three small tables (0x82133A90
+  and 0x82133AE0 are 0x50 bytes apart), not cTransformingCar's primary 0x8201B8D0, so its `this` is a base subobject
+  and 0x3601 is counted from it. Likewise
+  0x828583F0 is in three game-mode prototype tables, 0x82607C08 in 13 weapon tables and 0x824D42A8 in 13 NPC behaviour
+  tables.
+- **Do not pad a class out to a field's offset.** `unsigned char m_pad[0x2F0]; unsigned char m_field2F4;` in a
+  STAND-IN header with no bases, or after a base whose header says its layout is incomplete (`AI::cMission`: real size
+  0x3C0, "not an allocation layout"), states a layout CD2 does not have: the field belongs to a base (cAgencyATV's
+  +0x2F4 lies inside cVehicle). Such a getter waits for the base chain. A field of a class with real bases goes into
+  its existing `m_unmodelled` gap with a `CD2_OFFSET` line. Without that line, `int m_dword1110;` followed by
+  `unsigned char m_bytes1115[4];` put the array at 0x1114 while its comment said 0x1115.
+- **Decompiler pseudocode is not a draft to clean up.** Hex-Rays output (`a2`, `v3`, `*++v2 = *++v3`,
+  `return (int)this`, `int p = seat->m_p; p - 28`) brings its integer-typed pointers in as R4 findings and compile
+  errors. A constant subtracted from a pointer just loaded (`- 0x1C`) is a cast from a secondary base. Find the
+  member's real type and write the cast or the accessor: RuffKing's `cVehicleSeat` holds
+  `cSafeDeletablePointer<CHARACTER::cCharacter>` at 0x30 and 0x40. A name made from an address with its leading
+  digits dropped (`RetCE3F0` for 0x826CE3F0) is still an address name; `lint` lists it.
+- **Keep every file compiling; work one function at a time.** A file that does not compile takes every matched
+  function in it out of `verify`, not only the new one: 21 unclaimed functions written into cVehicle.cpp at once took
+  its 17 exact functions out of verify. Claim, write one function, `check`, and before stopping remove anything that
+  is not exact or does not compile. A session can be cut off at any point.
 - **`work/map.txt` needs substrings of MANGLED names** (`??__EcFooRegistrar@`, `??_9Base@NS@@$BBMA@AA`), not demangled
   text.
 - Listings: add `/FAcs /Fa<file>.cod` to see source lines interleaved with code and every compiler temporary's stack
@@ -452,7 +516,11 @@ One line each: what is ruled out. Remove the line when the function matches.
   in a scan of 121 12-byte global-address getters): representative 0x824556F8 returns
   the 0x24-byte object initialized by 0x82F85E30 through 0x82772828 with child/parent script-type names. This is
   cScriptHost virtual slot 1, currently unnamed; recover the shared metadata interface and actual class ownership
-  before adding more getters. Do not copy the historical byte-global/GetPtr stand-ins to other game classes.
+  before adding more getters. The historical byte-global/GetPtr stand-ins were removed on 2026-11-06. A class's own
+  getter is its `RetScriptTypeRegistration` override, slot 1 of its cScriptHost table (cAiPlayer, cCharacterEntityIF
+  and cCharacterInterface are matched that way; cTimeOfDay's waits for its cScriptHost base). The AIE_* getters are the
+  event classes' own slot 1, in tables their constructors install. The enum-name getters are slot 1 of enum registrar
+  tables that static initializers install.
 - Class-query batch: 64 class-name getters and 26 RetClass descriptor getters are EXACT. Classification needs
   both target data and virtual-slot evidence: name strings at primary slot 11 identify RetClassName; descriptor
   loads at registered-class slot 0 identify RetClass. The same three-instruction size also includes script metadata

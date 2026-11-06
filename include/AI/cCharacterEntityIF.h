@@ -7,9 +7,11 @@
 // the byte at 0x539; 0x823EC038 (RetMovementType) returns the low byte of the word at 0x50C. 0x823EBF90 / 0x823EBF88
 // (RetUpperbodyAnimationParams / RetFullbodyAnimationParams) return the addresses of the regions at 0x480 and 0x4B0,
 // whose types are not known (byte arrays here).
-// RetMovementTypeEnum (0x823EBF38, returns "eMovementType") has no script name: the name is ours. It is slot 1 of the
-// registrar vtable 0x820FBF28, like cAiPlayer's RetMapStatus. The g_ globals are named after the types CD2 registers
-// them as (see AI/cAiPlayer.h); the GetPtr getters' own names are not known.
+// 0x823EBF38 (returns "eMovementType") and its neighbours returning enum names are slot 1 of enum registrar vtables
+// that static initializers install (0x823EBF38: 0x820FBF28), and the getters returning the AIE_* registrars
+// (0x823EC368..0x823EC890) slot 1 of the AIE event classes' own tables: none is a cCharacterEntityIF method, so they
+// stay open until those classes are modelled. g_cCharacterEntityIF is named after the type CD2 registers it as (see
+// AI/cAiPlayer.h); RetScriptTypeRegistration (0x823EBF28, slot 1 of the cScriptHost table 0x820FBE9C) returns it.
 // m_pAIEntity (0x504; RuffKing's name and type, at 0xF8 there): cAiPlayer::RetName (0x823EB508) returns its m_name, as
 // RuffKing's cAiPlayer::RetName returns m_pAIEntity's; the accessors below read the entity's script-named fields
 // (AI/cCharacterEntity.h).
@@ -86,32 +88,14 @@ namespace AI
         unsigned char IsCheckingTargetPathClear() const;
         unsigned char IsCheckingTargetBlocked() const;
         void SetBulletSoundLODDeafnessEnabled(unsigned char value);
-        void *GetPtrcCharacterEntityIF() const;
-        void *GetPtrAIE_OBJECT_APPROACHING() const;
-        void *GetPtrAIE_EJECTED_FROM_VEHICLE() const;
-        void *GetPtrAIE_TARGETED() const;
-        void *GetPtrAIE_INTERESTING_OBJECT() const;
-        void *GetPtrAIE_INTERESTING_OBJECT_BASIC_REACTION() const;
-        void *GetPtrAIE_DAMAGE_TAKEN() const;
-        void *GetPtrAIE_DIED() const;
-        void *GetPtrAIE_EQUIPMENT_LOST() const;
-        void *GetPtrAIE_CARRIED_OBJECT_LOST() const;
-        void *GetPtrAIE_SET_ON_FIRE() const;
-        void *GetPtrAIE_END_FIRE() const;
-        void *GetPtrAIE_TOUCHED() const;
-        void *GetPtrAIE_TOUCHED_GRENADE() const;
+        // CD2 0x823EBF28: cScriptHost slot 1; descriptive method name is ours.
+        virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         virtual const char *RetClassName() const;
-        const char *RetMovementTypeEnum() const;
-        const char *RetPerceptionOptions() const;
-        const char *RetFaceTarget() const;
-        const char *RetAttackState() const;
-        const char *RetState() const;
         void *RetHeadDirection() const;
         void *RetEyePosition() const;
         float RetViewingDistance() const;
         float RetThreatObjectViewingDistance() const;
         float RetHearingAcuteness() const;
-        unsigned char GetBool38_50() const;
         unsigned char IsSpawnedByCrowdSystem() const;
         float RetViewingAngle() const;
 

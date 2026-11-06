@@ -6,6 +6,12 @@
 
 // Ret_OK and Ret_FAIL (fun_runtime/retval.h): this file's copies are at 0x8385253C and 0x8320731C
 
+#include "PHYSICS/physicsconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/characterconsts.h"
+#include "CHARACTER/cCharacterController.h"
+#include "CHARACTER/cRagdollProfile.h"
+#include "AI/aiconstants.h"
 #include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "VEHICLE_CONTROL/cHelicopterController.h"

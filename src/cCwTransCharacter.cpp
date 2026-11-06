@@ -9,8 +9,15 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/cCwTransCharacter.cpp
 
-// Not named yet: GetByte2D20/2DA4/2DA6, SetByte2DA5/2DA6, GetWord2DD0 and their fields have no script or reference name.
+// Not named yet: the fields at 0x2D20..0x2DD0 have no script or reference name. Their accessors (0x82538170..
+// 0x82538238) are virtual slots 391..445 of the character tables (0x82018BE8), not declared yet: open.
 
+#include "PHYSICS/physicsconsts.h"
+#include "CHARACTER/characterconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/cCharacterController.h"
+#include "CHARACTER/cRagdollProfile.h"
+#include "AI/aiconstants.h"
 #include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "CHARACTER/cCharacter.h"
@@ -39,41 +46,6 @@ namespace CHARACTER
     const char *cCwTransCharacter::RetClassName() const
     {
         return "cCwTransCharacter";
-    }
-
-    unsigned char cCwTransCharacter::GetByte2D20() const
-    {
-        return m_byte2D20;
-    }
-
-    bool cCwTransCharacter::TestFlag2D64(unsigned int bit) const
-    {
-        return (m_flags2D64 & (1 << bit)) != 0;
-    }
-
-    unsigned char cCwTransCharacter::GetByte2DA4() const
-    {
-        return m_byte2DA4;
-    }
-
-    unsigned char cCwTransCharacter::GetByte2DA6() const
-    {
-        return m_byte2DA6;
-    }
-
-    void cCwTransCharacter::SetByte2DA6(unsigned char value)
-    {
-        m_byte2DA6 = value;
-    }
-
-    void cCwTransCharacter::SetByte2DA5(unsigned char value)
-    {
-        m_byte2DA5 = value;
-    }
-
-    unsigned int cCwTransCharacter::GetWord2DD0() const
-    {
-        return m_word2DD0;
     }
 
     Fun_Runtime::cClass &cCwTransCharacter::StaticCreateClass()

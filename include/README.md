@@ -7,7 +7,10 @@
 | `rw/rwmem.h` | RenderWare stream byte-order helpers (`RwMemNative32`), inline as in CD2 | yes, verified via `cFactionConfigData` |
 | `editor/guid_event_handler.h` | `Editor::cGUIDLinkerBase`, `cGUIDLinker<T>::LinkToObject` (GUID lookups), `cGUIDEventHandler<T>` | yes, verified via `cNPCTintProfile`, `cFactionConfigData`, `cGameModeArena` |
 | `fun_runtime/class.h` | `Fun_Runtime::cClass` (runtime class descriptor, inline `IsA`/`HasAncestor`) and `tGlobalConstants` | yes, verified via `cAmbientVFXSpawner::IsA` and `cRopes::IsA` |
-| `fun_runtime/randgen.h` | `Fun_Runtime::cRandGen` (inline LCG) | compiles; **not yet verified** (no exact function uses it) |
+| `fun_runtime/randgen.h` | `Fun_Runtime::cRandGen` (inline LCG) | default constructor and destructor verified via `CHARACTER::gRandGen`'s initializers; `Rand` not yet |
+| `PHYSICS/physicsconsts.h`, `CHARACTER/characterconsts.h`, `PHYSICS/physicsproject.h`, `CHARACTER/cCharacterController.h`, `AI/aiconstants.h` | the header constants every game object copies (one initializer each per object; see `docs/matching-notes.md`, "Header constants") | yes, verified via 3907 initializers in 343 files |
+| `Havok/hkVector4.h`, `hkQuaternion.h`, `hkMatrix3.h`, `hkRotation.h`, `hkTransform.h` | Havok math types (RuffKing layouts); hkVector4 builds through `__lvx` as CD2 does | yes, via physicsproject.h's initializers |
+| `cd2/memory.h` | global `new`/`delete`/`delete[]` inlined to XCreateHeapBlock/XDestroyHeapBlock | yes, via `cNPCTintProfile`, `cTurretDataPrototype` |
 | `fun_runtime/retval.h` | `Fun_Runtime::RetVal` and the per-file constants `Ret_OK` (0), `Ret_FAIL` (-1) | yes, verified via `cHelicopterController` (`Init`, `Term`) |
 | `fun_runtime/safedeletable.h` | `Fun_Runtime::cSafeDeletable` (CD2's has 6 virtual slots) and its pointer-list head | yes (layout); slot names partly inferred |
 | `fun_runtime/class.h` | also `Fun_Runtime::cRegisteredClass` (the RetClass/IsA interface, 8 bytes in CD2) | yes |

@@ -2,6 +2,12 @@
 // config/splits.txt; RuffKing's object for it is cCar.obj. Definitions follow CD2's order: the static registrars'
 // initializers (0x82FE7A50..0x82FE7B30), then the functions from 0x826B5CA8.
 
+#include "PHYSICS/physicsconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/characterconsts.h"
+#include "CHARACTER/cCharacterController.h"
+#include "CHARACTER/cRagdollProfile.h"
+#include "AI/aiconstants.h"
 #include "Vehicle/cCar.h"
 #include "rws/classfactory.h"
 #include "gom/proto_registrar.h"

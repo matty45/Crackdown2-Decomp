@@ -7,6 +7,10 @@
 #include "rws/eventid.h"
 #include "fun_runtime/class.h"
 
+// A static constant of this header (RuffKing: shared/character/cragdollprofile.h, initializer at line 29), so every
+// object file that includes it has a copy; CD2 computes it from the object's g_GlobalConstants.
+static const float nPART_PERCENT_WEIGHT = Fun_Runtime::g_GlobalConstants.CONST_FLOAT_1 / 12.0f;
+
 namespace CHARACTER
 {
     // Base cNonGameBase (CD2's inheritance registrar names it); CD2's HandleEvents (0x82575F38) runs on its

@@ -50,13 +50,6 @@ namespace CHARACTER
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *prototype, void *memory);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
-        unsigned char GetByte2D20() const;
-        bool TestFlag2D64(unsigned int bit) const;
-        unsigned char GetByte2DA4() const;
-        unsigned char GetByte2DA6() const;
-        void SetByte2DA6(unsigned char value);
-        void SetByte2DA5(unsigned char value);
-        unsigned int GetWord2DD0() const;
 
         CD2_LAYOUT_CHECKS(cCwTransCharacter,
             CD2_SIZE(cCwTransCharacter, 0x2E00)

@@ -1,3 +1,8 @@
+#include "PHYSICS/physicsconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/characterconsts.h"
+#include "CHARACTER/cCharacterController.h"
+#include "CHARACTER/cRagdollProfile.h"
 #include "fun_runtime/retval.h"
 #include "Vehicle/cLandVehicleProfile.h"
 #include "rws/classfactory.h"

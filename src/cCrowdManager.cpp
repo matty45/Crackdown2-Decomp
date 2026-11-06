@@ -1,6 +1,12 @@
 
 // CD2's script registration at 0x8239B420 names the surviving RetPeriod copy.
 
+#include "PHYSICS/physicsconsts.h"
+#include "CHARACTER/characterconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/cCharacterController.h"
+#include "CHARACTER/cRagdollProfile.h"
+#include "AI/aiconstants.h"
 #include "unknown/cCrowdManager.h"
 #include "rws/classfactory.h"
 #include "Sim/cTimeOfDay.h"

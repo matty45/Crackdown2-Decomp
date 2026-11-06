@@ -1,3 +1,6 @@
+#include "PHYSICS/physicsconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/characterconsts.h"
 #include "CHARACTER/cCharacterGlobalDlcProfile.h"
 #include "rws/classfactory.h"
 

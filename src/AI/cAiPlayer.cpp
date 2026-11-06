@@ -3,13 +3,18 @@
 // AI::cAiTargetInfo::IsPrimaryFireBlocked / IsTargetVisible, AI::cAIEvent::RetSource, AI::cObjectInstigatorEvent::
 // RetInstigator, AI::cDamageTakenEvent::RetInstigator; their headers give the evidence).
 // Not named yet:
-//   - RetTriggerEventFlags / RetEnemyStatus / RetMapStatus (0x823E7988 / 0x823E7998 / 0x823E79A8) return the names of
-//     script enums. They are slot 1 of three small registrar vtables (0x820FB0F0, 0x820FB0FC, 0x820FB108), not
-//     cAiPlayer methods; the registrar classes have no known name.
+//   - 0x823E7988 / 0x823E7998 / 0x823E79A8 return the names of script enums. They are slot 1 of three small registrar
+//     vtables (0x820FB0F0, 0x820FB0FC, 0x820FB108), not cAiPlayer methods: open until those registrar classes are known.
 //   - SetFields4F8 (0x823E92B8) and m_n4F8/m_n4FC/m_n500 are unnamed (slot 125 of cAiPlayer vtable).
 //   - RetConstantC8 (0x823E7B30) is slot 26 of the vtable 0x820FB114, whose object 0x82377190 builds; its class is not
 //     known.
 
+#include "PHYSICS/physicsconsts.h"
+#include "CHARACTER/characterconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/cCharacterController.h"
+#include "CHARACTER/cRagdollProfile.h"
+#include "AI/aiconstants.h"
 #include "fun_runtime/script_type_registrar.h"
 #include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
@@ -26,12 +31,6 @@
 #include <new>
 
 Fun_Runtime::cScriptTypeRegistrar<AI::cAiPlayer> g_cAiPlayer("cAIPlayer", "cCharacterEntityIF");     // global at 0x83803448
-unsigned char g_AIE_SHOTS_COUNTER;     // global at 0x83817824
-unsigned char g_AIE_ATTACKED;     // global at 0x8381798C
-unsigned char g_AIE_VOCAL;     // global at 0x83818B7C
-unsigned char g_AIE_PAIN_VOCAL;     // global at 0x83818BA0
-unsigned char g_AIE_DANGER_VOCAL;     // global at 0x83818BC4
-unsigned char g_AIE_GRENADE_VOCAL;     // global at 0x83818BE8
 
 namespace AI
 {
@@ -81,54 +80,9 @@ namespace AI
         return "cAiPlayer";
     }
 
-    const char *cAiPlayer::RetTriggerEventFlags() const
-    {
-        return "eTriggerEventFlags";
-    }
-
-    const char *cAiPlayer::RetEnemyStatus() const
-    {
-        return "eEnemyStatus";
-    }
-
-    const char *cAiPlayer::RetMapStatus() const
-    {
-        return "eMapStatus";
-    }
-
-    void *cAiPlayer::GetPtrcAiPlayer() const
+    const Fun_Runtime::cScriptTypeRegistration *cAiPlayer::RetScriptTypeRegistration() const
     {
         return &g_cAiPlayer;
-    }
-
-    void *cAiPlayer::GetPtrAIE_SHOTS_COUNTER() const
-    {
-        return &g_AIE_SHOTS_COUNTER;
-    }
-
-    void *cAiPlayer::GetPtrAIE_ATTACKED() const
-    {
-        return &g_AIE_ATTACKED;
-    }
-
-    void *cAiPlayer::GetPtrAIE_VOCAL() const
-    {
-        return &g_AIE_VOCAL;
-    }
-
-    void *cAiPlayer::GetPtrAIE_PAIN_VOCAL() const
-    {
-        return &g_AIE_PAIN_VOCAL;
-    }
-
-    void *cAiPlayer::GetPtrAIE_DANGER_VOCAL() const
-    {
-        return &g_AIE_DANGER_VOCAL;
-    }
-
-    void *cAiPlayer::GetPtrAIE_GRENADE_VOCAL() const
-    {
-        return &g_AIE_GRENADE_VOCAL;
     }
 
     void cAiPlayer::SetMapStatus(unsigned int nMapStatus)

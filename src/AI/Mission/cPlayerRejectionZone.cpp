@@ -14,6 +14,12 @@
 
 // CD2 0x8248B970.
 
+#include "PHYSICS/physicsconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/characterconsts.h"
+#include "CHARACTER/cCharacterController.h"
+#include "CHARACTER/cRagdollProfile.h"
+#include "AI/aiconstants.h"
 #include "rws/classfactory.h"
 #include "AI/cPlayerRejectionZone.h"
 

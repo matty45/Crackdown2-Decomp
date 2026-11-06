@@ -17,6 +17,7 @@ namespace unknown
     {
     public:
         cVirtualCamera(); // CD2 0x8230C710, out of line
+        void ToggleByte4E5();
         // CD2 0x8252CDD0: cScriptHost slot 1; descriptive method name is ours.
         virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         // CD2 0x8252CDC0: primary virtual slot 11 returns the registered class name.
@@ -25,8 +26,11 @@ namespace unknown
         static const Fun_Runtime::cClass *ms_pcVirtualCameraClass;
         static Fun_Runtime::cClass &StaticCreateClass();
     private:
-        unsigned char m_unmodelled124[0xF10 - 0x124];
-        CD2_LAYOUT_CHECKS(cVirtualCamera, CD2_SIZE(cVirtualCamera, 0xF10))
+        unsigned char m_unmodelled124[0x4E5 - 0x124];
+        unsigned char m_byte4E5;                    // 0x4E5
+        unsigned char m_unmodelled4E6[0xF10 - 0x4E6];
+        CD2_LAYOUT_CHECKS(cVirtualCamera, CD2_SIZE(cVirtualCamera, 0xF10)
+            CD2_OFFSET(cVirtualCamera, m_byte4E5, 0x4E5))
     };
 }
 

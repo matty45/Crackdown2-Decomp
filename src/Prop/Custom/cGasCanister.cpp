@@ -10,6 +10,11 @@
 // Open functions:
 //     py -I tools/cd2.py tasks src/Prop/Custom/cGasCanister.cpp
 
+#include "PHYSICS/physicsconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/characterconsts.h"
+#include "CHARACTER/cCharacterController.h"
+#include "CHARACTER/cRagdollProfile.h"
 #include "rws/classfactory.h"
 #include "Prop/cGasCanister.h"
 #include "Prop/cGasCanisterPrototype.h"

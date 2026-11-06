@@ -11,6 +11,12 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/CHARACTER/cCharacterInterface.cpp
 
+#include "PHYSICS/physicsconsts.h"
+#include "CHARACTER/characterconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/cCharacterController.h"
+#include "CHARACTER/cRagdollProfile.h"
+#include "AI/aiconstants.h"
 #include "fun_runtime/script_type_registrar.h"
 #include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
@@ -70,19 +76,14 @@ namespace CHARACTER
         return 0;
     }
 
-    bool cCharacterInterface::RetIsOnFire() const
-    {
-        return RetCharacter()->RetIsOnFire();
-    }
-
-    void *cCharacterInterface::GetPtrcCharacterInterface() const
+    const Fun_Runtime::cScriptTypeRegistration *cCharacterInterface::RetScriptTypeRegistration() const
     {
         return &g_cCharacterInterface;
     }
 
-    const char *cCharacterInterface::GetPtrELODLevel() const
+    bool cCharacterInterface::RetIsOnFire() const
     {
-        return "eLODLevel";
+        return RetCharacter()->RetIsOnFire();
     }
 
     const char *cCharacterInterface::RetClassName() const

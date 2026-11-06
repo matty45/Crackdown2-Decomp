@@ -1,6 +1,12 @@
 // Script registrar source ownership: CD2 initializer 0x83000A00 names cScriptHost,
 // and cleanup 0x83041F30 destroys the same descriptor. Shared interface names are ours.
 
+#include "PHYSICS/physicsconsts.h"
+#include "CHARACTER/characterconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/cCharacterController.h"
+#include "CHARACTER/cRagdollProfile.h"
+#include "AI/aiconstants.h"
 #include "fun_runtime/scripthost.h"
 #include "fun_runtime/script_type_registrar.h"
 #include "cd2/memory.h"

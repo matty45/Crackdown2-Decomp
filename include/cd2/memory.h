@@ -12,5 +12,8 @@ void XDestroyHeapBlock(void *);
 
 inline void *operator new(size_t n) { return XCreateHeapBlock(n); }
 inline void operator delete(void *p) { XDestroyHeapBlock(p); }
+// delete[] of an array without destructors calls XDestroyHeapBlock directly in CD2 too (the cTurretDataPrototype and
+// cVehicleDataPrototype destructors). Without this, a file that sees <new>'s out-of-line declaration calls ??_V instead.
+inline void operator delete[](void *p) { XDestroyHeapBlock(p); }
 
 #endif // CD2_MEMORY_H

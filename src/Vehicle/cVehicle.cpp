@@ -2,6 +2,12 @@
 // config/splits.txt; RuffKing's object for it is cVehicle.obj. Definitions follow CD2's order: the static registrars'
 // initializers (0x82FE9948..0x82FE9A70), then the functions from 0x826CC708.
 
+#include "PHYSICS/physicsconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/characterconsts.h"
+#include "CHARACTER/cCharacterController.h"
+#include "CHARACTER/cRagdollProfile.h"
+#include "AI/aiconstants.h"
 #include "Vehicle/cVehicle.h"
 #include "PHYSICS/cNetDynamicBody.h"
 #include "rws/classfactory.h"

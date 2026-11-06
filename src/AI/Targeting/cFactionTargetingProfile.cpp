@@ -4,6 +4,12 @@
 //   0x82452160 HandleAttributes
 //   0x82F84518 / 0x8303AD98 dynamic initializer / at-exit destructor of cFactionTargetingProfileRegistrar
 
+#include "PHYSICS/physicsconsts.h"
+#include "CHARACTER/characterconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/cCharacterController.h"
+#include "CHARACTER/cRagdollProfile.h"
+#include "AI/aiconstants.h"
 #include <string.h>
 #include "AI/cFactionTargetingProfile.h"
 #include "rws/classfactory.h"

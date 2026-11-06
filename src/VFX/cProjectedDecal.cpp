@@ -11,6 +11,8 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/VFX/cProjectedDecal.cpp
 
+#include "PHYSICS/physicsconsts.h"
+#include "PHYSICS/physicsproject.h"
 #include "VFX/cClippedPlanarDecalShader.h"
 #include "VFX/cLargePlanarDecalMultiplicativeShader.h"
 #include "VFX/cLargePlanarDecalShader.h"

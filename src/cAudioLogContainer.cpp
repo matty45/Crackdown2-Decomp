@@ -12,6 +12,12 @@
 
 // CD2 0x82FF1518 (initializer) and 0x83040CA8 (at-exit destructor).
 
+#include "PHYSICS/physicsconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/characterconsts.h"
+#include "CHARACTER/cCharacterController.h"
+#include "CHARACTER/cRagdollProfile.h"
+#include "AI/aiconstants.h"
 #include "rws/classfactory.h"
 #include "unknown/cAudioLogContainer.h"
 

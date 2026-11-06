@@ -8,6 +8,12 @@
 // register allocation needs r31 where CD2 fits in r4-r11 (instruction-scheduling puzzle).
 // Class names cConfigBase / cConfigB1 / cConfigB2 / cConfigList (see the header) are ours; the real names are unknown.
 
+#include "PHYSICS/physicsconsts.h"
+#include "CHARACTER/characterconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/cCharacterController.h"
+#include "CHARACTER/cRagdollProfile.h"
+#include "AI/aiconstants.h"
 #include "GangManager/cFactionConfigData.h"
 #include "AI/cFactionTargetingProfile.h"
 #include "editor/guid_event_handler.h"

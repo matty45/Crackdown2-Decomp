@@ -2,6 +2,12 @@
 // 11 of the file's 13 mapped functions are exact (checked 2026-10-26; config/matched_functions.json).
 // Work in progress: GetRandSpawnPointInList<T> (87.3%; register allocation in the modulo sequence).
 
+#include "PHYSICS/physicsconsts.h"
+#include "CHARACTER/characterconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/cCharacterController.h"
+#include "CHARACTER/cRagdollProfile.h"
+#include "AI/aiconstants.h"
 #include <string.h>
 #include "GameManagement/cGameModeArena.h"
 #include "GameManagement/cNetGamePlayerSpawnPoint.h"

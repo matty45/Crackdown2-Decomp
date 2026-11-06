@@ -1,5 +1,8 @@
 // The shared cProp hierarchy now reproduces the inherited vptr stores exactly.
 
+#include "PHYSICS/physicsconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/characterconsts.h"
 #include "gom/proto_registrar.h"
 #include "Prop/cTrafficLight.h"
 #include "rws/classfactory.h"

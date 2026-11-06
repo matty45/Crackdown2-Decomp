@@ -1,6 +1,12 @@
 // Script registrar source ownership: CD2 initializer 0x82FD6D78 names cNonGameBase,
 // and cleanup 0x8303FDA0 destroys the same descriptor. Shared interface names are ours.
 
+#include "PHYSICS/physicsconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/characterconsts.h"
+#include "CHARACTER/cCharacterController.h"
+#include "CHARACTER/cRagdollProfile.h"
+#include "AI/aiconstants.h"
 #include "gom/non_game_base.h"
 #include "fun_runtime/script_type_registrar.h"
 #include "cd2/memory.h"

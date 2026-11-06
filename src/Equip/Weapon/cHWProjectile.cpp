@@ -13,6 +13,12 @@
 
 // CD2 0x82FD26F8: runtime class inheritance registration.
 
+#include "PHYSICS/physicsconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/characterconsts.h"
+#include "CHARACTER/cCharacterController.h"
+#include "CHARACTER/cRagdollProfile.h"
+#include "AI/aiconstants.h"
 #include "cd2/memory.h"
 #include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"

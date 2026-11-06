@@ -15,6 +15,8 @@
 
 // CD2 0x82FDBE70 (initializer) and 0x83040218 (at-exit destructor).
 
+#include "PHYSICS/physicsconsts.h"
+#include "PHYSICS/physicsproject.h"
 #include "rws/classfactory.h"
 #include "GangManager/cAgressiveResponseTurretVehicleSetup.h"
 

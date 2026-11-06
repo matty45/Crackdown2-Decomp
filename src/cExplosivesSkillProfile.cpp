@@ -12,6 +12,11 @@
 
 // CD2 0x82753190.
 
+#include "PHYSICS/physicsconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/characterconsts.h"
+#include "CHARACTER/cCharacterController.h"
+#include "CHARACTER/cRagdollProfile.h"
 #include "rws/classfactory.h"
 #include "unknown/cExplosivesSkillProfile.h"
 
