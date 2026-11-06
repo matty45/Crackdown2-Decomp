@@ -8,6 +8,8 @@
 // register allocation needs r31 where CD2 fits in r4-r11 (instruction-scheduling puzzle).
 // Class names cConfigBase / cConfigB1 / cConfigB2 / cConfigList (see the header) are ours; the real names are unknown.
 
+// Header constants: CD2's initializer run for this object shows these headers' constants in this order. RuffKing's
+// object gets them through its other headers (docs/matching-notes.md, "Header constants"); included directly here.
 #include "PHYSICS/physicsconsts.h"
 #include "CHARACTER/characterconsts.h"
 #include "PHYSICS/physicsproject.h"

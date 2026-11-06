@@ -2,6 +2,8 @@
 // 11 of the file's 13 mapped functions are exact (checked 2026-10-26; config/matched_functions.json).
 // Work in progress: GetRandSpawnPointInList<T> (87.3%; register allocation in the modulo sequence).
 
+// Header constants: CD2's initializer run for this object shows these headers' constants in this order. RuffKing's
+// object gets them through its other headers (docs/matching-notes.md, "Header constants"); included directly here.
 #include "PHYSICS/physicsconsts.h"
 #include "CHARACTER/characterconsts.h"
 #include "PHYSICS/physicsproject.h"

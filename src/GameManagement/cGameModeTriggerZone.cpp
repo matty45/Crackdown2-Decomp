@@ -1,5 +1,13 @@
 // GameManagement::cGameModeTriggerZone: reference cGameModeTriggerZone.cpp and
 // the CD2 constructor/table 0x82883AB8/0x82160110 establish this source object.
+// Header constants: CD2's initializer run for this object shows these headers' constants in this order. RuffKing's
+// object gets them through its other headers (docs/matching-notes.md, "Header constants"); included directly here.
+#include "PHYSICS/physicsconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/characterconsts.h"
+#include "CHARACTER/cCharacterController.h"
+#include "CHARACTER/cRagdollProfile.h"
+#include "AI/aiconstants.h"
 #include "GameManagement/cGameModeTriggerZone.h"
 #include "GameManagement/cGameModeStartZone.h"
 #include "GameManagement/cGameModeArena.h"

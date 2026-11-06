@@ -1,6 +1,8 @@
 // Script registrar source ownership: CD2 initializer 0x83000A00 names cScriptHost,
 // and cleanup 0x83041F30 destroys the same descriptor. Shared interface names are ours.
 
+// Header constants: CD2's initializer run for this object shows these headers' constants in this order. RuffKing's
+// object gets them through its other headers (docs/matching-notes.md, "Header constants"); included directly here.
 #include "PHYSICS/physicsconsts.h"
 #include "CHARACTER/characterconsts.h"
 #include "PHYSICS/physicsproject.h"

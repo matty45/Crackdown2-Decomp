@@ -6,6 +6,8 @@
 
 // Ret_OK and Ret_FAIL (fun_runtime/retval.h): this file's copies are at 0x8385253C and 0x8320731C
 
+// Header constants: CD2's initializer run for this object shows these headers' constants in this order. RuffKing's
+// object gets them through its other headers (docs/matching-notes.md, "Header constants"); included directly here.
 #include "PHYSICS/physicsconsts.h"
 #include "PHYSICS/physicsproject.h"
 #include "CHARACTER/characterconsts.h"

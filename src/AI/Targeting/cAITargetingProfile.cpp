@@ -6,6 +6,8 @@
 // The constructor zeroes m_TargetData with integer stores after building m_EventHandler: a memset in the body (value
 // initialization in the initializer list zeroes it first; float assignments use stfs).
 
+// Header constants: CD2's initializer run for this object shows these headers' constants in this order. RuffKing's
+// object gets them through its other headers (docs/matching-notes.md, "Header constants"); included directly here.
 #include "PHYSICS/physicsconsts.h"
 #include "CHARACTER/characterconsts.h"
 #include "PHYSICS/physicsproject.h"

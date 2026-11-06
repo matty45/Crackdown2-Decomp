@@ -289,6 +289,25 @@ def self_test(read, env):
     accepted = not relocs.check_consistency(entries, read, {}, {})
     ok &= accepted
     print('self-test %-32s %s' % ('per-file static at two addresses', 'accepted' if accepted else 'WRONGLY REJECTED'))
+    # 4. a matched function with internal linkage (a header static's at-exit destructor): each file's reference must
+    # reach that file's own manifest entry (relocs.known_key), and within a file two internal names cannot share an address
+    fn = '??__FgRandGen@CHARACTER@@YAXXZ'
+
+    class _F(_O):
+        internal = {fn, '?fSlopeDotLimit@CHARACTER@@3MB', '?fStepDotLimit@CHARACTER@@3MB'}
+    s = _F()
+    known = {relocs.known_key('a', fn, s): 0x83000000, relocs.known_key('b', fn, s): 0x83000010}
+    own = [('a', 'f', fn, 0x83000000, 'address', 0, s), ('b', 'g', fn, 0x83000010, 'address', 0, s)]
+    accepted = not relocs.check_consistency(own, read, {}, known)
+    ok &= accepted
+    print('self-test %-32s %s' % ('per-file function, own copies', 'accepted' if accepted else 'WRONGLY REJECTED'))
+    for what, entries in (
+            ('per-file function, other copy', [('a', 'f', fn, 0x83000010, 'address', 0, s)]),
+            ('two statics at one address', [('a', 'f', '?fSlopeDotLimit@CHARACTER@@3MB', 0x83800000, 'store', 0, s),
+                                            ('a', 'g', '?fStepDotLimit@CHARACTER@@3MB', 0x83800000, 'store', 0, s)])):
+        caught = bool(relocs.check_consistency(entries, read, {}, known))
+        ok &= caught
+        print('self-test %-32s %s' % (what, 'caught' if caught else 'NOT CAUGHT'))
     return ok
 
 
@@ -328,7 +347,7 @@ def main():
             va, size = int(f['address'], 16), f['size']
             named = [n for n, c, rel in compiled if symbol_matches(f['symbol'], n)]
             if named and f.get('matching', True):
-                known[named[0]] = va
+                known[relocs.known_key(src, named[0], robj)] = va
             if f.get('ltcg') and not ltcg_built(src):  # a plain object has no LTCG build to be exact in
                 total += f.get('matching', True)
                 print('  %08X  %4d bytes  %-8s %s' % (va, size, 'INVALID', f['symbol'] + '   [marked "ltcg" in a plain '

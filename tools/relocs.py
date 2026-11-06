@@ -10,8 +10,11 @@ Rules (check_consistency):
     literals (??_C@...), which may legitimately exist at several addresses;
   - one address, one name, unless config/symbol_aliases.txt declares the alias (e.g. identical vtables folded by the
     linker);
-  - functions of our own manifest: their name must resolve to their manifest address;
+  - functions of our own manifest: their name must resolve to their manifest address (a name with internal linkage
+    to the manifest address in the same file: every file has its own copy, see known_key);
   - names that embed an address (Ext_82954E48, sub_82954E48, fn_82954E48) must resolve to that address;
+  - names with internal linkage (header statics, their initializers) are one name, one address per file, and within a
+    file an address one of them resolves to has no other name;
   - local (per-object) symbols ('$...', '.rdata' section symbols) are only checked for content where possible.
 """
 import collections, re, struct
@@ -165,13 +168,21 @@ def is_local(name):
     return name.startswith(('$', '.'))
 
 
+def known_key(src, name, obj):
+    """The key of a matched function in check_consistency's `known` map: the name, or (file, name) when the name has
+    internal linkage in obj, since every file that defines it (a header static's at-exit destructor) has its own copy
+    at its own address."""
+    return (src, name) if name in getattr(obj, 'internal', ()) else name
+
+
 def check_consistency(entries, read, aliases, known):
     """entries: [(file, function, symbol, address, kind, offset, obj)]; read(va, n) -> CD2 bytes;
-    aliases: {address: set(names)} declared in config/symbol_aliases.txt; known: {symbol: address} from the manifest.
-    Returns [problem strings]."""
+    aliases: {address: set(names)} declared in config/symbol_aliases.txt; known: {known_key(): address} from the
+    manifest. Returns [problem strings]."""
     problems = []
     by_name = collections.defaultdict(set)
     by_addr = collections.defaultdict(set)
+    by_file_addr = collections.defaultdict(set)  # (file, address) -> names, to check the internal names of a file
     where = collections.defaultdict(list)
     for f, fn, sym, addr, kind, off, obj in entries:
         if kind == 'local address':
@@ -196,12 +207,14 @@ def check_consistency(entries, read, aliases, known):
         where[key].append('%s+%X' % (fn[:40], off))
         if not local:
             by_addr[addr].add(sym)
+        if not is_local(sym):
+            by_file_addr[(f, addr)].add(sym)
         m = EMBEDDED.search(sym)
         if m and int(m.group(1), 16) != addr:
             problems.append('%s %s+%X: %s names address %s but resolves to %08X' % (f, fn, off, sym, m.group(1), addr))
-        if sym in known and known[sym] != addr:
+        if key in known and known[key] != addr:
             problems.append('%s %s+%X: %s is matched at %08X (manifest) but this reference resolves to %08X'
-                            % (f, fn, off, sym, known[sym], addr))
+                            % (f, fn, off, sym, known[key], addr))
     for key, addrs in by_name.items():
         if len(addrs) > 1:
             problems.append('%s resolves to several addresses: %s (references: %s)'
@@ -211,6 +224,11 @@ def check_consistency(entries, read, aliases, known):
         if len(names) > 1 and not names <= aliases.get(addr, set()):
             problems.append('%08X is referenced under several names: %s (declare in config/symbol_aliases.txt if the '
                             'linker really merged them)' % (addr, ', '.join(sorted(names))))
+    # an internal name is not in by_addr (other files have their own copy), so check it against the file's other names
+    internal = {sym for f, fn, sym, addr, kind, off, obj in entries if sym in getattr(obj, 'internal', ())}
+    for (f, addr), names in by_file_addr.items():
+        if len(names) > 1 and names & internal and not names <= aliases.get(addr, set()):
+            problems.append('%s: %08X is referenced under several names: %s' % (f, addr, ', '.join(sorted(names))))
     return problems
 
 

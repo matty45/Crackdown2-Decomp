@@ -13,6 +13,8 @@
 
 // CD2 0x83018738 (initializer) and 0x83043DA8 (at-exit destructor).
 
+// Header constants: CD2's initializer run for this object shows these headers' constants in this order. RuffKing's
+// object gets them through its other headers (docs/matching-notes.md, "Header constants"); included directly here.
 #include "PHYSICS/physicsconsts.h"
 #include "CHARACTER/characterconsts.h"
 #include "PHYSICS/physicsproject.h"

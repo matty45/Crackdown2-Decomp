@@ -280,8 +280,8 @@ end, in one line, and is removed when the function matches. History belongs in g
   fPOINT_LOCK_RADIUS_SQ). The blocks come in that order, except that characterconsts.h comes before or after
   physicsproject.h; a file includes the headers whose blocks its run has. The run starts at fPhysicsSimulationTick
   and ends at the file's own initializers (the class pointer, the registrars), which is the ownership evidence for the
-  `init` entries in `config/splits.txt`. 3907 initializers in 343 files matched this way (2026-11-06), all exact in
-  both builds. Mechanisms, each shown by A/B on src/AI/cAiPlayer.cpp:
+  `init` entries in `config/splits.txt`. 3907 initializers in 343 files matched this way first (2026-11-06), all exact
+  in both builds. Mechanisms, each shown by A/B on src/AI/cAiPlayer.cpp:
   - A constant computed from another (`X_SQ = X * X`) keeps its initializer; a constant of literals does not get one.
     CD2's LTCG turned the computed middle values (fWALK_VELOCITY_THRESHOLD_HALF, fPOINT_LOCK_RADIUS) into initialised
     data, so they have no initializer in CD2, but the squares load them.
@@ -291,13 +291,22 @@ end, in one line, and is removed when the function matches. History belongs in g
   - gRandGen's initializer only registers its destructor (`b atexit`): cRandGen's default constructor is inline.
   - `cos` of a float constant needs the double overload spelled out (`(float)cos((double)x)`, what the `cosf` macro
     expands to): with the float overload the LTCG model differs.
-  Left open, with their `init` entries in place: the seven initializers whose constant CD2 loads through the LTCG pool
-  (fPhysicsSimulationTick, the three controller constants, nPART_PERCENT_WEIGHT, the two facing constants). They are
-  LTCG EXACT, but verify's LTCG relocation gate cannot name the statics they store to and attributes the stores to
-  the neighbouring public symbol. Also open: gRandGen's at-exit destructors (`blr`), since every file's has the same
-  internal name and the manifest's name map is global; and fMAX_TIME_STEP, fSLIP_LIMIT and fSKID_LIMIT in the 100 files
-  whose matched IsA reads another object's g_GlobalConstants copy (LTCG inlined HasAncestor's COMDAT from one object
-  everywhere), since the relocation check allows one address per name in a file.
+  The seven whose constant CD2 loads through the LTCG pool (fPhysicsSimulationTick, the three controller constants,
+  nPART_PERCENT_WEIGHT, the two facing constants) are `"ltcg": true`; the LTCG gate names the statics they store to
+  from the model link's PDB (verify_ltcg.StaticNames), since the link map lists no static data. gRandGen's at-exit
+  destructors (`blr`) share one internal name across files; the relocation check keys such names by file
+  (relocs.known_key). 2021 more matched this way, 5928 in all. Still open: fMAX_TIME_STEP, fSLIP_LIMIT,
+  fSKID_LIMIT, fPhysicsSimulationTick and nPART_PERCENT_WEIGHT in the 100 files whose matched IsA reads another
+  object's g_GlobalConstants copy (LTCG inlined HasAncestor's COMDAT from one object everywhere), since the
+  relocation check allows one address per name in a file.
+  Each file includes the constants headers directly, under a note. RuffKing's objects have the same constants (for
+  example cCarStaticData.obj: physics, character, controller, ragdoll, in CD2's order) but reach them through hundreds
+  of headers, and the PDB records no include graph. Moving the includes into our class headers was tested and
+  rejected (2026-11-06): no header in `include/` is included by exactly the files whose run has a block (the only
+  fits were unrelated, `cd2/layout.h` for the physics constants), so any carrier would add or drop initializers.
+  New files for runs without one: a run lying alone between two scaffolded files' runs, at the module RuffKing
+  links between those two objects, takes the unassigned text between their ranges (6 files). The other 92 such
+  runs come in chains between two scaffolded files, where nothing yet divides the text, and stay unassigned.
 - **Class-factory registrar** (an initializer near 0x82F.., 76 bytes, and its at-exit destructor near 0x830..):
   `static RWS::CClassFactory::CRegistrar <Class>Registrar("<name>", <Class>::MakeNew, <size>, false);` in the class's
   namespace. The size argument is the class's size; the `MakeNew` it passes often builds the class's prototype.

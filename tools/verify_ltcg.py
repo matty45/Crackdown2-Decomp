@@ -260,6 +260,98 @@ def map_symbols(path):
     return sorted(out)
 
 
+def pdb_streams(path):
+    """The streams of an MSF 7.00 file (the link's PDB): [bytes]."""
+    d = open(path, 'rb').read()
+    if not d.startswith(b'Microsoft C/C++ MSF 7.00\r\n\x1aDS\0\0\0'):
+        raise RuntimeError('%s is not an MSF 7.00 PDB' % path)
+    bs, _, _, ndir, _, bmap = struct.unpack_from('<6I', d, 32)
+    blocks = lambda idx: b''.join(d[i * bs:(i + 1) * bs] for i in idx)
+    directory = blocks(struct.unpack_from('<%dI' % -(-ndir // bs), d, bmap * bs))[:ndir]
+    n = struct.unpack_from('<I', directory)[0]
+    sizes, pos, out = struct.unpack_from('<%dI' % n, directory, 4), 4 + 4 * n, []
+    for size in sizes:
+        k = 0 if size == 0xFFFFFFFF else -(-size // bs)
+        out.append(blocks(struct.unpack_from('<%dI' % k, directory, pos))[:size] if k else b'')
+        pos += 4 * k
+    return out
+
+
+S_LDATA32, S_END = 0x110C, 0x0006
+SCOPE_OPEN = {0x1102, 0x1103, 0x1104, 0x110F, 0x1110, 0x1132, 0x1146, 0x1147, 0x114D}  # thunk, block, with, procs, ...
+SCOPE_CLOSE = {S_END, 0x114E, 0x114F}
+
+
+def pdb_static_data(path, module):
+    """The static data (S_LDATA32) of one object in the link's PDB: [(section, offset, name)]. module: the object's
+    basename. A static inside a function is named '<function>::<name>'."""
+    st = pdb_streams(path)
+    dbi = st[3]
+    modsize = struct.unpack_from('<i', dbi, 24)[0]
+    out, pos = [], 64
+    while pos < 64 + modsize:
+        stream, symsize = struct.unpack_from('<HI', dbi, pos + 34)
+        p = pos + 64
+        name = dbi[p:dbi.index(b'\0', p)].decode('latin-1')
+        p += len(name) + 1
+        p = dbi.index(b'\0', p) + 1  # the object file name
+        pos = (p + 3) & ~3
+        if stream == 0xFFFF or os.path.basename(name).lower() != module.lower():
+            continue
+        data, i, scopes = st[stream][:symsize], 4, []
+        while i + 4 <= len(data):
+            ln, kind = struct.unpack_from('<HH', data, i)
+            body = data[i + 4:i + 2 + ln]
+            if kind in SCOPE_OPEN:
+                # procedures name themselves after their fixed fields; other scopes keep the enclosing name
+                scopes.append(body[35:body.index(b'\0', 35)].decode('latin-1') if kind in (0x110F, 0x1110) else
+                              (scopes[-1] if scopes else ''))
+            elif kind in SCOPE_CLOSE and scopes:
+                scopes.pop()
+            elif kind == S_LDATA32:
+                _, off, sec = struct.unpack_from('<IIH', body)
+                nm = body[10:body.index(b'\0', 10)].decode('latin-1')
+                out.append((sec, off, '%s::%s' % (scopes[-1], nm) if scopes else nm))
+            if ln < 2:
+                break
+            i += 2 + ln
+    return out
+
+
+class StaticNames:
+    """The names of a file's LTCG image for the reference check: the link map's symbols, and the file's static data
+    from the link's PDB (the map lists no static data, so a reference to one would otherwise be credited to the symbol
+    before it). A static takes the decorated name of the plain object's static with the same qualified name, else its
+    PDB name. `internal` (for relocs.check_consistency) is every name with internal linkage: each file has its own."""
+
+    def __init__(self, d, plain_obj):
+        o = relocs.Obj(plain_obj)
+        self.internal = set(o.internal)
+        decorated = {}
+        for s in o.symbols.values():
+            if s['cls'] == 3 and s['sec'] > 0 and not o.sections[s['sec'] - 1]['ch'] & 0x20:
+                q = qualified(s['name'])
+                if q:
+                    decorated.setdefault(q, set()).add(s['name'])
+        image = open(os.path.join(d, 't.pe'), 'rb').read()
+        pe = struct.unpack_from('<I', image, 0x3C)[0]
+        nsec, opt = struct.unpack_from('<H', image, pe + 6)[0], struct.unpack_from('<H', image, pe + 20)[0]
+        base = struct.unpack_from('<I', image, pe + 24 + 28)[0]
+        vas = [struct.unpack_from('<I', image, pe + 24 + opt + 40 * k + 12)[0] for k in range(nsec)]
+        statics = []
+        for sec, off, nm in pdb_static_data(os.path.join(d, 't.pdb'), 'src.obj'):
+            if not 1 <= sec <= nsec:
+                continue
+            names = decorated.get('::' + nm, ())
+            name = next(iter(names)) if len(names) == 1 else nm
+            self.internal.add(name)
+            statics.append((base + vas[sec - 1] + off, name))
+        self.symbols = sorted(map_symbols(os.path.join(d, 't.map')) + statics)
+        self.statics = statics
+
+    def symbol_bytes(self, name, n):
+        return None  # strings are compared by check_references itself
+
 def references(ws, start):
     """[(index, kind, address, opcode)] of every address a function uses: calls and branches leaving it, and data
     addresses built with lis (the addi that completes one, and loads/stores through it). Mirrors masked(): exactly
@@ -309,12 +401,13 @@ def cstring(read, addr):
     return b.split(b'\0', 1)[0] + b'\0' if b'\0' in b else None
 
 
-def check_references(ours, cd2, symbols, our_read, cd2_read, src, fname, cd2_bytes=None, cd2_string=None):
+def check_references(ours, cd2, symbols, our_read, cd2_read, src, fname, cd2_bytes=None, cd2_string=None, obj=None):
     """Pair our references with CD2's (same positions, as the function is exact under LTCG). Returns (consistency
     entries [(file, function, symbol, CD2 address, kind, offset, None)], problems). Calls must reach a named symbol;
     float constants and strings are compared by content (the model's own constant symbols, g_vl_c* and the pool,
     only by content). cd2_bytes(address, n) and cd2_string(address) default to reading CD2 (the facts mode passes
-    recorded values instead)."""
+    recorded values instead). obj: the file's StaticNames, whose `internal` names relocs.check_consistency keeps per
+    file."""
     cd2_bytes = cd2_bytes or cd2_read
     cd2_string = cd2_string or (lambda addr: cstring(cd2_read, addr))
     starts = [a for a, _ in symbols]
@@ -331,7 +424,7 @@ def check_references(ours, cd2, symbols, our_read, cd2_read, src, fname, cd2_byt
             if name is None or off:
                 problems.append('%s %s+%X: call to an unnamed address' % (src, fname, 4 * i))
             else:
-                entries.append((src, fname, name, caddr, kind, 4 * i, None))
+                entries.append((src, fname, name, caddr, kind, 4 * i, obj))
             continue
         if op in FLOAT_LOADS:  # a float constant: the values must agree
             n = FLOAT_LOADS[op]
@@ -349,7 +442,7 @@ def check_references(ours, cd2, symbols, our_read, cd2_read, src, fname, cd2_byt
             continue
         if name.startswith('__real@'):
             continue  # its value was compared above
-        entries.append((src, fname, name, (caddr - off) & 0xFFFFFFFF, kind, 4 * i, None))
+        entries.append((src, fname, name, (caddr - off) & 0xFFFFFFFF, kind, 4 * i, obj))
     return entries, problems
 
 
@@ -375,7 +468,8 @@ def build_ltcg(srcpath, plain_obj, consts, d, env, extra_flags=(), deps=()):
              '// function this file refers to or defines\n'
              'void *g_verify_ltcg_escapes[] = {\n%s\n    0\n};\n' % ''.join('    (void *)&%s,\n' % g for g in globs))
     open(copy, 'w').write(text)
-    cl(['/GL', '/Dprivate=public', '/Dprotected=public'], os.path.join(d, 'src.obj'), copy)
+    # /Z7: the file's debug records name its static data in the link's PDB (static_symbols); the code is the same
+    cl(['/GL', '/Z7', '/Dprivate=public', '/Dprotected=public'], os.path.join(d, 'src.obj'), copy)
     lines = ['// generated by tools/verify_ltcg.py for %s' % srcpath,
              'extern "C" void VerifyLtcgStub(void) {}',
              'float VerifyLtcgPoolSeed(float x) { return x * 12345.678f; }']
@@ -390,7 +484,7 @@ def build_ltcg(srcpath, plain_obj, consts, d, env, extra_flags=(), deps=()):
     envsrc = os.path.join(d, 'env.cpp')
     open(envsrc, 'w').write('\n'.join(lines) + '\n')
     cl(['/GL'], os.path.join(d, 'env.obj'), envsrc)
-    for stale in ('t.pe', 't.map'):
+    for stale in ('t.pe', 't.map', 't.pdb'):
         if os.path.exists(os.path.join(d, stale)):
             os.remove(os.path.join(d, stale))
     # the file's external symbols get stubs, except what the dependencies define; the linker reports which of them the
@@ -398,12 +492,13 @@ def build_ltcg(srcpath, plain_obj, consts, d, env, extra_flags=(), deps=()):
     # dependencies come after src.obj, so src.obj keeps the inline and template functions both define.
     names = undefined_symbols(plain_obj) - set().union(*[taken for _, taken in deps])
     for attempt in range(3):
-        for stale in ('t.pe', 't.map'):
+        for stale in ('t.pe', 't.map', 't.pdb'):
             if os.path.exists(os.path.join(d, stale)):
                 os.remove(os.path.join(d, stale))
         stubs = write_stubs(names, os.path.join(d, 'stubs.obj'))
         r = subprocess.run([os.path.join(BIN, 'link.exe'), '/nologo', '/LTCG', '/NODEFAULTLIB', '/FORCE:UNRESOLVED',
                             '/ENTRY:VerifyLtcgStub', '/OPT:NOREF', '/OPT:NOICF', '/MAP:' + os.path.join(d, 't.map'),
+                            '/DEBUG', '/INCREMENTAL:NO', '/PDB:' + os.path.join(d, 't.pdb'),
                             '/OUT:' + os.path.join(d, 't.exe'), os.path.join(d, 'env.obj'), os.path.join(d, 'src.obj')]
                            + [obj for obj, _ in deps] + ([stubs] if stubs else []), env=env, capture_output=True, text=True)
         dup = set(re.findall(r'stubs\.obj : error LNK2005: .*?\((\S+)\) already defined', r.stdout))
@@ -482,12 +577,13 @@ def check_file(src, funcs, read, env, d, srcpath=None, out=print, manifest=None)
         out('%s: %s' % (src, e))
         return None
     compiled = list(coff.functions(plain))
-    syms = map_symbols(os.path.join(d, 't.map'))
+    names = StaticNames(d, plain)
+    syms = names.symbols
     res = dict(results=[], entries=[], problems=[], known={}, nref=0)
     for f in funcs:
         hit = [n for n, _, _ in compiled if symbol_matches(f['symbol'], n)]
         if hit and f.get('matching', True):
-            res['known'][hit[0]] = int(f['address'], 16)
+            res['known'][relocs.known_key(src, hit[0], names)] = int(f['address'], 16)
     out('%s  (%d globals escaped, %d constants registered, %d matched callee(s) from %d file(s))'
         % (src, nglobs, len(consts), sum(len(taken) for _, taken in deps), len(deps)))
     for f in funcs:
@@ -507,7 +603,7 @@ def check_file(src, funcs, read, env, d, srcpath=None, out=print, manifest=None)
             a = [x for x, nm in fs if symbol_matches(f['symbol'], nm)][0]
             lw = words(ltcg_read(a, len(target)))
             e, pr = check_references(references(lw, a), references(words(target), va), syms, ltcg_read, read,
-                                     src, f['symbol'])
+                                     src, f['symbol'], obj=names)
             res['entries'] += e
             res['problems'] += pr
             res['nref'] += 1
@@ -549,6 +645,31 @@ def self_test(read, env):
     res = check_file(src, funcs, read, env, os.path.join(work, 'clean'), out=lambda m: None)
     clean = res is not None and not res['problems'] and not relocs.check_consistency(res['entries'], read, aliases, res['known'])
     print('self-test %-30s %s' % ('the unmodified file', 'accepted' if clean else 'WRONGLY REJECTED'))
+    # static data: the link map lists none, so StaticNames names it from the link's PDB. cAiPlayer's LTCG-only
+    # fPhysicsSimulationTick and nPART_PERCENT_WEIGHT initializers both read the object's own g_GlobalConstants; a
+    # shadowing copy of cRagdollProfile.h (found first, beside the copied source) makes nPART read another static of
+    # the same type. The code stays the same, and CD2's one address then has two names in the file.
+    src2 = 'src/AI/cAiPlayer.cpp'
+    funcs2 = manifest['files'][src2]
+    hdr = open(os.path.join(ROOT, 'include', 'CHARACTER', 'cRagdollProfile.h'), newline='').read()
+    old2, decl2 = 'Fun_Runtime::g_GlobalConstants.CONST_FLOAT_1 / 12.0f', 'static const float nPART_PERCENT_WEIGHT'
+    planted = os.path.join(work, 'static')
+    os.makedirs(os.path.join(planted, 'CHARACTER'))
+    open(os.path.join(planted, 'CHARACTER', 'cRagdollProfile.h'), 'w', newline='').write(
+        hdr.replace(old2, 'g_VerifyLtcgOtherConstants.CONST_FLOAT_1 / 12.0f').replace(
+            decl2, 'static Fun_Runtime::tGlobalConstants g_VerifyLtcgOtherConstants;\n' + decl2))
+    copy2 = os.path.join(planted, os.path.basename(src2))
+    shutil.copy(os.path.join(ROOT, src2), copy2)
+    for what, path, planted_case in (('a read of the wrong static', copy2, True), ('the unmodified static readers', None, False)):
+        res = check_file(src2, funcs2, read, env, os.path.join(work, 'static_%d' % planted_case), srcpath=path,
+                         out=lambda m: None)
+        exact = bool(res) and any(lt for f, _, lt in res['results'] if 'nPART_PERCENT_WEIGHT' in f['symbol'])
+        problems = (res['problems'] + relocs.check_consistency(res['entries'], read, aliases, res['known'])) if res else []
+        good = exact and bool(problems) == planted_case
+        ok &= good
+        print('self-test %-30s %s' % (what, ('caught' if planted_case else 'accepted') if good else
+                                      'NOT A VALID PLANT (bytes differ)' if not exact else
+                                      'NOT CAUGHT' if planted_case else 'WRONGLY REJECTED'))
     # dependencies(): ShowRopeSegments is exact only when LTCG sees GDb::ConsoleOutput's body, so it must match while
     # ConsoleOutput is a matched function and must not once ConsoleOutput is work in progress (then it is a stub)
     rope, callee = 'src/VFX/cRopes.cpp', 'src/GDb/ConsoleOutput.cpp'

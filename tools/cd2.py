@@ -953,7 +953,7 @@ def compare_file(src, funcs, ltcg=False):
             rs, probs = relocs.resolve(robj, name, target, va)
             entries += [(src, name, s, a, k, o, robj) for s, a, k, o in rs]
             problems += probs
-            known[name] = va
+            known[relocs.known_key(src, name, robj)] = va
         if exact and lt and not res['ltcg_exact']:
             # verify's LTCG gate requires every matched function to be exact in the LTCG build too
             res['status'] = 'PLAIN ONLY (LTCG %s)' % res['ltcg']
@@ -966,12 +966,13 @@ def compare_file(src, funcs, ltcg=False):
         else:
             res['status'] = '%.1f%%' % res['plain']
         results.append(res)
-    for g in man['files'].values():  # names other files' matched functions stand for
+    for other, g in man['files'].items():  # names other files' matched functions stand for
         for e in g:
             if e.get('matching', True):
                 for n, _, _ in compiled:
                     if symbol_matches(e['symbol'], n):
-                        known.setdefault(n, int(e['address'], 16))
+                        # an internal name stands for each file's own copy: (other, n) never meets this file's
+                        known.setdefault(relocs.known_key(other, n, robj), int(e['address'], 16))
     problems += relocs.check_consistency(entries, read, relocs.load_aliases(ALIASES), known)
     for res in results:  # problem texts name the function by its first 40 characters
         if res['status'] == 'EXACT' and any(res['name'][:40] in p for p in problems):

@@ -12,6 +12,8 @@
 // The reserve instantiation belongs to another translation unit (CD2 0x826104B8).
 // Keep its external definition, including its size argument, visible to LTCG.
 
+// Header constants: CD2's initializer run for this object shows these headers' constants in this order. RuffKing's
+// object gets them through its other headers (docs/matching-notes.md, "Header constants"); included directly here.
 #include "PHYSICS/physicsconsts.h"
 #include "PHYSICS/physicsproject.h"
 #include "fun_runtime/inheritance_registrar.h"

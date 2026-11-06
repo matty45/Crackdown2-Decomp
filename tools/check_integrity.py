@@ -202,9 +202,10 @@ def run(manifest, splits, extra_type_roots=(), extra_sources=(), skip_compile=Fa
     claims = collections.defaultdict(list)
     for f, entries in manifest.items():
         s = splits.get(f)
-        if not s or not s['text']:
+        if not s:
             continue
-        lo, hi = s['text']
+        # a file without a text range (set up from its initializer run alone) owns only what it lists
+        lo, hi = s['text'] or (0, 0)
         for e in entries:
             a = int(e['address'], 16)
             tag = '%s %08X %s' % (f, a, e['symbol'])
@@ -283,6 +284,13 @@ def self_test(no_compile=False):
     m = copy.deepcopy(manifest)
     m[a_file].append({'address': b_addr, 'size': 4, 'symbol': 'SelfTest'})
     cases.append(('ownership', 'a function claimed by the wrong file', m, splits, (), ()))
+    # a file set up from its initializer run alone (no text range) owns only the initializers it lists
+    s = copy.deepcopy(splits)
+    s[a_file]['text'] = None
+    m = copy.deepcopy(manifest)
+    m[a_file] = [e for e in m[a_file] if int(e['address'], 16) in s[a_file]['init']] + [
+        {'address': b_addr, 'size': 4, 'symbol': 'SelfTest'}]
+    cases.append(('ownership', 'an unlisted claim by a file without a range', m, s, (), ()))
     m = copy.deepcopy(manifest)
     m[a_file].append(dict(m[b_file][0]))
     cases.append(('claims', 'one address claimed by two files', m, splits, (), ()))

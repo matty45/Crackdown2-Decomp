@@ -178,7 +178,7 @@ def verify(override=None, ltcg=True, out=print):
             fe = facts['functions'].get(f['address'])
             found = [(n, c, rl) for n, c, rl in compiled if symbol_matches(f['symbol'], n)]
             if found and tracked:
-                known[found[0][0]] = va
+                known[relocs.known_key(src, found[0][0], robj)] = va
                 vp = vtable_slot_problem(found[0][0], (fe or {}).get('vtable'))
                 if vp:
                     problems.append('%s %s: %s' % (src, found[0][0], vp))
@@ -259,12 +259,13 @@ def verify(override=None, ltcg=True, out=print):
         lread, fs, _ = verify_ltcg.build_ltcg(override.get(src) or os.path.join(ROOT, src), plain, consts, d, env(),
                                               extra_flags=['/I' + os.path.dirname(os.path.join(ROOT, src))] + file_flags(src),
                                               deps=verify_ltcg.dependencies(src, plain, d, env(), man, override))
-        return lread, fs, verify_ltcg.map_symbols(os.path.join(d, 't.map'))
+        return lread, fs, verify_ltcg.StaticNames(d, plain)
     lfiles = [src for src in man['files'] if ltcg_built(src)]  # a plain object has no LTCG build
     builds = dict(zip(lfiles, pool.map(build, lfiles)))
     for src in lfiles:
         funcs = man['files'][src]
-        lread, fs, syms = builds[src]
+        lread, fs, names = builds[src]
+        syms = names.symbols
         for f in funcs:
             if not f.get('matching', True):
                 continue
@@ -290,7 +291,7 @@ def verify(override=None, ltcg=True, out=print):
                 e, pr = verify_ltcg.check_references(
                     verify_ltcg.references(lw, a), cd2_refs, syms, lread, no_read, src, f['symbol'],
                     cd2_bytes=lambda addr, k: floats.get('0x%08X:%d' % (addr, k)),
-                    cd2_string=lambda addr, rec=rec, lread=lread: None)
+                    cd2_string=lambda addr, rec=rec, lread=lread: None, obj=names)
                 # strings: compare the hash of our C string with the recorded one (the text is not stored)
                 pr = [x for x in pr if 'string' not in x]
                 for i, kind, addr, op in verify_ltcg.references(lw, a):

@@ -13,34 +13,35 @@ contributor cannot influence.
 | | |
 |---|---|
 | Functions in the game | 74,551 (as split by jeff), 14.3 MB of code |
-| Source files set up | 392 |
-| Functions matched | 7,195 (7,190 in a plain build, 5 more under link-time code generation) |
+| Source files set up | 398 |
+| Functions matched | 9,370 (7,604 in a plain build, 1,766 more under link-time code generation) |
 | Full relink of the split game | byte-identical round trip (`tools/relink.py`) |
 
-The count flatters the progress: 3,907 of the matched functions are header-constant initializers, the same run of
-about 20 short functions that most source files repeat (31 bytes on average; see "Header constants" in
-[docs/matching-notes.md](docs/matching-notes.md)). About 1,750 more of them are still open, held back by limits of the
-reference check that the same note describes.
+The count flatters the progress: 6,082 of the matched functions are header-constant initializers, the same run of
+about 20 short functions that most source files repeat (36 bytes on average; see "Header constants" in
+[docs/matching-notes.md](docs/matching-notes.md)). About 11,750 more sit in the initializer runs of objects that have
+no source file yet, waiting for their text ranges to be proven, and about 500 in 100 set-up files are held back by the
+reference check (one name at two addresses, described in the same note).
 
 ### How much is left
 
 Every function of the executable, by where it stands. Sizes are code bytes, which say more about the work than counts:
-the 18,559 unassigned initializers and at-exit destructors average 36 bytes.
+the 18,097 unassigned initializers and at-exit destructors average 37 bytes.
 
 **Game code (what this project decompiles)**
 
 | | Functions | Code | |
 |---|---:|---:|---:|
-| Matched | 7,194 + 1 folded copy | 305.9 KB | 2.1% |
+| Matched | 9,369 + 1 folded copy | 399.3 KB | 2.7% |
 | In progress | 3 | 0.5 KB | 0.0% |
-| Open in the set-up source files (75 claimed) | 5,305 | 1.24 MB | 8.6% |
-| Game span not yet split into source files | 15,498 | 3.96 MB | 27.6% |
+| Open in the set-up source files (74 claimed) | 3,749 | 1.18 MB | 8.3% |
+| Game span not yet split into source files | 15,341 | 3.93 MB | 27.4% |
 | Order-list region, not yet assigned (hot functions of every object, game and library) | 2,875 | 1.62 MB | 11.3% |
-| Initializers and at-exit destructors, not yet assigned (every object's) | 18,559 | 0.65 MB | 4.5% |
+| Initializers and at-exit destructors, not yet assigned (every object's) | 18,097 | 0.64 MB | 4.5% |
 
-That leaves at least 5.2 MB of game code to decompile, plus the game's share of the order-list region and of the
-initializers. Matched so far: 305.9 KB, about 3.9% of the game code (counting the whole order-list region and all
-unassigned initializers as game code), 2.1% of the executable.
+That leaves at least 5.1 MB of game code to decompile, plus the game's share of the order-list region and of the
+initializers. Matched so far: 399.3 KB, about 5.0% of the game code (counting the whole order-list region and all
+unassigned initializers as game code), 2.7% of the executable.
 
 **Library code (linked from prebuilt libraries: identified in `config/library_splits.txt`, not decompiled)**
 

@@ -13,6 +13,8 @@
 
 // Open: 0x823EC378, a boolean accessor, is slot 7 of nine vtables whose class is not modelled.
 
+// Header constants: CD2's initializer run for this object shows these headers' constants in this order. RuffKing's
+// object gets them through its other headers (docs/matching-notes.md, "Header constants"); included directly here.
 #include "PHYSICS/physicsconsts.h"
 #include "CHARACTER/characterconsts.h"
 #include "PHYSICS/physicsproject.h"

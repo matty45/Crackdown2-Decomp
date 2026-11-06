@@ -12,6 +12,8 @@
 // Not named yet: the fields at 0x2D20..0x2DD0 have no script or reference name. Their accessors (0x82538170..
 // 0x82538238) are virtual slots 391..445 of the character tables (0x82018BE8), not declared yet: open.
 
+// Header constants: CD2's initializer run for this object shows these headers' constants in this order. RuffKing's
+// object gets them through its other headers (docs/matching-notes.md, "Header constants"); included directly here.
 #include "PHYSICS/physicsconsts.h"
 #include "CHARACTER/characterconsts.h"
 #include "PHYSICS/physicsproject.h"

@@ -2,6 +2,8 @@
 // All 21 mapped functions are exact; the three CalcRand functions require LTCG. See config/matched_functions.json.
 // HandleAttributes uses GUID assignment before lookup to preserve the target's three GUID temporaries.
 
+// Header constants: CD2's initializer run for this object shows these headers' constants in this order. RuffKing's
+// object gets them through its other headers (docs/matching-notes.md, "Header constants"); included directly here.
 #include "PHYSICS/physicsconsts.h"
 #include "CHARACTER/characterconsts.h"
 #include "PHYSICS/physicsproject.h"

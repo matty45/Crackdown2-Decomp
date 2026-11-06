@@ -1,6 +1,8 @@
 // src/Vehicle/cHelicopter.cpp: Vehicle::cHelicopter (include/Vehicle/cHelicopter.h). Definitions follow CD2's order: the
 // static registrars' initializers (0x82FE84C0..0x82FE85A0), then the functions from 0x826B8A78.
 
+// Header constants: CD2's initializer run for this object shows these headers' constants in this order. RuffKing's
+// object gets them through its other headers (docs/matching-notes.md, "Header constants"); included directly here.
 #include "PHYSICS/physicsconsts.h"
 #include "PHYSICS/physicsproject.h"
 #include "CHARACTER/characterconsts.h"
