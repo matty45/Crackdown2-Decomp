@@ -14,28 +14,33 @@ contributor cannot influence.
 |---|---|
 | Functions in the game | 74,551 (as split by jeff), 14.3 MB of code |
 | Source files set up | 392 |
-| Functions matched | 3,332 (3,327 in a plain build, 5 more under link-time code generation) |
+| Functions matched | 7,195 (7,190 in a plain build, 5 more under link-time code generation) |
 | Full relink of the split game | byte-identical round trip (`tools/relink.py`) |
+
+The count flatters the progress: 3,907 of the matched functions are header-constant initializers, the same run of
+about 20 short functions that most source files repeat (31 bytes on average; see "Header constants" in
+[docs/matching-notes.md](docs/matching-notes.md)). About 1,750 more of them are still open, held back by limits of the
+reference check that the same note describes.
 
 ### How much is left
 
 Every function of the executable, by where it stands. Sizes are code bytes, which say more about the work than counts:
-the 24,179 unassigned initializers and at-exit destructors average 37 bytes.
+the 18,559 unassigned initializers and at-exit destructors average 36 bytes.
 
 **Game code (what this project decompiles)**
 
 | | Functions | Code | |
 |---|---:|---:|---:|
-| Matched | 3,331 + 1 folded copy | 187.7 KB | 1.3% |
+| Matched | 7,194 + 1 folded copy | 305.9 KB | 2.1% |
 | In progress | 3 | 0.5 KB | 0.0% |
-| Open in the set-up source files (68 claimed) | 3,548 | 1.15 MB | 8.1% |
+| Open in the set-up source files (75 claimed) | 5,305 | 1.24 MB | 8.6% |
 | Game span not yet split into source files | 15,498 | 3.96 MB | 27.6% |
 | Order-list region, not yet assigned (hot functions of every object, game and library) | 2,875 | 1.62 MB | 11.3% |
-| Initializers and at-exit destructors, not yet assigned (every object's) | 24,179 | 0.85 MB | 5.9% |
+| Initializers and at-exit destructors, not yet assigned (every object's) | 18,559 | 0.65 MB | 4.5% |
 
-That leaves at least 5.1 MB of game code to decompile, plus the game's share of the order-list region and of the
-initializers. Matched so far: 187.7 KB, about 2.6% of the game code (counting the whole order-list region as game code),
-1.3% of the executable.
+That leaves at least 5.2 MB of game code to decompile, plus the game's share of the order-list region and of the
+initializers. Matched so far: 305.9 KB, about 3.9% of the game code (counting the whole order-list region and all
+unassigned initializers as game code), 2.1% of the executable.
 
 **Library code (linked from prebuilt libraries: identified in `config/library_splits.txt`, not decompiled)**
 
@@ -125,7 +130,7 @@ the main branch's tools (`cd2.py review`), and it is merged only when they pass.
 | `include/` | shared, verified headers |
 | `config/` | maintainer-owned ground truth: file ranges, matched functions, symbol aliases, the pinned toolchain, recorded facts, the benchmark suite |
 | `tools/` | the contributor tool `cd2.py` and the gates; `tools/external/` holds tool submodules built from source |
-| `docs/` | the contributor guide, the matching notes and the feasibility study |
+| `docs/` | the contributor guide, the matching notes, the feasibility study and the log of changes to the maintainers' IDA database |
 | `data/symbols/` | names suggested for the game's functions by automatic matching against the reference builds |
 | `examples/matching/` | the first matched functions, from the feasibility pilots, with throwaway types |
 | `tests/` | header layout tests |
