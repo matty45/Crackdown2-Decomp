@@ -1238,7 +1238,9 @@ jpeg_resync_to_restart (j_decompress_ptr cinfo, int desired)
  * Reset marker processing state to begin a fresh datastream.
  */
 
-METHODDEF(void)
+/* CD2 inlines this helper in jinit_marker_reader (0x82F43480).
+** This annotation reproduces the observed call boundary; its original spelling is unknown. */
+__inline METHODDEF(void)
 reset_marker_reader (j_decompress_ptr cinfo)
 {
   my_marker_ptr marker = (my_marker_ptr) cinfo->marker;

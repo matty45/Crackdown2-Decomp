@@ -407,6 +407,15 @@ Middleware with published source lives in `src/middleware/<library>/` (each with
   gives 320/329 under one setting. No ordinary switch reproduces it (the profiling ones insert calls CD2 lacks;
   `/hotpatch`, `/analyze`, `/openmp`, `/Gm`, `/J`, `/Zl`, `/GT`, `/MD` change nothing). Use such switches only as a
   diagnostic, never in `config/file_flags.txt`: the original build did not pass hidden backend options.
+- **Recover individual middleware call boundaries without changing linkage.** With evidence-backed middleware
+  edits authorized, explicit `__inline` and `__declspec(noinline)` can reproduce CD2's observed expansions and calls
+  under the existing per-file settings. A/B on ldo.c: marking luaD_reallocstack `__inline` adds exact growstack;
+  marking luaD_throw adds exact growCI and call; subsequently marking growstack adds exact adjust_varargs and
+  tryfuncTM. All 17 original tracked functions stay exact. In lauxlib.c, keeping callalert out of line makes aux_do,
+  lua_dobuffer and lua_dostring exact without losing the original 38. Each retained annotation identifies target
+  callers; its spelling is reconstructed, not evidence for the original project's compiler command. Do not apply
+  blanket noinline: singlevar must stay inline in funcname but out of line in prefixexp, and restore_stack_limit
+  must stay out of line in lua_resume but inline in luaD_pcall.
 
 ## Traps
 - **Never reach memory by pointer arithmetic.** If CD2 reads `lwz r3, 0x50C(r31)`, the source read a member at 0x50C:
@@ -735,11 +744,15 @@ One line each: what is ruled out. Remove the line when the function matches.
   wide-string temporary/assignment and subsequent dispatch need further compiler-shape recovery. Not promoted.
 - cCheckpointArena's secondary deleting thunk (0x8284E2A8) is plain EXACT but 0/2 words under LTCG; its deleting
   wrapper and seven ordinary member functions are independently EXACT in both modes. The thunk is unpromoted.
-- Lua 5.0.2, 74 functions (`src/middleware/lua/README.md`, "Open"): inlining differs from every legitimate setting;
-  CD2 behaves as if single-caller `static` functions had no inlining bonus (see "Middleware"). Ruled out: `/Ob0-2`,
-  `/O1`, `/O2`, `/Os`, `/TP`, `/Oi-`, `/Oy-`, `/Gy-`, `/Zi`, `/Z7`, `/GS`, `/fp:precise`, the PGO profile, a unity
-  build (165/642), LTCG with or without `/OPT:REF`, the 14.00 compilers of XDK 2099/2920/4802, and a different
-  compiler build (XDK 8276's c1/c2 are byte-identical to 9328's). libjpeg's `LOCAL` made global matches as many but
-  is not the build: CD2 keeps two same-named copies (`build_ycc_rgb_table` in jdcolor and jdmerge), so they were static.
-- libjpeg 6b, 14 functions (`src/middleware/libjpeg/README.md`, "Open"): inlining between `/Ob1` and `/Ob2`, as in
-  Lua. Ruled out: C, `/O2`, `/O2 /Ob1`, `/O2 /Os`, `/Ox /Os`, `/O1 /Oi`, `/GS`, `/fp:fast`, `/fp:strict`, `/d2inlS`.
+- Lua 5.0.2: no open functions in its corrected 641-function inventory. Archive layout, selective call boundaries,
+  interpreter arithmetic and source-ownership gaps are recovered; see its README. The nominal 642-entry inventory
+  included a false split at 0x82946A24 inside the 176-byte reallymarkobject beginning at 0x82946980. IDA and the pinned
+  image confirm the full function; local build/cd2/symbols.txt is corrected. Regenerating the symbol list loses this
+  correction. The source splits include the IDA-confirmed archive/loadfile tail, five CRT thunks and VM loop.
+- libjpeg 6b: seven functions await the evidenced /Oi build-setting change and standard checks. With the current
+  selective helper annotations, the /Oi diagnostic preserves all 322 tracked matches and reproduces the remaining
+  seven bodies; the original MEMZERO/MEMCOPY operations remain intact. Earlier /O1 /Oi probes without these helper
+  boundaries did not cover all functions and do not rule out this configuration.
+- Embedded XDK open-source copies: d3dx9i.lib contains separate PNG, JPEG and older zlib implementations. These are
+  distinct from the source-matched middleware copies and remain to be inventoried and reconstructed from their
+  corresponding published releases. Proprietary XDK library identities alone do not count as source matches.

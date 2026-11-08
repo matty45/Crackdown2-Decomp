@@ -413,19 +413,25 @@ static int luaB_newproxy (lua_State *L) {
 #endif
 
 
-static const char *getpath (lua_State *L) {
+/* CD2's require function calls this helper at both lookup and error reporting.
+** Keep that boundary after removing the Xbox environment fallback. */
+__declspec(noinline) static const char *getpath (lua_State *L) {
   const char *path;
   lua_getglobal(L, LUA_PATH);  /* try global variable */
   path = lua_tostring(L, -1);
   lua_pop(L, 1);
   if (path) return path;
+#if !defined(_XBOX)
   path = getenv(LUA_PATH);  /* else try environment variable */
   if (path) return path;
+#endif
+  /* CD2 skips the CRT environment lookup on Xbox, as its OS getenv stub does. */
   return LUA_PATH_DEFAULT;  /* else use default */
 }
 
 
-static const char *pushnextpath (lua_State *L, const char *path) {
+/* CD2's require loop calls this path iterator at 0x8293D43C. */
+__declspec(noinline) static const char *pushnextpath (lua_State *L, const char *path) {
   const char *l;
   if (*path == '\0') return NULL;  /* no more paths */
   if (*path == LUA_PATH_SEP) path++;  /* skip separator */
@@ -436,7 +442,8 @@ static const char *pushnextpath (lua_State *L, const char *path) {
 }
 
 
-static void pushcomposename (lua_State *L) {
+/* CD2's require loop calls this name builder at 0x8293D450. */
+__declspec(noinline) static void pushcomposename (lua_State *L) {
   const char *path = lua_tostring(L, -1);
   const char *wild;
   int n = 1;

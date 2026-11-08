@@ -616,7 +616,9 @@ void luaK_infix (FuncState *fs, BinOpr op, expdesc *v) {
 }
 
 
-static void codebinop (FuncState *fs, expdesc *res, BinOpr op,
+/* CD2 keeps this helper out of line in luaK_posfix (0x829549C8).
+** This annotation reproduces the observed call boundary; its original spelling is unknown. */
+__declspec(noinline) static void codebinop (FuncState *fs, expdesc *res, BinOpr op,
                        int o1, int o2) {
   if (op <= OPR_POW) {  /* arithmetic operator? */
     OpCode opc = cast(OpCode, (op - OPR_ADD) + OP_ADD);  /* ORDER OP */

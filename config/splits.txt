@@ -10014,7 +10014,7 @@ src/Audio/cWorldGameObject.cpp
 src/middleware/lua/lapi.c
   text 0x82937FE0 0x82939EC0   # lua.lib(lapi.obj): 70 functions exact from the Lua source in this range
 src/middleware/lua/lauxlib.c
-  text 0x82939EC0 0x8293B730   # lua.lib(lauxlib.obj): 38 functions exact from the Lua source in this range
+  text 0x82939EC0 0x8293B980   # includes the custom luaL_loadfile and source-exact lua_dofile tail
 src/middleware/lua/lstate.c
   text 0x8293B980 0x8293C02C   # lua.lib(lstate.obj): 13 functions exact from the Lua source in this range
 src/middleware/lua/lbaselib.c
@@ -10022,7 +10022,7 @@ src/middleware/lua/lbaselib.c
 src/middleware/lua/ltablib.c
   text 0x8293DB98 0x8293E7E8   # lua.lib(ltablib.obj): 12 functions exact from the Lua source in this range
 src/middleware/lua/liolib.c
-  text 0x8293E810 0x82940904   # lua.lib(liolib.obj): 41 functions exact from the Lua source in this range
+  text 0x8293E7E8 0x82940904   # includes the five CRT forwarding thunks emitted by this source's XDK headers
 src/middleware/lua/lstrlib.c
   text 0x82940908 0x82942980   # lua.lib(lstrlib.obj): 31 functions exact from the Lua source in this range
 src/middleware/lua/lmathlib.c
@@ -10038,11 +10038,11 @@ src/middleware/lua/lmem.c
 src/middleware/lua/ldo.c
   text 0x82945790 0x82946980   # lua.lib(ldo.obj): 17 functions exact from the Lua source in this range
 src/middleware/lua/lgc.c
-  text 0x82946A30 0x82947B3C   # lua.lib(lgc.obj): 19 functions exact from the Lua source in this range
+  text 0x82946980 0x82947B3C   # includes reallymarkobject; IDA confirms its full 0xB0-byte extent
 src/middleware/lua/ltm.c
   text 0x82947B40 0x82947C6C   # lua.lib(ltm.obj): 3 functions exact from the Lua source in this range
 src/middleware/lua/lvm.c
-  text 0x82947C70 0x82948ABC   # lua.lib(lvm.obj): 16 functions exact from the Lua source in this range
+  text 0x82947C70 0x8294A27C   # includes luaV_execute; IDA confirms its 0x17BC-byte extent
 src/middleware/lua/lobject.c
   text 0x8294A280 0x8294A95C   # lua.lib(lobject.obj): 8 functions exact from the Lua source in this range
 src/middleware/lua/lstring.c

@@ -100,7 +100,9 @@ static void reallymarkobject (GCState *st, GCObject *o) {
 }
 
 
-static void marktmu (GCState *st) {
+/* CD2 calls this helper out of line from 0x829479D0.
+** The annotation preserves that boundary; its original spelling is unknown. */
+__declspec(noinline) static void marktmu (GCState *st) {
   GCObject *u;
   for (u = st->g->tmudata; u; u = u->gch.next) {
     unmark(u);  /* may be marked, if left from previous GC */
@@ -382,7 +384,9 @@ static int sweeplist (lua_State *L, GCObject **p, int limit) {
 }
 
 
-static void sweepstrings (lua_State *L, int all) {
+/* CD2 keeps this helper out of line in luaC_sweep (0x829478A0).
+** This annotation reproduces the observed call boundary; its original spelling is unknown. */
+__declspec(noinline) static void sweepstrings (lua_State *L, int all) {
   int i;
   for (i=0; i<G(L)->strt.size; i++) {  /* for each list */
     G(L)->strt.nuse -= sweeplist(L, &G(L)->strt.hash[i], all);
@@ -390,7 +394,9 @@ static void sweepstrings (lua_State *L, int all) {
 }
 
 
-static void checkSizes (lua_State *L, size_t deadmem) {
+/* CD2 calls this helper out of line from 0x82947A98.
+** The annotation preserves that boundary; its original spelling is unknown. */
+__declspec(noinline) static void checkSizes (lua_State *L, size_t deadmem) {
   /* check size of string hash */
   if (G(L)->strt.nuse < cast(ls_nstr, G(L)->strt.size/4) &&
       G(L)->strt.size > MINSTRTABSIZE*2)
@@ -404,7 +410,9 @@ static void checkSizes (lua_State *L, size_t deadmem) {
 }
 
 
-static void do1gcTM (lua_State *L, Udata *udata) {
+/* CD2 keeps this helper out of line in luaC_callGCTM (0x829477F8).
+** This annotation reproduces the observed call boundary; its original spelling is unknown. */
+__declspec(noinline) static void do1gcTM (lua_State *L, Udata *udata) {
   const TObject *tm = fasttm(L, udata->uv.metatable, TM_GC);
   if (tm != NULL) {
     setobj2s(L->top, tm);
@@ -444,7 +452,9 @@ void luaC_sweep (lua_State *L, int all) {
 
 
 /* mark root set */
-static void markroot (GCState *st, lua_State *L) {
+/* CD2 calls this helper out of line from 0x829479D0.
+** The annotation preserves that boundary; its original spelling is unknown. */
+__declspec(noinline) static void markroot (GCState *st, lua_State *L) {
   global_State *g = st->g;
   markobject(st, defaultmeta(L));
   markobject(st, registry(L));
@@ -454,7 +464,9 @@ static void markroot (GCState *st, lua_State *L) {
 }
 
 
-static size_t mark (lua_State *L) {
+/* CD2 calls this helper out of line from 0x82947A98.
+** The annotation preserves that boundary; its original spelling is unknown. */
+__declspec(noinline) static size_t mark (lua_State *L) {
   size_t deadmem;
   GCState st;
   GCObject *wkv;

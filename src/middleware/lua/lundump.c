@@ -108,7 +108,9 @@ static TString* LoadString (LoadState* S)
  }
 }
 
-static void LoadCode (LoadState* S, Proto* f)
+/* CD2 calls this helper out of line from 0x82952A48.
+** The annotation preserves that boundary; its original spelling is unknown. */
+__declspec(noinline) static void LoadCode (LoadState* S, Proto* f)
 {
  int size=LoadInt(S);
  f->code=luaM_newvector(S->L,size,Instruction);
@@ -130,7 +132,9 @@ static void LoadLocals (LoadState* S, Proto* f)
  }
 }
 
-static void LoadLines (LoadState* S, Proto* f)
+/* CD2 calls this helper out of line from 0x82952A48.
+** The annotation preserves that boundary; its original spelling is unknown. */
+__declspec(noinline) static void LoadLines (LoadState* S, Proto* f)
 {
  int size=LoadInt(S);
  f->lineinfo=luaM_newvector(S->L,size,int);
@@ -204,7 +208,9 @@ static Proto* LoadFunction (LoadState* S, TString* p)
  return f;
 }
 
-static void LoadSignature (LoadState* S)
+/* CD2 keeps this helper out of line in LoadHeader (0x82952C70).
+** This annotation reproduces the observed call boundary; its original spelling is unknown. */
+__declspec(noinline) static void LoadSignature (LoadState* S)
 {
  const char* s=LUA_SIGNATURE;
  while (*s!=0 && ezgetc(S)==*s)

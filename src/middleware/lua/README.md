@@ -25,7 +25,8 @@ middleware; nothing outside it is (`config/middleware.txt`).
 
 ## CD2's changes to the release
 
-Each is shown by CD2's code; nothing else in these files differs from the release.
+Behavior changes below are shown by CD2's code. Inlining annotations recover its observed call boundaries; their
+original spelling is unknown.
 
 1. **`lmem.c`: allocation through replaceable functions.** The release calls `realloc` and `free`. CD2 calls them
    through two static function pointers, `l_reallocfn` and `l_freefn`, which start out at wrappers of `realloc` and
@@ -37,6 +38,26 @@ Each is shown by CD2's code; nothing else in these files differs from the releas
 3. **`loadlib.c`: no DLL loader on Xbox.** The release selects the Windows `LoadLibrary` loader under `_WIN32`; CD2 has
    the stub that reports that `loadlib` is not enabled. Written here as `#if defined(_WIN32) && !defined(_XBOX)`; the
    bytes are the same whatever the original spelling was.
+4. **`liolib.c`: Xbox environment and exit stubs.** CD2's OS registration table at `0x82020660` names `exit` at
+   `0x82940618` and `getenv` at `0x8293FE68`. Their bodies return zero and one respectively, with no CRT or Lua calls.
+   The `_XBOX` guards preserve the release's implementations on other platforms; the original guard spelling is unknown.
+5. **`lbaselib.c`: no environment fallback for LUA_PATH on Xbox.** `getpath` tries the Lua global and then the
+   default path, with no CRT environment call. `require` retains calls to all three path helpers.
+6. **`lmathlib.c`: single-precision conversions.** The degree/radian constant has `lua_Number` precision. The two
+   bounded `random` cases convert the floored integer to `lua_Number` before adding the bound; CD2 separately
+   converts the two integer operands and adds them in single precision. All 25 math-library functions check exact.
+7. **`lauxlib.c`: archive extensions.** The original names are unknown. `luaL_setfileopen` replaces an fopen-compatible
+   callback, whose initial target is CRT fopen; `luaL_setarchive` stores a serialized archive pointer. The archive helpers
+   hash unsigned filename bytes with FNV-1 and lowercase names in place. The installer and stream readers establish a count, 0x110-byte filename/hash/offset/size records, and following payload bytes.
+   Shared checked types live in `include/lua/`; `luaL_loadfile` first tries the archive and then the replaceable file callback.
+8. **Explicit inlining boundaries.** `__inline` and `__declspec(noinline)` retain CD2's observed helper calls and
+   expansions without changing function linkage or upstream algorithms. Each annotation has a target-call comment;
+   isolated compiler probes preserve prior exact functions, and every promoted caller passes `check`, including
+   relocation and source-policy checks. These annotations model the observed result, not a recovered compiler command.
+
+9. **`lvm.c`: interpreter arithmetic.** Binary arithmetic independently coerces both operands before testing success.
+   Add/subtract/multiply/divide fallback dispatch uses the shipped opcode values; power uses its separate power
+   metamethod. The complete 6,076-byte interpreter loop passes `check`, preserving the other 17 VM functions.
 
 ## Matching rules
 
@@ -54,14 +75,14 @@ bytes. This code is not reconstructed: it is the published source, as its author
 it. Rewriting it to satisfy the rules would replace the original with code nobody shipped. Every other rule applies,
 and `lint` and `check` still list each waived finding.
 
-## Open
+## Match coverage
 
-568 of CD2's 642 Lua functions are exact. The other 74 (25 KB, including the interpreter loop `luaV_execute`, 6,076
-bytes in CD2) differ in what was inlined, not in what the code does. CD2's build did not give `static` functions
-that are called once their usual inlining bonus: compiling with the backend's hidden `/d2inlS` limit at 40 or below,
-or with every `static` function made external, reproduces CD2's choices (604 and 610 exact), but neither is a setting
-the original build used, so neither is used here. Ruled out so far: `/Ob0-2`, `/O1`, `/O2`, `/Os`, `/TP`, `/Oi-`,
-`/Oy-`, `/Gy-`, `/Zi`, `/Z7`, `/GS`, `/fp:precise`, the PGO inlining profile, and the reference builds' Lua project
-flags (`-Ox -Os ... -Zi -TC`), a single-file (unity) build, LTCG, the 14.00 compilers of older XDKs, and another
-compiler build: XDK 8276's compiler is byte-identical to XDK 9328's. `docs/matching-notes.md` ("Middleware") has
-the details.
+All 641 Lua functions in the corrected source inventory pass `check`. IDA confirms that `reallymarkobject` spans
+`0x82946980..0x82946A30` (176 bytes); the extracted symbol list incorrectly split off its last 12 bytes as a second
+function. Correcting that local inventory removes the spurious 642nd entry. A future extraction regenerates the bad
+boundary and needs the same evidence-based correction in `build/cd2/symbols.txt` before checking this function.
+
+IDA also confirmed source ownership for the archive/loadfile tail, interpreter loop, and five CRT time forwarding
+thunks preceding liolib. Their source splits now include those ranges. Selectively inlined helpers share one
+implementation with retained out-of-line entries where target callers require both forms; blanket noinline or
+changing static linkage does not reproduce the target.

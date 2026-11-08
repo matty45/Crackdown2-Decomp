@@ -18,14 +18,20 @@
 
 
 
-static void settabss (lua_State *L, const char *i, const char *v) {
+static __forceinline void settabss_inline (lua_State *L, const char *i, const char *v) {
   lua_pushstring(L, i);
   lua_pushstring(L, v);
   lua_rawset(L, -3);
 }
 
+/* CD2 keeps calls for the three source-info fields but inlines name fields. */
+__declspec(noinline) static void settabss (lua_State *L, const char *i, const char *v) {
+  settabss_inline(L, i, v);
+}
 
-static void settabsi (lua_State *L, const char *i, int v) {
+
+/* CD2 retains all three integer-field helper calls in getinfo. */
+__declspec(noinline) static void settabsi (lua_State *L, const char *i, int v) {
   lua_pushstring(L, i);
   lua_pushnumber(L, (lua_Number)v);
   lua_rawset(L, -3);
@@ -66,8 +72,8 @@ static int getinfo (lua_State *L) {
         settabsi(L, "nups", ar.nups);
         break;
       case 'n':
-        settabss(L, "name", ar.name);
-        settabss(L, "namewhat", ar.namewhat);
+        settabss_inline(L, "name", ar.name);
+        settabss_inline(L, "namewhat", ar.namewhat);
         break;
       case 'f':
         lua_pushliteral(L, "func");
@@ -154,7 +160,9 @@ static void hookf (lua_State *L, lua_Debug *ar) {
 }
 
 
-static int makemask (const char *smask, int count) {
+/* CD2 keeps this helper out of line in sethook (0x82943BA0).
+** This annotation reproduces the observed call boundary; its original spelling is unknown. */
+__declspec(noinline) static int makemask (const char *smask, int count) {
   int mask = 0;
   if (strchr(smask, 'c')) mask |= LUA_MASKCALL;
   if (strchr(smask, 'r')) mask |= LUA_MASKRET;

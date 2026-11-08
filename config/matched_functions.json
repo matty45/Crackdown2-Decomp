@@ -55701,6 +55701,11 @@
         "symbol": "luaL_unref"
       },
       {
+        "address": "0x8293AD38",
+        "size": 12,
+        "symbol": "luaL_setfileopen"
+      },
+      {
         "address": "0x8293AD48",
         "size": 96,
         "symbol": "getF"
@@ -55724,6 +55729,61 @@
         "address": "0x8293AE60",
         "size": 176,
         "symbol": "callalert"
+      },
+      {
+        "address": "0x8293AF10",
+        "size": 92,
+        "symbol": "aux_do"
+      },
+      {
+        "address": "0x8293AF70",
+        "size": 124,
+        "symbol": "lua_dobuffer"
+      },
+      {
+        "address": "0x8293AFF0",
+        "size": 40,
+        "symbol": "lua_dostring"
+      },
+      {
+        "address": "0x8293B018",
+        "size": 12,
+        "symbol": "luaL_setarchive"
+      },
+      {
+        "address": "0x8293B028",
+        "size": 24,
+        "symbol": "luaL_archivetablesize"
+      },
+      {
+        "address": "0x8293B040",
+        "size": 56,
+        "symbol": "luaL_archivehash"
+      },
+      {
+        "address": "0x8293B078",
+        "size": 96,
+        "symbol": "luaL_archivelower"
+      },
+      {
+        "address": "0x8293B0D8",
+        "size": 188,
+        "symbol": "luaL_findarchive"
+      },
+      {
+        "address": "0x8293B198",
+        "size": 52,
+        "symbol": "luaL_archiveopen"
+      },
+      {
+        "address": "0x8293B1D0",
+        "size": 112,
+        "symbol": "getArchive"
+      },
+      {
+        "address": "0x8293B240",
+        "size": 188,
+        "symbol": "luaL_loadarchive"
       },
       {
         "address": "0x8293B300",
@@ -55769,6 +55829,16 @@
         "address": "0x8293B6D0",
         "size": 96,
         "symbol": "luaL_optnumber"
+      },
+      {
+        "address": "0x8293B730",
+        "size": 484,
+        "symbol": "luaL_loadfile"
+      },
+      {
+        "address": "0x8293B918",
+        "size": 104,
+        "symbol": "lua_dofile"
       }
     ],
     "src/middleware/lua/lbaselib.c": [
@@ -55913,6 +55983,11 @@
         "symbol": "luaB_newproxy"
       },
       {
+        "address": "0x8293D1C0",
+        "size": 124,
+        "symbol": "getpath"
+      },
+      {
         "address": "0x8293D240",
         "size": 148,
         "symbol": "pushnextpath"
@@ -55921,6 +55996,11 @@
         "address": "0x8293D2D8",
         "size": 168,
         "symbol": "pushcomposename"
+      },
+      {
+        "address": "0x8293D380",
+        "size": 620,
+        "symbol": "luaB_require"
       },
       {
         "address": "0x8293D5F0",
@@ -56200,6 +56280,11 @@
         "symbol": "codebinop"
       },
       {
+        "address": "0x829549C8",
+        "size": 676,
+        "symbol": "luaK_posfix"
+      },
+      {
         "address": "0x82954C70",
         "size": 48,
         "symbol": "luaK_patchlist"
@@ -56215,6 +56300,11 @@
         "address": "0x82943390",
         "size": 96,
         "symbol": "settabsi"
+      },
+      {
+        "address": "0x829433F0",
+        "size": 640,
+        "symbol": "getinfo"
       },
       {
         "address": "0x82943670",
@@ -56255,6 +56345,11 @@
         "address": "0x82943B40",
         "size": 92,
         "symbol": "unmakemask"
+      },
+      {
+        "address": "0x82943BA0",
+        "size": 212,
+        "symbol": "sethook"
       },
       {
         "address": "0x82943C78",
@@ -56364,6 +56459,11 @@
         "symbol": "checkRK"
       },
       {
+        "address": "0x829448A0",
+        "size": 1076,
+        "symbol": "luaG_symbexec"
+      },
+      {
         "address": "0x82944CD8",
         "size": 12,
         "symbol": "luaG_checkcode"
@@ -56397,6 +56497,21 @@
         "address": "0x829450C8",
         "size": 200,
         "symbol": "luaG_errormsg"
+      },
+      {
+        "address": "0x82945190",
+        "size": 104,
+        "symbol": "luaG_runerror"
+      },
+      {
+        "address": "0x829451F8",
+        "size": 312,
+        "symbol": "auxgetinfo"
+      },
+      {
+        "address": "0x82945330",
+        "size": 268,
+        "symbol": "lua_getinfo"
       },
       {
         "address": "0x82945440",
@@ -56451,9 +56566,29 @@
         "symbol": "luaD_reallocCI"
       },
       {
+        "address": "0x82945AA8",
+        "size": 112,
+        "symbol": "luaD_growstack"
+      },
+      {
+        "address": "0x82945B18",
+        "size": 168,
+        "symbol": "luaD_growCI"
+      },
+      {
         "address": "0x82945BC0",
         "size": 220,
         "symbol": "luaD_callhook"
+      },
+      {
+        "address": "0x82945CA0",
+        "size": 448,
+        "symbol": "adjust_varargs"
+      },
+      {
+        "address": "0x82945E60",
+        "size": 280,
+        "symbol": "tryfuncTM"
       },
       {
         "address": "0x82945F78",
@@ -56469,6 +56604,11 @@
         "address": "0x82946210",
         "size": 200,
         "symbol": "luaD_poscall"
+      },
+      {
+        "address": "0x829462D8",
+        "size": 240,
+        "symbol": "luaD_call"
       },
       {
         "address": "0x829463C8",
@@ -56504,6 +56644,11 @@
         "address": "0x829467C0",
         "size": 232,
         "symbol": "lua_resume"
+      },
+      {
+        "address": "0x829468A8",
+        "size": 216,
+        "symbol": "luaD_pcall"
       }
     ],
     "src/middleware/lua/ldump.c": [
@@ -56563,6 +56708,11 @@
         "symbol": "DumpConstants"
       },
       {
+        "address": "0x8294C830",
+        "size": 324,
+        "symbol": "DumpFunction"
+      },
+      {
         "address": "0x8294C978",
         "size": 440,
         "symbol": "DumpHeader"
@@ -56616,6 +56766,11 @@
       }
     ],
     "src/middleware/lua/lgc.c": [
+      {
+        "address": "0x82946980",
+        "size": 176,
+        "symbol": "reallymarkobject"
+      },
       {
         "address": "0x82946A30",
         "size": 76,
@@ -56702,9 +56857,29 @@
         "symbol": "do1gcTM"
       },
       {
+        "address": "0x829477F8",
+        "size": 168,
+        "symbol": "luaC_callGCTM"
+      },
+      {
+        "address": "0x829478A0",
+        "size": 116,
+        "symbol": "luaC_sweep"
+      },
+      {
         "address": "0x82947918",
         "size": 180,
         "symbol": "markroot"
+      },
+      {
+        "address": "0x829479D0",
+        "size": 196,
+        "symbol": "mark"
+      },
+      {
+        "address": "0x82947A98",
+        "size": 128,
+        "symbol": "luaC_collectgarbage"
       },
       {
         "address": "0x82947B18",
@@ -56713,6 +56888,31 @@
       }
     ],
     "src/middleware/lua/liolib.c": [
+      {
+        "address": "0x8293E7E8",
+        "size": 4,
+        "symbol": "difftime"
+      },
+      {
+        "address": "0x8293E7F0",
+        "size": 4,
+        "symbol": "gmtime"
+      },
+      {
+        "address": "0x8293E7F8",
+        "size": 4,
+        "symbol": "localtime"
+      },
+      {
+        "address": "0x8293E800",
+        "size": 4,
+        "symbol": "mktime"
+      },
+      {
+        "address": "0x8293E808",
+        "size": 4,
+        "symbol": "time"
+      },
       {
         "address": "0x8293E810",
         "size": 204,
@@ -56819,6 +57019,11 @@
         "symbol": "read_chars"
       },
       {
+        "address": "0x8293F3E0",
+        "size": 464,
+        "symbol": "g_read"
+      },
+      {
         "address": "0x8293F5B0",
         "size": 68,
         "symbol": "io_read"
@@ -56889,6 +57094,11 @@
         "symbol": "io_tmpname"
       },
       {
+        "address": "0x8293FE68",
+        "size": 8,
+        "symbol": "io_getenv"
+      },
+      {
         "address": "0x8293FE70",
         "size": 88,
         "symbol": "io_clock"
@@ -56932,6 +57142,16 @@
         "address": "0x82940558",
         "size": 188,
         "symbol": "io_setloc"
+      },
+      {
+        "address": "0x82940618",
+        "size": 8,
+        "symbol": "io_exit"
+      },
+      {
+        "address": "0x82940620",
+        "size": 256,
+        "symbol": "luaopen_io"
       },
       {
         "address": "0x82940720",
@@ -57103,6 +57323,16 @@
         "symbol": "math_exp"
       },
       {
+        "address": "0x82942E38",
+        "size": 72,
+        "symbol": "math_deg"
+      },
+      {
+        "address": "0x82942E80",
+        "size": 72,
+        "symbol": "math_rad"
+      },
+      {
         "address": "0x82942EC8",
         "size": 104,
         "symbol": "math_frexp"
@@ -57121,6 +57351,11 @@
         "address": "0x82943008",
         "size": 120,
         "symbol": "math_max"
+      },
+      {
+        "address": "0x82943080",
+        "size": 480,
+        "symbol": "math_random"
       },
       {
         "address": "0x82943260",
@@ -57276,6 +57511,11 @@
         "symbol": "luaI_registerlocalvar"
       },
       {
+        "address": "0x8294EB18",
+        "size": 96,
+        "symbol": "new_localvar"
+      },
+      {
         "address": "0x8294EB78",
         "size": 92,
         "symbol": "adjustlocalvars"
@@ -57284,6 +57524,16 @@
         "address": "0x8294EBD8",
         "size": 88,
         "symbol": "removevars"
+      },
+      {
+        "address": "0x8294EC30",
+        "size": 140,
+        "symbol": "new_localvarstr"
+      },
+      {
+        "address": "0x8294ECC0",
+        "size": 108,
+        "symbol": "create_local"
       },
       {
         "address": "0x8294ED30",
@@ -57299,6 +57549,11 @@
         "address": "0x8294EEA0",
         "size": 52,
         "symbol": "markupval"
+      },
+      {
+        "address": "0x8294EED8",
+        "size": 284,
+        "symbol": "singlevaraux"
       },
       {
         "address": "0x8294EFF8",
@@ -57321,6 +57576,11 @@
         "symbol": "enterblock"
       },
       {
+        "address": "0x8294F1B0",
+        "size": 128,
+        "symbol": "leaveblock"
+      },
+      {
         "address": "0x8294F230",
         "size": 260,
         "symbol": "pushclosure"
@@ -57329,6 +57589,11 @@
         "address": "0x8294F338",
         "size": 148,
         "symbol": "open_func"
+      },
+      {
+        "address": "0x8294F3D0",
+        "size": 332,
+        "symbol": "close_func"
       },
       {
         "address": "0x8294F520",
@@ -57361,6 +57626,16 @@
         "symbol": "listfield"
       },
       {
+        "address": "0x8294F8E0",
+        "size": 792,
+        "symbol": "constructor"
+      },
+      {
+        "address": "0x8294FBF8",
+        "size": 516,
+        "symbol": "parlist"
+      },
+      {
         "address": "0x8294FE00",
         "size": 264,
         "symbol": "body"
@@ -57374,6 +57649,16 @@
         "address": "0x8294FFA8",
         "size": 376,
         "symbol": "funcargs"
+      },
+      {
+        "address": "0x82950120",
+        "size": 144,
+        "symbol": "prefixexp"
+      },
+      {
+        "address": "0x829501B0",
+        "size": 232,
+        "symbol": "primaryexp"
       },
       {
         "address": "0x82950298",
@@ -57416,9 +57701,19 @@
         "symbol": "check_conflict"
       },
       {
+        "address": "0x82950798",
+        "size": 324,
+        "symbol": "assignment"
+      },
+      {
         "address": "0x829508E0",
         "size": 104,
         "symbol": "cond"
+      },
+      {
+        "address": "0x82950948",
+        "size": 836,
+        "symbol": "whilestat"
       },
       {
         "address": "0x82950C90",
@@ -57436,6 +57731,16 @@
         "symbol": "forbody"
       },
       {
+        "address": "0x82950F48",
+        "size": 476,
+        "symbol": "fornum"
+      },
+      {
+        "address": "0x82951128",
+        "size": 636,
+        "symbol": "forlist"
+      },
+      {
         "address": "0x829513A8",
         "size": 228,
         "symbol": "forstat"
@@ -57449,6 +57754,16 @@
         "address": "0x82951588",
         "size": 228,
         "symbol": "ifstat"
+      },
+      {
+        "address": "0x82951670",
+        "size": 308,
+        "symbol": "localfunc"
+      },
+      {
+        "address": "0x829517A8",
+        "size": 456,
+        "symbol": "localstat"
       },
       {
         "address": "0x82951970",
@@ -57474,6 +57789,11 @@
         "address": "0x82951CE8",
         "size": 152,
         "symbol": "breakstat"
+      },
+      {
+        "address": "0x82951D80",
+        "size": 384,
+        "symbol": "statement"
       },
       {
         "address": "0x82951F00",
@@ -57692,6 +58012,11 @@
         "symbol": "match_capture"
       },
       {
+        "address": "0x829416E0",
+        "size": 792,
+        "symbol": "match"
+      },
+      {
         "address": "0x829419F8",
         "size": 192,
         "symbol": "lmemfind"
@@ -57705,6 +58030,11 @@
         "address": "0x82941B58",
         "size": 140,
         "symbol": "push_captures"
+      },
+      {
+        "address": "0x82941BE8",
+        "size": 572,
+        "symbol": "str_find"
       },
       {
         "address": "0x82941E28",
@@ -57769,6 +58099,11 @@
         "symbol": "computesizes"
       },
       {
+        "address": "0x8294B2F8",
+        "size": 444,
+        "symbol": "numuse"
+      },
+      {
         "address": "0x8294B4B8",
         "size": 124,
         "symbol": "setarrayvector"
@@ -57804,6 +58139,11 @@
         "symbol": "luaH_getstr"
       },
       {
+        "address": "0x8294B8C8",
+        "size": 144,
+        "symbol": "luaH_get"
+      },
+      {
         "address": "0x8294B958",
         "size": 144,
         "symbol": "luaH_set"
@@ -57817,6 +58157,11 @@
         "address": "0x8294BAC8",
         "size": 332,
         "symbol": "luaH_next"
+      },
+      {
+        "address": "0x8294BC18",
+        "size": 652,
+        "symbol": "resize"
       },
       {
         "address": "0x8294BEA8",
@@ -57985,6 +58330,11 @@
         "symbol": "LoadConstants"
       },
       {
+        "address": "0x82952A48",
+        "size": 280,
+        "symbol": "LoadFunction"
+      },
+      {
         "address": "0x82952B60",
         "size": 184,
         "symbol": "LoadSignature"
@@ -57998,6 +58348,11 @@
         "address": "0x82952C68",
         "size": 8,
         "symbol": "luaU_endianness"
+      },
+      {
+        "address": "0x82952C70",
+        "size": 672,
+        "symbol": "LoadHeader"
       },
       {
         "address": "0x82952F10",
@@ -58047,6 +58402,11 @@
         "symbol": "luaV_gettable"
       },
       {
+        "address": "0x82948180",
+        "size": 288,
+        "symbol": "luaV_settable"
+      },
+      {
         "address": "0x829482A0",
         "size": 156,
         "symbol": "call_binTM"
@@ -58090,6 +58450,11 @@
         "address": "0x82948A20",
         "size": 156,
         "symbol": "luaV_index"
+      },
+      {
+        "address": "0x82948AC0",
+        "size": 6076,
+        "symbol": "luaV_execute"
       }
     ],
     "src/middleware/lua/lzio.c": [
@@ -58670,6 +59035,11 @@
         "address": "0x82F45000",
         "size": 116,
         "symbol": "?jpeg_default_colorspace@@"
+      },
+      {
+        "address": "0x82F45078",
+        "size": 292,
+        "symbol": "?jpeg_set_defaults@@"
       }
     ],
     "src/middleware/libjpeg/jcphuff.c": [
@@ -58704,6 +59074,11 @@
         "symbol": "?emit_eobrun@@"
       },
       {
+        "address": "0x82F4D1B0",
+        "size": 240,
+        "symbol": "?emit_restart@@YAXPAUphuff_entropy_encoder@@H@Z"
+      },
+      {
         "address": "0x82F4D2A0",
         "size": 404,
         "symbol": "?encode_mcu_DC_first@@"
@@ -58722,6 +59097,11 @@
         "address": "0x82F4D740",
         "size": 612,
         "symbol": "?encode_mcu_AC_refine@@"
+      },
+      {
+        "address": "0x82F4D9A8",
+        "size": 136,
+        "symbol": "?finish_pass_phuff@@YAXPAUjpeg_compress_struct@@@Z"
       },
       {
         "address": "0x82F4DB18",
@@ -59238,6 +59618,11 @@
         "symbol": "?reset_marker_reader@@"
       },
       {
+        "address": "0x82F43480",
+        "size": 212,
+        "symbol": "?jinit_marker_reader@@YAXPAUjpeg_decompress_struct@@@Z"
+      },
+      {
         "address": "0x82F43558",
         "size": 224,
         "symbol": "?jpeg_save_markers@@"
@@ -59692,6 +60077,16 @@
         "symbol": "?largest_input_value@@"
       },
       {
+        "address": "0x82F52A30",
+        "size": 400,
+        "symbol": "?create_colormap@@"
+      },
+      {
+        "address": "0x82F52BC0",
+        "size": 388,
+        "symbol": "?create_colorindex@@"
+      },
+      {
         "address": "0x82F52D48",
         "size": 184,
         "symbol": "?make_odither_array@@"
@@ -59772,6 +60167,11 @@
         "address": "0x82F514C0",
         "size": 1028,
         "symbol": "?update_box@@"
+      },
+      {
+        "address": "0x82F518C8",
+        "size": 424,
+        "symbol": "?median_cut@@"
       },
       {
         "address": "0x82F51A70",

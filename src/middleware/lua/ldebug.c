@@ -42,7 +42,8 @@ static int currentpc (CallInfo *ci) {
 }
 
 
-static int currentline (CallInfo *ci) {
+/* CD2 auxgetinfo retains a call to currentline. */
+__declspec(noinline) static int currentline (CallInfo *ci) {
   int pc = currentpc(ci);
   if (pc < 0)
     return -1;  /* only active lua functions have current-line information */
@@ -158,7 +159,8 @@ LUA_API const char *lua_setlocal (lua_State *L, const lua_Debug *ar, int n) {
 }
 
 
-static void funcinfo (lua_Debug *ar, StkId func) {
+/* CD2 auxgetinfo retains a call to funcinfo. */
+__declspec(noinline) static void funcinfo (lua_Debug *ar, StkId func) {
   Closure *cl = clvalue(func);
   if (cl->c.isC) {
     ar->source = "=[C]";
@@ -174,7 +176,8 @@ static void funcinfo (lua_Debug *ar, StkId func) {
 }
 
 
-static const char *travglobals (lua_State *L, const TObject *o) {
+/* CD2 auxgetinfo retains a call to travglobals. */
+__declspec(noinline) static const char *travglobals (lua_State *L, const TObject *o) {
   Table *g = hvalue(gt(L));
   int i = sizenode(g);
   while (i--) {
@@ -186,7 +189,9 @@ static const char *travglobals (lua_State *L, const TObject *o) {
 }
 
 
-static void info_tailcall (lua_State *L, lua_Debug *ar) {
+/* CD2 keeps this helper out of line in lua_getinfo (0x82945330).
+** This annotation reproduces the observed call boundary; its original spelling is unknown. */
+__declspec(noinline) static void info_tailcall (lua_State *L, lua_Debug *ar) {
   ar->name = ar->namewhat = "";
   ar->what = "tail";
   ar->linedefined = ar->currentline = -1;
@@ -281,7 +286,9 @@ static int precheck (const Proto *pt) {
 }
 
 
-static int checkopenop (const Proto *pt, int pc) {
+/* CD2 keeps this helper out of line in luaG_symbexec (0x829448A0).
+** This annotation reproduces the observed call boundary; its original spelling is unknown. */
+__declspec(noinline) static int checkopenop (const Proto *pt, int pc) {
   Instruction i = pt->code[pc+1];
   switch (GET_OPCODE(i)) {
     case OP_CALL:
@@ -490,7 +497,8 @@ static const char *getobjname (CallInfo *ci, int stackpos, const char **name) {
 }
 
 
-static const char *getfuncname (CallInfo *ci, const char **name) {
+/* CD2 auxgetinfo retains a call to getfuncname. */
+__declspec(noinline) static const char *getfuncname (CallInfo *ci, const char **name) {
   Instruction i;
   if ((isLua(ci) && ci->u.l.tailcalls > 0) || !isLua(ci - 1))
     return NULL;  /* calling function is not Lua (or is unknown) */
@@ -551,7 +559,9 @@ int luaG_ordererror (lua_State *L, const TObject *p1, const TObject *p2) {
 }
 
 
-static void addinfo (lua_State *L, const char *msg) {
+/* CD2 keeps this helper out of line in luaG_runerror (0x82945190).
+** This annotation reproduces the observed call boundary; its original spelling is unknown. */
+__declspec(noinline) static void addinfo (lua_State *L, const char *msg) {
   CallInfo *ci = L->ci;
   if (isLua(ci)) {  /* is Lua code? */
     char buff[LUA_IDSIZE];  /* add file:line information */

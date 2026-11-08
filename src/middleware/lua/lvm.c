@@ -108,7 +108,9 @@ static void callTMres (lua_State *L, const TObject *f,
 
 
 
-static void callTM (lua_State *L, const TObject *f,
+/* CD2 keeps this helper out of line in luaV_settable (0x82948180).
+** This annotation reproduces the observed call boundary; its original spelling is unknown. */
+__declspec(noinline) static void callTM (lua_State *L, const TObject *f,
                     const TObject *p1, const TObject *p2, const TObject *p3) {
   setobj2s(L->top, f);  /* push function */
   setobj2s(L->top+1, p1);  /* 1st argument */
@@ -345,35 +347,6 @@ void luaV_concat (lua_State *L, int total, int last) {
 }
 
 
-static void Arith (lua_State *L, StkId ra,
-                   const TObject *rb, const TObject *rc, TMS op) {
-  TObject tempb, tempc;
-  const TObject *b, *c;
-  if ((b = luaV_tonumber(rb, &tempb)) != NULL &&
-      (c = luaV_tonumber(rc, &tempc)) != NULL) {
-    switch (op) {
-      case TM_ADD: setnvalue(ra, nvalue(b) + nvalue(c)); break;
-      case TM_SUB: setnvalue(ra, nvalue(b) - nvalue(c)); break;
-      case TM_MUL: setnvalue(ra, nvalue(b) * nvalue(c)); break;
-      case TM_DIV: setnvalue(ra, nvalue(b) / nvalue(c)); break;
-      case TM_POW: {
-        const TObject *f = luaH_getstr(hvalue(gt(L)), G(L)->tmname[TM_POW]);
-        ptrdiff_t res = savestack(L, ra);
-        if (!ttisfunction(f))
-          luaG_runerror(L, "`__pow' (`^' operator) is not a function");
-        callTMres(L, f, b, c);
-        ra = restorestack(L, res);  /* previous call may change stack */
-        setobjs2s(ra, L->top);
-        break;
-      }
-      default: lua_assert(0); break;
-    }
-  }
-  else if (!call_binTM(L, rb, rc, ra, op))
-    luaG_aritherror(L, rb, rc);
-}
-
-
 
 /*
 ** some macros for common tasks in `luaV_execute'
@@ -390,6 +363,23 @@ static void Arith (lua_State *L, StkId ra,
 #define RKC(i)	((GETARG_C(i) < MAXSTACK) ? RC(i) : k+GETARG_C(i)-MAXSTACK)
 #define KBx(i)	(k+GETARG_Bx(i))
 
+
+/* CD2 converts both operands before testing either conversion result.
+** Its basic arithmetic fallback passes the bytecode opcode as the event.
+** Preserve those shipped event values rather than substituting TM_ADD..DIV. */
+#define arith_op(operator, event) \
+  { \
+    TObject tempb, tempc; \
+    TObject *rb = RKB(i); \
+    TObject *rc = RKC(i); \
+    const TObject *b = luaV_tonumber(rb, &tempb); \
+    const TObject *c = luaV_tonumber(rc, &tempc); \
+    if (b != NULL && c != NULL) { \
+      setnvalue(ra, nvalue(b) operator nvalue(c)); \
+    } \
+    else if (!call_binTM(L, rb, rc, ra, event)) \
+      luaG_aritherror(L, rb, rc); \
+  }
 
 #define dojump(pc, i)	((pc) += (i))
 
@@ -519,47 +509,38 @@ StkId luaV_execute (lua_State *L) {
         break;
       }
       case OP_ADD: {
-        TObject *rb = RKB(i);
-        TObject *rc = RKC(i);
-        if (ttisnumber(rb) && ttisnumber(rc)) {
-          setnvalue(ra, nvalue(rb) + nvalue(rc));
-        }
-        else
-          Arith(L, ra, rb, rc, TM_ADD);
+        arith_op(+, OP_ADD);
         break;
       }
       case OP_SUB: {
-        TObject *rb = RKB(i);
-        TObject *rc = RKC(i);
-        if (ttisnumber(rb) && ttisnumber(rc)) {
-          setnvalue(ra, nvalue(rb) - nvalue(rc));
-        }
-        else
-          Arith(L, ra, rb, rc, TM_SUB);
+        arith_op(-, OP_SUB);
         break;
       }
       case OP_MUL: {
-        TObject *rb = RKB(i);
-        TObject *rc = RKC(i);
-        if (ttisnumber(rb) && ttisnumber(rc)) {
-          setnvalue(ra, nvalue(rb) * nvalue(rc));
-        }
-        else
-          Arith(L, ra, rb, rc, TM_MUL);
+        arith_op(*, OP_MUL);
         break;
       }
       case OP_DIV: {
-        TObject *rb = RKB(i);
-        TObject *rc = RKC(i);
-        if (ttisnumber(rb) && ttisnumber(rc)) {
-          setnvalue(ra, nvalue(rb) / nvalue(rc));
-        }
-        else
-          Arith(L, ra, rb, rc, TM_DIV);
+        arith_op(/, OP_DIV);
         break;
       }
       case OP_POW: {
-        Arith(L, ra, RKB(i), RKC(i), TM_POW);
+        TObject tempb, tempc;
+        TObject *rb = RKB(i);
+        TObject *rc = RKC(i);
+        const TObject *b = luaV_tonumber(rb, &tempb);
+        const TObject *c = luaV_tonumber(rc, &tempc);
+        if (b != NULL && c != NULL) {
+          const TObject *f = luaH_getstr(hvalue(gt(L)), G(L)->tmname[TM_POW]);
+          ptrdiff_t res = savestack(L, ra);
+          if (!ttisfunction(f))
+            luaG_runerror(L, "`__pow' (`^' operator) is not a function");
+          callTMres(L, f, b, c);
+          ra = restorestack(L, res);
+          setobjs2s(ra, L->top);
+        }
+        else if (!call_binTM(L, rb, rc, ra, TM_POW))
+          luaG_aritherror(L, rb, rc);
         break;
       }
       case OP_UNM: {

@@ -67,7 +67,9 @@ static void seterrorobj (lua_State *L, int errcode, StkId oldtop) {
 }
 
 
-void luaD_throw (lua_State *L, int errcode) {
+/* CD2 expands this error path in luaD_growCI and luaD_call, while retaining its
+** public entry point. __inline reproduces those calls under /Ob1. */
+__inline void luaD_throw (lua_State *L, int errcode) {
   if (L->errorJmp) {
     L->errorJmp->status = errcode;
     longjmp(L->errorJmp->b, 1);
@@ -90,13 +92,19 @@ int luaD_rawrunprotected (lua_State *L, Pfunc f, void *ud) {
 }
 
 
-static void restore_stack_limit (lua_State *L) {
+static __forceinline void restore_stack_limit_inline (lua_State *L) {
   L->stack_last = L->stack+L->stacksize-1;
   if (L->size_ci > LUA_MAXCALLS) {  /* there was an overflow? */
     int inuse = (L->ci - L->base_ci);
     if (inuse + 1 < LUA_MAXCALLS)  /* can `undo' overflow? */
       luaD_reallocCI(L, LUA_MAXCALLS);
   }
+}
+
+/* CD2 retains this entry for lua_resume, while luaD_pcall contains the same
+** restoration inline. Share its implementation without changing either path. */
+static void restore_stack_limit (lua_State *L) {
+  restore_stack_limit_inline(L);
 }
 
 /* }====================================================== */
@@ -116,7 +124,9 @@ static void correctstack (lua_State *L, TObject *oldstack) {
 }
 
 
-void luaD_reallocstack (lua_State *L, int newsize) {
+/* CD2 inlines this allocation into luaD_growstack, keeping correctstack as a call.
+** __inline reproduces that boundary under this object's /Ob1 setting. */
+__inline void luaD_reallocstack (lua_State *L, int newsize) {
   TObject *oldstack = L->stack;
   luaM_reallocvector(L, L->stack, L->stacksize, newsize, TObject);
   L->stacksize = newsize;
@@ -134,7 +144,9 @@ void luaD_reallocCI (lua_State *L, int newsize) {
 }
 
 
-void luaD_growstack (lua_State *L, int n) {
+/* CD2 expands this bounds check in adjust_varargs and tryfuncTM. __inline
+** selects those expansions without changing luaD_callhook's retained call. */
+__inline void luaD_growstack (lua_State *L, int n) {
   if (n <= L->stacksize)  /* double size is enough? */
     luaD_reallocstack(L, 2*L->stacksize);
   else
@@ -421,7 +433,7 @@ int luaD_pcall (lua_State *L, Pfunc func, void *u,
     L->ci = restoreci(L, old_ci);
     L->base = L->ci->base;
     L->allowhook = old_allowhooks;
-    restore_stack_limit(L);
+    restore_stack_limit_inline(L);
   }
   L->errfunc = old_errfunc;
   return status;

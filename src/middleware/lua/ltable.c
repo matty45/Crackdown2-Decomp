@@ -177,7 +177,9 @@ int luaH_next (lua_State *L, Table *t, StkId key) {
 */
 
 
-static void computesizes  (int nums[], int ntotal, int *narray, int *nhash) {
+/* CD2 keeps this helper out of line in numuse (0x8294B2F8).
+** This annotation reproduces the observed call boundary; its original spelling is unknown. */
+__declspec(noinline) static void computesizes  (int nums[], int ntotal, int *narray, int *nhash) {
   int i;
   int a = nums[0];  /* number of elements smaller than 2^i */
   int na = a;  /* number of elements to go to array part */
@@ -418,7 +420,9 @@ static TObject *newkey (lua_State *L, Table *t, const TObject *key) {
 /*
 ** generic search function
 */
-static const TObject *luaH_getany (Table *t, const TObject *key) {
+/* CD2 keeps this helper out of line in luaH_get (0x8294B8C8), resize (0x8294BC18).
+** This annotation reproduces the observed call boundary; its original spelling is unknown. */
+__declspec(noinline) static const TObject *luaH_getany (Table *t, const TObject *key) {
   if (ttisnil(key)) return &luaO_nilobject;
   else {
     Node *n = luaH_mainposition(t, key);

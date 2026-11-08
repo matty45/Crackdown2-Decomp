@@ -178,7 +178,8 @@ add_huff_table (j_compress_ptr cinfo,
 }
 
 
-LOCAL(void)
+/* CD2 retains the std_huff_tables call in jpeg_set_defaults. */
+__declspec(noinline) LOCAL(void)
 std_huff_tables (j_compress_ptr cinfo)
 /* Set up the standard Huffman tables (cf. JPEG standard section K.3) */
 /* IMPORTANT: these are only valid for 8-bit data precision! */

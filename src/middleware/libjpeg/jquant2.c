@@ -289,7 +289,8 @@ find_biggest_color_pop (boxptr boxlist, int numboxes)
 }
 
 
-LOCAL(boxptr)
+/* CD2 expands this helper in its quantizer loop. */
+__inline LOCAL(boxptr)
 find_biggest_volume (boxptr boxlist, int numboxes)
 /* Find the splittable box with the largest (scaled) volume */
 /* Returns NULL if no splittable boxes remain */

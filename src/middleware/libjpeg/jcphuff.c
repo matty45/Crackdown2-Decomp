@@ -263,7 +263,9 @@ emit_bits (phuff_entropy_ptr entropy, unsigned int code, int size)
 }
 
 
-LOCAL(void)
+/* CD2 inlines this helper in emit_restart (0x82F4D1B0), finish_pass_phuff (0x82F4D9A8).
+** This annotation reproduces the observed call boundary; its original spelling is unknown. */
+__inline LOCAL(void)
 flush_bits (phuff_entropy_ptr entropy)
 {
   emit_bits(entropy, 0x7F, 7); /* fill any partial byte with ones */

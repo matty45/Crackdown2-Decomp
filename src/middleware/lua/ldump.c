@@ -64,13 +64,17 @@ static void DumpString(TString* s, DumpState* D)
  }
 }
 
-static void DumpCode(const Proto* f, DumpState* D)
+/* CD2 calls this helper out of line from 0x8294C830.
+** The annotation preserves that boundary; its original spelling is unknown. */
+__declspec(noinline) static void DumpCode(const Proto* f, DumpState* D)
 {
  DumpInt(f->sizecode,D);
  DumpVector(f->code,f->sizecode,sizeof(*f->code),D);
 }
 
-static void DumpLocals(const Proto* f, DumpState* D)
+/* CD2 calls this helper out of line from 0x8294C830.
+** The annotation preserves that boundary; its original spelling is unknown. */
+__declspec(noinline) static void DumpLocals(const Proto* f, DumpState* D)
 {
  int i,n=f->sizelocvars;
  DumpInt(n,D);
@@ -82,13 +86,17 @@ static void DumpLocals(const Proto* f, DumpState* D)
  }
 }
 
-static void DumpLines(const Proto* f, DumpState* D)
+/* CD2 calls this helper out of line from 0x8294C830.
+** The annotation preserves that boundary; its original spelling is unknown. */
+__declspec(noinline) static void DumpLines(const Proto* f, DumpState* D)
 {
  DumpInt(f->sizelineinfo,D);
  DumpVector(f->lineinfo,f->sizelineinfo,sizeof(*f->lineinfo),D);
 }
 
-static void DumpUpvalues(const Proto* f, DumpState* D)
+/* CD2 calls this helper out of line from 0x8294C830.
+** The annotation preserves that boundary; its original spelling is unknown. */
+__declspec(noinline) static void DumpUpvalues(const Proto* f, DumpState* D)
 {
  int i,n=f->sizeupvalues;
  DumpInt(n,D);

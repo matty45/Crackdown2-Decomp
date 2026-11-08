@@ -13,6 +13,8 @@
 #include <stdio.h>
 
 #include "lua.h"
+#include "lua/lua_Archive.h"
+#include "lua/lua_ArchiveReader.h"
 
 
 #ifndef LUALIB_API
@@ -25,6 +27,21 @@ typedef struct luaL_reg {
   const char *name;
   lua_CFunction func;
 } luaL_reg;
+
+/* CD2 archive extensions, named here from their behavior (no original symbols).
+** 0x8293B040 hashes unsigned filename bytes with FNV-1; 0x8293B078 lowercases
+** a filename in place after measuring its length. */
+LUALIB_API unsigned int luaL_archivehash (const char *str, unsigned int hash);
+LUALIB_API void luaL_archivelower (char *str);
+/* CD2's loadfile calls the replaceable fopen-compatible callback with filename
+** and mode. The setters' names are ours (0x8293AD38 and 0x8293B018). */
+typedef FILE *(*luaL_FileOpenFunction) (const char *filename, const char *mode);
+LUALIB_API void luaL_setfileopen (luaL_FileOpenFunction openfn);
+LUALIB_API void luaL_setarchive (lua_Archive *archive);
+LUALIB_API size_t luaL_archivetablesize (void);
+LUALIB_API lua_ArchiveEntry *luaL_findarchive (const char *filename);
+LUALIB_API void luaL_archiveopen (lua_ArchiveEntry *entry, lua_ArchiveReader *reader);
+LUALIB_API int luaL_loadarchive (lua_State *L, const char *filename, int fnameindex);
 
 
 LUALIB_API void luaL_openlib (lua_State *L, const char *libname,

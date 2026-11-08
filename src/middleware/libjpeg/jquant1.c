@@ -241,7 +241,8 @@ select_ncolors (j_decompress_ptr cinfo, int Ncolors[])
 }
 
 
-LOCAL(int)
+/* CD2 expands this helper in its quantizer loop. */
+__inline LOCAL(int)
 output_value (j_decompress_ptr cinfo, int ci, int j, int maxj)
 /* Return j'th output value, where j will range from 0 to maxj */
 /* The output values must fall in 0..MAXJSAMPLE in increasing order */
@@ -255,7 +256,8 @@ output_value (j_decompress_ptr cinfo, int ci, int j, int maxj)
 }
 
 
-LOCAL(int)
+/* CD2 expands this helper in its quantizer loop. */
+__inline LOCAL(int)
 largest_input_value (j_decompress_ptr cinfo, int ci, int j, int maxj)
 /* Return largest input value that should map to j'th output value */
 /* Must have largest(j=0) >= 0, and largest(j=maxj) >= MAXJSAMPLE */

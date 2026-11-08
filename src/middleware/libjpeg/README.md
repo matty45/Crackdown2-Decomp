@@ -1,7 +1,7 @@
 # IJG libjpeg 6b (middleware)
 
 This directory is **not decompiled game code**. It is the original source of the Independent JPEG Group's libjpeg,
-release 6b, which Crackdown 2 links as `libjpeg.lib` for Scaleform's JPEG support, unchanged. Everything under
+release 6b, which Crackdown 2 links as `libjpeg.lib` for Scaleform's JPEG support. Everything under
 `src/middleware/` is middleware; nothing outside it is (`config/middleware.txt`).
 
 (The XDK's `d3dx9i.lib` carries its own, separately built copy of libjpeg. That copy is Microsoft's library code and
@@ -31,14 +31,17 @@ DC value tables into one copy (`config/symbol_aliases.txt`).
 
 ## CD2's changes to the release
 
-None found: every function matched so far compiles exact from the release.
+No behavior changes found. Explicit inlining annotations on helpers in jcparam, jcphuff, jdmarker, jquant1 and
+jquant2 reproduce CD2's observed calls and expansions. Their original spelling is unknown;
+the comments identify the affected target callers, and all existing matches in both files remain exact.
 
-## Open
+## Coverage and remaining compiler setting
 
-315 of CD2's 329 libjpeg functions are exact. The other 14 (in jchuff, jcparam, jcphuff, jddctmgr, jdhuff,
-jdmarker, jdmaster, jquant1 and jquant2) differ in what was inlined: CD2's inlining lies between `/Ob1` and `/Ob2`,
-as Lua's does (`src/middleware/lua/README.md`). Ruled out: C, `/O2`, `/O2 /Ob1`, `/O2 /Os`, `/Ox /Os`, `/O1 /Oi`,
-`/GS`, `/fp:fast`, `/fp:strict`, and the backend's `inlS` limit.
+322 of CD2's 329 libjpeg functions pass `check`. A separate compilation of all 44 sources with `/Oi` preserves all
+322 and reproduces the seven remaining bodies: jpeg_gen_optimal_table, both finish_pass_gather implementations,
+jinit_inverse_dct, jpeg_make_d_derived_tbl, get_dht and prepare_range_limit_table. This is diagnostic byte evidence;
+these seven are not promoted until the permitted compiler setting is configured and standard checks pass.
+The published MEMZERO/MEMCOPY calls are retained. `/Oi` controls their intrinsic expansion and scheduling.
 
 ## Matching rules
 

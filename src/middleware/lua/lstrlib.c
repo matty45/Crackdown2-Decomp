@@ -264,7 +264,8 @@ static int luaI_singlematch (int c, const char *p, const char *ep) {
 static const char *match (MatchState *ms, const char *s, const char *p);
 
 
-static const char *matchbalance (MatchState *ms, const char *s,
+/* CD2 match retains calls to this helper. */
+__declspec(noinline) static const char *matchbalance (MatchState *ms, const char *s,
                                    const char *p) {
   if (*p == 0 || *(p+1) == 0)
     luaL_error(ms->L, "unbalanced pattern");
@@ -299,7 +300,8 @@ static const char *max_expand (MatchState *ms, const char *s,
 }
 
 
-static const char *min_expand (MatchState *ms, const char *s,
+/* CD2 match retains calls to this helper. */
+__declspec(noinline) static const char *min_expand (MatchState *ms, const char *s,
                                  const char *p, const char *ep) {
   for (;;) {
     const char *res = match(ms, s, ep+1);
@@ -326,7 +328,8 @@ static const char *start_capture (MatchState *ms, const char *s,
 }
 
 
-static const char *end_capture (MatchState *ms, const char *s,
+/* CD2 match retains calls to this helper. */
+__declspec(noinline) static const char *end_capture (MatchState *ms, const char *s,
                                   const char *p) {
   int l = capture_to_close(ms);
   const char *res;
@@ -426,7 +429,9 @@ static const char *match (MatchState *ms, const char *s, const char *p) {
 
 
 
-static const char *lmemfind (const char *s1, size_t l1,
+/* CD2 keeps this helper out of line in str_find (0x82941BE8).
+** This annotation reproduces the observed call boundary; its original spelling is unknown. */
+__declspec(noinline) static const char *lmemfind (const char *s1, size_t l1,
                                const char *s2, size_t l2) {
   if (l2 == 0) return s1;  /* empty strings are everywhere */
   else if (l2 > l1) return NULL;  /* avoids a negative `l1' */

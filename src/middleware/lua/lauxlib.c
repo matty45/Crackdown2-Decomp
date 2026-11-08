@@ -466,6 +466,14 @@ typedef struct LoadF {
 } LoadF;
 
 
+/* CD2's loadfile callback is initialized to the CRT fopen entry point. */
+static luaL_FileOpenFunction l_fileopenfn = fopen;
+
+LUALIB_API void luaL_setfileopen (luaL_FileOpenFunction openfn) {
+  l_fileopenfn = openfn;
+}
+
+
 static const char *getF (lua_State *L, void *ud, size_t *size) {
   LoadF *lf = (LoadF *)ud;
   (void)L;
@@ -493,14 +501,16 @@ LUALIB_API int luaL_loadfile (lua_State *L, const char *filename) {
     lf.f = stdin;
   }
   else {
+    /* CD2 tries the installed memory archive before opening a disk file. */
+    if (luaL_loadarchive(L, filename, fnameindex) == 0) return 0;
     lua_pushfstring(L, "@%s", filename);
-    lf.f = fopen(filename, "r");
+    lf.f = l_fileopenfn(filename, "r");
   }
   if (lf.f == NULL) return errfile(L, fnameindex);  /* unable to open file */
   c = ungetc(getc(lf.f), lf.f);
   if (!(isspace(c) || isprint(c)) && lf.f != stdin) {  /* binary file? */
     fclose(lf.f);
-    lf.f = fopen(filename, "rb");  /* reopen in binary mode */
+    lf.f = l_fileopenfn(filename, "rb");  /* reopen in binary mode */
     if (lf.f == NULL) return errfile(L, fnameindex); /* unable to reopen file */
   }
   status = lua_load(L, getF, &lf, lua_tostring(L, -1));
@@ -549,7 +559,10 @@ LUALIB_API int luaL_loadbuffer (lua_State *L, const char *buff, size_t size,
 */
 
 
-static void callalert (lua_State *L, int status) {
+/* CD2 keeps this helper out of line in aux_do (0x8293AF10), lua_dobuffer (0x8293AF70), lua_dostring
+** (0x8293AFF0).
+** This annotation reproduces the observed call boundary; its original spelling is unknown. */
+__declspec(noinline) static void callalert (lua_State *L, int status) {
   if (status != 0) {
     lua_getglobal(L, "_ALERT");
     if (lua_isfunction(L, -1)) {
@@ -586,6 +599,100 @@ LUALIB_API int lua_dobuffer (lua_State *L, const char *buff, size_t size,
 
 LUALIB_API int lua_dostring (lua_State *L, const char *str) {
   return lua_dobuffer(L, str, strlen(str), str);
+}
+
+
+static lua_Archive *l_archive;
+
+LUALIB_API void luaL_setarchive (lua_Archive *archive) {
+  l_archive = archive;
+}
+
+
+LUALIB_API size_t luaL_archivetablesize (void) {
+  return sizeof(l_archive->count) + l_archive->count * sizeof(lua_ArchiveEntry);
+}
+
+
+/* CD2's archive helpers follow lua_dostring. Names are ours: the first loop
+** multiplies by the FNV prime before XORing each unsigned filename byte. */
+LUALIB_API unsigned int luaL_archivehash (const char *str, unsigned int hash) {
+  const unsigned char *bytes = (const unsigned char *)str;
+  while (*bytes) {
+    hash *= 16777619u;
+    hash ^= *bytes++;
+  }
+  return hash;
+}
+
+
+/* CD2 measures the name once, then lowercases its signed char elements. */
+LUALIB_API void luaL_archivelower (char *str) {
+  int length = (int)strlen(str);
+  int i;
+  for (i = 0; i < length; ++i)
+    str[i] = (char)tolower(str[i]);
+}
+
+
+LUALIB_API lua_ArchiveEntry *luaL_findarchive (const char *filename) {
+  char name[256];
+  unsigned int hash;
+  lua_ArchiveEntry *entry;
+  int i;
+  if (l_archive == NULL) return NULL;
+  strncpy(name, filename, sizeof(name));
+  luaL_archivelower(name);
+  hash = luaL_archivehash(name, 2166136261u);
+  entry = l_archive->entries;
+  for (i = 0; i < l_archive->count; ++i, ++entry) {
+    if (entry->hash == hash) return entry;
+  }
+  return NULL;
+}
+
+
+LUALIB_API void luaL_archiveopen (lua_ArchiveEntry *entry, lua_ArchiveReader *reader) {
+  /* The serialized payload follows the variable-length record array. Offsets
+  ** index that byte stream, rather than fields inside an object. */
+  const char *payload = (const char *)(l_archive->entries + l_archive->count);
+  reader->next = payload + entry->offset;
+  reader->end = reader->next + entry->size;
+}
+
+
+static const char *getArchive (lua_State *L, void *ud, size_t *size) {
+  lua_ArchiveReader *reader = (lua_ArchiveReader *)ud;
+  int available;
+  int count;
+  (void)L;
+  available = reader->end - reader->next;
+  if (available == 0) {
+    *size = 0;
+    return NULL;
+  }
+  /* Keep total available bytes separate from this call's bounded chunk.
+  ** Collapsing the two changes CD2's preserved-register allocation. */
+  count = available < (int)sizeof(reader->buffer) ? available : (int)sizeof(reader->buffer);
+  memcpy(reader->buffer, reader->next, count);
+  reader->next += count;
+  *size = count;
+  return reader->buffer;
+}
+
+
+LUALIB_API int luaL_loadarchive (lua_State *L, const char *filename, int fnameindex) {
+  lua_ArchiveReader reader;
+  lua_ArchiveEntry *entry = luaL_findarchive(filename);
+  int status;
+  if (entry != NULL) {
+    lua_pushfstring(L, "@%s", filename);
+    luaL_archiveopen(entry, &reader);
+    status = lua_load(L, getArchive, &reader, lua_tostring(L, -1));
+    lua_remove(L, fnameindex);
+    return status;
+  }
+  return 1;
 }
 
 /* }====================================================== */

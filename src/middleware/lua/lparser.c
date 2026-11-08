@@ -135,7 +135,10 @@ static void checkname(LexState *ls, expdesc *e) {
 }
 
 
-static int luaI_registerlocalvar (LexState *ls, TString *varname) {
+/* CD2 inlines registration in localstat but calls the retained entry from
+** new_localvar, new_localvarstr, create_local, fornum and localfunc. Share the
+** implementation while preserving both observed paths; the spelling is ours. */
+static __forceinline int registerlocalvar_inline (LexState *ls, TString *varname) {
   FuncState *fs = ls->fs;
   Proto *f = fs->f;
   luaM_growvector(ls->L, f->locvars, fs->nlocvars, f->sizelocvars,
@@ -144,6 +147,20 @@ static int luaI_registerlocalvar (LexState *ls, TString *varname) {
   return fs->nlocvars++;
 }
 
+__declspec(noinline) static int luaI_registerlocalvar (LexState *ls, TString *varname) {
+  return registerlocalvar_inline(ls, varname);
+}
+
+
+
+
+/* The local-declaration loop includes registration inline; the retained
+** new_localvar entry below calls the out-of-line registration entry. */
+static __forceinline void new_localvar_inline (LexState *ls, TString *name, int n) {
+  FuncState *fs = ls->fs;
+  luaX_checklimit(ls, fs->nactvar+n+1, MAXVARS, "local variables");
+  fs->actvar[fs->nactvar+n] = registerlocalvar_inline(ls, name);
+}
 
 static void new_localvar (LexState *ls, TString *name, int n) {
   FuncState *fs = ls->fs;
@@ -161,10 +178,16 @@ static void adjustlocalvars (LexState *ls, int nvars) {
 }
 
 
-static void removevars (LexState *ls, int tolevel) {
+/* Share variable removal with the inlined final while-loop cleanup.
+** leaveblock and close_func retain the out-of-line entry. */
+static __forceinline void removevars_inline (LexState *ls, int tolevel) {
   FuncState *fs = ls->fs;
   while (fs->nactvar > tolevel)
     getlocvar(fs, --fs->nactvar).endpc = fs->pc;
+}
+
+__declspec(noinline) static void removevars (LexState *ls, int tolevel) {
+  removevars_inline(ls, tolevel);
 }
 
 
@@ -198,7 +221,9 @@ static int indexupvalue (FuncState *fs, TString *name, expdesc *v) {
 }
 
 
-static int searchvar (FuncState *fs, TString *n) {
+/* CD2 keeps this helper out of line in singlevaraux (0x8294EED8).
+** This annotation reproduces the observed call boundary; its original spelling is unknown. */
+__declspec(noinline) static int searchvar (FuncState *fs, TString *n) {
   int i;
   for (i=fs->nactvar-1; i >= 0; i--) {
     if (n == getlocvar(fs, i).varname)
@@ -240,10 +265,15 @@ static void singlevaraux (FuncState *fs, TString *n, expdesc *var, int base) {
 }
 
 
-static TString *singlevar (LexState *ls, expdesc *var, int base) {
+static __forceinline TString *singlevar_inline (LexState *ls, expdesc *var, int base) {
   TString *varname = str_checkname(ls);
   singlevaraux(ls->fs, varname, var, base);
   return varname;
+}
+
+/* CD2 calls singlevar from prefixexp, while funcname includes its body. */
+__declspec(noinline) static TString *singlevar (LexState *ls, expdesc *var, int base) {
+  return singlevar_inline(ls, var, base);
 }
 
 
@@ -289,6 +319,19 @@ static void enterblock (FuncState *fs, BlockCnt *bl, int isbreakable) {
   lua_assert(fs->freereg == fs->nactvar);
 }
 
+
+/* CD2 inlines the final while-loop cleanup, including variable removal,
+** while ordinary block cleanup retains the removevars call. */
+static __forceinline void leaveblock_inline (FuncState *fs) {
+  BlockCnt *bl = fs->bl;
+  fs->bl = bl->previous;
+  removevars_inline(fs->ls, bl->nactvar);
+  if (bl->upval)
+    luaK_codeABC(fs, OP_CLOSE, bl->nactvar, 0, 0);
+  lua_assert(bl->nactvar == fs->nactvar);
+  fs->freereg = fs->nactvar;  /* free registers */
+  luaK_patchtohere(fs, bl->breaklist);
+}
 
 static void leaveblock (FuncState *fs) {
   BlockCnt *bl = fs->bl;
@@ -456,7 +499,9 @@ static void closelistfield (FuncState *fs, struct ConsControl *cc) {
 }
 
 
-static void lastlistfield (FuncState *fs, struct ConsControl *cc) {
+/* CD2 keeps this helper out of line in constructor (0x8294F8E0).
+** This annotation reproduces the observed call boundary; its original spelling is unknown. */
+__declspec(noinline) static void lastlistfield (FuncState *fs, struct ConsControl *cc) {
   if (cc->tostore == 0) return;
   if (cc->v.k == VCALL) {
     luaK_setcallreturns(fs, &cc->v, LUA_MULTRET);
@@ -533,7 +578,7 @@ static void parlist (LexState *ls) {
     do {
       switch (ls->t.token) {
         case TK_DOTS: dots = 1; next(ls); break;
-        case TK_NAME: new_localvar(ls, str_checkname(ls), nparams++); break;
+        case TK_NAME: new_localvar_inline(ls, str_checkname(ls), nparams++); break;
         default: luaX_syntaxerror(ls, "<name> or `...' expected");
       }
     } while (!dots && testnext(ls, ','));
@@ -630,7 +675,9 @@ static void funcargs (LexState *ls, expdesc *f) {
 */
 
 
-static void prefixexp (LexState *ls, expdesc *v) {
+/* CD2 calls this helper out of line from 0x829501B0.
+** The annotation preserves that boundary; its original spelling is unknown. */
+__declspec(noinline) static void prefixexp (LexState *ls, expdesc *v) {
   /* prefixexp -> NAME | '(' expr ')' */
   switch (ls->t.token) {
     case '(': {
@@ -876,7 +923,9 @@ struct LHS_assign {
 ** local value in a safe place and use this safe copy in the previous
 ** assignment.
 */
-static void check_conflict (LexState *ls, struct LHS_assign *lh, expdesc *v) {
+/* CD2 keeps this helper out of line in assignment (0x82950798).
+** This annotation reproduces the observed call boundary; its original spelling is unknown. */
+__declspec(noinline) static void check_conflict (LexState *ls, struct LHS_assign *lh, expdesc *v) {
   FuncState *fs = ls->fs;
   int extra = fs->freereg;  /* eventual position to save local variable */
   int conflict = 0;
@@ -994,7 +1043,7 @@ static void whilestat (LexState *ls, int line) {
   for (i=0; i<sizeexp; i++)
     luaK_code(fs, codeexp[i], lineexp);
   check_match(ls, TK_END, TK_WHILE, line);
-  leaveblock(fs);
+  leaveblock_inline(fs);
   luaK_patchlist(fs, v.t, blockinit);  /* true conditions go back to loop */
   luaK_patchtohere(fs, v.f);  /* false conditions finish the loop */
 }
@@ -1078,7 +1127,7 @@ static void forlist (LexState *ls, TString *indexname) {
   new_localvarstr(ls, "(for state)", nvars++);
   new_localvar(ls, indexname, nvars++);
   while (testnext(ls, ','))
-    new_localvar(ls, str_checkname(ls), nvars++);
+    new_localvar_inline(ls, str_checkname(ls), nvars++);
   check(ls, TK_IN);
   line = ls->linenumber;
   adjust_assign(ls, nvars, explist1(ls, &e), &e);
@@ -1159,7 +1208,7 @@ static void localstat (LexState *ls) {
   int nexps;
   expdesc e;
   do {
-    new_localvar(ls, str_checkname(ls), nvars++);
+    new_localvar_inline(ls, str_checkname(ls), nvars++);
   } while (testnext(ls, ','));
   if (testnext(ls, '='))
     nexps = explist1(ls, &e);
@@ -1175,7 +1224,7 @@ static void localstat (LexState *ls) {
 static int funcname (LexState *ls, expdesc *v) {
   /* funcname -> NAME {field} [`:' NAME] */
   int needself = 0;
-  singlevar(ls, v, 1);
+  singlevar_inline(ls, v, 1);
   while (ls->t.token == '.')
     luaY_field(ls, v);
   if (ls->t.token == ':') {
@@ -1186,7 +1235,9 @@ static int funcname (LexState *ls, expdesc *v) {
 }
 
 
-static void funcstat (LexState *ls, int line) {
+/* CD2 calls this helper out of line from 0x82951D80.
+** The annotation preserves that boundary; its original spelling is unknown. */
+__declspec(noinline) static void funcstat (LexState *ls, int line) {
   /* funcstat -> FUNCTION funcname body */
   int needself;
   expdesc v, b;
@@ -1198,7 +1249,9 @@ static void funcstat (LexState *ls, int line) {
 }
 
 
-static void exprstat (LexState *ls) {
+/* CD2 calls this helper out of line from 0x82951D80.
+** The annotation preserves that boundary; its original spelling is unknown. */
+__declspec(noinline) static void exprstat (LexState *ls) {
   /* stat -> func | assignment */
   FuncState *fs = ls->fs;
   struct LHS_assign v;
@@ -1246,7 +1299,9 @@ static void retstat (LexState *ls) {
 }
 
 
-static void breakstat (LexState *ls) {
+/* CD2 calls this helper out of line from 0x82951D80.
+** The annotation preserves that boundary; its original spelling is unknown. */
+__declspec(noinline) static void breakstat (LexState *ls) {
   /* stat -> BREAK [NAME] */
   FuncState *fs = ls->fs;
   BlockCnt *bl = fs->bl;

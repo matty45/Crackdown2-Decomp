@@ -301,7 +301,9 @@ static int io_lines (lua_State *L) {
 */
 
 
-static int read_number (lua_State *L, FILE *f) {
+/* CD2 keeps this helper out of line in g_read (0x8293F3E0).
+** This annotation reproduces the observed call boundary; its original spelling is unknown. */
+__declspec(noinline) static int read_number (lua_State *L, FILE *f) {
   lua_Number d;
   if (fscanf(f, LUA_NUMBER_SCAN, &d) == 1) {
     lua_pushnumber(L, d);
@@ -518,7 +520,9 @@ static const luaL_reg flib[] = {
 };
 
 
-static void createmeta (lua_State *L) {
+/* CD2 keeps this helper out of line in luaopen_io (0x82940620).
+** This annotation reproduces the observed call boundary; its original spelling is unknown. */
+__declspec(noinline) static void createmeta (lua_State *L) {
   luaL_newmetatable(L, FILEHANDLE);  /* create new metatable for file handles */
   /* file methods */
   lua_pushliteral(L, "__index");
@@ -570,7 +574,10 @@ static int io_tmpname (lua_State *L) {
 
 
 static int io_getenv (lua_State *L) {
+#if !defined(_XBOX)
   lua_pushstring(L, getenv(luaL_checkstring(L, 1)));  /* if NULL push nil */
+#endif
+  /* CD2's registered Xbox getenv stub returns one without pushing a value. */
   return 1;
 }
 
@@ -713,7 +720,10 @@ static int io_setloc (lua_State *L) {
 
 
 static int io_exit (lua_State *L) {
+#if !defined(_XBOX)
   exit(luaL_optint(L, 1, EXIT_SUCCESS));
+#endif
+  /* CD2's registered Xbox exit stub returns without terminating the game. */
   return 0;  /* to avoid warnings */
 }
 
