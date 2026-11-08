@@ -1,77 +1,83 @@
-# Crackdown 2 decompilation 
+# Crackdown 2 decompilation
 (SLOP CODED SORRY, DONT HAVE TIME TO SPEND YEARS ON THIS)
 
 A **matching decompilation** of Crackdown 2 (Xbox 360, title-update build): C++ source that, compiled with the
 original Xbox 360 XDK compiler and the game's flags, produces code byte-identical to the retail executable.
 
-Contributions are welcome **by hand or with any AI agent**. The tooling is built so that cheap models can do real work,
-and so that nobody, person or model, can claim a match that is not real: every result is recomputed by tools the
-contributor cannot influence.
+Contributions are welcome **by hand or with any AI agent**. Every claimed match is recomputed by tools the contributor
+cannot influence (see "How correctness is guaranteed").
 
-## Status (2026-11-06)
+## Status (2026-11-08)
 
 | | |
 |---|---|
 | Functions in the game | 74,551 (as split by jeff), 14.3 MB of code |
-| Source files set up | 398 |
-| Functions matched | 9,370 (7,604 in a plain build, 1,766 more under link-time code generation) |
+| Source files set up | 528 (77 of them open-source middleware) |
+| Functions matched | 11,359 (9,377 in a plain build, 1,982 more under link-time code generation), 897 of them open-source middleware |
 | Full relink of the split game | byte-identical round trip (`tools/relink.py`) |
 
 The count flatters the progress: 6,082 of the matched functions are header-constant initializers, the same run of
 about 20 short functions that most source files repeat (36 bytes on average; see "Header constants" in
 [docs/matching-notes.md](docs/matching-notes.md)). About 11,750 more sit in the initializer runs of objects that have
-no source file yet, waiting for their text ranges to be proven, and about 500 in 100 set-up files are held back by the
-reference check (one name at two addresses, described in the same note).
+no source file yet, and about 500 in 100 set-up files are held back by the reference check (one name at two addresses,
+described in the same note).
 
 ### How much is left
 
-Every function of the executable, by where it stands. Sizes are code bytes, which say more about the work than counts:
-the 18,097 unassigned initializers and at-exit destructors average 37 bytes.
+Every function of the executable, by where it stands, in code bytes. `py -I tools\cd2.py status` prints this
+breakdown and the per-file numbers.
 
 **Game code (what this project decompiles)**
 
 | | Functions | Code | |
 |---|---:|---:|---:|
-| Matched | 9,369 + 1 folded copy | 399.3 KB | 2.7% |
-| In progress | 3 | 0.5 KB | 0.0% |
-| Open in the set-up source files (74 claimed) | 3,749 | 1.18 MB | 8.3% |
-| Game span not yet split into source files | 15,341 | 3.93 MB | 27.4% |
-| Order-list region, not yet assigned (hot functions of every object, game and library) | 2,875 | 1.62 MB | 11.3% |
-| Initializers and at-exit destructors, not yet assigned (every object's) | 18,097 | 0.64 MB | 4.5% |
+| Matched | 10,461 + 1 folded copy | 453.8 KB | 3.1% |
+| Open in the set-up source files | 3,880 | 1.19 MB | 8.3% |
+| Game span not yet split into source files | 15,146 | 3.91 MB | 27.2% |
+| Order-list region, not yet assigned (hot functions of every object, game and library) | 2,856 | 1.61 MB | 11.2% |
+| Initializers and at-exit destructors, not yet assigned (every object's) | 17,038 | 0.59 MB | 4.1% |
 
-That leaves at least 5.1 MB of game code to decompile, plus the game's share of the order-list region and of the
-initializers. Matched so far: 399.3 KB, about 5.0% of the game code (counting the whole order-list region and all
-unassigned initializers as game code), 2.7% of the executable.
+At least 5.1 MB of game code is left, plus the game's share of the order-list region and of the initializers. The
+matched code is about 5.7% of the game code, counting the whole order-list region and all unassigned initializers as
+game code.
+
+**Open-source middleware (its published source in `src/middleware/`, see below)**
+
+| | Functions | Code | |
+|---|---:|---:|---:|
+| Matched: Lua 5.0.2 568 of 642, zlib 1.2.3 14 of 14, libjpeg 6b 315 of 329 | 897 | 185.2 KB | 1.3% |
+| Open (inlining that no known build setting reproduces) | 88 | 37.3 KB | 0.3% |
 
 **Library code (linked from prebuilt libraries: identified in `config/library_splits.txt`, not decompiled)**
 
 | | Functions | Code | |
 |---|---:|---:|---:|
-| XDK and C runtime | 7,549 | 2.80 MB | 19.5% |
+| XDK and C runtime | 7,509 | 2.79 MB | 19.4% |
 | Scaleform GFx | 6,572 | 1.41 MB | 9.8% |
 | Havok | 2,530 | 0.73 MB | 5.1% |
 | Wwise | 2,663 | 0.45 MB | 3.1% |
 | RenderWare AI | 198 | 45.8 KB | 0.3% |
-| Other (transport, xlip, libjpeg, ...) | 2,035 | 0.44 MB | 3.1% |
-| Library span not yet identified | 3,570 | 0.70 MB | 4.9% |
+| Other (transport, xlip, ...) | 1,175 | 0.27 MB | 1.9% |
+| Library span not yet identified | 3,534 | 0.70 MB | 4.9% |
 
-- **Lua 5.0.2:** 641 of the unidentified library functions (114 KB, 0x82937FE0–0x82954CA0). Lua is open source (MIT),
-  and a trial compiled 585 of its 642 functions byte-exact from upstream source with three small CD2 changes. It is
-  not set up yet: how third-party source enters `src/` is still to be decided.
-- **Older compilers:** CD2's PE header lists 609 C++ objects from older VS2005-era XDK compilers (14.00.xxxx), which
-  can never match with the pinned 15.00.8153 compiler. These are presumably prebuilt middleware.
-
-`py -I tools\cd2.py status` prints the per-file numbers and this breakdown.
+- **Middleware:** CD2 links three open-source libraries outside the XDK: Lua 5.0.2 (`lua.lib`), zlib 1.2.3
+  (`zlibXenon.lib`, inflate only) and IJG libjpeg 6b (Scaleform's `libjpeg.lib`). Their original source lives in
+  `src/middleware/<library>/`, each with a README giving its origin, license, how CD2 built it and what CD2 changed.
+  Original source is not reconstructed code, so the matching rules it breaks are waived for its directory only
+  (`config/middleware.txt`). The 88 open functions differ only in what the compiler inlined; what is ruled out is in
+  [docs/matching-notes.md](docs/matching-notes.md) ("Middleware").
+- **Older compilers:** CD2's PE header lists 609 C++ objects (Havok and RenderWare AI) from VS2005-era XDK compilers,
+  14.00.1835, 1863, 2712, 2909 and 4404, which can never match with the pinned 15.00.8153 compiler. Older XDKs ship
+  them, but the tools use only the pinned one.
 
 ## What you need
 
-- **Your own copy of the game**: The XEX of the game patched with the latest title update. `default_patched.xex` (SHA1
-  `EC7B163617CD725F50B0CCA665AAF943F9BC6D8A`). The tools refuse any other build. Nothing from the game is stored in
-  this repository, and nothing you extract ever enters it.
-- **The Xbox 360 XDK 9328**, extracted (not installed). It is not distributed here. Its compiler must be the exact
-  build pinned in `config/toolchain.txt`.
+- **Your own copy of the game**: the XEX patched with the latest title update, `default_patched.xex` (SHA1
+  `EC7B163617CD725F50B0CCA665AAF943F9BC6D8A`). The tools refuse any other build.
+- **The Xbox 360 XDK 9328**, extracted (not installed). Its compiler must be the exact build pinned in
+  `config/toolchain.txt`.
 - Windows with PowerShell and git.
-- Python 3.8 or later, with the `py` launcher (the python.org installer includes it; every command here uses it).
+- Python 3.8 or later, with the `py` launcher (every command uses it).
 - Rust (cargo), to build the tools. Its default Windows toolchain needs the Visual Studio C++ build tools, which the
   rustup installer offers to install.
 
@@ -109,32 +115,30 @@ Then write the function in its source file and run `py -I tools\cd2.py check <fi
 `py -I tools\cd2.py verify` runs every gate. Before merging a pull request, a maintainer runs the same gates on it with
 the main branch's tools (`cd2.py review`), and it is merged only when they pass.
 
-- **Bytes:** every matched function compiles to the game's code, compared by symbol and never by similarity, with the
-  pinned compiler.
+- **Bytes:** every matched function compiles to the game's code with the pinned compiler, compared by symbol and never
+  by similarity.
 - **References:** every call, global, constant and string resolves to the same address as in the game. A function that
   calls the wrong function fails even if its bytes match.
 - **Ownership:** every function is in the source file whose address range holds it, and no function or type is defined
   twice.
 - **Matching rules:** a function counts only when its bytes match *and* no matching rule fires in it (no assembly,
   no pointer arithmetic in place of declared members and globals, no fake code such as `volatile` or unused locals,
-  globals declared once in a header); otherwise it is `MATCH-PENDING`. Checked on the preprocessed source and on each
-  file's own text; `verify` reports both figures, byte-exact and matched under the rules.
+  globals declared once in a header); otherwise it is `MATCH-PENDING`.
 - **Self-tests:** each gate is shown, by planting errors, to catch what it claims to catch.
-- **Without the game:** `verify --facts` reaches the same verdicts from recorded hashes and addresses, on a machine
-  without the game.
+- **Without the game:** `verify --facts` reaches the same verdicts from recorded hashes and addresses.
 
 ## Repository layout
 
 | Path | Contents |
 |---|---|
-| `src/` | the decompiled source files |
+| `src/` | the decompiled source files; `src/middleware/` holds the published source of the open-source libraries CD2 links, not decompiled code |
 | `include/` | shared, verified headers |
 | `config/` | maintainer-owned ground truth: file ranges, matched functions, symbol aliases, the pinned toolchain, recorded facts, the benchmark suite |
 | `tools/` | the contributor tool `cd2.py` and the gates; `tools/external/` holds tool submodules built from source |
 | `docs/` | the contributor guide, the matching notes, the feasibility study and the log of changes to the maintainers' IDA database |
 | `data/symbols/` | names suggested for the game's functions by automatic matching against the reference builds |
 | `examples/matching/` | the first matched functions, from the feasibility pilots, with throwaway types |
-| `tests/` | header layout tests |
+| `tests/` | header layout tests and gate self-tests |
 
 ## Legal
 
@@ -149,4 +153,3 @@ contributor works from their own legally obtained copy of the game.
 The tools in `tools/external/` are git submodules of their own projects, under their own licenses (jeff, objdiff and
 resym are MIT or Apache-2.0). The patches to them in `tools/patches/` are offered under the same terms as the tool
 they modify.
-

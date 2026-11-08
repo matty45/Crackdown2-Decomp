@@ -8,7 +8,39 @@
 #
 # Options (nothing else is accepted, so that no flag can change what a check proves):
 #   /Ob0 /Ob1 /Ob2         the inlining level (later options win over FLAGS: /Ob2 replaces /Ob1)
-#   /D<name>[=<value>]     a configuration macro of the library (e.g. its number type)
+#   /O1 /O2                the optimization level of a library built for size or speed (/O1 replaces FLAGS' /Ox)
+#   /fp:precise|fast|strict  the floating-point model of a library (replaces FLAGS' /fp:fast)
+#   /TP                    compile a library's .c files as C++ (its symbols are then mangled C++ names)
+#   /D<name>[=<value>]     a configuration macro of the library (e.g. its number type); the value may be a quoted
+#                          header name (/DLUA_USER_H="luser_number.h"), a configuration header next to the file
 #   plain                  CD2 built the object without /GL: it has no LTCG gate, and its bodies are never shown to
 #                          another file's LTCG model. Every .c file is plain anyway: CD2's Rich header lists objects of
 #                          the 15.00.8153 C compiler and none of its LTCG C compiler.
+
+# Lua 5.0.2 (src/middleware/lua/README.md), built with the release's own float configuration (its `config` file:
+# LUA_USER_H naming etc/luser_number.h, with USE_FLOAT): lua_Number is float, numbers are read with "%f" and written with
+# "%.5g", the two format strings CD2 has (read_number and g_write in liolib.c, luaV_tostring in lvm.c). Inlining: the
+# setting under which more of the file's CD2 functions compile exact; CD2 inlines more than /Ob1 and less than /Ob2, so
+# neither reproduces every file.
+src/middleware/lua/   /DLUA_USER_H="luser_number.h" /DUSE_FLOAT /Ob2   # 26 objects of CD2's lua.lib
+src/middleware/lua/ldo.c   /Ob1   # /Ob1 17 exact, /Ob2 13
+src/middleware/lua/lstring.c   /Ob1   # /Ob1 5 exact, /Ob2 4
+
+# zlib 1.2.3 (src/middleware/zlib/README.md): RuffKing's PDB records its zlib project's compile command, -Ox (which
+# implies automatic inlining, /Ob2) -DNDEBUG -D_XBOX -D_LIB -D_MBCS -GF -MT -Gy -TC; every one of CD2's zlib functions
+# compiles exact with /Ob2 (the -D_LIB/-D_MBCS defines change nothing in these files).
+src/middleware/zlib/   /Ob2   # 7 objects of CD2's zlibXenon.lib
+
+# IJG libjpeg 6b (src/middleware/libjpeg/README.md), CD2's libjpeg.lib (Scaleform's build, linked for its JPEG support):
+# - C++: RuffKing's PDB records the same Scaleform libjpeg.lib (Obj\Xbox360\Msvc90\Release, 15.00.8153) as C++, and
+#   Scaleform's own jpeg project compiles every file as C++ (CompileAs 2); 315 functions exact as C++, 297 as C.
+# - NO_GETENV: jpeg-6b's switch for a platform without getenv(). The Xbox CRT declares none (the C++ compile of
+#   jmemmgr.c fails without it), and CD2's jinit_memory_mgr reads no JPEGMEM variable.
+# - /O1, built for size like CD2's Scaleform code; /fp:precise, the compiler's default: the float DCTs
+#   (jpeg_idct_float, jpeg_fdct_float, forward_DCT_float) are exact only with it. /GS loses six functions.
+# - Inlining: /Ob1 for most files and /O1's own /Ob2 for jcparam.c, jcsample.c and jmemmgr.c, the setting under which
+#   more of each file's CD2 functions compile exact; as with Lua, CD2's inlining lies between the two.
+src/middleware/libjpeg/   /O1 /Ob1 /fp:precise /TP /DNO_GETENV   # 44 objects of CD2's libjpeg.lib
+src/middleware/libjpeg/jcparam.c   /Ob2   # /Ob2 12 exact, /Ob1 9
+src/middleware/libjpeg/jcsample.c   /Ob2   # /Ob2 10 exact, /Ob1 4
+src/middleware/libjpeg/jmemmgr.c   /Ob2   # /Ob2 15 exact, /Ob1 13

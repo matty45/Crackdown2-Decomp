@@ -78,6 +78,27 @@ class SymbolMatchTests(unittest.TestCase):
         self.assertFalse(verify_src.symbol_matches('resume', 'lua_resume'))
 
 
+class JumpTableLabelTests(unittest.TestCase):
+    """A jump-table entry (ADDR32) resolves through the symbol its relocation names, not through the label's name:
+    every function of an object with a switch has its own $LN labels, with the same names."""
+
+    def obj(self, target_symbol):
+        o = object.__new__(relocs.Obj)
+        table = words(0, 0x48000000, 0x4E800020)  # one jump-table word, then code
+        o.sections = [dict(ch=0x20, data=table, relocs=[(0, target_symbol, relocs.ADDR32)]),
+                      dict(ch=0x20, data=words(0x60000000, 0x60000000, 0x4E800020), relocs=[])]
+        o.symbols = {0: dict(name='f', value=0, sec=1, type=0x20, cls=2), 1: dict(name='g', value=0, sec=2, type=0x20, cls=2),
+                     2: dict(name='$LN5', value=8, sec=1, type=0, cls=6), 3: dict(name='$LN5', value=4, sec=2, type=0, cls=6)}
+        return o
+
+    def test_the_label_of_the_function_itself(self):
+        self.assertEqual(self.obj(2).local_address_offset('f', 0, '$LN5'), 8)
+
+    def test_another_functions_label_of_the_same_name_is_refused(self):
+        with self.assertRaises(ValueError):
+            self.obj(3).local_address_offset('f', 0, '$LN5')
+
+
 class ImageTests(unittest.TestCase):
     def test_another_image_is_refused(self):
         # a one-section PE that is not the extracted game image

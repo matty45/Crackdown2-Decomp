@@ -1064,7 +1064,6 @@ src/AI/Behaviour/NPC/NPCBehaviour.cpp
   init 0x82F91C58   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
   init 0x82F91C90   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
   init 0x82F91CC8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
-  init 0x82F91CE0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
   init 0x82F91D08   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
   init 0x82F913A0   # header static (characterconsts.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
   init 0x82F913B0   # header static (characterconsts.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
@@ -10007,3 +10006,172 @@ src/Audio/cWorldGameObject.cpp
   text 0x82837608 0x82837654   # class markers: cWorldGameObject::MakeNew 0x82837608, cWorldGameObject::RetClassName 0x82837648
   init 0x83013778   # class-factory registrar for "cWorldGameObject" (MakeNew 0x82837608, size 0x1040)
   atexit 0x83043840   # destroys the class-factory registrar for "cWorldGameObject", registered by its initializer
+
+# Middleware: Lua 5.0.2 (src/middleware/lua/README.md), CD2's lua.lib, linked in this object order. Each range
+# runs from the first to the end of the last function of the object that compiles exact from the Lua source or that
+# config/library_splits.txt identifies as this object (source identity and contiguity), so it never goes past the
+# evidence. Functions between two objects' ranges stay unassigned.
+src/middleware/lua/lapi.c
+  text 0x82937FE0 0x82939EC0   # lua.lib(lapi.obj): 70 functions exact from the Lua source in this range
+src/middleware/lua/lauxlib.c
+  text 0x82939EC0 0x8293B730   # lua.lib(lauxlib.obj): 38 functions exact from the Lua source in this range
+src/middleware/lua/lstate.c
+  text 0x8293B980 0x8293C02C   # lua.lib(lstate.obj): 13 functions exact from the Lua source in this range
+src/middleware/lua/lbaselib.c
+  text 0x8293C030 0x8293DB94   # lua.lib(lbaselib.obj): 39 functions exact from the Lua source in this range
+src/middleware/lua/ltablib.c
+  text 0x8293DB98 0x8293E7E8   # lua.lib(ltablib.obj): 12 functions exact from the Lua source in this range
+src/middleware/lua/liolib.c
+  text 0x8293E810 0x82940904   # lua.lib(liolib.obj): 41 functions exact from the Lua source in this range
+src/middleware/lua/lstrlib.c
+  text 0x82940908 0x82942980   # lua.lib(lstrlib.obj): 31 functions exact from the Lua source in this range
+src/middleware/lua/lmathlib.c
+  text 0x82942980 0x82943340   # lua.lib(lmathlib.obj): 8 functions exact from the Lua source in this range
+src/middleware/lua/ldblib.c
+  text 0x82943340 0x82944178   # lua.lib(ldblib.obj): 14 functions exact from the Lua source in this range
+src/middleware/lua/loadlib.c
+  text 0x82944178 0x82944228   # lua.lib(loadlib.obj): 2 functions exact from the Lua source in this range
+src/middleware/lua/ldebug.c
+  text 0x82944228 0x829455EC   # lua.lib(ldebug.obj): 28 functions exact from the Lua source in this range
+src/middleware/lua/lmem.c
+  text 0x829455F0 0x82945790   # lua.lib(lmem.obj): 6 functions exact from the Lua source in this range
+src/middleware/lua/ldo.c
+  text 0x82945790 0x82946980   # lua.lib(ldo.obj): 17 functions exact from the Lua source in this range
+src/middleware/lua/lgc.c
+  text 0x82946A30 0x82947B3C   # lua.lib(lgc.obj): 19 functions exact from the Lua source in this range
+src/middleware/lua/ltm.c
+  text 0x82947B40 0x82947C6C   # lua.lib(ltm.obj): 3 functions exact from the Lua source in this range
+src/middleware/lua/lvm.c
+  text 0x82947C70 0x82948ABC   # lua.lib(lvm.obj): 16 functions exact from the Lua source in this range
+src/middleware/lua/lobject.c
+  text 0x8294A280 0x8294A95C   # lua.lib(lobject.obj): 8 functions exact from the Lua source in this range
+src/middleware/lua/lstring.c
+  text 0x8294A960 0x8294ACA0   # lua.lib(lstring.obj): 5 functions exact from the Lua source in this range
+src/middleware/lua/lfunc.c
+  text 0x8294ACA0 0x8294B0A0   # lua.lib(lfunc.obj): 8 functions exact from the Lua source in this range
+src/middleware/lua/ltable.c
+  text 0x8294B0A0 0x8294C0CC   # lua.lib(ltable.obj): 17 functions exact from the Lua source in this range
+src/middleware/lua/lzio.c
+  text 0x8294C0D0 0x8294C33C   # lua.lib(lzio.obj): 5 functions exact from the Lua source in this range
+src/middleware/lua/ldump.c
+  text 0x8294C340 0x8294CB7C   # lua.lib(ldump.obj): 11 functions exact from the Lua source in this range
+src/middleware/lua/llex.c
+  text 0x8294CB80 0x8294E708   # lua.lib(llex.obj): 14 functions exact from the Lua source in this range
+src/middleware/lua/lparser.c
+  text 0x8294E708 0x829520A4   # lua.lib(lparser.obj): 53 functions exact from the Lua source in this range
+src/middleware/lua/lundump.c
+  text 0x829520A8 0x82952FC0   # lua.lib(lundump.obj): 19 functions exact from the Lua source in this range
+src/middleware/lua/lcode.c
+  text 0x82952FC0 0x82954CA0   # lua.lib(lcode.obj): 47 functions exact from the Lua source in this range
+
+# Middleware: zlib 1.2.3 (src/middleware/zlib/README.md), CD2's zlibXenon.lib, inflate side only (the linker dropped
+# deflate, gz* and the rest). Objects in CD2's text order; every function in these ranges compiles exact from the zlib
+# source, and config/library_splits.txt identifies the same objects (source identity).
+src/middleware/zlib/uncompr.c
+  text 0x82936B30 0x82936BF4   # zlibXenon.lib(uncompr.obj): uncompress
+src/middleware/zlib/inflate.c
+  text 0x82936BF8 0x82936FA8   # zlibXenon.lib(inflate.obj): inflateReset, inflateInit2_, inflateInit_, updatewindow, inflateEnd
+  hot 0x823BAB08   # inflate (order-list region): compiles exact from inflate.c
+src/middleware/zlib/zutil.c
+  text 0x82936FA8 0x82936FB8   # zlibXenon.lib(zutil.obj): zcalloc, zcfree
+src/middleware/zlib/inffast.c
+  text 0x82936FB8 0x82937408   # zlibXenon.lib(inffast.obj): inflate_fast
+src/middleware/zlib/inftrees.c
+  text 0x82937408 0x82937944   # zlibXenon.lib(inftrees.obj): inflate_table
+src/middleware/zlib/adler32.c
+  text 0x82937948 0x82937C54   # zlibXenon.lib(adler32.obj): adler32
+src/middleware/zlib/crc32.c
+  text 0x82937C58 0x82937FDC   # zlibXenon.lib(crc32.obj): crc32_big, crc32 (the little-endian path is folded away)
+
+# Middleware: IJG libjpeg 6b (src/middleware/libjpeg/README.md), CD2's libjpeg.lib, in CD2's text order. Each object's
+# functions are contiguous; a range runs from its first to the end of its last function. Every function is placed by
+# an exact compile of its object or lies between two functions of that object (or, at an object boundary, is the
+# function that object's source defines first or last).
+src/middleware/libjpeg/jdapimin.c
+  text 0x82F40CA0 0x82F4139C   # libjpeg.lib(jdapimin.obj): 9 functions
+src/middleware/libjpeg/jdmarker.c
+  text 0x82F413A0 0x82F43690   # libjpeg.lib(jdmarker.obj): 20 functions
+src/middleware/libjpeg/jerror.c
+  text 0x82F43690 0x82F43938   # libjpeg.lib(jerror.obj): 6 functions
+src/middleware/libjpeg/jdapistd.c
+  text 0x82F43938 0x82F43F88   # libjpeg.lib(jdapistd.obj): 6 functions
+src/middleware/libjpeg/jdtrans.c
+  text 0x82F43F88 0x82F441E8   # libjpeg.lib(jdtrans.obj): 2 functions
+src/middleware/libjpeg/jcapistd.c
+  text 0x82F441E8 0x82F44538   # libjpeg.lib(jcapistd.obj): 3 functions
+src/middleware/libjpeg/jcparam.c
+  text 0x82F44538 0x82F4519C   # libjpeg.lib(jcparam.obj): 13 functions
+src/middleware/libjpeg/jcapimin.c
+  text 0x82F451A0 0x82F456DC   # libjpeg.lib(jcapimin.obj): 9 functions
+src/middleware/libjpeg/jctrans.c
+  text 0x82F456E0 0x82F45E60   # libjpeg.lib(jctrans.obj): 7 functions
+src/middleware/libjpeg/jdinput.c
+  text 0x82F45E60 0x82F46638   # libjpeg.lib(jdinput.obj): 8 functions
+src/middleware/libjpeg/jmemmgr.c
+  text 0x82F46638 0x82F47714   # libjpeg.lib(jmemmgr.obj): 15 functions
+src/middleware/libjpeg/jcomapi.c
+  text 0x82F47718 0x82F4784C   # libjpeg.lib(jcomapi.obj): 4 functions
+src/middleware/libjpeg/jutils.c
+  text 0x82F47850 0x82F47924   # libjpeg.lib(jutils.obj): 5 functions
+src/middleware/libjpeg/jdmaster.c
+  text 0x82F47928 0x82F483A0   # libjpeg.lib(jdmaster.obj): 8 functions
+src/middleware/libjpeg/jdcoefct.c
+  text 0x82F483A0 0x82F49490   # libjpeg.lib(jdcoefct.obj): 10 functions
+src/middleware/libjpeg/jdhuff.c
+  text 0x82F49490 0x82F4A1A0   # libjpeg.lib(jdhuff.obj): 7 functions
+src/middleware/libjpeg/jdphuff.c
+  text 0x82F4A1A0 0x82F4AFB8   # libjpeg.lib(jdphuff.obj): 7 functions
+src/middleware/libjpeg/jcinit.c
+  text 0x82F4AFB8 0x82F4B0C8   # libjpeg.lib(jcinit.obj): 1 functions
+src/middleware/libjpeg/jcmarker.c
+  text 0x82F4B0C8 0x82F4BC28   # libjpeg.lib(jcmarker.obj): 19 functions
+src/middleware/libjpeg/jchuff.c
+  text 0x82F4BC28 0x82F4CE84   # libjpeg.lib(jchuff.obj): 14 functions
+src/middleware/libjpeg/jcphuff.c
+  text 0x82F4CE88 0x82F4DD78   # libjpeg.lib(jcphuff.obj): 15 functions
+src/middleware/libjpeg/jcmaster.c
+  text 0x82F4DD78 0x82F4EC98   # libjpeg.lib(jcmaster.obj): 8 functions
+src/middleware/libjpeg/jmemansi.c
+  text 0x82F4EC98 0x82F4EEB4   # libjpeg.lib(jmemansi.obj): 11 functions
+src/middleware/libjpeg/jdmainct.c
+  text 0x82F4EEB8 0x82F4F710   # libjpeg.lib(jdmainct.obj): 9 functions
+src/middleware/libjpeg/jddctmgr.c
+  text 0x82F4F710 0x82F4FA08   # libjpeg.lib(jddctmgr.obj): 2 functions
+src/middleware/libjpeg/jdpostct.c
+  text 0x82F4FA08 0x82F4FEA0   # libjpeg.lib(jdpostct.obj): 5 functions
+src/middleware/libjpeg/jdsample.c
+  text 0x82F4FEA0 0x82F506F0   # libjpeg.lib(jdsample.obj): 10 functions
+src/middleware/libjpeg/jdcolor.c
+  text 0x82F506F0 0x82F50D10   # libjpeg.lib(jdcolor.obj): 8 functions
+src/middleware/libjpeg/jdmerge.c
+  text 0x82F50D10 0x82F513B8   # libjpeg.lib(jdmerge.obj): 7 functions
+src/middleware/libjpeg/jquant2.c
+  text 0x82F513B8 0x82F5288C   # libjpeg.lib(jquant2.obj): 18 functions
+src/middleware/libjpeg/jquant1.c
+  text 0x82F52890 0x82F535D8   # libjpeg.lib(jquant1.obj): 17 functions
+src/middleware/libjpeg/jcmainct.c
+  text 0x82F535D8 0x82F53804   # libjpeg.lib(jcmainct.obj): 3 functions
+src/middleware/libjpeg/jccoefct.c
+  text 0x82F53808 0x82F540AC   # libjpeg.lib(jccoefct.obj): 6 functions
+src/middleware/libjpeg/jcdctmgr.c
+  text 0x82F540B0 0x82F54780   # libjpeg.lib(jcdctmgr.obj): 4 functions
+src/middleware/libjpeg/jcprepct.c
+  text 0x82F54780 0x82F54E80   # libjpeg.lib(jcprepct.obj): 6 functions
+src/middleware/libjpeg/jcsample.c
+  text 0x82F54E80 0x82F55988   # libjpeg.lib(jcsample.obj): 10 functions
+src/middleware/libjpeg/jccolor.c
+  text 0x82F55988 0x82F5611C   # libjpeg.lib(jccolor.obj): 8 functions
+src/middleware/libjpeg/jidctred.c
+  text 0x82F56120 0x82F5664C   # libjpeg.lib(jidctred.obj): 3 functions
+src/middleware/libjpeg/jidctint.c
+  text 0x82F56650 0x82F56AAC   # libjpeg.lib(jidctint.obj): 1 functions
+src/middleware/libjpeg/jidctfst.c
+  text 0x82F56AB0 0x82F56E68   # libjpeg.lib(jidctfst.obj): 1 functions
+src/middleware/libjpeg/jidctflt.c
+  text 0x82F56E68 0x82F572C8   # libjpeg.lib(jidctflt.obj): 1 functions
+src/middleware/libjpeg/jfdctint.c
+  text 0x82F572C8 0x82F5754C   # libjpeg.lib(jfdctint.obj): 1 functions
+src/middleware/libjpeg/jfdctfst.c
+  text 0x82F57550 0x82F57734   # libjpeg.lib(jfdctfst.obj): 1 functions
+src/middleware/libjpeg/jfdctflt.c
+  text 0x82F57738 0x82F5790C   # libjpeg.lib(jfdctflt.obj): 1 functions

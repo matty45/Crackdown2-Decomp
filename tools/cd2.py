@@ -63,7 +63,7 @@ import bench  # noqa: E402
 import verify_ltcg  # noqa: E402
 from verify_src import (ROOT, XDK, BIN, FLAGS, EXPECTED_ENTRY, CODE_SECTIONS, pe_reader, toolchain_problems,  # noqa: E402
                         local_config, run_compiler, flags_for, file_flags, ltcg_built, symbol_matches, vtable_fact,
-                        vtable_slot_problem)
+                        vtable_slot_problem, waived, load_middleware, compiled_as_c)
 from check_integrity import load_splits  # noqa: E402
 
 XEX_SHA1 = 'EC7B163617CD725F50B0CCA665AAF943F9BC6D8A'
@@ -815,10 +815,12 @@ def function_spans(src, symbols):
     return out
 
 
-def rules(src, extra_roots=(), roots=None, include=None, symbols=()):
+def rules(src, extra_roots=(), roots=None, include=None, symbols=(), waivers=None):
     """The source policy and the matching rules for one file: dict(hard=[...] (file-level errors: the policy cannot
     vouch for anything), findings=[dict(rule, file, line, message)] ([match] rules), advisory=[...],
-    exceptions=[...]). symbols: the file's function symbol prefixes, for telling locals from members."""
+    exceptions=[...]). symbols: the file's function symbol prefixes, for telling locals from members. A finding that
+    config/middleware.txt waives (a middleware library's original source, under src/middleware/) is listed among the
+    exceptions instead of the findings; waivers replaces that table (the self-test)."""
     hard, advisory, exceptions = [], [], []
     findings = []
     e_text, w = policy(src, extra_roots, roots, include, _structured=True)
@@ -844,8 +846,13 @@ def rules(src, extra_roots=(), roots=None, include=None, symbols=()):
     seen, uniq = set(), []
     for x in findings:
         k = (x['rule'], x['file'], x['line'], x['message'])
-        if k not in seen:
-            seen.add(k)
+        if k in seen:
+            continue
+        seen.add(k)
+        if waived(x['file'], x['rule'], waivers):
+            exceptions.append('%s:%d: %s waived for this library (config/middleware.txt): %s'
+                              % (x['file'], x['line'], x['rule'], x['message']))
+        else:
             uniq.append(x)
     return dict(hard=hard, findings=uniq, advisory=advisory, exceptions=exceptions)
 
@@ -867,14 +874,14 @@ def finding_text(x):
     return '%s:%d: %s (%s): %s' % (x['file'], x['line'], x['rule'], MATCH_RULES[x['rule']], x['message'])
 
 
-def policy(src, extra_roots=(), roots=None, include=None, _structured=False):
+def policy(src, extra_roots=(), roots=None, include=None, _structured=False, waivers=None):
     """(errors, warnings) of the source policy for one file. Checked on the preprocessed source, so macros cannot hide
     anything; only lines that come from this repository count, and every included file must come from the repository
     or the XDK. extra_roots: more directories that count as the repository (for the self-test). roots and include
     replace the repository's src/ and include/ (a benchmark workspace counts only itself).
     Errors are file-level problems plus every [match]-rule finding (see rules()); the benchmark rejects on either."""
     if not _structured:
-        r = rules(src, extra_roots, roots, include)
+        r = rules(src, extra_roots, roots, include, waivers=waivers)
         return r['hard'] + [finding_text(x) for x in r['findings']], r['advisory']
     errors, warnings, structured = [], [], []
     repo_files = set()
@@ -1343,7 +1350,7 @@ def cmd_claim(a):
         raise Fail('%08X is not the start of a function in a scaffolded file (see `tasks`)' % addr)
     if any(int(e['address'], 16) == addr for e in manifest()['files'].get(f, [])):
         raise Fail('%08X is already in config/matched_functions.json' % addr)
-    if f.lower().endswith('.c'):
+    if compiled_as_c(f):
         if not re.match(r'^[A-Za-z_]\w*$', a.symbol):
             raise Fail('%s is C: the symbol is the function\'s exact C name, e.g. lua_gettop' % f)
     elif not a.symbol.startswith('?') and not a.symbol.startswith('_'):
@@ -1903,6 +1910,38 @@ def policy_self_test():
         good = bool(errors) == bad
         ok &= good
         out.append(dict(case=what, expected='rejected' if bad else 'accepted', result='rejected' if errors else 'accepted',
+                        ok=good))
+    # config/middleware.txt: a waived rule does not block in its library's directory; nothing else is waived
+    here = rel(d).replace('\\', '/') + '/'
+    offset = 'struct S { int a, b; int f() const { return *(const int *)((const char *)this + 4); } };\n'
+    for k, (what, text, table, bad) in enumerate([
+            ('waiver: R4 in its library directory', offset, [(here, ['R4'])], False),
+            ('waiver: R17 where only R4 is waived', 'int f() { volatile int x = 1; return x; }\n', [(here, ['R4'])], True),
+            ('waiver: R4 waived for another library only', offset, [('src/middleware/other/', ['R4'])], True)]):
+        src = os.path.join(d, 'waiver%d.cpp' % k)
+        open(src, 'w').write(text)
+        errors, _ = policy(rel(src), extra_roots=[d], waivers=table)
+        good = bool(errors) == bad
+        ok &= good
+        out.append(dict(case=what, expected='rejected' if bad else 'accepted', result='rejected' if errors else 'accepted',
+                        ok=good))
+    for k, (what, text, bad) in enumerate([
+            ('waiver table: a library with its reason', 'src/middleware/lua/ R4 R17   # its original source\n', False),
+            ('waiver table: game code', 'src/AI/ R4   # no\n', True),
+            ('waiver table: a nested directory', 'src/middleware/lua/sub/ R4   # no\n', True),
+            ('waiver table: R18 (assembly)', 'src/middleware/lua/ R18   # no\n', True),
+            ('waiver table: R13 (vtables)', 'src/middleware/lua/ R13   # no\n', True),
+            ('waiver table: no reason', 'src/middleware/lua/ R4\n', True)]):
+        p = os.path.join(d, 'middleware%d.txt' % k)
+        open(p, 'w').write(text)
+        try:
+            load_middleware(p)
+            rejected = False
+        except ValueError:
+            rejected = True
+        good = rejected == bad
+        ok &= good
+        out.append(dict(case=what, expected='rejected' if bad else 'accepted', result='rejected' if rejected else 'accepted',
                         ok=good))
     shutil.rmtree(outside, ignore_errors=True)
     return ok, out

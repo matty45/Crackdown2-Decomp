@@ -7,7 +7,7 @@ Needs no game files; --no-compile skips check 7, the only one that needs the XDK
 it). All checks must pass:
   1. files      every file in the manifest has a splits.txt entry, and every file there exists (a file may be set
                 up before any of its functions is matched)
-  2. ranges     no two files' text ranges overlap; no listed address belongs to two files
+  2. ranges     no two files' text ranges overlap; no listed address belongs to two files or is listed twice
   3. ownership  every claimed function lies in its file's text range or is listed for that file (hot/init/atexit);
                 entries marked "folded" must be listed as folded for that file and lie outside its range
   4. claims     no address is claimed by two files, and no file claims an address another file lists as folded
@@ -18,6 +18,8 @@ it). All checks must pass:
                 text only; tools are submodules built from source (tools/build_tools.ps1)
   9. flags      config/file_flags.txt (per-file compiler settings) holds only allowed options, for paths in src/, and
                 no function of a plain (non-/GL) object is marked "ltcg"
+ 10. middleware config/middleware.txt (rule waivers for middleware source) is well formed and names existing library
+                directories; every directory in src/middleware/ is listed there and has a README.md
 
 The same CD2 function declared under two names is caught by the relocation-target check (tools/verify_src.py).
 """
@@ -25,7 +27,7 @@ import atexit, collections, json, os, re, shutil, struct, subprocess, sys, tempf
 
 TOOLS = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, TOOLS)
-from verify_src import FLAGS, XDK, BIN, ROOT, flags_for, load_file_flags, ltcg_built
+from verify_src import FLAGS, XDK, BIN, ROOT, flags_for, load_file_flags, ltcg_built, load_middleware
 
 HOT = (0x821D0000, 0x823D0000)
 
@@ -142,11 +144,12 @@ def coff_function_defs(obj):
     return [(n, sel.get(s, 0)) for n, s in funcs]
 
 
-def run(manifest, splits, extra_type_roots=(), extra_sources=(), skip_compile=False, extra_files=(), flags_path=None):
-    """Return an ordered dict check -> list of failure messages. flags_path: a file_flags.txt to check instead of
-    config/file_flags.txt (the self-test)."""
+def run(manifest, splits, extra_type_roots=(), extra_sources=(), skip_compile=False, extra_files=(), flags_path=None,
+        middleware_path=None):
+    """Return an ordered dict check -> list of failure messages. flags_path, middleware_path: a file_flags.txt or
+    middleware.txt to check instead of the one in config/ (the self-test)."""
     failures = collections.OrderedDict((k, []) for k in ('files', 'ranges', 'ownership', 'claims', 'order', 'types',
-                                                          'functions', 'binaries', 'flags'))
+                                                          'functions', 'binaries', 'flags', 'middleware'))
     for b in binary_files(extra_files):
         failures['binaries'].append('%s is a binary file; the repository holds source and text only' % b)
 
@@ -168,6 +171,28 @@ def run(manifest, splits, extra_type_roots=(), extra_sources=(), skip_compile=Fa
                 if e.get('ltcg'):
                     failures['flags'].append('%s %s is marked "ltcg", but its object is plain (no LTCG build)'
                                              % (f, e['symbol']))
+
+    # 10. middleware: the waiver table parses and names existing library directories, and every directory in
+    # src/middleware/ is a listed library with a README.md (where its source comes from, its license, CD2's changes)
+    try:
+        waivers = load_middleware(middleware_path)
+    except ValueError as e:
+        failures['middleware'].append(str(e))
+        waivers = []
+    libraries = {d for d, _ in waivers}
+    for d in sorted(libraries):
+        if not os.path.isdir(os.path.join(ROOT, d)):
+            failures['middleware'].append('middleware.txt: %s does not exist' % d)
+    mroot = os.path.join(ROOT, 'src', 'middleware')
+    for name in sorted(os.listdir(mroot)) if os.path.isdir(mroot) else []:
+        d = 'src/middleware/%s/' % name
+        if not os.path.isdir(os.path.join(mroot, name)):
+            failures['middleware'].append('src/middleware/%s: only library directories belong in src/middleware/' % name)
+            continue
+        if d not in libraries:
+            failures['middleware'].append('%s is not listed in config/middleware.txt' % d)
+        if not os.path.isfile(os.path.join(mroot, name, 'README.md')):
+            failures['middleware'].append("%s has no README.md (origin, version, license, CD2's changes)" % d)
 
     # 1. files (a file in splits.txt without manifest entries is set up but has no matched function yet)
     for f in set(manifest) - set(splits):
@@ -191,6 +216,8 @@ def run(manifest, splits, extra_type_roots=(), extra_sources=(), skip_compile=Fa
                 if kind == 'hot' and not HOT[0] <= a < HOT[1]:
                     failures['ranges'].append('%s: hot %08X is outside the order-list region' % (f, a))
     for a, who in listed.items():
+        if len(who) != len(set(who)):  # jeff refuses to split a unit listed twice
+            failures['ranges'].append('%08X is listed twice for one file: %s' % (a, who))
         owners = {f for f, k in who if k != 'folded'}
         if len(owners) > 1:
             failures['ranges'].append('%08X is listed for several files: %s' % (a, who))
@@ -237,9 +264,14 @@ def run(manifest, splits, extra_type_roots=(), extra_sources=(), skip_compile=Fa
         if order != expected:
             failures['order'].append('%s order %s differs from text order %s' % (kind, order, expected))
 
-    # 6. types
+    # 6. types (a library whose R1 is waived may repeat its own declarations, such as the placeholder definitions its
+    # headers keep for old compilers inside #if blocks; a type it shares with game code still fails)
+    r1 = [d for d, rules in waivers if 'R1' in rules]
     for q, where in sorted(type_definitions(extra_type_roots).items()):
         if len(where) > 1:
+            libs = {next((d for d in r1 if w.replace(os.sep, '/').startswith(d)), None) for w in where}
+            if len(libs) == 1 and None not in libs:
+                continue
             failures['types'].append('%s is defined in %s' % (q, ', '.join(sorted(where))))
 
     # 7. functions
@@ -304,6 +336,9 @@ def self_test(no_compile=False):
     s = copy.deepcopy(splits)
     s[b_file]['text'] = (splits[a_file]['text'][0], splits[b_file]['text'][1])
     cases.append(('ranges', 'overlapping file ranges', manifest, s, (), ()))
+    s = copy.deepcopy(splits)
+    s[a_file]['init'] = s[a_file]['init'] + s[a_file]['init'][:1]
+    cases.append(('ranges', 'one initializer listed twice for a file', manifest, s, (), ()))
     tdir = os.path.join(tmp, 'types')
     os.makedirs(tdir)
     open(os.path.join(tdir, 'dup.h'), 'w').write('namespace Fun_Runtime\n{\n    class Vec3 { float x; };\n}\n')
@@ -326,6 +361,9 @@ def self_test(no_compile=False):
     m[a_file][0] = dict(m[a_file][0], ltcg=True)
     cases.append(('flags', 'a compiler option outside the allowed ones', manifest, splits, (), flag_cases[0]))
     cases.append(('flags', 'an "ltcg" function in a plain object', m, splits, (), flag_cases[1]))
+    mw = os.path.join(tmp, 'middleware.txt')
+    open(mw, 'w').write('src/AI/   R4   # game code is never middleware\n')
+    cases.append(('middleware', 'a rule waiver for game code', manifest, splits, (), mw))
     ok = True
     for check, what, m, s, roots, extra in cases:
         if check == 'functions' and no_compile:
@@ -335,6 +373,8 @@ def self_test(no_compile=False):
             f = run(m, s, skip_compile=True, extra_files=extra)
         elif check == 'flags':
             f = run(m, s, skip_compile=True, flags_path=extra)
+        elif check == 'middleware':
+            f = run(m, s, skip_compile=True, middleware_path=extra)
         else:
             f = run(m, s, roots, extra, skip_compile=(check != 'functions'))
         caught = bool(f[check])

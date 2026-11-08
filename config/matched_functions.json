@@ -55226,6 +55226,4645 @@
         "size": 104,
         "symbol": "??__EcNetDynamicBodycDynamicBodyInheritRegistrar@PHYSICS@@"
       }
+    ],
+    "src/middleware/lua/lapi.c": [
+      {
+        "address": "0x82937FE0",
+        "size": 108,
+        "symbol": "negindex"
+      },
+      {
+        "address": "0x82938050",
+        "size": 32,
+        "symbol": "luaA_index"
+      },
+      {
+        "address": "0x82938070",
+        "size": 48,
+        "symbol": "luaA_indexAcceptable"
+      },
+      {
+        "address": "0x829380A0",
+        "size": 100,
+        "symbol": "luaA_pushobject"
+      },
+      {
+        "address": "0x82938108",
+        "size": 144,
+        "symbol": "lua_checkstack"
+      },
+      {
+        "address": "0x82938198",
+        "size": 84,
+        "symbol": "lua_xmove"
+      },
+      {
+        "address": "0x829381F0",
+        "size": 16,
+        "symbol": "lua_atpanic"
+      },
+      {
+        "address": "0x82938200",
+        "size": 100,
+        "symbol": "lua_newthread"
+      },
+      {
+        "address": "0x82938268",
+        "size": 20,
+        "symbol": "lua_gettop"
+      },
+      {
+        "address": "0x82938280",
+        "size": 116,
+        "symbol": "lua_settop"
+      },
+      {
+        "address": "0x829382F8",
+        "size": 128,
+        "symbol": "lua_remove"
+      },
+      {
+        "address": "0x82938378",
+        "size": 144,
+        "symbol": "lua_insert"
+      },
+      {
+        "address": "0x82938408",
+        "size": 100,
+        "symbol": "lua_replace"
+      },
+      {
+        "address": "0x82938470",
+        "size": 100,
+        "symbol": "lua_pushvalue"
+      },
+      {
+        "address": "0x829384D8",
+        "size": 108,
+        "symbol": "lua_type"
+      },
+      {
+        "address": "0x82938548",
+        "size": 40,
+        "symbol": "lua_typename"
+      },
+      {
+        "address": "0x82938570",
+        "size": 120,
+        "symbol": "lua_iscfunction"
+      },
+      {
+        "address": "0x829385E8",
+        "size": 136,
+        "symbol": "lua_isnumber"
+      },
+      {
+        "address": "0x82938670",
+        "size": 128,
+        "symbol": "lua_isstring"
+      },
+      {
+        "address": "0x829386F0",
+        "size": 124,
+        "symbol": "lua_isuserdata"
+      },
+      {
+        "address": "0x82938770",
+        "size": 192,
+        "symbol": "lua_rawequal"
+      },
+      {
+        "address": "0x82938830",
+        "size": 208,
+        "symbol": "lua_equal"
+      },
+      {
+        "address": "0x82938900",
+        "size": 196,
+        "symbol": "lua_lessthan"
+      },
+      {
+        "address": "0x829389C8",
+        "size": 140,
+        "symbol": "lua_tonumber"
+      },
+      {
+        "address": "0x82938A58",
+        "size": 136,
+        "symbol": "lua_toboolean"
+      },
+      {
+        "address": "0x82938AE0",
+        "size": 208,
+        "symbol": "lua_tostring"
+      },
+      {
+        "address": "0x82938BB0",
+        "size": 168,
+        "symbol": "lua_strlen"
+      },
+      {
+        "address": "0x82938C58",
+        "size": 132,
+        "symbol": "lua_tocfunction"
+      },
+      {
+        "address": "0x82938CE0",
+        "size": 152,
+        "symbol": "lua_touserdata"
+      },
+      {
+        "address": "0x82938D78",
+        "size": 116,
+        "symbol": "lua_tothread"
+      },
+      {
+        "address": "0x82938DF0",
+        "size": 184,
+        "symbol": "lua_topointer"
+      },
+      {
+        "address": "0x82938EA8",
+        "size": 28,
+        "symbol": "lua_pushnil"
+      },
+      {
+        "address": "0x82938EC8",
+        "size": 32,
+        "symbol": "lua_pushnumber"
+      },
+      {
+        "address": "0x82938EE8",
+        "size": 100,
+        "symbol": "lua_pushlstring"
+      },
+      {
+        "address": "0x82938F50",
+        "size": 172,
+        "symbol": "lua_pushstring"
+      },
+      {
+        "address": "0x82939000",
+        "size": 72,
+        "symbol": "lua_pushvfstring"
+      },
+      {
+        "address": "0x82939048",
+        "size": 128,
+        "symbol": "lua_pushfstring"
+      },
+      {
+        "address": "0x829390C8",
+        "size": 180,
+        "symbol": "lua_pushcclosure"
+      },
+      {
+        "address": "0x82939180",
+        "size": 40,
+        "symbol": "lua_pushboolean"
+      },
+      {
+        "address": "0x829391A8",
+        "size": 32,
+        "symbol": "lua_pushlightuserdata"
+      },
+      {
+        "address": "0x829391C8",
+        "size": 120,
+        "symbol": "lua_gettable"
+      },
+      {
+        "address": "0x82939240",
+        "size": 112,
+        "symbol": "lua_rawget"
+      },
+      {
+        "address": "0x829392B0",
+        "size": 120,
+        "symbol": "lua_rawgeti"
+      },
+      {
+        "address": "0x82939328",
+        "size": 116,
+        "symbol": "lua_newtable"
+      },
+      {
+        "address": "0x829393A0",
+        "size": 192,
+        "symbol": "lua_getmetatable"
+      },
+      {
+        "address": "0x82939460",
+        "size": 136,
+        "symbol": "lua_getfenv"
+      },
+      {
+        "address": "0x829394E8",
+        "size": 112,
+        "symbol": "lua_settable"
+      },
+      {
+        "address": "0x82939558",
+        "size": 136,
+        "symbol": "lua_rawset"
+      },
+      {
+        "address": "0x829395E0",
+        "size": 132,
+        "symbol": "lua_rawseti"
+      },
+      {
+        "address": "0x82939668",
+        "size": 156,
+        "symbol": "lua_setmetatable"
+      },
+      {
+        "address": "0x82939708",
+        "size": 152,
+        "symbol": "lua_setfenv"
+      },
+      {
+        "address": "0x829397A0",
+        "size": 20,
+        "symbol": "lua_call"
+      },
+      {
+        "address": "0x829397B8",
+        "size": 12,
+        "symbol": "f_call"
+      },
+      {
+        "address": "0x829397C8",
+        "size": 156,
+        "symbol": "lua_pcall"
+      },
+      {
+        "address": "0x82939868",
+        "size": 204,
+        "symbol": "f_Ccall"
+      },
+      {
+        "address": "0x82939938",
+        "size": 68,
+        "symbol": "lua_cpcall"
+      },
+      {
+        "address": "0x82939980",
+        "size": 96,
+        "symbol": "lua_load"
+      },
+      {
+        "address": "0x829399E0",
+        "size": 116,
+        "symbol": "lua_dump"
+      },
+      {
+        "address": "0x82939A58",
+        "size": 16,
+        "symbol": "lua_getgcthreshold"
+      },
+      {
+        "address": "0x82939A68",
+        "size": 16,
+        "symbol": "lua_getgccount"
+      },
+      {
+        "address": "0x82939A78",
+        "size": 60,
+        "symbol": "lua_setgcthreshold"
+      },
+      {
+        "address": "0x82939AB8",
+        "size": 12,
+        "symbol": "lua_version"
+      },
+      {
+        "address": "0x82939AC8",
+        "size": 36,
+        "symbol": "lua_error"
+      },
+      {
+        "address": "0x82939AF0",
+        "size": 124,
+        "symbol": "lua_next"
+      },
+      {
+        "address": "0x82939B70",
+        "size": 192,
+        "symbol": "lua_concat"
+      },
+      {
+        "address": "0x82939C30",
+        "size": 124,
+        "symbol": "lua_newuserdata"
+      },
+      {
+        "address": "0x82939CB0",
+        "size": 124,
+        "symbol": "lua_pushupvalues"
+      },
+      {
+        "address": "0x82939D30",
+        "size": 216,
+        "symbol": "aux_upvalue"
+      },
+      {
+        "address": "0x82939E08",
+        "size": 92,
+        "symbol": "lua_getupvalue"
+      },
+      {
+        "address": "0x82939E68",
+        "size": 88,
+        "symbol": "lua_setupvalue"
+      }
+    ],
+    "src/middleware/lua/lauxlib.c": [
+      {
+        "address": "0x82939EC0",
+        "size": 148,
+        "symbol": "luaL_where"
+      },
+      {
+        "address": "0x82939F58",
+        "size": 132,
+        "symbol": "luaL_error"
+      },
+      {
+        "address": "0x82939FE0",
+        "size": 100,
+        "symbol": "luaL_findstring"
+      },
+      {
+        "address": "0x8293A048",
+        "size": 192,
+        "symbol": "luaL_newmetatable"
+      },
+      {
+        "address": "0x8293A108",
+        "size": 56,
+        "symbol": "luaL_getmetatable"
+      },
+      {
+        "address": "0x8293A140",
+        "size": 176,
+        "symbol": "luaL_checkudata"
+      },
+      {
+        "address": "0x8293A1F0",
+        "size": 84,
+        "symbol": "luaL_checkstack"
+      },
+      {
+        "address": "0x8293A248",
+        "size": 140,
+        "symbol": "luaL_getmetafield"
+      },
+      {
+        "address": "0x8293A2D8",
+        "size": 124,
+        "symbol": "luaL_callmeta"
+      },
+      {
+        "address": "0x8293A358",
+        "size": 260,
+        "symbol": "luaL_openlib"
+      },
+      {
+        "address": "0x8293A460",
+        "size": 96,
+        "symbol": "checkint"
+      },
+      {
+        "address": "0x8293A4C0",
+        "size": 196,
+        "symbol": "getsizes"
+      },
+      {
+        "address": "0x8293A588",
+        "size": 304,
+        "symbol": "luaL_setn"
+      },
+      {
+        "address": "0x8293A6B8",
+        "size": 392,
+        "symbol": "luaL_getn"
+      },
+      {
+        "address": "0x8293A840",
+        "size": 108,
+        "symbol": "emptybuffer"
+      },
+      {
+        "address": "0x8293A8B0",
+        "size": 152,
+        "symbol": "adjuststack"
+      },
+      {
+        "address": "0x8293A948",
+        "size": 108,
+        "symbol": "luaL_prepbuffer"
+      },
+      {
+        "address": "0x8293A9B8",
+        "size": 144,
+        "symbol": "luaL_addlstring"
+      },
+      {
+        "address": "0x8293AA48",
+        "size": 36,
+        "symbol": "luaL_addstring"
+      },
+      {
+        "address": "0x8293AA70",
+        "size": 116,
+        "symbol": "luaL_pushresult"
+      },
+      {
+        "address": "0x8293AAE8",
+        "size": 172,
+        "symbol": "luaL_addvalue"
+      },
+      {
+        "address": "0x8293AB98",
+        "size": 24,
+        "symbol": "luaL_buffinit"
+      },
+      {
+        "address": "0x8293ABB0",
+        "size": 248,
+        "symbol": "luaL_ref"
+      },
+      {
+        "address": "0x8293ACA8",
+        "size": 144,
+        "symbol": "luaL_unref"
+      },
+      {
+        "address": "0x8293AD48",
+        "size": 96,
+        "symbol": "getF"
+      },
+      {
+        "address": "0x8293ADA8",
+        "size": 88,
+        "symbol": "errfile"
+      },
+      {
+        "address": "0x8293AE00",
+        "size": 40,
+        "symbol": "getS"
+      },
+      {
+        "address": "0x8293AE28",
+        "size": 52,
+        "symbol": "luaL_loadbuffer"
+      },
+      {
+        "address": "0x8293AE60",
+        "size": 176,
+        "symbol": "callalert"
+      },
+      {
+        "address": "0x8293B300",
+        "size": 208,
+        "symbol": "luaL_argerror"
+      },
+      {
+        "address": "0x8293B3D0",
+        "size": 88,
+        "symbol": "luaL_typerror"
+      },
+      {
+        "address": "0x8293B428",
+        "size": 104,
+        "symbol": "tag_error"
+      },
+      {
+        "address": "0x8293B490",
+        "size": 60,
+        "symbol": "luaL_checktype"
+      },
+      {
+        "address": "0x8293B4D0",
+        "size": 84,
+        "symbol": "luaL_checkany"
+      },
+      {
+        "address": "0x8293B528",
+        "size": 92,
+        "symbol": "luaL_checklstring"
+      },
+      {
+        "address": "0x8293B588",
+        "size": 200,
+        "symbol": "luaL_optlstring"
+      },
+      {
+        "address": "0x8293B650",
+        "size": 124,
+        "symbol": "luaL_checknumber"
+      },
+      {
+        "address": "0x8293B6D0",
+        "size": 96,
+        "symbol": "luaL_optnumber"
+      }
+    ],
+    "src/middleware/lua/lbaselib.c": [
+      {
+        "address": "0x8293C030",
+        "size": 256,
+        "symbol": "luaB_print"
+      },
+      {
+        "address": "0x8293C130",
+        "size": 332,
+        "symbol": "luaB_tonumber"
+      },
+      {
+        "address": "0x8293C280",
+        "size": 176,
+        "symbol": "luaB_error"
+      },
+      {
+        "address": "0x8293C330",
+        "size": 100,
+        "symbol": "luaB_getmetatable"
+      },
+      {
+        "address": "0x8293C398",
+        "size": 184,
+        "symbol": "luaB_setmetatable"
+      },
+      {
+        "address": "0x8293C450",
+        "size": 236,
+        "symbol": "getfunc"
+      },
+      {
+        "address": "0x8293C540",
+        "size": 100,
+        "symbol": "aux_getfenv"
+      },
+      {
+        "address": "0x8293C5A8",
+        "size": 124,
+        "symbol": "luaB_getfenv"
+      },
+      {
+        "address": "0x8293C628",
+        "size": 268,
+        "symbol": "luaB_setfenv"
+      },
+      {
+        "address": "0x8293C738",
+        "size": 92,
+        "symbol": "luaB_rawequal"
+      },
+      {
+        "address": "0x8293C798",
+        "size": 80,
+        "symbol": "luaB_rawget"
+      },
+      {
+        "address": "0x8293C7E8",
+        "size": 92,
+        "symbol": "luaB_rawset"
+      },
+      {
+        "address": "0x8293C848",
+        "size": 112,
+        "symbol": "luaB_gcinfo"
+      },
+      {
+        "address": "0x8293C8B8",
+        "size": 80,
+        "symbol": "luaB_collectgarbage"
+      },
+      {
+        "address": "0x8293C908",
+        "size": 88,
+        "symbol": "luaB_type"
+      },
+      {
+        "address": "0x8293C960",
+        "size": 120,
+        "symbol": "luaB_next"
+      },
+      {
+        "address": "0x8293C9D8",
+        "size": 108,
+        "symbol": "luaB_pairs"
+      },
+      {
+        "address": "0x8293CA48",
+        "size": 260,
+        "symbol": "luaB_ipairs"
+      },
+      {
+        "address": "0x8293CB50",
+        "size": 96,
+        "symbol": "load_aux"
+      },
+      {
+        "address": "0x8293CBB0",
+        "size": 144,
+        "symbol": "luaB_loadstring"
+      },
+      {
+        "address": "0x8293CC40",
+        "size": 124,
+        "symbol": "luaB_loadfile"
+      },
+      {
+        "address": "0x8293CCC0",
+        "size": 112,
+        "symbol": "luaB_dofile"
+      },
+      {
+        "address": "0x8293CD30",
+        "size": 144,
+        "symbol": "luaB_assert"
+      },
+      {
+        "address": "0x8293CDC0",
+        "size": 116,
+        "symbol": "luaB_unpack"
+      },
+      {
+        "address": "0x8293CE38",
+        "size": 116,
+        "symbol": "luaB_pcall"
+      },
+      {
+        "address": "0x8293CEB0",
+        "size": 132,
+        "symbol": "luaB_xpcall"
+      },
+      {
+        "address": "0x8293CF38",
+        "size": 376,
+        "symbol": "luaB_tostring"
+      },
+      {
+        "address": "0x8293D0B0",
+        "size": 268,
+        "symbol": "luaB_newproxy"
+      },
+      {
+        "address": "0x8293D240",
+        "size": 148,
+        "symbol": "pushnextpath"
+      },
+      {
+        "address": "0x8293D2D8",
+        "size": 168,
+        "symbol": "pushcomposename"
+      },
+      {
+        "address": "0x8293D5F0",
+        "size": 196,
+        "symbol": "auxresume"
+      },
+      {
+        "address": "0x8293D6B8",
+        "size": 180,
+        "symbol": "luaB_coresume"
+      },
+      {
+        "address": "0x8293D770",
+        "size": 164,
+        "symbol": "luaB_auxwrap"
+      },
+      {
+        "address": "0x8293D818",
+        "size": 148,
+        "symbol": "luaB_cocreate"
+      },
+      {
+        "address": "0x8293D8B0",
+        "size": 68,
+        "symbol": "luaB_cowrap"
+      },
+      {
+        "address": "0x8293D8F8",
+        "size": 56,
+        "symbol": "luaB_yield"
+      },
+      {
+        "address": "0x8293D930",
+        "size": 192,
+        "symbol": "luaB_costatus"
+      },
+      {
+        "address": "0x8293D9F0",
+        "size": 292,
+        "symbol": "base_open"
+      },
+      {
+        "address": "0x8293DB18",
+        "size": 124,
+        "symbol": "luaopen_base"
+      }
+    ],
+    "src/middleware/lua/lcode.c": [
+      {
+        "address": "0x82952FC0",
+        "size": 100,
+        "symbol": "luaK_fixjump"
+      },
+      {
+        "address": "0x82953028",
+        "size": 16,
+        "symbol": "luaK_getlabel"
+      },
+      {
+        "address": "0x82953038",
+        "size": 56,
+        "symbol": "luaK_getjump"
+      },
+      {
+        "address": "0x82953070",
+        "size": 68,
+        "symbol": "getjumpcontrol"
+      },
+      {
+        "address": "0x829530B8",
+        "size": 160,
+        "symbol": "need_value"
+      },
+      {
+        "address": "0x82953158",
+        "size": 32,
+        "symbol": "patchtestreg"
+      },
+      {
+        "address": "0x82953178",
+        "size": 380,
+        "symbol": "luaK_patchlistaux"
+      },
+      {
+        "address": "0x829532F8",
+        "size": 76,
+        "symbol": "luaK_dischargejpc"
+      },
+      {
+        "address": "0x82953348",
+        "size": 92,
+        "symbol": "luaK_concat"
+      },
+      {
+        "address": "0x829533A8",
+        "size": 104,
+        "symbol": "luaK_checkstack"
+      },
+      {
+        "address": "0x82953410",
+        "size": 96,
+        "symbol": "luaK_reserveregs"
+      },
+      {
+        "address": "0x82953470",
+        "size": 36,
+        "symbol": "freereg"
+      },
+      {
+        "address": "0x82953498",
+        "size": 52,
+        "symbol": "freeexp"
+      },
+      {
+        "address": "0x829534D0",
+        "size": 236,
+        "symbol": "addk"
+      },
+      {
+        "address": "0x829535C0",
+        "size": 52,
+        "symbol": "luaK_stringK"
+      },
+      {
+        "address": "0x829535F8",
+        "size": 52,
+        "symbol": "luaK_numberK"
+      },
+      {
+        "address": "0x82953630",
+        "size": 64,
+        "symbol": "nil_constant"
+      },
+      {
+        "address": "0x82953670",
+        "size": 88,
+        "symbol": "luaK_setcallreturns"
+      },
+      {
+        "address": "0x829536C8",
+        "size": 96,
+        "symbol": "invertjump"
+      },
+      {
+        "address": "0x82953728",
+        "size": 28,
+        "symbol": "luaK_fixline"
+      },
+      {
+        "address": "0x82953748",
+        "size": 236,
+        "symbol": "luaK_code"
+      },
+      {
+        "address": "0x82953838",
+        "size": 36,
+        "symbol": "luaK_codeABC"
+      },
+      {
+        "address": "0x82953860",
+        "size": 28,
+        "symbol": "luaK_codeABx"
+      },
+      {
+        "address": "0x82953880",
+        "size": 144,
+        "symbol": "luaK_nil"
+      },
+      {
+        "address": "0x82953910",
+        "size": 104,
+        "symbol": "luaK_jump"
+      },
+      {
+        "address": "0x82953978",
+        "size": 144,
+        "symbol": "luaK_condjump"
+      },
+      {
+        "address": "0x82953A08",
+        "size": 20,
+        "symbol": "luaK_patchtohere"
+      },
+      {
+        "address": "0x82953A20",
+        "size": 440,
+        "symbol": "luaK_dischargevars"
+      },
+      {
+        "address": "0x82953BD8",
+        "size": 44,
+        "symbol": "code_label"
+      },
+      {
+        "address": "0x82953C08",
+        "size": 320,
+        "symbol": "discharge2reg"
+      },
+      {
+        "address": "0x82953D48",
+        "size": 124,
+        "symbol": "discharge2anyreg"
+      },
+      {
+        "address": "0x82953DC8",
+        "size": 348,
+        "symbol": "luaK_exp2reg"
+      },
+      {
+        "address": "0x82953F28",
+        "size": 164,
+        "symbol": "luaK_exp2nextreg"
+      },
+      {
+        "address": "0x82953FD0",
+        "size": 132,
+        "symbol": "luaK_exp2anyreg"
+      },
+      {
+        "address": "0x82954058",
+        "size": 24,
+        "symbol": "luaK_exp2val"
+      },
+      {
+        "address": "0x82954070",
+        "size": 204,
+        "symbol": "luaK_exp2RK"
+      },
+      {
+        "address": "0x82954140",
+        "size": 340,
+        "symbol": "luaK_storevar"
+      },
+      {
+        "address": "0x82954298",
+        "size": 272,
+        "symbol": "luaK_self"
+      },
+      {
+        "address": "0x829543A8",
+        "size": 188,
+        "symbol": "jumponcond"
+      },
+      {
+        "address": "0x82954468",
+        "size": 180,
+        "symbol": "luaK_goiftrue"
+      },
+      {
+        "address": "0x82954520",
+        "size": 172,
+        "symbol": "luaK_goiffalse"
+      },
+      {
+        "address": "0x829545D0",
+        "size": 296,
+        "symbol": "codenot"
+      },
+      {
+        "address": "0x829546F8",
+        "size": 60,
+        "symbol": "luaK_indexed"
+      },
+      {
+        "address": "0x82954738",
+        "size": 292,
+        "symbol": "luaK_prefix"
+      },
+      {
+        "address": "0x82954860",
+        "size": 180,
+        "symbol": "luaK_infix"
+      },
+      {
+        "address": "0x82954918",
+        "size": 176,
+        "symbol": "codebinop"
+      },
+      {
+        "address": "0x82954C70",
+        "size": 48,
+        "symbol": "luaK_patchlist"
+      }
+    ],
+    "src/middleware/lua/ldblib.c": [
+      {
+        "address": "0x82943340",
+        "size": 80,
+        "symbol": "settabss"
+      },
+      {
+        "address": "0x82943390",
+        "size": 96,
+        "symbol": "settabsi"
+      },
+      {
+        "address": "0x82943670",
+        "size": 216,
+        "symbol": "getlocal"
+      },
+      {
+        "address": "0x82943748",
+        "size": 180,
+        "symbol": "setlocal"
+      },
+      {
+        "address": "0x82943800",
+        "size": 164,
+        "symbol": "auxupvalue"
+      },
+      {
+        "address": "0x829438A8",
+        "size": 164,
+        "symbol": "getupvalue"
+      },
+      {
+        "address": "0x82943950",
+        "size": 176,
+        "symbol": "setupvalue"
+      },
+      {
+        "address": "0x82943A00",
+        "size": 200,
+        "symbol": "hookf"
+      },
+      {
+        "address": "0x82943AC8",
+        "size": 116,
+        "symbol": "makemask"
+      },
+      {
+        "address": "0x82943B40",
+        "size": 92,
+        "symbol": "unmakemask"
+      },
+      {
+        "address": "0x82943C78",
+        "size": 288,
+        "symbol": "gethook"
+      },
+      {
+        "address": "0x82943D98",
+        "size": 208,
+        "symbol": "debug"
+      },
+      {
+        "address": "0x82943E68",
+        "size": 660,
+        "symbol": "errorfb"
+      },
+      {
+        "address": "0x82944100",
+        "size": 120,
+        "symbol": "luaopen_debug"
+      }
+    ],
+    "src/middleware/lua/ldebug.c": [
+      {
+        "address": "0x82944228",
+        "size": 84,
+        "symbol": "currentpc"
+      },
+      {
+        "address": "0x82944280",
+        "size": 116,
+        "symbol": "currentline"
+      },
+      {
+        "address": "0x829442F8",
+        "size": 84,
+        "symbol": "luaG_inithooks"
+      },
+      {
+        "address": "0x82944350",
+        "size": 60,
+        "symbol": "lua_sethook"
+      },
+      {
+        "address": "0x82944390",
+        "size": 8,
+        "symbol": "lua_gethook"
+      },
+      {
+        "address": "0x82944398",
+        "size": 8,
+        "symbol": "lua_gethookmask"
+      },
+      {
+        "address": "0x829443A0",
+        "size": 8,
+        "symbol": "lua_gethookcount"
+      },
+      {
+        "address": "0x829443A8",
+        "size": 140,
+        "symbol": "lua_getstack"
+      },
+      {
+        "address": "0x82944438",
+        "size": 40,
+        "symbol": "getluaproto"
+      },
+      {
+        "address": "0x82944460",
+        "size": 196,
+        "symbol": "lua_getlocal"
+      },
+      {
+        "address": "0x82944528",
+        "size": 272,
+        "symbol": "lua_setlocal"
+      },
+      {
+        "address": "0x82944638",
+        "size": 128,
+        "symbol": "funcinfo"
+      },
+      {
+        "address": "0x829446B8",
+        "size": 132,
+        "symbol": "travglobals"
+      },
+      {
+        "address": "0x82944740",
+        "size": 136,
+        "symbol": "info_tailcall"
+      },
+      {
+        "address": "0x829447C8",
+        "size": 80,
+        "symbol": "precheck"
+      },
+      {
+        "address": "0x82944818",
+        "size": 76,
+        "symbol": "checkopenop"
+      },
+      {
+        "address": "0x82944868",
+        "size": 52,
+        "symbol": "checkRK"
+      },
+      {
+        "address": "0x82944CD8",
+        "size": 12,
+        "symbol": "luaG_checkcode"
+      },
+      {
+        "address": "0x82944CE8",
+        "size": 56,
+        "symbol": "kname"
+      },
+      {
+        "address": "0x82944D20",
+        "size": 544,
+        "symbol": "getobjname"
+      },
+      {
+        "address": "0x82944F40",
+        "size": 192,
+        "symbol": "getfuncname"
+      },
+      {
+        "address": "0x82945000",
+        "size": 52,
+        "symbol": "isinstack"
+      },
+      {
+        "address": "0x82945038",
+        "size": 144,
+        "symbol": "addinfo"
+      },
+      {
+        "address": "0x829450C8",
+        "size": 200,
+        "symbol": "luaG_errormsg"
+      },
+      {
+        "address": "0x82945440",
+        "size": 188,
+        "symbol": "luaG_typeerror"
+      },
+      {
+        "address": "0x82945500",
+        "size": 28,
+        "symbol": "luaG_concaterror"
+      },
+      {
+        "address": "0x82945520",
+        "size": 76,
+        "symbol": "luaG_aritherror"
+      },
+      {
+        "address": "0x82945570",
+        "size": 124,
+        "symbol": "luaG_ordererror"
+      }
+    ],
+    "src/middleware/lua/ldo.c": [
+      {
+        "address": "0x82945790",
+        "size": 188,
+        "symbol": "seterrorobj"
+      },
+      {
+        "address": "0x82945850",
+        "size": 48,
+        "symbol": "luaD_throw"
+      },
+      {
+        "address": "0x82945880",
+        "size": 144,
+        "symbol": "luaD_rawrunprotected"
+      },
+      {
+        "address": "0x82945910",
+        "size": 184,
+        "symbol": "correctstack"
+      },
+      {
+        "address": "0x829459C8",
+        "size": 88,
+        "symbol": "luaD_reallocstack"
+      },
+      {
+        "address": "0x82945A20",
+        "size": 136,
+        "symbol": "luaD_reallocCI"
+      },
+      {
+        "address": "0x82945BC0",
+        "size": 220,
+        "symbol": "luaD_callhook"
+      },
+      {
+        "address": "0x82945F78",
+        "size": 480,
+        "symbol": "luaD_precall"
+      },
+      {
+        "address": "0x82946158",
+        "size": 180,
+        "symbol": "callrethooks"
+      },
+      {
+        "address": "0x82946210",
+        "size": 200,
+        "symbol": "luaD_poscall"
+      },
+      {
+        "address": "0x829463C8",
+        "size": 212,
+        "symbol": "resume"
+      },
+      {
+        "address": "0x829464A0",
+        "size": 160,
+        "symbol": "resume_error"
+      },
+      {
+        "address": "0x82946540",
+        "size": 224,
+        "symbol": "lua_yield"
+      },
+      {
+        "address": "0x82946620",
+        "size": 196,
+        "symbol": "f_parser"
+      },
+      {
+        "address": "0x829466E8",
+        "size": 136,
+        "symbol": "luaD_protectedparser"
+      },
+      {
+        "address": "0x82946770",
+        "size": 80,
+        "symbol": "restore_stack_limit"
+      },
+      {
+        "address": "0x829467C0",
+        "size": 232,
+        "symbol": "lua_resume"
+      }
+    ],
+    "src/middleware/lua/ldump.c": [
+      {
+        "address": "0x8294C340",
+        "size": 32,
+        "symbol": "DumpBlock"
+      },
+      {
+        "address": "0x8294C360",
+        "size": 64,
+        "symbol": "DumpByte"
+      },
+      {
+        "address": "0x8294C3A0",
+        "size": 64,
+        "symbol": "DumpInt"
+      },
+      {
+        "address": "0x8294C3E0",
+        "size": 64,
+        "symbol": "DumpSize"
+      },
+      {
+        "address": "0x8294C420",
+        "size": 64,
+        "symbol": "DumpNumber"
+      },
+      {
+        "address": "0x8294C460",
+        "size": 152,
+        "symbol": "DumpString"
+      },
+      {
+        "address": "0x8294C4F8",
+        "size": 120,
+        "symbol": "DumpCode"
+      },
+      {
+        "address": "0x8294C570",
+        "size": 192,
+        "symbol": "DumpLocals"
+      },
+      {
+        "address": "0x8294C630",
+        "size": 120,
+        "symbol": "DumpLines"
+      },
+      {
+        "address": "0x8294C6A8",
+        "size": 104,
+        "symbol": "DumpUpvalues"
+      },
+      {
+        "address": "0x8294C710",
+        "size": 288,
+        "symbol": "DumpConstants"
+      },
+      {
+        "address": "0x8294C978",
+        "size": 440,
+        "symbol": "DumpHeader"
+      },
+      {
+        "address": "0x8294CB30",
+        "size": 76,
+        "symbol": "luaU_dump"
+      }
+    ],
+    "src/middleware/lua/lfunc.c": [
+      {
+        "address": "0x8294ACA0",
+        "size": 84,
+        "symbol": "luaF_newCclosure"
+      },
+      {
+        "address": "0x8294ACF8",
+        "size": 104,
+        "symbol": "luaF_newLclosure"
+      },
+      {
+        "address": "0x8294AD60",
+        "size": 152,
+        "symbol": "luaF_findupval"
+      },
+      {
+        "address": "0x8294ADF8",
+        "size": 132,
+        "symbol": "luaF_close"
+      },
+      {
+        "address": "0x8294AE80",
+        "size": 164,
+        "symbol": "luaF_newproto"
+      },
+      {
+        "address": "0x8294AF28",
+        "size": 220,
+        "symbol": "luaF_freeproto"
+      },
+      {
+        "address": "0x8294B008",
+        "size": 44,
+        "symbol": "luaF_freeclosure"
+      },
+      {
+        "address": "0x8294B038",
+        "size": 104,
+        "symbol": "luaF_getlocalname"
+      }
+    ],
+    "src/middleware/lua/lgc.c": [
+      {
+        "address": "0x82946A30",
+        "size": 76,
+        "symbol": "marktmu"
+      },
+      {
+        "address": "0x82946A80",
+        "size": 232,
+        "symbol": "luaC_separateudata"
+      },
+      {
+        "address": "0x82946B68",
+        "size": 32,
+        "symbol": "removekey"
+      },
+      {
+        "address": "0x82946B88",
+        "size": 532,
+        "symbol": "traversetable"
+      },
+      {
+        "address": "0x82946DA0",
+        "size": 328,
+        "symbol": "traverseproto"
+      },
+      {
+        "address": "0x82946EE8",
+        "size": 312,
+        "symbol": "traverseclosure"
+      },
+      {
+        "address": "0x82947020",
+        "size": 156,
+        "symbol": "checkstacksizes"
+      },
+      {
+        "address": "0x829470C0",
+        "size": 368,
+        "symbol": "traversestack"
+      },
+      {
+        "address": "0x82947230",
+        "size": 184,
+        "symbol": "propagatemarks"
+      },
+      {
+        "address": "0x829472E8",
+        "size": 72,
+        "symbol": "valismarked"
+      },
+      {
+        "address": "0x82947330",
+        "size": 148,
+        "symbol": "cleartablekeys"
+      },
+      {
+        "address": "0x829473C8",
+        "size": 260,
+        "symbol": "cleartablevalues"
+      },
+      {
+        "address": "0x829474D0",
+        "size": 112,
+        "symbol": "freeobj"
+      },
+      {
+        "address": "0x82947540",
+        "size": 240,
+        "symbol": "sweeplist"
+      },
+      {
+        "address": "0x82947630",
+        "size": 120,
+        "symbol": "sweepstrings"
+      },
+      {
+        "address": "0x829476A8",
+        "size": 164,
+        "symbol": "checkSizes"
+      },
+      {
+        "address": "0x82947750",
+        "size": 164,
+        "symbol": "do1gcTM"
+      },
+      {
+        "address": "0x82947918",
+        "size": 180,
+        "symbol": "markroot"
+      },
+      {
+        "address": "0x82947B18",
+        "size": 36,
+        "symbol": "luaC_link"
+      }
+    ],
+    "src/middleware/lua/liolib.c": [
+      {
+        "address": "0x8293E810",
+        "size": 204,
+        "symbol": "pushresult"
+      },
+      {
+        "address": "0x8293E8E0",
+        "size": 76,
+        "symbol": "topfile"
+      },
+      {
+        "address": "0x8293E930",
+        "size": 128,
+        "symbol": "io_type"
+      },
+      {
+        "address": "0x8293E9B0",
+        "size": 104,
+        "symbol": "tofile"
+      },
+      {
+        "address": "0x8293EA18",
+        "size": 100,
+        "symbol": "newfile"
+      },
+      {
+        "address": "0x8293EA80",
+        "size": 152,
+        "symbol": "registerfile"
+      },
+      {
+        "address": "0x8293EB18",
+        "size": 236,
+        "symbol": "aux_close"
+      },
+      {
+        "address": "0x8293EC08",
+        "size": 236,
+        "symbol": "io_close"
+      },
+      {
+        "address": "0x8293ECF8",
+        "size": 120,
+        "symbol": "io_gc"
+      },
+      {
+        "address": "0x8293ED70",
+        "size": 204,
+        "symbol": "io_tostring"
+      },
+      {
+        "address": "0x8293EE40",
+        "size": 172,
+        "symbol": "io_open"
+      },
+      {
+        "address": "0x8293EEF0",
+        "size": 44,
+        "symbol": "io_popen"
+      },
+      {
+        "address": "0x8293EF20",
+        "size": 204,
+        "symbol": "io_tmpfile"
+      },
+      {
+        "address": "0x8293EFF0",
+        "size": 148,
+        "symbol": "getiofile"
+      },
+      {
+        "address": "0x8293F088",
+        "size": 248,
+        "symbol": "g_iofile"
+      },
+      {
+        "address": "0x8293F180",
+        "size": 20,
+        "symbol": "io_input"
+      },
+      {
+        "address": "0x8293F198",
+        "size": 20,
+        "symbol": "io_output"
+      },
+      {
+        "address": "0x8293F1B0",
+        "size": 108,
+        "symbol": "read_number"
+      },
+      {
+        "address": "0x8293F220",
+        "size": 76,
+        "symbol": "test_eof"
+      },
+      {
+        "address": "0x8293F270",
+        "size": 216,
+        "symbol": "read_line"
+      },
+      {
+        "address": "0x8293F348",
+        "size": 152,
+        "symbol": "read_chars"
+      },
+      {
+        "address": "0x8293F5B0",
+        "size": 68,
+        "symbol": "io_read"
+      },
+      {
+        "address": "0x8293F5F8",
+        "size": 140,
+        "symbol": "f_read"
+      },
+      {
+        "address": "0x8293F688",
+        "size": 168,
+        "symbol": "io_readline"
+      },
+      {
+        "address": "0x8293F730",
+        "size": 320,
+        "symbol": "g_write"
+      },
+      {
+        "address": "0x8293F870",
+        "size": 68,
+        "symbol": "io_write"
+      },
+      {
+        "address": "0x8293F8B8",
+        "size": 140,
+        "symbol": "f_write"
+      },
+      {
+        "address": "0x8293F948",
+        "size": 368,
+        "symbol": "f_seek"
+      },
+      {
+        "address": "0x8293FAB8",
+        "size": 180,
+        "symbol": "io_flush"
+      },
+      {
+        "address": "0x8293FB70",
+        "size": 240,
+        "symbol": "f_flush"
+      },
+      {
+        "address": "0x8293FC60",
+        "size": 120,
+        "symbol": "createmeta"
+      },
+      {
+        "address": "0x8293FCD8",
+        "size": 88,
+        "symbol": "io_execute"
+      },
+      {
+        "address": "0x8293FD30",
+        "size": 88,
+        "symbol": "io_remove"
+      },
+      {
+        "address": "0x8293FD88",
+        "size": 112,
+        "symbol": "io_rename"
+      },
+      {
+        "address": "0x8293FDF8",
+        "size": 108,
+        "symbol": "io_tmpname"
+      },
+      {
+        "address": "0x8293FE70",
+        "size": 88,
+        "symbol": "io_clock"
+      },
+      {
+        "address": "0x8293FEC8",
+        "size": 96,
+        "symbol": "setfield"
+      },
+      {
+        "address": "0x8293FF28",
+        "size": 80,
+        "symbol": "setboolfield"
+      },
+      {
+        "address": "0x8293FF78",
+        "size": 96,
+        "symbol": "getboolfield"
+      },
+      {
+        "address": "0x8293FFD8",
+        "size": 152,
+        "symbol": "getfield"
+      },
+      {
+        "address": "0x82940070",
+        "size": 528,
+        "symbol": "io_date"
+      },
+      {
+        "address": "0x82940280",
+        "size": 596,
+        "symbol": "io_time"
+      },
+      {
+        "address": "0x829404D8",
+        "size": 124,
+        "symbol": "io_difftime"
+      },
+      {
+        "address": "0x82940558",
+        "size": 188,
+        "symbol": "io_setloc"
+      },
+      {
+        "address": "0x82940720",
+        "size": 104,
+        "symbol": "aux_lines"
+      },
+      {
+        "address": "0x82940788",
+        "size": 180,
+        "symbol": "f_lines"
+      },
+      {
+        "address": "0x82940840",
+        "size": 196,
+        "symbol": "io_lines"
+      }
+    ],
+    "src/middleware/lua/llex.c": [
+      {
+        "address": "0x8294CB80",
+        "size": 124,
+        "symbol": "luaX_init"
+      },
+      {
+        "address": "0x8294CC00",
+        "size": 104,
+        "symbol": "luaX_errorline"
+      },
+      {
+        "address": "0x8294CC68",
+        "size": 104,
+        "symbol": "luaX_error"
+      },
+      {
+        "address": "0x8294CCD0",
+        "size": 52,
+        "symbol": "luaX_token2str"
+      },
+      {
+        "address": "0x8294CD08",
+        "size": 36,
+        "symbol": "luaX_lexerror"
+      },
+      {
+        "address": "0x8294CD30",
+        "size": 220,
+        "symbol": "luaX_setinput"
+      },
+      {
+        "address": "0x8294CE10",
+        "size": 228,
+        "symbol": "readname"
+      },
+      {
+        "address": "0x8294CEF8",
+        "size": 1060,
+        "symbol": "read_numeral"
+      },
+      {
+        "address": "0x8294D320",
+        "size": 204,
+        "symbol": "luaX_syntaxerror"
+      },
+      {
+        "address": "0x8294D3F0",
+        "size": 88,
+        "symbol": "luaX_checklimit"
+      },
+      {
+        "address": "0x8294D448",
+        "size": 164,
+        "symbol": "inclinenumber"
+      },
+      {
+        "address": "0x8294D4F0",
+        "size": 932,
+        "symbol": "read_long_string"
+      },
+      {
+        "address": "0x8294D898",
+        "size": 1664,
+        "symbol": "read_string"
+      },
+      {
+        "address": "0x8294DF18",
+        "size": 2032,
+        "symbol": "luaX_lex"
+      }
+    ],
+    "src/middleware/lua/lmathlib.c": [
+      {
+        "address": "0x82942980",
+        "size": 64,
+        "symbol": "math_abs"
+      },
+      {
+        "address": "0x829429C0",
+        "size": 68,
+        "symbol": "math_sin"
+      },
+      {
+        "address": "0x82942A08",
+        "size": 68,
+        "symbol": "math_cos"
+      },
+      {
+        "address": "0x82942A50",
+        "size": 68,
+        "symbol": "math_tan"
+      },
+      {
+        "address": "0x82942A98",
+        "size": 68,
+        "symbol": "math_asin"
+      },
+      {
+        "address": "0x82942AE0",
+        "size": 68,
+        "symbol": "math_acos"
+      },
+      {
+        "address": "0x82942B28",
+        "size": 68,
+        "symbol": "math_atan"
+      },
+      {
+        "address": "0x82942B70",
+        "size": 96,
+        "symbol": "math_atan2"
+      },
+      {
+        "address": "0x82942BD0",
+        "size": 68,
+        "symbol": "math_ceil"
+      },
+      {
+        "address": "0x82942C18",
+        "size": 68,
+        "symbol": "math_floor"
+      },
+      {
+        "address": "0x82942C60",
+        "size": 96,
+        "symbol": "math_mod"
+      },
+      {
+        "address": "0x82942CC0",
+        "size": 64,
+        "symbol": "math_sqrt"
+      },
+      {
+        "address": "0x82942D00",
+        "size": 96,
+        "symbol": "math_pow"
+      },
+      {
+        "address": "0x82942D60",
+        "size": 68,
+        "symbol": "math_log"
+      },
+      {
+        "address": "0x82942DA8",
+        "size": 68,
+        "symbol": "math_log10"
+      },
+      {
+        "address": "0x82942DF0",
+        "size": 68,
+        "symbol": "math_exp"
+      },
+      {
+        "address": "0x82942EC8",
+        "size": 104,
+        "symbol": "math_frexp"
+      },
+      {
+        "address": "0x82942F30",
+        "size": 92,
+        "symbol": "math_ldexp"
+      },
+      {
+        "address": "0x82942F90",
+        "size": 120,
+        "symbol": "math_min"
+      },
+      {
+        "address": "0x82943008",
+        "size": 120,
+        "symbol": "math_max"
+      },
+      {
+        "address": "0x82943260",
+        "size": 56,
+        "symbol": "math_randomseed"
+      },
+      {
+        "address": "0x82943298",
+        "size": 168,
+        "symbol": "luaopen_math"
+      }
+    ],
+    "src/middleware/lua/lmem.c": [
+      {
+        "address": "0x829455F0",
+        "size": 8,
+        "symbol": "l_defaultrealloc"
+      },
+      {
+        "address": "0x829455F8",
+        "size": 4,
+        "symbol": "l_defaultfree"
+      },
+      {
+        "address": "0x82945600",
+        "size": 12,
+        "symbol": "lua_setreallocfn"
+      },
+      {
+        "address": "0x82945610",
+        "size": 12,
+        "symbol": "lua_setfreefn"
+      },
+      {
+        "address": "0x82945620",
+        "size": 232,
+        "symbol": "luaM_realloc"
+      },
+      {
+        "address": "0x82945708",
+        "size": 136,
+        "symbol": "luaM_growaux"
+      }
+    ],
+    "src/middleware/lua/loadlib.c": [
+      {
+        "address": "0x82944178",
+        "size": 88,
+        "symbol": "loadlib"
+      },
+      {
+        "address": "0x829441D0",
+        "size": 88,
+        "symbol": "luaopen_loadlib"
+      }
+    ],
+    "src/middleware/lua/lobject.c": [
+      {
+        "address": "0x8294A280",
+        "size": 44,
+        "symbol": "luaO_int2fb"
+      },
+      {
+        "address": "0x8294A2B0",
+        "size": 156,
+        "symbol": "luaO_log2"
+      },
+      {
+        "address": "0x8294A350",
+        "size": 104,
+        "symbol": "luaO_rawequalObj"
+      },
+      {
+        "address": "0x8294A3B8",
+        "size": 176,
+        "symbol": "luaO_str2d"
+      },
+      {
+        "address": "0x8294A468",
+        "size": 148,
+        "symbol": "pushstr"
+      },
+      {
+        "address": "0x8294A500",
+        "size": 528,
+        "symbol": "luaO_pushvfstring"
+      },
+      {
+        "address": "0x8294A710",
+        "size": 72,
+        "symbol": "luaO_pushfstring"
+      },
+      {
+        "address": "0x8294A758",
+        "size": 516,
+        "symbol": "luaO_chunkid"
+      }
+    ],
+    "src/middleware/lua/lparser.c": [
+      {
+        "address": "0x8294E708",
+        "size": 120,
+        "symbol": "next"
+      },
+      {
+        "address": "0x8294E780",
+        "size": 52,
+        "symbol": "lookahead"
+      },
+      {
+        "address": "0x8294E7B8",
+        "size": 76,
+        "symbol": "error_expected"
+      },
+      {
+        "address": "0x8294E808",
+        "size": 68,
+        "symbol": "testnext"
+      },
+      {
+        "address": "0x8294E850",
+        "size": 112,
+        "symbol": "check"
+      },
+      {
+        "address": "0x8294E8C0",
+        "size": 180,
+        "symbol": "check_match"
+      },
+      {
+        "address": "0x8294E978",
+        "size": 80,
+        "symbol": "str_checkname"
+      },
+      {
+        "address": "0x8294E9C8",
+        "size": 24,
+        "symbol": "init_exp"
+      },
+      {
+        "address": "0x8294E9E0",
+        "size": 76,
+        "symbol": "codestring"
+      },
+      {
+        "address": "0x8294EA30",
+        "size": 100,
+        "symbol": "checkname"
+      },
+      {
+        "address": "0x8294EA98",
+        "size": 128,
+        "symbol": "luaI_registerlocalvar"
+      },
+      {
+        "address": "0x8294EB78",
+        "size": 92,
+        "symbol": "adjustlocalvars"
+      },
+      {
+        "address": "0x8294EBD8",
+        "size": 88,
+        "symbol": "removevars"
+      },
+      {
+        "address": "0x8294ED30",
+        "size": 280,
+        "symbol": "indexupvalue"
+      },
+      {
+        "address": "0x8294EE48",
+        "size": 84,
+        "symbol": "searchvar"
+      },
+      {
+        "address": "0x8294EEA0",
+        "size": 52,
+        "symbol": "markupval"
+      },
+      {
+        "address": "0x8294EFF8",
+        "size": 92,
+        "symbol": "singlevar"
+      },
+      {
+        "address": "0x8294F058",
+        "size": 176,
+        "symbol": "adjust_assign"
+      },
+      {
+        "address": "0x8294F108",
+        "size": 116,
+        "symbol": "code_params"
+      },
+      {
+        "address": "0x8294F180",
+        "size": 44,
+        "symbol": "enterblock"
+      },
+      {
+        "address": "0x8294F230",
+        "size": 260,
+        "symbol": "pushclosure"
+      },
+      {
+        "address": "0x8294F338",
+        "size": 148,
+        "symbol": "open_func"
+      },
+      {
+        "address": "0x8294F520",
+        "size": 140,
+        "symbol": "luaY_field"
+      },
+      {
+        "address": "0x8294F5B0",
+        "size": 148,
+        "symbol": "luaY_index"
+      },
+      {
+        "address": "0x8294F648",
+        "size": 260,
+        "symbol": "recfield"
+      },
+      {
+        "address": "0x8294F750",
+        "size": 112,
+        "symbol": "closelistfield"
+      },
+      {
+        "address": "0x8294F7C0",
+        "size": 172,
+        "symbol": "lastlistfield"
+      },
+      {
+        "address": "0x8294F870",
+        "size": 112,
+        "symbol": "listfield"
+      },
+      {
+        "address": "0x8294FE00",
+        "size": 264,
+        "symbol": "body"
+      },
+      {
+        "address": "0x8294FF08",
+        "size": 156,
+        "symbol": "explist1"
+      },
+      {
+        "address": "0x8294FFA8",
+        "size": 376,
+        "symbol": "funcargs"
+      },
+      {
+        "address": "0x82950298",
+        "size": 276,
+        "symbol": "simpleexp"
+      },
+      {
+        "address": "0x829503B0",
+        "size": 40,
+        "symbol": "getunopr"
+      },
+      {
+        "address": "0x829503D8",
+        "size": 284,
+        "symbol": "getbinopr"
+      },
+      {
+        "address": "0x829504F8",
+        "size": 344,
+        "symbol": "subexpr"
+      },
+      {
+        "address": "0x82950650",
+        "size": 8,
+        "symbol": "expr"
+      },
+      {
+        "address": "0x82950658",
+        "size": 52,
+        "symbol": "block_follow"
+      },
+      {
+        "address": "0x82950690",
+        "size": 96,
+        "symbol": "block"
+      },
+      {
+        "address": "0x829506F0",
+        "size": 168,
+        "symbol": "check_conflict"
+      },
+      {
+        "address": "0x829508E0",
+        "size": 104,
+        "symbol": "cond"
+      },
+      {
+        "address": "0x82950C90",
+        "size": 260,
+        "symbol": "repeatstat"
+      },
+      {
+        "address": "0x82950D98",
+        "size": 72,
+        "symbol": "exp1"
+      },
+      {
+        "address": "0x82950DE0",
+        "size": 360,
+        "symbol": "forbody"
+      },
+      {
+        "address": "0x829513A8",
+        "size": 228,
+        "symbol": "forstat"
+      },
+      {
+        "address": "0x82951490",
+        "size": 244,
+        "symbol": "test_then_block"
+      },
+      {
+        "address": "0x82951588",
+        "size": 228,
+        "symbol": "ifstat"
+      },
+      {
+        "address": "0x82951970",
+        "size": 384,
+        "symbol": "funcname"
+      },
+      {
+        "address": "0x82951AF0",
+        "size": 116,
+        "symbol": "funcstat"
+      },
+      {
+        "address": "0x82951B68",
+        "size": 116,
+        "symbol": "exprstat"
+      },
+      {
+        "address": "0x82951BE0",
+        "size": 260,
+        "symbol": "retstat"
+      },
+      {
+        "address": "0x82951CE8",
+        "size": 152,
+        "symbol": "breakstat"
+      },
+      {
+        "address": "0x82951F00",
+        "size": 220,
+        "symbol": "chunk"
+      },
+      {
+        "address": "0x82951FE0",
+        "size": 196,
+        "symbol": "luaY_parser"
+      }
+    ],
+    "src/middleware/lua/lstate.c": [
+      {
+        "address": "0x8293B980",
+        "size": 8,
+        "symbol": "default_panic"
+      },
+      {
+        "address": "0x8293B988",
+        "size": 16,
+        "symbol": "mallocstate"
+      },
+      {
+        "address": "0x8293B998",
+        "size": 12,
+        "symbol": "freestate"
+      },
+      {
+        "address": "0x8293B9A8",
+        "size": 208,
+        "symbol": "stack_init"
+      },
+      {
+        "address": "0x8293BA78",
+        "size": 104,
+        "symbol": "freestack"
+      },
+      {
+        "address": "0x8293BAE0",
+        "size": 360,
+        "symbol": "f_luaopen"
+      },
+      {
+        "address": "0x8293BC48",
+        "size": 76,
+        "symbol": "preinit_state"
+      },
+      {
+        "address": "0x8293BC98",
+        "size": 228,
+        "symbol": "close_state"
+      },
+      {
+        "address": "0x8293BD80",
+        "size": 176,
+        "symbol": "luaE_newthread"
+      },
+      {
+        "address": "0x8293BE30",
+        "size": 140,
+        "symbol": "luaE_freethread"
+      },
+      {
+        "address": "0x8293BEC0",
+        "size": 212,
+        "symbol": "lua_open"
+      },
+      {
+        "address": "0x8293BF98",
+        "size": 4,
+        "symbol": "callallgcTM"
+      },
+      {
+        "address": "0x8293BFA0",
+        "size": 140,
+        "symbol": "lua_close"
+      }
+    ],
+    "src/middleware/lua/lstring.c": [
+      {
+        "address": "0x8294A960",
+        "size": 24,
+        "symbol": "luaS_freeall"
+      },
+      {
+        "address": "0x8294A978",
+        "size": 220,
+        "symbol": "luaS_resize"
+      },
+      {
+        "address": "0x8294AA58",
+        "size": 204,
+        "symbol": "newlstr"
+      },
+      {
+        "address": "0x8294AB28",
+        "size": 252,
+        "symbol": "luaS_newlstr"
+      },
+      {
+        "address": "0x8294AC28",
+        "size": 120,
+        "symbol": "luaS_newudata"
+      }
+    ],
+    "src/middleware/lua/lstrlib.c": [
+      {
+        "address": "0x82940908",
+        "size": 84,
+        "symbol": "str_len"
+      },
+      {
+        "address": "0x82940960",
+        "size": 20,
+        "symbol": "posrelat"
+      },
+      {
+        "address": "0x82940978",
+        "size": 236,
+        "symbol": "str_sub"
+      },
+      {
+        "address": "0x82940A68",
+        "size": 172,
+        "symbol": "str_lower"
+      },
+      {
+        "address": "0x82940B18",
+        "size": 172,
+        "symbol": "str_upper"
+      },
+      {
+        "address": "0x82940BC8",
+        "size": 148,
+        "symbol": "str_rep"
+      },
+      {
+        "address": "0x82940C60",
+        "size": 160,
+        "symbol": "str_byte"
+      },
+      {
+        "address": "0x82940D00",
+        "size": 184,
+        "symbol": "str_char"
+      },
+      {
+        "address": "0x82940DB8",
+        "size": 40,
+        "symbol": "writer"
+      },
+      {
+        "address": "0x82940DE0",
+        "size": 120,
+        "symbol": "str_dump"
+      },
+      {
+        "address": "0x82940E58",
+        "size": 64,
+        "symbol": "check_capture"
+      },
+      {
+        "address": "0x82940E98",
+        "size": 72,
+        "symbol": "capture_to_close"
+      },
+      {
+        "address": "0x82940EE0",
+        "size": 200,
+        "symbol": "luaI_classend"
+      },
+      {
+        "address": "0x82940FA8",
+        "size": 452,
+        "symbol": "match_class"
+      },
+      {
+        "address": "0x82941170",
+        "size": 212,
+        "symbol": "matchbracketclass"
+      },
+      {
+        "address": "0x82941248",
+        "size": 72,
+        "symbol": "luaI_singlematch"
+      },
+      {
+        "address": "0x82941290",
+        "size": 188,
+        "symbol": "matchbalance"
+      },
+      {
+        "address": "0x82941350",
+        "size": 208,
+        "symbol": "max_expand"
+      },
+      {
+        "address": "0x82941420",
+        "size": 192,
+        "symbol": "min_expand"
+      },
+      {
+        "address": "0x829414E0",
+        "size": 132,
+        "symbol": "start_capture"
+      },
+      {
+        "address": "0x82941568",
+        "size": 160,
+        "symbol": "end_capture"
+      },
+      {
+        "address": "0x82941608",
+        "size": 216,
+        "symbol": "match_capture"
+      },
+      {
+        "address": "0x829419F8",
+        "size": 192,
+        "symbol": "lmemfind"
+      },
+      {
+        "address": "0x82941AB8",
+        "size": 156,
+        "symbol": "push_onecapture"
+      },
+      {
+        "address": "0x82941B58",
+        "size": 140,
+        "symbol": "push_captures"
+      },
+      {
+        "address": "0x82941E28",
+        "size": 260,
+        "symbol": "gfind_aux"
+      },
+      {
+        "address": "0x82941F30",
+        "size": 120,
+        "symbol": "gfind"
+      },
+      {
+        "address": "0x82941FA8",
+        "size": 444,
+        "symbol": "add_s"
+      },
+      {
+        "address": "0x82942168",
+        "size": 476,
+        "symbol": "str_gsub"
+      },
+      {
+        "address": "0x82942348",
+        "size": 332,
+        "symbol": "luaI_addquoted"
+      },
+      {
+        "address": "0x82942498",
+        "size": 360,
+        "symbol": "scanformat"
+      },
+      {
+        "address": "0x82942600",
+        "size": 840,
+        "symbol": "str_format"
+      },
+      {
+        "address": "0x82942948",
+        "size": 56,
+        "symbol": "luaopen_string"
+      }
+    ],
+    "src/middleware/lua/ltable.c": [
+      {
+        "address": "0x8294B0A0",
+        "size": 80,
+        "symbol": "hashnum"
+      },
+      {
+        "address": "0x8294B0F0",
+        "size": 284,
+        "symbol": "luaH_mainposition"
+      },
+      {
+        "address": "0x8294B210",
+        "size": 88,
+        "symbol": "arrayindex"
+      },
+      {
+        "address": "0x8294B268",
+        "size": 144,
+        "symbol": "computesizes"
+      },
+      {
+        "address": "0x8294B4B8",
+        "size": 124,
+        "symbol": "setarrayvector"
+      },
+      {
+        "address": "0x8294B538",
+        "size": 208,
+        "symbol": "setnodevector"
+      },
+      {
+        "address": "0x8294B608",
+        "size": 144,
+        "symbol": "luaH_new"
+      },
+      {
+        "address": "0x8294B698",
+        "size": 140,
+        "symbol": "luaH_free"
+      },
+      {
+        "address": "0x8294B728",
+        "size": 116,
+        "symbol": "luaH_getany"
+      },
+      {
+        "address": "0x8294B7A0",
+        "size": 192,
+        "symbol": "luaH_getnum"
+      },
+      {
+        "address": "0x8294B860",
+        "size": 100,
+        "symbol": "luaH_getstr"
+      },
+      {
+        "address": "0x8294B958",
+        "size": 144,
+        "symbol": "luaH_set"
+      },
+      {
+        "address": "0x8294B9E8",
+        "size": 224,
+        "symbol": "luaH_index"
+      },
+      {
+        "address": "0x8294BAC8",
+        "size": 332,
+        "symbol": "luaH_next"
+      },
+      {
+        "address": "0x8294BEA8",
+        "size": 96,
+        "symbol": "rehash"
+      },
+      {
+        "address": "0x8294BF08",
+        "size": 340,
+        "symbol": "newkey"
+      },
+      {
+        "address": "0x8294C060",
+        "size": 108,
+        "symbol": "luaH_setnum"
+      }
+    ],
+    "src/middleware/lua/ltablib.c": [
+      {
+        "address": "0x8293DB98",
+        "size": 212,
+        "symbol": "luaB_foreachi"
+      },
+      {
+        "address": "0x8293DC70",
+        "size": 228,
+        "symbol": "luaB_foreach"
+      },
+      {
+        "address": "0x8293DD58",
+        "size": 96,
+        "symbol": "luaB_getn"
+      },
+      {
+        "address": "0x8293DDB8",
+        "size": 92,
+        "symbol": "luaB_setn"
+      },
+      {
+        "address": "0x8293DE18",
+        "size": 224,
+        "symbol": "luaB_tinsert"
+      },
+      {
+        "address": "0x8293DEF8",
+        "size": 232,
+        "symbol": "luaB_tremove"
+      },
+      {
+        "address": "0x8293DFE0",
+        "size": 288,
+        "symbol": "str_concat"
+      },
+      {
+        "address": "0x8293E100",
+        "size": 80,
+        "symbol": "set2"
+      },
+      {
+        "address": "0x8293E150",
+        "size": 152,
+        "symbol": "sort_comp"
+      },
+      {
+        "address": "0x8293E1E8",
+        "size": 1308,
+        "symbol": "auxsort"
+      },
+      {
+        "address": "0x8293E708",
+        "size": 164,
+        "symbol": "luaB_sort"
+      },
+      {
+        "address": "0x8293E7B0",
+        "size": 56,
+        "symbol": "luaopen_table"
+      }
+    ],
+    "src/middleware/lua/ltm.c": [
+      {
+        "address": "0x82947B40",
+        "size": 124,
+        "symbol": "luaT_init"
+      },
+      {
+        "address": "0x82947BC0",
+        "size": 96,
+        "symbol": "luaT_gettm"
+      },
+      {
+        "address": "0x82947C20",
+        "size": 76,
+        "symbol": "luaT_gettmbyobj"
+      }
+    ],
+    "src/middleware/lua/lundump.c": [
+      {
+        "address": "0x829520A8",
+        "size": 20,
+        "symbol": "unexpectedEOZ"
+      },
+      {
+        "address": "0x829520C0",
+        "size": 140,
+        "symbol": "ezgetc"
+      },
+      {
+        "address": "0x82952150",
+        "size": 76,
+        "symbol": "ezread"
+      },
+      {
+        "address": "0x829521A0",
+        "size": 212,
+        "symbol": "LoadBlock"
+      },
+      {
+        "address": "0x82952278",
+        "size": 248,
+        "symbol": "LoadVector"
+      },
+      {
+        "address": "0x82952370",
+        "size": 88,
+        "symbol": "LoadInt"
+      },
+      {
+        "address": "0x829523C8",
+        "size": 44,
+        "symbol": "LoadSize"
+      },
+      {
+        "address": "0x829523F8",
+        "size": 44,
+        "symbol": "LoadNumber"
+      },
+      {
+        "address": "0x82952428",
+        "size": 140,
+        "symbol": "LoadString"
+      },
+      {
+        "address": "0x829524B8",
+        "size": 124,
+        "symbol": "LoadCode"
+      },
+      {
+        "address": "0x82952538",
+        "size": 392,
+        "symbol": "LoadLocals"
+      },
+      {
+        "address": "0x829526C0",
+        "size": 124,
+        "symbol": "LoadLines"
+      },
+      {
+        "address": "0x82952740",
+        "size": 300,
+        "symbol": "LoadUpvalues"
+      },
+      {
+        "address": "0x82952870",
+        "size": 472,
+        "symbol": "LoadConstants"
+      },
+      {
+        "address": "0x82952B60",
+        "size": 184,
+        "symbol": "LoadSignature"
+      },
+      {
+        "address": "0x82952C18",
+        "size": 76,
+        "symbol": "TestSize"
+      },
+      {
+        "address": "0x82952C68",
+        "size": 8,
+        "symbol": "luaU_endianness"
+      },
+      {
+        "address": "0x82952F10",
+        "size": 56,
+        "symbol": "LoadChunk"
+      },
+      {
+        "address": "0x82952F48",
+        "size": 120,
+        "symbol": "luaU_undump"
+      }
+    ],
+    "src/middleware/lua/lvm.c": [
+      {
+        "address": "0x82947C70",
+        "size": 128,
+        "symbol": "luaV_tonumber"
+      },
+      {
+        "address": "0x82947CF0",
+        "size": 164,
+        "symbol": "luaV_tostring"
+      },
+      {
+        "address": "0x82947D98",
+        "size": 360,
+        "symbol": "traceexec"
+      },
+      {
+        "address": "0x82947F00",
+        "size": 172,
+        "symbol": "callTMres"
+      },
+      {
+        "address": "0x82947FB0",
+        "size": 180,
+        "symbol": "callTM"
+      },
+      {
+        "address": "0x82948068",
+        "size": 136,
+        "symbol": "luaV_getnotable"
+      },
+      {
+        "address": "0x829480F0",
+        "size": 140,
+        "symbol": "luaV_gettable"
+      },
+      {
+        "address": "0x829482A0",
+        "size": 156,
+        "symbol": "call_binTM"
+      },
+      {
+        "address": "0x82948340",
+        "size": 200,
+        "symbol": "get_compTM"
+      },
+      {
+        "address": "0x82948408",
+        "size": 180,
+        "symbol": "call_orderTM"
+      },
+      {
+        "address": "0x829484C0",
+        "size": 176,
+        "symbol": "luaV_strcmp"
+      },
+      {
+        "address": "0x82948570",
+        "size": 164,
+        "symbol": "luaV_lessthan"
+      },
+      {
+        "address": "0x82948618",
+        "size": 216,
+        "symbol": "luaV_lessequal"
+      },
+      {
+        "address": "0x829486F0",
+        "size": 268,
+        "symbol": "luaV_equalval"
+      },
+      {
+        "address": "0x82948800",
+        "size": 544,
+        "symbol": "luaV_concat"
+      },
+      {
+        "address": "0x82948A20",
+        "size": 156,
+        "symbol": "luaV_index"
+      }
+    ],
+    "src/middleware/lua/lzio.c": [
+      {
+        "address": "0x8294C0D0",
+        "size": 132,
+        "symbol": "luaZ_fill"
+      },
+      {
+        "address": "0x8294C158",
+        "size": 116,
+        "symbol": "luaZ_lookahead"
+      },
+      {
+        "address": "0x8294C1D0",
+        "size": 28,
+        "symbol": "luaZ_init"
+      },
+      {
+        "address": "0x8294C1F0",
+        "size": 228,
+        "symbol": "luaZ_read"
+      },
+      {
+        "address": "0x8294C2D8",
+        "size": 100,
+        "symbol": "luaZ_openspace"
+      }
+    ],
+    "src/middleware/zlib/adler32.c": [
+      {
+        "address": "0x82937948",
+        "size": 780,
+        "symbol": "adler32"
+      }
+    ],
+    "src/middleware/zlib/crc32.c": [
+      {
+        "address": "0x82937C58",
+        "size": 876,
+        "symbol": "crc32_big"
+      },
+      {
+        "address": "0x82937FC8",
+        "size": 20,
+        "symbol": "crc32"
+      }
+    ],
+    "src/middleware/zlib/inffast.c": [
+      {
+        "address": "0x82936FB8",
+        "size": 1104,
+        "symbol": "inflate_fast"
+      }
+    ],
+    "src/middleware/zlib/inflate.c": [
+      {
+        "address": "0x823BAB08",
+        "size": 6240,
+        "symbol": "inflate"
+      },
+      {
+        "address": "0x82936BF8",
+        "size": 128,
+        "symbol": "inflateReset"
+      },
+      {
+        "address": "0x82936C78",
+        "size": 308,
+        "symbol": "inflateInit2_"
+      },
+      {
+        "address": "0x82936DB0",
+        "size": 16,
+        "symbol": "inflateInit_"
+      },
+      {
+        "address": "0x82936DC0",
+        "size": 336,
+        "symbol": "updatewindow"
+      },
+      {
+        "address": "0x82936F10",
+        "size": 152,
+        "symbol": "inflateEnd"
+      }
+    ],
+    "src/middleware/zlib/inftrees.c": [
+      {
+        "address": "0x82937408",
+        "size": 1340,
+        "symbol": "inflate_table"
+      }
+    ],
+    "src/middleware/zlib/uncompr.c": [
+      {
+        "address": "0x82936B30",
+        "size": 196,
+        "symbol": "uncompress"
+      }
+    ],
+    "src/middleware/zlib/zutil.c": [
+      {
+        "address": "0x82936FA8",
+        "size": 8,
+        "symbol": "zcalloc"
+      },
+      {
+        "address": "0x82936FB0",
+        "size": 8,
+        "symbol": "zcfree"
+      }
+    ],
+    "src/middleware/libjpeg/jcapimin.c": [
+      {
+        "address": "0x82F451A0",
+        "size": 276,
+        "symbol": "?jpeg_CreateCompress@@"
+      },
+      {
+        "address": "0x82F452B8",
+        "size": 4,
+        "symbol": "?jpeg_destroy_compress@@"
+      },
+      {
+        "address": "0x82F452C0",
+        "size": 4,
+        "symbol": "?jpeg_abort_compress@@"
+      },
+      {
+        "address": "0x82F452C8",
+        "size": 92,
+        "symbol": "?jpeg_suppress_tables@@"
+      },
+      {
+        "address": "0x82F45328",
+        "size": 408,
+        "symbol": "?jpeg_finish_compress@@"
+      },
+      {
+        "address": "0x82F454C0",
+        "size": 196,
+        "symbol": "?jpeg_write_marker@@"
+      },
+      {
+        "address": "0x82F45588",
+        "size": 144,
+        "symbol": "?jpeg_write_m_header@@"
+      },
+      {
+        "address": "0x82F45618",
+        "size": 16,
+        "symbol": "?jpeg_write_m_byte@@"
+      },
+      {
+        "address": "0x82F45628",
+        "size": 180,
+        "symbol": "?jpeg_write_tables@@"
+      }
+    ],
+    "src/middleware/libjpeg/jcapistd.c": [
+      {
+        "address": "0x82F441E8",
+        "size": 224,
+        "symbol": "?jpeg_start_compress@@"
+      },
+      {
+        "address": "0x82F442C8",
+        "size": 300,
+        "symbol": "?jpeg_write_scanlines@@"
+      },
+      {
+        "address": "0x82F443F8",
+        "size": 320,
+        "symbol": "?jpeg_write_raw_data@@"
+      }
+    ],
+    "src/middleware/libjpeg/jccoefct.c": [
+      {
+        "address": "0x82F53808",
+        "size": 80,
+        "symbol": "?start_iMCU_row@@"
+      },
+      {
+        "address": "0x82F53858",
+        "size": 588,
+        "symbol": "?compress_data@@"
+      },
+      {
+        "address": "0x82F53AA8",
+        "size": 464,
+        "symbol": "?compress_output@@"
+      },
+      {
+        "address": "0x82F53C78",
+        "size": 532,
+        "symbol": "?compress_first_pass@@"
+      },
+      {
+        "address": "0x82F53E90",
+        "size": 264,
+        "symbol": "?start_pass_coef@@"
+      },
+      {
+        "address": "0x82F53F98",
+        "size": 276,
+        "symbol": "?jinit_c_coef_controller@@"
+      }
+    ],
+    "src/middleware/libjpeg/jccolor.c": [
+      {
+        "address": "0x82F55988",
+        "size": 204,
+        "symbol": "?rgb_ycc_start@@"
+      },
+      {
+        "address": "0x82F55A58",
+        "size": 276,
+        "symbol": "?rgb_ycc_convert@@"
+      },
+      {
+        "address": "0x82F55B70",
+        "size": 156,
+        "symbol": "?rgb_gray_convert@@"
+      },
+      {
+        "address": "0x82F55C10",
+        "size": 308,
+        "symbol": "?cmyk_ycck_convert@@"
+      },
+      {
+        "address": "0x82F55D48",
+        "size": 96,
+        "symbol": "?grayscale_convert@@"
+      },
+      {
+        "address": "0x82F55DA8",
+        "size": 132,
+        "symbol": "?null_convert@@"
+      },
+      {
+        "address": "0x82F55E30",
+        "size": 4,
+        "symbol": "?null_method@@"
+      },
+      {
+        "address": "0x82F55E38",
+        "size": 740,
+        "symbol": "?jinit_color_converter@@"
+      }
+    ],
+    "src/middleware/libjpeg/jcdctmgr.c": [
+      {
+        "address": "0x82F540B0",
+        "size": 636,
+        "symbol": "?start_pass_fdctmgr@@"
+      },
+      {
+        "address": "0x82F54330",
+        "size": 384,
+        "symbol": "?forward_DCT@@"
+      },
+      {
+        "address": "0x82F544B0",
+        "size": 476,
+        "symbol": "?forward_DCT_float@@"
+      },
+      {
+        "address": "0x82F54690",
+        "size": 240,
+        "symbol": "?jinit_forward_dct@@"
+      }
+    ],
+    "src/middleware/libjpeg/jchuff.c": [
+      {
+        "address": "0x82F4BC28",
+        "size": 664,
+        "symbol": "?jpeg_make_c_derived_tbl@@"
+      },
+      {
+        "address": "0x82F4BEC0",
+        "size": 104,
+        "symbol": "?dump_buffer@@"
+      },
+      {
+        "address": "0x82F4BF28",
+        "size": 280,
+        "symbol": "?emit_bits@@"
+      },
+      {
+        "address": "0x82F4C040",
+        "size": 84,
+        "symbol": "?flush_bits@@"
+      },
+      {
+        "address": "0x82F4C098",
+        "size": 504,
+        "symbol": "?encode_one_block@@"
+      },
+      {
+        "address": "0x82F4C290",
+        "size": 240,
+        "symbol": "?emit_restart@@"
+      },
+      {
+        "address": "0x82F4C380",
+        "size": 364,
+        "symbol": "?encode_mcu_huff@@"
+      },
+      {
+        "address": "0x82F4C4F0",
+        "size": 184,
+        "symbol": "?finish_pass_huff@@"
+      },
+      {
+        "address": "0x82F4C5A8",
+        "size": 352,
+        "symbol": "?htest_one_block@@"
+      },
+      {
+        "address": "0x82F4C708",
+        "size": 240,
+        "symbol": "?encode_mcu_gather@@"
+      },
+      {
+        "address": "0x82F4CC30",
+        "size": 476,
+        "symbol": "?start_pass_huff@@"
+      },
+      {
+        "address": "0x82F4CE10",
+        "size": 116,
+        "symbol": "?jinit_huff_encoder@@"
+      }
+    ],
+    "src/middleware/libjpeg/jcinit.c": [
+      {
+        "address": "0x82F4AFB8",
+        "size": 272,
+        "symbol": "?jinit_compress_master@@"
+      }
+    ],
+    "src/middleware/libjpeg/jcmainct.c": [
+      {
+        "address": "0x82F535D8",
+        "size": 256,
+        "symbol": "?process_data_simple_main@@"
+      },
+      {
+        "address": "0x82F536D8",
+        "size": 84,
+        "symbol": "?start_pass_main@@"
+      },
+      {
+        "address": "0x82F53730",
+        "size": 212,
+        "symbol": "?jinit_c_main_controller@@"
+      }
+    ],
+    "src/middleware/libjpeg/jcmarker.c": [
+      {
+        "address": "0x82F4B0C8",
+        "size": 132,
+        "symbol": "?emit_byte@@"
+      },
+      {
+        "address": "0x82F4B150",
+        "size": 72,
+        "symbol": "?emit_marker@@"
+      },
+      {
+        "address": "0x82F4B198",
+        "size": 76,
+        "symbol": "?emit_2bytes@@"
+      },
+      {
+        "address": "0x82F4B1E8",
+        "size": 272,
+        "symbol": "?emit_dqt@@"
+      },
+      {
+        "address": "0x82F4B2F8",
+        "size": 264,
+        "symbol": "?emit_dht@@"
+      },
+      {
+        "address": "0x82F4B400",
+        "size": 4,
+        "symbol": "?emit_dac@@"
+      },
+      {
+        "address": "0x82F4B408",
+        "size": 72,
+        "symbol": "?emit_dri@@"
+      },
+      {
+        "address": "0x82F4B450",
+        "size": 256,
+        "symbol": "?emit_sof@@"
+      },
+      {
+        "address": "0x82F4B550",
+        "size": 248,
+        "symbol": "?emit_sos@@"
+      },
+      {
+        "address": "0x82F4B648",
+        "size": 204,
+        "symbol": "?emit_jfif_app0@@"
+      },
+      {
+        "address": "0x82F4B718",
+        "size": 204,
+        "symbol": "?emit_adobe_app14@@"
+      },
+      {
+        "address": "0x82F4B7E8",
+        "size": 92,
+        "symbol": "?write_marker_header@@"
+      },
+      {
+        "address": "0x82F4B848",
+        "size": 4,
+        "symbol": "?write_marker_byte@@"
+      },
+      {
+        "address": "0x82F4B850",
+        "size": 108,
+        "symbol": "?write_file_header@@"
+      },
+      {
+        "address": "0x82F4B8C0",
+        "size": 308,
+        "symbol": "?write_frame_header@@"
+      },
+      {
+        "address": "0x82F4B9F8",
+        "size": 204,
+        "symbol": "?write_scan_header@@"
+      },
+      {
+        "address": "0x82F4BAC8",
+        "size": 8,
+        "symbol": "?write_file_trailer@@"
+      },
+      {
+        "address": "0x82F4BAD0",
+        "size": 184,
+        "symbol": "?write_tables_only@@"
+      },
+      {
+        "address": "0x82F4BB88",
+        "size": 160,
+        "symbol": "?jinit_marker_writer@@"
+      }
+    ],
+    "src/middleware/libjpeg/jcmaster.c": [
+      {
+        "address": "0x82F4DD78",
+        "size": 656,
+        "symbol": "?initial_setup@@"
+      },
+      {
+        "address": "0x82F4E008",
+        "size": 1188,
+        "symbol": "?validate_script@@"
+      },
+      {
+        "address": "0x82F4E4B0",
+        "size": 324,
+        "symbol": "?select_scan_parameters@@"
+      },
+      {
+        "address": "0x82F4E5F8",
+        "size": 528,
+        "symbol": "?per_scan_setup@@"
+      },
+      {
+        "address": "0x82F4E808",
+        "size": 664,
+        "symbol": "?prepare_for_pass@@"
+      },
+      {
+        "address": "0x82F4EAA0",
+        "size": 88,
+        "symbol": "?pass_startup@@"
+      },
+      {
+        "address": "0x82F4EAF8",
+        "size": 172,
+        "symbol": "?finish_pass_master@@"
+      },
+      {
+        "address": "0x82F4EBA8",
+        "size": 240,
+        "symbol": "?jinit_c_master_control@@"
+      }
+    ],
+    "src/middleware/libjpeg/jcomapi.c": [
+      {
+        "address": "0x82F47718",
+        "size": 104,
+        "symbol": "?jpeg_abort@@"
+      },
+      {
+        "address": "0x82F47780",
+        "size": 76,
+        "symbol": "?jpeg_destroy@@"
+      },
+      {
+        "address": "0x82F477D0",
+        "size": 60,
+        "symbol": "?jpeg_alloc_quant_table@@"
+      },
+      {
+        "address": "0x82F47810",
+        "size": 60,
+        "symbol": "?jpeg_alloc_huff_table@@"
+      }
+    ],
+    "src/middleware/libjpeg/jcparam.c": [
+      {
+        "address": "0x82F44538",
+        "size": 292,
+        "symbol": "?jpeg_add_quant_table@@"
+      },
+      {
+        "address": "0x82F44660",
+        "size": 84,
+        "symbol": "?jpeg_set_linear_quality@@"
+      },
+      {
+        "address": "0x82F446B8",
+        "size": 60,
+        "symbol": "?jpeg_quality_scaling@@"
+      },
+      {
+        "address": "0x82F446F8",
+        "size": 64,
+        "symbol": "?jpeg_set_quality@@"
+      },
+      {
+        "address": "0x82F44738",
+        "size": 184,
+        "symbol": "?add_huff_table@@"
+      },
+      {
+        "address": "0x82F447F0",
+        "size": 148,
+        "symbol": "?std_huff_tables@@"
+      },
+      {
+        "address": "0x82F44888",
+        "size": 880,
+        "symbol": "?jpeg_set_colorspace@@"
+      },
+      {
+        "address": "0x82F44BF8",
+        "size": 40,
+        "symbol": "?fill_a_scan@@"
+      },
+      {
+        "address": "0x82F44C20",
+        "size": 60,
+        "symbol": "?fill_scans@@"
+      },
+      {
+        "address": "0x82F44C60",
+        "size": 140,
+        "symbol": "?fill_dc_scans@@"
+      },
+      {
+        "address": "0x82F44CF0",
+        "size": 784,
+        "symbol": "?jpeg_simple_progression@@"
+      },
+      {
+        "address": "0x82F45000",
+        "size": 116,
+        "symbol": "?jpeg_default_colorspace@@"
+      }
+    ],
+    "src/middleware/libjpeg/jcphuff.c": [
+      {
+        "address": "0x82F4CE88",
+        "size": 128,
+        "symbol": "?dump_buffer@@"
+      },
+      {
+        "address": "0x82F4CF08",
+        "size": 276,
+        "symbol": "?emit_bits@@"
+      },
+      {
+        "address": "0x82F4D020",
+        "size": 64,
+        "symbol": "?flush_bits@@"
+      },
+      {
+        "address": "0x82F4D060",
+        "size": 76,
+        "symbol": "?emit_symbol@@"
+      },
+      {
+        "address": "0x82F4D0B0",
+        "size": 80,
+        "symbol": "?emit_buffered_bits@@"
+      },
+      {
+        "address": "0x82F4D100",
+        "size": 172,
+        "symbol": "?emit_eobrun@@"
+      },
+      {
+        "address": "0x82F4D2A0",
+        "size": 404,
+        "symbol": "?encode_mcu_DC_first@@"
+      },
+      {
+        "address": "0x82F4D438",
+        "size": 520,
+        "symbol": "?encode_mcu_AC_first@@"
+      },
+      {
+        "address": "0x82F4D640",
+        "size": 252,
+        "symbol": "?encode_mcu_DC_refine@@"
+      },
+      {
+        "address": "0x82F4D740",
+        "size": 612,
+        "symbol": "?encode_mcu_AC_refine@@"
+      },
+      {
+        "address": "0x82F4DB18",
+        "size": 492,
+        "symbol": "?start_pass_phuff@@"
+      },
+      {
+        "address": "0x82F4DD08",
+        "size": 112,
+        "symbol": "?jinit_phuff_encoder@@"
+      }
+    ],
+    "src/middleware/libjpeg/jcprepct.c": [
+      {
+        "address": "0x82F54780",
+        "size": 120,
+        "symbol": "?start_pass_prep@@"
+      },
+      {
+        "address": "0x82F547F8",
+        "size": 88,
+        "symbol": "?expand_bottom_edge@@"
+      },
+      {
+        "address": "0x82F54850",
+        "size": 448,
+        "symbol": "?pre_process_data@@"
+      },
+      {
+        "address": "0x82F54A10",
+        "size": 540,
+        "symbol": "?pre_process_context@@"
+      },
+      {
+        "address": "0x82F54C30",
+        "size": 308,
+        "symbol": "?create_context_buffer@@"
+      },
+      {
+        "address": "0x82F54D68",
+        "size": 280,
+        "symbol": "?jinit_c_prep_controller@@"
+      }
+    ],
+    "src/middleware/libjpeg/jcsample.c": [
+      {
+        "address": "0x82F54E80",
+        "size": 4,
+        "symbol": "?start_pass_downsample@@"
+      },
+      {
+        "address": "0x82F54E88",
+        "size": 68,
+        "symbol": "?expand_right_edge@@"
+      },
+      {
+        "address": "0x82F54ED0",
+        "size": 140,
+        "symbol": "?sep_downsample@@"
+      },
+      {
+        "address": "0x82F54F60",
+        "size": 352,
+        "symbol": "?int_downsample@@"
+      },
+      {
+        "address": "0x82F550C0",
+        "size": 144,
+        "symbol": "?fullsize_downsample@@"
+      },
+      {
+        "address": "0x82F55150",
+        "size": 208,
+        "symbol": "?h2v1_downsample@@"
+      },
+      {
+        "address": "0x82F55220",
+        "size": 240,
+        "symbol": "?h2v2_downsample@@"
+      },
+      {
+        "address": "0x82F55310",
+        "size": 688,
+        "symbol": "?h2v2_smooth_downsample@@"
+      },
+      {
+        "address": "0x82F555C0",
+        "size": 404,
+        "symbol": "?fullsize_smooth_downsample@@"
+      },
+      {
+        "address": "0x82F55758",
+        "size": 560,
+        "symbol": "?jinit_downsampler@@"
+      }
+    ],
+    "src/middleware/libjpeg/jctrans.c": [
+      {
+        "address": "0x82F456E0",
+        "size": 640,
+        "symbol": "?jpeg_copy_critical_parameters@@"
+      },
+      {
+        "address": "0x82F45960",
+        "size": 80,
+        "symbol": "?start_iMCU_row@@"
+      },
+      {
+        "address": "0x82F459B0",
+        "size": 104,
+        "symbol": "?start_pass_coef@@"
+      },
+      {
+        "address": "0x82F45A18",
+        "size": 584,
+        "symbol": "?compress_output@@"
+      },
+      {
+        "address": "0x82F45C60",
+        "size": 152,
+        "symbol": "?transencode_coef_controller@@"
+      },
+      {
+        "address": "0x82F45CF8",
+        "size": 176,
+        "symbol": "?transencode_master_selection@@"
+      },
+      {
+        "address": "0x82F45DA8",
+        "size": 184,
+        "symbol": "?jpeg_write_coefficients@@"
+      }
+    ],
+    "src/middleware/libjpeg/jdapimin.c": [
+      {
+        "address": "0x82F40CA0",
+        "size": 280,
+        "symbol": "?jpeg_CreateDecompress@@"
+      },
+      {
+        "address": "0x82F40DB8",
+        "size": 4,
+        "symbol": "?jpeg_destroy_decompress@@"
+      },
+      {
+        "address": "0x82F40DC0",
+        "size": 4,
+        "symbol": "?jpeg_abort_decompress@@"
+      },
+      {
+        "address": "0x82F40DC8",
+        "size": 480,
+        "symbol": "?default_decompress_parms@@"
+      },
+      {
+        "address": "0x82F40FA8",
+        "size": 284,
+        "symbol": "?jpeg_consume_input@@"
+      },
+      {
+        "address": "0x82F410C8",
+        "size": 112,
+        "symbol": "?jpeg_input_complete@@"
+      },
+      {
+        "address": "0x82F41138",
+        "size": 112,
+        "symbol": "?jpeg_has_multiple_scans@@"
+      },
+      {
+        "address": "0x82F411A8",
+        "size": 304,
+        "symbol": "?jpeg_finish_decompress@@"
+      },
+      {
+        "address": "0x82F412D8",
+        "size": 196,
+        "symbol": "?jpeg_read_header@@"
+      }
+    ],
+    "src/middleware/libjpeg/jdapistd.c": [
+      {
+        "address": "0x82F43938",
+        "size": 312,
+        "symbol": "?output_pass_setup@@"
+      },
+      {
+        "address": "0x82F43A70",
+        "size": 248,
+        "symbol": "?jpeg_read_scanlines@@"
+      },
+      {
+        "address": "0x82F43B68",
+        "size": 292,
+        "symbol": "?jpeg_read_raw_data@@"
+      },
+      {
+        "address": "0x82F43C90",
+        "size": 168,
+        "symbol": "?jpeg_start_output@@"
+      },
+      {
+        "address": "0x82F43D38",
+        "size": 248,
+        "symbol": "?jpeg_finish_output@@"
+      },
+      {
+        "address": "0x82F43E30",
+        "size": 344,
+        "symbol": "?jpeg_start_decompress@@"
+      }
+    ],
+    "src/middleware/libjpeg/jdcoefct.c": [
+      {
+        "address": "0x82F483A0",
+        "size": 80,
+        "symbol": "?start_iMCU_row@@"
+      },
+      {
+        "address": "0x82F483F0",
+        "size": 12,
+        "symbol": "?start_input_pass@@"
+      },
+      {
+        "address": "0x82F48400",
+        "size": 548,
+        "symbol": "?decompress_onepass@@"
+      },
+      {
+        "address": "0x82F48628",
+        "size": 8,
+        "symbol": "?dummy_consume_data@@"
+      },
+      {
+        "address": "0x82F48630",
+        "size": 504,
+        "symbol": "?consume_data@@"
+      },
+      {
+        "address": "0x82F48828",
+        "size": 436,
+        "symbol": "?decompress_data@@"
+      },
+      {
+        "address": "0x82F489E0",
+        "size": 324,
+        "symbol": "?smoothing_ok@@"
+      },
+      {
+        "address": "0x82F48B28",
+        "size": 1932,
+        "symbol": "?decompress_smooth_data@@"
+      },
+      {
+        "address": "0x82F492B8",
+        "size": 120,
+        "symbol": "?start_output_pass@@"
+      },
+      {
+        "address": "0x82F49330",
+        "size": 352,
+        "symbol": "?jinit_d_coef_controller@@"
+      }
+    ],
+    "src/middleware/libjpeg/jdcolor.c": [
+      {
+        "address": "0x82F506F0",
+        "size": 296,
+        "symbol": "?build_ycc_rgb_table@@"
+      },
+      {
+        "address": "0x82F50818",
+        "size": 208,
+        "symbol": "?ycc_rgb_convert@@"
+      },
+      {
+        "address": "0x82F508E8",
+        "size": 140,
+        "symbol": "?null_convert@@"
+      },
+      {
+        "address": "0x82F50978",
+        "size": 28,
+        "symbol": "?grayscale_convert@@"
+      },
+      {
+        "address": "0x82F50998",
+        "size": 100,
+        "symbol": "?gray_rgb_convert@@"
+      },
+      {
+        "address": "0x82F50A00",
+        "size": 240,
+        "symbol": "?ycck_cmyk_convert@@"
+      },
+      {
+        "address": "0x82F50AF0",
+        "size": 4,
+        "symbol": "?start_pass_dcolor@@"
+      },
+      {
+        "address": "0x82F50AF8",
+        "size": 536,
+        "symbol": "?jinit_color_deconverter@@"
+      }
+    ],
+    "src/middleware/libjpeg/jddctmgr.c": [
+      {
+        "address": "0x82F4F710",
+        "size": 596,
+        "symbol": "?start_pass@@"
+      }
+    ],
+    "src/middleware/libjpeg/jdhuff.c": [
+      {
+        "address": "0x82F497F8",
+        "size": 352,
+        "symbol": "?jpeg_fill_bit_buffer@@"
+      },
+      {
+        "address": "0x82F49958",
+        "size": 284,
+        "symbol": "?jpeg_huff_decode@@"
+      },
+      {
+        "address": "0x82F49A78",
+        "size": 164,
+        "symbol": "?process_restart@@"
+      },
+      {
+        "address": "0x82F49B20",
+        "size": 1116,
+        "symbol": "?decode_mcu@@"
+      },
+      {
+        "address": "0x82F49F80",
+        "size": 420,
+        "symbol": "?start_pass_huff_decoder@@"
+      },
+      {
+        "address": "0x82F4A128",
+        "size": 120,
+        "symbol": "?jinit_huff_decoder@@"
+      }
+    ],
+    "src/middleware/libjpeg/jdinput.c": [
+      {
+        "address": "0x82F45E60",
+        "size": 632,
+        "symbol": "?initial_setup@@"
+      },
+      {
+        "address": "0x82F460D8",
+        "size": 488,
+        "symbol": "?per_scan_setup@@"
+      },
+      {
+        "address": "0x82F462C0",
+        "size": 216,
+        "symbol": "?latch_quant_tables@@"
+      },
+      {
+        "address": "0x82F46398",
+        "size": 108,
+        "symbol": "?start_input_pass@@"
+      },
+      {
+        "address": "0x82F46408",
+        "size": 272,
+        "symbol": "?consume_markers@@"
+      },
+      {
+        "address": "0x82F46518",
+        "size": 124,
+        "symbol": "?reset_input_controller@@"
+      },
+      {
+        "address": "0x82F46598",
+        "size": 20,
+        "symbol": "?finish_input_pass@@"
+      },
+      {
+        "address": "0x82F465B0",
+        "size": 136,
+        "symbol": "?jinit_input_controller@@"
+      }
+    ],
+    "src/middleware/libjpeg/jdmainct.c": [
+      {
+        "address": "0x82F4EEB8",
+        "size": 236,
+        "symbol": "?alloc_funny_pointers@@"
+      },
+      {
+        "address": "0x82F4EFA8",
+        "size": 300,
+        "symbol": "?make_funny_pointers@@"
+      },
+      {
+        "address": "0x82F4F0D8",
+        "size": 232,
+        "symbol": "?set_wraparound_pointers@@"
+      },
+      {
+        "address": "0x82F4F1C0",
+        "size": 232,
+        "symbol": "?set_bottom_pointers@@"
+      },
+      {
+        "address": "0x82F4F2A8",
+        "size": 164,
+        "symbol": "?process_data_simple_main@@"
+      },
+      {
+        "address": "0x82F4F350",
+        "size": 416,
+        "symbol": "?process_data_context_main@@"
+      },
+      {
+        "address": "0x82F4F4F0",
+        "size": 40,
+        "symbol": "?process_data_crank_post@@"
+      },
+      {
+        "address": "0x82F4F518",
+        "size": 184,
+        "symbol": "?start_pass_main@@"
+      },
+      {
+        "address": "0x82F4F5D0",
+        "size": 320,
+        "symbol": "?jinit_d_main_controller@@"
+      }
+    ],
+    "src/middleware/libjpeg/jdmarker.c": [
+      {
+        "address": "0x82F413A0",
+        "size": 216,
+        "symbol": "?get_soi@@"
+      },
+      {
+        "address": "0x82F41478",
+        "size": 1096,
+        "symbol": "?get_sof@@"
+      },
+      {
+        "address": "0x82F418C0",
+        "size": 944,
+        "symbol": "?get_sos@@"
+      },
+      {
+        "address": "0x82F42008",
+        "size": 776,
+        "symbol": "?get_dqt@@"
+      },
+      {
+        "address": "0x82F42310",
+        "size": 356,
+        "symbol": "?get_dri@@"
+      },
+      {
+        "address": "0x82F42478",
+        "size": 676,
+        "symbol": "?examine_app0@@"
+      },
+      {
+        "address": "0x82F42720",
+        "size": 268,
+        "symbol": "?examine_app14@@"
+      },
+      {
+        "address": "0x82F42830",
+        "size": 420,
+        "symbol": "?get_interesting_appn@@"
+      },
+      {
+        "address": "0x82F429D8",
+        "size": 676,
+        "symbol": "?save_marker@@"
+      },
+      {
+        "address": "0x82F42C80",
+        "size": 252,
+        "symbol": "?skip_variable@@"
+      },
+      {
+        "address": "0x82F42D80",
+        "size": 316,
+        "symbol": "?next_marker@@"
+      },
+      {
+        "address": "0x82F42EC0",
+        "size": 220,
+        "symbol": "?first_marker@@"
+      },
+      {
+        "address": "0x82F42FA0",
+        "size": 660,
+        "symbol": "?read_markers@@"
+      },
+      {
+        "address": "0x82F43238",
+        "size": 212,
+        "symbol": "?read_restart_marker@@"
+      },
+      {
+        "address": "0x82F43310",
+        "size": 328,
+        "symbol": "?jpeg_resync_to_restart@@"
+      },
+      {
+        "address": "0x82F43458",
+        "size": 40,
+        "symbol": "?reset_marker_reader@@"
+      },
+      {
+        "address": "0x82F43558",
+        "size": 224,
+        "symbol": "?jpeg_save_markers@@"
+      },
+      {
+        "address": "0x82F43638",
+        "size": 88,
+        "symbol": "?jpeg_set_marker_processor@@"
+      }
+    ],
+    "src/middleware/libjpeg/jdmaster.c": [
+      {
+        "address": "0x82F47928",
+        "size": 200,
+        "symbol": "?use_merged_upsample@@"
+      },
+      {
+        "address": "0x82F479F0",
+        "size": 640,
+        "symbol": "?jpeg_calc_output_dimensions@@"
+      },
+      {
+        "address": "0x82F47D28",
+        "size": 676,
+        "symbol": "?master_selection@@"
+      },
+      {
+        "address": "0x82F47FD0",
+        "size": 572,
+        "symbol": "?prepare_for_output_pass@@"
+      },
+      {
+        "address": "0x82F48210",
+        "size": 80,
+        "symbol": "?finish_output_pass@@"
+      },
+      {
+        "address": "0x82F48260",
+        "size": 208,
+        "symbol": "?jpeg_new_colormap@@"
+      },
+      {
+        "address": "0x82F48330",
+        "size": 112,
+        "symbol": "?jinit_master_decompress@@"
+      }
+    ],
+    "src/middleware/libjpeg/jdmerge.c": [
+      {
+        "address": "0x82F50D10",
+        "size": 296,
+        "symbol": "?build_ycc_rgb_table@@"
+      },
+      {
+        "address": "0x82F50E38",
+        "size": 24,
+        "symbol": "?start_pass_merged_upsample@@"
+      },
+      {
+        "address": "0x82F50E50",
+        "size": 260,
+        "symbol": "?merged_2v_upsample@@"
+      },
+      {
+        "address": "0x82F50F58",
+        "size": 108,
+        "symbol": "?merged_1v_upsample@@"
+      },
+      {
+        "address": "0x82F50FC8",
+        "size": 316,
+        "symbol": "?h2v1_merged_upsample@@"
+      },
+      {
+        "address": "0x82F51108",
+        "size": 464,
+        "symbol": "?h2v2_merged_upsample@@"
+      },
+      {
+        "address": "0x82F512D8",
+        "size": 224,
+        "symbol": "?jinit_merged_upsampler@@"
+      }
+    ],
+    "src/middleware/libjpeg/jdphuff.c": [
+      {
+        "address": "0x82F4A1A0",
+        "size": 168,
+        "symbol": "?process_restart@@"
+      },
+      {
+        "address": "0x82F4A248",
+        "size": 580,
+        "symbol": "?decode_mcu_DC_first@@"
+      },
+      {
+        "address": "0x82F4A490",
+        "size": 596,
+        "symbol": "?decode_mcu_AC_first@@"
+      },
+      {
+        "address": "0x82F4A6E8",
+        "size": 272,
+        "symbol": "?decode_mcu_DC_refine@@"
+      },
+      {
+        "address": "0x82F4A7F8",
+        "size": 1032,
+        "symbol": "?decode_mcu_AC_refine@@"
+      },
+      {
+        "address": "0x82F4AC00",
+        "size": 744,
+        "symbol": "?start_pass_phuff_decoder@@"
+      },
+      {
+        "address": "0x82F4AEE8",
+        "size": 208,
+        "symbol": "?jinit_phuff_decoder@@"
+      }
+    ],
+    "src/middleware/libjpeg/jdpostct.c": [
+      {
+        "address": "0x82F4FA08",
+        "size": 152,
+        "symbol": "?post_process_1pass@@"
+      },
+      {
+        "address": "0x82F4FAA0",
+        "size": 248,
+        "symbol": "?post_process_prepass@@"
+      },
+      {
+        "address": "0x82F4FB98",
+        "size": 244,
+        "symbol": "?post_process_2pass@@"
+      },
+      {
+        "address": "0x82F4FC90",
+        "size": 300,
+        "symbol": "?start_pass_dpost@@"
+      },
+      {
+        "address": "0x82F4FDC0",
+        "size": 224,
+        "symbol": "?jinit_d_post_controller@@"
+      }
+    ],
+    "src/middleware/libjpeg/jdsample.c": [
+      {
+        "address": "0x82F4FEA0",
+        "size": 24,
+        "symbol": "?start_pass_upsample@@"
+      },
+      {
+        "address": "0x82F4FEB8",
+        "size": 312,
+        "symbol": "?sep_upsample@@"
+      },
+      {
+        "address": "0x82F4FFF0",
+        "size": 8,
+        "symbol": "?fullsize_upsample@@"
+      },
+      {
+        "address": "0x82F4FFF8",
+        "size": 12,
+        "symbol": "?noop_upsample@@"
+      },
+      {
+        "address": "0x82F50008",
+        "size": 212,
+        "symbol": "?int_upsample@@"
+      },
+      {
+        "address": "0x82F500E0",
+        "size": 100,
+        "symbol": "?h2v1_upsample@@"
+      },
+      {
+        "address": "0x82F50148",
+        "size": 156,
+        "symbol": "?h2v2_upsample@@"
+      },
+      {
+        "address": "0x82F501E8",
+        "size": 208,
+        "symbol": "?h2v1_fancy_upsample@@"
+      },
+      {
+        "address": "0x82F502B8",
+        "size": 324,
+        "symbol": "?h2v2_fancy_upsample@@"
+      },
+      {
+        "address": "0x82F50400",
+        "size": 752,
+        "symbol": "?jinit_upsampler@@"
+      }
+    ],
+    "src/middleware/libjpeg/jdtrans.c": [
+      {
+        "address": "0x82F43F88",
+        "size": 284,
+        "symbol": "?transdecode_master_selection@@"
+      },
+      {
+        "address": "0x82F440A8",
+        "size": 320,
+        "symbol": "?jpeg_read_coefficients@@"
+      }
+    ],
+    "src/middleware/libjpeg/jerror.c": [
+      {
+        "address": "0x82F43690",
+        "size": 52,
+        "symbol": "?error_exit@@"
+      },
+      {
+        "address": "0x82F436C8",
+        "size": 72,
+        "symbol": "?output_message@@"
+      },
+      {
+        "address": "0x82F43710",
+        "size": 124,
+        "symbol": "?emit_message@@"
+      },
+      {
+        "address": "0x82F43790",
+        "size": 284,
+        "symbol": "?format_message@@"
+      },
+      {
+        "address": "0x82F438B0",
+        "size": 24,
+        "symbol": "?reset_error_mgr@@"
+      },
+      {
+        "address": "0x82F438C8",
+        "size": 112,
+        "symbol": "?jpeg_std_error@@"
+      }
+    ],
+    "src/middleware/libjpeg/jfdctflt.c": [
+      {
+        "address": "0x82F57738",
+        "size": 468,
+        "symbol": "?jpeg_fdct_float@@"
+      }
+    ],
+    "src/middleware/libjpeg/jfdctfst.c": [
+      {
+        "address": "0x82F57550",
+        "size": 484,
+        "symbol": "?jpeg_fdct_ifast@@"
+      }
+    ],
+    "src/middleware/libjpeg/jfdctint.c": [
+      {
+        "address": "0x82F572C8",
+        "size": 644,
+        "symbol": "?jpeg_fdct_islow@@"
+      }
+    ],
+    "src/middleware/libjpeg/jidctflt.c": [
+      {
+        "address": "0x82F56E68",
+        "size": 1120,
+        "symbol": "?jpeg_idct_float@@"
+      }
+    ],
+    "src/middleware/libjpeg/jidctfst.c": [
+      {
+        "address": "0x82F56AB0",
+        "size": 952,
+        "symbol": "?jpeg_idct_ifast@@"
+      }
+    ],
+    "src/middleware/libjpeg/jidctint.c": [
+      {
+        "address": "0x82F56650",
+        "size": 1116,
+        "symbol": "?jpeg_idct_islow@@"
+      }
+    ],
+    "src/middleware/libjpeg/jidctred.c": [
+      {
+        "address": "0x82F56120",
+        "size": 764,
+        "symbol": "?jpeg_idct_4x4@@"
+      },
+      {
+        "address": "0x82F56420",
+        "size": 500,
+        "symbol": "?jpeg_idct_2x2@@"
+      },
+      {
+        "address": "0x82F56618",
+        "size": 52,
+        "symbol": "?jpeg_idct_1x1@@"
+      }
+    ],
+    "src/middleware/libjpeg/jmemansi.c": [
+      {
+        "address": "0x82F4EC98",
+        "size": 8,
+        "symbol": "?jpeg_get_small@@"
+      },
+      {
+        "address": "0x82F4ECA0",
+        "size": 8,
+        "symbol": "?jpeg_free_small@@"
+      },
+      {
+        "address": "0x82F4ECA8",
+        "size": 8,
+        "symbol": "?jpeg_get_large@@"
+      },
+      {
+        "address": "0x82F4ECB0",
+        "size": 8,
+        "symbol": "?jpeg_free_large@@"
+      },
+      {
+        "address": "0x82F4ECB8",
+        "size": 16,
+        "symbol": "?jpeg_mem_available@@"
+      },
+      {
+        "address": "0x82F4ECC8",
+        "size": 152,
+        "symbol": "?read_backing_store@@"
+      },
+      {
+        "address": "0x82F4ED60",
+        "size": 152,
+        "symbol": "?write_backing_store@@"
+      },
+      {
+        "address": "0x82F4EDF8",
+        "size": 8,
+        "symbol": "?close_backing_store@@"
+      },
+      {
+        "address": "0x82F4EE00",
+        "size": 160,
+        "symbol": "?jpeg_open_backing_store@@"
+      },
+      {
+        "address": "0x82F4EEA0",
+        "size": 12,
+        "symbol": "?jpeg_mem_init@@"
+      },
+      {
+        "address": "0x82F4EEB0",
+        "size": 4,
+        "symbol": "?jpeg_mem_term@@"
+      }
+    ],
+    "src/middleware/libjpeg/jmemmgr.c": [
+      {
+        "address": "0x82F46638",
+        "size": 36,
+        "symbol": "?out_of_memory@@"
+      },
+      {
+        "address": "0x82F46660",
+        "size": 444,
+        "symbol": "?alloc_small@@"
+      },
+      {
+        "address": "0x82F46820",
+        "size": 276,
+        "symbol": "?alloc_large@@"
+      },
+      {
+        "address": "0x82F46938",
+        "size": 220,
+        "symbol": "?alloc_sarray@@"
+      },
+      {
+        "address": "0x82F46A18",
+        "size": 228,
+        "symbol": "?alloc_barray@@"
+      },
+      {
+        "address": "0x82F46B00",
+        "size": 148,
+        "symbol": "?request_virt_sarray@@"
+      },
+      {
+        "address": "0x82F46B98",
+        "size": 148,
+        "symbol": "?request_virt_barray@@"
+      },
+      {
+        "address": "0x82F46C30",
+        "size": 552,
+        "symbol": "?realize_virt_arrays@@"
+      },
+      {
+        "address": "0x82F46E58",
+        "size": 220,
+        "symbol": "?do_sarray_io@@"
+      },
+      {
+        "address": "0x82F46F38",
+        "size": 224,
+        "symbol": "?do_barray_io@@"
+      },
+      {
+        "address": "0x82F47018",
+        "size": 496,
+        "symbol": "?access_virt_sarray@@"
+      },
+      {
+        "address": "0x82F47208",
+        "size": 500,
+        "symbol": "?access_virt_barray@@"
+      },
+      {
+        "address": "0x82F47400",
+        "size": 380,
+        "symbol": "?free_pool@@"
+      },
+      {
+        "address": "0x82F47580",
+        "size": 104,
+        "symbol": "?self_destruct@@"
+      },
+      {
+        "address": "0x82F475E8",
+        "size": 300,
+        "symbol": "?jinit_memory_mgr@@"
+      }
+    ],
+    "src/middleware/libjpeg/jquant1.c": [
+      {
+        "address": "0x82F52890",
+        "size": 320,
+        "symbol": "?select_ncolors@@"
+      },
+      {
+        "address": "0x82F529D0",
+        "size": 44,
+        "symbol": "?output_value@@"
+      },
+      {
+        "address": "0x82F52A00",
+        "size": 44,
+        "symbol": "?largest_input_value@@"
+      },
+      {
+        "address": "0x82F52D48",
+        "size": 184,
+        "symbol": "?make_odither_array@@"
+      },
+      {
+        "address": "0x82F52E00",
+        "size": 148,
+        "symbol": "?create_odither_tables@@"
+      },
+      {
+        "address": "0x82F52E98",
+        "size": 132,
+        "symbol": "?color_quantize@@"
+      },
+      {
+        "address": "0x82F52F20",
+        "size": 132,
+        "symbol": "?color_quantize3@@"
+      },
+      {
+        "address": "0x82F52FA8",
+        "size": 232,
+        "symbol": "?quantize_ord_dither@@"
+      },
+      {
+        "address": "0x82F53090",
+        "size": 220,
+        "symbol": "?quantize3_ord_dither@@"
+      },
+      {
+        "address": "0x82F53170",
+        "size": 372,
+        "symbol": "?quantize_fs_dither@@"
+      },
+      {
+        "address": "0x82F532E8",
+        "size": 108,
+        "symbol": "?alloc_fs_workspace@@"
+      },
+      {
+        "address": "0x82F53358",
+        "size": 332,
+        "symbol": "?start_pass_1_quant@@"
+      },
+      {
+        "address": "0x82F534A8",
+        "size": 4,
+        "symbol": "?finish_pass_1_quant@@"
+      },
+      {
+        "address": "0x82F534B0",
+        "size": 28,
+        "symbol": "?new_color_map_1_quant@@"
+      },
+      {
+        "address": "0x82F534D0",
+        "size": 264,
+        "symbol": "?jinit_1pass_quantizer@@"
+      }
+    ],
+    "src/middleware/libjpeg/jquant2.c": [
+      {
+        "address": "0x82F513B8",
+        "size": 128,
+        "symbol": "?prescan_quantize@@"
+      },
+      {
+        "address": "0x82F51438",
+        "size": 72,
+        "symbol": "?find_biggest_color_pop@@"
+      },
+      {
+        "address": "0x82F51480",
+        "size": 60,
+        "symbol": "?find_biggest_volume@@"
+      },
+      {
+        "address": "0x82F514C0",
+        "size": 1028,
+        "symbol": "?update_box@@"
+      },
+      {
+        "address": "0x82F51A70",
+        "size": 372,
+        "symbol": "?compute_color@@"
+      },
+      {
+        "address": "0x82F51BE8",
+        "size": 208,
+        "symbol": "?select_colors@@"
+      },
+      {
+        "address": "0x82F51CB8",
+        "size": 460,
+        "symbol": "?find_nearby_colors@@"
+      },
+      {
+        "address": "0x82F51E88",
+        "size": 280,
+        "symbol": "?find_best_colors@@"
+      },
+      {
+        "address": "0x82F51FA0",
+        "size": 200,
+        "symbol": "?fill_inverse_cmap@@"
+      },
+      {
+        "address": "0x82F52068",
+        "size": 180,
+        "symbol": "?pass2_no_dither@@"
+      },
+      {
+        "address": "0x82F52120",
+        "size": 712,
+        "symbol": "?pass2_fs_dither@@"
+      },
+      {
+        "address": "0x82F523E8",
+        "size": 216,
+        "symbol": "?init_error_limit@@"
+      },
+      {
+        "address": "0x82F524C0",
+        "size": 64,
+        "symbol": "?finish_pass1@@"
+      },
+      {
+        "address": "0x82F52500",
+        "size": 4,
+        "symbol": "?finish_pass2@@"
+      },
+      {
+        "address": "0x82F52508",
+        "size": 404,
+        "symbol": "?start_pass_2_quant@@"
+      },
+      {
+        "address": "0x82F526A0",
+        "size": 16,
+        "symbol": "?new_color_map_2_quant@@"
+      },
+      {
+        "address": "0x82F526B0",
+        "size": 476,
+        "symbol": "?jinit_2pass_quantizer@@"
+      }
+    ],
+    "src/middleware/libjpeg/jutils.c": [
+      {
+        "address": "0x82F47850",
+        "size": 36,
+        "symbol": "?jdiv_round_up@@"
+      },
+      {
+        "address": "0x82F47878",
+        "size": 48,
+        "symbol": "?jround_up@@"
+      },
+      {
+        "address": "0x82F478A8",
+        "size": 84,
+        "symbol": "?jcopy_sample_rows@@"
+      },
+      {
+        "address": "0x82F47900",
+        "size": 20,
+        "symbol": "?jcopy_block_row@@"
+      },
+      {
+        "address": "0x82F47918",
+        "size": 12,
+        "symbol": "?jzero_far@@"
+      }
     ]
   }
 }

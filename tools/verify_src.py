@@ -46,7 +46,10 @@ CODE_SECTIONS = ('.text', '.text$yc', '.text$yd')
 # automatic inlining): maintainer-owned, one line per source file or directory (a path ending in /), each with its
 # evidence. Only these options may appear; anything else is an error, so that no flag can change what a check proves.
 FILE_FLAGS = os.path.join(ROOT, 'config', 'file_flags.txt')
-FILE_OPTION = re.compile(r'^(?:/Ob[012]|/D[A-Za-z_]\w*(?:=[\w.]+)?|plain)$')
+# (a /D value is a name or number, or a quoted header name next to the file, for a library's configuration header such
+# as Lua's LUA_USER_H; /O1 and /fp:precise are a library's optimization level and floating-point model, and /TP compiles
+# a library's .c files as C++, as libjpeg's)
+FILE_OPTION = re.compile(r'^(?:/Ob[012]|/O[12]|/TP|/fp:(?:precise|fast|strict)|/D[A-Za-z_]\w*(?:=(?:[\w.]+|"\w+\.h"))?|plain)$')
 
 
 def load_file_flags(path=None):
@@ -64,7 +67,7 @@ def load_file_flags(path=None):
             raise ValueError('%s line %d: a path without options' % (os.path.basename(path), n))
         bad = [o for o in body[1:] if not FILE_OPTION.match(o)]
         if bad:
-            raise ValueError('%s line %d: option(s) not allowed: %s (allowed: /Ob0-2, /D<name>[=<value>], plain)'
+            raise ValueError('%s line %d: option(s) not allowed: %s (allowed: /Ob0-2, /O1, /O2, /TP, /fp:precise|fast|strict, /D<name>[=<value> or ="<header>.h"], plain)'
                              % (os.path.basename(path), n, ' '.join(bad)))
         out.append((body[0].replace('\\', '/'), body[1:]))
     return out
@@ -101,11 +104,59 @@ def flags_for(src, table=None):
     return FLAGS + file_flags(src, table)
 
 
+def compiled_as_c(src, table=None):
+    """Whether src is compiled as C (a .c file without /TP in config/file_flags.txt): its symbols are exact C names."""
+    return src.lower().endswith('.c') and '/TP' not in file_options(src, table)
+
+
 def ltcg_built(src, table=None):
     """Whether CD2 built src's object with /GL. Not for C: CD2's Rich header lists objects of the 15.00.8153 C compiler
     but none of its LTCG C compiler. Not for a file marked plain in config/file_flags.txt. A plain object gets no LTCG
     gate, and its bodies are never shown to another file's LTCG model."""
     return not src.lower().endswith('.c') and 'plain' not in file_options(src, table)
+
+
+# Middleware whose original source the repository holds (config/middleware.txt): maintainer-owned, one line per library
+# directory under src/middleware/, naming the [match] rules that library's original source breaks, with the reason. A
+# finding of a waived rule in a file of that directory does not block a match there; nothing else is waived, and no
+# file outside src/middleware/ (game code) can be. R13 (vtables) and R18 (assembly) can never be waived.
+MIDDLEWARE = os.path.join(ROOT, 'config', 'middleware.txt')
+MIDDLEWARE_ROOT = 'src/middleware/'
+WAIVABLE = ('R1', 'R2', 'R4', 'R17')
+
+
+def load_middleware(path=None):
+    """[(library directory ending in /, [waived rules])] from config/middleware.txt. Raises ValueError on a directory
+    that is not one level below src/middleware/, a rule outside WAIVABLE, or a line without its reason."""
+    path = path or MIDDLEWARE
+    out = []
+    if not os.path.exists(path):
+        return out
+    for n, line in enumerate(open(path), 1):
+        body, _, why = line.partition('#')
+        body = body.split()
+        if not body:
+            continue
+        where = '%s line %d' % (os.path.basename(path), n)
+        d = body[0].replace('\\', '/')
+        if not (d.startswith(MIDDLEWARE_ROOT) and d.endswith('/') and d.count('/') == MIDDLEWARE_ROOT.count('/') + 1):
+            raise ValueError('%s: %s is not a library directory src/middleware/<library>/' % (where, body[0]))
+        bad = [r for r in body[1:] if r not in WAIVABLE]
+        if bad:
+            raise ValueError('%s: rule(s) that cannot be waived: %s (allowed: %s)' % (where, ' '.join(bad),
+                                                                                    ' '.join(WAIVABLE)))
+        if not why.strip():
+            raise ValueError('%s: a waiver without its reason (# why the original source breaks the rule)' % where)
+        out.append((d, body[1:]))
+    return out
+
+
+def waived(src, rule, table=None):
+    """Whether config/middleware.txt waives rule for src (a repository-relative path)."""
+    r = _repo_path(src)
+    if r is None:
+        return False
+    return any(r.startswith(d) and rule in rules for d, rules in (load_middleware() if table is None else table))
 
 
 # the first character of a this-adjusting thunk's code after the function's scope: adjustors (private G/H, protected

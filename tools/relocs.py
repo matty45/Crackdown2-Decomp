@@ -90,8 +90,10 @@ class Obj:
         sec, start, size = self.functions()[fname]
         if off < 0 or off % 4 or off + 4 > size:
             raise ValueError('unaligned or out-of-range ADDR32 site')
-        hit = [s for s in self.symbols.values() if s['name'] == symbol]
-        if len(hit) != 1 or hit[0]['sec'] != sec:
+        # the symbol the relocation itself names (by index): label names such as $LN5 repeat in every function of an
+        # object that has a jump table, so a lookup by name could pick another function's label
+        hit = [self.symbols.get(si) for o, si, t in self.sections[sec - 1]['relocs'] if o == start + off and t == ADDR32]
+        if len(hit) != 1 or hit[0] is None or hit[0]['name'] != symbol or hit[0]['sec'] != sec:
             raise ValueError('ADDR32 must reference a label in the same function section')
         data = self.sections[sec - 1]['data']
         embedded_addend = struct.unpack_from('>i', data, start + off)[0]

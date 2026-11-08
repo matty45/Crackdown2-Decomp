@@ -23,7 +23,7 @@ class JumpTableTests(unittest.TestCase):
         # The function starts at section offset 16; its local label is at +12.
         code = struct.pack('>5I', 0x60000000, addend, 0x60000000, 0x60000000, 0x4E800020)
         obj = relocs.Obj.__new__(relocs.Obj)
-        obj.sections = [dict(data=b'\0' * 16 + code)]
+        obj.sections = [dict(data=b'\0' * 16 + code, relocs=[(16 + 4, 0, relocs.ADDR32)])]  # the site at +4 names symbol 0
         obj.symbols = {0: dict(name='$case', value=label, sec=section)}
         obj.internal = set()
         obj.functions = lambda: {self.name: (1, 16, len(code))}

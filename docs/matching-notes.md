@@ -374,6 +374,40 @@ end, in one line, and is removed when the function matches. History belongs in g
   RuffKing's header agrees with ours, keep ours. A `MakeNew` that allocates less than the registered class size builds
   the prototype (`new XPrototype(packet)`, cCwCharacter), not the class.
 
+## Middleware
+Middleware with published source lives in `src/middleware/<library>/` (each with a README), its rule waivers in
+`config/middleware.txt`, its compiler settings in `config/file_flags.txt`.
+- **A library was not built with the game's flags: measure each candidate.** Compile every file of the library
+  with a candidate setting, align the compiled functions (source order) with CD2's functions in the file's range
+  (address order) by longest common subsequence of exact masked comparisons, and count. Measured (2026-11-08): Lua
+  `/Ob2` 563, `/Ob1` 406 (per file: `/Ob1` for ldo.c and lstring.c); zlib `/Ob2` 14/14; libjpeg as C `/O1
+  /fp:precise` 297 (`/Ox` 65; `/fp:fast` loses the three float DCTs, `/GS` six), as C++ with `NO_GETENV` and
+  per-file `/Ob1`/`/Ob2` 315. The reference PDBs record their middleware objects' language and often the compile
+  command (`refs/*/objects.json`: `compiler.language`, `build.cmd`; RuffKing's zlibXenon `-Ox ... -Gy -TC`, Burn's
+  Lua `-Ox -Os ... -TC`, RuffKing's libjpeg.lib `Cpp`); check them first, then count.
+- **C compiled as C++ changes data folding.** As C, libjpeg's `jpeg_set_linear_quality` reaches its second static
+  table through the first (one section); CD2 addresses the two separately, and CD2's linker folded
+  `std_huff_tables`' two identical DC tables into one copy. Compiled as C++ (`/TP`), each constant table is its own
+  foldable section: both functions come out exact, the second with a `config/symbol_aliases.txt` entry.
+- **Byte-identical wrappers are placed by source order.** Lua's math wrappers (`math_sin`, `math_cos`, ...) differ
+  only in their callee, so an exact comparison finds several CD2 candidates for each. Within one object the linker
+  keeps source order, so the order alignment above places them, and the CRT objects `config/library_splits.txt`
+  identifies for each callee (sincos, tan, asincos, atan, fmod, pow, log, exp, ...) agree. That alignment added 24 Lua
+  functions a plain hash match had left ambiguous.
+- **A WRONG TARGET on a string literal can name the library's configuration.** Lua's `"%lf"`/`"%.14g"` against CD2's
+  `"%f"`/`"%.5g"` are the release's own float configuration (`etc/luser_number.h` with `USE_FLOAT`, `LUA_USER_H`).
+- **The backend's inliner (XDK 9328 c2.dll, read in IDA 2026-11-08).** Each candidate is inlined when its cost score
+  is below `inlS + 5`; `inlS` comes from a parameter profile (60 normally, 2 under PGO) and can be set with the hidden
+  `/d2inlS<n>`. In a compile without LTCG (or with `-optref`) a `static` callee referenced once has its score divided
+  by 3, which is why `/Ob2` inlines single-caller helpers such as Lua's `correctstack`. Each caller also has a budget
+  of 35,000 inlined instructions. A/B on Lua's ldo.c: `/Ob2` 13/23, `/d2inlS` 1..40 23/23, 60 13/23, every `static`
+  function made external 23/23. The bonus is withheld from a function flagged externally visible (0x2000; every
+  non-static function of a compile without LTCG, and every function under `/Gh`, `/GH`, `/callcap` or `/fastcap`).
+  CD2's Lua and libjpeg behave as if their statics were visible too: libjpeg with `LOCAL`/`METHODDEF` made non-static
+  gives 320/329 under one setting. No ordinary switch reproduces it (the profiling ones insert calls CD2 lacks;
+  `/hotpatch`, `/analyze`, `/openmp`, `/Gm`, `/J`, `/Zl`, `/GT`, `/MD` change nothing). Use such switches only as a
+  diagnostic, never in `config/file_flags.txt`: the original build did not pass hidden backend options.
+
 ## Traps
 - **Never reach memory by pointer arithmetic.** If CD2 reads `lwz r3, 0x50C(r31)`, the source read a member at 0x50C:
   declare it in the class's header with a `CD2_OFFSET` check and use it by name, even if the best name you have is
@@ -701,3 +735,11 @@ One line each: what is ruled out. Remove the line when the function matches.
   wide-string temporary/assignment and subsequent dispatch need further compiler-shape recovery. Not promoted.
 - cCheckpointArena's secondary deleting thunk (0x8284E2A8) is plain EXACT but 0/2 words under LTCG; its deleting
   wrapper and seven ordinary member functions are independently EXACT in both modes. The thunk is unpromoted.
+- Lua 5.0.2, 74 functions (`src/middleware/lua/README.md`, "Open"): inlining differs from every legitimate setting;
+  CD2 behaves as if single-caller `static` functions had no inlining bonus (see "Middleware"). Ruled out: `/Ob0-2`,
+  `/O1`, `/O2`, `/Os`, `/TP`, `/Oi-`, `/Oy-`, `/Gy-`, `/Zi`, `/Z7`, `/GS`, `/fp:precise`, the PGO profile, a unity
+  build (165/642), LTCG with or without `/OPT:REF`, the 14.00 compilers of XDK 2099/2920/4802, and a different
+  compiler build (XDK 8276's c1/c2 are byte-identical to 9328's). libjpeg's `LOCAL` made global matches as many but
+  is not the build: CD2 keeps two same-named copies (`build_ycc_rgb_table` in jdcolor and jdmerge), so they were static.
+- libjpeg 6b, 14 functions (`src/middleware/libjpeg/README.md`, "Open"): inlining between `/Ob1` and `/Ob2`, as in
+  Lua. Ruled out: C, `/O2`, `/O2 /Ob1`, `/O2 /Os`, `/Ox /Os`, `/O1 /Oi`, `/GS`, `/fp:fast`, `/fp:strict`, `/d2inlS`.

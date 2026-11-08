@@ -1,0 +1,33 @@
+# config/middleware.txt: the middleware libraries whose original source the repository holds, and the matching rules
+# that source is allowed to break (maintainers only; tools/verify_src.py load_middleware).
+#
+# Middleware is code CD2 linked from a third-party library, not code written for the game. Its source lives in
+# src/middleware/<library>/, one directory per library, each with a README.md stating where the source comes from, its
+# version and license, and every change CD2's build made to it. Nothing outside src/middleware/ is middleware.
+#
+# The matching rules (AGENTS.md) exist to keep reconstructed game code honest: a decompiler's offsets, casts and
+# temporaries must not stand in for the members and types the original programmers wrote. Middleware is not
+# reconstructed. Its original source is published, and CD2's bytes come from that source as its authors wrote it, so a
+# rule it breaks says nothing about whether the match is real. Rewriting it to satisfy the rules would replace the
+# original with code nobody shipped. A waiver therefore lists only the rules the library's own source breaks, and only
+# for its directory:
+#
+#   src/middleware/<library>/   <rule> ...   # why that library's source breaks them
+#
+# Rules that can be waived: R1, R2, R4, R17. Never R13 (vtables) or R18 (assembly, #pragma, #line), and never a
+# directory outside src/middleware/. A waived finding is still reported (`lint`, `check`) as an exception.
+
+src/middleware/lua/   R4 R17   # Lua 5.0.2 keeps stack positions as byte offsets across reallocation (ldo.h savestack/restorestack,
+#   used by luaD_checkstack and incr_top), stores a string's characters after its header (lstring.c), reserves EXTRASPACE
+#   before each state (lstate.c), steps byte buffers (lzio.c, lundump.c's byte swap) and casts reader state from void *
+#   (lauxlib.c); its error jump buffer holds a volatile status, kept across longjmp (ldo.c struct lua_longjmp)
+src/middleware/zlib/   R1 R4 R17   # zlib 1.2.3 keeps a placeholder definition of struct internal_state in zlib.h for
+#   compilers that reject incomplete types (inside an #if; zutil.c defines the real one), guards its run-time CRC
+#   table with volatile flags (crc32.c), reads buffers a word at a time through u4 pointer casts (crc32.c), copies its
+#   internal state through casts (inflate.c inflateCopy) and, in 16-bit MS-DOS code not compiled here, moves far
+#   pointers by offsets (zutil.c)
+src/middleware/libjpeg/   R1 R4 R17   # jpeg-6b keeps placeholder definitions of its internal structures in jpeglib.h for
+#   compilers that reject incomplete types (under INCOMPLETE_TYPES_BROKEN, not defined here; jpegint.h and jmemmgr.c
+#   define the real ones), casts its memory manager's blocks to the structures they hold and steps sample
+#   buffers by offsets (jmemmgr.c and every module's jinit_*), and writes its unrolled DCT and dithering code with
+#   regular index expressions such as inptr[DCTSIZE*1] and errorptr[dir3+0] (jidct*.c, jfdct*.c, jquant2.c)

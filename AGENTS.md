@@ -68,6 +68,9 @@ search for either.
    header constants (fPhysicsSimulationTick, WORLD_UP_VECTOR, ...): they come from including the constants headers,
    never from a definition in the `.cpp` (`docs/matching-notes.md`, "Header constants").
 5. **Stay in the file.** Write a function in the source file that owns its address (`config/splits.txt`).
+   `src/middleware/` holds the published source of third-party libraries CD2 links (Lua, zlib, libjpeg), not
+   decompiled game code: never put game code there, and never edit that source to raise a match or to satisfy a rule.
+   Its README says what CD2 changed; `config/middleware.txt` lists the rules its original source may break.
 6. **Nothing from the game in the repository.** Never paste the game's bytes or assembly into a committed file.
 7. **Lay a source file out as a programmer would.** All `#include` lines go at the top of the file, after its header
    comment, and nowhere else. A namespace gets one block per file: put a new definition inside the existing block, at
