@@ -4,10 +4,11 @@
 
 #include "rws/attributes.h"
 #include "fun_runtime/class.h"
+#include "CHARACTER/cCwCharacter.h"
 
 namespace CHARACTER
 {
-    class cCwGoliathCharacterWrapper : public RWS::CAttributeHandler
+    class cCwGoliathCharacterWrapper : public cCwCharacter
     {
     public:
         // CD2 spawning initializer 0x82FAD370 names placement factory 0x82542228.

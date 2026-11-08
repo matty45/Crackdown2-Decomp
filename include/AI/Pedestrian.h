@@ -19,7 +19,7 @@ namespace AI
         __forceinline Pedestrian() {}
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *memory);
-        static const Fun_Runtime::cClass *ms_pcPedestrianClass;
+        static const Fun_Runtime::cClass *ms_pPedestrianClass;
 
         virtual const Fun_Runtime::cClass &RetClass() const;
         virtual bool IsA(const Fun_Runtime::cClass &) const;

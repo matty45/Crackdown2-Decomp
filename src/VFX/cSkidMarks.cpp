@@ -14,6 +14,7 @@
 #include "VFX/cSkidMarksShader.h"
 #include "rws/classfactory.h"
 #include "VFX/cSkidMarks.h"
+#include "fun_runtime/inheritance_registrar.h"
 #include "cd2/memory.h"
 
 namespace VFX
@@ -22,6 +23,17 @@ namespace VFX
     {
         return "cSkidMarks";
     }
+
+    Fun_Runtime::cClass &cSkidMarks::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cSkidMarksClass = new Fun_Runtime::cClass(0x1EE7C0DF, "cSkidMarks", 0x2CC);
+        return *cSkidMarksClass;
+    }
+
+    const Fun_Runtime::cClass *cSkidMarks::ms_pcSkidMarksClass = &cSkidMarks::StaticCreateClass();
+
+    static Fun_Runtime::cInheritanceRegistrar cSkidMarkscNonGameBaseInheritRegistrar(
+        cSkidMarks::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 
     static RWS::CClassFactory::CRegistrar cSkidMarksRegistrar(
         "cSkidMarks", cSkidMarks::MakeNew, 0x2cc, false);

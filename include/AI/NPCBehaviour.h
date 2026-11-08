@@ -10,6 +10,7 @@
 #include "rws/attributes.h"
 #include "cd2/layout.h"
 #include "fun_runtime/vec3.h"
+#include "AI/AIBehaviour.h"
 
 namespace Activity
 {
@@ -20,9 +21,10 @@ namespace AI
 {
     class cAiPlayer;
 
-    class NPCBehaviour : public cNonGameBase
+    class NPCBehaviour : public AIBehaviour
     {
     public:
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         // CD2 0x824A87A0 creates the named runtime descriptor.
         static Fun_Runtime::cClass &StaticCreateClass();
 

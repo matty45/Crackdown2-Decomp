@@ -1,3 +1,4 @@
+#include "fun_runtime/class.h"
 #include "rws/attributes.h"
 // Prop::cBoomBox (Crackdown 2): STAND-IN for the class name only. Base Prop::cProp, as in RuffKing's header;
 // RetClassName (0x82742DE0) is slot 11 of the vtable at 0x8200D518, as cNonGameBase's RetClassName.
@@ -11,6 +12,9 @@ namespace Prop
     class cBoomBox : public Prop::cProp
     {
     public:
+        static Fun_Runtime::cClass &StaticCreateClass();
+        static const Fun_Runtime::cClass *ms_pcBoomBoxClass;
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
     };

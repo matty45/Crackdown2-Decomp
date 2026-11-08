@@ -8,10 +8,16 @@
 #include "AI/aiconstants.h"
 #include "AI/cRefineryMission.h"
 #include "rws/classfactory.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "cd2/memory.h"
 
 namespace AI
 {
-    const Fun_Runtime::cClass *cRefineryMission::ms_pcRefineryMissionClass = 0;
+    Fun_Runtime::cClass &cRefineryMission::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cRefineryMissionClass = new Fun_Runtime::cClass(0x404, "cRefineryMission", 0x400);
+        return *cRefineryMissionClass;
+    }
 
     cRefineryMission::cRefineryMission() {}
 
@@ -34,6 +40,11 @@ namespace AI
     {
         return new cRefineryMission();
     }
+
+    const Fun_Runtime::cClass *cRefineryMission::ms_pcRefineryMissionClass = &cRefineryMission::StaticCreateClass();
+
+    static Fun_Runtime::cInheritanceRegistrar cRefineryMissioncMissionInheritRegistrar(
+        cRefineryMission::StaticCreateClass(), cMission::StaticCreateClass());
 }
 
 static RWS::CClassFactory::CRegistrar cRefineryMissionRegistrar(

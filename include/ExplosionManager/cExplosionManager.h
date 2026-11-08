@@ -3,6 +3,7 @@
 #ifndef EXPLOSIONMANAGER_CEXPLOSIONMANAGER_H
 #define EXPLOSIONMANAGER_CEXPLOSIONMANAGER_H
 
+#include "fun_runtime/class.h"
 #include "gom/non_game_base.h"
 
 namespace ExplosionManager
@@ -10,6 +11,8 @@ namespace ExplosionManager
     class cExplosionManager : public cNonGameBase
     {
     public:
+        static Fun_Runtime::cClass &StaticCreateClass();
+        static const Fun_Runtime::cClass *ms_pcExplosionManagerClass;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
     };

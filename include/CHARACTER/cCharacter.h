@@ -9,6 +9,11 @@
 //   - m_eLODLevel (0x2812; RuffKing's unsigned char m_eLODLevel at 0x2822): cCharacterInterface's script method
 //     "RetLODLevel" (0x8254E8C8) returns the character's byte at 0x2812, and cAiPlayer::ShouldTriggerFootStepEvent
 //     (0x823EB518) compares it with 1, as RuffKing's does through RetLODLevel.
+// Known wrong, left for a structural fix: CD2's inheritance registrar (0x82FAD6F0) names cCharacterMotion as the base (0x11F0 bytes,
+// CHARACTER/cCharacterMotion.h), as RuffKing and Burn do. m_bIsOnFire (0x261) and m_field548 therefore lie in the base
+// chain, not in cCharacter, and the padding before them is the kind AGENTS.md rules out. m_bIsOnFire may be
+// cIgnitable's (PHYSICS/cIgnitable.h has it at 0x11, which would put a cIgnitable subobject at 0x250). The fix models
+// the chain down from cCharacterMotion and moves both fields into their own classes.
 #ifndef CHARACTER_CCHARACTER_H
 #define CHARACTER_CCHARACTER_H
 

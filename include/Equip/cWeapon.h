@@ -9,6 +9,7 @@ namespace Equip
     class cWeapon : public cEquipment
     {
     public:
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         // Interface-only prototype stand-in: name and base from RuffKing.
         // Instance fields and complete size are not recovered; this is not an allocation layout.
         // Name and base from RuffKing. CD2's constructor (0x8260A370) calls cEquipmentPrototype's and initializes

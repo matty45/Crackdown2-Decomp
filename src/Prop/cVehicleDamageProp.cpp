@@ -22,6 +22,8 @@
 #include "rws/classfactory.h"
 #include "Prop/cVehicleDamageProp.h"
 #include <new>
+#include "fun_runtime/inheritance_registrar.h"
+#include "cd2/memory.h"
 
 namespace Prop
 {
@@ -34,6 +36,17 @@ namespace Prop
     {
         return "cVehicleDamageProp";
     }
+
+    Fun_Runtime::cClass &cVehicleDamageProp::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cVehicleDamagePropClass = new Fun_Runtime::cClass(0x14A2A, "cVehicleDamageProp", 0xED0);
+        return *cVehicleDamagePropClass;
+    }
+
+    const Fun_Runtime::cClass *cVehicleDamageProp::ms_pcVehicleDamagePropClass = &cVehicleDamageProp::StaticCreateClass();
+
+    static Fun_Runtime::cInheritanceRegistrar cVehicleDamagePropcPropInheritRegistrar(
+        cVehicleDamageProp::StaticCreateClass(), cProp::StaticCreateClass());
 
     static RWS::CClassFactory::CRegistrar cVehicleDamagePropRegistrar(
         "cVehicleDamageProp", cVehicleDamageProp::MakeNew, 0xed0, false);

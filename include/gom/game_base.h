@@ -7,6 +7,8 @@
 __declspec(align(16)) class cGameBase : public RWS::CSystemCommands, public cNonGameBase
 {
     public:
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         virtual bool IsAlive() const;
         // Name, base and size (224 bytes) from RuffKing. CD2's constructor (0x82652850) calls GOM::cObjectPrototype's;
         // cBodyPrototype's constructor (0x826845A8) calls it, and cPhantomBody::MakeNew (0x8268A368) allocates 0xF0

@@ -12,11 +12,12 @@ namespace Anim
     class cCharacterAnimSetManager : public cNonGameBase
     {
     public:
+        static Fun_Runtime::cClass &StaticCreateClass();
         // CD2 0x824E4390: the allocation factory calls this constructor out of line.
         cCharacterAnimSetManager();
         virtual const Fun_Runtime::cClass &RetClass() const;
         // CD2 descriptor pointer 0x838214ec; its initializer names cCharacterAnimSetManager.
-        static const Fun_Runtime::cClass *ms_pccCharacterAnimSetManagerClass;
+        static const Fun_Runtime::cClass *ms_pcCharacterAnimSetManagerClass;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
 

@@ -1,6 +1,8 @@
 #include "rws/attributes.h"
 // PHYSICS::cWaterProfile (Crackdown 2): STAND-IN for the class name only. Base cNonGameBase, as in RuffKing's header;
 // RetClassName (0x82697608) is slot 11 of the vtable at 0x82132DA0, as cNonGameBase's RetClassName.
+// Known wrong, left for a structural fix: CD2 also registers it under GDb::cDebugPageHandler (inheritance registrar 0x82FE26D8), RuffKing's second base. The
+// stand-in lacks that base, so everything after its first base is not laid out as in CD2.
 #ifndef PHYSICS_CWATERPROFILE_H
 #define PHYSICS_CWATERPROFILE_H
 

@@ -217,6 +217,11 @@ namespace AI
         unsigned char m_nMode;   // 0x533
     };
 
+    // Known wrong, left for a structural fix: CD2's inheritance registrar (0x82F92140) names NPCBehaviour as the base, as RuffKing
+    // and Burn do. m_pHost (0x7C), m_fTimer (0xB0) and m_pB4 (0xB4) below are NPCBehaviour's fields (AI/NPCBehaviour.h:
+    // m_pHost, m_fInActivityTimer, m_pAmbientTarget), and m_nState (0xA8) falls inside its m_vRespawnHeading (0xA0), so
+    // one of the two layouts is wrong there. Only the bytes from 0xC0 are this class's own. FreakBase and, through
+    // cChaseBehaviour, cAgressiveResponseBase derive from it, so the fix moves all of them.
     class NPCBehaviourSM : public cNonGameBase
     {
     public:

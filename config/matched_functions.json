@@ -885,11 +885,6 @@
         "symbol": "??__FcChaseBehaviourRegistrar@AI@@"
       },
       {
-        "address": "0x824CEC18",
-        "size": 392,
-        "symbol": "?Update@cChaseBehaviour@AI@@"
-      },
-      {
         "address": "0x824CEE70",
         "size": 272,
         "symbol": "?V108@cChaseBehaviour@AI@@"
@@ -1604,6 +1599,21 @@
         "address": "0x83041AE8",
         "size": 4,
         "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x8237E118",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cTrafficLight@Prop@@"
+      },
+      {
+        "address": "0x82FFC2C8",
+        "size": 40,
+        "symbol": "??__E?ms_pcTrafficLightClass@cTrafficLight@Prop@@"
+      },
+      {
+        "address": "0x82FFC2F0",
+        "size": 104,
+        "symbol": "??__EcTrafficLightcPropInheritRegistrar@Prop@@"
       }
     ],
     "src/PLAYER/cPlayer.cpp": [
@@ -1906,7 +1916,7 @@
       {
         "address": "0x82F92550",
         "size": 40,
-        "symbol": "??__E?ms_pcPedestrianClass@Pedestrian@AI@@"
+        "symbol": "??__E?ms_pPedestrianClass@Pedestrian@AI@@"
       },
       {
         "address": "0x82F92578",
@@ -6028,6 +6038,21 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x8244A870",
+        "size": 152,
+        "symbol": "?StaticCreateClass@cCrowdZoneDataHolder@AI@@"
+      },
+      {
+        "address": "0x82F7F400",
+        "size": 40,
+        "symbol": "??__E?ms_pcCrowdZoneDataHolderClass@cCrowdZoneDataHolder@AI@@"
+      },
+      {
+        "address": "0x82F7F428",
+        "size": 104,
+        "symbol": "??__EcCrowdZoneDataHoldercNonGameBaseInheritRegistrar@AI@@"
       }
     ],
     "src/AI/Mission/cDocksMission.cpp": [
@@ -6299,6 +6324,21 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x82250988",
+        "size": 164,
+        "symbol": "?StaticCreateClass@CellGuard@AI@@"
+      },
+      {
+        "address": "0x82F95AA8",
+        "size": 40,
+        "symbol": "??__E?ms_pCellGuardClass@CellGuard@AI@@"
+      },
+      {
+        "address": "0x82F95AD0",
+        "size": 104,
+        "symbol": "??__ECellGuardNPCArmedBehaviourInheritRegistrar@AI@@"
       }
     ],
     "src/AI/Targeting/cFactionTargetingProfile.cpp": [
@@ -14433,6 +14473,31 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x8253F4D8",
+        "size": 152,
+        "symbol": "?StaticCreateClass@cCwCharacter@CHARACTER@@"
+      },
+      {
+        "address": "0x82FAC858",
+        "size": 40,
+        "symbol": "??__E?ms_pcCwCharacterClass@cCwCharacter@CHARACTER@@"
+      },
+      {
+        "address": "0x82FAC880",
+        "size": 104,
+        "symbol": "??__EcCwCharactercCharacterInheritRegistrar@CHARACTER@@"
+      },
+      {
+        "address": "0x82FAC938",
+        "size": 72,
+        "symbol": "??__EcCwCharacterSpawningRegistrar@CHARACTER@@"
+      },
+      {
+        "address": "0x8303CE30",
+        "size": 20,
+        "symbol": "??__FcCwCharacterSpawningRegistrar@CHARACTER@@"
       }
     ],
     "src/CHARACTER/cCwCharacterStateProfile.cpp": [
@@ -15422,6 +15487,21 @@
         "address": "0x82609768",
         "size": 104,
         "symbol": "??_GcWeaponProjectilePrototype@cWeaponProjectile@Equip@@"
+      },
+      {
+        "address": "0x8260A7A0",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cWeaponProjectile@Equip@@"
+      },
+      {
+        "address": "0x82FCBED8",
+        "size": 40,
+        "symbol": "??__E?ms_pcWeaponProjectileClass@cWeaponProjectile@Equip@@"
+      },
+      {
+        "address": "0x82FCBF00",
+        "size": 104,
+        "symbol": "??__EcWeaponProjectilecEquipmentInheritRegistrar@Equip@@"
       }
     ],
     "src/GameManagement/cArenaBarrier.cpp": [
@@ -18543,6 +18623,16 @@
         "size": 40,
         "symbol": "??__EfPhysicsSimulationTick@@",
         "ltcg": true
+      },
+      {
+        "address": "0x82FD8778",
+        "size": 76,
+        "symbol": "??__ECEntityRegistrar@GameRenderer@@"
+      },
+      {
+        "address": "0x8303FF90",
+        "size": 12,
+        "symbol": "??__FCEntityRegistrar@GameRenderer@@"
       }
     ],
     "src/GameRenderer/cScreenCapture.cpp": [
@@ -22544,6 +22634,16 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x830082E8",
+        "size": 76,
+        "symbol": "??__EcScatterRegistrar@VFX@@"
+      },
+      {
+        "address": "0x83042600",
+        "size": 12,
+        "symbol": "??__FcScatterRegistrar@VFX@@"
       }
     ],
     "src/VFX/cSkyDome.cpp": [
@@ -24303,6 +24403,11 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x82F9EE10",
+        "size": 180,
+        "symbol": "??__E?ms_pcAnimParamsClass@cAnimParams@AI@@"
       }
     ],
     "src/AI/Mission/AU/cAUMission.cpp": [
@@ -24542,6 +24647,11 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x82F8DDC0",
+        "size": 180,
+        "symbol": "??__E?ms_pcBaseJumperMissionClass@cBaseJumperMission@AI@@"
       }
     ],
     "src/AI/Behaviour/NPC/Freak/cBasePatrolRouteEvent.cpp": [
@@ -24574,6 +24684,11 @@
         "address": "0x8303B900",
         "size": 12,
         "symbol": "??__FcBasePatrolRouteEventRegistrar@@"
+      },
+      {
+        "address": "0x82F94C80",
+        "size": 180,
+        "symbol": "??__E?ms_pcBasePatrolRouteEventClass@cBasePatrolRouteEvent@AI@@"
       }
     ],
     "src/AI/Mission/AU/cBeaconMission.cpp": [
@@ -25194,6 +25309,11 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x82F8E2E0",
+        "size": 180,
+        "symbol": "??__E?ms_pcCityGliderMissionClass@cCityGliderMission@AI@@"
       }
     ],
     "src/AI/Behaviour/NPC/Cell/CellMinigun.cpp": [
@@ -25794,6 +25914,11 @@
         "address": "0x8303B910",
         "size": 12,
         "symbol": "??__FcFreakExplodeEventRegistrar@AI@@"
+      },
+      {
+        "address": "0x82F94D88",
+        "size": 180,
+        "symbol": "??__E?ms_pcFreakExplodeEventClass@cFreakExplodeEvent@AI@@"
       }
     ],
     "src/AI/cGoliathBreachHole.cpp": [
@@ -25928,6 +26053,11 @@
         "address": "0x82F950F0",
         "size": 28,
         "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82F95110",
+        "size": 180,
+        "symbol": "??__E?ms_pcGoliathPatrolRouteEventClass@cGoliathPatrolRouteEvent@AI@@"
       }
     ],
     "src/AI/Mission/cHeliCallZone.cpp": [
@@ -26040,6 +26170,11 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x82F8EEC0",
+        "size": 180,
+        "symbol": "??__E?ms_pcHeliCallZoneClass@cHeliCallZone@AI@@"
       }
     ],
     "src/AI/Mission/cMissionTier.cpp": [
@@ -26067,6 +26202,11 @@
         "address": "0x8248E490",
         "size": 12,
         "symbol": "?RetClassName@cMissionTier@AI@@"
+      },
+      {
+        "address": "0x82F901B8",
+        "size": 176,
+        "symbol": "??__E?ms_pcMissionTierClass@cMissionTier@AI@@"
       }
     ],
     "src/AI/cPilotBase.cpp": [
@@ -26535,6 +26675,11 @@
         "address": "0x8303B950",
         "size": 12,
         "symbol": "??__FcReaperPropAttackEventRegistrar@AI@@"
+      },
+      {
+        "address": "0x82F95218",
+        "size": 180,
+        "symbol": "??__E?ms_pcReaperJumpEventClass@cReaperJumpEvent@AI@@"
       }
     ],
     "src/AI/Mission/cRefineryMission.cpp": [
@@ -26652,6 +26797,21 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x8237E1B8",
+        "size": 152,
+        "symbol": "?StaticCreateClass@cRefineryMission@AI@@"
+      },
+      {
+        "address": "0x82F86358",
+        "size": 40,
+        "symbol": "??__E?ms_pcRefineryMissionClass@cRefineryMission@AI@@"
+      },
+      {
+        "address": "0x82F86380",
+        "size": 104,
+        "symbol": "??__EcRefineryMissioncMissionInheritRegistrar@AI@@"
       }
     ],
     "src/AI/cTrainingHeliPilot.cpp": [
@@ -26906,6 +27066,11 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x82F8BBD0",
+        "size": 180,
+        "symbol": "??__E?ms_pcTrainingMissionClass@cTrainingMission@AI@@"
       }
     ],
     "src/AI/Mission/Training/cTrainingRouteEvent.cpp": [
@@ -27018,6 +27183,16 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x82486FA0",
+        "size": 164,
+        "symbol": "?StaticCreateClass@cTrainingRouteEvent@AI@@"
+      },
+      {
+        "address": "0x82F8D278",
+        "size": 40,
+        "symbol": "??__E?ms_pcTrainingRouteEventClass@cTrainingRouteEvent@AI@@"
       }
     ],
     "src/AI/Mission/Training/cTrainingVOARouteEvent.cpp": [
@@ -27045,6 +27220,11 @@
         "address": "0x82487128",
         "size": 12,
         "symbol": "?RetClassName@cTrainingVOARouteEvent@AI@@"
+      },
+      {
+        "address": "0x82F8D2F0",
+        "size": 188,
+        "symbol": "??__E?ms_pcTrainingVOARouteEventClass@cTrainingVOARouteEvent@AI@@"
       }
     ],
     "src/AI/cTRCamLookAtStop.cpp": [
@@ -27102,6 +27282,21 @@
         "address": "0x82F8D558",
         "size": 28,
         "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82487740",
+        "size": 164,
+        "symbol": "?StaticCreateClass@cTRCamLookAtStop@AI@@"
+      },
+      {
+        "address": "0x82F8D658",
+        "size": 40,
+        "symbol": "??__E?ms_pcTRCamLookAtStopClass@cTRCamLookAtStop@AI@@"
+      },
+      {
+        "address": "0x82F8D680",
+        "size": 104,
+        "symbol": "??__EcTRCamLookAtStopcTrainingRouteEventInheritRegistrar@AI@@"
       }
     ],
     "src/AI/cVehicleAttackedRockingBehaviour.cpp": [
@@ -27524,7 +27719,7 @@
       {
         "address": "0x824A7E00",
         "size": 92,
-        "symbol": "?IsA@NPCBehaviour@AI@@"
+        "symbol": "?IsA@NPCArmedBehaviour@AI@@"
       },
       {
         "address": "0x82F91D70",
@@ -27539,7 +27734,7 @@
       {
         "address": "0x824A7DF0",
         "size": 12,
-        "symbol": "?RetClass@NPCBehaviour@AI@@"
+        "symbol": "?RetClass@NPCArmedBehaviour@AI@@"
       },
       {
         "address": "0x824A7DD0",
@@ -27645,6 +27840,41 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x824A87A0",
+        "size": 164,
+        "symbol": "?StaticCreateClass@NPCBehaviour@AI@@"
+      },
+      {
+        "address": "0x82F91CE0",
+        "size": 40,
+        "symbol": "??__E?ms_pNPCBehaviourClass@NPCBehaviour@AI@@"
+      },
+      {
+        "address": "0x82F91DC0",
+        "size": 72,
+        "symbol": "??__ENPCBehaviourSpawningRegistrar@AI@@"
+      },
+      {
+        "address": "0x8303B6C0",
+        "size": 20,
+        "symbol": "??__FNPCBehaviourSpawningRegistrar@AI@@"
+      },
+      {
+        "address": "0x82F91630",
+        "size": 40,
+        "symbol": "??__E?ms_pNPCArmedBehaviourClass@NPCArmedBehaviour@AI@@"
+      },
+      {
+        "address": "0x824A8720",
+        "size": 12,
+        "symbol": "?RetClass@NPCBehaviour@AI@@"
+      },
+      {
+        "address": "0x824A8730",
+        "size": 92,
+        "symbol": "?IsA@NPCBehaviour@AI@@"
       }
     ],
     "src/AI/Behaviour/NPC/Peacekeeper/Peacekeeper.cpp": [
@@ -27767,6 +27997,21 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x823A0528",
+        "size": 164,
+        "symbol": "?StaticCreateClass@Peacekeeper@AI@@"
+      },
+      {
+        "address": "0x82F977C8",
+        "size": 40,
+        "symbol": "??__E?ms_pPeacekeeperClass@Peacekeeper@AI@@"
+      },
+      {
+        "address": "0x82F977F0",
+        "size": 104,
+        "symbol": "??__EPeacekeeperCellGuardInheritRegistrar@AI@@"
       }
     ],
     "src/AI/Behaviour/NPC/Civilian/PedestrianInjured.cpp": [
@@ -28848,6 +29093,11 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x83014230",
+        "size": 176,
+        "symbol": "??__E?ms_pcNPCDialogSchedulerClass@cNPCDialogScheduler@Audio@@"
       }
     ],
     "src/Audio/cVOALine.cpp": [
@@ -28970,6 +29220,11 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x83012B98",
+        "size": 176,
+        "symbol": "??__E?ms_pcVOALineClass@cVOALine@Audio@@"
       }
     ],
     "src/Audio/cWorldGameObjectPosition.cpp": [
@@ -29082,6 +29337,11 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x83013AD8",
+        "size": 176,
+        "symbol": "??__E?ms_pcWorldGameObjectPositionClass@cWorldGameObjectPosition@Audio@@"
       }
     ],
     "src/VEHICLE_CONTROL/cVehicleCollectionZone.cpp": [
@@ -29194,6 +29454,11 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x83006AD0",
+        "size": 180,
+        "symbol": "??__E?ms_pcVehicleCollectionZoneClass@cVehicleCollectionZone@VEHICLE_CONTROL@@"
       }
     ],
     "src/GDb/ConsoleOutput.cpp": [
@@ -29987,6 +30252,21 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x82FF5230",
+        "size": 104,
+        "symbol": "??__EcPropcNetDynamicBodyInheritRegistrar@Prop@@"
+      },
+      {
+        "address": "0x82FF52E8",
+        "size": 72,
+        "symbol": "??__EcPropSpawningRegistrar@Prop@@"
+      },
+      {
+        "address": "0x83041400",
+        "size": 20,
+        "symbol": "??__FcPropSpawningRegistrar@Prop@@"
       }
     ],
     "src/cCwTransCharacterWrapper.cpp": [
@@ -30641,6 +30921,21 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x823AB940",
+        "size": 152,
+        "symbol": "?StaticCreateClass@cLongDistancePropManager@Activity@@"
+      },
+      {
+        "address": "0x82F5C620",
+        "size": 40,
+        "symbol": "??__E?ms_pcLongDistancePropManagerClass@cLongDistancePropManager@Activity@@"
+      },
+      {
+        "address": "0x82F5C648",
+        "size": 104,
+        "symbol": "??__EcLongDistancePropManagercNonGameBaseInheritRegistrar@Activity@@"
       }
     ],
     "src/AI/Animation/cAIAnimEventProfile.cpp": [
@@ -31617,6 +31912,31 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x824A4B18",
+        "size": 164,
+        "symbol": "?StaticCreateClass@AIBehaviour@AI@@"
+      },
+      {
+        "address": "0x82F90C28",
+        "size": 40,
+        "symbol": "??__E?ms_pAIBehaviourClass@AIBehaviour@AI@@"
+      },
+      {
+        "address": "0x82F90C50",
+        "size": 104,
+        "symbol": "??__EAIBehaviourcNonGameBaseInheritRegistrar@AI@@"
+      },
+      {
+        "address": "0x82F90D08",
+        "size": 72,
+        "symbol": "??__EAIBehaviourSpawningRegistrar@AI@@"
+      },
+      {
+        "address": "0x8303B3B8",
+        "size": 20,
+        "symbol": "??__FAIBehaviourSpawningRegistrar@AI@@"
       }
     ],
     "src/AI/Behaviour/NPC/Freak/FreakBase.cpp": [
@@ -32052,6 +32372,21 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x823182A8",
+        "size": 152,
+        "symbol": "?StaticCreateClass@cCharacterAnimSetManager@Anim@@"
+      },
+      {
+        "address": "0x82FA0158",
+        "size": 40,
+        "symbol": "??__E?ms_pcCharacterAnimSetManagerClass@cCharacterAnimSetManager@Anim@@"
+      },
+      {
+        "address": "0x82FA0180",
+        "size": 104,
+        "symbol": "??__EcCharacterAnimSetManagercNonGameBaseInheritRegistrar@Anim@@"
       }
     ],
     "src/AudioLogic/cAudioBaseProfile.cpp": [
@@ -32845,6 +33180,21 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x821FE610",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cExplosionManager@ExplosionManager@@"
+      },
+      {
+        "address": "0x82FD57B0",
+        "size": 40,
+        "symbol": "??__E?ms_pcExplosionManagerClass@cExplosionManager@ExplosionManager@@"
+      },
+      {
+        "address": "0x82FD57D8",
+        "size": 104,
+        "symbol": "??__EcExplosionManagercNonGameBaseInheritRegistrar@ExplosionManager@@"
       }
     ],
     "src/PHYSICS/cPhysicsUniverse.cpp": [
@@ -33121,6 +33471,21 @@
         "address": "0x8269DD40",
         "size": 8,
         "symbol": "??_EcGenVehicleProfile@Vehicle@@WBM@"
+      },
+      {
+        "address": "0x82246F08",
+        "size": 152,
+        "symbol": "?StaticCreateClass@cGenVehicleProfile@Vehicle@@"
+      },
+      {
+        "address": "0x82FE5C00",
+        "size": 40,
+        "symbol": "??__E?ms_pcGenVehicleProfileClass@cGenVehicleProfile@Vehicle@@"
+      },
+      {
+        "address": "0x82FE5C28",
+        "size": 104,
+        "symbol": "??__EcGenVehicleProfilecNonGameBaseInheritRegistrar@Vehicle@@"
       }
     ],
     "src/Prop/cVehicleDamageProp.cpp": [
@@ -33248,6 +33613,21 @@
         "size": 40,
         "symbol": "??__EnPART_PERCENT_WEIGHT@@",
         "ltcg": true
+      },
+      {
+        "address": "0x8232A5E8",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cVehicleDamageProp@Prop@@"
+      },
+      {
+        "address": "0x82FF5E00",
+        "size": 40,
+        "symbol": "??__E?ms_pcVehicleDamagePropClass@cVehicleDamageProp@Prop@@"
+      },
+      {
+        "address": "0x82FF5E28",
+        "size": 104,
+        "symbol": "??__EcVehicleDamagePropcPropInheritRegistrar@Prop@@"
       }
     ],
     "src/Prop/Constrained/cHingedProp.cpp": [
@@ -33846,6 +34226,31 @@
         "size": 40,
         "symbol": "??__EnPART_PERCENT_WEIGHT@@",
         "ltcg": true
+      },
+      {
+        "address": "0x82742EC8",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cBoomBox@Prop@@"
+      },
+      {
+        "address": "0x82FFA558",
+        "size": 40,
+        "symbol": "??__E?ms_pcBoomBoxClass@cBoomBox@Prop@@"
+      },
+      {
+        "address": "0x82FFA580",
+        "size": 104,
+        "symbol": "??__EcBoomBoxcPropInheritRegistrar@Prop@@"
+      },
+      {
+        "address": "0x82FFA638",
+        "size": 72,
+        "symbol": "??__EcBoomBoxSpawningRegistrar@Prop@@"
+      },
+      {
+        "address": "0x83041920",
+        "size": 20,
+        "symbol": "??__FcBoomBoxSpawningRegistrar@Prop@@"
       }
     ],
     "src/Prop/Custom/cExplosiveBarrel.cpp": [
@@ -33968,6 +34373,21 @@
         "address": "0x83041938",
         "size": 4,
         "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x8222EE88",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cExplosiveBarrel@Prop@@"
+      },
+      {
+        "address": "0x82FFA838",
+        "size": 40,
+        "symbol": "??__E?ms_pcExplosiveBarrelClass@cExplosiveBarrel@Prop@@"
+      },
+      {
+        "address": "0x82FFA860",
+        "size": 104,
+        "symbol": "??__EcExplosiveBarrelcPropInheritRegistrar@Prop@@"
       }
     ],
     "src/Prop/Custom/cGasCanister.cpp": [
@@ -34115,6 +34535,21 @@
         "size": 40,
         "symbol": "??__EnPART_PERCENT_WEIGHT@@",
         "ltcg": true
+      },
+      {
+        "address": "0x822709A0",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cGasCanister@Prop@@"
+      },
+      {
+        "address": "0x82FFABE8",
+        "size": 40,
+        "symbol": "??__E?ms_pcGasCanisterClass@cGasCanister@Prop@@"
+      },
+      {
+        "address": "0x82FFAC10",
+        "size": 104,
+        "symbol": "??__EcGasCanistercPropInheritRegistrar@Prop@@"
       }
     ],
     "src/Prop/Custom/cHingedSpawnDoor.cpp": [
@@ -34533,6 +34968,31 @@
         "address": "0x83041A78",
         "size": 4,
         "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82746988",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cSlidingDoor@Prop@@"
+      },
+      {
+        "address": "0x82FFBC00",
+        "size": 40,
+        "symbol": "??__E?ms_pcSlidingDoorClass@cSlidingDoor@Prop@@"
+      },
+      {
+        "address": "0x82FFBC28",
+        "size": 104,
+        "symbol": "??__EcSlidingDoorcPrismaticPropInheritRegistrar@Prop@@"
+      },
+      {
+        "address": "0x82FFBCE0",
+        "size": 72,
+        "symbol": "??__EcSlidingDoorSpawningRegistrar@Prop@@"
+      },
+      {
+        "address": "0x83041A90",
+        "size": 20,
+        "symbol": "??__FcSlidingDoorSpawningRegistrar@Prop@@"
       }
     ],
     "src/Prop/Custom/cTODSlidingDoor.cpp": [
@@ -34954,89 +35414,19 @@
         "symbol": "??_EcBloom@VFX@@WBM@"
       },
       {
-        "address": "0x83007090",
-        "size": 12,
-        "symbol": "??__EgRandGen@CHARACTER@@"
+        "address": "0x823924E0",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cBloom@VFX@@"
       },
       {
-        "address": "0x830070A0",
-        "size": 24,
-        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+        "address": "0x83007568",
+        "size": 40,
+        "symbol": "??__E?ms_pcBloomClass@cBloom@VFX@@"
       },
       {
-        "address": "0x830070B8",
-        "size": 24,
-        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
-      },
-      {
-        "address": "0x830070D0",
-        "size": 28,
-        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
-      },
-      {
-        "address": "0x830070F0",
-        "size": 28,
-        "symbol": "??__EWORLD_UP_VECTOR@@"
-      },
-      {
-        "address": "0x83007110",
-        "size": 28,
-        "symbol": "??__EWORLD_AT_VECTOR@@"
-      },
-      {
-        "address": "0x83007130",
-        "size": 28,
-        "symbol": "??__EZERO_VECTOR@@"
-      },
-      {
-        "address": "0x83007150",
-        "size": 88,
-        "symbol": "??__EIDENTITY_TRANSFORM@@"
-      },
-      {
-        "address": "0x830071A8",
-        "size": 28,
-        "symbol": "??__EIDENTITY_QUATERNION@@"
-      },
-      {
-        "address": "0x83007308",
-        "size": 24,
-        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
-      },
-      {
-        "address": "0x83042428",
-        "size": 4,
-        "symbol": "??__FgRandGen@CHARACTER@@"
-      },
-      {
-        "address": "0x830071C8",
-        "size": 56,
-        "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
-        "ltcg": true
-      },
-      {
-        "address": "0x83007200",
-        "size": 56,
-        "symbol": "??__EfStepDotLimit@CHARACTER@@",
-        "ltcg": true
-      },
-      {
-        "address": "0x83007238",
-        "size": 56,
-        "symbol": "??__EfStepDotTan@CHARACTER@@",
-        "ltcg": true
-      },
-      {
-        "address": "0x83007298",
-        "size": 56,
-        "symbol": "??__EfFACING_TARGET_MIN_DOT_PRODUCT@@",
-        "ltcg": true
-      },
-      {
-        "address": "0x830072D0",
-        "size": 56,
-        "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
-        "ltcg": true
+        "address": "0x83007590",
+        "size": 104,
+        "symbol": "??__EcBloomcNonGameBaseInheritRegistrar@VFX@@"
       }
     ],
     "src/VFX/cOutlines.cpp": [
@@ -35284,6 +35674,21 @@
         "address": "0x827B7A90",
         "size": 68,
         "symbol": "?MakeNew@cSkidMarks@VFX@@"
+      },
+      {
+        "address": "0x821EA450",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cSkidMarks@VFX@@"
+      },
+      {
+        "address": "0x830084D0",
+        "size": 40,
+        "symbol": "??__E?ms_pcSkidMarksClass@cSkidMarks@VFX@@"
+      },
+      {
+        "address": "0x830084F8",
+        "size": 104,
+        "symbol": "??__EcSkidMarkscNonGameBaseInheritRegistrar@VFX@@"
       }
     ],
     "src/VFX/cVFXSurfaceProfile.cpp": [
@@ -35480,6 +35885,21 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x827DEE08",
+        "size": 152,
+        "symbol": "?StaticCreateClass@cParticleEffectManager@VFX@@"
+      },
+      {
+        "address": "0x830097C0",
+        "size": 40,
+        "symbol": "??__E?ms_pcParticleEffectManagerClass@cParticleEffectManager@VFX@@"
+      },
+      {
+        "address": "0x830097E8",
+        "size": 104,
+        "symbol": "??__EcParticleEffectManagercNonGameBaseInheritRegistrar@VFX@@"
       }
     ],
     "src/VFX/cGlobalLightManager.cpp": [
@@ -35639,6 +36059,11 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x83012FA8",
+        "size": 176,
+        "symbol": "??__E?ms_pcVOASchedulerClass@cVOAScheduler@Audio@@"
       }
     ],
     "src/cStaticInterestingObject.cpp": [
@@ -45670,6 +46095,11 @@
         "size": 56,
         "symbol": "??__EfStepDotTan@CHARACTER@@",
         "ltcg": true
+      },
+      {
+        "address": "0x82FCC6B8",
+        "size": 104,
+        "symbol": "??__EcCloakingDevicecGrenadeInheritRegistrar@Equip@@"
       }
     ],
     "src/Equip/Weapon/cGrenade.cpp": [
@@ -45844,6 +46274,11 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x82FCFED0",
+        "size": 104,
+        "symbol": "??__EcGrenadecWeaponInheritRegistrar@Equip@@"
       }
     ],
     "src/Equip/Weapon/cCWHeavyWeapon.cpp": [
@@ -46006,6 +46441,11 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x82FD2EF0",
+        "size": 104,
+        "symbol": "??__EcCWHeavyWeaponcCWWeaponInheritRegistrar@Equip@@"
       }
     ],
     "src/Equip/Weapon/cCWSatchelCharge.cpp": [
@@ -46148,6 +46588,21 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x82FCF5B0",
+        "size": 104,
+        "symbol": "??__EcCWSatchelChargecExplosiveGrenadeInheritRegistrar@Equip@@"
+      },
+      {
+        "address": "0x82FCF668",
+        "size": 72,
+        "symbol": "??__EcCWSatchelChargeSpawningRegistrar@Equip@@"
+      },
+      {
+        "address": "0x8303F680",
+        "size": 20,
+        "symbol": "??__FcCWSatchelChargeSpawningRegistrar@Equip@@"
       }
     ],
     "src/Equip/Weapon/cExplosiveGrenade.cpp": [
@@ -46312,6 +46767,21 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x82FCFA40",
+        "size": 104,
+        "symbol": "??__EcExplosiveGrenadecGrenadeInheritRegistrar@Equip@@"
+      },
+      {
+        "address": "0x82FCFAF8",
+        "size": 72,
+        "symbol": "??__EcExplosiveGrenadeSpawningRegistrar@Equip@@"
+      },
+      {
+        "address": "0x8303F6C0",
+        "size": 20,
+        "symbol": "??__FcExplosiveGrenadeSpawningRegistrar@Equip@@"
       }
     ],
     "src/AI/Mission/Delivery_Manager/cAgencyGarage.cpp": [
@@ -47045,17 +47515,17 @@
       {
         "address": "0x82FFD408",
         "size": 76,
-        "symbol": "??__EcExplosivesSkillProfileRegistrar@unknown@@"
+        "symbol": "??__EcExplosivesSkillProfileRegistrar@RPG@@"
       },
       {
         "address": "0x83041D40",
         "size": 12,
-        "symbol": "??__FcExplosivesSkillProfileRegistrar@unknown@@"
+        "symbol": "??__FcExplosivesSkillProfileRegistrar@RPG@@"
       },
       {
         "address": "0x82753190",
         "size": 12,
-        "symbol": "?RetClassName@cExplosivesSkillProfile@unknown@@"
+        "symbol": "?RetClassName@cExplosivesSkillProfile@RPG@@"
       },
       {
         "address": "0x82FFD118",
@@ -47151,6 +47621,21 @@
         "size": 40,
         "symbol": "??__EnPART_PERCENT_WEIGHT@@",
         "ltcg": true
+      },
+      {
+        "address": "0x822128C8",
+        "size": 152,
+        "symbol": "?StaticCreateClass@cExplosivesSkillProfile@RPG@@"
+      },
+      {
+        "address": "0x82FFD378",
+        "size": 40,
+        "symbol": "??__E?ms_pcExplosivesSkillProfileClass@cExplosivesSkillProfile@RPG@@"
+      },
+      {
+        "address": "0x82FFD3A0",
+        "size": 104,
+        "symbol": "??__EcExplosivesSkillProfilecNonGameBaseInheritRegistrar@RPG@@"
       }
     ],
     "src/VFX/cParticleEffectResourceHolder.cpp": [
@@ -47183,6 +47668,21 @@
         "address": "0x827EEB48",
         "size": 80,
         "symbol": "??_GcParticleEffectResourceHolder@VFX@@"
+      },
+      {
+        "address": "0x82349300",
+        "size": 152,
+        "symbol": "?StaticCreateClass@cParticleEffectResourceHolder@VFX@@"
+      },
+      {
+        "address": "0x83009930",
+        "size": 40,
+        "symbol": "??__E?ms_pcParticleEffectResourceHolderClass@cParticleEffectResourceHolder@VFX@@"
+      },
+      {
+        "address": "0x83009958",
+        "size": 104,
+        "symbol": "??__EcParticleEffectResourceHoldercNonGameBaseInheritRegistrar@VFX@@"
       }
     ],
     "src/GameManagement/cTeamDeathMatchGameModePrototype.cpp": [
@@ -47672,6 +48172,11 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x82F859D0",
+        "size": 104,
+        "symbol": "??__EcInterestingObjectcScriptHostInheritRegistrar@unknown@@"
       }
     ],
     "src/CHARACTER/cCharacterMotion.cpp": [
@@ -47811,6 +48316,11 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x82FAE0F0",
+        "size": 104,
+        "symbol": "??__EcCharacterMotioncNetDynamicBodyInheritRegistrar@CHARACTER@@"
       }
     ],
     "src/Equip/Weapon/cWeapon.cpp": [
@@ -47950,6 +48460,31 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x82FCBC78",
+        "size": 104,
+        "symbol": "??__EcWeaponcEquipmentInheritRegistrar@Equip@@"
+      },
+      {
+        "address": "0x82FCBCE0",
+        "size": 76,
+        "symbol": "??__EcWeaponRegistrar@Equip@@"
+      },
+      {
+        "address": "0x8303F370",
+        "size": 12,
+        "symbol": "??__FcWeaponRegistrar@Equip@@"
+      },
+      {
+        "address": "0x82FCBD30",
+        "size": 72,
+        "symbol": "??__EcWeaponSpawningRegistrar@Equip@@"
+      },
+      {
+        "address": "0x8303F380",
+        "size": 20,
+        "symbol": "??__FcWeaponSpawningRegistrar@Equip@@"
       }
     ],
     "src/gom/cGameBase.cpp": [
@@ -48084,6 +48619,31 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x82FD67E8",
+        "size": 104,
+        "symbol": "??__EcGameBasecNonGameBaseInheritRegistrar@@"
+      },
+      {
+        "address": "0x82FD6850",
+        "size": 76,
+        "symbol": "??__EcGameBaseRegistrar@@"
+      },
+      {
+        "address": "0x8303FD38",
+        "size": 12,
+        "symbol": "??__FcGameBaseRegistrar@@"
+      },
+      {
+        "address": "0x82FD68A0",
+        "size": 72,
+        "symbol": "??__EcGameBaseSpawningRegistrar@@"
+      },
+      {
+        "address": "0x8303FD48",
+        "size": 20,
+        "symbol": "??__FcGameBaseSpawningRegistrar@@"
       }
     ],
     "src/gom/cNonGameBase.cpp": [
@@ -48223,6 +48783,31 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x82FD6C78",
+        "size": 104,
+        "symbol": "??__EcNonGameBasecScriptHostInheritRegistrar@@"
+      },
+      {
+        "address": "0x82FD6CE0",
+        "size": 76,
+        "symbol": "??__EcNonGameBaseRegistrar@@"
+      },
+      {
+        "address": "0x8303FD78",
+        "size": 12,
+        "symbol": "??__FcNonGameBaseRegistrar@@"
+      },
+      {
+        "address": "0x82FD6D30",
+        "size": 72,
+        "symbol": "??__EcNonGameBaseSpawningRegistrar@@"
+      },
+      {
+        "address": "0x8303FD88",
+        "size": 20,
+        "symbol": "??__FcNonGameBaseSpawningRegistrar@@"
       }
     ],
     "src/PHYSICS/cDynamicBody.cpp": [
@@ -48280,6 +48865,26 @@
         "address": "0x82684AF0",
         "size": 92,
         "symbol": "?IsA@cDynamicBody@PHYSICS@@"
+      },
+      {
+        "address": "0x82FDFB70",
+        "size": 76,
+        "symbol": "??__EcDynamicBodyRegistrar@PHYSICS@@"
+      },
+      {
+        "address": "0x83040398",
+        "size": 12,
+        "symbol": "??__FcDynamicBodyRegistrar@PHYSICS@@"
+      },
+      {
+        "address": "0x82FDFBC0",
+        "size": 72,
+        "symbol": "??__EcDynamicBodySpawningRegistrar@PHYSICS@@"
+      },
+      {
+        "address": "0x830403A8",
+        "size": 20,
+        "symbol": "??__FcDynamicBodySpawningRegistrar@PHYSICS@@"
       }
     ],
     "src/Fun_Runtime/cScriptHost.cpp": [
@@ -48945,6 +49550,41 @@
         "address": "0x82F8AC20",
         "size": 24,
         "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x82F8ACF0",
+        "size": 76,
+        "symbol": "??__EcHeliDropPointRegistrar@AI@@"
+      },
+      {
+        "address": "0x8303B0D8",
+        "size": 12,
+        "symbol": "??__FcHeliDropPointRegistrar@AI@@"
+      },
+      {
+        "address": "0x824759A8",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cTacticalObjective@AI@@"
+      },
+      {
+        "address": "0x82F8AD40",
+        "size": 40,
+        "symbol": "??__E?ms_pcTacticalObjectiveClass@cTacticalObjective@AI@@"
+      },
+      {
+        "address": "0x82F8AD68",
+        "size": 104,
+        "symbol": "??__EcTacticalObjectivecMissionInheritRegistrar@AI@@"
+      },
+      {
+        "address": "0x82F8ADD0",
+        "size": 76,
+        "symbol": "??__EcTacticalObjectiveRegistrar@AI@@"
+      },
+      {
+        "address": "0x8303B0E8",
+        "size": 12,
+        "symbol": "??__FcTacticalObjectiveRegistrar@AI@@"
       }
     ],
     "src/AI/Mission/AchievementMissions/cPebbleDashMission.cpp": [
@@ -49059,6 +49699,26 @@
         "address": "0x82F8E6E0",
         "size": 24,
         "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x82F8E6F8",
+        "size": 76,
+        "symbol": "??__EcLocalPlayerTriggerRegistrar@AI@@"
+      },
+      {
+        "address": "0x8303B250",
+        "size": 12,
+        "symbol": "??__FcLocalPlayerTriggerRegistrar@AI@@"
+      },
+      {
+        "address": "0x82F8E800",
+        "size": 76,
+        "symbol": "??__EcPebbleDashMissionRegistrar@AI@@"
+      },
+      {
+        "address": "0x8303B260",
+        "size": 12,
+        "symbol": "??__FcPebbleDashMissionRegistrar@AI@@"
       }
     ],
     "src/AI/Behaviour/NPC/Peacekeeper/PeacekeeperPrototype.cpp": [
@@ -49437,6 +50097,5134 @@
         "size": 40,
         "symbol": "??__EnPART_PERCENT_WEIGHT@@",
         "ltcg": true
+      },
+      {
+        "address": "0x82200AE0",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cAcidBomblet@Equip@@"
+      },
+      {
+        "address": "0x82FCEDA0",
+        "size": 40,
+        "symbol": "??__E?ms_pcAcidBombletClass@cAcidBomblet@Equip@@"
+      },
+      {
+        "address": "0x82FCEDC8",
+        "size": 104,
+        "symbol": "??__EcAcidBombletcCWSatchelChargeInheritRegistrar@Equip@@"
+      },
+      {
+        "address": "0x82FCEE30",
+        "size": 76,
+        "symbol": "??__EcAcidBombletRegistrar@Equip@@"
+      },
+      {
+        "address": "0x8303F600",
+        "size": 12,
+        "symbol": "??__FcAcidBombletRegistrar@Equip@@"
+      },
+      {
+        "address": "0x82FCEE80",
+        "size": 72,
+        "symbol": "??__EcAcidBombletSpawningRegistrar@Equip@@"
+      },
+      {
+        "address": "0x8303F610",
+        "size": 20,
+        "symbol": "??__FcAcidBombletSpawningRegistrar@Equip@@"
+      }
+    ],
+    "src/Activity/SpawnPoint/cCampaignWeaponSpawnPoint.cpp": [
+      {
+        "address": "0x82F58820",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F58848",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82F58870",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82F58888",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82F588A0",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82F588C0",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82F588E0",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82F58900",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82F58920",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82F58978",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82F58998",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x83039530",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82F589A8",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x82F589C0",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x82F589D8",
+        "size": 56,
+        "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F58A10",
+        "size": 56,
+        "symbol": "??__EfStepDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F58A48",
+        "size": 56,
+        "symbol": "??__EfStepDotTan@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F58A80",
+        "size": 40,
+        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F58AA8",
+        "size": 56,
+        "symbol": "??__EfFACING_TARGET_MIN_DOT_PRODUCT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F58AE0",
+        "size": 56,
+        "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F58B18",
+        "size": 24,
+        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x823D0270",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cCampaignWeaponSpawnPoint@Activity@@"
+      },
+      {
+        "address": "0x82F58B30",
+        "size": 40,
+        "symbol": "??__E?ms_pcCampaignWeaponSpawnPointClass@cCampaignWeaponSpawnPoint@Activity@@"
+      },
+      {
+        "address": "0x82F58B58",
+        "size": 104,
+        "symbol": "??__EcCampaignWeaponSpawnPointcSpawnPointBaseInheritRegistrar@Activity@@"
+      },
+      {
+        "address": "0x82F58BC0",
+        "size": 76,
+        "symbol": "??__EcCampaignWeaponSpawnPointRegistrar@Activity@@"
+      },
+      {
+        "address": "0x83039538",
+        "size": 12,
+        "symbol": "??__FcCampaignWeaponSpawnPointRegistrar@Activity@@"
+      }
+    ],
+    "src/Activity/SpawnPoint/cGlobalLightPropSpawnPoint.cpp": [
+      {
+        "address": "0x82F58C10",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F58C38",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82F58C60",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82F58C78",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82F58C90",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82F58CB0",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82F58CD0",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82F58CF0",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82F58D10",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82F58D68",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82F58D88",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x83039548",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82F58D98",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x82F58DB0",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x823D0FC8",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cGlobalLightPropSpawnPoint@Activity@@"
+      },
+      {
+        "address": "0x82F58DC8",
+        "size": 40,
+        "symbol": "??__E?ms_pcGlobalLightPropSpawnPointClass@cGlobalLightPropSpawnPoint@Activity@@"
+      },
+      {
+        "address": "0x82F58DF0",
+        "size": 104,
+        "symbol": "??__EcGlobalLightPropSpawnPointcSpawnPointInheritRegistrar@Activity@@"
+      },
+      {
+        "address": "0x82F58E58",
+        "size": 76,
+        "symbol": "??__EcGlobalLightPropSpawnPointRegistrar@Activity@@"
+      },
+      {
+        "address": "0x83039550",
+        "size": 12,
+        "symbol": "??__FcGlobalLightPropSpawnPointRegistrar@Activity@@"
+      }
+    ],
+    "src/Activity/SpawnPoint/cReaperAerialSpawnPoint.cpp": [
+      {
+        "address": "0x823D1888",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cReaperAerialSpawnPoint@Activity@@"
+      },
+      {
+        "address": "0x82F58EA8",
+        "size": 40,
+        "symbol": "??__E?ms_pcReaperAerialSpawnPointClass@cReaperAerialSpawnPoint@Activity@@"
+      },
+      {
+        "address": "0x82F58ED0",
+        "size": 76,
+        "symbol": "??__EcReaperAerialSpawnPointRegistrar@Activity@@"
+      },
+      {
+        "address": "0x83039560",
+        "size": 12,
+        "symbol": "??__FcReaperAerialSpawnPointRegistrar@Activity@@"
+      },
+      {
+        "address": "0x82F58F20",
+        "size": 104,
+        "symbol": "??__EcReaperAerialSpawnPointcSquadMemberSpawnPointInheritRegistrar@Activity@@"
+      },
+      {
+        "address": "0x823D1A60",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cReaperAerialRespawnPoint@Activity@@"
+      },
+      {
+        "address": "0x82F58F88",
+        "size": 40,
+        "symbol": "??__E?ms_pcReaperAerialRespawnPointClass@cReaperAerialRespawnPoint@Activity@@"
+      },
+      {
+        "address": "0x82F58FB0",
+        "size": 76,
+        "symbol": "??__EcReaperAerialRespawnPointRegistrar@Activity@@"
+      },
+      {
+        "address": "0x83039570",
+        "size": 12,
+        "symbol": "??__FcReaperAerialRespawnPointRegistrar@Activity@@"
+      },
+      {
+        "address": "0x82F59000",
+        "size": 104,
+        "symbol": "??__EcReaperAerialRespawnPointcSquadMemberRespawnPointInheritRegistrar@Activity@@"
+      }
+    ],
+    "src/Activity/SpawnPoint/cSpawnPoint.cpp": [
+      {
+        "address": "0x82F59068",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F59090",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82F590B8",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82F590D0",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82F590E8",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82F59108",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82F59128",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82F59148",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82F59168",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82F591C0",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82F591E0",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x83039580",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82F591F0",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x82F59208",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x82F59220",
+        "size": 56,
+        "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F59258",
+        "size": 56,
+        "symbol": "??__EfStepDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F59290",
+        "size": 56,
+        "symbol": "??__EfStepDotTan@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F592C8",
+        "size": 40,
+        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F592F0",
+        "size": 56,
+        "symbol": "??__EfFACING_TARGET_MIN_DOT_PRODUCT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F59328",
+        "size": 56,
+        "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F59360",
+        "size": 24,
+        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x823D1D00",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cSpawnPoint@Activity@@"
+      },
+      {
+        "address": "0x82F59378",
+        "size": 40,
+        "symbol": "??__E?ms_pcSpawnPointClass@cSpawnPoint@Activity@@"
+      },
+      {
+        "address": "0x82F593A0",
+        "size": 104,
+        "symbol": "??__EcSpawnPointcSpawnPointBaseInheritRegistrar@Activity@@"
+      },
+      {
+        "address": "0x82F59408",
+        "size": 76,
+        "symbol": "??__EcSpawnPointRegistrar@Activity@@"
+      },
+      {
+        "address": "0x83039588",
+        "size": 12,
+        "symbol": "??__FcSpawnPointRegistrar@Activity@@"
+      }
+    ],
+    "src/Activity/SpawnPoint/cSpawnPointBase.cpp": [
+      {
+        "address": "0x82F59468",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F59490",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82F594B8",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82F594D0",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82F594E8",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82F59508",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82F59528",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82F59548",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82F59568",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82F595C0",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82F595E0",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x830395A0",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82F595F0",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x82F59608",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x82F59620",
+        "size": 56,
+        "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F59658",
+        "size": 56,
+        "symbol": "??__EfStepDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F59690",
+        "size": 56,
+        "symbol": "??__EfStepDotTan@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F596C8",
+        "size": 40,
+        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F596F0",
+        "size": 56,
+        "symbol": "??__EfFACING_TARGET_MIN_DOT_PRODUCT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F59728",
+        "size": 56,
+        "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F59760",
+        "size": 24,
+        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x823D2A98",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cSpawnPointBase@Activity@@"
+      },
+      {
+        "address": "0x82F59778",
+        "size": 40,
+        "symbol": "??__E?ms_pcSpawnPointBaseClass@cSpawnPointBase@Activity@@"
+      }
+    ],
+    "src/Activity/SpawnPoint/cTurretSpawnPoint.cpp": [
+      {
+        "address": "0x82F597A0",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F597C8",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82F597F0",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82F59808",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82F59820",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82F59840",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82F59860",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82F59880",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82F598A0",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82F598F8",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82F59918",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x830395A8",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82F59928",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x82F59940",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x82F59958",
+        "size": 56,
+        "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F59990",
+        "size": 56,
+        "symbol": "??__EfStepDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F599C8",
+        "size": 56,
+        "symbol": "??__EfStepDotTan@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F59A00",
+        "size": 40,
+        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F59A28",
+        "size": 56,
+        "symbol": "??__EfFACING_TARGET_MIN_DOT_PRODUCT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F59A60",
+        "size": 56,
+        "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F59A98",
+        "size": 24,
+        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x823D4030",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cTurretSpawnPoint@Activity@@"
+      },
+      {
+        "address": "0x82F59AB0",
+        "size": 40,
+        "symbol": "??__E?ms_pcTurretSpawnPointClass@cTurretSpawnPoint@Activity@@"
+      },
+      {
+        "address": "0x82F59AD8",
+        "size": 104,
+        "symbol": "??__EcTurretSpawnPointcSquadMemberSpawnPointInheritRegistrar@Activity@@"
+      },
+      {
+        "address": "0x82F59B40",
+        "size": 76,
+        "symbol": "??__EcTurretSpawnPointRegistrar@Activity@@"
+      },
+      {
+        "address": "0x830395B0",
+        "size": 12,
+        "symbol": "??__FcTurretSpawnPointRegistrar@Activity@@"
+      }
+    ],
+    "src/Activity/SpawnPoint/cTurretVehicleSpawnPoint.cpp": [
+      {
+        "address": "0x82F59B90",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F59BB8",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82F59BE0",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82F59BF8",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82F59C10",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82F59C30",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82F59C50",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82F59C70",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82F59C90",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82F59CE8",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82F59D08",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x830395C0",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82F59D18",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x82F59D30",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x82F59D48",
+        "size": 56,
+        "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F59D80",
+        "size": 56,
+        "symbol": "??__EfStepDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F59DB8",
+        "size": 56,
+        "symbol": "??__EfStepDotTan@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F59DF0",
+        "size": 40,
+        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x823D4A88",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cTurretVehicleSpawnPoint@Activity@@"
+      },
+      {
+        "address": "0x82F59E18",
+        "size": 40,
+        "symbol": "??__E?ms_pcTurretVehicleSpawnPointClass@cTurretVehicleSpawnPoint@Activity@@"
+      },
+      {
+        "address": "0x82F59E40",
+        "size": 104,
+        "symbol": "??__EcTurretVehicleSpawnPointcSquadMemberSpawnPointInheritRegistrar@Activity@@"
+      },
+      {
+        "address": "0x82F59EA8",
+        "size": 76,
+        "symbol": "??__EcTurretVehicleSpawnPointRegistrar@Activity@@"
+      },
+      {
+        "address": "0x830395C8",
+        "size": 12,
+        "symbol": "??__FcTurretVehicleSpawnPointRegistrar@Activity@@"
+      }
+    ],
+    "src/Activity/ActivityVolume/cActivityVolume.cpp": [
+      {
+        "address": "0x82F5A2E8",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5A310",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82F5A338",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82F5A350",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82F5A368",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82F5A388",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82F5A3A8",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82F5A3C8",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82F5A3E8",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82F5A440",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82F5A460",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x830395E0",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82F5A470",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x82F5A488",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x82F5A4A0",
+        "size": 56,
+        "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5A4D8",
+        "size": 56,
+        "symbol": "??__EfStepDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5A510",
+        "size": 56,
+        "symbol": "??__EfStepDotTan@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5A548",
+        "size": 40,
+        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5A570",
+        "size": 56,
+        "symbol": "??__EfFACING_TARGET_MIN_DOT_PRODUCT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5A5A8",
+        "size": 56,
+        "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5A5E0",
+        "size": 24,
+        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x823D59F8",
+        "size": 152,
+        "symbol": "?StaticCreateClass@cActivityVolume@Activity@@"
+      },
+      {
+        "address": "0x82F5A5F8",
+        "size": 40,
+        "symbol": "??__E?ms_pcActivityVolumeClass@cActivityVolume@Activity@@"
+      }
+    ],
+    "src/Activity/SquadSpawnPoint/cAmbientEventSpawnPoint.cpp": [
+      {
+        "address": "0x82F5C700",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5C728",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82F5C750",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82F5C768",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82F5C780",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x83039658",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82F5C790",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x82F5C7A8",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x82F5C7C0",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82F5C7E0",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82F5C800",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82F5C820",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82F5C840",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82F5C898",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82F5C8B8",
+        "size": 56,
+        "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5C8F0",
+        "size": 56,
+        "symbol": "??__EfStepDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5C928",
+        "size": 56,
+        "symbol": "??__EfStepDotTan@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5C960",
+        "size": 40,
+        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5C988",
+        "size": 56,
+        "symbol": "??__EfFACING_TARGET_MIN_DOT_PRODUCT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5C9C0",
+        "size": 56,
+        "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5C9F8",
+        "size": 24,
+        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x823DAB18",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cAmbientEventSpawnPoint@Activity@@"
+      },
+      {
+        "address": "0x82F5CA10",
+        "size": 40,
+        "symbol": "??__E?ms_pcAmbientEventSpawnPointClass@cAmbientEventSpawnPoint@Activity@@"
+      },
+      {
+        "address": "0x82F5CA38",
+        "size": 104,
+        "symbol": "??__EcAmbientEventSpawnPointcSquadMemberSpawnPointInheritRegistrar@Activity@@"
+      },
+      {
+        "address": "0x82F5CAA0",
+        "size": 76,
+        "symbol": "??__EcAmbientEventSpawnPointRegistrar@Activity@@"
+      },
+      {
+        "address": "0x83039660",
+        "size": 12,
+        "symbol": "??__FcAmbientEventSpawnPointRegistrar@Activity@@"
+      }
+    ],
+    "src/Activity/SquadSpawnPoint/cChopperRespawnPoint.cpp": [
+      {
+        "address": "0x82F5CAF0",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5CB18",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82F5CB40",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82F5CB58",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82F5CB70",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82F5CB90",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82F5CBB0",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82F5CBD0",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82F5CBF0",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82F5CC48",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82F5CC68",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x83039670",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82F5CC78",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x82F5CC90",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x82F5CCA8",
+        "size": 56,
+        "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5CCE0",
+        "size": 56,
+        "symbol": "??__EfStepDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5CD18",
+        "size": 56,
+        "symbol": "??__EfStepDotTan@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5CD50",
+        "size": 40,
+        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x823DB588",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cChopperRespawnPoint@Activity@@"
+      },
+      {
+        "address": "0x82F5CD78",
+        "size": 40,
+        "symbol": "??__E?ms_pcChopperRespawnPointClass@cChopperRespawnPoint@Activity@@"
+      },
+      {
+        "address": "0x82F5CDA0",
+        "size": 104,
+        "symbol": "??__EcChopperRespawnPointcSquadMemberRespawnPointInheritRegistrar@Activity@@"
+      },
+      {
+        "address": "0x82F5CE08",
+        "size": 76,
+        "symbol": "??__EcChopperRespawnPointRegistrar@Activity@@"
+      },
+      {
+        "address": "0x83039678",
+        "size": 12,
+        "symbol": "??__FcChopperRespawnPointRegistrar@Activity@@"
+      }
+    ],
+    "src/Activity/SquadSpawnPoint/cChopperSpawnPoint.cpp": [
+      {
+        "address": "0x82F5CE58",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5CE80",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82F5CEA8",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82F5CEC0",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82F5CED8",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82F5CEF8",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82F5CF18",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82F5CF38",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82F5CF58",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82F5CFB0",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82F5CFD0",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x83039688",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82F5CFE0",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x82F5CFF8",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x82F5D010",
+        "size": 56,
+        "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5D048",
+        "size": 56,
+        "symbol": "??__EfStepDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5D080",
+        "size": 56,
+        "symbol": "??__EfStepDotTan@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5D0B8",
+        "size": 40,
+        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5D0E0",
+        "size": 56,
+        "symbol": "??__EfFACING_TARGET_MIN_DOT_PRODUCT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5D118",
+        "size": 56,
+        "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5D150",
+        "size": 24,
+        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x823DB8A8",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cChopperSpawnPoint@Activity@@"
+      },
+      {
+        "address": "0x82F5D168",
+        "size": 40,
+        "symbol": "??__E?ms_pcChopperSpawnPointClass@cChopperSpawnPoint@Activity@@"
+      },
+      {
+        "address": "0x82F5D190",
+        "size": 104,
+        "symbol": "??__EcChopperSpawnPointcSquadMemberSpawnPointInheritRegistrar@Activity@@"
+      },
+      {
+        "address": "0x82F5D1F8",
+        "size": 76,
+        "symbol": "??__EcChopperSpawnPointRegistrar@Activity@@"
+      },
+      {
+        "address": "0x83039690",
+        "size": 12,
+        "symbol": "??__FcChopperSpawnPointRegistrar@Activity@@"
+      }
+    ],
+    "src/Activity/SquadSpawnPoint/cSquadMemberRespawnPoint.cpp": [
+      {
+        "address": "0x82F5D248",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5D270",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82F5D298",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82F5D2B0",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82F5D2C8",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x830396A0",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82F5D2D8",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x82F5D2F0",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x82F5D308",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82F5D328",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82F5D348",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82F5D368",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82F5D388",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82F5D3E0",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82F5D400",
+        "size": 56,
+        "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5D438",
+        "size": 56,
+        "symbol": "??__EfStepDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5D470",
+        "size": 56,
+        "symbol": "??__EfStepDotTan@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5D4A8",
+        "size": 40,
+        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5D4D0",
+        "size": 56,
+        "symbol": "??__EfFACING_TARGET_MIN_DOT_PRODUCT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5D508",
+        "size": 56,
+        "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5D540",
+        "size": 24,
+        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x821D1BB8",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cSquadMemberRespawnPoint@Activity@@"
+      },
+      {
+        "address": "0x82F5D558",
+        "size": 40,
+        "symbol": "??__E?ms_pcSquadMemberRespawnPointClass@cSquadMemberRespawnPoint@Activity@@"
+      },
+      {
+        "address": "0x82F5D580",
+        "size": 104,
+        "symbol": "??__EcSquadMemberRespawnPointcSquadMemberSpawnPointBaseInheritRegistrar@Activity@@"
+      },
+      {
+        "address": "0x82F5D5E8",
+        "size": 76,
+        "symbol": "??__EcSquadMemberRespawnPointRegistrar@Activity@@"
+      },
+      {
+        "address": "0x830396A8",
+        "size": 12,
+        "symbol": "??__FcSquadMemberRespawnPointRegistrar@Activity@@"
+      }
+    ],
+    "src/Activity/SquadSpawnPoint/cSquadMemberSpawnPoint.cpp": [
+      {
+        "address": "0x82F5D638",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5D660",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82F5D688",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82F5D6A0",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82F5D6B8",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82F5D6D8",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82F5D6F8",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82F5D718",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82F5D738",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82F5D790",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82F5D7B0",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x830396B8",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82F5D7C0",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x82F5D7D8",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x82F5D7F0",
+        "size": 56,
+        "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5D828",
+        "size": 56,
+        "symbol": "??__EfStepDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5D860",
+        "size": 56,
+        "symbol": "??__EfStepDotTan@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5D898",
+        "size": 40,
+        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5D8C0",
+        "size": 56,
+        "symbol": "??__EfFACING_TARGET_MIN_DOT_PRODUCT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5D8F8",
+        "size": 56,
+        "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5D930",
+        "size": 24,
+        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x823DC6B0",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cSquadMemberSpawnPoint@Activity@@"
+      },
+      {
+        "address": "0x82F5D948",
+        "size": 40,
+        "symbol": "??__E?ms_pcSquadMemberSpawnPointClass@cSquadMemberSpawnPoint@Activity@@"
+      },
+      {
+        "address": "0x82F5D970",
+        "size": 104,
+        "symbol": "??__EcSquadMemberSpawnPointcSquadMemberSpawnPointBaseInheritRegistrar@Activity@@"
+      },
+      {
+        "address": "0x82F5D9D8",
+        "size": 76,
+        "symbol": "??__EcSquadMemberSpawnPointRegistrar@Activity@@"
+      },
+      {
+        "address": "0x830396C0",
+        "size": 12,
+        "symbol": "??__FcSquadMemberSpawnPointRegistrar@Activity@@"
+      }
+    ],
+    "src/Activity/SquadSpawnPoint/cSquadMemberSpawnPointBase.cpp": [
+      {
+        "address": "0x82F5DA28",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5DA50",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82F5DA78",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82F5DA90",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82F5DAA8",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x830396D0",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82F5DAB8",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x82F5DAD0",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x82F5DAE8",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82F5DB08",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82F5DB28",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82F5DB48",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82F5DB68",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82F5DBC0",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82F5DBE0",
+        "size": 56,
+        "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5DC18",
+        "size": 56,
+        "symbol": "??__EfStepDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5DC50",
+        "size": 56,
+        "symbol": "??__EfStepDotTan@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5DC88",
+        "size": 40,
+        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5DCB0",
+        "size": 56,
+        "symbol": "??__EfFACING_TARGET_MIN_DOT_PRODUCT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5DCE8",
+        "size": 56,
+        "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5DD20",
+        "size": 24,
+        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x823DD270",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cSquadMemberSpawnPointBase@Activity@@"
+      },
+      {
+        "address": "0x82F5DD38",
+        "size": 40,
+        "symbol": "??__E?ms_pcSquadMemberSpawnPointBaseClass@cSquadMemberSpawnPointBase@Activity@@"
+      },
+      {
+        "address": "0x82F5DD60",
+        "size": 104,
+        "symbol": "??__EcSquadMemberSpawnPointBasecSpawnPointBaseInheritRegistrar@Activity@@"
+      }
+    ],
+    "src/Activity/SquadSpawnPoint/cSquadSpawnPoint.cpp": [
+      {
+        "address": "0x82F5DDC8",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5DDF0",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82F5DE18",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82F5DE30",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82F5DE48",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x830396D8",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82F5DE58",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x82F5DE70",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x82F5DE88",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82F5DEA8",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82F5DEC8",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82F5DEE8",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82F5DF08",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82F5DF60",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82F5DF80",
+        "size": 56,
+        "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5DFB8",
+        "size": 56,
+        "symbol": "??__EfStepDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5DFF0",
+        "size": 56,
+        "symbol": "??__EfStepDotTan@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5E028",
+        "size": 40,
+        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5E050",
+        "size": 56,
+        "symbol": "??__EfFACING_TARGET_MIN_DOT_PRODUCT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5E088",
+        "size": 56,
+        "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5E0C0",
+        "size": 24,
+        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x823DD810",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cSquadSpawnPoint@Activity@@"
+      },
+      {
+        "address": "0x82F5E0D8",
+        "size": 40,
+        "symbol": "??__E?ms_pcSquadSpawnPointClass@cSquadSpawnPoint@Activity@@"
+      },
+      {
+        "address": "0x82F5E100",
+        "size": 104,
+        "symbol": "??__EcSquadSpawnPointcSpawnPointBaseInheritRegistrar@Activity@@"
+      },
+      {
+        "address": "0x82F5E168",
+        "size": 76,
+        "symbol": "??__EcSquadSpawnPointRegistrar@Activity@@"
+      },
+      {
+        "address": "0x830396E0",
+        "size": 12,
+        "symbol": "??__FcSquadSpawnPointRegistrar@Activity@@"
+      }
+    ],
+    "src/Activity/SquadSpawnPoint/cTurretSquadMemberSpawnPoint.cpp": [
+      {
+        "address": "0x82F5E1B8",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5E1E0",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82F5E208",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82F5E220",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82F5E238",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82F5E258",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82F5E278",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82F5E298",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82F5E2B8",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82F5E310",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82F5E330",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x830396F0",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82F5E340",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x82F5E358",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x82F5E370",
+        "size": 56,
+        "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5E3A8",
+        "size": 56,
+        "symbol": "??__EfStepDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5E3E0",
+        "size": 56,
+        "symbol": "??__EfStepDotTan@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5E418",
+        "size": 40,
+        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5E440",
+        "size": 56,
+        "symbol": "??__EfFACING_TARGET_MIN_DOT_PRODUCT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5E478",
+        "size": 56,
+        "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5E4B0",
+        "size": 24,
+        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x823DF088",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cTurretSquadMemberSpawnPoint@Activity@@"
+      },
+      {
+        "address": "0x82F5E4C8",
+        "size": 40,
+        "symbol": "??__E?ms_pcTurretSquadMemberSpawnPointClass@cTurretSquadMemberSpawnPoint@Activity@@"
+      },
+      {
+        "address": "0x82F5E4F0",
+        "size": 104,
+        "symbol": "??__EcTurretSquadMemberSpawnPointcSquadMemberSpawnPointInheritRegistrar@Activity@@"
+      },
+      {
+        "address": "0x82F5E558",
+        "size": 76,
+        "symbol": "??__EcTurretSquadMemberSpawnPointRegistrar@Activity@@"
+      },
+      {
+        "address": "0x830396F8",
+        "size": 12,
+        "symbol": "??__FcTurretSquadMemberSpawnPointRegistrar@Activity@@"
+      }
+    ],
+    "src/Activity/SquadSpawnPoint/cWeaponVehicleRespawnPoint.cpp": [
+      {
+        "address": "0x823DF670",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cWeaponVehicleRespawnPoint@Activity@@"
+      },
+      {
+        "address": "0x82F5E5A8",
+        "size": 40,
+        "symbol": "??__E?ms_pcWeaponVehicleRespawnPointClass@cWeaponVehicleRespawnPoint@Activity@@"
+      },
+      {
+        "address": "0x82F5E5D0",
+        "size": 104,
+        "symbol": "??__EcWeaponVehicleRespawnPointcSquadMemberRespawnPointInheritRegistrar@Activity@@"
+      },
+      {
+        "address": "0x82F5E638",
+        "size": 76,
+        "symbol": "??__EcWeaponVehicleRespawnPointRegistrar@Activity@@"
+      },
+      {
+        "address": "0x83039708",
+        "size": 12,
+        "symbol": "??__FcWeaponVehicleRespawnPointRegistrar@Activity@@"
+      }
+    ],
+    "src/Activity/SquadSpawnPoint/cWeaponVehicleSpawnPoint.cpp": [
+      {
+        "address": "0x82F5E688",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5E6B0",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82F5E6D8",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82F5E6F0",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82F5E708",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82F5E728",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82F5E748",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82F5E768",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82F5E788",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82F5E7E0",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82F5E800",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x83039718",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82F5E810",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x82F5E828",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x82F5E840",
+        "size": 56,
+        "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5E878",
+        "size": 56,
+        "symbol": "??__EfStepDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5E8B0",
+        "size": 56,
+        "symbol": "??__EfStepDotTan@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F5E8E8",
+        "size": 40,
+        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x823DF8F8",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cWeaponVehicleSpawnPoint@Activity@@"
+      },
+      {
+        "address": "0x82F5E910",
+        "size": 40,
+        "symbol": "??__E?ms_pcWeaponVehicleSpawnPointClass@cWeaponVehicleSpawnPoint@Activity@@"
+      },
+      {
+        "address": "0x82F5E938",
+        "size": 104,
+        "symbol": "??__EcWeaponVehicleSpawnPointcSquadMemberSpawnPointInheritRegistrar@Activity@@"
+      },
+      {
+        "address": "0x82F5E9A0",
+        "size": 76,
+        "symbol": "??__EcWeaponVehicleSpawnPointRegistrar@Activity@@"
+      },
+      {
+        "address": "0x83039720",
+        "size": 12,
+        "symbol": "??__FcWeaponVehicleSpawnPointRegistrar@Activity@@"
+      }
+    ],
+    "src/AI/Markup/cCoverPoint.cpp": [
+      {
+        "address": "0x82F614D0",
+        "size": 76,
+        "symbol": "??__EcCoverPointRegistrar@AI@@"
+      },
+      {
+        "address": "0x83039948",
+        "size": 12,
+        "symbol": "??__FcCoverPointRegistrar@AI@@"
+      }
+    ],
+    "src/AI/Markup/cInfo.cpp": [
+      {
+        "address": "0x82F61848",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F61870",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82F61898",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82F618B0",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82F618C8",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82F618E8",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82F61908",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82F61928",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82F61948",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82F619A0",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82F619C0",
+        "size": 56,
+        "symbol": "??__EfFACING_TARGET_MIN_DOT_PRODUCT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F619F8",
+        "size": 56,
+        "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F61A30",
+        "size": 24,
+        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x82F61A48",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x83039960",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82F61A58",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x82F61A70",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x82F61A88",
+        "size": 56,
+        "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F61AC0",
+        "size": 56,
+        "symbol": "??__EfStepDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F61AF8",
+        "size": 56,
+        "symbol": "??__EfStepDotTan@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F61B30",
+        "size": 40,
+        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F61B58",
+        "size": 76,
+        "symbol": "??__EcInfoRegistrar@AI@@"
+      },
+      {
+        "address": "0x83039968",
+        "size": 12,
+        "symbol": "??__FcInfoRegistrar@AI@@"
+      }
+    ],
+    "src/AI/Targeting/cAiTargetPositionInfo.cpp": [
+      {
+        "address": "0x82F82560",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F82588",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82F825B0",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82F825C8",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82F825E0",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x8303ABE0",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82F825F0",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x82F82608",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x82F82620",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82F82640",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82F82660",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82F82680",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82F826A0",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82F826F8",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82F82718",
+        "size": 56,
+        "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F82750",
+        "size": 56,
+        "symbol": "??__EfStepDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F82788",
+        "size": 56,
+        "symbol": "??__EfStepDotTan@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F827C0",
+        "size": 40,
+        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F827E8",
+        "size": 56,
+        "symbol": "??__EfFACING_TARGET_MIN_DOT_PRODUCT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F82820",
+        "size": 56,
+        "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F82858",
+        "size": 24,
+        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x82451708",
+        "size": 152,
+        "symbol": "?StaticCreateClass@cAiTargetPositionInfo@AI@@"
+      },
+      {
+        "address": "0x82F82870",
+        "size": 40,
+        "symbol": "??__E?ms_pcAiTargetPositionInfoClass@cAiTargetPositionInfo@AI@@"
+      },
+      {
+        "address": "0x82F82898",
+        "size": 104,
+        "symbol": "??__EcAiTargetPositionInfocAiTargetInfoInheritRegistrar@AI@@"
+      }
+    ],
+    "src/AI/Mission/cAttachableLight.cpp": [
+      {
+        "address": "0x82456260",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cAttachableLight@AI@@"
+      },
+      {
+        "address": "0x82F85F68",
+        "size": 40,
+        "symbol": "??__E?ms_pcAttachableLightClass@cAttachableLight@AI@@"
+      },
+      {
+        "address": "0x82F85F90",
+        "size": 104,
+        "symbol": "??__EcAttachableLightcPlaceableLightInheritRegistrar@AI@@"
+      },
+      {
+        "address": "0x82F85FF8",
+        "size": 76,
+        "symbol": "??__EcAttachableLightRegistrar@AI@@"
+      },
+      {
+        "address": "0x8303AE90",
+        "size": 12,
+        "symbol": "??__FcAttachableLightRegistrar@AI@@"
+      }
+    ],
+    "src/AI/Mission/cRefineryPropSpawnPoint.cpp": [
+      {
+        "address": "0x824586F8",
+        "size": 152,
+        "symbol": "?StaticCreateClass@cRefineryPropSpawnPoint@AI@@"
+      },
+      {
+        "address": "0x82F86718",
+        "size": 40,
+        "symbol": "??__E?ms_pcRefineryPropSpawnPointClass@cRefineryPropSpawnPoint@AI@@"
+      },
+      {
+        "address": "0x82F86740",
+        "size": 104,
+        "symbol": "??__EcRefineryPropSpawnPointcMissionCriticalPropSpawnPointInheritRegistrar@AI@@"
+      },
+      {
+        "address": "0x82F867A8",
+        "size": 76,
+        "symbol": "??__EcRefineryPropSpawnPointRegistrar@AI@@"
+      },
+      {
+        "address": "0x8303AEE8",
+        "size": 12,
+        "symbol": "??__FcRefineryPropSpawnPointRegistrar@AI@@"
+      }
+    ],
+    "src/AI/Mission/cSupplyValveSpawnPoint.cpp": [
+      {
+        "address": "0x82F867F8",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F86820",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82F86848",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82F86860",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82F86878",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82F86898",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82F868B8",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82F868D8",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82F868F8",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82F86950",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82F86970",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x8303AEF8",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82F86980",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x82F86998",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x82200B80",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cSupplyValveSpawnPoint@AI@@"
+      },
+      {
+        "address": "0x82F869B0",
+        "size": 40,
+        "symbol": "??__E?ms_pcSupplyValveSpawnPointClass@cSupplyValveSpawnPoint@AI@@"
+      },
+      {
+        "address": "0x82F869D8",
+        "size": 104,
+        "symbol": "??__EcSupplyValveSpawnPointcRefineryPropSpawnPointInheritRegistrar@AI@@"
+      },
+      {
+        "address": "0x82F86A40",
+        "size": 76,
+        "symbol": "??__EcSupplyValveSpawnPointRegistrar@AI@@"
+      },
+      {
+        "address": "0x8303AF00",
+        "size": 12,
+        "symbol": "??__FcSupplyValveSpawnPointRegistrar@AI@@"
+      }
+    ],
+    "src/AI/Mission/cMissionCriticalPropSpawnPoint.cpp": [
+      {
+        "address": "0x82F873E8",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F87410",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82F87438",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82F87450",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82F87468",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82F87488",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82F874A8",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82F874C8",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82F874E8",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82F87540",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82F87560",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x8303AF68",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82F87570",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x82F87588",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x82F875A0",
+        "size": 56,
+        "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F875D8",
+        "size": 56,
+        "symbol": "??__EfStepDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F87610",
+        "size": 56,
+        "symbol": "??__EfStepDotTan@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F87648",
+        "size": 40,
+        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F87670",
+        "size": 56,
+        "symbol": "??__EfFACING_TARGET_MIN_DOT_PRODUCT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F876A8",
+        "size": 56,
+        "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F876E0",
+        "size": 24,
+        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x8245B740",
+        "size": 152,
+        "symbol": "?StaticCreateClass@cMissionCriticalPropSpawnPoint@AI@@"
+      },
+      {
+        "address": "0x82F876F8",
+        "size": 40,
+        "symbol": "??__E?ms_pcMissionCriticalPropSpawnPointClass@cMissionCriticalPropSpawnPoint@AI@@"
+      },
+      {
+        "address": "0x82F87720",
+        "size": 104,
+        "symbol": "??__EcMissionCriticalPropSpawnPointcSpawnPointInheritRegistrar@AI@@"
+      },
+      {
+        "address": "0x82F87788",
+        "size": 76,
+        "symbol": "??__EcMissionCriticalPropSpawnPointRegistrar@AI@@"
+      },
+      {
+        "address": "0x8303AF70",
+        "size": 12,
+        "symbol": "??__FcMissionCriticalPropSpawnPointRegistrar@AI@@"
+      }
+    ],
+    "src/AI/Mission/cMissionPropSpawnPoint.cpp": [
+      {
+        "address": "0x8245BF28",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cMissionPropSpawnPoint@AI@@"
+      },
+      {
+        "address": "0x82F877D8",
+        "size": 40,
+        "symbol": "??__E?ms_pcMissionPropSpawnPointClass@cMissionPropSpawnPoint@AI@@"
+      },
+      {
+        "address": "0x82F87800",
+        "size": 104,
+        "symbol": "??__EcMissionPropSpawnPointcSpawnPointInheritRegistrar@AI@@"
+      },
+      {
+        "address": "0x82F87868",
+        "size": 76,
+        "symbol": "??__EcMissionPropSpawnPointRegistrar@AI@@"
+      },
+      {
+        "address": "0x8303AF80",
+        "size": 12,
+        "symbol": "??__FcMissionPropSpawnPointRegistrar@AI@@"
+      }
+    ],
+    "src/AI/Mission/AU/cBeaconDropPoint.cpp": [
+      {
+        "address": "0x82F88898",
+        "size": 76,
+        "symbol": "??__EcBeaconDropPointRegistrar@AI@@"
+      },
+      {
+        "address": "0x8303AFF8",
+        "size": 12,
+        "symbol": "??__FcBeaconDropPointRegistrar@AI@@"
+      }
+    ],
+    "src/AI/Mission/Training/cTrainingAimTarget.cpp": [
+      {
+        "address": "0x82F8B238",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F8B260",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82F8B288",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82F8B2A0",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82F8B2B8",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82F8B2D8",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82F8B2F8",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82F8B318",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82F8B338",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82F8B390",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82F8B3B0",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x8303B110",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82F8B3C0",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x82F8B3D8",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x82F8B3F0",
+        "size": 56,
+        "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F8B428",
+        "size": 56,
+        "symbol": "??__EfStepDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F8B460",
+        "size": 56,
+        "symbol": "??__EfStepDotTan@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F8B498",
+        "size": 40,
+        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F8B4C0",
+        "size": 56,
+        "symbol": "??__EfFACING_TARGET_MIN_DOT_PRODUCT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F8B4F8",
+        "size": 56,
+        "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F8B530",
+        "size": 24,
+        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x8247E848",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cTrainingAimTarget@AI@@"
+      },
+      {
+        "address": "0x82F8B548",
+        "size": 40,
+        "symbol": "??__E?ms_pcTrainingAimTargetClass@cTrainingAimTarget@AI@@"
+      },
+      {
+        "address": "0x82F8B570",
+        "size": 104,
+        "symbol": "??__EcTrainingAimTargetcAttachableLightInheritRegistrar@AI@@"
+      },
+      {
+        "address": "0x82F8B5D8",
+        "size": 76,
+        "symbol": "??__EcTrainingAimTargetRegistrar@AI@@"
+      },
+      {
+        "address": "0x8303B118",
+        "size": 12,
+        "symbol": "??__FcTrainingAimTargetRegistrar@AI@@"
+      }
+    ],
+    "src/AI/Mission/Training/cTrainingDoorSpawnPoint.cpp": [
+      {
+        "address": "0x82F8B628",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F8B650",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82F8B678",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82F8B690",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82F8B6A8",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82F8B6C8",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82F8B6E8",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82F8B708",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82F8B728",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82F8B780",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82F8B7A0",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x8303B128",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82F8B7B0",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x82F8B7C8",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x8247EA50",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cTrainingDoorSpawnPoint@AI@@"
+      },
+      {
+        "address": "0x82F8B7E0",
+        "size": 40,
+        "symbol": "??__E?ms_pcTrainingDoorSpawnPointClass@cTrainingDoorSpawnPoint@AI@@"
+      },
+      {
+        "address": "0x82F8B808",
+        "size": 104,
+        "symbol": "??__EcTrainingDoorSpawnPointcSpawnPointInheritRegistrar@AI@@"
+      },
+      {
+        "address": "0x82F8B870",
+        "size": 76,
+        "symbol": "??__EcTrainingDoorSpawnPointRegistrar@AI@@"
+      },
+      {
+        "address": "0x8303B130",
+        "size": 12,
+        "symbol": "??__FcTrainingDoorSpawnPointRegistrar@AI@@"
+      }
+    ],
+    "src/AI/Behaviour/NPC/Vehicle/AgressiveResponsePilotBehaviour.cpp": [
+      {
+        "address": "0x82F9AA78",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F9AAA0",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82F9AAC8",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82F9AAE0",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82F9AAF8",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82F9AB18",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82F9AB38",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82F9AB58",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82F9AB78",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82F9ABD0",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82F9ABF0",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x8303BCD8",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82F9AC00",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x82F9AC18",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x82F9AC30",
+        "size": 56,
+        "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F9AC68",
+        "size": 56,
+        "symbol": "??__EfStepDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F9ACA0",
+        "size": 56,
+        "symbol": "??__EfStepDotTan@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F9ACD8",
+        "size": 40,
+        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F9AD00",
+        "size": 56,
+        "symbol": "??__EfFACING_TARGET_MIN_DOT_PRODUCT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F9AD38",
+        "size": 56,
+        "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F9AD70",
+        "size": 24,
+        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x82F9AD88",
+        "size": 40,
+        "symbol": "??__E?ms_pcAgressiveResponsePilotBehaviourClass@cAgressiveResponsePilotBehaviour@AI@@"
+      },
+      {
+        "address": "0x82F9ADB0",
+        "size": 104,
+        "symbol": "??__EcAgressiveResponsePilotBehaviourcAgressiveResponseBaseInheritRegistrar@AI@@"
+      },
+      {
+        "address": "0x82F9AE18",
+        "size": 76,
+        "symbol": "??__EcAgressiveResponsePilotBehaviourRegistrar@AI@@"
+      },
+      {
+        "address": "0x8303BCE0",
+        "size": 12,
+        "symbol": "??__FcAgressiveResponsePilotBehaviourRegistrar@AI@@"
+      },
+      {
+        "address": "0x82F9AE68",
+        "size": 72,
+        "symbol": "??__EcAgressiveResponsePilotBehaviourSpawningRegistrar@AI@@"
+      },
+      {
+        "address": "0x8303BCF0",
+        "size": 20,
+        "symbol": "??__FcAgressiveResponsePilotBehaviourSpawningRegistrar@AI@@"
+      }
+    ],
+    "src/AI/Behaviour/NPC/Vehicle/ChaseAndAttackPilotBehaviour.cpp": [
+      {
+        "address": "0x82F9B2E8",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F9B310",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82F9B338",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82F9B350",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82F9B368",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82F9B388",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82F9B3A8",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82F9B3C8",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82F9B3E8",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82F9B440",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82F9B460",
+        "size": 56,
+        "symbol": "??__EfFACING_TARGET_MIN_DOT_PRODUCT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F9B498",
+        "size": 56,
+        "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F9B4D0",
+        "size": 24,
+        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x82F9B4E8",
+        "size": 40,
+        "symbol": "??__E?ms_pcChaseAndAttackPilotBehaviourClass@cChaseAndAttackPilotBehaviour@AI@@"
+      },
+      {
+        "address": "0x82F9B510",
+        "size": 104,
+        "symbol": "??__EcChaseAndAttackPilotBehaviourcAgressiveResponsePilotBehaviourInheritRegistrar@AI@@"
+      },
+      {
+        "address": "0x82F9B578",
+        "size": 76,
+        "symbol": "??__EcChaseAndAttackPilotBehaviourRegistrar@AI@@"
+      },
+      {
+        "address": "0x8303BD38",
+        "size": 12,
+        "symbol": "??__FcChaseAndAttackPilotBehaviourRegistrar@AI@@"
+      },
+      {
+        "address": "0x82F9B5C8",
+        "size": 72,
+        "symbol": "??__EcChaseAndAttackPilotBehaviourSpawningRegistrar@AI@@"
+      },
+      {
+        "address": "0x8303BD48",
+        "size": 20,
+        "symbol": "??__FcChaseAndAttackPilotBehaviourSpawningRegistrar@AI@@"
+      }
+    ],
+    "src/Anim/cAnimationParams.cpp": [
+      {
+        "address": "0x82F9EF18",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F9EF40",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82F9EF68",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82F9EF80",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82F9EF98",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82F9EFB8",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82F9EFD8",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82F9EFF8",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82F9F018",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82F9F070",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82F9F090",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x8303C330",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82F9F0A0",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x82F9F0B8",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x82F9F0D0",
+        "size": 56,
+        "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F9F108",
+        "size": 56,
+        "symbol": "??__EfStepDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F9F140",
+        "size": 56,
+        "symbol": "??__EfStepDotTan@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F9F178",
+        "size": 40,
+        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F9F1A0",
+        "size": 56,
+        "symbol": "??__EfFACING_TARGET_MIN_DOT_PRODUCT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F9F1D8",
+        "size": 56,
+        "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F9F210",
+        "size": 24,
+        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x824DF9F8",
+        "size": 152,
+        "symbol": "?StaticCreateClass@cAnimationParams@Anim@@"
+      },
+      {
+        "address": "0x82F9F228",
+        "size": 40,
+        "symbol": "??__E?ms_pcAnimationParamsClass@cAnimationParams@Anim@@"
+      },
+      {
+        "address": "0x82F9F250",
+        "size": 104,
+        "symbol": "??__EcAnimationParamscScriptHostInheritRegistrar@Anim@@"
+      }
+    ],
+    "src/AudioEngine/Engine/MSModalSynth/cSynthesisManager.cpp": [
+      {
+        "address": "0x825273E0",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cSynthesisManager@AudioEngine@@"
+      },
+      {
+        "address": "0x82FA9D88",
+        "size": 40,
+        "symbol": "??__E?ms_pcSynthesisManagerClass@cSynthesisManager@AudioEngine@@"
+      },
+      {
+        "address": "0x82FA9DB0",
+        "size": 104,
+        "symbol": "??__EcSynthesisManagercDebugPageHandlerInheritRegistrar@AudioEngine@@"
+      }
+    ],
+    "src/Core/cScheduler.cpp": [
+      {
+        "address": "0x825D3198",
+        "size": 152,
+        "symbol": "?StaticCreateClass@cScheduler@Core@@"
+      },
+      {
+        "address": "0x82FC1CD0",
+        "size": 40,
+        "symbol": "??__E?ms_pcSchedulerClass@cScheduler@Core@@"
+      },
+      {
+        "address": "0x82FC1CF8",
+        "size": 104,
+        "symbol": "??__EcSchedulercDebugPageHandlerInheritRegistrar@Core@@"
+      }
+    ],
+    "src/gom/cLimboListManager.cpp": [
+      {
+        "address": "0x82FD76F8",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FD7720",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82FD7748",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82FD7760",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82FD7778",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82FD7798",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82FD77B8",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82FD77D8",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82FD77F8",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82FD7850",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x826582A0",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cLimboListManager@GOM@@"
+      },
+      {
+        "address": "0x82FD7870",
+        "size": 40,
+        "symbol": "??__E?ms_pcLimboListManagerClass@cLimboListManager@GOM@@"
+      },
+      {
+        "address": "0x82FD7898",
+        "size": 104,
+        "symbol": "??__EcLimboListManagercManagerBaseInheritRegistrar@GOM@@"
+      }
+    ],
+    "src/gom/cManagerBase.cpp": [
+      {
+        "address": "0x82FD7900",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FD7928",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82FD7950",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82FD7968",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82FD7980",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82FD79A0",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82FD79C0",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82FD79E0",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82FD7A00",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82FD7A58",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82FD7A78",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x8303FE60",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82FD7A88",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x82FD7AA0",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x82FD7AB8",
+        "size": 56,
+        "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FD7AF0",
+        "size": 56,
+        "symbol": "??__EfStepDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FD7B28",
+        "size": 56,
+        "symbol": "??__EfStepDotTan@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FD7B60",
+        "size": 40,
+        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82658DB8",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cManagerBase@GOM@@"
+      },
+      {
+        "address": "0x82FD7B88",
+        "size": 40,
+        "symbol": "??__E?ms_pcManagerBaseClass@cManagerBase@GOM@@"
+      }
+    ],
+    "src/GameRenderer/cTestRenderer.cpp": [
+      {
+        "address": "0x82FD9FB0",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FD9FD8",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82FDA000",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82FDA018",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82FDA030",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82FDA050",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82FDA070",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82FDA090",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82FDA0B0",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82FDA108",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82FDA128",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x830400D8",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82FDA138",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x82FDA150",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x82FDA168",
+        "size": 56,
+        "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FDA1A0",
+        "size": 56,
+        "symbol": "??__EfStepDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FDA1D8",
+        "size": 56,
+        "symbol": "??__EfStepDotTan@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FDA210",
+        "size": 40,
+        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FDA238",
+        "size": 56,
+        "symbol": "??__EfFACING_TARGET_MIN_DOT_PRODUCT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FDA270",
+        "size": 56,
+        "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FDA2A8",
+        "size": 24,
+        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x82FDA2C0",
+        "size": 80,
+        "symbol": "??__EcTestRendererRegistrar@GameRenderer@@"
+      },
+      {
+        "address": "0x830400E0",
+        "size": 12,
+        "symbol": "??__FcTestRendererRegistrar@GameRenderer@@"
+      }
+    ],
+    "src/GameRenderer/cVehicleColourPalette.cpp": [
+      {
+        "address": "0x82FDA340",
+        "size": 76,
+        "symbol": "??__EcVehicleColourPaletteRegistrar@GameRenderer@@"
+      },
+      {
+        "address": "0x83040120",
+        "size": 12,
+        "symbol": "??__FcVehicleColourPaletteRegistrar@GameRenderer@@"
+      }
+    ],
+    "src/PHYSICS/cPickupProfile.cpp": [
+      {
+        "address": "0x82FF0B00",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FF0B28",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82FF0B50",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82FF0B68",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82FF0B80",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82FF0BA0",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82FF0BC0",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82FF0BE0",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82FF0C00",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82FF0C58",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82FF0C78",
+        "size": 76,
+        "symbol": "??__EcPickupProfileRegistrar@PHYSICS@@"
+      },
+      {
+        "address": "0x83040C58",
+        "size": 12,
+        "symbol": "??__FcPickupProfileRegistrar@PHYSICS@@"
+      }
+    ],
+    "src/PHYSICS/cUniqueStuntZone.cpp": [
+      {
+        "address": "0x82FF1DE0",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FF1E08",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82FF1E30",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82FF1E48",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82FF1E60",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82FF1E80",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82FF1EA0",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82FF1EC0",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82FF1EE0",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82FF1F38",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82FF1F58",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x83040CD8",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82FF1F68",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x82FF1F80",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x82FF1F98",
+        "size": 56,
+        "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FF1FD0",
+        "size": 56,
+        "symbol": "??__EfStepDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FF2008",
+        "size": 56,
+        "symbol": "??__EfStepDotTan@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FF2040",
+        "size": 40,
+        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FF2068",
+        "size": 56,
+        "symbol": "??__EfFACING_TARGET_MIN_DOT_PRODUCT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FF20A0",
+        "size": 56,
+        "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FF20D8",
+        "size": 24,
+        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x82711C28",
+        "size": 152,
+        "symbol": "?StaticCreateClass@cStuntRing@PHYSICS@@"
+      },
+      {
+        "address": "0x82FF20F0",
+        "size": 76,
+        "symbol": "??__EcStuntRingRegistrar@PHYSICS@@"
+      },
+      {
+        "address": "0x83040CE0",
+        "size": 12,
+        "symbol": "??__FcStuntRingRegistrar@PHYSICS@@"
+      },
+      {
+        "address": "0x82FF2140",
+        "size": 40,
+        "symbol": "??__E?ms_pcStuntRingClass@cStuntRing@PHYSICS@@"
+      },
+      {
+        "address": "0x827129E0",
+        "size": 152,
+        "symbol": "?StaticCreateClass@cStunt@PHYSICS@@"
+      },
+      {
+        "address": "0x82FF21D0",
+        "size": 76,
+        "symbol": "??__EcStuntRegistrar@PHYSICS@@"
+      },
+      {
+        "address": "0x83040CF0",
+        "size": 12,
+        "symbol": "??__FcStuntRegistrar@PHYSICS@@"
+      },
+      {
+        "address": "0x82FF2220",
+        "size": 40,
+        "symbol": "??__E?ms_pcStuntClass@cStunt@PHYSICS@@"
+      }
+    ],
+    "src/CHARACTER/cWingSuitUpdraftZone.cpp": [
+      {
+        "address": "0x82FF44C0",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FF44E8",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82FF4510",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82FF4528",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82FF4540",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82FF4560",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82FF4580",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82FF45A0",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82FF45C0",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82FF4618",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82FF4638",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x830413A0",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82FF4648",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x82FF4660",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x82FF4678",
+        "size": 56,
+        "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FF46B0",
+        "size": 56,
+        "symbol": "??__EfStepDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FF46E8",
+        "size": 56,
+        "symbol": "??__EfStepDotTan@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FF4720",
+        "size": 40,
+        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FF4748",
+        "size": 56,
+        "symbol": "??__EfFACING_TARGET_MIN_DOT_PRODUCT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FF4780",
+        "size": 56,
+        "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FF47B8",
+        "size": 24,
+        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x82FF47D0",
+        "size": 76,
+        "symbol": "??__EcWingSuitUpdraftZoneProfileRegistrar@CHARACTER@@"
+      },
+      {
+        "address": "0x830413A8",
+        "size": 12,
+        "symbol": "??__FcWingSuitUpdraftZoneProfileRegistrar@CHARACTER@@"
+      },
+      {
+        "address": "0x82FF4820",
+        "size": 76,
+        "symbol": "??__EcWingSuitUpdraftZoneRegistrar@CHARACTER@@"
+      },
+      {
+        "address": "0x830413B8",
+        "size": 12,
+        "symbol": "??__FcWingSuitUpdraftZoneRegistrar@CHARACTER@@"
+      }
+    ],
+    "src/RPG/cSkillSet.cpp": [
+      {
+        "address": "0x82FFD538",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FFD560",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82FFD588",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82FFD5A0",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82FFD5B8",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82FFD5D8",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82FFD5F8",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82FFD618",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82FFD638",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82FFD690",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82FFD6B0",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x83041D60",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82FFD6C0",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x82FFD6D8",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x82FFD6F0",
+        "size": 56,
+        "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FFD728",
+        "size": 56,
+        "symbol": "??__EfStepDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FFD760",
+        "size": 56,
+        "symbol": "??__EfStepDotTan@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FFD798",
+        "size": 40,
+        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FFD7C0",
+        "size": 56,
+        "symbol": "??__EfFACING_TARGET_MIN_DOT_PRODUCT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FFD7F8",
+        "size": 56,
+        "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FFD830",
+        "size": 24,
+        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x827539D0",
+        "size": 152,
+        "symbol": "?StaticCreateClass@cSkillSet@RPG@@"
+      },
+      {
+        "address": "0x82FFD848",
+        "size": 40,
+        "symbol": "??__E?ms_pcSkillSetClass@cSkillSet@RPG@@"
+      },
+      {
+        "address": "0x82FFD870",
+        "size": 104,
+        "symbol": "??__EcSkillSetcDebugPageHandlerInheritRegistrar@RPG@@"
+      }
+    ],
+    "src/RPG/cRenegadeOrbSpawnPoint.cpp": [
+      {
+        "address": "0x82FFE920",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FFE948",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82FFE970",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82FFE988",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82FFE9A0",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82FFE9C0",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82FFE9E0",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82FFEA00",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82FFEA20",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82FFEA78",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82FFEA98",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x83041E00",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82FFEAA8",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x82FFEAC0",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x82FFEAD8",
+        "size": 56,
+        "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FFEB10",
+        "size": 56,
+        "symbol": "??__EfStepDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FFEB48",
+        "size": 56,
+        "symbol": "??__EfStepDotTan@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FFEB80",
+        "size": 40,
+        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FFEBA8",
+        "size": 56,
+        "symbol": "??__EfFACING_TARGET_MIN_DOT_PRODUCT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FFEBE0",
+        "size": 56,
+        "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FFEC18",
+        "size": 24,
+        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x827588A8",
+        "size": 152,
+        "symbol": "?StaticCreateClass@cRenegadeOrbSpawnPoint@RPG@@"
+      },
+      {
+        "address": "0x82FFEC30",
+        "size": 40,
+        "symbol": "??__E?ms_pcRenegadeOrbSpawnPointClass@cRenegadeOrbSpawnPoint@RPG@@"
+      },
+      {
+        "address": "0x82FFEC58",
+        "size": 104,
+        "symbol": "??__EcRenegadeOrbSpawnPointcSpawnPointBaseInheritRegistrar@RPG@@"
+      },
+      {
+        "address": "0x82FFECC0",
+        "size": 76,
+        "symbol": "??__EcRenegadeOrbSpawnPointRegistrar@RPG@@"
+      },
+      {
+        "address": "0x83041E08",
+        "size": 12,
+        "symbol": "??__FcRenegadeOrbSpawnPointRegistrar@RPG@@"
+      }
+    ],
+    "src/RPG/cPlayerStatManager.cpp": [
+      {
+        "address": "0x82FFED10",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FFED38",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82FFED60",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82FFED78",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82FFED90",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x83041E18",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82FFEDA0",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x82FFEDB8",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x82FFEDD0",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82FFEDF0",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82FFEE10",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82FFEE30",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82FFEE50",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82FFEEA8",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82FFEEC8",
+        "size": 40,
+        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FFEEF0",
+        "size": 56,
+        "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FFEF28",
+        "size": 56,
+        "symbol": "??__EfStepDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FFEF60",
+        "size": 56,
+        "symbol": "??__EfStepDotTan@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FFEF98",
+        "size": 56,
+        "symbol": "??__EfFACING_TARGET_MIN_DOT_PRODUCT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FFEFD0",
+        "size": 56,
+        "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FFF008",
+        "size": 24,
+        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x82759848",
+        "size": 152,
+        "symbol": "?StaticCreateClass@cPlayerStatManager@RPG@@"
+      },
+      {
+        "address": "0x82FFF020",
+        "size": 40,
+        "symbol": "??__E?ms_pcPlayerStatManagerClass@cPlayerStatManager@RPG@@"
+      },
+      {
+        "address": "0x82FFF048",
+        "size": 104,
+        "symbol": "??__EcPlayerStatManagercDebugPageHandlerInheritRegistrar@RPG@@"
+      }
+    ],
+    "src/RPG/cPvPSkillset.cpp": [
+      {
+        "address": "0x82FFF3C0",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FFF3E8",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82FFF410",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82FFF428",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82FFF440",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82FFF460",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82FFF480",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82FFF4A0",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82FFF4C0",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82FFF518",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82FFF538",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x83041E38",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82FFF548",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x82FFF560",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x82FFF578",
+        "size": 56,
+        "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FFF5B0",
+        "size": 56,
+        "symbol": "??__EfStepDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FFF5E8",
+        "size": 56,
+        "symbol": "??__EfStepDotTan@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FFF620",
+        "size": 40,
+        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FFF648",
+        "size": 76,
+        "symbol": "??__EcPvPLevelSetupRegistrar@RPG@@"
+      },
+      {
+        "address": "0x83041E40",
+        "size": 12,
+        "symbol": "??__FcPvPLevelSetupRegistrar@RPG@@"
+      },
+      {
+        "address": "0x82FFF698",
+        "size": 76,
+        "symbol": "??__EcPvPSkillsetProfileRegistrar@RPG@@"
+      },
+      {
+        "address": "0x83041E50",
+        "size": 12,
+        "symbol": "??__FcPvPSkillsetProfileRegistrar@RPG@@"
+      }
+    ],
+    "src/RPG/cAchievementTargets.cpp": [
+      {
+        "address": "0x83002330",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x83002358",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x83002380",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x83002398",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x830023B0",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x83042168",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x830023C0",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x830023D8",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x830023F0",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x83002410",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x83002430",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x83002450",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x83002470",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x830024C8",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x830024E8",
+        "size": 56,
+        "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x83002520",
+        "size": 56,
+        "symbol": "??__EfStepDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x83002558",
+        "size": 56,
+        "symbol": "??__EfStepDotTan@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x83002590",
+        "size": 40,
+        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x830025B8",
+        "size": 56,
+        "symbol": "??__EfFACING_TARGET_MIN_DOT_PRODUCT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x830025F0",
+        "size": 56,
+        "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x83002628",
+        "size": 24,
+        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x83002640",
+        "size": 76,
+        "symbol": "??__EcAchievementTargetsInterfaceRegistrar@RPG@@"
+      },
+      {
+        "address": "0x83042170",
+        "size": 12,
+        "symbol": "??__FcAchievementTargetsInterfaceRegistrar@RPG@@"
+      }
+    ],
+    "src/gom/cTargetDebugManager.cpp": [
+      {
+        "address": "0x83003810",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x83003838",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x83003860",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x83003878",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x83003890",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x830422D0",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x830038A0",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x830038B8",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x830038D0",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x830038F0",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x83003910",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x83003930",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x83003950",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x830039A8",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x830039C8",
+        "size": 56,
+        "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x83003A00",
+        "size": 56,
+        "symbol": "??__EfStepDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x83003A38",
+        "size": 56,
+        "symbol": "??__EfStepDotTan@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x83003A70",
+        "size": 40,
+        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x83003A98",
+        "size": 56,
+        "symbol": "??__EfFACING_TARGET_MIN_DOT_PRODUCT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x83003AD0",
+        "size": 56,
+        "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x83003B08",
+        "size": 24,
+        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x8277DAC8",
+        "size": 152,
+        "symbol": "?StaticCreateClass@cTargetingDebugPage@GOM@@"
+      },
+      {
+        "address": "0x83003B20",
+        "size": 40,
+        "symbol": "??__E?ms_pcTargetingDebugPageClass@cTargetingDebugPage@GOM@@"
+      },
+      {
+        "address": "0x83003B48",
+        "size": 104,
+        "symbol": "??__EcTargetingDebugPagecDebugPageHandlerInheritRegistrar@GOM@@"
+      },
+      {
+        "address": "0x8277DB60",
+        "size": 152,
+        "symbol": "?StaticCreateClass@cTargetDebugPage@GOM@@"
+      },
+      {
+        "address": "0x83003BB0",
+        "size": 40,
+        "symbol": "??__E?ms_pcTargetDebugPageClass@cTargetDebugPage@GOM@@"
+      },
+      {
+        "address": "0x83003BD8",
+        "size": 104,
+        "symbol": "??__EcTargetDebugPagecDebugPageHandlerInheritRegistrar@GOM@@"
+      }
+    ],
+    "src/VFX/cWeather.cpp": [
+      {
+        "address": "0x83008FF0",
+        "size": 76,
+        "symbol": "??__EcWeatherSetupRegistrar@VFX@@"
+      },
+      {
+        "address": "0x830427E8",
+        "size": 12,
+        "symbol": "??__FcWeatherSetupRegistrar@VFX@@"
+      },
+      {
+        "address": "0x83009040",
+        "size": 76,
+        "symbol": "??__EcWeatherSystemRegistrar@VFX@@"
+      },
+      {
+        "address": "0x830427F8",
+        "size": 12,
+        "symbol": "??__FcWeatherSystemRegistrar@VFX@@"
+      }
+    ],
+    "src/VFX/cLinkedVFXSpawner.cpp": [
+      {
+        "address": "0x827FA6E0",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cLinkedVFXSpawner@VFX@@"
+      },
+      {
+        "address": "0x8300B380",
+        "size": 40,
+        "symbol": "??__E?ms_pcLinkedVFXSpawnerClass@cLinkedVFXSpawner@VFX@@"
+      },
+      {
+        "address": "0x8300B3A8",
+        "size": 76,
+        "symbol": "??__EcLinkedVFXSpawnerRegistrar@VFX@@"
+      },
+      {
+        "address": "0x83042F40",
+        "size": 12,
+        "symbol": "??__FcLinkedVFXSpawnerRegistrar@VFX@@"
+      },
+      {
+        "address": "0x8300B3F8",
+        "size": 104,
+        "symbol": "??__EcLinkedVFXSpawnercAmbientVFXSpawnerBaseInheritRegistrar@VFX@@"
+      }
+    ],
+    "src/VFX/cPlaceableLight.cpp": [
+      {
+        "address": "0x82801D78",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cPlaceableLight@VFX@@"
+      },
+      {
+        "address": "0x8300B618",
+        "size": 40,
+        "symbol": "??__E?ms_pcPlaceableLightClass@cPlaceableLight@VFX@@"
+      },
+      {
+        "address": "0x8300B640",
+        "size": 104,
+        "symbol": "??__EcPlaceableLightcSpawnPointInheritRegistrar@VFX@@"
+      },
+      {
+        "address": "0x8300B6A8",
+        "size": 76,
+        "symbol": "??__EcPlaceableLightRegistrar@VFX@@"
+      },
+      {
+        "address": "0x83043028",
+        "size": 12,
+        "symbol": "??__FcPlaceableLightRegistrar@VFX@@"
+      }
+    ],
+    "src/Audio/cWorldGameObject.cpp": [
+      {
+        "address": "0x83013778",
+        "size": 76,
+        "symbol": "??__EcWorldGameObjectRegistrar@Audio@@"
+      },
+      {
+        "address": "0x83043840",
+        "size": 12,
+        "symbol": "??__FcWorldGameObjectRegistrar@Audio@@"
+      }
+    ],
+    "src/VFX/cBarrier.cpp": [
+      {
+        "address": "0x83007010",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x83007038",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x83007060",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x83007078",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x83007090",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x83042428",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x830070A0",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x830070B8",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x830070D0",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x830070F0",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x83007110",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x83007130",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x83007150",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x830071A8",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x830071C8",
+        "size": 56,
+        "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x83007200",
+        "size": 56,
+        "symbol": "??__EfStepDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x83007238",
+        "size": 56,
+        "symbol": "??__EfStepDotTan@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x83007270",
+        "size": 40,
+        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x83007298",
+        "size": 56,
+        "symbol": "??__EfFACING_TARGET_MIN_DOT_PRODUCT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x830072D0",
+        "size": 56,
+        "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x83007308",
+        "size": 24,
+        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x83007320",
+        "size": 76,
+        "symbol": "??__EcBarrierSettingsRegistrar@VFX@@"
+      },
+      {
+        "address": "0x83042430",
+        "size": 12,
+        "symbol": "??__FcBarrierSettingsRegistrar@VFX@@"
+      },
+      {
+        "address": "0x83007370",
+        "size": 76,
+        "symbol": "??__EcBarrierRegistrar@VFX@@"
+      },
+      {
+        "address": "0x83042440",
+        "size": 12,
+        "symbol": "??__FcBarrierRegistrar@VFX@@"
+      }
+    ],
+    "src/PHYSICS/cNetDynamicBody.cpp": [
+      {
+        "address": "0x82687E38",
+        "size": 152,
+        "symbol": "?StaticCreateClass@cNetDynamicBody@PHYSICS@@"
+      },
+      {
+        "address": "0x82FDFC60",
+        "size": 40,
+        "symbol": "??__E?ms_pcNetDynamicBodyClass@cNetDynamicBody@PHYSICS@@"
+      },
+      {
+        "address": "0x82FDFC88",
+        "size": 104,
+        "symbol": "??__EcNetDynamicBodycDynamicBodyInheritRegistrar@PHYSICS@@"
       }
     ]
   }

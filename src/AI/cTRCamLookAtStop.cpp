@@ -4,11 +4,12 @@
 #include "PHYSICS/physicsproject.h"
 #include "AI/cTRCamLookAtStop.h"
 #include "rws/classfactory.h"
+#include "AI/BehaviourClassID.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "cd2/memory.h"
 
 namespace AI
 {
-    const Fun_Runtime::cClass *cTRCamLookAtStop::ms_pcTRCamLookAtStopClass = 0;
-
     cTRCamLookAtStop::cTRCamLookAtStop() {}
 
     const Fun_Runtime::cClass &cTRCamLookAtStop::RetClass() const
@@ -30,6 +31,17 @@ namespace AI
     {
         return new cTRCamLookAtStop();
     }
+
+    Fun_Runtime::cClass &cTRCamLookAtStop::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cTRCamLookAtStopClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "cTRCamLookAtStop", 0x90);
+        return *cTRCamLookAtStopClass;
+    }
+
+    const Fun_Runtime::cClass *cTRCamLookAtStop::ms_pcTRCamLookAtStopClass = &cTRCamLookAtStop::StaticCreateClass();
+
+    static Fun_Runtime::cInheritanceRegistrar cTRCamLookAtStopcTrainingRouteEventInheritRegistrar(
+        cTRCamLookAtStop::StaticCreateClass(), cTrainingRouteEvent::StaticCreateClass());
 }
 
 static RWS::CClassFactory::CRegistrar cTRCamLookAtStopRegistrar(

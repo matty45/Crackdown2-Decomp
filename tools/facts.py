@@ -52,12 +52,17 @@ def compile_plain(src, d, path=None):
 
 
 def mask(code, rel):
-    """Keep instruction opcodes at relocations; mask ADDR32 data words, whose destinations are checked separately."""
+    """Clear the field each relocation patches (coff.compare's rule: opcode and registers stay); mask ADDR32 data
+    words whole, whose destinations are checked separately."""
     b = bytearray(code)
+    fields = getattr(rel, 'fields', {})
     for off in rel:
         if off + 4 <= len(b):
-            b[off] = 0 if off in getattr(rel, 'absolute', ()) else b[off] & 0xFC
-            b[off + 1:off + 4] = b'\0\0\0'
+            if off in getattr(rel, 'absolute', ()):
+                b[off:off + 4] = b'\0\0\0\0'
+            else:
+                w = int.from_bytes(b[off:off + 4], 'big') & ~fields.get(off, coff.OPERANDS) & 0xFFFFFFFF
+                b[off:off + 4] = w.to_bytes(4, 'big')
     return bytes(b)
 
 
@@ -67,7 +72,7 @@ def ltcg_hash(ws, start, absolute_offsets=()):
 
 # ---------------------------------------------------------------------------------------------------- record
 
-FACTS_VERSION = 2  # 2: the vtable fact
+FACTS_VERSION = 3  # 2: the vtable fact; 3: relocated words keep their registers in the plain hash
 
 
 def record(read, references=None):
@@ -148,7 +153,8 @@ def verify(override=None, ltcg=True, out=print):
         raise SystemExit('no %s: run `py -I tools/cd2.py facts record`' % FACTS)
     facts = json.load(open(FACTS))
     if facts.get('version', 1) < FACTS_VERSION:
-        raise SystemExit('%s predates the vtable check: run `py -I tools/cd2.py facts record`' % FACTS)
+        raise SystemExit('%s predates the current facts format (version %d): run `py -I tools/cd2.py facts record`'
+                         % (FACTS, FACTS_VERSION))
     tmp = tempfile.mkdtemp(prefix='cd2facts_')
     atexit.register(shutil.rmtree, tmp, ignore_errors=True)  # removed when the process exits
     ok = total = pending = ltcg_ok = ltcg_total = 0

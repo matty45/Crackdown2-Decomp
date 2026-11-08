@@ -11,7 +11,7 @@
 
 namespace AI
 {
-    const Fun_Runtime::cClass *cBaseJumperMission::ms_pcBaseJumperMissionClass = 0;
+    const Fun_Runtime::cClass *cBaseJumperMission::ms_pcBaseJumperMissionClass = &cBaseJumperMission::StaticCreateClass();
 
     cBaseJumperMission::cBaseJumperMission() {}
 

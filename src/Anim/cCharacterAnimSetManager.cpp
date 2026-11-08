@@ -21,6 +21,7 @@
 #include "AI/aiconstants.h"
 #include "rws/classfactory.h"
 #include "Anim/cCharacterAnimSetManager.h"
+#include "fun_runtime/inheritance_registrar.h"
 #include "cd2/memory.h"
 
 namespace Anim
@@ -30,12 +31,23 @@ namespace Anim
         return "cCharacterAnimSetManager";
     }
 
+    Fun_Runtime::cClass &cCharacterAnimSetManager::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cCharacterAnimSetManagerClass = new Fun_Runtime::cClass(0x5EC, "cCharacterAnimSetManager", 0x1400);
+        return *cCharacterAnimSetManagerClass;
+    }
+
+    const Fun_Runtime::cClass *cCharacterAnimSetManager::ms_pcCharacterAnimSetManagerClass = &cCharacterAnimSetManager::StaticCreateClass();
+
+    static Fun_Runtime::cInheritanceRegistrar cCharacterAnimSetManagercNonGameBaseInheritRegistrar(
+        cCharacterAnimSetManager::StaticCreateClass(), cNonGameBase::StaticCreateClass());
+
     static RWS::CClassFactory::CRegistrar cCharacterAnimSetManagerRegistrar(
         "cCharacterAnimSetManager", cCharacterAnimSetManager::MakeNew, 0x1400, false);
 
     const Fun_Runtime::cClass &cCharacterAnimSetManager::RetClass() const
     {
-        return *ms_pccCharacterAnimSetManagerClass;
+        return *ms_pcCharacterAnimSetManagerClass;
     }
 
     RWS::CAttributeHandler *cCharacterAnimSetManager::MakeNew(const RWS::CAttributePacket &, bool)

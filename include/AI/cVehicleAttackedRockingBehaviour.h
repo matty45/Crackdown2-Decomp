@@ -5,10 +5,11 @@
 #include "gom/non_game_base.h"
 #include "fun_runtime/class.h"
 #include "rws/attributes.h"
+#include "AI/NPCBehaviour.h"
 
 namespace AI
 {
-    class cVehicleAttackedRockingBehaviour : public cNonGameBase
+    class cVehicleAttackedRockingBehaviour : public NPCBehaviour
     {
     public:
         // CD2 spawning initializer 0x82F9A5F8 names placement factory 0x824cf790.

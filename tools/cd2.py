@@ -379,6 +379,9 @@ def tier(ft):
 # the operand of a cast in the pointer-arithmetic patterns: a name followed by any member accesses, calls and
 # subscripts, or a parenthesised expression
 POLICY_OPERAND = r'(?:\w+(?:\s*(?:\.|->)\s*(?:operator\s*->|\w+)|\s*\([^()]*\)|\s*\[[^\[\]]*\])*|\([^()]*\))'
+# an integer type a pointer can be cast to (a bare `unsigned` or `signed` too)
+INTEGER_TYPE = (r'(?:(?:un)?signed(?:\s+(?:int|long|short|__int64))?|int|long|short|__int64|size_t|uintptr_t|intptr_t|'
+                r'DWORD|UINT|u32|s32|uint32_t|int32_t)')
 POLICY_ERRORS = [
     (re.compile(r'\b_{0,2}asm\b'), 'inline assembly'),
     (re.compile(r'\b__emit\b'), '__emit (raw machine code)'),
@@ -393,10 +396,8 @@ POLICY_ERRORS = [
     (r'_cast\s*<\s*(?:const\s+)?(?:(?:un)?signed\s+)?char\s*(?:const\s*)?\*\s*>\s*\([^()]*\)\s*[-+\[]',
      'a byte-pointer cast used to reach memory by offset'),
     # a pointer turned into a number
-    (r'reinterpret_cast\s*<\s*(?:const\s+)?(?:(?:un)?signed\s+)?(?:int|long|short|__int64|size_t|uintptr_t|intptr_t|'
-     r'DWORD|UINT|u32|s32|uint32_t|int32_t)\s*>', 'a pointer converted to an integer'),
-    (r'\(\s*(?:(?:un)?signed\s+)?(?:int|long|__int64|size_t|uintptr_t|intptr_t|DWORD|UINT|u32|uint32_t)\s*\)\s*'
-     r'(?:this\b|&)', 'a pointer converted to an integer'),
+    (r'reinterpret_cast\s*<\s*(?:const\s+)?' + INTEGER_TYPE + r'\s*>', 'a pointer converted to an integer'),
+    (r'\(\s*' + INTEGER_TYPE + r'\s*\)\s*(?:this\b|&|\(\s*this\s*\))', 'a pointer converted to an integer'),
     # an address written as a number (a global read this way has no relocation, so its target is never checked)
     (r'_cast\s*<[^<>;]*\*\s*>\s*\(\s*(?:0x0*[1-9A-Fa-f][0-9A-Fa-f]*|[1-9]\d*)\s*\)', 'a hard-coded address'),
     (r'\(\s*(?:const\s+)?[\w:]+(?:\s+\w+)?\s*\*+\s*\)\s*\(?\s*0x[0-9A-Fa-f]{5,}', 'a hard-coded address'),
@@ -453,6 +454,59 @@ def spread_pointer_arithmetic(code):
         found.append((m.start(), '`this` reinterpreted as another type (declare the member; use static_cast for a base '
                                  'or derived class)'))
     found += byte_pointer_moves(code)
+    found += integer_casts(code)
+    return found
+
+
+def integer_casts(code):
+    """[(offset, what)]: a pointer variable or member converted to an integer with a C-style cast (`(unsigned)p`, the
+    start of `(D *)((unsigned)b - 0x1C)`), and an integer moved by a constant and cast to a pointer
+    (`(int *)(m_u + 8)`). Whether a name is a pointer or an integer is its nearest declaration before the cast in the
+    translation unit's own text, so `(int)n` of an `int n` passes."""
+    decls = collections.defaultdict(list)  # name: [(offset, 'pointer' or 'integer')]
+    for m in POINTER_DECL.finditer(code):
+        if m.group(1) not in ('return', 'delete', 'throw', 'case', 'else', 'sizeof'):
+            decls[m.group(2)].append((m.start(2), 'pointer'))
+    for m in re.finditer(INTEGER_DECL, code):
+        if m.group(1) not in NOT_NAMES:
+            decls[m.group(1)].append((m.start(1), 'integer'))
+    for v in decls.values():
+        v.sort()
+
+    def kind(name, off):
+        k = None
+        for o, what in decls.get(name, ()):
+            if o >= off:
+                break
+            k = what
+        return k
+
+    found = []
+    chain = r'(?:this\s*->\s*|\w+\s*(?:->|\.)\s*)*(\w+)'  # the operand: a name, after any member accesses
+    for m in re.finditer(r'\(\s*' + INTEGER_TYPE + r'\s*\)\s*(?:\(\s*' + chain + r'\s*\)|' + chain +
+                         r'\b(?!\s*(?:\(|\[|->|\.|::)))', code):
+        if kind(m.group(1) or m.group(2), m.start()) == 'pointer':
+            found.append((m.start(), 'a pointer converted to an integer (declare the member, array or global with its '
+                                     'real type and use it by name; a base or derived class is reached with static_cast)'))
+    for m in re.finditer(POINTER_CAST + r'\s*\(\s*(?:this\s*->\s*)?(\w+)\s*[-+]\s*' + LITERAL + r'\s*\)', code):
+        if kind(m.group(1), m.start()) == 'integer':
+            found.append((m.start(), 'an address computed with integer arithmetic (give the field or variable its '
+                                     'pointer type)'))
+    return found
+
+
+def member_address_moves(code):
+    """[(offset, what)], advisory: the address of a member moved by a constant (`&a->m_x + 5`). Fine when the member is
+    an array (a name ever declared or used with [ ] passes); otherwise it reaches another field the class should
+    declare, which the byte comparison cannot tell from a real member access."""
+    arrays = set(re.findall(r'\b([A-Za-z_]\w*)\s*\[', code))
+    found = []
+    for m in re.finditer(r'&\s*(?:(?:this\s*->\s*|\w+\s*(?:->|\.)\s*)+([A-Za-z_]\w*)|(m_\w+))\s*[-+]\s*' + LITERAL,
+                         code):
+        name = m.group(1) or m.group(2)
+        if name not in arrays:
+            found.append((m.start(), 'the address of a member moved by a constant (unless `%s` is an array, this '
+                                     'reaches another field: declare that field)' % name))
     return found
 
 
@@ -884,11 +938,16 @@ def policy(src, extra_roots=(), roots=None, include=None, _structured=False):
     for _, text, _, _ in own:
         starts.append(at)
         at += len(text) + 1
-    for off, what in spread_pointer_arithmetic('\n'.join(text for _, text, _, _ in own)):
+    joined = '\n'.join(text for _, text, _, _ in own)
+    for off, what in spread_pointer_arithmetic(joined):
         _, _, f, ln = own[bisect.bisect_right(starts, off) - 1]
         x = dict(rule='R4', file=f, line=ln, message='pointer arithmetic: ' + what)
         if x not in structured:
             structured.append(x)
+    for off, what in member_address_moves(joined):
+        where = '%s:%d' % own[bisect.bisect_right(starts, off) - 1][2:]
+        if '%s: %s' % (where, what) not in warnings:
+            warnings.append('%s: %s' % (where, what))
     if placeholders:
         warnings.append('%s: %d placeholder name(s), to be named from evidence (AGENTS.md, "Finding names and '
                         'layouts"): %s' % (src, len(placeholders), ', '.join(sorted(placeholders))))
@@ -1093,8 +1152,12 @@ def cmd_doctor(a):
     add('toolchain', not tp, 'pinned (config/toolchain.txt)' if not tp else '; '.join(tp))
     add('jeff', os.path.exists(JEFF), rel(JEFF) if os.path.exists(JEFF) else 'not built: tools/build_tools.ps1 jeff')
     add('objdiff-cli', os.path.exists(OBJDIFF), rel(OBJDIFF) if os.path.exists(OBJDIFF) else 'not built: tools/build_tools.ps1 objdiff')
-    ok_exe = os.path.exists(EXE) and pe_reader(open(EXE, 'rb').read())[1] == EXPECTED_ENTRY
-    add('game', ok_exe, rel(EXE) if ok_exe else 'run: cd2.py setup <default_patched.xex>')
+    try:
+        ok_exe = os.path.exists(EXE) and pe_reader(open(EXE, 'rb').read())[1] == EXPECTED_ENTRY
+        why = 'run: cd2.py setup <default_patched.xex>'
+    except SystemExit as e:  # pe_reader refuses an image other than the one setup extracts
+        ok_exe, why = False, str(e)
+    add('game', ok_exe, rel(EXE) if ok_exe else why)
     ok_split = os.path.exists(os.path.join(WORK, 'split', 'obj'))
     add('split', ok_split, 'target objects in build/cd2/split' if ok_split else 'run: cd2.py setup <default_patched.xex>')
     return dict(ok=all(c['ok'] for c in checks), checks=checks)
@@ -1758,6 +1821,18 @@ def policy_self_test():
                                            'int f(const I &it) { return *(const int *)((const char *)it.operator->() + 8); }\n',
          True),
         ('pointer to integer', 'unsigned int f(void *p) { return reinterpret_cast<unsigned int>(p); }\n', True),
+        ('pointer to bare unsigned', 'unsigned f(int *p) { return reinterpret_cast<unsigned>(p); }\n', True),
+        ('this to bare unsigned, moved', 'struct S { int a, b; int f() const {\n'
+                                         '  return *(const int *)((unsigned)this + 4); } };\n', True),
+        ('pointer variable to integer', 'struct B { int b; };\nstruct D { int pad[7]; B base; };\n'
+                                        'D *f(B *b) { return (D *)((unsigned)b - 0x1C); }\n', True),
+        ('pointer member to integer', 'struct S { int *m_p; unsigned f() const { return (unsigned)m_p; } };\n', True),
+        ('integer member moved to an address', 'struct S { unsigned int m_u; int f() const {\n'
+                                               '  return *(const int *)(m_u + 8); } };\n', True),
+        ('clean integer casts', 'int f(unsigned u, int n, int *p, int *q) {\n'
+                                '  unsigned v = (unsigned)n + 1; int w = (int)u;\n'
+                                '  return (int)(p - q) + (int)v + w; }\n'
+                                'int g(int p) { return (int)p + 1; }\nint h(int *p) { return *p; }\n', False),
         ('hard-coded address', 'int f() { return *reinterpret_cast<const int *>(0x83803420); }\n', True),
         ('address from integer arithmetic', 'int f(unsigned int p) { return *reinterpret_cast<const int *>(p + 0x9C); }\n',
          True),
@@ -1909,8 +1984,8 @@ def cmd_verify(a):
              ('self-test: source policy', None, None),
              ('self-test: mismatch classifier', py + [os.path.join(TOOLS, 'mismatch.py'), '--self-test'], r'self-test'),
              ('self-test: search transformations', py + [os.path.join(TOOLS, 'search.py'), '--self-test'], r'self-test'),
-             ('self-test: jump table relocations', py + ['-m', 'unittest', 'discover', '-s',
-                os.path.join(ROOT, 'tests'), '-p', 'test_jump_table_relocations.py'], r'Ran |^OK$|FAILED|ERROR')]
+             ('self-test: synthetic regressions', py + ['-m', 'unittest', 'discover', '-s',
+                os.path.join(ROOT, 'tests'), '-p', 'test_*.py'], r'Ran |^OK$|FAILED|ERROR')]
     # the external gates are independent (each builds in its own temporary directory; the benchmark self-test's
     # workspaces are private to its process), so they all run at once while the in-process gates run here
     pool = concurrent.futures.ThreadPoolExecutor(max_workers=len(gates))
@@ -1947,7 +2022,7 @@ def cmd_verify(a):
         r = runs[name].result()
         lines = [l.strip() for l in (r.stdout + r.stderr).splitlines() if l.strip()]
         summary = [l for l in lines if re.search(pattern, l)]
-        if 'self-test' in name and 'benchmark' not in name and 'jump table' not in name:
+        if 'self-test' in name and 'benchmark' not in name and 'synthetic regressions' not in name:
             caught = sum(1 for l in summary if re.search(r'\b(caught|accepted|ok)\b', l))
             summary = ['%d of %d cases as expected' % (caught, len(summary))]
         out.append(dict(gate=name, ok=r.returncode == 0, detail=' | '.join(summary[-3:] or lines[-2:])))

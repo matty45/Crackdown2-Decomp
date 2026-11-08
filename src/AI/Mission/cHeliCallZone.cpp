@@ -11,7 +11,7 @@
 
 namespace AI
 {
-    const Fun_Runtime::cClass *cHeliCallZone::ms_pcHeliCallZoneClass = 0;
+    const Fun_Runtime::cClass *cHeliCallZone::ms_pcHeliCallZoneClass = &cHeliCallZone::StaticCreateClass();
 
     cHeliCallZone::cHeliCallZone() {}
 

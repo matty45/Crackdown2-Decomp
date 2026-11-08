@@ -11,7 +11,7 @@
 
 namespace Audio
 {
-    const Fun_Runtime::cClass *cVOALine::ms_pcVOALineClass = 0;
+    const Fun_Runtime::cClass *cVOALine::ms_pcVOALineClass = &cVOALine::StaticCreateClass();
 
     cVOALine::cVOALine() {}
 

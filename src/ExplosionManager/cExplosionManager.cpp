@@ -21,6 +21,8 @@
 #include "AI/aiconstants.h"
 #include "ExplosionManager/cExplosionManager.h"
 #include "rws/classfactory.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "cd2/memory.h"
 
 namespace ExplosionManager
 {
@@ -30,6 +32,17 @@ namespace ExplosionManager
     }
 
     // CD2 0x82FD5840 (initializer) and 0x8303FBD8 (at-exit destructor).
+    Fun_Runtime::cClass &cExplosionManager::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cExplosionManagerClass = new Fun_Runtime::cClass(0x1ED8, "cExplosionManager", 0x928B0);
+        return *cExplosionManagerClass;
+    }
+
+    const Fun_Runtime::cClass *cExplosionManager::ms_pcExplosionManagerClass = &cExplosionManager::StaticCreateClass();
+
+    static Fun_Runtime::cInheritanceRegistrar cExplosionManagercNonGameBaseInheritRegistrar(
+        cExplosionManager::StaticCreateClass(), cNonGameBase::StaticCreateClass());
+
     static RWS::CClassFactory::CRegistrar cExplosionManagerRegistrar(
         "cExplosionManager", cExplosionManager::MakeNew, 0x928B0, false);
 }

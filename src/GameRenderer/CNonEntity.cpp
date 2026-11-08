@@ -2,11 +2,15 @@
 // object gets them through its other headers (docs/matching-notes.md, "Header constants"); included directly here.
 #include "PHYSICS/physicsconsts.h"
 #include "PHYSICS/physicsproject.h"
+#include "GameRenderer/CEntity.h"
 #include "GameRenderer/CNonEntity.h"
 #include "rws/classfactory.h"
 
 namespace GameRenderer
 {
+    static RWS::CClassFactory::CRegistrar CEntityRegistrar(
+        "CEntity", CEntity::MakeNew, 0x80, false);
+
     const char *CNonEntity::RetClassName() const
     {
         return "CNonEntity";

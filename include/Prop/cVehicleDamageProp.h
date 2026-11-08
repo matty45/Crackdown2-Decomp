@@ -12,6 +12,7 @@ namespace Prop
     class cVehicleDamageProp : public Prop::cProp
     {
     public:
+        static const Fun_Runtime::cClass *ms_pcVehicleDamagePropClass;
         // CD2 0x8234EC90: restores this class's vtables (primary 0x82011120), then calls cProp's destructor.
         virtual ~cVehicleDamageProp();
         // CD2 0x8232A5E8 creates the named runtime descriptor.

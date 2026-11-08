@@ -14,6 +14,7 @@ namespace Equip
     class cWeaponProjectile : public cEquipment
     {
     public:
+        static const Fun_Runtime::cClass *ms_pcWeaponProjectileClass;
         // Name and base from RuffKing. CD2's MakeNew (0x82609578) allocates 0x2F0, calls cEquipmentPrototype's
         // constructor (0x826071F8) and stores this class's vptrs: the constructor is inline and adds no fields.
         class cWeaponProjectilePrototype : public cEquipment::cEquipmentPrototype

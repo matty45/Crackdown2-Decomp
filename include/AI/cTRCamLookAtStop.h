@@ -4,12 +4,14 @@
 #include "gom/non_game_base.h"
 #include "fun_runtime/class.h"
 #include "rws/attributes.h"
+#include "AI/cTrainingRouteEvent.h"
 
 namespace AI
 {
-    class cTRCamLookAtStop : public cNonGameBase
+    class cTRCamLookAtStop : public cTrainingRouteEvent
     {
     public:
+        static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pcTRCamLookAtStopClass;
 
         cTRCamLookAtStop();

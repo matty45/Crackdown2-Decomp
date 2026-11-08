@@ -8,7 +8,7 @@
 
 namespace Prop
 {
-    class cHingedDoor : public RWS::CAttributeHandler
+    class cHingedDoor : public cHingedProp
     {
     public:
         // CD2 0x82744380: cScriptHost slot 1; descriptive method name is ours.

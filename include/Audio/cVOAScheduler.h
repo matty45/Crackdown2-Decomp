@@ -10,6 +10,7 @@
 #include "rws/dynamicallocationpolicy.h"
 #include "GDb/cDebugPageHandler.h"
 #include "rws/logic.h"
+#include "cd2/memory.h"
 
 #include "rws/attributes.h"
 
@@ -30,8 +31,15 @@ namespace Audio
         virtual bool IsA(const Fun_Runtime::cClass &c) const;
         // RuffKing's singleton pointer (CD2 0x838015F4).
         static cVOAScheduler *ms_pInstance;
+        static __forceinline Fun_Runtime::cClass &StaticCreateClass()
+        {
+            // CD2 inlines the local-static guard and descriptor creation into the global initializer (0x83012FA8);
+            // /Ob1 declines a plain inline function here, and CD2 keeps no separate copy.
+            static Fun_Runtime::cClass *cVOASchedulerClass = new Fun_Runtime::cClass(0x679, "cVOAScheduler", 0x480);
+            return *cVOASchedulerClass;
+        }
         // CD2 descriptor pointer 0x8392c9a4; its initializer names cVOAScheduler.
-        static const Fun_Runtime::cClass *ms_pccVOASchedulerClass;
+        static const Fun_Runtime::cClass *ms_pcVOASchedulerClass;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
 

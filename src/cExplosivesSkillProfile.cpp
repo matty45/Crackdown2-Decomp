@@ -1,9 +1,11 @@
 // src/cExplosivesSkillProfile.cpp
 //
-// Class: cExplosivesSkillProfile (namespace: unknown). Set up automatically: no function is matched yet. The address
+// Class: cExplosivesSkillProfile (namespace: RPG). Set up automatically: no function is matched yet. The address
 // range and the evidence for it are in config/splits.txt; RuffKing's object for it is cExplosivesSkillProfile.obj.
 //
-// No reference layout: the class is in neither later build, so its layout comes from CD2's code alone.
+// Reference layout from a later build of the same codebase (a starting point, not CD2's: verify it against CD2's code;
+// refs/ is not in the public repository: maintainers provide it on request; see AGENTS.md):
+// refs/ruffking_pdb_ref/DevBranches/Kingdoms/Source/Code/Libraries/Shared/RPG/cExplosivesSkillProfile.h.
 //
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
@@ -20,9 +22,11 @@
 #include "CHARACTER/cCharacterController.h"
 #include "CHARACTER/cRagdollProfile.h"
 #include "rws/classfactory.h"
-#include "unknown/cExplosivesSkillProfile.h"
+#include "RPG/cExplosivesSkillProfile.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "cd2/memory.h"
 
-namespace unknown
+namespace RPG
 {
     const char *cExplosivesSkillProfile::RetClassName() const
     {
@@ -30,6 +34,17 @@ namespace unknown
     }
 
     // CD2 0x82FFD408 (initializer) and 0x83041D40 (at-exit destructor).
+    Fun_Runtime::cClass &cExplosivesSkillProfile::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cExplosivesSkillProfileClass = new Fun_Runtime::cClass(0x607, "cExplosivesSkillProfile", 0xA4);
+        return *cExplosivesSkillProfileClass;
+    }
+
+    const Fun_Runtime::cClass *cExplosivesSkillProfile::ms_pcExplosivesSkillProfileClass = &cExplosivesSkillProfile::StaticCreateClass();
+
+    static Fun_Runtime::cInheritanceRegistrar cExplosivesSkillProfilecNonGameBaseInheritRegistrar(
+        cExplosivesSkillProfile::StaticCreateClass(), cNonGameBase::StaticCreateClass());
+
     static RWS::CClassFactory::CRegistrar cExplosivesSkillProfileRegistrar(
         "cExplosivesSkillProfile", cExplosivesSkillProfile::MakeNew, 0xA4, false);
 }

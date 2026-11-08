@@ -9,3 +9,15 @@
 #include "CHARACTER/cCharacterController.h"
 #include "CHARACTER/cRagdollProfile.h"
 #include "AI/aiconstants.h"
+#include "rws/classfactory.h"
+#include "AI/cLocalPlayerTrigger.h"
+#include "AI/cPebbleDashMission.h"
+
+namespace AI
+{
+    static RWS::CClassFactory::CRegistrar cLocalPlayerTriggerRegistrar(
+        "cLocalPlayerTrigger", cLocalPlayerTrigger::MakeNew, 0x100, false);
+
+    static RWS::CClassFactory::CRegistrar cPebbleDashMissionRegistrar(
+        "cPebbleDashMission", cPebbleDashMission::MakeNew, 0x3D0, false);
+}

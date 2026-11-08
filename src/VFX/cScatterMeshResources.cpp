@@ -9,11 +9,15 @@
 #include "VFX/cScatterUnpackShader.h"
 #include "VFX/cScatterUnpackIndexedShader.h"
 #include "rws/classfactory.h"
+#include "VFX/cScatter.h"
 #include "VFX/cScatterMeshResources.h"
 #include "cd2/memory.h"
 
 namespace VFX
 {
+    static RWS::CClassFactory::CRegistrar cScatterRegistrar(
+        "cScatter", cScatter::MakeNew, 0x550, false);
+
     RWS::CAttributeHandler *cScatterMeshResources::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cScatterMeshResources;

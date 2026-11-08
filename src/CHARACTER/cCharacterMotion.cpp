@@ -11,6 +11,7 @@
 #include "AI/aiconstants.h"
 #include "CHARACTER/cCharacterMotion.h"
 #include "fun_runtime/script_type_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
 #include "cd2/memory.h"
 
 namespace CHARACTER
@@ -25,6 +26,9 @@ namespace CHARACTER
     }
 
     const Fun_Runtime::cClass *cCharacterMotion::ms_pcCharacterMotionClass = &cCharacterMotion::StaticCreateClass();
+
+    static Fun_Runtime::cInheritanceRegistrar cCharacterMotioncNetDynamicBodyInheritRegistrar(
+        cCharacterMotion::StaticCreateClass(), PHYSICS::cNetDynamicBody::StaticCreateClass());
 
     const Fun_Runtime::cClass &cCharacterMotion::RetClass() const
     {

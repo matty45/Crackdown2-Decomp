@@ -21,6 +21,7 @@
 #include "AI/aiconstants.h"
 #include "rws/classfactory.h"
 #include "Activity/cLongDistancePropManager.h"
+#include "fun_runtime/inheritance_registrar.h"
 #include "cd2/memory.h"
 
 namespace Activity
@@ -49,6 +50,17 @@ namespace Activity
     {
         return "cLongDistancePropManager";
     }
+
+    Fun_Runtime::cClass &cLongDistancePropManager::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cLongDistancePropManagerClass = new Fun_Runtime::cClass(0x199F, "cLongDistancePropManager", 0x94);
+        return *cLongDistancePropManagerClass;
+    }
+
+    const Fun_Runtime::cClass *cLongDistancePropManager::ms_pcLongDistancePropManagerClass = &cLongDistancePropManager::StaticCreateClass();
+
+    static Fun_Runtime::cInheritanceRegistrar cLongDistancePropManagercNonGameBaseInheritRegistrar(
+        cLongDistancePropManager::StaticCreateClass(), cNonGameBase::StaticCreateClass());
 
     static RWS::CClassFactory::CRegistrar cLongDistancePropManagerRegistrar(
         "cLongDistancePropManager", cLongDistancePropManager::MakeNew, 0x94, false);

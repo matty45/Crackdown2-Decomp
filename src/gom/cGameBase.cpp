@@ -11,6 +11,9 @@
 #include "AI/aiconstants.h"
 #include "gom/game_base.h"
 #include "fun_runtime/script_type_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "rws/classfactory.h"
+#include "gom/proto_registrar.h"
 #include "cd2/memory.h"
 
     static Fun_Runtime::cScriptTypeRegistrar<cGameBase> cGameBaseScriptRegistrar(
@@ -23,3 +26,12 @@
     }
 
     const Fun_Runtime::cClass *cGameBase::ms_pcGameBaseClass = &cGameBase::StaticCreateClass();
+
+    static Fun_Runtime::cInheritanceRegistrar cGameBasecNonGameBaseInheritRegistrar(
+        cGameBase::StaticCreateClass(), cNonGameBase::StaticCreateClass());
+
+    static RWS::CClassFactory::CRegistrar cGameBaseRegistrar(
+        "cGameBase", cGameBase::MakeNew, 0x120, false);
+
+    static GOM::cProtoRegistrar cGameBaseSpawningRegistrar(
+        cGameBase::StaticCreateClass(), cGameBase::SpawnFromPrototype);

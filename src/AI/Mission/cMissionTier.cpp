@@ -3,7 +3,7 @@
 
 namespace AI
 {
-    const Fun_Runtime::cClass *cMissionTier::ms_pcMissionTierClass = 0;
+    const Fun_Runtime::cClass *cMissionTier::ms_pcMissionTierClass = &cMissionTier::StaticCreateClass();
 
     cMissionTier::cMissionTier() {}
 

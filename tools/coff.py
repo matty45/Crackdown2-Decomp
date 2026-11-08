@@ -1,14 +1,23 @@
 import struct
 
-ADDR32, PAIR = 0x02, 0x12
+ADDR32, REL24, REFHI, REFLO, PAIR = 0x02, 0x06, 0x10, 0x11, 0x12
+# the bits of an instruction each relocation type patches; everything else in the word (opcode, registers, a branch's
+# AA and LK bits) must match. A type not listed may change all but the opcode.
+FIELDS = {REFHI: 0x0000FFFF, REFLO: 0x0000FFFF, REL24: 0x03FFFFFC}
+OPERANDS = 0x03FFFFFF
 
 
 class Relocations(set):
-    """Word offsets, with the absolute data relocations kept separate from instructions."""
+    """Word offsets, with the absolute data relocations kept separate from instructions, and per word the bits its
+    relocations patch (`fields`)."""
     def __init__(self, records):
         records = list(records)
         super().__init__(off & ~3 for off, typ in records if typ != PAIR)
         self.absolute = {off for off, typ in records if typ == ADDR32 and off % 4 == 0}
+        self.fields = {}
+        for off, typ in records:
+            if typ != PAIR:
+                self.fields[off & ~3] = self.fields.get(off & ~3, 0) | FIELDS.get(typ, OPERANDS)
 
 
 def parse(path):
@@ -58,14 +67,20 @@ def functions(path):
             yield s['name'], sec['data'][s['value']:end], rel
 
 def compare(a, b, rel):
-    """Compare code shape; ADDR32 destinations must also pass relocs.resolve. Returns (exact, ratio)."""
+    """Compare code; a relocated word may differ only in the field its relocation patches (rel.fields; a plain set
+    of offsets keeps just the opcode). Relocation targets and ADDR32 destinations must also pass relocs.resolve.
+    Returns (exact, ratio)."""
     n = max(len(a), len(b)) // 4
     if n == 0:
         return False, 0.0
+    fields = getattr(rel, 'fields', {})
     good = 0
     for w in range(min(len(a), len(b)) // 4):
         x, y = a[w * 4:w * 4 + 4], b[w * 4:w * 4 + 4]
-        if x == y or w * 4 in getattr(rel, 'absolute', ()) or \
-                (w * 4 in rel and (x[0] >> 2) == (y[0] >> 2)):
+        if x == y or w * 4 in getattr(rel, 'absolute', ()):
             good += 1
+        elif w * 4 in rel:
+            keep = ~fields.get(w * 4, OPERANDS) & 0xFFFFFFFF
+            if int.from_bytes(x, 'big') & keep == int.from_bytes(y, 'big') & keep:
+                good += 1
     return good == n and len(a) == len(b), good / n

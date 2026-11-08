@@ -8,6 +8,7 @@
 #include "gom/proto_registrar.h"
 #include "Prop/cTrafficLight.h"
 #include "rws/classfactory.h"
+#include "fun_runtime/inheritance_registrar.h"
 #include "cd2/memory.h"
 #include <stddef.h>
 #include <new>
@@ -91,6 +92,17 @@ namespace Prop
         }
         return 0;
     }
+
+    Fun_Runtime::cClass &cTrafficLight::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cTrafficLightClass = new Fun_Runtime::cClass(0xD431, "cTrafficLight", 0xE60);
+        return *cTrafficLightClass;
+    }
+
+    const Fun_Runtime::cClass *cTrafficLight::ms_pcTrafficLightClass = &cTrafficLight::StaticCreateClass();
+
+    static Fun_Runtime::cInheritanceRegistrar cTrafficLightcPropInheritRegistrar(
+        cTrafficLight::StaticCreateClass(), cProp::StaticCreateClass());
 
     static RWS::CClassFactory::CRegistrar cTrafficLightRegistrar(
         "cTrafficLight", cTrafficLight::MakeNew, 0xE60, false);

@@ -36,6 +36,10 @@ namespace Fun_Runtime
 
 namespace Equip
 {
+    // Known wrong, left for a structural fix: CD2's inheritance registrar (0x82FD26F8) names cWeaponProjectile (0x870 bytes,
+    // Equip/cWeaponProjectile.h) as cHWProjectile's base, and RuffKing derives it from cWeaponProjectile and
+    // cExplosionCallback: the stand-ins below up to 0x870 are cWeaponProjectile's subobjects, and cPoly870 is
+    // cExplosionCallback. Replacing them needs cWeaponProjectile modelled with the same subobjects and vtables first.
     // ---- stand-in secondary bases of cHWProjectile ----
     class cHWProjectileBase : public cNonGameBase { public: unsigned char m_pad7C[0x120 - 0x7C]; };
     class cRegClassB

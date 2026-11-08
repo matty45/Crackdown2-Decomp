@@ -11,6 +11,7 @@
 #include "AI/aiconstants.h"
 #include "unknown/cInterestingObject.h"
 #include "fun_runtime/script_type_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
 #include "cd2/memory.h"
 
 namespace unknown
@@ -25,4 +26,7 @@ namespace unknown
     }
 
     const Fun_Runtime::cClass *cInterestingObject::ms_pcInterestingObjectClass = &cInterestingObject::StaticCreateClass();
+
+    static Fun_Runtime::cInheritanceRegistrar cInterestingObjectcScriptHostInheritRegistrar(
+        cInterestingObject::StaticCreateClass(), Fun_Runtime::cScriptHost::StaticCreateClass());
 }

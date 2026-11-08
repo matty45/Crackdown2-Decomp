@@ -21,6 +21,8 @@
 #include "AI/aiconstants.h"
 #include "Equip/cCWSatchelCharge.h"
 #include "fun_runtime/script_type_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/proto_registrar.h"
 #include "cd2/memory.h"
 #include <new>
 #include "rws/classfactory.h"
@@ -46,6 +48,9 @@ namespace Equip
     static RWS::CClassFactory::CRegistrar cCWSatchelChargeRegistrar(
         "cCWSatchelCharge", cCWSatchelCharge::MakeNew, 0xAE0, false);
 
+    static GOM::cProtoRegistrar cCWSatchelChargeSpawningRegistrar(
+        cCWSatchelCharge::StaticCreateClass(), cCWSatchelCharge::SpawnFromPrototype);
+
     // CD2 script-type registration names this child and parent.
     static Fun_Runtime::cScriptTypeRegistrar<cCWSatchelCharge> cCWSatchelChargeScriptRegistrar(
         "cCWSatchelCharge", "cExplosiveGrenade");
@@ -64,6 +69,9 @@ namespace Equip
     }
 
     const Fun_Runtime::cClass *cCWSatchelCharge::ms_pcCWSatchelChargeClass = &cCWSatchelCharge::StaticCreateClass();
+
+    static Fun_Runtime::cInheritanceRegistrar cCWSatchelChargecExplosiveGrenadeInheritRegistrar(
+        cCWSatchelCharge::StaticCreateClass(), cExplosiveGrenade::StaticCreateClass());
 
     const Fun_Runtime::cClass &cCWSatchelCharge::RetClass() const
     {

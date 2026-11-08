@@ -30,17 +30,19 @@ namespace Audio
         return "cVOAScheduler";
     }
 
+    const Fun_Runtime::cClass *cVOAScheduler::ms_pcVOASchedulerClass = &cVOAScheduler::StaticCreateClass();
+
     static RWS::CClassFactory::CRegistrar cVOASchedulerRegistrar(
         "cVOAScheduler", cVOAScheduler::MakeNew, 0x480, false);
 
     const Fun_Runtime::cClass &cVOAScheduler::RetClass() const
     {
-        return *ms_pccVOASchedulerClass;
+        return *ms_pcVOASchedulerClass;
     }
 
     bool cVOAScheduler::IsA(const Fun_Runtime::cClass &c) const
     {
-        return ms_pccVOASchedulerClass->IsA(c);
+        return ms_pcVOASchedulerClass->IsA(c);
     }
 
     cVOAScheduler::~cVOAScheduler()

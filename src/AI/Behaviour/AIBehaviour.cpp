@@ -21,6 +21,9 @@
 #include "AI/aiconstants.h"
 #include "rws/classfactory.h"
 #include "AI/AIBehaviour.h"
+#include "AI/BehaviourClassID.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/proto_registrar.h"
 #include "cd2/memory.h"
 
 namespace AI
@@ -30,12 +33,26 @@ namespace AI
         return "AIBehaviour";
     }
 
+    const Fun_Runtime::cClass *AIBehaviour::ms_pAIBehaviourClass = &AIBehaviour::StaticCreateClass();
+
+    static Fun_Runtime::cInheritanceRegistrar AIBehaviourcNonGameBaseInheritRegistrar(
+        AIBehaviour::StaticCreateClass(), cNonGameBase::StaticCreateClass());
+
     static RWS::CClassFactory::CRegistrar AIBehaviourRegistrar(
         "AIBehaviour", AIBehaviour::MakeNew, 0x7c, false);
+
+    static GOM::cProtoRegistrar AIBehaviourSpawningRegistrar(
+        AIBehaviour::StaticCreateClass(), AIBehaviour::SpawnFromPrototype);
 
     // CD2 0x824a4a10: the class factory builds the prototype.
     RWS::CAttributeHandler *AIBehaviour::MakeNew(const RWS::CAttributePacket &packet, bool)
     {
         return new AIBehaviourPrototype(packet);
+    }
+
+    Fun_Runtime::cClass &AIBehaviour::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *AIBehaviourClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "AIBehaviour", 0x7C);
+        return *AIBehaviourClass;
     }
 }

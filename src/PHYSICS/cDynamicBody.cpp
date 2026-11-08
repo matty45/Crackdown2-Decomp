@@ -4,6 +4,8 @@
 #include "PHYSICS/cDynamicBody.h"
 #include "PHYSICS/cNetDynamicBody.h"
 #include "fun_runtime/script_type_registrar.h"
+#include "rws/classfactory.h"
+#include "gom/proto_registrar.h"
 #include "cd2/memory.h"
 #include <new>
 
@@ -31,6 +33,12 @@ namespace PHYSICS
     }
 
     const Fun_Runtime::cClass *cDynamicBody::ms_pcDynamicBodyClass = &cDynamicBody::StaticCreateClass();
+
+    static RWS::CClassFactory::CRegistrar cDynamicBodyRegistrar(
+        "cDynamicBody", cDynamicBody::MakeNew, 0x420, false);
+
+    static GOM::cProtoRegistrar cDynamicBodySpawningRegistrar(
+        cDynamicBody::StaticCreateClass(), cDynamicBody::SpawnFromPrototype);
 
     const Fun_Runtime::cClass &cDynamicBody::RetClass() const
     {

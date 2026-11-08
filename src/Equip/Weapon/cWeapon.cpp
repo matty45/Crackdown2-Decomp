@@ -11,6 +11,9 @@
 #include "AI/aiconstants.h"
 #include "Equip/cWeapon.h"
 #include "fun_runtime/script_type_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "rws/classfactory.h"
+#include "gom/proto_registrar.h"
 #include "cd2/memory.h"
 
 namespace Equip
@@ -25,6 +28,15 @@ namespace Equip
     }
 
     const Fun_Runtime::cClass *cWeapon::ms_pcWeaponClass = &cWeapon::StaticCreateClass();
+
+    static Fun_Runtime::cInheritanceRegistrar cWeaponcEquipmentInheritRegistrar(
+        cWeapon::StaticCreateClass(), cEquipment::StaticCreateClass());
+
+    static RWS::CClassFactory::CRegistrar cWeaponRegistrar(
+        "cWeapon", cWeapon::MakeNew, 0x8C0, false);
+
+    static GOM::cProtoRegistrar cWeaponSpawningRegistrar(
+        cWeapon::StaticCreateClass(), cWeapon::SpawnFromPrototype);
 
     const Fun_Runtime::cClass &cWeapon::RetClass() const
     {

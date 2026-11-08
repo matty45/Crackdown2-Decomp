@@ -5,10 +5,11 @@
 #include "gom/non_game_base.h"
 #include "fun_runtime/class.h"
 #include "rws/attributes.h"
+#include "AI/cAgressiveResponseBase.h"
 
 namespace AI
 {
-    class cAgressiveResponseChaseBehaviour : public cNonGameBase
+    class cAgressiveResponseChaseBehaviour : public cAgressiveResponseBase
     {
     public:
         // CD2 spawning initializer 0x82F99518 names placement factory 0x824c92b0.

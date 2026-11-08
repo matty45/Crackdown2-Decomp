@@ -11,7 +11,7 @@
 
 namespace AI
 {
-    const Fun_Runtime::cClass *cCityGliderMission::ms_pcCityGliderMissionClass = 0;
+    const Fun_Runtime::cClass *cCityGliderMission::ms_pcCityGliderMissionClass = &cCityGliderMission::StaticCreateClass();
 
     cCityGliderMission::cCityGliderMission() {}
 

@@ -21,6 +21,7 @@ namespace VFX
     class cBloom : public cNonGameBase
     {
     public:
+        static Fun_Runtime::cClass &StaticCreateClass();
         // CD2's MakeNew (0x827918C8) inlines this constructor: cNonGameBase's constructor, the vtables, the field at 0x7C and
         // g_pBloom. __forceinline: /Ob1 declines a plain inline constructor with this many stores (docs/matching-notes.md).
         __forceinline cBloom(const RWS::CAttributePacket &) : m_unknown7C(0) { g_pBloom = this; }
@@ -30,7 +31,7 @@ namespace VFX
         // CD2 0x82791868: registered-class virtual slot 1.
         virtual bool IsA(const Fun_Runtime::cClass &c) const;
         // CD2 descriptor pointer 0x838f6280; its initializer names cBloom.
-        static const Fun_Runtime::cClass *ms_pccBloomClass;
+        static const Fun_Runtime::cClass *ms_pcBloomClass;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
 

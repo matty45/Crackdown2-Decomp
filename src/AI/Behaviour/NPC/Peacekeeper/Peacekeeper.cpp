@@ -6,6 +6,8 @@
 #include "CHARACTER/cCharacterController.h"
 #include "CHARACTER/cRagdollProfile.h"
 #include "AI/aiconstants.h"
+#include "AI/BehaviourClassID.h"
+#include "fun_runtime/inheritance_registrar.h"
 #include "cd2/memory.h"
 #include "gom/proto_registrar.h"
 #include "AI/Peacekeeper.h"
@@ -13,8 +15,6 @@
 
 namespace AI
 {
-    const Fun_Runtime::cClass *Peacekeeper::ms_pPeacekeeperClass = 0;
-
     Peacekeeper::Peacekeeper() {}
 
     const Fun_Runtime::cClass &Peacekeeper::RetClass() const
@@ -36,6 +36,17 @@ namespace AI
     {
         return new Peacekeeper();
     }
+
+    Fun_Runtime::cClass &Peacekeeper::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *PeacekeeperClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "Peacekeeper", 0x1E0);
+        return *PeacekeeperClass;
+    }
+
+    const Fun_Runtime::cClass *Peacekeeper::ms_pPeacekeeperClass = &Peacekeeper::StaticCreateClass();
+
+    static Fun_Runtime::cInheritanceRegistrar PeacekeeperCellGuardInheritRegistrar(
+        Peacekeeper::StaticCreateClass(), CellGuard::StaticCreateClass());
 
     static RWS::CClassFactory::CRegistrar PeacekeeperRegistrar(
         "Peacekeeper", Peacekeeper::MakeNew, 0x1E0, false);

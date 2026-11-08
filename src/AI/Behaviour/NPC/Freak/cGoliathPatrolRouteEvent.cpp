@@ -7,7 +7,7 @@
 
 namespace AI
 {
-    const Fun_Runtime::cClass *cGoliathPatrolRouteEvent::ms_pcGoliathPatrolRouteEventClass = 0;
+    const Fun_Runtime::cClass *cGoliathPatrolRouteEvent::ms_pcGoliathPatrolRouteEventClass = &cGoliathPatrolRouteEvent::StaticCreateClass();
 
     cGoliathPatrolRouteEvent::cGoliathPatrolRouteEvent() {}
 

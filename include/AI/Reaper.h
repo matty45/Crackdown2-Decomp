@@ -9,7 +9,7 @@
 
 namespace AI
 {
-    class Reaper : public cNonGameBase
+    class Reaper : public FreakBase
     {
     public:
         // CD2 spawning initializer 0x82F93F90 names placement factory 0x824b26a8.

@@ -1,3 +1,4 @@
+#include "fun_runtime/class.h"
 #include "cd2/layout.h"
 #include "rws/attributes.h"
 // VFX::cParticleEffectManager (Crackdown 2): STAND-IN for the class name only. Base cNonGameBase, as in RuffKing's
@@ -12,6 +13,8 @@ namespace VFX
     class cParticleEffectManager : public cNonGameBase
     {
     public:
+        static Fun_Runtime::cClass &StaticCreateClass();
+        static const Fun_Runtime::cClass *ms_pcParticleEffectManagerClass;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
         int RetEffectId(const char *); // RuffKing name; CD2 0x827EB880

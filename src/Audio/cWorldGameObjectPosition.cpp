@@ -11,7 +11,7 @@
 
 namespace Audio
 {
-    const Fun_Runtime::cClass *cWorldGameObjectPosition::ms_pcWorldGameObjectPositionClass = 0;
+    const Fun_Runtime::cClass *cWorldGameObjectPosition::ms_pcWorldGameObjectPositionClass = &cWorldGameObjectPosition::StaticCreateClass();
 
     cWorldGameObjectPosition::cWorldGameObjectPosition() {}
 

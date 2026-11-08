@@ -3,7 +3,7 @@
 
 namespace AI
 {
-    const Fun_Runtime::cClass *cTrainingVOARouteEvent::ms_pcTrainingVOARouteEventClass = 0;
+    const Fun_Runtime::cClass *cTrainingVOARouteEvent::ms_pcTrainingVOARouteEventClass = &cTrainingVOARouteEvent::StaticCreateClass();
 
     cTrainingVOARouteEvent::cTrainingVOARouteEvent() {}
 

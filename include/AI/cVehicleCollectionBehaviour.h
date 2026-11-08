@@ -5,10 +5,11 @@
 #include "gom/non_game_base.h"
 #include "fun_runtime/class.h"
 #include "rws/attributes.h"
+#include "AI/cPilotBase.h"
 
 namespace AI
 {
-    class cVehicleCollectionBehaviour : public cNonGameBase
+    class cVehicleCollectionBehaviour : public cPilotBase
     {
     public:
         // CD2 spawning initializer 0x82F9CF18 names placement factory 0x824d68b8.

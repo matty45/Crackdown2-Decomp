@@ -21,6 +21,7 @@
 #include "AI/aiconstants.h"
 #include "rws/classfactory.h"
 #include "VFX/cParticleEffectManager.h"
+#include "fun_runtime/inheritance_registrar.h"
 #include "cd2/memory.h"
 
 namespace VFX
@@ -30,6 +31,11 @@ namespace VFX
         return "cParticleEffectManager";
     }
 
+    const Fun_Runtime::cClass *cParticleEffectManager::ms_pcParticleEffectManagerClass = &cParticleEffectManager::StaticCreateClass();
+
+    static Fun_Runtime::cInheritanceRegistrar cParticleEffectManagercNonGameBaseInheritRegistrar(
+        cParticleEffectManager::StaticCreateClass(), cNonGameBase::StaticCreateClass());
+
     static RWS::CClassFactory::CRegistrar cParticleEffectManagerRegistrar(
         "cParticleEffectManager", cParticleEffectManager::MakeNew, 0x370, false);
 
@@ -37,5 +43,11 @@ namespace VFX
     RWS::CAttributeHandler *cParticleEffectManager::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cParticleEffectManager;
+    }
+
+    Fun_Runtime::cClass &cParticleEffectManager::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cParticleEffectManagerClass = new Fun_Runtime::cClass(0x1267, "cParticleEffectManager", 0x370);
+        return *cParticleEffectManagerClass;
     }
 }

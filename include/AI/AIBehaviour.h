@@ -14,6 +14,8 @@ namespace AI
     class AIBehaviour : public cNonGameBase
     {
     public:
+        static const Fun_Runtime::cClass *ms_pAIBehaviourClass;
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         // CD2 MakeNew (0x824a4a10) allocates 0x70 bytes, calls GOM::cObjectPrototype's constructor (0x82654118) with the packet and
         // installs this prototype's vtables (at 0 and 0x18).
         class AIBehaviourPrototype : public GOM::cObjectPrototype

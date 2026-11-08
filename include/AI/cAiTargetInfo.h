@@ -8,6 +8,7 @@
 #define AI_CAITARGETINFO_H
 
 #include "cd2/layout.h"
+#include "fun_runtime/class.h"
 
 namespace AI
 {
@@ -26,6 +27,9 @@ namespace AI
         bool m_bVisible;                        // 0x2E
 
     public:
+        // CD2 0x8244DCD8 builds the cClass "cAiTargetInfo"; cAiTargetPositionInfo's inheritance registrar
+        // (0x82F82898) calls it for the parent.
+        static Fun_Runtime::cClass &StaticCreateClass();
         bool IsPrimaryFireInRange() const;
         bool IsPrimaryFireBlocked() const;
         bool IsTargetVisible() const;

@@ -11,7 +11,7 @@
 
 namespace AI
 {
-    const Fun_Runtime::cClass *cAnimParams::ms_pcAnimParamsClass = 0;
+    const Fun_Runtime::cClass *cAnimParams::ms_pcAnimParamsClass = &cAnimParams::StaticCreateClass();
 
     cAnimParams::cAnimParams() {}
 

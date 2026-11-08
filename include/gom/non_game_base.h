@@ -51,6 +51,8 @@ private:
     unsigned char m_pad68[0x7C - 0x68];
 
 public:
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         // Name and base from RuffKing (112 bytes there: no fields of its own). Squad::MakeNew (0x824D81A0) inlines the
         // constructor of a prototype derived from it straight over GOM::cObjectPrototype's, so this one is inline too.
         class cNonGameBasePrototype : public GOM::cObjectPrototype

@@ -198,7 +198,10 @@ def dependencies(src, plain_obj, d, env, manifest=None, override=None):
     progress, identified as the gates identify it), and only if every symbol src takes from it is such a function. So
     LTCG sees only bodies that the gates prove identical to CD2's; a file's data, unmatched functions and everything
     else stay stubs. The rule is the same for every file and nothing is listed by hand. It goes one level deep: the
-    dependency's own calls are stubs. override: {repository path: path of a modified copy} (a branch under review)."""
+    dependency's calls into other files are stubs, but its calls within its own file reach that file's /GL bodies,
+    matched or not, since the whole file is linked in. Those bodies can shape only the dependency's code, and through
+    it ours; the caller is still compared word for word with CD2. override: {repository path: path of a modified
+    copy} (a branch under review)."""
     if manifest is None:
         manifest = json.load(open(os.path.join(ROOT, 'config', 'matched_functions.json')))
     override = override or {}

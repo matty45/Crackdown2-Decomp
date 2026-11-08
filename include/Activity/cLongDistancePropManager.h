@@ -1,3 +1,4 @@
+#include "fun_runtime/class.h"
 #include "rws/attributes.h"
 // Activity::cLongDistancePropManager (Crackdown 2): STAND-IN. Bases cNonGameBase and GDb::cDebugPageHandler (at 0x7C) as in
 // RuffKing's header. CD2's MakeNew (0x823DA790) inlines the constructor: cNonGameBase's constructor, the cDebugPageHandler
@@ -24,6 +25,7 @@ namespace Activity
     class cLongDistancePropManager : public cNonGameBase, public GDb::cDebugPageHandler
     {
     public:
+        static Fun_Runtime::cClass &StaticCreateClass();
         // __forceinline: CD2's MakeNew inlines this constructor; /Ob1 declines a plain inline constructor with this many
         // stores (docs/matching-notes.md, Inlining).
         __forceinline cLongDistancePropManager(const RWS::CAttributePacket &) : m_nMaxProps(0)

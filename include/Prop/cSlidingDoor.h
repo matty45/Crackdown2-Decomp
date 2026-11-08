@@ -13,6 +13,8 @@ namespace Prop
     class cSlidingDoor : public Prop::cPrismaticProp
     {
     public:
+        static const Fun_Runtime::cClass *ms_pcSlidingDoorClass;
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         // CD2 MakeNew (0x827468e8) allocates 0x530 bytes, calls Prop::cPrismaticProp::cPrismaticPropPrototype's constructor (0x8273CBD0) with the packet and
         // installs this prototype's vtables (at 0 and 0x18).
         class cSlidingDoorPrototype : public Prop::cPrismaticProp::cPrismaticPropPrototype

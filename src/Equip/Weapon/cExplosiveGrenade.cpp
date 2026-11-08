@@ -21,6 +21,8 @@
 #include "AI/aiconstants.h"
 #include "Equip/cExplosiveGrenade.h"
 #include "fun_runtime/script_type_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/proto_registrar.h"
 #include "cd2/memory.h"
 #include <new>
 #include "rws/classfactory.h"
@@ -41,6 +43,9 @@ namespace Equip
     static RWS::CClassFactory::CRegistrar cExplosiveGrenadeRegistrar(
         "cExplosiveGrenade", cExplosiveGrenade::MakeNew, 0x9D0, false);
 
+    static GOM::cProtoRegistrar cExplosiveGrenadeSpawningRegistrar(
+        cExplosiveGrenade::StaticCreateClass(), cExplosiveGrenade::SpawnFromPrototype);
+
     // CD2 script-type registration names this child and parent.
     static Fun_Runtime::cScriptTypeRegistrar<cExplosiveGrenade> cExplosiveGrenadeScriptRegistrar(
         "cExplosiveGrenade", "cGrenade");
@@ -59,6 +64,9 @@ namespace Equip
     }
 
     const Fun_Runtime::cClass *cExplosiveGrenade::ms_pcExplosiveGrenadeClass = &cExplosiveGrenade::StaticCreateClass();
+
+    static Fun_Runtime::cInheritanceRegistrar cExplosiveGrenadecGrenadeInheritRegistrar(
+        cExplosiveGrenade::StaticCreateClass(), cGrenade::StaticCreateClass());
 
     const Fun_Runtime::cClass &cExplosiveGrenade::RetClass() const
     {

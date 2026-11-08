@@ -4,6 +4,7 @@
 #ifndef AI_cCrowdZoneDataHolder_H
 #define AI_cCrowdZoneDataHolder_H
 
+#include "fun_runtime/class.h"
 #include "gom/non_game_base.h"
 
 namespace AI
@@ -11,6 +12,7 @@ namespace AI
     class cCrowdZoneDataHolder : public cNonGameBase
     {
     public:
+        static Fun_Runtime::cClass &StaticCreateClass();
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         // CD2 registered-class vtable 0x82100D30 slot 0, descriptor at 0x8381A9C8.
         static const Fun_Runtime::cClass *ms_pcCrowdZoneDataHolderClass;

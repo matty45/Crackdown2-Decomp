@@ -15,7 +15,7 @@ namespace AI
     public:
         virtual const Fun_Runtime::cClass &RetClass() const;
         // CD2 descriptor pointer 0x8381f1c0; its initializer names CellGuard.
-        static const Fun_Runtime::cClass *ms_pcCellGuardClass;
+        static const Fun_Runtime::cClass *ms_pCellGuardClass;
         // CD2 factory 0x824C0B70 forwards only this, without a prototype argument.
         CellGuard();
         // CD2 descriptor 0x82250988 names this class; spawning registration 0x82F95B88.

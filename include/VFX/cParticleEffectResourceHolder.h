@@ -1,3 +1,4 @@
+#include "fun_runtime/class.h"
 #include "rws/attributes.h"
 // VFX::cParticleEffectResourceHolder: CD2 stand-in. RuffKing names the base,
 // resource-name vector and priority. CD2 MakeNew and destructor establish the
@@ -14,6 +15,7 @@ namespace VFX
     class cParticleEffectResourceHolder : public cNonGameBase
     {
     public:
+        static Fun_Runtime::cClass &StaticCreateClass();
         // CD2 inlines this constructor into MakeNew, including the vector initialization.
         __forceinline cParticleEffectResourceHolder(const RWS::CAttributePacket &)
             : m_fDefaultPriority(0.0f) {}

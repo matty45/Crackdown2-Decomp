@@ -1,3 +1,4 @@
+#include "fun_runtime/inheritance_registrar.h"
 #include "cd2/memory.h"
 #include "gom/proto_registrar.h"
 #include "Equip/cWeaponProjectile.h"
@@ -24,6 +25,11 @@ namespace Equip
     {
     }
 
+    const Fun_Runtime::cClass *cWeaponProjectile::ms_pcWeaponProjectileClass = &cWeaponProjectile::StaticCreateClass();
+
+    static Fun_Runtime::cInheritanceRegistrar cWeaponProjectilecEquipmentInheritRegistrar(
+        cWeaponProjectile::StaticCreateClass(), cEquipment::StaticCreateClass());
+
     static RWS::CClassFactory::CRegistrar cWeaponProjectileRegistrar(
         "cWeaponProjectile", cWeaponProjectile::MakeNew, 0x870, false);
 
@@ -36,5 +42,11 @@ namespace Equip
         if (memory)
             return new (memory) cWeaponProjectile;
         return 0;
+    }
+
+    Fun_Runtime::cClass &cWeaponProjectile::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cWeaponProjectileClass = new Fun_Runtime::cClass(0x26EE0, "cWeaponProjectile", 0x870);
+        return *cWeaponProjectileClass;
     }
 }

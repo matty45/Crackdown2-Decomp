@@ -8,6 +8,7 @@
 #include "CHARACTER/cRagdollProfile.h"
 #include "AI/aiconstants.h"
 #include "rws/classfactory.h"
+#include "fun_runtime/inheritance_registrar.h"
 #include "cd2/memory.h"
 
 namespace AI
@@ -27,11 +28,22 @@ namespace AI
         return "cCrowdZoneDataHolder";
     }
 
+    const Fun_Runtime::cClass *cCrowdZoneDataHolder::ms_pcCrowdZoneDataHolderClass = &cCrowdZoneDataHolder::StaticCreateClass();
+
+    static Fun_Runtime::cInheritanceRegistrar cCrowdZoneDataHoldercNonGameBaseInheritRegistrar(
+        cCrowdZoneDataHolder::StaticCreateClass(), cNonGameBase::StaticCreateClass());
+
     static RWS::CClassFactory::CRegistrar cCrowdZoneDataHolderRegistrar(
         "cCrowdZoneDataHolder", cCrowdZoneDataHolder::MakeNew, 0x7C, false);
 
     bool cCrowdZoneDataHolder::IsA(const Fun_Runtime::cClass &testClass) const
     {
         return ms_pcCrowdZoneDataHolderClass->IsA(testClass);
+    }
+
+    Fun_Runtime::cClass &cCrowdZoneDataHolder::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cCrowdZoneDataHolderClass = new Fun_Runtime::cClass(0x445B, "cCrowdZoneDataHolder", 0x7C);
+        return *cCrowdZoneDataHolderClass;
     }
 }

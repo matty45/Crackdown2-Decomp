@@ -1,3 +1,4 @@
+#include "fun_runtime/class.h"
 #include "rws/attributes.h"
 // Prop::cGasCanister (Crackdown 2): STAND-IN for the class name only. Base Prop::cProp, as in RuffKing's header;
 // RetClassName (0x827437F8) is slot 11 of the vtable at 0x8200E520, as cNonGameBase's RetClassName.
@@ -11,6 +12,7 @@ namespace Prop
     class cGasCanister : public Prop::cProp
     {
     public:
+        static const Fun_Runtime::cClass *ms_pcGasCanisterClass;
         // CD2 placement factory 0x82743808 tail-calls constructor 0x82743828.
         cGasCanister(GOM::cObjectPrototype *);
         static Fun_Runtime::cClass &StaticCreateClass(); // CD2 0x822709A0

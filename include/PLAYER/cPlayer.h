@@ -20,6 +20,8 @@
 //     (0x82720FD0) is HasRecentlyHadH2HContact by its code (RuffKing's m_nH2HContactFrame test), slot 92 (0x82720FC0)
 //     ForceCharacterH2HContact. Slot 97 (0x8271F160, reads m_byteD99) and slot 130 (0x82720AC0, clears m_fEC4, the 5th
 //     virtual cPlayer adds) have no reference counterpart. None of these slots is declared yet, so they are open.
+// Known wrong, left for a structural fix: CD2 also registers cPlayer under GDb::cDebugPageHandler (inheritance registrar 0x82FF3C60), one
+// of the bases whose vptrs the constructor stores at 0x540-0x548. The padding there stands in for those bases.
 #ifndef PLAYER_CPLAYER_H
 #define PLAYER_CPLAYER_H
 

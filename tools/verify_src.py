@@ -15,7 +15,7 @@ symbol stands for, consistently across the whole repository (one name, one addre
 declared in config/symbol_aliases.txt; constants and strings by content). A function that calls the wrong function
 or reads the wrong global fails here even though its bytes match.
 """
-import atexit, json, os, re, shutil, struct, subprocess, sys, tempfile
+import atexit, hashlib, json, os, re, shutil, struct, subprocess, sys, tempfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, 'tools'))
@@ -108,10 +108,36 @@ def ltcg_built(src, table=None):
     return not src.lower().endswith('.c') and 'plain' not in file_options(src, table)
 
 
+# the first character of a this-adjusting thunk's code after the function's scope: adjustors (private G/H, protected
+# O/P, public W/X) and vtordisp thunks ($). The same characters also start template arguments (`H` int, `$0` a
+# value), so a name is such a thunk only if dbghelp says so. A vcall thunk (`??_9`, "`vcall'") is not one: it is a
+# thunk in its own right, not a copy of a named function.
+THUNK_START = frozenset('GHOPWX$')
+_thunks = {}
+
+
+def is_thunk(name):
+    """Whether name is an adjustor or vtordisp thunk of a function (dbghelp: "`adjustor{...}'", "`vtordisp{...}'")."""
+    if name not in _thunks:
+        try:
+            u = undecorate(name)
+            _thunks[name] = u.startswith('[thunk]:') and ('`adjustor{' in u or '`vtordisp' in u)
+        except RuntimeError:
+            _thunks[name] = False
+    return _thunks[name]
+
+
 def symbol_matches(symbol, name):
-    """A manifest symbol names a compiled function: a mangled C++ name by the part given (usually a prefix that stops
-    before the argument list), a C name exactly (`resume` must not also name `resume_error` or `lua_resume`)."""
-    return symbol in name if symbol.startswith('?') else symbol == name
+    """A manifest symbol names a compiled function: a mangled C++ name by its prefix (usually stopping before the
+    argument list), a C name exactly (`resume` must not also name `resume_error` or `lua_resume`). A prefix that ends
+    at `@@` (`?RetClass@cX@AI@@`) does not name the this-adjusting thunks of that function (`?RetClass@cX@AI@@WBA@...`),
+    which a class with several vtables also compiles: a thunk is named only by a symbol that includes its code
+    (`??_EcBloom@VFX@@WBI@`)."""
+    if not symbol.startswith('?'):
+        return symbol == name
+    if not name.startswith(symbol):
+        return False
+    return not (symbol.endswith('@@') and name[len(symbol):len(symbol) + 1] in THUNK_START and is_thunk(name))
 
 
 _undname = None
@@ -215,17 +241,30 @@ def check_toolchain():
                  + '\n  '.join(problems))
 
 
+# the image `cd2.py setup` extracts from default_patched.xex: SHA1 of every section's name, address and file bytes
+# (what the tools read; the PE headers are left out), so that a damaged or different extraction is refused instead of
+# compared against
+IMAGE_SHA1 = '0C3091FF5BE77B8FC78D6474229193B598F6CC36'
+
+
 def pe_reader(exe):
+    """(read(va, n), entry point) of the extracted game image. Exits unless it is the image setup extracts."""
     pe = struct.unpack('<I', exe[0x3C:0x40])[0]
     nsec = struct.unpack('<H', exe[pe + 6:pe + 8])[0]
     optsz = struct.unpack('<H', exe[pe + 20:pe + 22])[0]
     base = struct.unpack('<I', exe[pe + 24 + 28:pe + 24 + 32])[0]
     entry = base + struct.unpack('<I', exe[pe + 24 + 16:pe + 24 + 20])[0]
     secs = []
+    digest = hashlib.sha1()
     for i in range(nsec):
         o = pe + 24 + optsz + i * 40
         vs, va, rs, ra = struct.unpack('<IIII', exe[o + 8:o + 24])
         secs.append((base + va, rs, ra))
+        digest.update(exe[o:o + 8] + struct.pack('<II', base + va, rs) + exe[ra:ra + rs])
+    if digest.hexdigest().upper() != IMAGE_SHA1:
+        raise SystemExit('The extracted game image is not the one `py -I tools/cd2.py setup` extracts from '
+                         'default_patched.xex (section digest %s, expected %s): delete build/cd2/orig and run setup '
+                         'again with the patched XEX.' % (digest.hexdigest().upper(), IMAGE_SHA1))
 
     def read(va, size):
         for sva, rs, ra in secs:
@@ -265,6 +304,24 @@ def self_test(read, env):
     caught = bool(probs)
     print('self-test wrong callee (bytes %s): %s' % ('still match' if bytes_exact else 'differ', 'caught' if caught else 'NOT CAUGHT'))
     ok &= caught and bytes_exact
+    # 1b. end to end: a relocated instruction whose register differs (CD2's lwz r3 made lwz r4: RetClass would return
+    # garbage). The relocation patches only the 16-bit immediate, so the comparison must still see the register.
+    src = os.path.join(ROOT, 'src', 'Audio', 'cVOAScheduler.cpp')
+    obj = os.path.join(tmp, 'register.obj')
+    subprocess.run([os.path.join(BIN, 'cl.exe')] + flags_for('src/Audio/cVOAScheduler.cpp') + ['/Fo' + obj, src],
+                   env=env, capture_output=True, text=True, check=True)
+    va, size = 0x82836DF0, 12
+    hit = [(c, rel) for n, c, rel in coff.functions(obj) if n.startswith('?RetClass@cVOAScheduler@Audio@@')]
+    target = bytearray(read(va, size))
+    if len(hit) != 1 or target[4] >> 2 != 32 or (struct.unpack_from('>I', target, 4)[0] >> 21) & 31 != 3:
+        print('self-test: cVOAScheduler::RetClass is not `lis; lwz r3; blr` at %08X (update the self-test)' % va)
+        return False
+    code, rel = hit[0]
+    exact = coff.compare(code, bytes(target), rel)[0]
+    struct.pack_into('>I', target, 4, struct.unpack_from('>I', target, 4)[0] & ~(31 << 21) | (4 << 21))
+    caught = exact and not coff.compare(code, bytes(target), rel)[0]
+    print('self-test %-32s %s' % ('register in a relocated word', 'caught' if caught else 'NOT CAUGHT'))
+    ok &= caught
     # 2. synthetic cases
     class _O:
         def symbol_bytes(self, name, n):

@@ -11,7 +11,7 @@
 
 namespace AI
 {
-    const Fun_Runtime::cClass *cTrainingMission::ms_pcTrainingMissionClass = 0;
+    const Fun_Runtime::cClass *cTrainingMission::ms_pcTrainingMissionClass = &cTrainingMission::StaticCreateClass();
 
     cTrainingMission::cTrainingMission() {}
 

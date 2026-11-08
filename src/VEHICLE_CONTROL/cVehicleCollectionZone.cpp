@@ -11,7 +11,7 @@
 
 namespace VEHICLE_CONTROL
 {
-    const Fun_Runtime::cClass *cVehicleCollectionZone::ms_pcVehicleCollectionZoneClass = 0;
+    const Fun_Runtime::cClass *cVehicleCollectionZone::ms_pcVehicleCollectionZoneClass = &cVehicleCollectionZone::StaticCreateClass();
 
     cVehicleCollectionZone::cVehicleCollectionZone() {}
 

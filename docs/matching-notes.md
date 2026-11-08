@@ -359,6 +359,20 @@ end, in one line, and is removed when the function matches. History belongs in g
 - **Naming a virtual slot:** follow its chain of base calls to the bottom, where the body shows what the slot does
   (cProp's UpdateRenderMatrix calls cBody's, which copies the body matrix: slot 26). Class sizes come from the
   registrar or `StaticCreateClass` (`cClass(id, "name", size)`); a prototype's from the allocation in its `MakeNew`.
+- **Class pointers are never `= 0`.** CD2 initializes every `ms_pc<Name>Class` dynamically
+  (`= &X::StaticCreateClass();`), so a zero definition is a placeholder that leaves its initializer open. A 40-byte
+  initializer calls `StaticCreateClass`; a 176-188-byte one has it inlined (local-static guard, `cClass(id, "name", size)`)
+  and CD2 keeps no separate copy: that needs the in-class `static __forceinline` definition (cFreakSniperEvent.h), since
+  `/Ob1` declines a plain in-class one (A/B on cAnimParams, 2026-11-07). The class name in the matched `RetClass`/`IsA`
+  must be the one whose initializer sets that pointer (NPCBehaviour.cpp's first pair is NPCArmedBehaviour's). The AI
+  behaviour classes spell it `ms_p<Name>Class` (RuffKing), everything else `ms_pc<Name>Class`.
+- **A stand-in's base comes from CD2's inheritance registrar** (`cInheritanceRegistrar(Own::StaticCreateClass(),
+  Base::StaticCreateClass())`; its code calls the base's first), checked against RuffKing: deriving straight from
+  cNonGameBase or CAttributeHandler when both name an intermediate class is a placeholder. The registrar names the runtime
+  parent, which is not always the C++ base (cChaseBehaviour registers under NPCBehaviour but derives from
+  NPCBehaviourSM; the audio vehicle profiles register under cNonGameBase but derive from cAudioBaseProfile): where
+  RuffKing's header agrees with ours, keep ours. A `MakeNew` that allocates less than the registered class size builds
+  the prototype (`new XPrototype(packet)`, cCwCharacter), not the class.
 
 ## Traps
 - **Never reach memory by pointer arithmetic.** If CD2 reads `lwz r3, 0x50C(r31)`, the source read a member at 0x50C:
@@ -499,7 +513,10 @@ One line each: what is ruled out. Remove the line when the function matches.
   helpers, a three-component length with y = 0 (loses the fmadds), a conditional expression for `inv`,
   /O1, /O2, /Os.
 - `AI::cChaseBehaviour::Update` (99%): one compare, `cmpwi` in CD2 against our `cmplwi` on the word at `+0x4E4`; the
-  field's type is the lead. Chase F37 (0x824CEB38) needs a shared float-constant base register (LTCG limit).
+  field's type is the lead. `if ((int)reg && ...)` reproduces it but is a pointer turned into an integer (R4); it was
+  matched that way once and removed (2026-11-08). The word is also dereferenced (`lbz 0x37`), so it is a pointer
+  stored in a field whose real type compares as signed. Chase F37 (0x824CEB38) needs a shared float-constant base
+  register (LTCG limit).
 - `cCrowdZoneDataHolder::MakeNew` (0x8244A770) and `cStreamingDataHolder::MakeNew` (0x8244C010): `new` of a
   field-less cNonGameBase whose constructor CD2 inlines, then stores the vptrs through r3, the base constructor's
   return value. That is cross-module LTCG inlining (CD2 knows the constructor returns `this`); a plain compile keeps

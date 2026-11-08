@@ -22,6 +22,8 @@
 #include "Prop/cProp.h"
 #include "rws/classfactory.h"
 #include "fun_runtime/script_type_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/proto_registrar.h"
 #include "cd2/memory.h"
 #include <new>
 
@@ -41,6 +43,9 @@ namespace Prop
     static RWS::CClassFactory::CRegistrar cPropRegistrar(
         "cProp", cProp::MakeNew, 0xE30, false);
 
+    static GOM::cProtoRegistrar cPropSpawningRegistrar(
+        cProp::StaticCreateClass(), cProp::SpawnFromPrototype);
+
     // CD2 script-type registration names this child and parent.
     static Fun_Runtime::cScriptTypeRegistrar<cProp> cPropScriptRegistrar(
         "cProp", "cDynamicBody");
@@ -59,6 +64,9 @@ namespace Prop
     }
 
     const Fun_Runtime::cClass *cProp::ms_pcPropClass = &cProp::StaticCreateClass();
+
+    static Fun_Runtime::cInheritanceRegistrar cPropcNetDynamicBodyInheritRegistrar(
+        cProp::StaticCreateClass(), PHYSICS::cNetDynamicBody::StaticCreateClass());
 
     const Fun_Runtime::cClass &cProp::RetClass() const
     {

@@ -4,10 +4,11 @@
 #include "gom/non_game_base.h"
 #include "fun_runtime/class.h"
 #include "rws/attributes.h"
+#include "AI/cBreachHole.h"
 
 namespace AI
 {
-    class cGoliathBreachHole : public cNonGameBase
+    class cGoliathBreachHole : public cBreachHole
     {
     public:
         static Fun_Runtime::cClass &StaticCreateClass();

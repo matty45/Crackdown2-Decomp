@@ -4,10 +4,11 @@
 #include "cd2/layout.h"
 #include "rws/attributes.h"
 #include "fun_runtime/class.h"
+#include "gom/non_game_base.h"
 
 namespace Anim
 {
-    class cSkeletonProfile : public RWS::CAttributeHandler
+    class cSkeletonProfile : public cNonGameBase
     {
     public:
         virtual bool IsA(const Fun_Runtime::cClass &) const;
@@ -21,7 +22,7 @@ namespace Anim
         cSkeletonProfile(const RWS::CAttributePacket &packet);
 
     private:
-        unsigned char m_unmodelled18[0x190 - 0x18];
+        unsigned char m_unmodelled7C[0x190 - 0x7C];
 
         CD2_LAYOUT_CHECKS(cSkeletonProfile, CD2_SIZE(cSkeletonProfile, 0x190))
 

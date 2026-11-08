@@ -11,7 +11,7 @@
 
 namespace Audio
 {
-    const Fun_Runtime::cClass *cNPCDialogScheduler::ms_pcNPCDialogSchedulerClass = 0;
+    const Fun_Runtime::cClass *cNPCDialogScheduler::ms_pcNPCDialogSchedulerClass = &cNPCDialogScheduler::StaticCreateClass();
 
     cNPCDialogScheduler::cNPCDialogScheduler() {}
 

@@ -11,16 +11,9 @@
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/VFX/cBloom.cpp
 
-// Header constants: CD2's initializer run for this object shows these headers' constants in this order. RuffKing's
-// object gets them through its other headers (docs/matching-notes.md, "Header constants"); included directly here.
-#include "PHYSICS/physicsconsts.h"
-#include "CHARACTER/characterconsts.h"
-#include "PHYSICS/physicsproject.h"
-#include "CHARACTER/cCharacterController.h"
-#include "CHARACTER/cRagdollProfile.h"
-#include "AI/aiconstants.h"
 #include "rws/classfactory.h"
 #include "VFX/cBloom.h"
+#include "fun_runtime/inheritance_registrar.h"
 #include "cd2/memory.h"
 
 namespace VFX
@@ -30,17 +23,28 @@ namespace VFX
         return "cBloom";
     }
 
+    Fun_Runtime::cClass &cBloom::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cBloomClass = new Fun_Runtime::cClass(0xC823, "cBloom", 0x80);
+        return *cBloomClass;
+    }
+
+    const Fun_Runtime::cClass *cBloom::ms_pcBloomClass = &cBloom::StaticCreateClass();
+
+    static Fun_Runtime::cInheritanceRegistrar cBloomcNonGameBaseInheritRegistrar(
+        cBloom::StaticCreateClass(), cNonGameBase::StaticCreateClass());
+
     static RWS::CClassFactory::CRegistrar cBloomRegistrar(
         "cBloom", cBloom::MakeNew, 0x80, false);
 
     const Fun_Runtime::cClass &cBloom::RetClass() const
     {
-        return *ms_pccBloomClass;
+        return *ms_pcBloomClass;
     }
 
     bool cBloom::IsA(const Fun_Runtime::cClass &c) const
     {
-        return ms_pccBloomClass->IsA(c);
+        return ms_pcBloomClass->IsA(c);
     }
 
     RWS::CAttributeHandler *cBloom::MakeNew(const RWS::CAttributePacket &attr, bool)

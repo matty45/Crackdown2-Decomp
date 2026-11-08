@@ -22,6 +22,9 @@
 #include "Prop/cBoomBox.h"
 #include "Prop/cBoomBoxPrototype.h"
 #include <new>
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/proto_registrar.h"
+#include "cd2/memory.h"
 
 namespace Prop
 {
@@ -35,6 +38,20 @@ namespace Prop
         return "cBoomBox";
     }
 
+    const Fun_Runtime::cClass *cBoomBox::ms_pcBoomBoxClass = &cBoomBox::StaticCreateClass();
+
+    static Fun_Runtime::cInheritanceRegistrar cBoomBoxcPropInheritRegistrar(
+        cBoomBox::StaticCreateClass(), cProp::StaticCreateClass());
+
     static RWS::CClassFactory::CRegistrar cBoomBoxRegistrar(
         "cBoomBox", cBoomBox::MakeNew, 0xe30, false);
+
+    static GOM::cProtoRegistrar cBoomBoxSpawningRegistrar(
+        cBoomBox::StaticCreateClass(), cBoomBox::SpawnFromPrototype);
+
+    Fun_Runtime::cClass &cBoomBox::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cBoomBoxClass = new Fun_Runtime::cClass(0xD433, "cBoomBox", 0xE30);
+        return *cBoomBoxClass;
+    }
 }

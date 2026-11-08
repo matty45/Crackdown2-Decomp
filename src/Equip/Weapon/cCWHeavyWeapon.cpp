@@ -21,6 +21,7 @@
 #include "CHARACTER/cCharacterController.h"
 #include "CHARACTER/cRagdollProfile.h"
 #include "AI/aiconstants.h"
+#include "fun_runtime/inheritance_registrar.h"
 #include "cd2/memory.h"
 #include "Equip/cCWHeavyWeapon.h"
 #include "gom/proto_registrar.h"
@@ -64,6 +65,9 @@ namespace Equip
     }
 
     const Fun_Runtime::cClass *cCWHeavyWeapon::ms_pcCWHeavyWeaponClass = &cCWHeavyWeapon::StaticCreateClass();
+
+    static Fun_Runtime::cInheritanceRegistrar cCWHeavyWeaponcCWWeaponInheritRegistrar(
+        cCWHeavyWeapon::StaticCreateClass(), cCWWeapon::StaticCreateClass());
 
     const Fun_Runtime::cClass &cCWHeavyWeapon::RetClass() const
     {

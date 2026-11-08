@@ -11,6 +11,7 @@
 
 #include "rws/classfactory.h"
 #include "VFX/cParticleEffectResourceHolder.h"
+#include "fun_runtime/inheritance_registrar.h"
 #include "cd2/memory.h"
 #include "VFX/cParticleEffectManager.h"
 
@@ -44,6 +45,17 @@ namespace VFX
     }
 
     // CD2 0x830099C0 (initializer) and 0x83042970 (at-exit destructor).
+    Fun_Runtime::cClass &cParticleEffectResourceHolder::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cParticleEffectResourceHolderClass = new Fun_Runtime::cClass(0x1268, "cParticleEffectResourceHolder", 0x90);
+        return *cParticleEffectResourceHolderClass;
+    }
+
+    const Fun_Runtime::cClass *cParticleEffectResourceHolder::ms_pcParticleEffectResourceHolderClass = &cParticleEffectResourceHolder::StaticCreateClass();
+
+    static Fun_Runtime::cInheritanceRegistrar cParticleEffectResourceHoldercNonGameBaseInheritRegistrar(
+        cParticleEffectResourceHolder::StaticCreateClass(), cNonGameBase::StaticCreateClass());
+
     static RWS::CClassFactory::CRegistrar cParticleEffectResourceHolderRegistrar(
         "cParticleEffectResourceHolder", cParticleEffectResourceHolder::MakeNew, 0x90, false);
 }

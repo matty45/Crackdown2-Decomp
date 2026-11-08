@@ -8,6 +8,8 @@
 #include "AI/aiconstants.h"
 #include "CHARACTER/cCwCharacter.h"
 #include "rws/classfactory.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/proto_registrar.h"
 #include "cd2/memory.h"
 
 namespace CHARACTER
@@ -17,12 +19,26 @@ namespace CHARACTER
         return "cCwCharacter";
     }
 
+    const Fun_Runtime::cClass *cCwCharacter::ms_pcCwCharacterClass = &cCwCharacter::StaticCreateClass();
+
+    static Fun_Runtime::cInheritanceRegistrar cCwCharactercCharacterInheritRegistrar(
+        cCwCharacter::StaticCreateClass(), cCharacter::StaticCreateClass());
+
     static RWS::CClassFactory::CRegistrar cCwCharacterRegistrar(
         "cCwCharacter", cCwCharacter::MakeNew, 0x2CE0, false);
 
-    // CD2 0x8253F438: the class-factory constructor; the constructor stays out of line.
+    static GOM::cProtoRegistrar cCwCharacterSpawningRegistrar(
+        cCwCharacter::StaticCreateClass(), cCwCharacter::SpawnFromPrototype);
+
+    // CD2 0x8253F438: builds the prototype; its constructor stays out of line.
     RWS::CAttributeHandler *cCwCharacter::MakeNew(const RWS::CAttributePacket &packet, bool)
     {
-        return new cCwCharacter(packet);
+        return new cCwCharacterPrototype(packet);
+    }
+
+    Fun_Runtime::cClass &cCwCharacter::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cCwCharacterClass = new Fun_Runtime::cClass(0x6A2, "cCwCharacter", 0x2CE0);
+        return *cCwCharacterClass;
     }
 }

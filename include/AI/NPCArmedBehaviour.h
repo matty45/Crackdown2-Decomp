@@ -9,6 +9,10 @@ namespace AI
     {
     public:
         static Fun_Runtime::cClass &StaticCreateClass();
+        // CD2 0x8381E770: set by the initializer 0x82F91630 from StaticCreateClass; RetClass and IsA read it.
+        static const Fun_Runtime::cClass *ms_pNPCArmedBehaviourClass;
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
     private:
         unsigned char m_unmodelledC0[0xF0 - 0xC0];
     public:

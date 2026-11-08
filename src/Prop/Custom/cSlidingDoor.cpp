@@ -18,6 +18,8 @@
 #include "CHARACTER/characterconsts.h"
 #include "rws/classfactory.h"
 #include "Prop/cSlidingDoor.h"
+#include "fun_runtime/inheritance_registrar.h"
+#include "gom/proto_registrar.h"
 #include "cd2/memory.h"
 #include "fun_runtime/script_type_registrar.h"
 
@@ -28,8 +30,16 @@ namespace Prop
         return "cSlidingDoor";
     }
 
+    const Fun_Runtime::cClass *cSlidingDoor::ms_pcSlidingDoorClass = &cSlidingDoor::StaticCreateClass();
+
+    static Fun_Runtime::cInheritanceRegistrar cSlidingDoorcPrismaticPropInheritRegistrar(
+        cSlidingDoor::StaticCreateClass(), cPrismaticProp::StaticCreateClass());
+
     static RWS::CClassFactory::CRegistrar cSlidingDoorRegistrar(
         "cSlidingDoor", cSlidingDoor::MakeNew, 0xf00, false);
+
+    static GOM::cProtoRegistrar cSlidingDoorSpawningRegistrar(
+        cSlidingDoor::StaticCreateClass(), cSlidingDoor::SpawnFromPrototype);
 
     // CD2 0x827468e8: the class factory builds the prototype.
     RWS::CAttributeHandler *cSlidingDoor::MakeNew(const RWS::CAttributePacket &packet, bool)
@@ -40,4 +50,10 @@ namespace Prop
     // CD2 script-type registration names this child and parent.
     static Fun_Runtime::cScriptTypeRegistrar<cSlidingDoor> cSlidingDoorScriptRegistrar(
         "cSlidingDoor", "cPrismaticProp");
+
+    Fun_Runtime::cClass &cSlidingDoor::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cSlidingDoorClass = new Fun_Runtime::cClass(0x13882, "cSlidingDoor", 0xF00);
+        return *cSlidingDoorClass;
+    }
 }

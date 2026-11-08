@@ -21,7 +21,7 @@ namespace Prop
         // CD2 0x82743068: registered-class virtual slot 1.
         virtual bool IsA(const Fun_Runtime::cClass &c) const;
         // CD2 descriptor pointer 0x8384bce0; its initializer names cExplosiveBarrel.
-        static const Fun_Runtime::cClass *ms_pccExplosiveBarrelClass;
+        static const Fun_Runtime::cClass *ms_pcExplosiveBarrelClass;
         // CD2 descriptor 0x8222ee88 names this class; spawning registration 0x82FFA918.
         static Fun_Runtime::cClass &StaticCreateClass();
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);

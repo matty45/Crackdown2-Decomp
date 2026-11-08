@@ -12,6 +12,7 @@ namespace Vehicle
     class cGenVehicleProfile : public cNonGameBase
     {
     public:
+        static Fun_Runtime::cClass &StaticCreateClass();
         // CD2 0x8269C760: the allocation factory calls this constructor out of line.
         cGenVehicleProfile();
         // RuffKing defines the destructor inline; CD2's deleting wrapper restores
@@ -20,7 +21,7 @@ namespace Vehicle
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         virtual const Fun_Runtime::cClass &RetClass() const;
         // CD2 descriptor pointer 0x838474f0; its initializer names cGenVehicleProfile.
-        static const Fun_Runtime::cClass *ms_pccGenVehicleProfileClass;
+        static const Fun_Runtime::cClass *ms_pcGenVehicleProfileClass;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
 

@@ -9,6 +9,9 @@
 // 0x82773C00 returns it: cTimeOfDay's RetScriptTypeRegistration, slot 1 of the cScriptHost table 0x82147930 that
 // 0x82773FF4 installs. It stays open until this stand-in has its cScriptHost base. 0x82773C10..0x82773C30 return the
 // AIE_TOD* registrars: slot 1 of those event classes' own tables.
+// Known wrong, left for a structural fix: CD2 registers cTimeOfDay under Fun_Runtime::cScriptHost (inheritance registrar 0x830020B8) and
+// GDb::cDebugPageHandler (0x83002120); the stand-in models neither base, so its fields sit at their CD2 offsets
+// without the subobjects that hold them. RuffKing's bases differ (CAttributeHandler, CEventHandler, ... cDebugPageHandler).
 #ifndef SIM_CTIMEOFDAY_H
 #define SIM_CTIMEOFDAY_H
 

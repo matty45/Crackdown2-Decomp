@@ -8,11 +8,11 @@
 #include "AI/aiconstants.h"
 #include "AI/cTrainingRouteEvent.h"
 #include "rws/classfactory.h"
+#include "AI/BehaviourClassID.h"
+#include "cd2/memory.h"
 
 namespace AI
 {
-    const Fun_Runtime::cClass *cTrainingRouteEvent::ms_pcTrainingRouteEventClass = 0;
-
     cTrainingRouteEvent::cTrainingRouteEvent() {}
 
     const Fun_Runtime::cClass &cTrainingRouteEvent::RetClass() const
@@ -35,6 +35,14 @@ namespace AI
         return new cTrainingRouteEvent();
     }
 
+    const Fun_Runtime::cClass *cTrainingRouteEvent::ms_pcTrainingRouteEventClass = &cTrainingRouteEvent::StaticCreateClass();
+
     static RWS::CClassFactory::CRegistrar cTrainingRouteEventRegistrar(
         "cTrainingRouteEvent", cTrainingRouteEvent::MakeNew, 0x90, false);
+
+    Fun_Runtime::cClass &cTrainingRouteEvent::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cTrainingRouteEventClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "cTrainingRouteEvent", 0x90);
+        return *cTrainingRouteEventClass;
+    }
 }

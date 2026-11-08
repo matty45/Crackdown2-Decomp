@@ -13,6 +13,7 @@
 
 #include "rws/classfactory.h"
 #include "Vehicle/cGenVehicleProfile.h"
+#include "fun_runtime/inheritance_registrar.h"
 #include "cd2/memory.h"
 
 namespace Vehicle
@@ -41,7 +42,7 @@ namespace Vehicle
 
     bool cGenVehicleProfile::IsA(const Fun_Runtime::cClass &testClass) const
     {
-        return ms_pccGenVehicleProfileClass->IsA(testClass);
+        return ms_pcGenVehicleProfileClass->IsA(testClass);
     }
 
     const char *cGenVehicleProfile::RetClassName() const
@@ -49,12 +50,23 @@ namespace Vehicle
         return "cGenVehicleProfile";
     }
 
+    Fun_Runtime::cClass &cGenVehicleProfile::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cGenVehicleProfileClass = new Fun_Runtime::cClass(0x707, "cGenVehicleProfile", 0x7C);
+        return *cGenVehicleProfileClass;
+    }
+
+    const Fun_Runtime::cClass *cGenVehicleProfile::ms_pcGenVehicleProfileClass = &cGenVehicleProfile::StaticCreateClass();
+
+    static Fun_Runtime::cInheritanceRegistrar cGenVehicleProfilecNonGameBaseInheritRegistrar(
+        cGenVehicleProfile::StaticCreateClass(), cNonGameBase::StaticCreateClass());
+
     static RWS::CClassFactory::CRegistrar cGenVehicleProfileRegistrar(
         "cGenVehicleProfile", cGenVehicleProfile::MakeNew, 0x7c, false);
 
     const Fun_Runtime::cClass &cGenVehicleProfile::RetClass() const
     {
-        return *ms_pccGenVehicleProfileClass;
+        return *ms_pcGenVehicleProfileClass;
     }
 
     RWS::CAttributeHandler *cGenVehicleProfile::MakeNew(const RWS::CAttributePacket &, bool)

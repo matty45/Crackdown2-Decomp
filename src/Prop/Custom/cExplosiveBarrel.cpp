@@ -22,6 +22,8 @@
 #include "Prop/cExplosiveBarrelPrototype.h"
 #include "rw/rwmem.h"
 #include <new>
+#include "fun_runtime/inheritance_registrar.h"
+#include "cd2/memory.h"
 
 namespace Prop
 {
@@ -71,6 +73,17 @@ namespace Prop
         return "cExplosiveBarrel";
     }
 
+    Fun_Runtime::cClass &cExplosiveBarrel::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cExplosiveBarrelClass = new Fun_Runtime::cClass(0xD434, "cExplosiveBarrel", 0xE40);
+        return *cExplosiveBarrelClass;
+    }
+
+    const Fun_Runtime::cClass *cExplosiveBarrel::ms_pcExplosiveBarrelClass = &cExplosiveBarrel::StaticCreateClass();
+
+    static Fun_Runtime::cInheritanceRegistrar cExplosiveBarrelcPropInheritRegistrar(
+        cExplosiveBarrel::StaticCreateClass(), cProp::StaticCreateClass());
+
     static RWS::CClassFactory::CRegistrar cExplosiveBarrelRegistrar(
         "cExplosiveBarrel", cExplosiveBarrel::MakeNew, 0xe40, false);
 
@@ -80,12 +93,12 @@ namespace Prop
 
     const Fun_Runtime::cClass &cExplosiveBarrel::RetClass() const
     {
-        return *ms_pccExplosiveBarrelClass;
+        return *ms_pcExplosiveBarrelClass;
     }
 
     bool cExplosiveBarrel::IsA(const Fun_Runtime::cClass &c) const
     {
-        return ms_pccExplosiveBarrelClass->IsA(c);
+        return ms_pcExplosiveBarrelClass->IsA(c);
     }
 
     RWS::CAttributeHandler *cExplosiveBarrel::SpawnFromPrototype(GOM::cObjectPrototype *pPrototype, void *memory)

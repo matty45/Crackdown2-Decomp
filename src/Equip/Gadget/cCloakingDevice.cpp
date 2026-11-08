@@ -24,6 +24,7 @@
 #include "Equip/cCloakingDevice.h"
 #include "gom/proto_registrar.h"
 #include "fun_runtime/script_type_registrar.h"
+#include "fun_runtime/inheritance_registrar.h"
 #include "cd2/memory.h"
 #include "rws/classfactory.h"
 #include <new>
@@ -58,6 +59,9 @@ namespace Equip
     }
 
     const Fun_Runtime::cClass *cCloakingDevice::ms_pcCloakingDeviceClass = &cCloakingDevice::StaticCreateClass();
+
+    static Fun_Runtime::cInheritanceRegistrar cCloakingDevicecGrenadeInheritRegistrar(
+        cCloakingDevice::StaticCreateClass(), cGrenade::StaticCreateClass());
 
     const Fun_Runtime::cClass &cCloakingDevice::RetClass() const
     {

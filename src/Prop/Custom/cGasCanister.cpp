@@ -25,6 +25,8 @@
 #include "VFX/cParticleEffectManager.h"
 #include "rw/rwmem.h"
 #include <new>
+#include "fun_runtime/inheritance_registrar.h"
+#include "cd2/memory.h"
 
 namespace Prop
 {
@@ -107,6 +109,17 @@ namespace Prop
     {
         return "cGasCanister";
     }
+
+    Fun_Runtime::cClass &cGasCanister::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cGasCanisterClass = new Fun_Runtime::cClass(0xD432, "cGasCanister", 0xE40);
+        return *cGasCanisterClass;
+    }
+
+    const Fun_Runtime::cClass *cGasCanister::ms_pcGasCanisterClass = &cGasCanister::StaticCreateClass();
+
+    static Fun_Runtime::cInheritanceRegistrar cGasCanistercPropInheritRegistrar(
+        cGasCanister::StaticCreateClass(), cProp::StaticCreateClass());
 
     static RWS::CClassFactory::CRegistrar cGasCanisterRegistrar(
         "cGasCanister", cGasCanister::MakeNew, 0xe40, false);

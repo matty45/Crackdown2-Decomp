@@ -17,7 +17,7 @@
 
 namespace AI
 {
-    const Fun_Runtime::cClass *Pedestrian::ms_pcPedestrianClass = &Pedestrian::StaticCreateClass();
+    const Fun_Runtime::cClass *Pedestrian::ms_pPedestrianClass = &Pedestrian::StaticCreateClass();
 
     RWS::CAttributeHandler *Pedestrian::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
     {
@@ -28,12 +28,12 @@ namespace AI
 
     const Fun_Runtime::cClass &Pedestrian::RetClass() const
     {
-        return *ms_pcPedestrianClass;
+        return *ms_pPedestrianClass;
     }
 
     bool Pedestrian::IsA(const Fun_Runtime::cClass &c) const
     {
-        return ms_pcPedestrianClass->IsA(c);
+        return ms_pPedestrianClass->IsA(c);
     }
 
     const char *Pedestrian::RetClassName() const

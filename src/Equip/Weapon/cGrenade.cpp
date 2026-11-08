@@ -21,6 +21,7 @@
 #include "CHARACTER/cCharacterController.h"
 #include "CHARACTER/cRagdollProfile.h"
 #include "AI/aiconstants.h"
+#include "fun_runtime/inheritance_registrar.h"
 #include "cd2/memory.h"
 #include "Equip/cGrenade.h"
 #include "gom/proto_registrar.h"
@@ -64,6 +65,9 @@ namespace Equip
     }
 
     const Fun_Runtime::cClass *cGrenade::ms_pcGrenadeClass = &cGrenade::StaticCreateClass();
+
+    static Fun_Runtime::cInheritanceRegistrar cGrenadecWeaponInheritRegistrar(
+        cGrenade::StaticCreateClass(), cWeapon::StaticCreateClass());
 
     const Fun_Runtime::cClass &cGrenade::RetClass() const
     {
