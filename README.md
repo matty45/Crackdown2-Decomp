@@ -13,7 +13,7 @@ cannot influence (see "How correctness is guaranteed").
 |---|---|
 | Functions in the game | 74,550 (corrected function inventory), 14.3 MB of code |
 | Source files set up | 528 (77 of them open-source middleware) |
-| Functions matched | 11,482 (9,499 in a plain build, 1,983 more under link-time code generation), 984 of them open-source middleware |
+| Functions matched | 11,532 (9,548 in a plain build, 1,984 more under link-time code generation), 984 of them open-source middleware |
 | Full relink of the split game | byte-identical round trip (`tools/relink.py`) |
 
 The count flatters the progress: 6,798 of the matched functions are header-constant initializers, the same run of
@@ -31,15 +31,15 @@ breakdown and the per-file numbers.
 
 | | Functions | Code | |
 |---|---:|---:|---:|
-| Matched | 10,497 + 1 folded copy | 454.5 KB | 3.1% |
+| Matched | 10,547 + 1 folded copy | 456.4 KB | 3.1% |
 | In progress (tracked in the manifest, not yet exact) | 3 | 0.5 KB | 0.0% |
-| Open in the set-up source files | 3,855 | 1.20 MB | 8.4% |
+| Open in the set-up source files | 3,805 | 1.20 MB | 8.4% |
 | Game span not yet split into source files | 15,146 | 3.91 MB | 27.2% |
 | Order-list region, not yet assigned (hot functions of every object, game and library) | 2,856 | 1.61 MB | 11.2% |
 | Initializers and at-exit destructors, not yet assigned (every object's) | 17,038 | 0.59 MB | 4.1% |
 
 At least 5.1 MB of game code is left, plus the game's share of the order-list region and of the initializers. The
-matched code is about 5.7% of the game code, counting the whole order-list region and all unassigned initializers as
+matched code is about 5.8% of the game code, counting the whole order-list region and all unassigned initializers as
 game code.
 
 **Open-source middleware (its published source in `src/middleware/`, see below)**
