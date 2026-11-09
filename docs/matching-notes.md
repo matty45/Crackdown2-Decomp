@@ -745,14 +745,12 @@ One line each: what is ruled out. Remove the line when the function matches.
 - cCheckpointArena's secondary deleting thunk (0x8284E2A8) is plain EXACT but 0/2 words under LTCG; its deleting
   wrapper and seven ordinary member functions are independently EXACT in both modes. The thunk is unpromoted.
 - Lua 5.0.2: no open functions in its corrected 641-function inventory. Archive layout, selective call boundaries,
-  interpreter arithmetic and source-ownership gaps are recovered; see its README. The nominal 642-entry inventory
-  included a false split at 0x82946A24 inside the 176-byte reallymarkobject beginning at 0x82946980. IDA and the pinned
-  image confirm the full function; local build/cd2/symbols.txt is corrected. Regenerating the symbol list loses this
-  correction. The source splits include the IDA-confirmed archive/loadfile tail, five CRT thunks and VM loop.
-- libjpeg 6b: seven functions await the evidenced /Oi build-setting change and standard checks. With the current
-  selective helper annotations, the /Oi diagnostic preserves all 322 tracked matches and reproduces the remaining
-  seven bodies; the original MEMZERO/MEMCOPY operations remain intact. Earlier /O1 /Oi probes without these helper
-  boundaries did not cover all functions and do not rule out this configuration.
-- Embedded XDK open-source copies: d3dx9i.lib contains separate PNG, JPEG and older zlib implementations. These are
-  distinct from the source-matched middleware copies and remain to be inventoried and reconstructed from their
-  corresponding published releases. Proprietary XDK library identities alone do not count as source matches.
+  interpreter arithmetic and source-ownership gaps are recovered; see its README. jeff's analysis starts a false
+  function at 0x82946A24, inside the 176-byte reallymarkobject at 0x82946980; cd2.py drops any start inside a matched
+  function's manifest extent (matched_extents), in the inventory and in the symbol list setup splits with. The source
+  splits include the IDA-confirmed archive/loadfile tail, five CRT thunks and VM loop.
+- libjpeg 6b: all 329 functions pass standard checks. Enabling /Oi with the evidenced selective helper boundaries
+  preserves the existing 322 and makes the remaining seven exact. Published MEMZERO/MEMCOPY operations stay intact.
+  Earlier /O1 /Oi probes without those helper boundaries did not cover all functions and did not rule out this build.
+- XDK libraries remain linked from the pinned SDK. Their proprietary implementations, including code derived from
+  PNG, JPEG and zlib, are outside the published-source middleware matching scope.

@@ -78,9 +78,10 @@ and `lint` and `check` still list each waived finding.
 ## Match coverage
 
 All 641 Lua functions in the corrected source inventory pass `check`. IDA confirms that `reallymarkobject` spans
-`0x82946980..0x82946A30` (176 bytes); the extracted symbol list incorrectly split off its last 12 bytes as a second
-function. Correcting that local inventory removes the spurious 642nd entry. A future extraction regenerates the bad
-boundary and needs the same evidence-based correction in `build/cd2/symbols.txt` before checking this function.
+`0x82946980..0x82946A30` (176 bytes); jeff's analysis splits off its last 12 bytes as a second function. The match
+itself proves the full extent: `reallymarkobject` compiles exact over all 176 bytes, so `tools/cd2.py` drops any
+function start inside a matched function's manifest extent, in its inventory and in the symbol list `setup` splits
+with. There is no 642nd function.
 
 IDA also confirmed source ownership for the archive/loadfile tail, interpreter loop, and five CRT time forwarding
 thunks preceding liolib. Their source splits now include those ranges. Selectively inlined helpers share one

@@ -48,8 +48,8 @@ CODE_SECTIONS = ('.text', '.text$yc', '.text$yd')
 FILE_FLAGS = os.path.join(ROOT, 'config', 'file_flags.txt')
 # (a /D value is a name or number, or a quoted header name next to the file, for a library's configuration header such
 # as Lua's LUA_USER_H; /O1 and /fp:precise are a library's optimization level and floating-point model, and /TP compiles
-# a library's .c files as C++, as libjpeg's)
-FILE_OPTION = re.compile(r'^(?:/Ob[012]|/O[12]|/TP|/fp:(?:precise|fast|strict)|/D[A-Za-z_]\w*(?:=(?:[\w.]+|"\w+\.h"))?|plain)$')
+# a library's .c files as C++, as libjpeg's; /Oi enables the compiler's intrinsic implementations)
+FILE_OPTION = re.compile(r'^(?:/Ob[012]|/O[12]|/Oi|/TP|/fp:(?:precise|fast|strict)|/D[A-Za-z_]\w*(?:=(?:[\w.]+|"\w+\.h"))?|plain)$')
 
 
 def load_file_flags(path=None):
@@ -67,7 +67,7 @@ def load_file_flags(path=None):
             raise ValueError('%s line %d: a path without options' % (os.path.basename(path), n))
         bad = [o for o in body[1:] if not FILE_OPTION.match(o)]
         if bad:
-            raise ValueError('%s line %d: option(s) not allowed: %s (allowed: /Ob0-2, /O1, /O2, /TP, /fp:precise|fast|strict, /D<name>[=<value> or ="<header>.h"], plain)'
+            raise ValueError('%s line %d: option(s) not allowed: %s (allowed: /Ob0-2, /O1, /O2, /Oi, /TP, /fp:precise|fast|strict, /D<name>[=<value> or ="<header>.h"], plain)'
                              % (os.path.basename(path), n, ' '.join(bad)))
         out.append((body[0].replace('\\', '/'), body[1:]))
     return out

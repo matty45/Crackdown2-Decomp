@@ -33,20 +33,19 @@ DC value tables into one copy (`config/symbol_aliases.txt`).
 
 No behavior changes found. Explicit inlining annotations on helpers in jcparam, jcphuff, jdmarker, jquant1 and
 jquant2 reproduce CD2's observed calls and expansions. Their original spelling is unknown;
-the comments identify the affected target callers, and all existing matches in both files remain exact.
+the comments identify the affected target callers, and all existing matches in the affected files remain exact.
 
-## Coverage and remaining compiler setting
+## Match coverage
 
-322 of CD2's 329 libjpeg functions pass `check`. A separate compilation of all 44 sources with `/Oi` preserves all
-322 and reproduces the seven remaining bodies: jpeg_gen_optimal_table, both finish_pass_gather implementations,
-jinit_inverse_dct, jpeg_make_d_derived_tbl, get_dht and prepare_range_limit_table. This is diagnostic byte evidence;
-these seven are not promoted until the permitted compiler setting is configured and standard checks pass.
-The published MEMZERO/MEMCOPY calls are retained. `/Oi` controls their intrinsic expansion and scheduling.
+All 329 functions in CD2's Scaleform libjpeg source inventory pass `check`. `/Oi` preserves all 322 previously
+tracked matches and makes the remaining seven exact: jpeg_gen_optimal_table, both finish_pass_gather implementations,
+jinit_inverse_dct, jpeg_make_d_derived_tbl, get_dht and prepare_range_limit_table. The published MEMZERO/MEMCOPY calls
+remain intact; `/Oi` controls their intrinsic expansion and scheduling. See `config/file_flags.txt`.
 
 ## Matching rules
 
-The release breaks two of the repository's matching rules, which `config/middleware.txt` waives for this directory
-only: R4, because its memory manager hands out blocks that every module casts to its own structures and steps through
+The release breaks three of the repository's matching rules, which `config/middleware.txt` waives for this directory
+only: R1, for its conditional placeholder definitions of internal structures; R4, because its memory manager hands out blocks that every module casts to its own structures and steps through
 by offsets; R17, because its unrolled DCT and dithering code is written with regular index expressions such as
 `inptr[DCTSIZE*1]` and `errorptr[dir3+0]`. As for Lua (`src/middleware/lua/README.md`), this is the published source
 as its authors wrote it, not a reconstruction, so the rules have nothing to check here.

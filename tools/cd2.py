@@ -259,15 +259,51 @@ def game_references():
     return _references
 
 
+JEFF_FUNCTION = re.compile(r'^(\S+) = \.text:0x([0-9A-Fa-f]+); // type:function size:0x([0-9A-Fa-f]+)')
+
+
 def jeff_symbols():
-    """{address: (name, size)} of the functions jeff found (build/cd2/symbols.txt)."""
+    """{address: (name, size)} of the functions jeff found (build/cd2/symbols.txt), at the extents that matches prove
+    (matched_extents)."""
     out = {}
-    pat = re.compile(r'^(\S+) = \.text:0x([0-9A-Fa-f]+); // type:function size:0x([0-9A-Fa-f]+)')
     for line in open(os.path.join(WORK, 'symbols.txt')):
-        m = pat.match(line)
+        m = JEFF_FUNCTION.match(line)
         if m:
             out[int(m.group(2), 16)] = (m.group(1), int(m.group(3), 16))
+    return matched_extents(out)
+
+
+def matched_extents(syms):
+    """jeff's analysis can start a function inside another one (it cut the last 12 bytes of lgc.c's reallymarkobject off
+    as a function of their own). A matched function compiles exact over its manifest size, which proves its extent: a
+    start inside that extent is not a function, and the function reaches at least to the extent's end."""
+    starts = sorted(syms)
+    out = dict(syms)
+    for es in manifest()['files'].values():
+        for e in es:
+            a, size = int(e['address'], 16), e['size']
+            if not e.get('matching', True) or a not in out:
+                continue
+            for s in starts[bisect.bisect_right(starts, a):bisect.bisect_left(starts, a + size)]:
+                out.pop(s, None)
+            out[a] = (out[a][0], max(out[a][1], size))
     return out
+
+
+def write_jeff_symbols(syms):
+    """Write the extents of syms (jeff_symbols) back into build/cd2/symbols.txt: a function line not in syms is
+    dropped, and a size that differs is replaced."""
+    path = os.path.join(WORK, 'symbols.txt')
+    out = []
+    for line in open(path, newline=''):
+        m = JEFF_FUNCTION.match(line)
+        if m:
+            a = int(m.group(2), 16)
+            if a not in syms:
+                continue
+            line = line.replace('size:0x' + m.group(3), 'size:0x%X' % syms[a][1], 1)
+        out.append(line)
+    open(path, 'w', newline='').write(''.join(out))
 
 
 def manifest():
@@ -1110,6 +1146,7 @@ def cmd_setup(a):
     split('analysis', [], 'symbols.txt')
     shutil.rmtree(os.path.join(WORK, 'analysis'), ignore_errors=True)
     syms = jeff_symbols()
+    write_jeff_symbols(syms)  # so that the split below cuts each matched function at its proven extent
     # pass 2: one unit per source file (its text range) and one per extra function (hot, init, atexit), see unit_of
     units = []
     for f, e in load_splits(SPLITS).items():

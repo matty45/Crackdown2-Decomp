@@ -7,13 +7,13 @@ original Xbox 360 XDK compiler and the game's flags, produces code byte-identica
 Contributions are welcome **by hand or with any AI agent**. Every claimed match is recomputed by tools the contributor
 cannot influence (see "How correctness is guaranteed").
 
-## Status (2026-11-08)
+## Status (2026-11-09)
 
 | | |
 |---|---|
-| Functions in the game | 74,551 (as split by jeff), 14.3 MB of code |
+| Functions in the game | 74,550 (corrected function inventory), 14.3 MB of code |
 | Source files set up | 528 (77 of them open-source middleware) |
-| Functions matched | 11,359 (9,377 in a plain build, 1,982 more under link-time code generation), 897 of them open-source middleware |
+| Functions matched | 11,447 (9,464 in a plain build, 1,983 more under link-time code generation), 984 of them open-source middleware |
 | Full relink of the split game | byte-identical round trip (`tools/relink.py`) |
 
 The count flatters the progress: 6,082 of the matched functions are header-constant initializers, the same run of
@@ -31,8 +31,8 @@ breakdown and the per-file numbers.
 
 | | Functions | Code | |
 |---|---:|---:|---:|
-| Matched | 10,461 + 1 folded copy | 453.8 KB | 3.1% |
-| Open in the set-up source files | 3,880 | 1.19 MB | 8.3% |
+| Matched | 10,462 + 1 folded copy | 453.8 KB | 3.1% |
+| Open in the set-up source files | 3,890 | 1.20 MB | 8.4% |
 | Game span not yet split into source files | 15,146 | 3.91 MB | 27.2% |
 | Order-list region, not yet assigned (hot functions of every object, game and library) | 2,856 | 1.61 MB | 11.2% |
 | Initializers and at-exit destructors, not yet assigned (every object's) | 17,038 | 0.59 MB | 4.1% |
@@ -45,8 +45,8 @@ game code.
 
 | | Functions | Code | |
 |---|---:|---:|---:|
-| Matched: Lua 5.0.2 568 of 642, zlib 1.2.3 14 of 14, libjpeg 6b 315 of 329 | 897 | 185.2 KB | 1.3% |
-| Open (inlining that no known build setting reproduces) | 88 | 37.3 KB | 0.3% |
+| Matched: Lua 5.0.2 641 of 641, zlib 1.2.3 14 of 14, libjpeg 6b 329 of 329 | 984 | 215.6 KB | 1.5% |
+| Open | 0 | 0 | 0% |
 
 **Library code (linked from prebuilt libraries: identified in `config/library_splits.txt`, not decompiled)**
 
@@ -58,14 +58,15 @@ game code.
 | Wwise | 2,663 | 0.45 MB | 3.1% |
 | RenderWare AI | 198 | 45.8 KB | 0.3% |
 | Other (transport, xlip, ...) | 1,175 | 0.27 MB | 1.9% |
-| Library span not yet identified | 3,534 | 0.70 MB | 4.9% |
+| Library span not yet identified | 3,524 | 0.69 MB | 4.8% |
 
 - **Middleware:** CD2 links three open-source libraries outside the XDK: Lua 5.0.2 (`lua.lib`), zlib 1.2.3
   (`zlibXenon.lib`, inflate only) and IJG libjpeg 6b (Scaleform's `libjpeg.lib`). Their original source lives in
   `src/middleware/<library>/`, each with a README giving its origin, license, how CD2 built it and what CD2 changed.
   Original source is not reconstructed code, so the matching rules it breaks are waived for its directory only
-  (`config/middleware.txt`). The 88 open functions differ only in what the compiler inlined; what is ruled out is in
-  [docs/matching-notes.md](docs/matching-notes.md) ("Middleware").
+  (`config/middleware.txt`). All 984 functions in the corrected inventory match; recovered platform adaptations,
+  archive extensions and compiler behavior are documented in [docs/matching-notes.md](docs/matching-notes.md)
+  ("Middleware"). Proprietary XDK implementations stay linked from the pinned SDK.
 - **Older compilers:** CD2's PE header lists 609 C++ objects (Havok and RenderWare AI) from VS2005-era XDK compilers,
   14.00.1835, 1863, 2712, 2909 and 4404, which can never match with the pinned 15.00.8153 compiler. Older XDKs ship
   them, but the tools use only the pinned one.

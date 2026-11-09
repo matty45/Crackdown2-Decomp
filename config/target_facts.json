@@ -117484,6 +117484,48 @@
    },
    "size": 944
   },
+  "0x82F41C70": {
+   "plain": {
+    "constants": {},
+    "relocations": [
+     4,
+     804,
+     824,
+     844,
+     912
+    ],
+    "sha": "637f480a6e7c8b7b5e888bb722e3a612414e3c5a1a06d61c52c17b5d0450d5f3",
+    "strings": {},
+    "targets": [
+     [
+      4,
+      "call",
+      "0x82F1E3F0"
+     ],
+     [
+      804,
+      "call",
+      "0x82F47810"
+     ],
+     [
+      824,
+      "call",
+      "0x82F1E480"
+     ],
+     [
+      844,
+      "call",
+      "0x82F1E480"
+     ],
+     [
+      912,
+      "branch",
+      "0x82F1E440"
+     ]
+    ]
+   },
+   "size": 916
+  },
   "0x82F42008": {
    "plain": {
     "constants": {},
@@ -120251,6 +120293,36 @@
    },
    "size": 640
   },
+  "0x82F47C70": {
+   "plain": {
+    "constants": {},
+    "relocations": [
+     68,
+     140,
+     156
+    ],
+    "sha": "e616240721d3ac44d626db4719aba359910ab218b349243171db80affbf7590f",
+    "strings": {},
+    "targets": [
+     [
+      68,
+      "call",
+      "0x82F21F60"
+     ],
+     [
+      140,
+      "call",
+      "0x82F21F60"
+     ],
+     [
+      156,
+      "call",
+      "0x82F1E480"
+     ]
+    ]
+   },
+   "size": 184
+  },
   "0x82F47D28": {
    "plain": {
     "constants": {},
@@ -120712,6 +120784,36 @@
     ]
    },
    "size": 352
+  },
+  "0x82F49490": {
+   "plain": {
+    "constants": {},
+    "relocations": [
+     4,
+     624,
+     864
+    ],
+    "sha": "4d05e15eebf8be82d2cd4cc91df97edb65fdae4313eb39d2c8fc2eab1eff9468",
+    "strings": {},
+    "targets": [
+     [
+      4,
+      "call",
+      "0x82F1E3F0"
+     ],
+     [
+      624,
+      "call",
+      "0x82F21F60"
+     ],
+     [
+      864,
+      "branch",
+      "0x82F1E440"
+     ]
+    ]
+   },
+   "size": 868
   },
   "0x82F497F8": {
    "plain": {
@@ -122536,6 +122638,90 @@
    },
    "size": 240
   },
+  "0x82F4C7F8": {
+   "plain": {
+    "constants": {},
+    "relocations": [
+     4,
+     68,
+     732,
+     816
+    ],
+    "sha": "16493f0b7ee060cf81af1d03f27ad31cc8ffc77703b90b6c427d6d5138f2bbf4",
+    "strings": {},
+    "targets": [
+     [
+      4,
+      "call",
+      "0x82F1E400"
+     ],
+     [
+      68,
+      "call",
+      "0x82F21F60"
+     ],
+     [
+      732,
+      "call",
+      "0x82F1E480"
+     ],
+     [
+      816,
+      "branch",
+      "0x82F1E450"
+     ]
+    ]
+   },
+   "size": 820
+  },
+  "0x82F4CB30": {
+   "plain": {
+    "constants": {},
+    "relocations": [
+     4,
+     116,
+     144,
+     192,
+     220,
+     252
+    ],
+    "sha": "4985e67a0fed11954a0a80dea63fa69db4c2b772b957e32cd9496eb979397d14",
+    "strings": {},
+    "targets": [
+     [
+      4,
+      "call",
+      "0x82F1E3F4"
+     ],
+     [
+      116,
+      "call",
+      "0x82F47810"
+     ],
+     [
+      144,
+      "call",
+      "0x82F4C7F8"
+     ],
+     [
+      192,
+      "call",
+      "0x82F47810"
+     ],
+     [
+      220,
+      "call",
+      "0x82F4C7F8"
+     ],
+     [
+      252,
+      "branch",
+      "0x82F1E444"
+     ]
+    ]
+   },
+   "size": 256
+  },
   "0x82F4CC30": {
    "plain": {
     "constants": {},
@@ -123086,6 +123272,48 @@
     ]
    },
    "size": 136
+  },
+  "0x82F4DA30": {
+   "plain": {
+    "constants": {},
+    "relocations": [
+     4,
+     24,
+     164,
+     192,
+     228
+    ],
+    "sha": "1211aeecc0c51104aec6e9de6b4a720147bdf6b968d10f09356f3c4d6e6af3f8",
+    "strings": {},
+    "targets": [
+     [
+      4,
+      "call",
+      "0x82F1E3F8"
+     ],
+     [
+      24,
+      "call",
+      "0x82F4D100"
+     ],
+     [
+      164,
+      "call",
+      "0x82F47810"
+     ],
+     [
+      192,
+      "call",
+      "0x82F4C7F8"
+     ],
+     [
+      228,
+      "branch",
+      "0x82F1E448"
+     ]
+    ]
+   },
+   "size": 232
   },
   "0x82F4DB18": {
    "plain": {
@@ -123986,6 +124214,43 @@
     ]
    },
    "size": 596
+  },
+  "0x82F4F968": {
+   "plain": {
+    "constants": {},
+    "relocations": [
+     4,
+     40,
+     52,
+     124,
+     156
+    ],
+    "sha": "92d32c48e6028854c962bc97c4a3719459da46fe7f45ecc496ff73a3417d12f7",
+    "strings": {},
+    "targets": [
+     [
+      4,
+      "call",
+      "0x82F1E408"
+     ],
+     [
+      52,
+      "data",
+      "0x82F4F710"
+     ],
+     [
+      124,
+      "call",
+      "0x82F21F60"
+     ],
+     [
+      156,
+      "branch",
+      "0x82F1E458"
+     ]
+    ]
+   },
+   "size": 160
   },
   "0x82F4FA08": {
    "plain": {

@@ -58780,6 +58780,16 @@
         "symbol": "?encode_mcu_gather@@"
       },
       {
+        "address": "0x82F4C7F8",
+        "size": 820,
+        "symbol": "?jpeg_gen_optimal_table@@YAXPAUjpeg_compress_struct@@PAUJHUFF_TBL@@QAJ@Z"
+      },
+      {
+        "address": "0x82F4CB30",
+        "size": 256,
+        "symbol": "?finish_pass_gather@@YAXPAUjpeg_compress_struct@@@Z"
+      },
+      {
         "address": "0x82F4CC30",
         "size": 476,
         "symbol": "?start_pass_huff@@"
@@ -59104,6 +59114,11 @@
         "symbol": "?finish_pass_phuff@@YAXPAUjpeg_compress_struct@@@Z"
       },
       {
+        "address": "0x82F4DA30",
+        "size": 232,
+        "symbol": "?finish_pass_gather_phuff@@YAXPAUjpeg_compress_struct@@@Z"
+      },
+      {
         "address": "0x82F4DB18",
         "size": 492,
         "symbol": "?start_pass_phuff@@"
@@ -59413,9 +59428,19 @@
         "address": "0x82F4F710",
         "size": 596,
         "symbol": "?start_pass@@"
+      },
+      {
+        "address": "0x82F4F968",
+        "size": 160,
+        "symbol": "?jinit_inverse_dct@@YAXPAUjpeg_decompress_struct@@@Z"
       }
     ],
     "src/middleware/libjpeg/jdhuff.c": [
+      {
+        "address": "0x82F49490",
+        "size": 868,
+        "symbol": "?jpeg_make_d_derived_tbl@@YAXPAUjpeg_decompress_struct@@EHPAPAUd_derived_tbl@@@Z"
+      },
       {
         "address": "0x82F497F8",
         "size": 352,
@@ -59553,6 +59578,11 @@
         "symbol": "?get_sos@@"
       },
       {
+        "address": "0x82F41C70",
+        "size": 916,
+        "symbol": "?get_dht@@YAEPAUjpeg_decompress_struct@@@Z"
+      },
+      {
         "address": "0x82F42008",
         "size": 776,
         "symbol": "?get_dqt@@"
@@ -59643,6 +59673,11 @@
         "address": "0x82F479F0",
         "size": 640,
         "symbol": "?jpeg_calc_output_dimensions@@"
+      },
+      {
+        "address": "0x82F47C70",
+        "size": 184,
+        "symbol": "?prepare_range_limit_table@@YAXPAUjpeg_decompress_struct@@@Z"
       },
       {
         "address": "0x82F47D28",

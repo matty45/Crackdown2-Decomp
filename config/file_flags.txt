@@ -8,6 +8,7 @@
 #
 # Options (nothing else is accepted, so that no flag can change what a check proves):
 #   /Ob0 /Ob1 /Ob2         the inlining level (later options win over FLAGS: /Ob2 replaces /Ob1)
+#   /Oi                    enable the compiler intrinsic implementations (e.g. short memory clears)
 #   /O1 /O2                the optimization level of a library built for size or speed (/O1 replaces FLAGS' /Ox)
 #   /fp:precise|fast|strict  the floating-point model of a library (replaces FLAGS' /fp:fast)
 #   /TP                    compile a library's .c files as C++ (its symbols are then mangled C++ names)
@@ -40,7 +41,9 @@ src/middleware/zlib/   /Ob2   # 7 objects of CD2's zlibXenon.lib
 #   (jpeg_idct_float, jpeg_fdct_float, forward_DCT_float) are exact only with it. /GS loses six functions.
 # - Inlining: /Ob1 for most files and /O1's own /Ob2 for jcparam.c, jcsample.c and jmemmgr.c, the setting under which
 #   more of each file's CD2 functions compile exact; as with Lua, CD2's inlining lies between the two.
-src/middleware/libjpeg/   /O1 /Ob1 /fp:precise /TP /DNO_GETENV   # 44 objects of CD2's libjpeg.lib
+# - /Oi: XDK 9328 intrinsic memory operations preserve all 322 existing matches and reproduce the seven remaining
+#   functions, including jpeg_gen_optimal_table's local clears; the published MEMZERO/MEMCOPY calls stay intact.
+src/middleware/libjpeg/   /O1 /Ob1 /Oi /fp:precise /TP /DNO_GETENV   # 44 objects of CD2's libjpeg.lib
 src/middleware/libjpeg/jcparam.c   /Ob2   # /Ob2 12 exact, /Ob1 9
 src/middleware/libjpeg/jcsample.c   /Ob2   # /Ob2 10 exact, /Ob1 4
 src/middleware/libjpeg/jmemmgr.c   /Ob2   # /Ob2 15 exact, /Ob1 13
