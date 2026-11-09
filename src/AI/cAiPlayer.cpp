@@ -29,6 +29,12 @@
 #include "AI/cAIEvent.h"
 #include "AI/cDamageTakenEvent.h"
 #include "AI/cObjectInstigatorEvent.h"
+#include "AI/cShotsCounterEvent.h"
+#include "AI/cAttackedEvent.h"
+#include "AI/cVocalEvent.h"
+#include "AI/cPainVocalEvent.h"
+#include "AI/cDangerVocalEvent.h"
+#include "AI/cGrenadeVocalEvent.h"
 #include "Sim/cTimeOfDay.h"
 #include "cd2/memory.h"
 #include <new>
@@ -158,9 +164,39 @@ namespace AI
         return m_pInstigator;
     }
 
+    const Fun_Runtime::cScriptTypeRegistration *cShotsCounterEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cShotsCounterEvent;
+    }
+
+    const Fun_Runtime::cScriptTypeRegistration *cAttackedEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cAttackedEvent;
+    }
+
+    const Fun_Runtime::cScriptTypeRegistration *cVocalEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cVocalEvent;
+    }
+
     int cAiPlayer::RetConstantC8()
     {
         return 0xC8;
+    }
+
+    const Fun_Runtime::cScriptTypeRegistration *cPainVocalEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cPainVocalEvent;
+    }
+
+    const Fun_Runtime::cScriptTypeRegistration *cDangerVocalEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cDangerVocalEvent;
+    }
+
+    const Fun_Runtime::cScriptTypeRegistration *cGrenadeVocalEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cGrenadeVocalEvent;
     }
 
     cCharacterEntityIF *cDamageTakenEvent::RetInstigator()

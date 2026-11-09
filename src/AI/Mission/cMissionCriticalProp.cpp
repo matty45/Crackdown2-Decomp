@@ -40,11 +40,6 @@ namespace AI
         return "cMissionCriticalProp";
     }
 
-    // CD2 0x8245B1E0 has no derived cleanup beyond vtable restoration.
-    cMissionCriticalProp::~cMissionCriticalProp()
-    {
-    }
-
     RWS::CAttributeHandler *cMissionCriticalProp::SpawnFromPrototype(GOM::cObjectPrototype *pPrototype, void *pMem)
     {
         if (pMem)
@@ -56,6 +51,26 @@ namespace AI
     {
         static Fun_Runtime::cClass *cMissionCriticalPropClass = new Fun_Runtime::cClass(0x409, "cMissionCriticalProp", 0xE40);
         return *cMissionCriticalPropClass;
+    }
+
+    Fun_Runtime::RetVal cMissionCriticalProp::cMissionCriticalPropPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
+
+    cMissionCriticalProp::cMissionCriticalProp(GOM::cObjectPrototype *prototype)
+        : Prop::cProp(prototype), m_bInteractable(true)
+    {
+    }
+
+    // CD2 0x8245B1E0 has no derived cleanup beyond vtable restoration.
+    cMissionCriticalProp::~cMissionCriticalProp()
+    {
+    }
+
+    Fun_Runtime::RetVal cMissionCriticalProp::Init(const GOM::cSpawner *spawner)
+    {
+        return Prop::cProp::Init(spawner);
     }
 
     const Fun_Runtime::cClass *cMissionCriticalProp::ms_pcMissionCriticalPropClass = &cMissionCriticalProp::StaticCreateClass();
@@ -71,8 +86,4 @@ namespace AI
     static GOM::cProtoRegistrar cMissionCriticalPropSpawningRegistrar(
         cMissionCriticalProp::StaticCreateClass(), cMissionCriticalProp::SpawnFromPrototype);
 
-    Fun_Runtime::RetVal cMissionCriticalProp::cMissionCriticalPropPrototype::Init(const RWS::CAttributePacket &)
-    {
-        return Ret_OK;
-    }
 }

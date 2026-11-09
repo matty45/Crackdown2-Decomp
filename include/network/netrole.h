@@ -6,7 +6,14 @@
 
 #include "cd2/layout.h"
 
-enum etNetRole { };
+// RuffKing's enum names/order; CD2 time-of-day authority callback compares its role with 3.
+enum etNetRole
+{
+    eNR_None = 0,
+    eNR_DumbProxy,
+    eNR_SimulatedProxy,
+    eNR_Authority
+};
 
 namespace Network
 {
@@ -17,6 +24,8 @@ namespace Network
 
     public:
         cNetRoleObject();
+        // Descriptive accessor name is ours; exposes the reference-named role member.
+        etNetRole RetNetRole() const { return m_eNetRole; }
         virtual ~cNetRoleObject();
         virtual void SetNetRole(etNetRole);
         virtual void OnEnterNetRoleAuthority(etNetRole);

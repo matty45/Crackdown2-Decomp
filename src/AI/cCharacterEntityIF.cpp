@@ -27,6 +27,18 @@
 #include "CHARACTER/cCharacterInterface.h"
 #include "AI/cCharacterEntityIF.h"
 #include "AI/cObjectInstigatorEvent.h"
+#include "AI/cDamageTakenEvent.h"
+#include "AI/cDiedEvent.h"
+#include "AI/cTouchedGrenadeEvent.h"
+#include "AI/cTouchedEvent.h"
+#include "AI/cInterestingObjectBasicReactionEvent.h"
+#include "AI/cInterestingObjectEvent.h"
+#include "AI/cTargetedEvent.h"
+#include "AI/cEjectedFromVehicleEvent.h"
+#include "AI/cSetOnFireEvent.h"
+#include "AI/cEndFireEvent.h"
+#include "AI/cCarriedObjectLostEvent.h"
+#include "AI/cEquipmentLostEvent.h"
 #include "AI/cMovementTypeScriptRegistration.h"
 #include "AI/cPerceptionOptionsScriptRegistration.h"
 #include "AI/cStateScriptRegistration.h"
@@ -228,9 +240,80 @@ namespace AI
         return t->m_fViewingAngle;
     }
 
+    cObjectInstigatorEvent::cObjectInstigatorEvent(Fun_Runtime::cScriptHost *source,
+        cCharacterEntityIF *instigator, cNonGameBase *object)
+        : cAIEvent(0x6B, source), m_pObject(object), m_pInstigator(instigator)
+    {
+    }
+
+    const Fun_Runtime::cScriptTypeRegistration *cObjectInstigatorEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cObjectApproachingEvent;
+    }
+
     bool cObjectInstigatorEvent::IsValid()
     {
         return cAIEvent::IsValid() && m_pObject != 0;
+    }
+
+    const Fun_Runtime::cScriptTypeRegistration *cEjectedFromVehicleEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cEjectedFromVehicleEvent;
+    }
+
+    const Fun_Runtime::cScriptTypeRegistration *cTargetedEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cTargetedEvent;
+    }
+
+    const Fun_Runtime::cScriptTypeRegistration *cInterestingObjectEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cInterestingObjectEvent;
+    }
+
+    const Fun_Runtime::cScriptTypeRegistration *cInterestingObjectBasicReactionEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cInterestingObjectBasicReactionEvent;
+    }
+
+    const Fun_Runtime::cScriptTypeRegistration *cDamageTakenEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cDamageTakenEvent;
+    }
+
+    const Fun_Runtime::cScriptTypeRegistration *cDiedEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cDiedEvent;
+    }
+
+    const Fun_Runtime::cScriptTypeRegistration *cEquipmentLostEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cEquipmentLostEvent;
+    }
+
+    const Fun_Runtime::cScriptTypeRegistration *cCarriedObjectLostEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cCarriedObjectLostEvent;
+    }
+
+    const Fun_Runtime::cScriptTypeRegistration *cSetOnFireEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cSetOnFireEvent;
+    }
+
+    const Fun_Runtime::cScriptTypeRegistration *cEndFireEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cEndFireEvent;
+    }
+
+    const Fun_Runtime::cScriptTypeRegistration *cTouchedEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cTouchedEvent;
+    }
+
+    const Fun_Runtime::cScriptTypeRegistration *cTouchedGrenadeEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cTouchedGrenadeEvent;
     }
 
     static RWS::CClassFactory::CRegistrar cCharacterEntityIFRegistrar(

@@ -2173,6 +2173,36 @@
     ],
     "src/AI/cAiPlayer.cpp": [
       {
+        "address": "0x823E7AB0",
+        "size": 12,
+        "symbol": "?RetScriptTypeRegistration@cAttackedEvent@AI@@"
+      },
+      {
+        "address": "0x823E7C08",
+        "size": 12,
+        "symbol": "?RetScriptTypeRegistration@cGrenadeVocalEvent@AI@@"
+      },
+      {
+        "address": "0x823E7BF8",
+        "size": 12,
+        "symbol": "?RetScriptTypeRegistration@cDangerVocalEvent@AI@@"
+      },
+      {
+        "address": "0x823E7BE8",
+        "size": 12,
+        "symbol": "?RetScriptTypeRegistration@cPainVocalEvent@AI@@"
+      },
+      {
+        "address": "0x823E7B20",
+        "size": 12,
+        "symbol": "?RetScriptTypeRegistration@cVocalEvent@AI@@"
+      },
+      {
+        "address": "0x823E7AA0",
+        "size": 12,
+        "symbol": "?RetScriptTypeRegistration@cShotsCounterEvent@AI@@"
+      },
+      {
         "address": "0x823E7988",
         "size": 12,
         "symbol": "?RetName@cTriggerEventFlagsScriptRegistration@AI@@"
@@ -2501,6 +2531,82 @@
       }
     ],
     "src/AI/cCharacterEntityIF.cpp": [
+      {
+        "address": "0x823EC280",
+        "size": 228,
+        "symbol": "??0cObjectInstigatorEvent@AI@@"
+      },
+      {
+        "address": "0x823EC3A0",
+        "size": 196,
+        "symbol": "??_GcObjectInstigatorEvent@AI@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x823EC890",
+        "size": 12,
+        "symbol": "?RetScriptTypeRegistration@cTouchedGrenadeEvent@AI@@"
+      },
+      {
+        "address": "0x823EC880",
+        "size": 12,
+        "symbol": "?RetScriptTypeRegistration@cTouchedEvent@AI@@"
+      },
+      {
+        "address": "0x823EC618",
+        "size": 12,
+        "symbol": "?RetScriptTypeRegistration@cInterestingObjectBasicReactionEvent@AI@@"
+      },
+      {
+        "address": "0x823EC608",
+        "size": 12,
+        "symbol": "?RetScriptTypeRegistration@cInterestingObjectEvent@AI@@"
+      },
+      {
+        "address": "0x823EC528",
+        "size": 12,
+        "symbol": "?RetScriptTypeRegistration@cTargetedEvent@AI@@"
+      },
+      {
+        "address": "0x823EC518",
+        "size": 12,
+        "symbol": "?RetScriptTypeRegistration@cEjectedFromVehicleEvent@AI@@"
+      },
+      {
+        "address": "0x823EC860",
+        "size": 12,
+        "symbol": "?RetScriptTypeRegistration@cSetOnFireEvent@AI@@"
+      },
+      {
+        "address": "0x823EC870",
+        "size": 12,
+        "symbol": "?RetScriptTypeRegistration@cEndFireEvent@AI@@"
+      },
+      {
+        "address": "0x823EC850",
+        "size": 12,
+        "symbol": "?RetScriptTypeRegistration@cCarriedObjectLostEvent@AI@@"
+      },
+      {
+        "address": "0x823EC840",
+        "size": 12,
+        "symbol": "?RetScriptTypeRegistration@cEquipmentLostEvent@AI@@"
+      },
+      {
+        "address": "0x823EC830",
+        "size": 12,
+        "symbol": "?RetScriptTypeRegistration@cDiedEvent@AI@@"
+      },
+      {
+        "address": "0x823EC780",
+        "size": 12,
+        "symbol": "?RetScriptTypeRegistration@cDamageTakenEvent@AI@@"
+      },
+      {
+        "address": "0x823EC368",
+        "size": 12,
+        "symbol": "?RetScriptTypeRegistration@cObjectInstigatorEvent@AI@@"
+      },
       {
         "address": "0x823EC048",
         "size": 36,
@@ -30779,6 +30885,56 @@
     ],
     "src/Sim/cTimeOfDay.cpp": [
       {
+        "address": "0x82774798",
+        "size": 48,
+        "symbol": "?TODForceUpdatePhase@Sim@@"
+      },
+      {
+        "address": "0x83002028",
+        "size": 104,
+        "symbol": "??__EcTODNotificationcScriptHostInheritRegistrar@Sim@@"
+      },
+      {
+        "address": "0x83002000",
+        "size": 40,
+        "symbol": "??__E?ms_pcTODNotificationClass@cTODNotification@Sim@@"
+      },
+      {
+        "address": "0x82773C40",
+        "size": 152,
+        "symbol": "?StaticCreateClass@cTODNotification@Sim@@"
+      },
+      {
+        "address": "0x82773BA8",
+        "size": 68,
+        "symbol": "?MakeNew@cTimeOfDay@Sim@@"
+      },
+      {
+        "address": "0x82773C30",
+        "size": 12,
+        "symbol": "?RetScriptTypeRegistration@cTimePeriodChangedEvent@AI@@"
+      },
+      {
+        "address": "0x82773C20",
+        "size": 12,
+        "symbol": "?RetScriptTypeRegistration@cTODDawnEvent@AI@@"
+      },
+      {
+        "address": "0x82773C10",
+        "size": 12,
+        "symbol": "?RetScriptTypeRegistration@cTODDuskEvent@AI@@"
+      },
+      {
+        "address": "0x82773C00",
+        "size": 12,
+        "symbol": "?RetScriptTypeRegistration@cTimeOfDay@Sim@@"
+      },
+      {
+        "address": "0x82773BF0",
+        "size": 12,
+        "symbol": "?RetClassName@cTimeOfDay@Sim@@"
+      },
+      {
         "address": "0x82773CD8",
         "size": 152,
         "symbol": "?StaticCreateClass@cTimeOfDay@Sim@@"
@@ -31631,6 +31787,16 @@
     ],
     "src/AI/Mission/cMissionCriticalProp.cpp": [
       {
+        "address": "0x8245B298",
+        "size": 48,
+        "symbol": "?Init@cMissionCriticalProp@AI@@"
+      },
+      {
+        "address": "0x8245B0C8",
+        "size": 196,
+        "symbol": "??0cMissionCriticalProp@AI@@"
+      },
+      {
         "address": "0x8245AF38",
         "size": 12,
         "symbol": "?RetClassName@cMissionCriticalProp@AI@@"
@@ -31804,6 +31970,91 @@
       }
     ],
     "src/AI/cBeaconProp.cpp": [
+      {
+        "address": "0x8245C470",
+        "size": 220,
+        "symbol": "??0cBeaconProp@AI@@"
+      },
+      {
+        "address": "0x8245C2A8",
+        "size": 228,
+        "symbol": "??_GcBeaconProp@AI@@"
+      },
+      {
+        "address": "0x8245C5C8",
+        "size": 24,
+        "symbol": "?PreAddToPhysicsWorld@cBeaconProp@AI@@"
+      },
+      {
+        "address": "0x8245C6D0",
+        "size": 8,
+        "symbol": "??_EcBeaconProp@AI@@WBCA@AAPAXI@Z"
+      },
+      {
+        "address": "0x8245C6C8",
+        "size": 8,
+        "symbol": "??_EcBeaconProp@AI@@WCJE@AAPAXI@Z"
+      },
+      {
+        "address": "0x8245C6C0",
+        "size": 8,
+        "symbol": "?IsA@cBeaconProp@AI@@WEOA@BA_NABVcClass@Fun_Runtime@@@Z"
+      },
+      {
+        "address": "0x8245C6B8",
+        "size": 8,
+        "symbol": "??_EcBeaconProp@AI@@WCFA@AAPAXI@Z"
+      },
+      {
+        "address": "0x8245C6B0",
+        "size": 8,
+        "symbol": "??_EcBeaconProp@AI@@WBM@AAPAXI@Z"
+      },
+      {
+        "address": "0x8245C6A8",
+        "size": 8,
+        "symbol": "?RetClass@cBeaconProp@AI@@WEOA@BAABVcClass@Fun_Runtime@@XZ"
+      },
+      {
+        "address": "0x8245C6A0",
+        "size": 8,
+        "symbol": "??_EcBeaconProp@AI@@WDI@AAPAXI@Z"
+      },
+      {
+        "address": "0x8245C698",
+        "size": 8,
+        "symbol": "??_EcBeaconProp@AI@@WFBA@AAPAXI@Z"
+      },
+      {
+        "address": "0x8245C690",
+        "size": 8,
+        "symbol": "??_EcBeaconProp@AI@@WBI@AAPAXI@Z"
+      },
+      {
+        "address": "0x8245C688",
+        "size": 8,
+        "symbol": "??_EcBeaconProp@AI@@WOEA@AAPAXI@Z"
+      },
+      {
+        "address": "0x8245C680",
+        "size": 8,
+        "symbol": "?IsA@cBeaconProp@AI@@WPA@BA_NABVcClass@Fun_Runtime@@@Z"
+      },
+      {
+        "address": "0x8245C678",
+        "size": 8,
+        "symbol": "?RetClass@cBeaconProp@AI@@WPA@BAABVcClass@Fun_Runtime@@XZ"
+      },
+      {
+        "address": "0x8245C670",
+        "size": 8,
+        "symbol": "??_EcBeaconProp@AI@@WHKM@AAPAXI@Z"
+      },
+      {
+        "address": "0x8245C1A0",
+        "size": 92,
+        "symbol": "?IsA@cBeaconProp@AI@@"
+      },
       {
         "address": "0x8245C278",
         "size": 12,

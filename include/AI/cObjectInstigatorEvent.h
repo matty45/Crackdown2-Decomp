@@ -11,6 +11,7 @@
 
 #include "AI/cAIEvent.h"
 #include "AI/cCharacterEntityIF.h"
+#include "fun_runtime/script_type_registrar.h"
 #include "fun_runtime/safedeletablepointer.h"
 #include "cd2/layout.h"
 
@@ -36,5 +37,9 @@ namespace AI
             CD2_OFFSET(cObjectInstigatorEvent, m_pInstigator, 0x54))
     };
 }
+
+// CD2 0x82F77DF8 registers this event as AIE_OBJECT_APPROACHING under AIEvent;
+// primary slot 1 (0x823EC368) returns its registrar at 0x8381764C. Global name is ours.
+extern Fun_Runtime::cScriptTypeRegistrar<AI::cObjectInstigatorEvent> g_cObjectApproachingEvent;
 
 #endif // AI_COBJECTINSTIGATOREVENT_H

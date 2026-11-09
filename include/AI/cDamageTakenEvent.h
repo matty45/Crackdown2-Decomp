@@ -14,6 +14,7 @@
 #include "AI/cAIEvent.h"
 #include "AI/cCharacterEntityIF.h"
 #include "fun_runtime/safedeletablepointer.h"
+#include "fun_runtime/script_type_registrar.h"
 #include "cd2/layout.h"
 
 namespace AI
@@ -21,6 +22,8 @@ namespace AI
     class cDamageTakenEvent : public cAIEvent
     {
     public:
+        // CD2 primary table 0x820FBFF8 slot 1, installed by constructor 0x823EC628.
+        virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         cCharacterEntityIF *RetInstigator();
 
     protected:
@@ -31,5 +34,8 @@ namespace AI
             CD2_OFFSET(cDamageTakenEvent, m_pInstigator, 0x44))
     };
 }
+
+// CD2 0x82F7AF68 registers AIE_DAMAGE_TAKEN under AIEvent at 0x83818CE0; global name is ours.
+extern Fun_Runtime::cScriptTypeRegistrar<AI::cDamageTakenEvent> g_cDamageTakenEvent;
 
 #endif // AI_CDAMAGETAKENEVENT_H

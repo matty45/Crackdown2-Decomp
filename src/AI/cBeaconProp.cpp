@@ -25,11 +25,22 @@
 #include "AI/cMissionCriticalProp.h"
 #include "rws/classfactory.h"
 #include "AI/cBeaconProp.h"
+#include "Havok/hkRigidBody.h"
 #include "cd2/memory.h"
 #include <new>
 
 namespace AI
 {
+    const Fun_Runtime::cClass &cBeaconProp::RetClass() const
+    {
+        return *ms_pcBeaconPropClass;
+    }
+
+    bool cBeaconProp::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcBeaconPropClass->IsA(c);
+    }
+
     RWS::CAttributeHandler *cBeaconProp::MakeNew(const RWS::CAttributePacket &packet, bool)
     {
         return new cBeaconPropPrototype(packet);
@@ -53,17 +64,22 @@ namespace AI
         return *cBeaconPropClass;
     }
 
+    Fun_Runtime::RetVal cBeaconProp::cBeaconPropPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
+
+    cBeaconProp::cBeaconProp(GOM::cObjectPrototype *prototype)
+        : cMissionCriticalProp(prototype), m_pBeaconMission(0)
+    {
+    }
+
+    void cBeaconProp::PreAddToPhysicsWorld()
+    {
+        m_pRigidBody->addEntityListener(this);
+    }
+
     const Fun_Runtime::cClass *cBeaconProp::ms_pcBeaconPropClass = &cBeaconProp::StaticCreateClass();
-
-    const Fun_Runtime::cClass &cBeaconProp::RetClass() const
-    {
-        return *ms_pcBeaconPropClass;
-    }
-
-    bool cBeaconProp::IsA(const Fun_Runtime::cClass &c) const
-    {
-        return ms_pcBeaconPropClass->IsA(c);
-    }
 
     static RWS::CClassFactory::CRegistrar cBeaconPropRegistrar(
         "cBeaconProp", cBeaconProp::MakeNew, 0xE50, false);
@@ -76,8 +92,4 @@ namespace AI
     static GOM::cProtoRegistrar cBeaconPropSpawningRegistrar(
         cBeaconProp::StaticCreateClass(), cBeaconProp::SpawnFromPrototype);
 
-    Fun_Runtime::RetVal cBeaconProp::cBeaconPropPrototype::Init(const RWS::CAttributePacket &)
-    {
-        return Ret_OK;
-    }
 }

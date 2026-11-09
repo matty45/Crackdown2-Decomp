@@ -1,16 +1,19 @@
-#include "Prop/cProp.h"
-#include "gom/object_prototype.h"
-#include "rws/attributes.h"
-// AI::cBeaconProp (Crackdown 2): STAND-IN for the class name only. Base AI::cMissionCriticalProp, as in RuffKing's
-// header; RetClassName (0x8245C278) is slot 11 of the vtable at 0x82103748, as cNonGameBase's RetClassName.
+// AI::cBeaconProp (Crackdown 2): STAND-IN with reference base order cMissionCriticalProp, hkEntityListener.
+// CD2 constructor 0x8245C470 confirms the listener at +0xE40 and mission pointer at +0xE44, size 0xE50.
+// RetClassName (0x8245C278) is primary slot 11 of table 0x82103748, as cNonGameBase's RetClassName.
 #ifndef AI_CBEACONPROP_H
 #define AI_CBEACONPROP_H
 
+#include "Prop/cProp.h"
+#include "gom/object_prototype.h"
+#include "rws/attributes.h"
 #include "AI/cMissionCriticalProp.h"
+#include "Havok/hkEntityListener.h"
 
 namespace AI
 {
-    class cBeaconProp : public AI::cMissionCriticalProp
+    class cBeaconMission;
+    class cBeaconProp : public AI::cMissionCriticalProp, public hkEntityListener
     {
     public:
         // RuffKing: cBeaconPropPrototype : cMissionCriticalPropPrototype, 1280 bytes. CD2's MakeNew (0x8245C200)
@@ -31,12 +34,27 @@ namespace AI
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         // CD2 0x8245C470: the placement factory (0x8245C288) calls it out of line with the prototype.
         cBeaconProp(GOM::cObjectPrototype *);
+        // CD2's deleting wrapper inlines all base-table restores and the cMissionCriticalProp destructor call.
+        // Ordinary inline leaves a separate destructor call in this compiler; force the evidenced inlining.
+        virtual __forceinline ~cBeaconProp() {}
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         static const Fun_Runtime::cClass *ms_pcBeaconPropClass;
         virtual const Fun_Runtime::cClass &RetClass() const;
         static Fun_Runtime::cClass &StaticCreateClass();
         virtual const char *RetClassName() const;
+        // CD2 primary slot 341; cMissionCriticalProp retains cProp's 341-entry primary interface.
+        virtual void SetupForBeaconReplication();
+        virtual void PreAddToPhysicsWorld();
+        virtual void entityAddedCallback(hkEntity *);
+        virtual void entityRemovedCallback(hkEntity *);
+        virtual void entityDeletedCallback(hkEntity *);
+    protected:
+        // Reference member name/order; CD2's hkEntityListener starts at +0xE40.
+        cBeaconMission *m_pBeaconMission;
+        CD2_LAYOUT_CHECKS(cBeaconProp,
+            CD2_SIZE(cBeaconProp, 0xE50)
+            CD2_OFFSET(cBeaconProp, m_pBeaconMission, 0xE44))
     };
 }
 

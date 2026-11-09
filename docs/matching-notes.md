@@ -78,7 +78,7 @@ end, in one line, and is removed when the function matches. History belongs in g
   (0x823EC280) initializes each payload, installs its typed safe-pointer vptr, then links the node. A/B: putting
   insertion in cSafeDeletablePointerBase leaves extra base/derived vptr stores (22/57 LTCG words); initializing
   the payload in the base and inserting from the typed constructor gives 57/57 words in both builds. The constructor
-  remains unpromoted pending the safe-pointer alias noted under Open functions.
+  and deleting wrapper now pass with the constructor's evidenced typed safe-pointer table alias.
 - **Checkpoint vectors need the real wrapper, and the clear call must select the intended layer.**
   At cCheckpointArena::AddCheckpoint (0x8284E248), the legacy cVec declaration keeps the pointer parameter on
   the stack across append; using the shared Fun_Runtime::cVector exposes its real append body and restores CD2's
@@ -171,6 +171,11 @@ end, in one line, and is removed when the function matches. History belongs in g
     embedded handler), is not inlined into `MakeNew` unless each is `__forceinline`. A loop helper CD2 inlines
     (`AIDamageCache::Read`) also needed it.
   - In-class virtuals called qualified (`Base::OnVFXFinished()`) are inlined.
+  - A destructor can be too large for ordinary `inline` even when its source body is empty: restoring many
+    inherited tables is part of its compiled body. cBeaconProp's deleting wrapper (0x8245C2A8) is only 1/57 words
+    with ordinary inline because it calls a separate destructor. `__forceinline` yields all 57/57 words in plain
+    and LTCG, including the table restores and the cMissionCriticalProp destructor call. The complete base chain
+    and constructor also generate its thirteen adjustment thunks naturally; do not handwrite their adjustments.
   - An inline override that calls its base and returns a constant (`{ cNonGameBase::Term(); return Ret_OK; }`) leaves
     a dead load of the constant when it is inlined; its out-of-line copy exists only for the vtable.
   - Restoring an inline helper the original used can keep instructions a direct field access loses: a downcast helper
@@ -542,8 +547,8 @@ Middleware with published source lives in `src/middleware/<library>/` (each with
 
 ## Open functions
 One line each: what is ruled out. Remove the line when the function matches.
+- cTODNotification constructor (0x82773E90): typed fields/event ID and a body assignment for days-passed give 19/28 words in plain and LTCG; initializing days-passed in the member list gives 17/28. Early this/vptr scheduling differs, standard search finds no improvement, and removing the registered-class base changes no code. Constructor probe removed.
 - cCharacterInterface::IsA (0x8254E7B0) is byte-exact in both builds, but it reads the 0x830ACBD8 global-constant copy while this file's constructor/constants use 0x830C0E04; the per-file global identity conflicts. Probe removed rather than promoting a WRONG TARGET dependency.
-- cObjectInstigatorEvent constructor (0x823EC280) is byte-exact in both builds, and its implicit deleting wrapper (0x823EC3A0) is LTCG-exact with that body present; the constructor's relocation check needs cSafeDeletablePointer<cCharacterEntityIF> added to the 0x82155680 alias group. Constructor probe removed under the current config-edit restriction; IsValid is independently exact.
 - Enum value registration at 0x823EECB0: direct Lua pushlstring/pushnumber/settable calls have the right call sequence, but CD2's split float anchors and preserved-register frame differ under plain and LTCG checks; search did not resolve them. Probe removed.
 - `AI::Pedestrian` deleting destructor (0x824A8E68): shared by cPedestrianBase, Pedestrian and PedestrianGuard (slot 0 of 0x8200B1F8, 0x82108DB0, 0x8200AE78); its callee 0x824A8EB8 is the implicit `~cPedestrianBase` (Pedestrian.obj's COMDAT copy, now matched). With implicit destructors `??_GPedestrian` is plain EXACT, but the single-file LTCG model inlines `~cPedestrianBase` into it (5/20 words) where CD2's whole-program build kept the call; left out until the model sees its other callers.
 - `PHYSICS::cSurfaceProfile::MakeNew` (0x82695F98), `VFX::cVFXSurfaceProfile::MakeNew` (0x827CCBD0), `unknown::cOutlines2::MakeNew` (0x827A4000): recovered cNonGameBase hierarchy gives EXACT deleting wrappers and IsA methods, but factories retain this in r31 instead of using the base constructor's return in r3 under plain and standard LTCG builds (same cross-module constructor-return issue as the crowd/streaming factories).
@@ -602,15 +607,13 @@ One line each: what is ruled out. Remove the line when the function matches.
   cScriptHost virtual slot 1, currently unnamed; recover the shared metadata interface and actual class ownership
   before adding more getters. The historical byte-global/GetPtr stand-ins were removed on 2026-11-06. A class's own
   getter is its `RetScriptTypeRegistration` override, slot 1 of its cScriptHost table (cAiPlayer, cCharacterEntityIF
-  and cCharacterInterface are matched that way; cTimeOfDay's waits for its cScriptHost base). The AIE_* getters are the
+  and cCharacterInterface are matched that way; cTimeOfDay uses its recovered cScriptHost base). The AIE_* getters are the
   event classes' own slot 1, in tables their constructors install. The enum-name getters are slot 1 of enum registrar
   tables that static initializers install.
 - Class-query batch: 64 class-name getters and 26 RetClass descriptor getters are EXACT. Classification needs
   both target data and virtual-slot evidence: name strings at primary slot 11 identify RetClassName; descriptor
   loads at registered-class slot 0 identify RetClass. The same three-instruction size also includes script metadata
   and enum-name getters; it does not establish ownership or return type by itself.
-- Sim::cTimeOfDay::RetClassName (0x82773BF0): adding a virtual to the historical field-only stand-in shifts its
-  checked phase offset. Recover its actual C++ bases before adding the getter; probe reverted.
 - IsA batch: cCrowdZoneDataHolder (0x8244A810) is EXACT in plain and LTCG builds. The former
   cFactionConfigData attribution at 0x82676298 was removed: IDA identifies cFactionInfo instead. cRefractor (0x826105F0) and the existing FreakBase body (0x824ABBB0) are plain EXACT but 21/23 under
   LTCG without a live vtable; do not promote them. cCharacterInterface (0x8254E7B0) has EXACT instructions in both

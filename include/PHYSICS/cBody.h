@@ -1,11 +1,11 @@
-#include "gom/object_prototype.h"
 // Hierarchy correction: CD2 debug subobject at 0x120, cBody size 0x250.
-#include "rws/attributes.h"
-// PHYSICS::cBody (Crackdown 2): STAND-IN with only its runtime class descriptor; its bases are not modelled yet.
+// PHYSICS::cBody (Crackdown 2): STAND-IN with shared game/debug bases and selected own fields.
 // StaticCreateClass (0x82683318) builds cClass(0x63C, "cBody", 0x250); 0x250 is the size its registrar gives.
 #ifndef PHYSICS_CBODY_H
 #define PHYSICS_CBODY_H
 
+#include "gom/object_prototype.h"
+#include "rws/attributes.h"
 #include "fun_runtime/class.h"
 #include "gom/game_base.h"
 #include "GDb/cDebugPageHandler.h"
@@ -61,12 +61,17 @@ namespace PHYSICS
         virtual void vf201(); virtual void vf202(); virtual void vf203(); virtual void vf204(); virtual void vf205(); virtual void vf206();
         virtual void vf207(); virtual void vf208(); virtual void vf209(); virtual void vf210(); virtual void vf211(); virtual void vf212();
         virtual void vf213(); virtual void vf214(); virtual void vf215(); virtual void vf216(); virtual void vf217(); virtual void vf218();
-        virtual void vf219(); virtual void vf220(); virtual void vf221(); virtual void vf222(); virtual void vf223(); virtual void vf224();
+        virtual void vf219(); virtual void vf220();
+    protected:
+        // CD2 primary slot 221; reference name and access, overridden by cBeaconProp at 0x8245C5C8.
+        virtual void PreAddToPhysicsWorld();
+    public:
+        virtual void vf222(); virtual void vf223(); virtual void vf224();
         virtual void vf225(); virtual void vf226();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcBodyClass;
         static Fun_Runtime::cClass &StaticCreateClass();
-    private:
+    protected:
         // RuffKing names; CD2 offsets from Init (0x82683680), Reinitialise (0x82683780) and the constructor.
         float m_fSpeed;                             // 0x124
         float m_fLastSpeed;                         // 0x128
@@ -84,6 +89,7 @@ namespace PHYSICS
             CD2_SIZE(cBody, 0x250)
             CD2_OFFSET(cBody, m_fSpeed, 0x124)
             CD2_OFFSET(cBody, m_pMyWorld, 0x220)
+            CD2_OFFSET(cBody, m_pRigidBody, 0x224)
             CD2_OFFSET(cBody, m_CollisionListener, 0x240)
             CD2_OFFSET(cBody, m_bSuspended, 0x24D))
     };
