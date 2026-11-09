@@ -26,6 +26,12 @@
 #include "fun_runtime/inheritance_registrar.h"
 #include "CHARACTER/cCharacterInterface.h"
 #include "AI/cCharacterEntityIF.h"
+#include "AI/cObjectInstigatorEvent.h"
+#include "AI/cMovementTypeScriptRegistration.h"
+#include "AI/cPerceptionOptionsScriptRegistration.h"
+#include "AI/cStateScriptRegistration.h"
+#include "AI/cAttackStateScriptRegistration.h"
+#include "AI/cFaceTargetScriptRegistration.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
 #include <new>
@@ -70,6 +76,31 @@ namespace AI
         return &g_cCharacterEntityIF;
     }
 
+    const char *cMovementTypeScriptRegistration::RetName() const
+    {
+        return "eMovementType";
+    }
+
+    const char *cPerceptionOptionsScriptRegistration::RetName() const
+    {
+        return "ePerceptionOptions";
+    }
+
+    const char *cFaceTargetScriptRegistration::RetName() const
+    {
+        return "eFaceTarget";
+    }
+
+    const char *cAttackStateScriptRegistration::RetName() const
+    {
+        return "eAttackState";
+    }
+
+    const char *cStateScriptRegistration::RetName() const
+    {
+        return "eState";
+    }
+
     void *cCharacterEntityIF::RetUpperbodyAnimationParams()
     {
         return m_upperbodyAnimationParams;
@@ -83,6 +114,11 @@ namespace AI
     unsigned char cCharacterEntityIF::RetMovementType() const
     {
         return static_cast<unsigned char>(m_nMovementType);
+    }
+
+    unsigned int cCharacterEntityIF::RetCharacterState()
+    {
+        return RetCharacter()->RetCharacterState();
     }
 
     unsigned int cCharacterEntityIF::RetMaxAiToAiVisibilityLevel() const
@@ -175,7 +211,7 @@ namespace AI
         const CHARACTER::cCharacter *character = RetCharacter();
         if (character)
         {
-            const unsigned int v = character->m_field548;
+            const unsigned int v = character->m_nObjectID;
             return (0x30000 - (v & 0xFFFF0000)) == 0;
         }
         return 0;
@@ -187,9 +223,14 @@ namespace AI
         cCharacterEntityIF *owner = t->m_pOwner;
         Fun_Runtime::cSafeDeletable *safe = owner->m_pCharacter.m_pPtr;
         const CHARACTER::cCharacter *p = static_cast<const CHARACTER::cCharacter *>(safe);
-        if ((p->m_byte1681 & 0x40) != 0)
+        if ((p->RetActionManager().RetCharacterStateInfo().m_flags[1] & 0x40) != 0)
             return 180.0f;
         return t->m_fViewingAngle;
+    }
+
+    bool cObjectInstigatorEvent::IsValid()
+    {
+        return cAIEvent::IsValid() && m_pObject != 0;
     }
 
     static RWS::CClassFactory::CRegistrar cCharacterEntityIFRegistrar(

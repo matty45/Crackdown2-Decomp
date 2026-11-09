@@ -18,18 +18,31 @@ namespace Vehicle
     {
     public:
         // Name, base and size (0x440) from RuffKing; CD2's MakeNew (0x826C0DB8) allocates 0x440 bytes and calls the
-        // constructor at 0x826C6B90. Fields not modelled.
+        // constructor at 0x826C6B90. The police-light settings below are named by RuffKing.
         class cLandVehiclePrototype : public cVehicle::cVehiclePrototype
         {
         public:
             cLandVehiclePrototype(const RWS::CAttributePacket &);   // CD2 0x826C6B90
             virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);   // CD2 0x826C79B8
 
+            // RuffKing names; CD2's IsAPoliceVehicle reads the flag at 0x368.
+            char m_nLightType[10];
+            float m_fPoliceLightSpeedModifier;
+            float m_fShiftSpringK;
+            float m_fShiftSpringD;
+            // CD2 normalizes this byte on read (rather than returning a stored C++ bool directly).
+            unsigned char m_bIsPoliceVehicle;
+
         private:
-            unsigned char m_unmodelled350[0x440 - 0x350];
+            unsigned char m_unmodelled369[0x440 - 0x369];
 
             CD2_LAYOUT_CHECKS(cLandVehiclePrototype,
-                CD2_SIZE(cLandVehiclePrototype, 0x440))
+                CD2_SIZE(cLandVehiclePrototype, 0x440)
+                CD2_OFFSET(cLandVehiclePrototype, m_nLightType, 0x350)
+                CD2_OFFSET(cLandVehiclePrototype, m_fPoliceLightSpeedModifier, 0x35C)
+                CD2_OFFSET(cLandVehiclePrototype, m_fShiftSpringK, 0x360)
+                CD2_OFFSET(cLandVehiclePrototype, m_fShiftSpringD, 0x364)
+                CD2_OFFSET(cLandVehiclePrototype, m_bIsPoliceVehicle, 0x368))
         };
 
         // CD2 placement factory 0x826C0E20 forwards only this.
@@ -46,6 +59,8 @@ namespace Vehicle
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         // CD2 slot 417, 0x826C6B88; reference member name and offset agree.
         virtual void SetMustStop(bool);
+        // CD2 primary slot 410 (0x826C4980), matching the reference police-light virtual order.
+        virtual bool IsAPoliceVehicle();
 
     private:
         unsigned char m_unmodelled1740[0x2894 - 0x1740];

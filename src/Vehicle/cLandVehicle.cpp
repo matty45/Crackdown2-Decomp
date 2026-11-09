@@ -64,6 +64,11 @@ namespace Vehicle
         return *cLandVehicleClass;
     }
 
+    bool cLandVehicle::IsAPoliceVehicle()
+    {
+        return static_cast<cLandVehiclePrototype *>(m_pPrototype)->m_bIsPoliceVehicle;
+    }
+
     void cLandVehicle::SetMustStop(bool mustStop)
     {
         m_bMustStop = mustStop;

@@ -1618,6 +1618,11 @@
     ],
     "src/PLAYER/cPlayer.cpp": [
       {
+        "address": "0x8271F150",
+        "size": 12,
+        "symbol": "?RetName@cBreakoutInputScriptRegistration@PLAYER@@"
+      },
+      {
         "address": "0x82724998",
         "size": 144,
         "symbol": "?SetAITargeting@cPlayer@PLAYER@@"
@@ -2168,6 +2173,21 @@
     ],
     "src/AI/cAiPlayer.cpp": [
       {
+        "address": "0x823E7988",
+        "size": 12,
+        "symbol": "?RetName@cTriggerEventFlagsScriptRegistration@AI@@"
+      },
+      {
+        "address": "0x823E7998",
+        "size": 12,
+        "symbol": "?RetName@cEnemyStatusScriptRegistration@AI@@"
+      },
+      {
+        "address": "0x823E79A8",
+        "size": 12,
+        "symbol": "?RetName@cMapStatusScriptRegistration@AI@@"
+      },
+      {
         "address": "0x823E8650",
         "size": 420,
         "symbol": "??0cAiPlayer@AI@@"
@@ -2481,6 +2501,41 @@
       }
     ],
     "src/AI/cCharacterEntityIF.cpp": [
+      {
+        "address": "0x823EC048",
+        "size": 36,
+        "symbol": "?RetCharacterState@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823EC378",
+        "size": 40,
+        "symbol": "?IsValid@cObjectInstigatorEvent@AI@@"
+      },
+      {
+        "address": "0x823EBF58",
+        "size": 12,
+        "symbol": "?RetName@cFaceTargetScriptRegistration@AI@@"
+      },
+      {
+        "address": "0x823EBF68",
+        "size": 12,
+        "symbol": "?RetName@cAttackStateScriptRegistration@AI@@"
+      },
+      {
+        "address": "0x823EBF78",
+        "size": 12,
+        "symbol": "?RetName@cStateScriptRegistration@AI@@"
+      },
+      {
+        "address": "0x823EBF48",
+        "size": 12,
+        "symbol": "?RetName@cPerceptionOptionsScriptRegistration@AI@@"
+      },
+      {
+        "address": "0x823EBF38",
+        "size": 12,
+        "symbol": "?RetName@cMovementTypeScriptRegistration@AI@@"
+      },
       {
         "address": "0x823EBE90",
         "size": 112,
@@ -21385,6 +21440,11 @@
     ],
     "src/Vehicle/cLandVehicle.cpp": [
       {
+        "address": "0x826C4980",
+        "size": 20,
+        "symbol": "?IsAPoliceVehicle@cLandVehicle@Vehicle@@"
+      },
+      {
         "address": "0x826C0E10",
         "size": 12,
         "symbol": "?RetClassName@cLandVehicle@Vehicle@@"
@@ -29724,6 +29784,66 @@
     ],
     "src/cCwTransCharacter.cpp": [
       {
+        "address": "0x82538210",
+        "size": 8,
+        "symbol": "?GetMaxReplicatedFields@cCwTransCharacter@CHARACTER@@"
+      },
+      {
+        "address": "0x82538218",
+        "size": 8,
+        "symbol": "?IsInDeathLimbo@cCwTransCharacter@CHARACTER@@"
+      },
+      {
+        "address": "0x82538230",
+        "size": 8,
+        "symbol": "?SetKilledByFriendly@cCwTransCharacter@CHARACTER@@"
+      },
+      {
+        "address": "0x82538238",
+        "size": 8,
+        "symbol": "?RetLastVehicleHitID@cCwTransCharacter@CHARACTER@@"
+      },
+      {
+        "address": "0x82538178",
+        "size": 20,
+        "symbol": "?RetAthleticLevel@cCwTransCharacter@CHARACTER@@"
+      },
+      {
+        "address": "0x82538190",
+        "size": 20,
+        "symbol": "?RetExplosivesLevel@cCwTransCharacter@CHARACTER@@"
+      },
+      {
+        "address": "0x825381A8",
+        "size": 20,
+        "symbol": "?RetStrengthLevel@cCwTransCharacter@CHARACTER@@"
+      },
+      {
+        "address": "0x825381C0",
+        "size": 20,
+        "symbol": "?RetFirearmsLevel@cCwTransCharacter@CHARACTER@@"
+      },
+      {
+        "address": "0x825381D8",
+        "size": 8,
+        "symbol": "?IsSkillAndBonusMaxed@cCwTransCharacter@CHARACTER@@"
+      },
+      {
+        "address": "0x825381E0",
+        "size": 8,
+        "symbol": "?IsSkillMaxed@cCwTransCharacter@CHARACTER@@"
+      },
+      {
+        "address": "0x825381F0",
+        "size": 28,
+        "symbol": "?IsPowerUpActive@cCwTransCharacter@CHARACTER@@"
+      },
+      {
+        "address": "0x82538170",
+        "size": 8,
+        "symbol": "?IsTransformationRequired@cCwTransCharacter@CHARACTER@@"
+      },
+      {
         "address": "0x825380E8",
         "size": 88,
         "symbol": "?MakeNew@cCwTransCharacter@CHARACTER@@"
@@ -29882,6 +30002,41 @@
       }
     ],
     "src/CHARACTER/cCharacterInterface.cpp": [
+      {
+        "address": "0x8254E8C8",
+        "size": 32,
+        "symbol": "?RetLODLevel@cCharacterInterface@CHARACTER@@"
+      },
+      {
+        "address": "0x8254EA40",
+        "size": 64,
+        "symbol": "?IsEquipmentTypeInInventory@cCharacterInterface@CHARACTER@@"
+      },
+      {
+        "address": "0x8254F150",
+        "size": 28,
+        "symbol": "?ForceOutOfVehicle@cCharacterInterface@CHARACTER@@"
+      },
+      {
+        "address": "0x8254E9A0",
+        "size": 44,
+        "symbol": "?RetRealCurrentPrimaryEquipment@cCharacterInterface@CHARACTER@@"
+      },
+      {
+        "address": "0x8254E980",
+        "size": 28,
+        "symbol": "?RetEquipmentOfType@cCharacterInterface@CHARACTER@@"
+      },
+      {
+        "address": "0x8254E958",
+        "size": 40,
+        "symbol": "?RetVehicleTarget@cCharacterInterface@CHARACTER@@"
+      },
+      {
+        "address": "0x8254E8B8",
+        "size": 12,
+        "symbol": "?RetName@cLODLevelScriptRegistration@CHARACTER@@"
+      },
       {
         "address": "0x8254E810",
         "size": 112,
@@ -30434,6 +30589,16 @@
       }
     ],
     "src/CHARACTER/cCharacter.cpp": [
+      {
+        "address": "0x825430D0",
+        "size": 8,
+        "symbol": "?GetMaxReplicatedFields@cCharacter@CHARACTER@@"
+      },
+      {
+        "address": "0x82543048",
+        "size": 12,
+        "symbol": "?RetName@cBonesScriptRegistration@CHARACTER@@"
+      },
       {
         "address": "0x82542FE0",
         "size": 88,
@@ -44952,6 +45117,11 @@
     ],
     "src/cPopulationZone.cpp": [
       {
+        "address": "0x8280C078",
+        "size": 12,
+        "symbol": "?RetName@cPopTODScriptRegistration@unknown@@"
+      },
+      {
         "address": "0x8280C090",
         "size": 152,
         "symbol": "?StaticCreateClass@cPopulationZone@unknown@@"
@@ -45590,6 +45760,11 @@
       }
     ],
     "src/Vehicle/cVehicle.cpp": [
+      {
+        "address": "0x826D1B68",
+        "size": 12,
+        "symbol": "?RetFireRadius@cVehicle@Vehicle@@"
+      },
       {
         "address": "0x82FE9970",
         "size": 104,

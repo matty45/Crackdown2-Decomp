@@ -3,14 +3,13 @@
 // Class: CHARACTER::cCwTransCharacter. Accessors and registration are reconstructed below.
 // The address range and ownership evidence are in config/splits.txt; the class is not in RuffKing.
 //
-// No reference layout: the class is in neither later build, so its layout comes from CD2's code alone.
+// Burn's cPlayerCharacter supplies names for the shared skill and replication behaviour; CD2 supplies the layout.
 //
 // Declare the class in a header under include/, marked as a stand-in with its evidence, and reuse the shared headers in
 // include/ for any of its bases already declared there; read docs/matching-notes.md first. The open functions:
 //     py -I tools/cd2.py tasks src/cCwTransCharacter.cpp
 
-// Not named yet: the fields at 0x2D20..0x2DD0 have no script or reference name. Their accessors (0x82538170..
-// 0x82538238) are virtual slots 391..445 of the character tables (0x82018BE8), not declared yet: open.
+// Byte 0x2DA6 and its two virtual accessors remain unnamed. Other matched overrides use cCharacter's recovered slots.
 
 // Header constants: CD2's initializer run for this object shows these headers' constants in this order. RuffKing's
 // object gets them through its other headers (docs/matching-notes.md, "Header constants"); included directly here.
@@ -48,6 +47,66 @@ namespace CHARACTER
     const char *cCwTransCharacter::RetClassName() const
     {
         return "cCwTransCharacter";
+    }
+
+    bool cCwTransCharacter::IsTransformationRequired() const
+    {
+        return m_SkillSet.IsTransformRequired();
+    }
+
+    unsigned char cCwTransCharacter::RetAthleticLevel() const
+    {
+        return RetSkill(RPG::eSk_Athletics);
+    }
+
+    unsigned char cCwTransCharacter::RetExplosivesLevel() const
+    {
+        return RetSkill(RPG::eSk_Explosives);
+    }
+
+    unsigned char cCwTransCharacter::RetStrengthLevel() const
+    {
+        return RetSkill(RPG::eSk_Fighting);
+    }
+
+    unsigned char cCwTransCharacter::RetFirearmsLevel() const
+    {
+        return RetSkill(RPG::eSk_FireArms);
+    }
+
+    bool cCwTransCharacter::IsSkillAndBonusMaxed(unsigned int skill) const
+    {
+        return m_SkillSet.IsSkillAndBonusMaxed(skill);
+    }
+
+    bool cCwTransCharacter::IsSkillMaxed(unsigned int skill) const
+    {
+        return m_SkillSet.IsSkillMaxed(skill);
+    }
+
+    bool cCwTransCharacter::IsPowerUpActive(ePowerUp powerUp)
+    {
+        return (m_nPowerUpStatus & (1 << powerUp)) != 0;
+    }
+
+    unsigned int cCwTransCharacter::GetMaxReplicatedFields() const
+    {
+        return 88;
+    }
+
+    bool cCwTransCharacter::IsInDeathLimbo() const
+    {
+        return m_bInDeathLimbo;
+    }
+
+    void cCwTransCharacter::SetKilledByFriendly(bool friendly)
+    {
+        m_bKilledByFriendly = friendly;
+    }
+
+    unsigned int cCwTransCharacter::RetLastVehicleHitID() const
+    {
+        return m_nLastVehicleHitID;
     }
 
     Fun_Runtime::cClass &cCwTransCharacter::StaticCreateClass()

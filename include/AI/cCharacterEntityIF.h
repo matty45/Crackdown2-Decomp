@@ -8,9 +8,9 @@
 // (RetUpperbodyAnimationParams / RetFullbodyAnimationParams) return the addresses of the regions at 0x480 and 0x4B0,
 // whose types are not known (byte arrays here).
 // 0x823EBF38 (returns "eMovementType") and its neighbours returning enum names are slot 1 of enum registrar vtables
-// that static initializers install (0x823EBF38: 0x820FBF28), and the getters returning the AIE_* registrars
-// (0x823EC368..0x823EC890) slot 1 of the AIE event classes' own tables: none is a cCharacterEntityIF method, so they
-// stay open until those classes are modelled. g_cCharacterEntityIF is named after the type CD2 registers it as (see
+// that static initializers install (0x823EBF38: 0x820FBF28); their metadata interfaces are modelled separately.
+// The getters returning the AIE_* registrars (0x823EC368..0x823EC890) are slot 1 of the AIE event classes' own
+// tables and stay open until those classes are modelled. g_cCharacterEntityIF is named after the type CD2 registers it as (see
 // AI/cAiPlayer.h); RetScriptTypeRegistration (0x823EBF28, slot 1 of the cScriptHost table 0x820FBE9C) returns it.
 // m_pAIEntity (0x504; RuffKing's name and type, at 0xF8 there): cAiPlayer::RetName (0x823EB508) returns its m_name, as
 // RuffKing's cAiPlayer::RetName returns m_pAIEntity's; the accessors below read the entity's script-named fields
@@ -77,6 +77,7 @@ namespace AI
         // CD2 0x823EC030 forwards to the owning AI entity's cone test.
         bool IsInViewCone(Fun_Runtime::cScriptHost *object);
         unsigned char RetMovementType() const;
+        unsigned int RetCharacterState(); // CD2 script wrapper 0x823EC048 calls character slot 371.
         unsigned int RetMaxAiToAiVisibilityLevel() const;
         void SetMaxAiToAiVisibilityLevel(unsigned int value);
         void SetCheckTargetTooClose(unsigned char value);
@@ -98,6 +99,10 @@ namespace AI
         float RetHearingAcuteness() const;
         unsigned char IsSpawnedByCrowdSystem() const;
         float RetViewingAngle() const;
+
+        // CD2's cAiPlayer adds slot 125 (0x823E92B8) after this interface's 115..124 slots.
+        virtual void vf115(); virtual void vf116(); virtual void vf117(); virtual void vf118(); virtual void vf119();
+        virtual void vf120(); virtual void vf121(); virtual void vf122(); virtual void vf123(); virtual void vf124();
 
         CD2_LAYOUT_CHECKS(cCharacterEntityIF,
             CD2_SIZE(cCharacterEntityIF, 0x540)

@@ -26,6 +26,7 @@
 #include "fun_runtime/inheritance_registrar.h"
 #include "AI/cCharacterEntityIF.h"
 #include "PLAYER/cPlayer.h"
+#include "PLAYER/cBreakoutInputScriptRegistration.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
 #include <stddef.h>
@@ -36,6 +37,11 @@ namespace PLAYER
 {
     // CD2's initializer 0x82FF3C38 calls StaticCreateClass and stores the result in 0x8384A818.
     const Fun_Runtime::cClass *cPlayer::ms_pcPlayerClass = &cPlayer::StaticCreateClass();
+
+    const char *cBreakoutInputScriptRegistration::RetName() const
+    {
+        return "eBreakoutInput";
+    }
 
     Fun_Runtime::cClass &cPlayer::StaticCreateClass()
     {

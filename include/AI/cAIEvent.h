@@ -1,37 +1,50 @@
-// AI::cAIEvent (Crackdown 2): STAND-IN for the event source and the size only. Evidence:
-//   - CD2's registration function 0x8243D6B0 registers the script methods "RetType" and then "RetSource" (0x823E7A80,
-//     which returns the word at 0x38): RuffKing's cAIEvent has exactly RetType and RetSource as accessors.
-//   - RuffKing's m_pSource is a safe pointer; CD2's RetSource returns the word at 0x38 without the downcast a safe
-//     pointer would need, so the field is a plain pointer here.
-//   - The copy at 0x823E7A80 lies in cAiPlayer.cpp's range: the linker folded identical getters (a class in cPlayer.cpp
-//     has one in its vtable 0x8213D374) and kept the copy from cAiPlayer's object, so src/AI/cAiPlayer.cpp defines it.
-//   - Size 0x44: in both reference builds cDiedEvent's and cDamageTakenEvent's first field is a safe pointer right after
-//     cAIEvent, and CD2's "RetKiller" (registered at 0x824418A4) and cDamageTakenEvent's "RetInstigator" (0x824416A4)
-//     read that safe pointer's object pointer at 0x50, so the safe pointer is at 0x44 (AI/cDamageTakenEvent.h).
+// AI::cAIEvent: CD2 constructor 0x822137C0 establishes cScriptHost at +0 and cLinkedListItem at +0x1C.
+// Unlike the later reference builds, CD2 events are script hosts. The primary table 0x820FAD60 has nine slots;
+// cScriptHost supplies 0..5, ApplyFilter is 6, IsValid is 7, and the unresolved integer virtual is 8.
+// The constructor stores type at +0x28, builds the source safe pointer at +0x2C, and stores subscription/time
+// at +0x3C/+0x40. Its callers pass the source's script-host subobject (e.g. 0x82225D74 adds +0x1C).
+// RetSource (0x823E7A80) returns that script pointer without a game-object adjustment. Reference builds name
+// m_pSource, m_pSubscription, m_eEventType, m_nTimeStamp, ApplyFilter and IsValid; slot-8's name remains unknown.
 #ifndef AI_CAIEVENT_H
 #define AI_CAIEVENT_H
 
+#include "fun_runtime/scripthost.h"
+#include "fun_runtime/linkedlistitem.h"
+#include "fun_runtime/safedeletablepointer.h"
 #include "cd2/layout.h"
-
-class cNonGameBase;
 
 namespace AI
 {
-    class cAIEvent
-    {
-    private:
-        unsigned char m_pad0[0x38];
-    protected:
-        cNonGameBase *m_pSource;                // 0x38
-    private:
-        unsigned char m_pad3C[0x44 - 0x3C];
+    class cAIEventSubscription;
 
+    class cAIEvent : public Fun_Runtime::cScriptHost, public Fun_Runtime::cLinkedListItem
+    {
     public:
-        cNonGameBase *RetSource() const;
+        cAIEvent(unsigned int eventType, Fun_Runtime::cScriptHost *source); // CD2 0x822137C0
+        virtual ~cAIEvent(); // CD2 0x823E5890, called by event destructors
+        virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
+        virtual const char *RetName() const;
+        virtual void Slot5(); // CD2 0x8243E310 registers this event's script methods
+        virtual bool ApplyFilter(cAIEventSubscription &);
+        virtual bool IsValid() { return m_pSource != 0; }
+        virtual int vf8(); // CD2 0x82604740 returns -1; purpose unrecovered
+
+        Fun_Runtime::cScriptHost *RetSource() const;
+
+    protected:
+        unsigned int m_eEventType;
+        Fun_Runtime::cSafeDeletablePointer<Fun_Runtime::cScriptHost> m_pSource;
+        cAIEventSubscription *m_pSubscription;
+        unsigned int m_nTimeStamp;
 
         CD2_LAYOUT_CHECKS(cAIEvent,
             CD2_SIZE(cAIEvent, 0x44)
-            CD2_OFFSET(cAIEvent, m_pSource, 0x38))
+            CD2_OFFSET(cAIEvent, m_eEventType, 0x28)
+            CD2_OFFSET(cAIEvent, m_pSource, 0x2C)
+            CD2_OFFSET(cAIEvent, m_pSubscription, 0x3C)
+            CD2_OFFSET(cAIEvent, m_nTimeStamp, 0x40))
     };
 }
 

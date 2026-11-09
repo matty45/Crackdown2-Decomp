@@ -3,8 +3,6 @@
 // AI::cAiTargetInfo::IsPrimaryFireBlocked / IsTargetVisible, AI::cAIEvent::RetSource, AI::cObjectInstigatorEvent::
 // RetInstigator, AI::cDamageTakenEvent::RetInstigator; their headers give the evidence).
 // Not named yet:
-//   - 0x823E7988 / 0x823E7998 / 0x823E79A8 return the names of script enums. They are slot 1 of three small registrar
-//     vtables (0x820FB0F0, 0x820FB0FC, 0x820FB108), not cAiPlayer methods: open until those registrar classes are known.
 //   - SetFields4F8 (0x823E92B8) and m_n4F8/m_n4FC/m_n500 are unnamed (slot 125 of cAiPlayer vtable).
 //   - RetConstantC8 (0x823E7B30) is slot 26 of the vtable 0x820FB114, whose object 0x82377190 builds; its class is not
 //     known.
@@ -22,6 +20,9 @@
 #include "fun_runtime/inheritance_registrar.h"
 #include "AI/cCharacterEntityIF.h"
 #include "AI/cAiPlayer.h"
+#include "AI/cMapStatusScriptRegistration.h"
+#include "AI/cEnemyStatusScriptRegistration.h"
+#include "AI/cTriggerEventFlagsScriptRegistration.h"
 #include "rws/classfactory.h"
 #include "AI/AIUtil.h"
 #include "AI/cAiTargetInfo.h"
@@ -87,6 +88,21 @@ namespace AI
         return &g_cAiPlayer;
     }
 
+    const char *cTriggerEventFlagsScriptRegistration::RetName() const
+    {
+        return "eTriggerEventFlags";
+    }
+
+    const char *cEnemyStatusScriptRegistration::RetName() const
+    {
+        return "eEnemyStatus";
+    }
+
+    const char *cMapStatusScriptRegistration::RetName() const
+    {
+        return "eMapStatus";
+    }
+
     void cAiPlayer::SetMapStatus(unsigned int nMapStatus)
     {
         m_nMapStatus = (etMapStatus)nMapStatus;
@@ -132,7 +148,7 @@ namespace AI
         return m_pOwnedVehicle.m_pPtr ? static_cast<cNonGameBase *>(m_pOwnedVehicle.m_pPtr) : 0;
     }
 
-    cNonGameBase *cAIEvent::RetSource() const
+    Fun_Runtime::cScriptHost *cAIEvent::RetSource() const
     {
         return m_pSource;
     }
@@ -214,7 +230,7 @@ namespace AI
 
     bool cAiPlayer::ShouldTriggerFootStepEvent()
     {
-        if (RetLODLevel() <= 1)
+        if (RetCharacter()->RetLODLevel() <= 1)
         {
             float fTime = RetGameTime();
             if (m_fLastFootStepSoundTime < fTime - 10.0f)

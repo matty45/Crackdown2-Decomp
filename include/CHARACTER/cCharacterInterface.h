@@ -10,8 +10,8 @@
 //     and ShouldTriggerBulletSoundEvent (3 s) do, on 0xA0 and 0xA8; slot 111 (0x8237B148, its own interval) updates
 //     0xA4. RuffKing declares the three virtuals as Vocal, FootStep, BulletSound and the fields as FootStep, Vocal,
 //     BulletSound, which fits.
-//   - RetLODLevel is inline in CD2 (cAiPlayer::ShouldTriggerFootStepEvent reads the character's level directly); its
-//     out-of-line copy 0x8254E8C8 is the script method "RetLODLevel".
+//   - cAiPlayer::ShouldTriggerFootStepEvent reads the character's level directly; this interface's script wrapper
+//     0x8254E8C8 is registered as "RetLODLevel".
 //   - Script setters 0x8254EA80 and 0x8254EA88 name the flags at 0xAE and 0xAF:
 //     SetCanShareVehicleWithPlayer and SetCanBePickedUpWhenAlive, respectively.
 // g_cCharacterInterface is named after the type it is registered as ("cCharacterInterface", through 0x82772828; see
@@ -26,6 +26,7 @@
 #include "fun_runtime/safedeletablepointer.h"
 #include "CHARACTER/cCharacter.h"
 #include "cd2/layout.h"
+namespace Prop { class cTurretBase; }
 
 namespace CHARACTER
 {
@@ -72,6 +73,7 @@ namespace CHARACTER
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *memory);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         virtual const char *RetClassName() const;
         // CD2 0x8254E8A8: cScriptHost slot 1; descriptive method name is ours.
         virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
@@ -80,15 +82,70 @@ namespace CHARACTER
         // Script getter 0x825430D8 is folded into cCharacter.cpp, and reads this interface's flag.
         bool CanBePickedUpWhenAlive() const;
         bool RetIsOnFire() const;
+        cGameBase *RetVehicleTarget();
+        Equip::cEquipment *RetEquipmentOfType(unsigned int type);
+        Equip::cEquipment *RetRealCurrentPrimaryEquipment();
+        bool IsEquipmentTypeInInventory(unsigned int type);
         // CD2 0x823E7778: shared character-interface override, outside the current source split.
         virtual bool IsAlive() const { return m_bAlive; }
+
+        // CD2 table 0x82113C10 has 115 primary slots. Names are given only where CD2's call/data flow
+        // and the reference declaration order agree; other own slots retain their numeric placeholders.
+        virtual void vf68();
+        virtual void vf69();
+        virtual void vf70();
+        virtual void vf71();
+        virtual void vf72();
+        virtual void vf73();
+        virtual void vf74();
+        virtual void vf75();
+        virtual void vf76();
+        virtual void vf77();
+        virtual void vf78();
+        virtual void vf79();
+        virtual void vf80();
+        virtual void vf81();
+        virtual void vf82();
+        virtual void vf83();
+        virtual void vf84();
+        virtual void vf85();
+        virtual void vf86();
+        virtual void vf87();
+        virtual void vf88();
+        virtual void vf89();
+        virtual void vf90();
+        virtual void vf91();
+        virtual void vf92();
+        virtual void vf93();
+        virtual void vf94();
+        virtual void vf95();
+        virtual void vf96();
+        virtual void vf97();
+        virtual void vf98();
+        virtual void vf99();
+        virtual bool ForceIntoVehicle(Vehicle::cVehicle *, unsigned int);
+        virtual bool ForceOutOfVehicle();
+        virtual bool ForceRappel();
+        virtual bool ForceOntoTurret(Prop::cTurretBase *);
+        virtual bool ForceDead();
+        virtual void vf105();
+        virtual void vf106();
+        virtual void vf107();
+        virtual void vf108();
+        virtual void vf109();
+        virtual void vf110();
+        virtual bool ShouldTriggerVocalEvent();
+        virtual bool ShouldTriggerFootStepEvent();
+        virtual bool ShouldTriggerBulletSoundEvent();
+        virtual void vf114();
 
         cCharacter *RetCharacter() const
         {
             return m_pCharacter.m_pPtr ? static_cast<cCharacter *>(m_pCharacter.m_pPtr) : 0;
         }
 
-        unsigned char RetLODLevel() const { return RetCharacter()->RetLODLevel(); }
+        unsigned char RetLODLevel() const;
+        float RetHealthFraction();
 
         CD2_LAYOUT_CHECKS(cCharacterInterface,
             CD2_SIZE(cCharacterInterface, 0xC0)

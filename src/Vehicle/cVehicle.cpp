@@ -81,6 +81,11 @@ namespace Vehicle
         return LocateParts(names, count);
     }
 
+    float cVehicle::RetFireRadius() const
+    {
+        return 1.5f;
+    }
+
     int cVehicle::RetNumberOfSeats()
     {
         return m_VehicleSeats.size();

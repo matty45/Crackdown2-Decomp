@@ -34,7 +34,13 @@ public:
     virtual SNetworkHeader::etNetworkDataType GetReplicatedObjectType() const = 0;
     virtual unsigned int GetMaxReplicatedFields() const = 0;
 private:
-    unsigned char m_unknown4[0x230 - 4];
-    CD2_LAYOUT_CHECKS(cReplicatedClass, CD2_SIZE(cReplicatedClass, 0x230))
+    unsigned char m_unknown4[0x38 - 4];
+public:
+    // RuffKing NetReplicationCD2.h names the object ID; CD2 SetReplicatedObjectID at 0x82C2BEA0 stores +0x38.
+    unsigned int m_nObjectID;
+private:
+    unsigned char m_unknown3C[0x230 - 0x3C];
+    CD2_LAYOUT_CHECKS(cReplicatedClass, CD2_SIZE(cReplicatedClass, 0x230)
+        CD2_OFFSET(cReplicatedClass, m_nObjectID, 0x38))
 };
 #endif

@@ -24,6 +24,7 @@
 #include "fun_runtime/inheritance_registrar.h"
 #include "gom/non_game_base.h"
 #include "CHARACTER/cCharacterInterface.h"
+#include "CHARACTER/cLODLevelScriptRegistration.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
 #include <new>
@@ -83,9 +84,39 @@ namespace CHARACTER
         return &g_cCharacterInterface;
     }
 
+    const char *cLODLevelScriptRegistration::RetName() const
+    {
+        return "eLODLevel";
+    }
+
+    unsigned char cCharacterInterface::RetLODLevel() const
+    {
+        return RetCharacter()->RetLODLevel();
+    }
+
     bool cCharacterInterface::RetIsOnFire() const
     {
         return RetCharacter()->RetIsOnFire();
+    }
+
+    cGameBase *cCharacterInterface::RetVehicleTarget()
+    {
+        return RetCharacter()->RetTargeting()->RetVehicleTarget();
+    }
+
+    Equip::cEquipment *cCharacterInterface::RetEquipmentOfType(unsigned int type)
+    {
+        return RetCharacter()->RetEquipmentOfType(type);
+    }
+
+    Equip::cEquipment *cCharacterInterface::RetRealCurrentPrimaryEquipment()
+    {
+        return RetCharacter()->RetRealCurrentPrimaryEquipment();
+    }
+
+    bool cCharacterInterface::IsEquipmentTypeInInventory(unsigned int type)
+    {
+        return RetCharacter()->RetEquipmentOfType(type) != 0;
     }
 
     const char *cCharacterInterface::RetClassName() const
@@ -101,6 +132,11 @@ namespace CHARACTER
     void cCharacterInterface::SetCanBePickedUpWhenAlive(bool enabled)
     {
         m_bCanBePickedUpWhenAlive = enabled;
+    }
+
+    bool cCharacterInterface::ForceOutOfVehicle()
+    {
+        return RetCharacter()->RetActionManager().ForceOutOfVehicle();
     }
 
     static RWS::CClassFactory::CRegistrar cCharacterInterfaceRegistrar(

@@ -16,8 +16,13 @@ namespace Fun_Runtime
     {
     public:
         cSafeDeletablePointer() {}
-        cSafeDeletablePointer(T *pointer) : cSafeDeletablePointerBase(pointer) {}
-        cSafeDeletablePointer(const cSafeDeletablePointer &other) : cSafeDeletablePointerBase(other.m_pPtr) {}
+        // CD2 initializes the payload before the typed vptr, then inserts the fully typed node into the list.
+        // Linking in the base constructor leaves redundant base/derived vptr stores when the pointer escapes.
+        cSafeDeletablePointer(T *pointer) : cSafeDeletablePointerBase(pointer)
+        {
+            Link();
+        }
+        cSafeDeletablePointer(const cSafeDeletablePointer &other) : cSafeDeletablePointerBase(other.m_pPtr) { Link(); }
 
         virtual ~cSafeDeletablePointer()
         {
@@ -52,6 +57,25 @@ namespace Fun_Runtime
             return static_cast<T *>(m_pPtr);
         }
 
+        // Pointer comparisons are declared in Burn's cSafeDeletablePointer specializations.
+        // Comparing in the stored base type also lets a null test avoid a derived-pointer adjustment.
+        bool operator==(T *pointer) { return m_pPtr == pointer; }
+        bool operator!=(T *pointer) { return m_pPtr != pointer; }
+
+    private:
+        void Link()
+        {
+            if (m_pPtr)
+            {
+                cSafeDeletablePointerBase *head = &m_pPtr->m_SafeDeletablePointerListHead;
+                m_pPrev = head;
+                m_pNext = head->m_pNext;
+                head->m_pNext = this;
+                m_pNext->m_pPrev = this;
+            }
+        }
+
+    public:
         CD2_LAYOUT_CHECKS(cSafeDeletablePointer,
             CD2_SIZE(cSafeDeletablePointer, 0x10))
     };

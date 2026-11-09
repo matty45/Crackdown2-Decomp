@@ -19,6 +19,7 @@
 #include "AI/aiconstants.h"
 #include "rws/classfactory.h"
 #include "unknown/cPopulationZone.h"
+#include "unknown/cPopTODScriptRegistration.h"
 #include "cd2/memory.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "fun_runtime/script_type_registrar.h"
@@ -27,6 +28,11 @@ namespace unknown
 {
     static Fun_Runtime::cInheritanceRegistrar cPopulationZonecZoneInheritRegistrar(
         cPopulationZone::StaticCreateClass(), cZone::StaticCreateClass());
+
+    const char *cPopTODScriptRegistration::RetName() const
+    {
+        return "ePopTOD";
+    }
 
     GangManager::cGangInfo *cPopulationZone::RetGangInControl() const
     {

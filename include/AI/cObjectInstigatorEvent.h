@@ -19,7 +19,12 @@ namespace AI
     class cObjectInstigatorEvent : public cAIEvent
     {
     public:
+        // CD2 constructor 0x823EC280 stores object first and instigator second after the shared event base.
+        cObjectInstigatorEvent(Fun_Runtime::cScriptHost *source, cCharacterEntityIF *instigator, cNonGameBase *object);
+        virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         cCharacterEntityIF *RetInstigator();
+        // Shared/folded CD2 slot 7 at 0x823EC378 checks the source and first object safe pointers.
+        virtual bool IsValid();
 
     protected:
         Fun_Runtime::cSafeDeletablePointer<cNonGameBase> m_pObject;           // 0x44

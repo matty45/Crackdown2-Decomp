@@ -6,6 +6,13 @@ codegen change) that will help with other functions. What you tried on one funct
 end, in one line, and is removed when the function matches. History belongs in git, not here.
 
 ## Shared bases
+- **CD2 characters retain the shared physics and replication hierarchy.** Constructors 0x82308218/0x82543408
+  establish cCharacterMotion : cNetDynamicBody (0x11F0, 347 primary slots) and cCharacter : cCharacterMotion,
+  cSatchelChargeTarget (+0x11F0; 452 primary slots). cIgnitable owns the fire flag at +0x261; cReplicatedClass's
+  reference-named m_nObjectID is +0x38 in that base, +0x548 in a character (setter 0x82C2BEA0). Removing the flat
+  character stand-in preserves the existing accessors and makes RetCharacterState's slot-371 wrapper exact.
+  Burn's cPlayerCharacter supplies names for cCwTransCharacter: its cSkillSet is +0x2CC4, size 0x64 after CD2's
+  four-byte debug base; the transform flag is inside it at +0x5C. The typed skill wrappers and power-up query are exact.
 - **CD2 player-trigger tables omit reference-build debug virtuals.** cPlayerTriggerZone's table 0x82155B98 has
   18 entries, with OnPlayerEnter/OnPlayerLeave at 16/17. cGameModeTriggerZone adds slots 18..25; start-zone
   getters are 23..25 and its own table ends at CreateGameSession (slot 30). The shared trigger base remains 0xE0;
@@ -67,6 +74,11 @@ end, in one line, and is removed when the function matches. History belongs in g
   cPositionalProxy and also remains exact using that shared type.
 
 ## Codegen idioms
+- **Safe-pointer insertion belongs to the typed constructor.** CD2's cObjectInstigatorEvent constructor
+  (0x823EC280) initializes each payload, installs its typed safe-pointer vptr, then links the node. A/B: putting
+  insertion in cSafeDeletablePointerBase leaves extra base/derived vptr stores (22/57 LTCG words); initializing
+  the payload in the base and inserting from the typed constructor gives 57/57 words in both builds. The constructor
+  remains unpromoted pending the safe-pointer alias noted under Open functions.
 - **Checkpoint vectors need the real wrapper, and the clear call must select the intended layer.**
   At cCheckpointArena::AddCheckpoint (0x8284E248), the legacy cVec declaration keeps the pointer parameter on
   the stack across append; using the shared Fun_Runtime::cVector exposes its real append body and restores CD2's
@@ -530,6 +542,9 @@ Middleware with published source lives in `src/middleware/<library>/` (each with
 
 ## Open functions
 One line each: what is ruled out. Remove the line when the function matches.
+- cCharacterInterface::IsA (0x8254E7B0) is byte-exact in both builds, but it reads the 0x830ACBD8 global-constant copy while this file's constructor/constants use 0x830C0E04; the per-file global identity conflicts. Probe removed rather than promoting a WRONG TARGET dependency.
+- cObjectInstigatorEvent constructor (0x823EC280) is byte-exact in both builds, and its implicit deleting wrapper (0x823EC3A0) is LTCG-exact with that body present; the constructor's relocation check needs cSafeDeletablePointer<cCharacterEntityIF> added to the 0x82155680 alias group. Constructor probe removed under the current config-edit restriction; IsValid is independently exact.
+- Enum value registration at 0x823EECB0: direct Lua pushlstring/pushnumber/settable calls have the right call sequence, but CD2's split float anchors and preserved-register frame differ under plain and LTCG checks; search did not resolve them. Probe removed.
 - `AI::Pedestrian` deleting destructor (0x824A8E68): shared by cPedestrianBase, Pedestrian and PedestrianGuard (slot 0 of 0x8200B1F8, 0x82108DB0, 0x8200AE78); its callee 0x824A8EB8 is the implicit `~cPedestrianBase` (Pedestrian.obj's COMDAT copy, now matched). With implicit destructors `??_GPedestrian` is plain EXACT, but the single-file LTCG model inlines `~cPedestrianBase` into it (5/20 words) where CD2's whole-program build kept the call; left out until the model sees its other callers.
 - `PHYSICS::cSurfaceProfile::MakeNew` (0x82695F98), `VFX::cVFXSurfaceProfile::MakeNew` (0x827CCBD0), `unknown::cOutlines2::MakeNew` (0x827A4000): recovered cNonGameBase hierarchy gives EXACT deleting wrappers and IsA methods, but factories retain this in r31 instead of using the base constructor's return in r3 under plain and standard LTCG builds (same cross-module constructor-return issue as the crowd/streaming factories).
 - `GameManagement::cGameModeSpawnPoint::MakeNew` (0x8284D6F0): identity-matrix initialization has the correct stores, but misses CD2's matrix-address calculation; an inline `SetIdentity` helper, including its reference return, and standard source search did not restore it. Destructor is EXACT.

@@ -80,6 +80,8 @@ namespace Vehicle
         virtual void NotifyDetonation(cGameBase *, CHARACTER::cCharacterInterface *, unsigned char);
         virtual void CreateDynamicObstacle();
         virtual unsigned char GetDynamicObstacleInput();
+        // CD2 cIgnitable table slot 5 at 0x82135440, body 0x826D1B68; RuffKing names the override.
+        virtual float RetFireRadius() const;
         virtual cGameBase *RetSatchelAttachObject();
         virtual void OnAttachSatchelCharge(Equip::cCWSatchelCharge *);
         virtual void OnDetachSatchelCharge(Equip::cCWSatchelCharge *);
@@ -102,7 +104,7 @@ namespace Vehicle
         virtual void vf391(); virtual void vf392(); virtual void vf393(); virtual void vf394(); virtual void vf395(); virtual void vf396();
         virtual void vf397(); virtual void vf398(); virtual void vf399(); virtual void vf400(); virtual void vf401(); virtual void vf402();
         virtual void vf403(); virtual void vf404(); virtual void vf405(); virtual void vf406(); virtual void vf407(); virtual void vf408();
-        virtual void vf409(); virtual void vf410(); virtual void vf411(); virtual void vf412(); virtual void vf413(); virtual void vf414();
+        virtual void vf409(); virtual bool IsAPoliceVehicle(); virtual void vf411(); virtual void vf412(); virtual void vf413(); virtual void vf414();
         virtual void vf415(); virtual bool MustStop(); virtual void SetMustStop(bool); virtual void vf418(); virtual void vf419(); virtual void vf420();
         virtual void vf421(); virtual void vf422(); virtual void vf423(); virtual void vf424(); virtual void vf425(); virtual void vf426();
         virtual void vf427(); virtual void vf428(); virtual void vf429(); virtual void vf430(); virtual void vf431(); virtual void vf432();

@@ -2,31 +2,32 @@
 // its StaticCreateClass builds cClass(0x6A1, "cCwTransCharacter", 0x2E00); its constructor 0x82231358 (its
 // SpawnFromPrototype tail-calls it) calls cCharacter's constructor 0x82543408. CD2's cFrontEndAgent also derives from
 // it.
-// Accessor evidence from CD2: 0x82538170 reads byte 0x2D20; 0x825381F0 tests a bit in
-// halfword 0x2D64; 0x82538218..0x82538230 read/write bytes 0x2DA4..0x2DA6;
-// 0x82538238 reads word 0x2DD0. These field and method names are ours. The full
-// primary virtual interface is not modelled; these accessors are declared directly.
+// Burn's cPlayerCharacter gives the skill-set, invulnerability, death-limbo, friendly-kill and last-vehicle member
+// names. CD2 has m_SkillSet at +0x2CC4 (its transform flag at +0x2D20), a 16-bit power-up mask at +0x2D64,
+// death-limbo/friendly-kill flags at +0x2DA4/+0x2DA5 and last vehicle ID at +0x2DD0. Byte +0x2DA6 remains unnamed.
+// cCharacter's recovered primary slots give the prefix for these overrides; each slot is checked against CD2.
 #ifndef CHARACTER_CCWTRANSCHARACTER_H
 #define CHARACTER_CCWTRANSCHARACTER_H
 
 #include "CHARACTER/cCharacter.h"
 #include "gom/object_prototype.h"
+#include "RPG/cSkillSet.h"
 
 namespace CHARACTER
 {
     class cCwTransCharacter : public cCharacter
     {
     private:
-        unsigned char m_pad2CC0[0x2D20 - 0x2CC0];
-        unsigned char m_byte2D20;
-        unsigned char m_pad2D21[0x2D64 - 0x2D21];
-        unsigned short m_flags2D64;
+        unsigned int m_nInvulnerableEnd;
+        RPG::cSkillSet m_SkillSet;
+        unsigned char m_unmodelled2D28[0x2D64 - 0x2D28];
+        unsigned short m_nPowerUpStatus;
         unsigned char m_pad2D66[0x2DA4 - 0x2D66];
-        unsigned char m_byte2DA4;
-        unsigned char m_byte2DA5;
+        bool m_bInDeathLimbo;
+        bool m_bKilledByFriendly;
         unsigned char m_byte2DA6;
         unsigned char m_pad2DA7[0x2DD0 - 0x2DA7];
-        unsigned int m_word2DD0;
+        unsigned int m_nLastVehicleHitID;
         unsigned char m_pad2DD4[0x2E00 - 0x2DD4];
 
     public:
@@ -50,15 +51,29 @@ namespace CHARACTER
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *prototype, void *memory);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
+        // CD2 primary slot 391; the embedded skill set owns the transformation flag.
+        virtual bool IsTransformationRequired() const;
+        virtual unsigned char RetAthleticLevel() const;
+        virtual unsigned char RetExplosivesLevel() const;
+        virtual unsigned char RetStrengthLevel() const;
+        virtual unsigned char RetFirearmsLevel() const;
+        virtual bool IsSkillAndBonusMaxed(unsigned int skill) const;
+        virtual bool IsSkillMaxed(unsigned int skill) const;
+        virtual bool IsPowerUpActive(ePowerUp powerUp);
+        virtual unsigned int GetMaxReplicatedFields() const;
+        virtual bool IsInDeathLimbo() const;
+        virtual void SetKilledByFriendly(bool friendly);
+        virtual unsigned int RetLastVehicleHitID() const;
 
         CD2_LAYOUT_CHECKS(cCwTransCharacter,
             CD2_SIZE(cCwTransCharacter, 0x2E00)
-            CD2_OFFSET(cCwTransCharacter, m_byte2D20, 0x2D20)
-            CD2_OFFSET(cCwTransCharacter, m_flags2D64, 0x2D64)
-            CD2_OFFSET(cCwTransCharacter, m_byte2DA4, 0x2DA4)
-            CD2_OFFSET(cCwTransCharacter, m_byte2DA5, 0x2DA5)
+            CD2_OFFSET(cCwTransCharacter, m_nInvulnerableEnd, 0x2CC0)
+            CD2_OFFSET(cCwTransCharacter, m_SkillSet, 0x2CC4)
+            CD2_OFFSET(cCwTransCharacter, m_nPowerUpStatus, 0x2D64)
+            CD2_OFFSET(cCwTransCharacter, m_bInDeathLimbo, 0x2DA4)
+            CD2_OFFSET(cCwTransCharacter, m_bKilledByFriendly, 0x2DA5)
             CD2_OFFSET(cCwTransCharacter, m_byte2DA6, 0x2DA6)
-            CD2_OFFSET(cCwTransCharacter, m_word2DD0, 0x2DD0))
+            CD2_OFFSET(cCwTransCharacter, m_nLastVehicleHitID, 0x2DD0))
     };
 }
 

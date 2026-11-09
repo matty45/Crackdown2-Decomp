@@ -25,7 +25,7 @@ namespace Fun_Runtime
         cSafeDeletablePointerBase() : m_pPtr(0) {}
         cSafeDeletablePointerBase(cSafeDeletable *pointer);
         virtual ~cSafeDeletablePointerBase();
-        // CD2 0x8264B328 initializes the payload before linking this sentinel.
+        // Payload storage; the typed safe-pointer constructor performs list insertion.
         cSafeDeletable *m_pPtr;
 
         CD2_LAYOUT_CHECKS(cSafeDeletablePointerBase,
@@ -52,14 +52,6 @@ namespace Fun_Runtime
 
     inline cSafeDeletablePointerBase::cSafeDeletablePointerBase(cSafeDeletable *pointer) : m_pPtr(pointer)
     {
-        if (m_pPtr)
-        {
-            cSafeDeletablePointerBase *head = &m_pPtr->m_SafeDeletablePointerListHead;
-            m_pPrev = head;
-            m_pNext = head->m_pNext;
-            head->m_pNext = this;
-            m_pNext->m_pPrev = this;
-        }
     }
 
     inline cSafeDeletablePointerBase::~cSafeDeletablePointerBase()

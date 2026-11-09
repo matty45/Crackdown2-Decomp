@@ -23,6 +23,7 @@
 #include "fun_runtime/inheritance_registrar.h"
 #include "CHARACTER/cCharacterMotion.h"
 #include "CHARACTER/cCharacter.h"
+#include "CHARACTER/cBonesScriptRegistration.h"
 #include "CHARACTER/cCharacterInterface.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
@@ -40,6 +41,11 @@ namespace CHARACTER
         return "cCharacter";
     }
 
+    const char *cBonesScriptRegistration::RetName() const
+    {
+        return "eBones";
+    }
+
     bool cCharacter::IsInGodMode() const
     {
         return (m_flags2815 & 0x20) != 0;
@@ -48,6 +54,11 @@ namespace CHARACTER
     bool cCharacter::IsInfiniteAmmo() const
     {
         return (m_flags2815 & 0x10) != 0;
+    }
+
+    unsigned int cCharacter::GetMaxReplicatedFields() const
+    {
+        return 59;
     }
 
     // Linker-folded interface getter; this address is owned by this translation unit.
