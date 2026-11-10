@@ -7,7 +7,8 @@ Needs no game files; --no-compile skips check 7, the only one that needs the XDK
 it). All checks must pass:
   1. files      every file in the manifest has a splits.txt entry, and every file there exists (a file may be set
                 up before any of its functions is matched)
-  2. ranges     no two files' text ranges overlap; no listed address belongs to two files or is listed twice
+  2. ranges     no two files' text ranges overlap; no listed address belongs to two files or is listed twice; data
+                ranges (data/bss in CD2's .data, rdata in its .rdata) lie in their section and overlap no other's
   3. ownership  every claimed function lies in its file's text range or is listed for that file (hot/init/atexit);
                 entries marked "folded" must be listed as folded for that file and lie outside its range
   4. claims     no address is claimed by two files, and no file claims an address another file lists as folded
@@ -23,13 +24,17 @@ it). All checks must pass:
 
 The same CD2 function declared under two names is caught by the relocation-target check (tools/verify_src.py).
 """
-import atexit, collections, json, os, re, shutil, struct, subprocess, sys, tempfile
+import collections, json, os, re, struct, subprocess, sys
 
 TOOLS = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, TOOLS)
-from verify_src import FLAGS, XDK, BIN, ROOT, flags_for, load_file_flags, ltcg_built, load_middleware
+import buildcache  # noqa: E402
+from verify_src import XDK, BIN, ROOT, flags_for, load_file_flags, ltcg_built, load_middleware, work_dir
 
 HOT = (0x821D0000, 0x823D0000)
+# CD2's sections that hold data (from its section table): .rdata, and .data, which also holds the zero-initialized data
+SECTION_OF = {'rdata': (0x82000400, 0x8216F658), 'data': (0x83050000, 0x83A484FC), 'bss': (0x83050000, 0x83A484FC)}
+DATA_KINDS = tuple(SECTION_OF)
 
 
 BINARY_EXT = ('.exe', '.dll', '.lib', '.obj', '.o', '.a', '.so', '.pdb', '.ilk', '.exp', '.xdb', '.pe', '.xex', '.i64',
@@ -77,13 +82,15 @@ def load_splits(path):
             continue
         if not line[0].isspace():
             cur = body.strip()
-            files[cur] = dict(text=None, hot=[], init=[], atexit=[], folded=[], line=n)
+            files[cur] = dict(text=None, hot=[], init=[], atexit=[], folded=[], data=[], bss=[], rdata=[], line=n)
             continue
         parts = body.split()
         kind = parts[0]
         vals = [int(v, 16) for v in parts[1:]]
         if kind == 'text':
             files[cur]['text'] = (vals[0], vals[1])
+        elif kind in DATA_KINDS:  # a range of the file's data in CD2 (cd2.py datasplits proposes them)
+            files[cur][kind].append((vals[0], vals[1]))
         elif kind in ('hot', 'init', 'atexit', 'folded'):
             files[cur][kind].append(vals[0])
         else:
@@ -224,6 +231,15 @@ def run(manifest, splits, extra_type_roots=(), extra_sources=(), skip_compile=Fa
         for f0, s0, f in rng:
             if f0 <= a < s0 and any(k != 'folded' and wf != f for wf, k in who):
                 failures['ranges'].append('%08X is listed for %s but lies in %s\'s range' % (a, who, f))
+    data_ranges = sorted((a, b, f, kind) for f, s in splits.items() for kind in DATA_KINDS for a, b in s[kind])
+    for a, b, f, kind in data_ranges:
+        lo, hi = SECTION_OF[kind]
+        if not (lo <= a < b <= hi):
+            failures['ranges'].append('%s: %s [%08X, %08X) is not a range inside CD2\'s %s section [%08X, %08X)'
+                                      % (f, kind, a, b, '.rdata' if kind == 'rdata' else '.data', lo, hi))
+    for (a0, a1, fa, ka), (b0, b1, fb, kb) in zip(data_ranges, data_ranges[1:]):
+        if b0 < a1:
+            failures['ranges'].append('%s %s [%08X, %08X) overlaps %s %s [%08X, %08X)' % (fa, ka, a0, a1, fb, kb, b0, b1))
 
     # 3. ownership, 4. claims
     claims = collections.defaultdict(list)
@@ -278,15 +294,13 @@ def run(manifest, splits, extra_type_roots=(), extra_sources=(), skip_compile=Fa
     if not skip_compile:
         env = dict(os.environ, PATH=BIN + ';' + os.environ['PATH'],
                    INCLUDE=os.path.join(XDK, 'include', 'xbox') + ';' + os.path.join(ROOT, 'include'))
-        tmp = tempfile.mkdtemp(prefix='cd2integrity_')
-        atexit.register(shutil.rmtree, tmp, ignore_errors=True)  # removed when the process exits
+        tmp = work_dir('integrity_')
         owners = collections.defaultdict(list)
         sources = [os.path.join(ROOT, f) for f in manifest] + list(extra_sources)
         for n, path in enumerate(sources):
             obj = os.path.join(tmp, '%d_%s.obj' % (n, os.path.basename(path)))
-            r = subprocess.run([os.path.join(BIN, 'cl.exe')] + flags_for(path, flag_table) + ['/I' + os.path.dirname(path),
-                                '/Fo' + obj, path],
-                               env=env, capture_output=True, text=True)
+            r = buildcache.compile([os.path.join(BIN, 'cl.exe')] + flags_for(path, flag_table) + ['/I' + os.path.dirname(path),
+                                    '/Fo' + obj, path], env)
             if r.returncode:
                 failures['functions'].append('%s does not compile' % path)
                 continue
@@ -307,8 +321,7 @@ def self_test(no_compile=False):
     files = [f for f in splits if manifest.get(f) and splits[f]['init']]  # files with matches and initializers
     a_file, b_file = files[0], files[1]
     b_addr = '0x%08X' % splits[b_file]['text'][0]
-    tmp = tempfile.mkdtemp(prefix='cd2integrity_selftest_')
-    atexit.register(shutil.rmtree, tmp, ignore_errors=True)  # removed when the process exits
+    tmp = work_dir('integrity_selftest_')
     cases = []
     m = copy.deepcopy(manifest)
     m['src/SelfTest/NotInSplits.cpp'] = [{'address': b_addr, 'size': 4, 'symbol': 'SelfTest'}]
@@ -339,6 +352,13 @@ def self_test(no_compile=False):
     s = copy.deepcopy(splits)
     s[a_file]['init'] = s[a_file]['init'] + s[a_file]['init'][:1]
     cases.append(('ranges', 'one initializer listed twice for a file', manifest, s, (), ()))
+    s = copy.deepcopy(splits)
+    s[a_file]['bss'] = s[a_file]['bss'] + [(0x83900000, 0x83900040)]
+    s[b_file]['data'] = s[b_file]['data'] + [(0x83900020, 0x83900060)]
+    cases.append(('ranges', 'overlapping data ranges of two files', manifest, s, (), ()))
+    s = copy.deepcopy(splits)
+    s[a_file]['rdata'] = s[a_file]['rdata'] + [(0x83900000, 0x83900040)]
+    cases.append(('ranges', 'an rdata range outside CD2\'s .rdata', manifest, s, (), ()))
     tdir = os.path.join(tmp, 'types')
     os.makedirs(tdir)
     open(os.path.join(tdir, 'dup.h'), 'w').write('namespace Fun_Runtime\n{\n    class Vec3 { float x; };\n}\n')

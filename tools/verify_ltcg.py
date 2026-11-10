@@ -23,13 +23,14 @@ Comparison masks address immediates only: halves derived from a `lis`, loads/sto
 calls that leave the function. Everything else (offsets, registers, opcodes, intra-function branches) must match.
 The build and comparison functions (build_ltcg, compare_ltcg, direct_constants) are also used by agent harnesses.
 """
-import bisect, concurrent.futures, json, math, os, re, shutil, struct, subprocess, sys, tempfile
+import bisect, concurrent.futures, json, math, os, re, shutil, struct, subprocess, sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import buildcache
 import coff
 import relocs
 from verify_src import (pe_reader, FLAGS, XDK, BIN, ROOT, EXPECTED_ENTRY, check_toolchain, flags_for, file_flags,
-                        ltcg_built, symbol_matches)
+                        ltcg_built, symbol_matches, compile_sizes, game_tables, game_data_check, data_splits, work_dir)
 
 POOL_START, POOL_SIZE = 0x820F8C80, 0x8000  # CD2's LTCG constant pool (__pool@_0)
 # builds each gate runs at once (CD2_WORKERS). verify runs every gate at the same time, and with a real-time virus
@@ -215,9 +216,8 @@ def dependencies(src, plain_obj, d, env, manifest=None, override=None):
         tag = 'dep_' + re.sub(r'\W', '_', os.path.splitext(other)[0])
 
         def cl(extra, out):
-            r = subprocess.run([os.path.join(BIN, 'cl.exe')] + flags_for(other) + ['/I' + os.path.dirname(os.path.join(ROOT, other))]
-                               + extra + ['/Fo' + out, override.get(other) or os.path.join(ROOT, other)],
-                               env=env, capture_output=True, text=True)
+            r = buildcache.compile([os.path.join(BIN, 'cl.exe')] + flags_for(other) + ['/I' + os.path.dirname(os.path.join(ROOT, other))]
+                                   + extra + ['/Fo' + out, override.get(other) or os.path.join(ROOT, other)], env)
             if r.returncode:
                 raise RuntimeError('%s (a dependency): compile error\n%s' % (other, r.stdout + r.stderr))
             return out
@@ -395,13 +395,20 @@ def references(ws, start):
 MODEL = re.compile(r'^(\?g_vl_c\d+@|__pool@|VerifyLtcg|\?VerifyLtcg|\?g_verify_ltcg)')
 
 
-def cstring(read, addr):
-    """The C string at addr in read's image (with its NUL; at most 64 bytes), or None."""
-    try:
-        b = read(addr, 64)
-    except ValueError:
-        return None
-    return b.split(b'\0', 1)[0] + b'\0' if b'\0' in b else None
+def cstring(read, addr, limit=4096):
+    """The C string at addr in read's image (with its NUL; at most limit bytes), or None."""
+    out = b''
+    while len(out) < limit:
+        try:
+            b = read(addr + len(out), 64)
+        except ValueError:
+            return None
+        if b'\0' in b:
+            return out + b.split(b'\0', 1)[0] + b'\0'
+        if not b:
+            return None
+        out += b
+    return None
 
 
 def check_references(ours, cd2, symbols, our_read, cd2_read, src, fname, cd2_bytes=None, cd2_string=None, obj=None):
@@ -565,8 +572,8 @@ def check_file(src, funcs, read, env, d, srcpath=None, out=print, manifest=None)
     os.makedirs(d, exist_ok=True)
     srcpath = srcpath or os.path.join(ROOT, src)
     plain = os.path.join(d, 'plain.obj')
-    r = subprocess.run([os.path.join(BIN, 'cl.exe')] + flags_for(src) + ['/I' + os.path.dirname(os.path.join(ROOT, src)),
-                        '/Fo' + plain, srcpath], env=env, capture_output=True, text=True)
+    r = buildcache.compile([os.path.join(BIN, 'cl.exe')] + flags_for(src) + ['/I' + os.path.dirname(os.path.join(ROOT, src)),
+                            '/Fo' + plain, srcpath], env)
     if r.returncode:
         out('%s: COMPILE ERROR\n%s' % (src, r.stdout + r.stderr))
         return None
@@ -582,7 +589,8 @@ def check_file(src, funcs, read, env, d, srcpath=None, out=print, manifest=None)
     compiled = list(coff.functions(plain))
     names = StaticNames(d, plain)
     syms = names.symbols
-    res = dict(results=[], entries=[], problems=[], known={}, nref=0)
+    robj = relocs.Obj(plain, compile_sizes(src, d, env, srcpath))
+    res = dict(results=[], entries=[], problems=[], known={}, nref=0, reached=[])
     for f in funcs:
         hit = [n for n, _, _ in compiled if symbol_matches(f['symbol'], n)]
         if hit and f.get('matching', True):
@@ -613,7 +621,18 @@ def check_file(src, funcs, read, env, d, srcpath=None, out=print, manifest=None)
         res['results'].append((f, plain_exact, lt_exact))
         out('  %08X %4d bytes  plain %-5s  ltcg %-14s %s%s' % (va, size, 'EXACT' if plain_exact else 'diff', status,
             found[0][0][:70] if found else f['symbol'], '' if f.get('matching', True) else '   [work in progress]'))
+    data_entries = plain_names(res['entries'], robj)
+    n = len(data_entries)
+    res['reached'], pr = relocs.check_all_data(data_entries, game_data_check(read), extents=False)
+    res['entries'] += data_entries[n:]  # the pointers found in the data
+    res['problems'] += pr
     return res
+
+
+def plain_names(entries, plain_obj):
+    """The references of the functions exact only under LTCG, with the plain object (whose names the link map uses)
+    as the definer of the data they reach, for relocs.check_all_data"""
+    return [(f, fn, sym, addr, kind, off, plain_obj) for f, fn, sym, addr, kind, off, _ in entries]
 
 
 def self_test(read, env):
@@ -633,7 +652,7 @@ def self_test(read, env):
               '(RWS::Time::g_bUseStoredTime ? RWS::Time::g_nVerifyLtcgOther : RWS::Time::CalcGameTime())', other)]
     aliases = relocs.load_aliases(os.path.join(ROOT, 'config', 'symbol_aliases.txt'))
     ok = True
-    work = tempfile.mkdtemp(prefix='cd2ltcg_selftest_')
+    work = work_dir('ltcg_selftest_')
     for what, old, new, decl in cases:
         i = text.index(old, anchor)
         mod = decl + text[:i] + new + text[i + len(old):]
@@ -663,16 +682,34 @@ def self_test(read, env):
             decl2, 'static Fun_Runtime::tGlobalConstants g_VerifyLtcgOtherConstants;\n' + decl2))
     copy2 = os.path.join(planted, os.path.basename(src2))
     shutil.copy(os.path.join(ROOT, src2), copy2)
-    for what, path, planted_case in (('a read of the wrong static', copy2, True), ('the unmodified static readers', None, False)):
-        res = check_file(src2, funcs2, read, env, os.path.join(work, 'static_%d' % planted_case), srcpath=path,
+    # data: the same initializer reads the file's own g_GlobalConstants copy, initialized data; a shadowing copy of
+    # fun_runtime/class.h changes one of its values (the constructor keeps the members opaque, so the code stays)
+    cls = open(os.path.join(ROOT, 'include', 'fun_runtime', 'class.h'), newline='').read()
+    data_dir = os.path.join(work, 'data')
+    os.makedirs(os.path.join(data_dir, 'fun_runtime'))
+    open(os.path.join(data_dir, 'fun_runtime', 'class.h'), 'w', newline='').write(
+        cls.replace('CONST_FLOAT_0d25(0.25f)', 'CONST_FLOAT_0d25(0.5f)'))
+    copy3 = os.path.join(data_dir, os.path.basename(src2))
+    shutil.copy(os.path.join(ROOT, src2), copy3)
+    clean_problems = None
+    for what, path, planted_case in (('the unmodified static readers', None, False), ('a read of the wrong static', copy2, True),
+                                     ('a changed initial value', copy3, True)):
+        res = check_file(src2, funcs2, read, env, os.path.join(work, 'static_%d' % len(what)), srcpath=path,
                          out=lambda m: None)
         exact = bool(res) and any(lt for f, _, lt in res['results'] if 'nPART_PERCENT_WEIGHT' in f['symbol'])
         problems = (res['problems'] + relocs.check_consistency(res['entries'], read, aliases, res['known'])) if res else []
-        good = exact and bool(problems) == planted_case
+        if clean_problems is None:
+            clean_problems = set(problems)
+            good = exact and not problems
+        else:  # a plant must add a problem to the unmodified file's
+            good = exact and bool(set(problems) - clean_problems)
         ok &= good
         print('self-test %-30s %s' % (what, ('caught' if planted_case else 'accepted') if good else
                                       'NOT A VALID PLANT (bytes differ)' if not exact else
                                       'NOT CAUGHT' if planted_case else 'WRONGLY REJECTED'))
+    if 'CONST_FLOAT_0d25(0.25f)' not in cls:
+        print('self-test %-30s cannot plant it in fun_runtime/class.h (update the self-test)' % 'a changed initial value')
+        ok = False
     # dependencies(): ShowRopeSegments is exact only when LTCG sees GDb::ConsoleOutput's body, so it must match while
     # ConsoleOutput is a matched function and must not once ConsoleOutput is work in progress (then it is a stub)
     rope, callee = 'src/VFX/cRopes.cpp', 'src/GDb/ConsoleOutput.cpp'
@@ -712,9 +749,9 @@ def main():
     if test:
         sys.exit(0 if self_test(read, env) else 1)
     manifest = json.load(open(os.path.join(ROOT, 'config', 'matched_functions.json')))
-    work = keep or tempfile.mkdtemp(prefix='cd2ltcg_')
+    work = keep or work_dir('ltcg_')
     totals = dict(n=0, plain=0, ltcg=0, tracked=0, tracked_ok=0)
-    ref_entries, ref_problems, known, nref = [], [], {}, 0
+    ref_entries, ref_problems, known, nref, reached = [], [], {}, 0, []
 
     def one(job):
         """One file's build, in its own directory, with its output kept for printing in manifest order."""
@@ -735,6 +772,7 @@ def main():
         ref_problems += res['problems']
         known.update(res['known'])
         nref += res['nref']
+        reached += res['reached']
         for f, plain_exact, lt_exact in res['results']:
             tracked = f.get('matching', True)
             totals['n'] += 1
@@ -745,9 +783,12 @@ def main():
     print('\n%(n)d functions: %(plain)d exact in a plain build, %(ltcg)d exact under LTCG; '
           '%(tracked_ok)d of %(tracked)d matched functions exact under LTCG' % totals
           + ('; %d plain object(s), which have no LTCG build (ltcg_built())' % len(plain_objects) if plain_objects else ''))
+    ref_problems += relocs.check_extents(reached, ref_entries)
+    ref_problems += relocs.check_tables(reached, *game_tables(read)[1])
+    ref_problems += relocs.check_ownership(reached, data_splits())
     ref_problems += relocs.check_consistency(ref_entries, read, relocs.load_aliases(os.path.join(ROOT, 'config', 'symbol_aliases.txt')), known)
-    print('LTCG relocation targets: %d references in %d LTCG-only functions checked; %s' % (
-        len(ref_entries), nref, 'all consistent' if not ref_problems else '%d PROBLEM(S):' % len(ref_problems)))
+    print('LTCG relocation targets: %d references in %d LTCG-only functions checked, %d data symbols they reach; %s' % (
+        len(ref_entries), nref, len(reached), 'all consistent' if not ref_problems else '%d PROBLEM(S):' % len(ref_problems)))
     for pr in ref_problems:
         print('  ' + pr)
     if not keep:

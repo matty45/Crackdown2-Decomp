@@ -115,6 +115,17 @@ How to work:
 `WRONG TARGET` means the bytes match but a call or global goes elsewhere than in the game: you called the wrong
 function, or used the wrong global or constant.
 
+`WRONG DATA` means the bytes match but data the function reaches differs from CD2's (`docs/contributor-harness.md`,
+"Data"). Usually a vtable: a constructor's bytes match whatever its table holds, but every slot of the table it stores
+must hold what CD2's does. A slot naming a base's function where CD2 has another address means the class (or a base
+between) overrides that virtual: declare the override in the class whose CD2 table first holds that address (`show`
+on the address lists the tables). Two slot names at one address are either a missing override or the linker folding
+identical bodies (an empty virtual, `return false`). A fold belongs in `config/symbol_aliases.txt`, which is
+maintainer-owned: propose the line, with its evidence, in your pull request, and only when CD2's body there is what
+both functions would compile to. A table that runs over the next one, or is shorter than CD2's, declares virtuals
+CD2's class lacks or lacks some it has; a datum left zero where CD2 initializes it needs CD2's initializer (or its
+form: a static CD2 initializes in its data, not at run time). Fix the header, never the data check.
+
 ## Finding names and layouts
 
 Every name and every field needs evidence. Use the strongest you have:

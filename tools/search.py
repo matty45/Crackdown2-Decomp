@@ -17,12 +17,12 @@ Transformations (the shapes docs/matching-notes.md found to matter):
   increment   `i++;` versus `++i;`
 Nothing is written unless --apply is given; the result shows the transformations and the changed lines.
 """
-import concurrent.futures, difflib, os, re, shutil, subprocess, sys, tempfile
+import concurrent.futures, difflib, os, re, shutil, subprocess, sys
 
 TOOLS = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, TOOLS)
 import coff  # noqa: E402
-from verify_src import ROOT, XDK, BIN, FLAGS, flags_for, symbol_matches  # noqa: E402
+from verify_src import ROOT, XDK, BIN, flags_for, symbol_matches, work_dir  # noqa: E402
 
 TOKEN = re.compile(r'''
     (?P<ws>\s+) | (?P<comment>//[^\n]*|/\*.*?\*/) | (?P<str>"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*') |
@@ -376,7 +376,7 @@ def _recovery_test(manifest, read, limit=8, log=print):
     env = dict(os.environ, PATH=BIN + ';' + os.environ['PATH'],
                INCLUDE=os.path.join(XDK, 'include', 'xbox') + ';' + os.path.join(ROOT, 'include'))
     tried = recovered = 0
-    work = tempfile.mkdtemp(prefix='cd2_search_test_')  # private to this process; removed by recovery_test
+    work = work_dir('search_test_')  # private to this process; removed by recovery_test
     _RECOVERY_WORK.append(work)
     for src, entries in manifest['files'].items():
         text = open(os.path.join(ROOT, src), newline='').read()

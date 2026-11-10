@@ -15,11 +15,11 @@ always run first. Replacements must match exactly once, otherwise the variant is
 Typical use: find which source shape gives an instruction CD2 has, e.g. the operand order of a commutative op,
 an extract instead of a mask, or where a value is recomputed. Examples are in tools/research/compiler_re/sweeps/.
 """
-import os, runpy, shutil, subprocess, sys, tempfile
+import os, runpy, shutil, subprocess, sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import coff
-from verify_src import pe_reader, FLAGS, XDK, BIN, ROOT, EXPECTED_ENTRY, check_toolchain
+from verify_src import pe_reader, FLAGS, XDK, BIN, ROOT, EXPECTED_ENTRY, check_toolchain, work_dir
 
 
 def main():
@@ -33,7 +33,7 @@ def main():
     spec = runpy.run_path(sys.argv[2])
     source, targets = spec['SOURCE'], spec['TARGETS']
     variants = [('baseline', [])] + [(k, v) for k, v in spec['VARIANTS'].items() if k != 'baseline']
-    work = sys.argv[3] if len(sys.argv) > 3 else tempfile.mkdtemp(prefix='cd2sweep_')
+    work = sys.argv[3] if len(sys.argv) > 3 else work_dir('sweep_')
     env = dict(os.environ, PATH=BIN + ';' + os.environ['PATH'],
                INCLUDE=os.path.join(XDK, 'include', 'xbox') + ';' + os.path.join(ROOT, 'include'))
     srcpath = os.path.join(ROOT, source)

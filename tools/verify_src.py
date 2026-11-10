@@ -19,9 +19,67 @@ import atexit, hashlib, json, os, re, shutil, struct, subprocess, sys, tempfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, 'tools'))
+import buildcache  # noqa: E402
 import coff  # noqa: E402
+import cvtypes  # noqa: E402
 import relocs  # noqa: E402
 
+# every tool's working folders: build/cd2/tmp/<pid>_<prefix>... (build/ is ignored by git)
+WORK_TMP = os.path.join(ROOT, 'build', 'cd2', 'tmp')
+_pruned = []
+
+
+def pid_alive(pid):
+    """Whether process pid still runs (on Windows through the kernel's process table; elsewhere with signal 0). A
+    process of another user that cannot be opened counts as running."""
+    if os.name != 'nt':
+        try:
+            os.kill(pid, 0)
+        except ProcessLookupError:
+            return False
+        except PermissionError:
+            return True
+        return True
+    import ctypes
+    k32 = ctypes.windll.kernel32
+    h = k32.OpenProcess(0x1000, False, pid)  # PROCESS_QUERY_LIMITED_INFORMATION
+    if not h:
+        return k32.GetLastError() == 5  # ERROR_ACCESS_DENIED: it exists
+    try:
+        code = ctypes.c_ulong()
+        return bool(k32.GetExitCodeProcess(h, ctypes.byref(code))) and code.value == 259  # STILL_ACTIVE
+    finally:
+        k32.CloseHandle(h)
+
+
+def prune_work_dirs():
+    """Remove the working folders of processes that no longer run (killed ones never reach their atexit), and any
+    older than a week (a process id the system has since given to another process)."""
+    import time
+    for name in os.listdir(WORK_TMP):
+        path = os.path.join(WORK_TMP, name)
+        pid = int(name.split('_', 1)[0]) if name.split('_', 1)[0].isdigit() else None
+        if pid is None or pid == os.getpid():
+            continue  # not a working folder (they are named <pid>_...), or this process's own
+        try:
+            stale = not pid_alive(pid) or time.time() - os.path.getmtime(path) > 7 * 86400
+        except OSError:
+            continue
+        if stale:
+            shutil.rmtree(path, ignore_errors=True)
+
+
+def work_dir(prefix):
+    """A working folder private to this process, removed when it exits; folders left by processes that were killed
+    are removed by the next tool that makes one (prune_work_dirs). Every tool makes its folders here, never in the
+    system's temporary folder, where nothing would ever remove a killed process's folders."""
+    os.makedirs(WORK_TMP, exist_ok=True)
+    if not _pruned:
+        _pruned.append(True)
+        prune_work_dirs()
+    d = tempfile.mkdtemp(prefix='%d_%s' % (os.getpid(), prefix), dir=WORK_TMP)
+    atexit.register(shutil.rmtree, d, ignore_errors=True)
+    return d
 
 
 def local_config():
@@ -298,6 +356,81 @@ def check_toolchain():
 IMAGE_SHA1 = '0C3091FF5BE77B8FC78D6474229193B598F6CC36'
 
 
+def compile_z7(src, out_dir, env, path=None):
+    """A /Z7 build of src (or a modified copy at path) in out_dir, beside the gate's own (whose flags stay as pinned;
+    /Z7 adds debug records only), for the sizes of its data (tools/cvtypes.py). Returns its path; exits on a compile
+    error, as the gate's own build of the same source would have failed too."""
+    obj = os.path.join(out_dir, os.path.basename(src) + '.z7.obj')
+    r = buildcache.compile([os.path.join(BIN, 'cl.exe')] + flags_for(src) + ['/Z7', '/I' + os.path.dirname(os.path.join(ROOT, src)),
+                            '/Fo' + obj, path or os.path.join(ROOT, src)], env, run=run_compiler)
+    if r.returncode:
+        raise SystemExit('%s: compile error in the /Z7 build\n%s' % (src, r.stdout + r.stderr))
+    return obj
+
+
+def compile_sizes(src, out_dir, env, path=None):
+    """{symbol: size} of the data src defines (compile_z7, tools/cvtypes.py)"""
+    return cvtypes.data_sizes(compile_z7(src, out_dir, env, path))
+
+
+def table_lookups(references):
+    """(words_of, table_words) from the game's references (cd2.py game_references()): the CD2 words holding a
+    function's address, and the number of words in CD2's table at an address (None if no table starts there)."""
+    words = {int(a, 16): [int(t, 16) + 4 * slot for t, slot, _ in lst] for a, lst in references['vtables'].items()}
+    tables = {int(t, 16): n for t, n in references.get('tables', {}).items()}
+    return (lambda a: words.get(a, ())), tables.get
+
+
+def game_tables(read):
+    """(words_of, (table_words, own_slot)) for relocs.check_all_data, from the game: own_slot(file, word address) says
+    the function CD2's word there points at lies in the file's text range (config/splits.txt)."""
+    import cd2  # the game's tables and the split ranges
+    words_of, table_words = table_lookups(cd2.game_references())
+    splits = cd2.load_splits(cd2.SPLITS)
+
+    def own_slot(f, a):
+        try:
+            return cd2.owner(struct.unpack('>I', read(a, 4))[0], splits) == f
+        except (ValueError, struct.error):
+            return False
+    return words_of, (table_words, own_slot)
+
+
+def coverage_figures(reached, file_objs, npointers, entries=(), splits=None):
+    """How much of the data the files define is located in CD2 and checked (the rest no matched function, pointer or
+    anchor reaches yet), and how many files have data ranges in splits.txt: dict(located, defined, pointers[, ranged,
+    files])"""
+    defined = {relocs.data_key(f, n, o) for f, o in file_objs for n in o.data_names()}
+    located = {relocs.data_key(f, sym, o) for f, sym, addr, o, d in reached}
+    located |= {relocs.data_key(f, sym, o) for f, fn, sym, addr, kind, off, o in entries
+                if relocs.is_string(sym) or relocs.is_constant(sym)}
+    out = dict(located=len(located & defined), defined=len(defined), pointers=npointers)
+    if splits is not None:
+        out.update(ranged=sum(1 for s in splits.values() if any(s[k] for k in relocs.DATA_RANGES)), files=len(splits))
+    return out
+
+
+def data_coverage(reached, file_objs, npointers, entries=(), splits=None):
+    """The data line of a gate's summary (coverage_figures)"""
+    c = coverage_figures(reached, file_objs, npointers, entries, splits)
+    line = 'data: %(located)d of the %(defined)d data symbols the files define located in CD2 and checked (%(pointers)d ' \
+           'pointers in them)' % c
+    if splits is not None:
+        line += '; %(ranged)d of %(files)d files have data ranges' % c
+    return line
+
+
+def data_splits():
+    """config/splits.txt as tools/check_integrity.py reads it, for relocs.check_ownership"""
+    from check_integrity import load_splits  # it imports this module
+    return load_splits(os.path.join(ROOT, 'config', 'splits.txt'))
+
+
+def game_data_check(read):
+    """relocs.check_all_data's check against CD2's bytes"""
+    return lambda f, sym, addr, obj, d: relocs.check_data(f, sym, addr, d, read, obj)
+
+
 def pe_reader(exe):
     """(read(va, n), entry point) of the extracted game image. Exits unless it is the image setup extracts."""
     pe = struct.unpack('<I', exe[0x3C:0x40])[0]
@@ -328,8 +461,7 @@ def pe_reader(exe):
 def self_test(read, env):
     """Prove the relocation check catches what the byte comparison cannot. Returns True if every case is caught."""
     ok = True
-    tmp = tempfile.mkdtemp(prefix='cd2verify_selftest_')
-    atexit.register(shutil.rmtree, tmp, ignore_errors=True)  # removed when the process exits
+    tmp = work_dir('verify_selftest_')
     # 1. end to end: a tail call to the wrong function with the same signature
     src = os.path.join(ROOT, 'src', 'VFX', 'cAmbientVFXSpawner.cpp')
     text = open(src).read()
@@ -416,6 +548,203 @@ def self_test(read, env):
         caught = bool(relocs.check_consistency(entries, read, {}, known))
         ok &= caught
         print('self-test %-32s %s' % (what, 'caught' if caught else 'NOT CAUGHT'))
+    data_ok = data_self_test(read, env, tmp)
+    owner_ok = ownership_self_test(read, env, tmp)
+    return cache_self_test(env, tmp) and owner_ok and data_ok and ok
+
+
+def ownership_self_test(read, env, tmp):
+    """Data ownership (relocs.check_ownership) against ranges proposed from a file's own located data (cd2.py
+    datasplits): those ranges hold it; the same ranges moved past the data, or given to another file, must not."""
+    import cd2
+    src = 'src/AI/cChaseBehaviour.cpp'
+    _, _, reached = file_checks(src, None, read, env, os.path.join(tmp, 'owner'), splits={})
+    ranges, folded = cd2.propose_data_ranges(reached)
+
+    def splits_with(owner, rs):
+        entry = dict((k, [(s, e) for kind, s, e, _, _, _ in rs if kind == k]) for k in relocs.DATA_RANGES)
+        entry['folded'] = folded.get(src, [])
+        return {owner: entry, src: dict(entry) if owner == src else dict((k, []) for k in relocs.DATA_RANGES)}
+    moved = [(k, s + 0x1000, e + 0x1000, n, x, y) for k, s, e, n, x, y in ranges.get(src, [])]
+    results = [("the file's own data ranges", not relocs.check_ownership(reached, splits_with(src, ranges.get(src, []))),
+                'accepted'),
+               ('data ranges moved past the data', bool(relocs.check_ownership(reached, splits_with(src, moved))), 'caught'),
+               ("its data in another file's range", bool(relocs.check_ownership(
+                   reached, splits_with('src/SelfTest/Other.cpp', ranges.get(src, [])))), 'caught')]
+    ok = bool(ranges.get(src))
+    if not ok:
+        print('self-test %-32s cannot plant it: %s has no located data (update the self-test)' % ('data ownership', src))
+    for what, good, word in results:
+        ok &= good
+        print('self-test %-32s %s' % (what, word if good else 'WRONGLY REJECTED' if word == 'accepted' else 'NOT CAUGHT'))
+    return ok
+
+
+def cache_self_test(env, tmp):
+    """The build cache (tools/buildcache.py) reuses an object only while nothing the compiler read has changed, and a
+    reused object is the one a fresh build gives, but for what no gate reads: the COFF time stamp, and the .debug$S
+    record naming the object file (a reused object keeps its first build's name)."""
+    saved = buildcache.CACHE, os.environ.pop('CD2_NO_CACHE', None)
+    buildcache.CACHE = os.path.join(tmp, 'cache')
+    src = 'src/AI/cChaseBehaviour.cpp'
+
+    def build(n):  # objects of equally long names, so that the sections lie at the same offsets
+        obj = os.path.join(tmp, 'cache_%d.obj' % n)
+        r = buildcache.compile([os.path.join(BIN, 'cl.exe')] + flags_for(src) + ['/Fo' + obj, os.path.join(ROOT, src)], env)
+        with open(obj, 'rb') as fh:
+            b = bytearray(fh.read())
+        b[4:8] = bytes(4)
+        nsec, opt = struct.unpack_from('<HH', b, 2)[0], struct.unpack_from('<H', b, 16)[0]
+        for i in range(nsec):
+            o = 20 + opt + 40 * i
+            if b[o:o + 8].rstrip(b'\0') == b'.debug$S':
+                size, raw = struct.unpack_from('<II', b, o + 16)
+                b[raw:raw + size] = bytes(size)
+        return r.returncode, bytes(b)
+    try:
+        before = dict(buildcache.stats)
+        _, first = build(1)
+        _, second = build(2)
+        reused = buildcache.stats['hits'] == before['hits'] + 1 and buildcache.stats['misses'] == before['misses'] + 1
+        os.environ['CD2_NO_CACHE'] = '1'
+        _, fresh = build(3)
+        del os.environ['CD2_NO_CACHE']
+        same = first == second == fresh
+        # a header the compiler read now hashes differently: the entry must not be reused
+        real = buildcache.file_sha
+        buildcache.file_sha = lambda p: 'changed' if p.lower().endswith('aiconstants.h') else real(p)
+        try:
+            build(4)
+        finally:
+            buildcache.file_sha = real
+        missed = buildcache.stats['misses'] == before['misses'] + 2
+    finally:
+        buildcache.CACHE = saved[0]
+        if saved[1] is not None:
+            os.environ['CD2_NO_CACHE'] = saved[1]
+    for what, good, word in (('cache reuses an unchanged build', reused, 'accepted'),
+                             ('cached object equals a fresh one', same, 'accepted'),
+                             ('cache misses a changed header', missed, 'caught')):
+        print('self-test %-32s %s' % (what, word if good else 'WRONGLY REJECTED' if word == 'accepted' else 'NOT CAUGHT'))
+    return reused and same and missed
+
+
+# Data plants: a shadowing copy of a header beside a copy of the source (its quoted #include finds the copy first)
+# changes only data that one of the file's matched functions reaches; that function's bytes stay exact. Each is
+# (what, source, header (under include/, or beside the source), old, new, the matched function that must stay exact,
+# and optionally an edit of the source copy (old, new)).
+DATA_PLANTS = [
+    # a header constant the matched fPOINT_LOCK_RADIUS_SQ initializer loads: only its initialized value changes
+    ('a changed initial value', 'src/AI/cChaseBehaviour.cpp', 'AI/aiconstants.h',
+     'static const float fPOINT_LOCK_RADIUS = fCHARACTER_HALF_HEIGHT;',
+     'static const float fPOINT_LOCK_RADIUS = fCHARACTER_HALF_HEIGHT * 2.0f;', '??__EfPOINT_LOCK_RADIUS_SQ@'),
+    # the same constant left zero-initialized: CD2 initializes it, the initializer still loads it the same way
+    ('zero where CD2 initializes', 'src/AI/cChaseBehaviour.cpp', 'AI/aiconstants.h',
+     'static const float fPOINT_LOCK_RADIUS = fCHARACTER_HALF_HEIGHT;', 'static float fPOINT_LOCK_RADIUS;',
+     '??__EfPOINT_LOCK_RADIUS_SQ@'),
+    # two virtuals of the spawner base swapped: the factory still stores the same table, whose slots now name the
+    # matched CanSpawn and OnVFXFinished overrides at each other's places
+    ('two virtual slots swapped', 'src/VFX/cLinkedVFXSpawner.cpp', 'VFX/cAmbientVFXSpawner.h',
+     '        virtual bool CanSpawn() const { return m_bRelevantToPlayer != 0; }\n'
+     '        virtual void OnVFXFinished() { ReleaseVFX(); }\n',
+     '        virtual void OnVFXFinished() { ReleaseVFX(); }\n'
+     '        virtual bool CanSpawn() const { return m_bRelevantToPlayer != 0; }\n', '?MakeNew@cLinkedVFXSpawner@'),
+    # the updraft zone's last two virtuals dropped (RetClassName's body too): the factory stores a table two slots
+    # shorter than CD2's, whose next word is this file's RetClassName
+    ('a table missing its last slots', 'src/CHARACTER/cWingSuitUpdraftZone.cpp', 'CHARACTER/cWingSuitUpdraftZone.h',
+     '        virtual const char *RetClassName() const;\n        virtual void Destruct();\n', '',
+     '?MakeNew@cWingSuitUpdraftZone@',
+     ('    const char *cWingSuitUpdraftZone::RetClassName() const\n    {\n        return "cWingSuitUpdraftZone";\n'
+      '    }\n\n', '')),
+    # a virtual inserted in the base before RetClass and IsA: the table no matched function stores is located only
+    # through its own matched virtuals, and two of three now place it a slot early, where RetClassName's is wrong
+    ('an anchored table shifted', 'src/cNetGameAIVehicleSpawnPoint.cpp', 'unknown/cNetGameAISpawnPoint.h',
+     '        virtual const Fun_Runtime::cClass &RetClass() const;\n',
+     '        virtual void VerifyDataPlant();\n        virtual const Fun_Runtime::cClass &RetClass() const;\n',
+     '?RetClassName@cNetGameAIVehicleSpawnPoint@'),
+    # a libjpeg message changed after its 64th byte, reached through the message table jpeg_std_error installs
+    ('a long string changed late', 'src/middleware/libjpeg/jerror.c', 'src/middleware/libjpeg/jerror.h',
+     '"Adobe APP14 marker: version %d, flags 0x%04x 0x%04x, transform %d"',
+     '"Adobe APP14 marker: version %d, flags 0x%04x 0x%04x, transform %u"', '?jpeg_std_error@@'),
+]
+
+
+def plant_copy(d, src, hdr, old, new, src_edit=None):
+    """A copy of src beside a copy of hdr (under include/, or a repository path beside the source) with old replaced
+    by new, and src_edit (old, new) applied to the copy of src; returns the copy's path, or None if an old text is
+    not there exactly once (the self-test needs updating)."""
+    def edit(text, old, new):
+        nl = '\r\n' if '\r\n' in text else '\n'  # a checkout may have either line ending
+        old, new = old.replace('\n', nl), new.replace('\n', nl)
+        return text.replace(old, new) if text.count(old) == 1 else None
+    beside = hdr.startswith('src/')
+    hpath = os.path.join(ROOT, hdr) if beside else os.path.join(ROOT, 'include', hdr)
+    text = edit(open(hpath, newline='').read(), old, new)
+    stext = open(os.path.join(ROOT, src), newline='').read()
+    if src_edit:
+        stext = edit(stext, *src_edit)
+    if text is None or stext is None:
+        return None
+    target = os.path.join(d, os.path.basename(hdr) if beside else hdr)
+    os.makedirs(os.path.dirname(target), exist_ok=True)
+    open(target, 'w', newline='').write(text)
+    path = os.path.join(d, os.path.basename(src))
+    open(path, 'w', newline='').write(stext)
+    return path
+
+
+def file_checks(src, path, read, env, d, splits=None):
+    """The plain gate's checks on one file's matched functions alone, compiled from path (a modified copy) or the
+    repository: (names of its exact functions, problems, the data located). splits: data ranges to check ownership against (default
+    config/splits.txt)."""
+    manifest = json.load(open(os.path.join(ROOT, 'config', 'matched_functions.json')))
+    os.makedirs(d, exist_ok=True)
+    obj = os.path.join(d, os.path.basename(src) + '.obj')
+    r = buildcache.compile([os.path.join(BIN, 'cl.exe')] + flags_for(src) + ['/I' + os.path.dirname(os.path.join(ROOT, src)),
+                            '/Fo' + obj, path or os.path.join(ROOT, src)], env)
+    if r.returncode:
+        return set(), ['compile error'], []
+    compiled = list(coff.functions(obj))
+    robj = relocs.Obj(obj, compile_sizes(src, d, env, path))
+    entries, known, exact = [], {}, set()
+    for f in manifest['files'][src]:
+        found = [(n, c, rel) for n, c, rel in compiled if symbol_matches(f['symbol'], n)]
+        if f.get('ltcg') or not f.get('matching', True) or not found:
+            continue
+        name, code, rel = found[0]
+        va, size = int(f['address'], 16), f['size']
+        if coff.compare(code, read(va, size), rel)[0]:
+            exact.add(name)
+            known[relocs.known_key(src, name, robj)] = va
+            res, _ = relocs.resolve(robj, name, read(va, size), va)
+            entries += [(src, name, sym, addr, kind, off, robj) for sym, addr, kind, off in res]
+    words_of, tables = game_tables(read)
+    reached, problems = relocs.check_all_data(entries, game_data_check(read), tables=tables,
+                                              anchors=([(src, robj)], {k: v for k, v in known.items() if isinstance(k, str)},
+                                                       words_of))
+    problems += relocs.check_ownership(reached, splits if splits is not None else data_splits())
+    problems += relocs.check_consistency(entries, read, relocs.load_aliases(os.path.join(ROOT, 'config', 'symbol_aliases.txt')), known)
+    return exact, problems, reached
+
+
+def data_self_test(read, env, tmp):
+    """Each data plant must add a problem to its file's own (the unmodified file's open problems do not count) while
+    the function reaching the data stays byte-exact."""
+    ok = True
+    for k, (what, src, hdr, old, new, user, *src_edit) in enumerate(DATA_PLANTS):
+        d = os.path.join(tmp, 'data_%d' % k)
+        path = plant_copy(d, src, hdr, old, new, *src_edit)
+        if path is None:
+            print('self-test %-32s cannot plant it in %s (update the self-test)' % (what, hdr))
+            ok = False
+            continue
+        _, before, _ = file_checks(src, None, read, env, os.path.join(d, 'clean'))
+        exact, after, _ = file_checks(src, path, read, env, os.path.join(d, 'planted'))
+        valid = any(n.startswith(user) for n in exact)
+        caught = valid and bool(set(after) - set(before))
+        ok &= caught
+        print('self-test %-32s %s' % (what, 'caught' if caught else 'NOT CAUGHT' if valid else
+                                      'NOT A VALID PLANT (%s no longer exact)' % user))
     return ok
 
 
@@ -433,24 +762,55 @@ def main():
         env = dict(os.environ, PATH=BIN + ';' + os.environ['PATH'],
                    INCLUDE=os.path.join(XDK, 'include', 'xbox') + ';' + os.path.join(ROOT, 'include'))
         sys.exit(0 if self_test(read, env) else 1)
-    manifest = json.load(open(os.path.join(ROOT, 'config', 'matched_functions.json')))
     env = dict(os.environ, PATH=BIN + ';' + os.environ['PATH'],
                INCLUDE=os.path.join(XDK, 'include', 'xbox') + ';' + os.path.join(ROOT, 'include'))
-    tmp = tempfile.mkdtemp(prefix='cd2verify_')
-    atexit.register(shutil.rmtree, tmp, ignore_errors=True)  # removed when the process exits
+    g = plain_gate(read, env)
+    problems, entries, reached = g['problems'], g['entries'], g['reached']
+    splits = data_splits()
+    problems += relocs.check_ownership(reached, splits)
+    problems += relocs.check_consistency(entries, read, relocs.load_aliases(os.path.join(ROOT, 'config', 'symbol_aliases.txt')),
+                                         g['known'])
+    print('\n%d of %d matched functions are exact; %d work-in-progress function(s) tracked' % (g['ok'], g['total'], g['pending']))
+    print('relocation targets: %d references in %d exact functions checked; %s'
+          % (g['nrefs'], g['nfuncs'], 'all consistent' if not problems else '%d PROBLEM(S):' % len(problems)))
+    print(data_coverage(reached, g['file_objs'], len(entries) - g['nrefs'], entries, splits))
+    for p in problems:
+        print('  ' + p)
+    sys.exit(0 if g['ok'] == g['total'] and not problems else 1)
+
+
+def plain_gate(read, env, out=print):
+    """The plain gate's builds and checks up to the data: every file of the manifest compiled (with the sizes of its
+    data), its functions compared, the references of the exact ones resolved, and the data they reach located and
+    checked (relocs.check_all_data). out prints the per-function lines. Returns dict(ok, total, pending, nfuncs,
+    nrefs, entries, problems, known, file_objs, reached); the caller adds the ownership and consistency checks."""
+    manifest = json.load(open(os.path.join(ROOT, 'config', 'matched_functions.json')))
+    tmp = work_dir('verify_')
     total = ok = pending = 0
-    entries, problems, known, nfuncs = [], [], {}, 0
-    for src, funcs in manifest['files'].items():
-        obj = os.path.join(tmp, os.path.basename(src) + '.obj')
-        r = subprocess.run([os.path.join(BIN, 'cl.exe')] + flags_for(src) + ['/Fo' + obj, os.path.join(ROOT, src)],
-                           env=env, capture_output=True, text=True)
+    entries, problems, known, nfuncs, file_objs = [], [], {}, 0, []
+
+    def build(src):
+        """The gate's build of src and the sizes of its data, in a directory of its own"""
+        d = os.path.join(tmp, re.sub(r'\W', '_', os.path.splitext(src)[0]))
+        os.makedirs(d)
+        obj = os.path.join(d, os.path.basename(src) + '.obj')
+        r = buildcache.compile([os.path.join(BIN, 'cl.exe')] + flags_for(src) + ['/Fo' + obj, os.path.join(ROOT, src)], env)
         if r.returncode:
-            print('%s: COMPILE ERROR\n%s' % (src, r.stdout + r.stderr))
+            return None, r.stdout + r.stderr
+        return obj, compile_sizes(src, d, env)
+    import concurrent.futures
+    with concurrent.futures.ThreadPoolExecutor(max_workers=max(1, int(os.environ.get('CD2_WORKERS', 2)))) as pool:
+        builds = dict(zip(manifest['files'], pool.map(build, manifest['files'])))
+    for src, funcs in manifest['files'].items():
+        obj, sizes = builds[src]
+        if obj is None:
+            out('%s: COMPILE ERROR\n%s' % (src, sizes))
             total += len(funcs)
             continue
         compiled = list(coff.functions(obj))
-        robj = relocs.Obj(obj)
-        print(src)
+        robj = relocs.Obj(obj, sizes)
+        file_objs.append((src, robj))
+        out(src)
         for f in funcs:
             va, size = int(f['address'], 16), f['size']
             named = [n for n, c, rel in compiled if symbol_matches(f['symbol'], n)]
@@ -458,18 +818,18 @@ def main():
                 known[relocs.known_key(src, named[0], robj)] = va
             if f.get('ltcg') and not ltcg_built(src):  # a plain object has no LTCG build to be exact in
                 total += f.get('matching', True)
-                print('  %08X  %4d bytes  %-8s %s' % (va, size, 'INVALID', f['symbol'] + '   [marked "ltcg" in a plain '
-                                                      'object: see ltcg_built()]'))
+                out('  %08X  %4d bytes  %-8s %s' % (va, size, 'INVALID', f['symbol'] + '   [marked "ltcg" in a plain '
+                                                    'object: see ltcg_built()]'))
                 continue
             if f.get('ltcg'):  # exact only under LTCG: checked by tools/verify_ltcg.py
-                print('  %08X  %4d bytes  %-8s %s' % (va, size, 'LTCG', f['symbol'] + '   [checked by verify_ltcg.py]'))
+                out('  %08X  %4d bytes  %-8s %s' % (va, size, 'LTCG', f['symbol'] + '   [checked by verify_ltcg.py]'))
                 continue
             tracked = f.get('matching', True)  # matching: false = work in progress, reported but not required
             if tracked:
                 total += 1
             found = [(n, c, rel) for n, c, rel in compiled if symbol_matches(f['symbol'], n)]
             if not found:
-                print('  %08X  %4d bytes  symbol not found: %s' % (va, size, f['symbol']))
+                out('  %08X  %4d bytes  symbol not found: %s' % (va, size, f['symbol']))
                 continue
             name, code, rel = found[0]
             exact, ratio = coff.compare(code, read(va, size), rel)
@@ -486,15 +846,14 @@ def main():
                 problems += ['%s: %s' % (src, p) for p in probs]
                 nfuncs += 1
             status = 'EXACT' if exact else '%.1f%%' % (100 * ratio)
-            print('  %08X  %4d bytes  %-8s %s%s' % (va, size, status, name, '' if tracked else '   [work in progress]'))
-    aliases = relocs.load_aliases(os.path.join(ROOT, 'config', 'symbol_aliases.txt'))
-    problems += relocs.check_consistency(entries, read, aliases, known)
-    print('\n%d of %d matched functions are exact; %d work-in-progress function(s) tracked' % (ok, total, pending))
-    print('relocation targets: %d references in %d exact functions checked; %s'
-          % (len(entries), nfuncs, 'all consistent' if not problems else '%d PROBLEM(S):' % len(problems)))
-    for p in problems:
-        print('  ' + p)
-    sys.exit(0 if ok == total and not problems else 1)
+            out('  %08X  %4d bytes  %-8s %s%s' % (va, size, status, name, '' if tracked else '   [work in progress]'))
+    words_of, tables = game_tables(read)
+    nrefs = len(entries)
+    reached, probs = relocs.check_all_data(
+        entries, game_data_check(read), tables=tables,
+        anchors=(file_objs, {k: v for k, v in known.items() if isinstance(k, str)}, words_of))
+    return dict(ok=ok, total=total, pending=pending, nfuncs=nfuncs, nrefs=nrefs, entries=entries,
+                problems=problems + probs, known=known, file_objs=file_objs, reached=reached)
 
 
 if __name__ == '__main__':

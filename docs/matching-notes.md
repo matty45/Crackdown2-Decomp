@@ -439,6 +439,21 @@ Middleware with published source lives in `src/middleware/<library>/` (each with
   callers; its spelling is reconstructed, not evidence for the original project's compiler command. Do not apply
   blanket noinline: singlevar must stay inline in funcname but out of line in prefixexp, and restore_stack_limit
   must stay out of line in lua_resume but inline in luaD_pcall.
+- **Our middleware objects relink to CD2's exact image (2026-11-10).** `tools/relink.py --substitute src/middleware/`
+  links all 77 of our objects in place of the split's units, and the image is identical (a `verify` gate). What the
+  linker does with a whole object, learned on the way:
+  - Each object's sections land in their order in the object: a file's strings sit just before the table that names
+    them (lbaselib's function names before `base_funcs`), except a string the linker pooled with an earlier object's
+    copy (`"Lua 5.0.2"`, `"k"`, `"__mode"` live with lapi.c's data).
+  - CD2 keeps functions nothing calls (lapi.c's `luaA_index`): the libraries were linked whole, so our `/Gy` COMDATs
+    need `/INCLUDE` against `/OPT:REF`. Identical functions stay apart (`/OPT:NOICF`): CD2 did not fold jcapimin's
+    `jpeg_destroy_compress` into jdapimin's `jpeg_destroy_decompress`.
+  - CD2 has several copies of some literals (`""` at 82001050 and 8216E274) and of some library functions (two
+    `sprintf`: 82F1A300 for Lua, 8304878C for the game), so a mangled literal name or a library function name does not
+    identify one address. The relink refers to what lies outside our units by address.
+  - Data nothing references keeps its place: lapi.c's `lua_ident` (the copyright string) is at 8201FCC0.
+  - jeff's own relocations hold 7 false ones in these objects (zlib's `crc_table` and libjpeg's dither matrix hold
+    values that look like addresses); our objects have none.
 
 ## Traps
 - **Never reach memory by pointer arithmetic.** If CD2 reads `lwz r3, 0x50C(r31)`, the source read a member at 0x50C:

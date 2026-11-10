@@ -23,6 +23,12 @@ py -I tools\cd2.py search <file.cpp> <address>       # tries source variations f
 
 Every command takes `--json`. The full reference is [docs/contributor-harness.md](docs/contributor-harness.md).
 
+**Editor and objdiff:** `py -I tools\cd2.py compile-commands` writes `compile_commands.json` for clangd (VS Code's
+clangd extension, or any editor that reads it), so headers and flags resolve as the pinned compiler sees them.
+`py -I tools\cd2.py objdiff` writes `objdiff.json`; open the repository as a project in objdiff's GUI to browse every
+unit, CD2's code beside yours (run the command again after an edit). Both files are generated per machine and ignored
+by git.
+
 ## Rules
 
 Most of these are enforced by the gates, and a pull request that breaks one is not merged. The rest (marked stand-ins,

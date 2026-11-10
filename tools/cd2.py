@@ -41,7 +41,14 @@ usage: py -I tools/cd2.py <command> [arguments] [--json]
   review <branch> [--record-facts]
                                  maintainers, before merging a contribution: verify it with this checkout's tools and
                                  config (only its changes to src/, include/, the manifest and the notes are applied),
-                                 list its changes anywhere else, then restore the checkout
+                                 list its changes anywhere else, summarize what it adds, removes and changes (and the
+                                 data coverage before and after), then restore the checkout
+  datasplits [file ...] [--write]
+                                 maintainers: propose each file's data ranges in config/splits.txt from the data the
+                                 gates locate; --write replaces the ranges it wrote before
+  objdiff                        objdiff.json for objdiff's GUI (every split unit, ours beside CD2's)
+  report                         objdiff's progress report (build/cd2/report.json) and its summary
+  compile-commands               compile_commands.json for clangd
 
 --json prints one JSON object instead of text, for agents and scripts.
 
@@ -55,15 +62,17 @@ import time
 
 TOOLS = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, TOOLS)
+import buildcache  # noqa: E402
 import coff  # noqa: E402
 import relocs  # noqa: E402
 import mismatch  # noqa: E402
 import search as srch  # noqa: E402
 import bench  # noqa: E402
 import verify_ltcg  # noqa: E402
-from verify_src import (ROOT, XDK, BIN, FLAGS, EXPECTED_ENTRY, CODE_SECTIONS, pe_reader, toolchain_problems,  # noqa: E402
+from verify_src import (ROOT, XDK, BIN, EXPECTED_ENTRY, CODE_SECTIONS, pe_reader, toolchain_problems,  # noqa: E402
                         local_config, run_compiler, flags_for, file_flags, ltcg_built, symbol_matches, vtable_fact,
-                        vtable_slot_problem, waived, load_middleware, compiled_as_c)
+                        vtable_slot_problem, waived, load_middleware, compiled_as_c, compile_sizes, game_tables,
+                        game_data_check, work_dir)
 from check_integrity import load_splits  # noqa: E402
 
 XEX_SHA1 = 'EC7B163617CD725F50B0CCA665AAF943F9BC6D8A'
@@ -89,23 +98,12 @@ _proc = None
 
 
 def scratch(*parts):
-    """A scratch path private to this process (build/cd2/tmp/<pid>/...), removed when it exits: several cd2.py
+    """A scratch path private to this process (build/cd2/tmp/<pid>_cd2.../...), removed when it exits: several cd2.py
     processes (a benchmark, an agent's check, a verify) may run at once and must never share a working file. Folders
-    left by processes that were killed are removed after a day."""
+    left by processes that were killed are removed by the next tool that starts (verify_src.work_dir)."""
     global _proc
     if _proc is None:
-        import atexit, time
-        base = os.path.join(WORK, 'tmp')
-        os.makedirs(base, exist_ok=True)
-        for d in os.listdir(base):
-            p = os.path.join(base, d)
-            try:
-                if time.time() - os.path.getmtime(p) > 86400:
-                    shutil.rmtree(p, ignore_errors=True)
-            except OSError:
-                pass
-        _proc = tempfile.mkdtemp(prefix='%d_' % os.getpid(), dir=base)
-        atexit.register(shutil.rmtree, _proc, True)
+        _proc = work_dir('cd2_')
     p = os.path.join(_proc, *parts)
     os.makedirs(os.path.dirname(p), exist_ok=True)
     return p
@@ -167,7 +165,8 @@ SCRIPT_NAME = re.compile(r'^[A-Za-z_][A-Za-z0-9_]{2,63}$')
 
 def game_references():
     """Where the game itself refers to each function: {'names': {fn: [[site, string]]}, 'vtables': {fn: [[table,
-    slot, installed_at]]}, 'callers': {fn: n}} (hex strings). names: the function's address is built (lis/addi) and the
+    slot, installed_at]]}, 'tables': {table: words}, 'callers': {fn: n}} (hex strings). tables: each table's length, up
+    to the next table code installs or the end of its run of code pointers. names: the function's address is built (lis/addi) and the
     next string built within 16 instructions is identifier-like, which is how CD2 registers script methods (the string is
     the method's name; only the function built last gets it). vtables: a word in read-only data points at the function; the table starts at the nearest earlier
     word of the same run of code pointers whose address code builds (a constructor installing the vtable). Computed once
@@ -176,7 +175,7 @@ def game_references():
     if _references is not None:
         return _references
     path = os.path.join(WORK, 'references.json')
-    key = '%d:%d:2' % (os.path.getsize(EXE), int(os.path.getmtime(EXE)))  # :2 = registers forgotten when overwritten
+    key = '%d:%d:3' % (os.path.getsize(EXE), int(os.path.getmtime(EXE)))  # :2 = registers forgotten when overwritten; :3 = tables
     if os.path.exists(path):
         cached = json.load(open(path))
         if cached.get('key') == key:
@@ -238,14 +237,18 @@ def game_references():
                 t = (at + (d - 0x04000000 if d & 0x02000000 else d)) & 0xFFFFFFFF
                 if t in starts:
                     callers['0x%08X' % t] += 1
-    vtables = {}
+    vtables, tables = {}, {}
     for name, va, size, rp in secs:
         if name in ('.text', '.pdata') or not size:
             continue
         ws = struct.unpack('>%dI' % (size // 4), exe[rp:rp + size // 4 * 4])
         run = None  # index where the current run of code pointers starts
-        for i, w in enumerate(ws):
+        for i, w in enumerate(ws + (None,)):
             if w not in starts:
+                if run is not None:  # the run ends: each table in it runs to the next table or the run's end
+                    heads = [k for k in range(run, i) if va + 4 * k in built] + [i]
+                    for a, b in zip(heads, heads[1:]):
+                        tables['0x%08X' % (va + 4 * a)] = b - a
                 run = None
                 continue
             if run is None:
@@ -254,7 +257,7 @@ def game_references():
             if table is not None:
                 vtables.setdefault('0x%08X' % w, []).append(['0x%08X' % (va + 4 * table), i - table,
                                                              '0x%08X' % built[va + 4 * table]])
-    _references = dict(key=key, names=names, vtables=vtables, callers=dict(callers))
+    _references = dict(key=key, names=names, vtables=vtables, tables=tables, callers=dict(callers))
     json.dump(_references, open(path, 'w'))
     return _references
 
@@ -1002,8 +1005,7 @@ def policy(src, extra_roots=(), roots=None, include=None, _structured=False, wai
 def compile_file(src):
     obj = scratch('obj', os.path.basename(src) + '.obj')
     os.makedirs(os.path.dirname(obj), exist_ok=True)
-    r = subprocess.run([os.path.join(BIN, 'cl.exe')] + flags_for(src) + ['/Fo' + obj, os.path.join(ROOT, src)],
-                       env=env(), capture_output=True, text=True)
+    r = buildcache.compile([os.path.join(BIN, 'cl.exe')] + flags_for(src) + ['/Fo' + obj, os.path.join(ROOT, src)], env())
     if r.returncode:
         raise Fail('%s: compile error\n%s' % (src, (r.stdout + r.stderr)[-3000:]))
     return obj
@@ -1016,7 +1018,10 @@ def compare_file(src, funcs, ltcg=False):
                    'build: check it without --ltcg' % src)
     obj = compile_file(src)
     compiled = list(coff.functions(obj))
-    robj = relocs.Obj(obj)
+    try:
+        robj = relocs.Obj(obj, compile_sizes(src, os.path.dirname(obj), env()))
+    except SystemExit as e:
+        raise Fail(str(e)[-3000:])
     results, entries, problems = [], [], []
     man = manifest()
     known = {}
@@ -1075,10 +1080,24 @@ def compare_file(src, funcs, ltcg=False):
                     if symbol_matches(e['symbol'], n):
                         # an internal name stands for each file's own copy: (other, n) never meets this file's
                         known.setdefault(relocs.known_key(other, n, robj), int(e['address'], 16))
+    # the data the exact functions reach (a vtable a constructor stores), the data it points at, and the data located
+    # through the matched functions it points at must equal CD2's
+    users = collections.defaultdict(set)  # data symbol -> the functions referencing it
+    for _, fn, sym, _, kind, _, _ in entries:
+        users[sym].add(fn)
+    words_of, tables = game_tables(read)
+    reached, probs = relocs.check_all_data(entries, game_data_check(read), tables=tables,
+                                           anchors=([(src, robj)], {k: v for k, v in known.items() if isinstance(k, str)},
+                                                    words_of))
+    problems += probs
+    problems += relocs.check_ownership(reached, load_splits(SPLITS))
     problems += relocs.check_consistency(entries, read, relocs.load_aliases(ALIASES), known)
+    wrong_data = {fn for _, sym, _, _, _ in reached if any(sym[:40] in p for p in problems) for fn in users[sym]}
     for res in results:  # problem texts name the function by its first 40 characters
         if res['status'] == 'EXACT' and any(res['name'][:40] in p for p in problems):
             res['status'] = 'WRONG TARGET'
+        elif res['status'] == 'EXACT' and res['name'] in wrong_data:
+            res['status'] = 'WRONG DATA'
     return results, problems
 
 
@@ -1221,8 +1240,37 @@ def cmd_status(a):
         rows.append(dict(file=f, functions=len(set(addrs) | set(entries)), exact=exact, ltcg_only=ltcg, in_progress=wip,
                          claimed=claimed, open=len(in_range) - claimed))
     tot = {k: sum(r[k] for r in rows) for k in ('functions', 'exact', 'ltcg_only', 'in_progress', 'claimed', 'open')}
-    return dict(ok=True, files=rows, total=tot, census=census(splits, syms, man),
+    return dict(ok=True, files=rows, total=tot, census=census(splits, syms, man), data=data_census(splits),
                 note='matched counts are as recorded in config/matched_functions.json; `verify` recomputes them')
+
+
+def data_census(splits):
+    """Where CD2's data stands, in bytes, from the recorded facts (config/target_facts.json: every datum the gates
+    located and checked) and the files' data ranges (config/splits.txt): [(category, bytes)]."""
+    from check_integrity import SECTION_OF
+    try:
+        facts = json.load(open(os.path.join(ROOT, 'config', 'target_facts.json')))
+    except (OSError, ValueError):
+        facts = {}
+    located = {}  # address -> bytes
+    for a, recs in facts.get('data', {}).items():
+        located[int(a, 16)] = max(r['size'] for r in recs)
+    for k in facts.get('zero', {}):
+        a, n = k.split(':')
+        located[int(a, 16)] = max(located.get(int(a, 16), 0), int(n, 16))
+    ranges = sorted((a, b) for s in splits.values() for kind in relocs.DATA_RANGES for a, b in s[kind])
+    starts = [a for a, _ in ranges]
+
+    def in_ranges(a):
+        k = bisect.bisect_right(starts, a) - 1
+        return k >= 0 and a < ranges[k][1]
+    checked = sum(located.values())
+    inside = sum(n for a, n in located.items() if in_ranges(a))
+    ranged = sum(b - a for a, b in ranges)
+    total = sum(hi - lo for kind, (lo, hi) in SECTION_OF.items() if kind != 'bss')  # bss lies inside .data
+    return [('data located and checked', checked), ('  of it inside the files\' data ranges', inside),
+            ('files\' data ranges, not located yet', max(ranged - inside, 0)),
+            ('data in no file\'s range yet', max(total - ranged - (checked - inside), 0)), ('CD2 .rdata and .data', total)]
 
 
 # regions of CD2's .text: the order list moved hot functions of every object to 0x821D0000-0x823D0000; the game's own
@@ -1550,6 +1598,184 @@ def cmd_facts(a):
     return dict(ok=True, functions=len(f['functions']), file=rel(facts.FACTS))
 
 
+DATASPLITS_NOTE = 'cd2.py datasplits'  # marks the lines `datasplits --write` owns in config/splits.txt
+DATA_GAP = 0x400  # a run of one file's located data longer apart than this is two ranges
+
+
+def located_data():
+    """Every datum the gates locate: the plain gate's (verify_src.plain_gate) and that of the functions exact only
+    under LTCG (verify_ltcg.check_file), as relocs reached tuples"""
+    import verify_src
+    g = verify_src.plain_gate(read, env(), out=lambda m: None)
+    reached = list(g['reached'])
+    man = manifest()
+    lfiles = [src for src, fs in man['files'].items()
+              if ltcg_built(src) and any(f.get('ltcg') and f.get('matching', True) for f in fs)]
+
+    def one(src):
+        res = verify_ltcg.check_file(src, man['files'][src], read, env(), scratch_dir('datasplits', re.sub(r'\W', '_', src)),
+                                     out=lambda m: None)
+        return res['reached'] if res else []
+    with concurrent.futures.ThreadPoolExecutor(max_workers=verify_ltcg.WORKERS) as pool:
+        for r in pool.map(one, lfiles):
+            reached += r
+    return reached
+
+
+def propose_data_ranges(reached):
+    """({file: [(kind, start, end, count, first name, last name)]}, {file: [shared address]}) from the located data.
+    A file's range is a run of its own located data with no other file's located datum between and no gap over
+    DATA_GAP (so that it claims nothing the evidence does not surround); its kind is rdata in CD2's .rdata, else data
+    when the run holds initialized data of ours, else bss. COMDAT data (vtables, strings) is the linker's to place and
+    proposes nothing. An address several files resolve to (one copy the linker shares) belongs to the file whose range
+    surrounds it, and is folded for the others."""
+    from check_integrity import SECTION_OF
+    rdata = SECTION_OF['rdata']
+    at = collections.defaultdict(dict)  # address -> {file: (name, end, initialized)}
+    for f, sym, addr, o, d in reached:
+        if not d['comdat'] and not relocs.is_local(sym):
+            at[addr][f] = (sym, addr + (d['size'] if d['exact'] else 1), d['data'] is not None)
+    shared = {a for a, who in at.items() if len(who) > 1}
+    ranges = collections.defaultdict(list)
+    for in_rdata in (True, False):
+        pts = sorted((a, f) + who[f] for a, who in at.items() if a not in shared and (rdata[0] <= a < rdata[1]) == in_rdata
+                     for f in who)
+        run = []
+
+        def flush(limit):
+            if run:
+                end = max(p[3] for p in run)
+                kind = 'rdata' if in_rdata else 'data' if any(p[4] for p in run) else 'bss'
+                ranges[run[0][1]].append((kind, run[0][0], min(end, limit) if limit else end, len(run), run[0][2], run[-1][2]))
+        for p in pts:
+            if run and (p[1] != run[-1][1] or p[0] - max(q[3] for q in run) > DATA_GAP):
+                flush(p[0])
+                run = []
+            run.append(p)
+        flush(None)
+    folded = collections.defaultdict(list)
+    for a in sorted(shared):
+        owner = next((f for f, rs in ranges.items() if any(s <= a < e for _, s, e, _, _, _ in rs)), None)
+        for f in at[a]:
+            if f != owner:
+                folded[f].append(a)
+    return dict(ranges), dict(folded)
+
+
+def write_data_ranges(ranges, folded):
+    """Replace the data ranges and shared data addresses `datasplits --write` wrote before (its lines carry
+    DATASPLITS_NOTE) with these, under each file's entry of config/splits.txt; every other line stays as it is."""
+    lines = open(SPLITS, newline='').read().splitlines(True)
+    nl = '\r\n' if lines and lines[0].endswith('\r\n') else '\n'
+    lines = [l for l in lines if DATASPLITS_NOTE not in l]
+    out, cur = [], None
+    for i, l in enumerate(lines):
+        out.append(l)
+        if l.strip() and not l[0].isspace() and not l.startswith('#'):
+            cur = l.split('#', 1)[0].strip()
+        nxt = lines[i + 1] if i + 1 < len(lines) else ''
+        if cur and l[:1].isspace() and l.strip() and not (nxt[:1].isspace() and nxt.strip()):  # the entry's last line
+            for kind, s, e, n, first, last in ranges.get(cur, ()):
+                out.append('  %-6s 0x%08X 0x%08X   # %s: %d located, %s .. %s%s' % (
+                    kind, s, e, DATASPLITS_NOTE, n, first[:40], last[:40], nl))
+            for a in folded.get(cur, ()):
+                out.append('  folded 0x%08X   # %s: data the linker shares with another file%s' % (a, DATASPLITS_NOTE, nl))
+            cur = None
+    open(SPLITS, 'w', newline='').write(''.join(out))
+
+
+BASE = os.path.join(WORK, 'base')  # our objects for objdiff's GUI and report (cmd_objdiff)
+UNIT_EXTRA = re.compile(r'^(.*)_[0-9A-F]{8}(\.\w+)$')  # the unit of one of a file's hot, init or atexit functions
+
+
+def cmd_objdiff(a):
+    """objdiff.json at the repository root (ignored by git), for objdiff's GUI and `cd2.py report`: one unit per unit
+    of the split (build/cd2/split/config.json), its target the split object, its base our object of the source file
+    (built through the cache into build/cd2/base), the manifest's and the local claims' functions mapped to their
+    names. objdiff compares code only (the split objects hold no data); `verify` stays the judge."""
+    need_setup()
+    need_toolchain()
+    units = json.load(open(os.path.join(WORK, 'split', 'config.json')))['units']
+    splits, syms, man = load_splits(SPLITS), jeff_symbols(), manifest()
+    files = [f for f in splits if mapped(f)]
+
+    def build(src):
+        obj = os.path.join(BASE, os.path.splitext(src)[0] + '.obj')
+        os.makedirs(os.path.dirname(obj), exist_ok=True)
+        r = buildcache.compile([os.path.join(BIN, 'cl.exe')] + flags_for(src) + ['/Fo' + obj, os.path.join(ROOT, src)], env())
+        return obj if r.returncode == 0 else None
+    with concurrent.futures.ThreadPoolExecutor(max_workers=verify_ltcg.WORKERS) as pool:
+        objs = dict(zip(files, pool.map(build, files)))
+    owned = file_functions(splits, syms)
+    complete = {f for f in files if objs[f] and all(any(int(e['address'], 16) == x and e.get('matching', True)
+                                                         for e in man['files'].get(f, [])) for x in owned.get(f, []))}
+    categories, out = {}, []
+    for u in units:
+        name = u['name']
+        m = UNIT_EXTRA.match(name)
+        src = name if name in splits else (m.group(1) + m.group(2)) if m and m.group(1) + m.group(2) in splits else None
+        cat = src.split('/')[1] if src and src.count('/') > 1 else 'library' if u.get('autogenerated') else 'game'
+        categories[cat] = cat
+        unit = dict(name=name, target_path=os.path.relpath(os.path.join(WORK, u['object']), ROOT).replace('\\', '/'),
+                    metadata=dict(progress_categories=[cat], auto_generated=bool(u.get('autogenerated')),
+                                  complete=src in complete))
+        if src and objs.get(src):
+            unit['base_path'] = os.path.relpath(objs[src], ROOT).replace('\\', '/')
+            unit['metadata']['source_path'] = src
+            unit['symbol_mappings'] = {'fn_%08X' % x: n for x, n in compiled_names(objs[src], mapped(src)).items()}
+        out.append(unit)
+    cfg = dict(min_version='3.0.0', build_target=False, build_base=False, watch_patterns=['*.c', '*.cpp', '*.h'],
+               units=out, progress_categories=[dict(id=k, name=v) for k, v in sorted(categories.items())])
+    json.dump(cfg, open(os.path.join(ROOT, 'objdiff.json'), 'w'), indent=1)
+    return dict(ok=True, file='objdiff.json', units=len(out), with_base=sum(1 for u in out if 'base_path' in u),
+                complete=len(complete))
+
+
+def cmd_report(a):
+    """objdiff's progress report (build/cd2/report.json) from a fresh objdiff.json, and its summary: objdiff's view of
+    the code (a function counts when its code matches), without the rule, reference and data gates of `verify`."""
+    res = cmd_objdiff(a)
+    out = os.path.join(WORK, 'report.json')
+    r = subprocess.run([OBJDIFF, 'report', 'generate', '-p', ROOT, '-o', out, '-f', 'json'], capture_output=True, text=True)
+    if r.returncode or not os.path.exists(out):
+        raise Fail('objdiff report failed:\n%s' % (r.stdout + r.stderr)[-2000:])
+    rep = json.load(open(out))
+    measures = rep.get('measures', {})
+    cats = [dict(id=c.get('id'), name=c.get('name'), measures=c.get('measures', {})) for c in rep.get('categories', [])]
+    return dict(ok=True, file=rel(out), units=res['units'], measures=measures, categories=cats)
+
+
+def cmd_compile_commands(a):
+    """compile_commands.json at the repository root (ignored by git), so that clangd (or any editor that reads it)
+    resolves the headers and flags of every source file as the pinned compiler sees them."""
+    need_toolchain()
+    e = env()
+    entries = [dict(directory=ROOT, file=os.path.join(ROOT, f),
+                    arguments=[os.path.join(BIN, 'cl.exe')] + flags_for(f) + ['/I' + os.path.dirname(os.path.join(ROOT, f))]
+                    + ['/I' + p for p in e['INCLUDE'].split(';') if p] + [os.path.join(ROOT, f)])
+               for f in load_splits(SPLITS)]
+    json.dump(entries, open(os.path.join(ROOT, 'compile_commands.json'), 'w'), indent=1)
+    return dict(ok=True, file='compile_commands.json', files=len(entries))
+
+
+def cmd_datasplits(a):
+    """Propose each file's data ranges in config/splits.txt from the data the gates locate (maintainers: review, then
+    --write)."""
+    need_setup()
+    need_toolchain()
+    ranges, folded = propose_data_ranges(located_data())
+    if a.files:
+        ranges = {f: r for f, r in ranges.items() if f in a.files}
+        folded = {f: r for f, r in folded.items() if f in a.files}
+    if a.write:
+        write_data_ranges(ranges, folded)
+    return dict(ok=True, written=bool(a.write), files=len(ranges), ranges=sum(len(r) for r in ranges.values()),
+                folded=sum(len(r) for r in folded.values()),
+                proposals={f: [dict(kind=k, start='0x%08X' % s, end='0x%08X' % e, located=n, first=x, last=y)
+                               for k, s, e, n, x, y in r] for f, r in sorted(ranges.items())},
+                shared={f: ['0x%08X' % x for x in r] for f, r in sorted(folded.items())})
+
+
 # what a contribution may change; everything else (tools, config, tests, ...) is the maintainers' and needs their review
 CONTRIBUTION = ('src', 'include', 'config/matched_functions.json', 'docs/matching-notes.md')
 
@@ -1574,6 +1800,7 @@ def cmd_review(a):
     and restores it afterwards."""
     need_setup()
     need_toolchain()
+    os.environ['CD2_NO_CACHE'] = '1'  # the gates judging a contribution build everything afresh (tools/buildcache.py)
     if git('status', '--porcelain', '--untracked-files=all').strip():
         raise Fail('the checkout has uncommitted changes: commit or stash them first')
     try:
@@ -1613,7 +1840,35 @@ def cmd_review(a):
             if not (a.record_facts and l.endswith('config/target_facts.json'))]
     return dict(ok=res['ok'] and not outside and not left, ref=a.ref, commit=commit, base=base,
                 applied=['%s %s' % sp for sp in applied], outside=outside, gates=res['gates'], restored=not left,
-                left_over=left, facts_recorded=bool(a.record_facts))
+                left_over=left, facts_recorded=bool(a.record_facts), changes=review_changes(base, commit, a.record_facts))
+
+
+def review_changes(base, commit, recorded):
+    """What a contribution changes, for the maintainer's summary: the manifest entries it adds, removes and changes
+    (by file and address), and, when the facts were recorded for it, the data coverage before (HEAD's recorded
+    facts) and after, with the data facts it adds and drops."""
+    def at(ref, path):
+        try:
+            return json.loads(git('show', '%s:%s' % (ref, path)))
+        except (Fail, ValueError):
+            return {}
+
+    def entries(m):
+        return {(f, e['address']): (e['symbol'], e['size'], bool(e.get('ltcg')), e.get('matching', True))
+                for f, es in m.get('files', {}).items() for e in es}
+    before, after = entries(at(base, 'config/matched_functions.json')), entries(at(commit, 'config/matched_functions.json'))
+    out = dict(added=sorted('%s %s %s' % (f, x, after[(f, x)][0]) for f, x in set(after) - set(before)),
+               removed=sorted('%s %s %s' % (f, x, before[(f, x)][0]) for f, x in set(before) - set(after)),
+               changed=sorted('%s %s %s' % (f, x, after[(f, x)][0]) for f, x in set(before) & set(after)
+                              if before[(f, x)] != after[(f, x)]))
+    if recorded:
+        def keys(facts):
+            return ({('data', k) for k in facts.get('data', {})} | {('zero', k) for k in facts.get('zero', {})})
+        old = at('HEAD', 'config/target_facts.json')
+        new = json.load(open(os.path.join(ROOT, 'config', 'target_facts.json')))
+        out.update(coverage_before=old.get('coverage'), coverage_after=new.get('coverage'),
+                   data_facts_added=len(keys(new) - keys(old)), data_facts_dropped=len(keys(old) - keys(new)))
+    return out
 
 
 def cmd_search_test(a):
@@ -2044,12 +2299,17 @@ def cmd_verify(a):
     if a.facts:  # no game file: the recorded facts stand in for it (tools/facts.py)
         game = [facts_gate, ('self-test: target facts', py + [os.path.join(TOOLS, 'facts.py'), '--self-test'], r'self-test')]
     else:
+        # the middleware's objects relinked in place of the split's units: their code, data and layout all at once
+        relink = py + [os.path.join(TOOLS, 'relink.py'), os.path.join(WORK, 'orig', 'default_patched.xex'),
+                       '--substitute', 'src/middleware/']
         game = [('plain build + relocation targets', py + [os.path.join(TOOLS, 'verify_src.py'), exe],
-                 r'matched functions are exact|relocation targets'),
+                 r'matched functions are exact|relocation targets|^data: '),
                 ('LTCG build + LTCG relocation targets', py + [os.path.join(TOOLS, 'verify_ltcg.py'), exe],
                  r'exact under LTCG|LTCG relocation targets'),
+                ('round trip: middleware objects', relink, r'^substituted|whole image|^RESULT'),
                 ('self-test: relocation check', py + [os.path.join(TOOLS, 'verify_src.py'), exe, '--self-test'], r'self-test'),
                 ('self-test: LTCG relocation check', py + [os.path.join(TOOLS, 'verify_ltcg.py'), exe, '--self-test'], r'self-test'),
+                ('self-test: round trip', relink + ['--self-test'], r'^self-test'),
                 ('self-test: benchmark harness', py + [os.path.join(TOOLS, 'cd2.py'), 'bench', 'selftest'], r'benchmark self-test'),
                 facts_gate]  # the recorded facts must agree with the game, or `verify --facts` would disagree
     gates = [('toolchain', None, None),
@@ -2151,6 +2411,10 @@ def show_text(cmd, res):
         print('\nall of CD2 (%d functions, %.1f MB of code):' % (total_n, total_b / 2.0 ** 20))
         for c, n, b in res['census']:
             print('  %-38s %6d functions %8.1f KB %5.1f%%' % (c, n, b / 1024.0, 100.0 * b / total_b))
+        total_d = res['data'][-1][1]
+        print('\ndata (%.1f MB in .rdata and .data; located = recorded in config/target_facts.json):' % (total_d / 2.0 ** 20))
+        for c, b in res['data'][:-1]:
+            print('  %-38s %8.1f KB %5.1f%%' % (c, b / 1024.0, 100.0 * b / total_d))
     elif cmd == 'tasks':
         for t in res['tasks']:
             ft = t['features']
@@ -2223,6 +2487,31 @@ def show_text(cmd, res):
               ('not applied (run again with --apply to write it)' if res['steps'] else 'no improvement found'))
     elif cmd == 'facts':
         print('recorded facts for %d functions in %s' % (res['functions'], res['file']))
+    elif cmd == 'objdiff':
+        print('%s: %d units, %d with our object, %d files complete; open it in objdiff\'s GUI (project: this repository)'
+              % (res['file'], res['units'], res['with_base'], res['complete']))
+    elif cmd == 'report':
+        def line(name, m):
+            return '%-24s code %6.2f%% matched (%s of %s bytes), functions %s of %s, fuzzy %.2f%%' % (
+                name, m.get('matched_code_percent', 0), m.get('matched_code', 0), m.get('total_code', 0),
+                m.get('matched_functions', 0), m.get('total_functions', 0), m.get('fuzzy_match_percent', 0))
+        print('objdiff report in %s (objdiff\'s view of the code; `verify` is the judge):' % res['file'])
+        print('  ' + line('all', res['measures']))
+        for c in res['categories']:
+            print('  ' + line(c['name'] or c['id'], c['measures']))
+    elif cmd == 'compile_commands':
+        print('%s: %d source files (point clangd at this repository)' % (res['file'], res['files']))
+    elif cmd == 'datasplits':
+        for f, rs in res['proposals'].items():
+            print(f)
+            for r in rs:
+                print('  %-6s %s %s   # %d located, %s .. %s' % (r['kind'], r['start'], r['end'], r['located'],
+                                                                 r['first'][:40], r['last'][:40]))
+            for x in res['shared'].get(f, ()):
+                print('  folded %s   # data the linker shares with another file' % x)
+        print('%d range(s) for %d file(s), %d shared address(es)%s' % (
+            res['ranges'], res['files'], res['folded'], '; written to config/splits.txt' if res['written'] else
+            '; review, then run again with --write'))
     elif cmd == 'search_test':
         print('search recovery test: %d of %d broken functions restored' % (res['recovered'], res['tried']))
     elif cmd == 'bench':
@@ -2320,6 +2609,18 @@ def show_text(cmd, res):
                 print('  ' + p)
         if res['facts_recorded']:
             print('target facts recorded in config/target_facts.json: commit them with the merge')
+        ch = res['changes']
+        print('manifest: %d entr(ies) added, %d removed, %d changed' % (len(ch['added']), len(ch['removed']), len(ch['changed'])))
+        for what in ('removed', 'changed'):  # what a maintainer must look at; additions are what the gates judged
+            for e in ch[what]:
+                print('  %s %s' % (what, e))
+        if 'coverage_after' in ch:
+            b, n = ch['coverage_before'] or {}, ch['coverage_after'] or {}
+            print('data located and checked: %s -> %s; data facts %+d new, %d dropped%s' % (
+                b.get('located', '?'), n.get('located', '?'), ch['data_facts_added'], ch['data_facts_dropped'],
+                ' (coverage dropped: look at what the contribution stops locating)'
+                if isinstance(b.get('located'), int) and isinstance(n.get('located'), int) and n['located'] < b['located']
+                else ''))
         if not res['restored']:
             print('WARNING: the checkout was not restored cleanly: %s' % '; '.join(res['left_over'][:10]))
         print('REVIEW: %s' % ('PASS' if res['ok'] else 'FAIL'))
@@ -2356,6 +2657,10 @@ def main():
     s = sub.add_parser('verify'); s.add_argument('--exe'); s.add_argument('--facts', action='store_true')
     s = sub.add_parser('review'); s.add_argument('ref'); s.add_argument('--record-facts', action='store_true')
     s = sub.add_parser('facts'); s.add_argument('action', choices=['record'])
+    s = sub.add_parser('datasplits'); s.add_argument('files', nargs='*'); s.add_argument('--write', action='store_true')
+    sub.add_parser('objdiff')
+    sub.add_parser('report')
+    sub.add_parser('compile-commands')
     a = p.parse_args(sys.argv[1:] if '--json' not in sys.argv else [x for x in sys.argv[1:] if x != '--json'])
     a.json = '--json' in sys.argv
     cmd = a.cmd.replace('-', '_')

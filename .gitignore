@@ -1,8 +1,11 @@
 # This repository holds source and text only: no binaries of any kind, and nothing from the game.
 # Tools are git submodules under tools/external/, built from source by tools/build_tools.ps1 into build/.
 
-# build outputs and tool binaries (every tool writes under build/ or the system's temporary folder)
+# build outputs and tool binaries (every tool writes under build/)
 /build/
+# generated per machine: cd2.py objdiff (objdiff's GUI and report), cd2.py compile-commands (clangd)
+/objdiff.json
+/compile_commands.json
 *.exe
 *.dll
 *.lib

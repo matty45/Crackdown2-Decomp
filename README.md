@@ -15,6 +15,7 @@ cannot influence (see "How correctness is guaranteed").
 | Source files set up | 528 (77 of them open-source middleware) |
 | Functions matched | 11,571 (9,587 in a plain build, 1,984 more under link-time code generation), 984 of them open-source middleware |
 | Full relink of the split game | byte-identical round trip (`tools/relink.py`) |
+| Middleware objects relinked in place of the split's | byte-identical: zlib, libjpeg and Lua, 77 objects, code, data and layout (a `verify` gate) |
 
 The count flatters the progress: 6,798 of the matched functions are header-constant initializers, the same run of
 about 20 short functions that most source files repeat (36 bytes on average; see "Header constants" in
@@ -60,6 +61,16 @@ game code.
 | RenderWare AI | 198 | 45.8 KB | 0.3% |
 | Other (transport, xlip, ...) | 1,175 | 0.27 MB | 1.9% |
 | Library span not yet identified | 3,524 | 0.69 MB | 4.8% |
+
+**Data (CD2's `.rdata` and `.data`, 11.4 MB)**
+
+| | Data | |
+|---|---:|---:|
+| Located and checked: what matched functions reach (vtables, initialized data, constants, strings) | 229.5 KB | 2.0% |
+| In source files' data ranges (`config/splits.txt`), not located yet | 36.0 KB | 0.3% |
+| In no source file's range yet | 11.1 MB | 97.7% |
+
+The middleware's data is proven whole by the round trip above, not only where its functions reach it.
 
 - **Middleware:** CD2 links three open-source libraries outside the XDK: Lua 5.0.2 (`lua.lib`), zlib 1.2.3
   (`zlibXenon.lib`, inflate only) and IJG libjpeg 6b (Scaleform's `libjpeg.lib`). Their original source lives in
@@ -121,6 +132,8 @@ the main branch's tools (`cd2.py review`), and it is merged only when they pass.
   by similarity.
 - **References:** every call, global, constant and string resolves to the same address as in the game. A function that
   calls the wrong function fails even if its bytes match.
+- **Data:** the data matched functions reach (vtables, initialized globals, constant tables) equals the game's, and
+  every pointer in it (a vtable slot) resolves to the same address as in the game.
 - **Ownership:** every function is in the source file whose address range holds it, and no function or type is defined
   twice.
 - **Matching rules:** a function counts only when its bytes match *and* no matching rule fires in it (no assembly,

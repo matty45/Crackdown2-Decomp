@@ -28,8 +28,9 @@ TOOLS_DEF = {
                   S(address=ADDR, symbol=('string', 'mangled symbol prefix, e.g. ?Update@cFoo@NS@@')), ['address', 'symbol'],
                   lambda a: ['claim', a['address'], a['symbol']]),
     'cd2_unclaim': ('Drop a claim.', S(address=ADDR), ['address'], lambda a: ['unclaim', a['address']]),
-    'cd2_check': ('Compile a source file and compare every mapped function with CD2 (EXACT, a percentage, WRONG TARGET); '
-                  'verifies relocation targets and the source policy. explain adds the mismatch findings.',
+    'cd2_check': ('Compile a source file and compare every mapped function with CD2 (EXACT, a percentage, WRONG TARGET, '
+                  'WRONG DATA); verifies relocation targets, the data they reach (vtables, initialized globals) and '
+                  'the source policy. explain adds the mismatch findings.',
                   S(file=FILE, ltcg=('boolean', 'also build with link-time code generation'),
                     explain=('boolean', 'add the mismatch classifier\'s findings')), ['file'],
                   lambda a: ['check', a['file']] + (['--ltcg'] if a.get('ltcg') else []) + (['--explain'] if a.get('explain') else [])),

@@ -45,11 +45,12 @@ and provide them on request; AGENTS.md ("Finding names and layouts") says how to
 | Find work | `cd2.py tasks [file] [--tier N]` | Open functions of the scaffolded files, easiest first. Tier 1: up to 24 instructions; 2: up to 80; 3: up to 250 or a jump table; 4: larger, or VMX128 vector code. |
 | Read the task | `cd2.py show <address>` | File, size, tier, status, neighbouring functions and their status, hints (LTCG, jump tables, VMX), and CD2's assembly with symbolic labels. |
 | Start | `cd2.py claim <address> <mangled symbol prefix>` | Maps the function to the symbol you are writing, e.g. `?Update@cChaseBehaviour@AI@@`. The claim is local (`build/cd2/claims.json`). |
-| Edit | your editor | Source in `src/`, types in `include/`. Use the shared headers; see `include/README.md`. |
-| Check | `cd2.py check <file.cpp> [--ltcg] [--explain]` | Source policy, compile, then every mapped function of the file: `EXACT`, a percentage, `LTCG EXACT`, `missing` or `WRONG TARGET` (bytes match but a call or address resolves elsewhere than in CD2). `--explain` adds the mismatch findings for each function not yet exact. Each run is logged to `build/cd2/attempts.jsonl`. |
+| Edit | your editor | Source in `src/`, types in `include/`. Use the shared headers; see `include/README.md`. `cd2.py compile-commands` writes `compile_commands.json` for clangd (headers and flags as the pinned compiler sees them). |
+| Browse | `cd2.py objdiff`, `cd2.py report` | `objdiff` writes `objdiff.json` for objdiff's GUI: every unit of the split, its target object and ours, the matched and claimed functions mapped by name. `report` adds objdiff's progress report (`build/cd2/report.json`), by top-level directory. Both are objdiff's view of the code only; `verify` is the judge. |
+| Check | `cd2.py check <file.cpp> [--ltcg] [--explain]` | Source policy, compile, then every mapped function of the file: `EXACT`, a percentage, `LTCG EXACT`, `missing`, `WRONG TARGET` (bytes match but a call or address resolves elsewhere than in CD2) or `WRONG DATA` (bytes match, but data the function reaches differs from CD2's: see [Data](#data)). `--explain` adds the mismatch findings for each function not yet exact. Each run is logged to `build/cd2/attempts.jsonl`. |
 | Compare | `cd2.py diff <file.cpp> <address>` | objdiff's instruction diff, CD2 against yours, showing only the differing regions, with **findings**: what kind of mismatch it is and what usually fixes it (below). Call targets and addresses are not flagged here, because `check` verifies them exactly. |
 | Close the gap | `cd2.py search <file.cpp> <address> [--apply]` | Once the structure is right, tries source transformations itself and keeps whatever brings the function closer (below). Writes the file only with `--apply`. |
-| Before a pull request | `cd2.py verify` | Every gate; a maintainer runs the same gates on your pull request before merging it. The gates run at the same time, each building `CD2_WORKERS` files at once (default 2, fastest measured with a real-time virus scanner). |
+| Before a pull request | `cd2.py verify` | Every gate; a maintainer runs the same gates on your pull request before merging it. The gates run at the same time, each building `CD2_WORKERS` files at once (default 2, fastest measured with a real-time virus scanner). A build cache (`tools/buildcache.py`, in `build/cd2/cache`) reuses the objects of sources whose inputs did not change; `CD2_NO_CACHE=1` turns it off, and `review` never uses it. |
 
 CD2 was built with link-time code generation (`docs/feasibility.md` section 4). Most functions, float code included,
 still compile identically in a plain build. Where LTCG gathered a function's float constants behind one base register
@@ -314,12 +315,62 @@ entry (`cd2.py facts record`), and again by the maintainer from their own copy w
 - the CD2 address each relocation resolves to;
 - the float constants referenced, and hashes of the referenced strings (their text is not stored);
 - for LTCG, the constants CD2 loads directly and a hash of the masked code;
-- whether CD2 puts the function in a vtable (its lowest slot, that slot's table and how many tables hold it), for R13.
+- whether CD2 puts the function in a vtable (its lowest slot, that slot's table and how many tables hold it), for R13;
+- for the data the matched functions reach, per extent our objects give it: a hash of CD2's bytes with the relocated
+  words cleared, and the words at those relocations (the addresses CD2's vtable slots and pointers hold).
 
 `cd2.py verify --facts` then reaches the same verdicts as the game-based gates, on a machine with the XDK but without
 the game. The normal `verify` also checks that the facts are current. `py -I tools/facts.py --self-test` plants a wrong
-call, a changed string, a changed constant, a changed constant in a function exact only under LTCG and a virtual
-declared as a plain member function; each must be caught.
+call, a changed string, a changed constant, a changed constant in a function exact only under LTCG, a virtual
+declared as a plain member function, and the data plants of `tools/verify_src.py` (a changed initial value, a datum
+left zero where CD2 initializes it, two swapped virtual slots, a table missing its last slots, an anchored table
+shifted, a long string changed after its 64th byte); each must add a problem to the unmodified repository's.
+
+## Data
+
+A function's bytes match whether or not the data it reaches is right: a constructor stores its vtable's address, so
+a vtable with a slot missing, an override undeclared or two slots swapped still gives an exact constructor. The
+relocation gates therefore check the data too (`tools/relocs.py`, `check_data`): every symbol a matched function
+references that our object defines as data (a vtable, an initialized global, a constant table) is compared with CD2's
+at the address the reference resolves to.
+
+- **Sizes:** each datum's exact size comes from the compiler's own debug records: every file is also built with
+  `/Z7` (debug records only; the gate's build keeps the pinned flags), and `tools/cvtypes.py` reads the size of each
+  global and static from its CodeView type. A COMDAT (a vtable, a string) is exact by itself.
+- **Contents:** its bytes outside its relocations must equal CD2's. Data ours leaves zero-initialized must be zero in
+  CD2 too (or uninitialized there): CD2 initializing it means the source gives it no initializer, or the wrong form.
+- **Pointers:** each address it holds (a vtable slot) is resolved through CD2's word at that place and joins the
+  repository-wide reference checks: one name, one address; one address, one name unless `config/symbol_aliases.txt`
+  declares the linker's fold; a function of the manifest at its manifest address. A slot naming a base's function
+  where CD2's class has its own override, or two slots in the wrong order, fails here. Data a pointer leads to is
+  checked in turn.
+- **Anchors:** a vtable no matched function stores is located through its class's own matched virtuals (a class with
+  only RetClassName, RetClass or IsA matched): the CD2 words holding them, less their slots' offsets, vote for the
+  table's address. Only the class's own functions vote, as an inherited one also sits in every derived class's table.
+- **Extents:** a datum of known size must end before the next symbol located there: a vtable longer than CD2's
+  declares a virtual CD2's class does not have.
+- **Table lengths:** a vtable shorter than CD2's run of code pointers at its address, whose next word points at a
+  function of the same source file, lacks virtuals CD2's class has.
+- **Strings** are compared whole (a wide string's NULs included), not only their first 64 bytes.
+- **Weak externals** resolve to their default, as the linker resolves them: MSVC makes a class's vector deleting
+  destructor (`??_E`) a weak alias of its scalar one (`??_G`) when nothing needs the vector form.
+
+The functions exact only under LTCG get the same checks on the data they reach (`tools/verify_ltcg.py`). The gates'
+`data:` line counts how much of the data the files define is located and checked; the rest (data only unmatched code
+uses, of classes with no matched virtual) has no known address in CD2 yet. Facts mode records, besides each datum's
+masked hash and slot words, the answers the game gave (the CD2 words holding each anchor function, table lengths,
+slot owners, whether CD2 initializes a zero-initialized datum) and replays them.
+
+## Round trip (middleware)
+
+The data checks above reach only what matched functions reference. For the middleware (`src/middleware/`: zlib,
+libjpeg, Lua), whose every function is matched, `verify` proves the whole object instead: `tools/relink.py
+--substitute src/middleware/` compiles each of its 77 files with the gate's flags, relinks the game with these objects
+in place of the split's units, and requires the memory image to be identical to CD2's, word for word. Code, data the
+functions never reach, the order of everything inside each object, and every reference into and out of it are checked
+at once. It needs the XEX copy `setup` made and jeff (both there after `setup`), and runs in about 30 seconds; its
+self-test changes one word of our code, then of our data, and requires exactly that word to differ. Not run by
+`verify --facts`.
 
 ## Trust model
 
@@ -329,6 +380,7 @@ declared as a plain member function; each must be caught.
 | Editing the gates, config or the symbol table | Tools and `config/` are maintainer-owned; `review` judges with main's tools and lists every change outside the contribution paths | `review`; optionally `.github/CODEOWNERS` with code-owner review |
 | Matching by similarity instead of by symbol | Every comparison is by symbol, against `config/matched_functions.json` | Done |
 | Right bytes, wrong call target or global | Relocation targets resolved and checked repository-wide (`tools/relocs.py`) | Done; `check` reports `WRONG TARGET` |
+| Right bytes, wrong data (a vtable slot, an initial value) | The data matched functions reach, the data it points at and the vtables their own virtuals anchor are compared with CD2's at exact sizes, pointers resolved and checked with the references ([Data](#data)) | Done, with self-tests; the `data:` line counts what is not located yet |
 | Code that is not source (asm, emit, pragmas, custom sections) | Source policy on the preprocessed source; code-section check | Done, with self-tests |
 | Another compiler build or other flags | Toolchain pinned by hash; flags defined once in `tools/verify_src.py` | Done |
 | The same function claimed by two files, or code in the wrong file | Ownership gate (`tools/check_integrity.py`) | Done, with self-test |
