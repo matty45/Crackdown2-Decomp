@@ -274,6 +274,12 @@ namespace Vehicle
         virtual void EventTriggerStartFire(CHARACTER::cCharacter *); // cIgnitable 10: 0x826D17E8
         virtual void EventTriggerEndFire(); // cIgnitable 12: 0x826D1800
     private:
+        // CD2: cVehicle's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void Slot64(); // 63: 0x82689C78
+        virtual void vf272(); // 272: 0x82686318
+    private:
         CD2_LAYOUT_CHECKS(cVehicle,
             CD2_SIZE(cVehicle, 0x1740)
             CD2_OFFSET(cVehicle, m_bIsBeingHiJackedByAI, 0x15F7)

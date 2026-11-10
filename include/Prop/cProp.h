@@ -108,6 +108,19 @@ namespace Prop
         virtual void SetPingedFieldStatesForNode(unsigned char); // cReplicatedClass 20: 0x827303C0
         virtual char const * RetName() const; // cSafeDeletable 4: 0x8272C3E0
     protected:
+        // CD2: cProp's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void Slot64(); // 63: 0x82689C78
+        virtual void vf92(); // 92: 0x8272B338
+        virtual void vf127(); // 127: 0x8272BC10
+        virtual void CalculateRelevancy(int); // cReplicatedClass 2: 0x827302C0
+        virtual void CalculateLOD(int); // cReplicatedClass 3: 0x822D76B0
+        virtual void ReplicateHeaderData(); // cReplicatedClass 10: 0x8272F1E0
+    protected:
+        virtual void EventTriggerStartFire(CHARACTER::cCharacter *); // cIgnitable 10: 0x8272B5E8
+        virtual void EventTriggerEndFire(); // cIgnitable 12: 0x8272B858
+    protected:
         CD2_LAYOUT_CHECKS(cProp,
             CD2_SIZE(cProp, 0xE30))
     };

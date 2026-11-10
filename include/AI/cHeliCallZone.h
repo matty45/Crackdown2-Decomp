@@ -1,14 +1,16 @@
 #ifndef AI_CHELICALLZONE_H
 #define AI_CHELICALLZONE_H
 
-#include "gom/non_game_base.h"
+#include "ZoneManager/cPlayerTriggerCylinder.h"
 #include "fun_runtime/class.h"
 #include "rws/attributes.h"
 #include "cd2/memory.h"
 
 namespace AI
 {
-    class cHeliCallZone : public cNonGameBase
+    // RuffKing's base. CD2's table (0x82105878) has the trigger cylinder's 18 slots, then this class's RetClass, IsA,
+    // RetClassName and Destruct in slots 18 to 21.
+    class cHeliCallZone : public ZoneManager::cPlayerTriggerCylinder
     {
     public:
         static __forceinline Fun_Runtime::cClass &StaticCreateClass()
@@ -26,6 +28,16 @@ namespace AI
         virtual const Fun_Runtime::cClass &RetClass() const;
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         virtual const char *RetClassName() const;
+        virtual void Destruct();
+        // cPlayerTriggerBase's pure virtuals.
+        virtual void OnPlayerEnter(CHARACTER::cCharacter *);
+        virtual void OnPlayerLeave(CHARACTER::cCharacter *);
+        // CD2: cHeliCallZone's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x821F8630
+        virtual void InitTriggerZone(); // 14: 0x82787050
+        virtual void TermTriggerZone(); // 15: 0x8248AA38
     };
 }
 

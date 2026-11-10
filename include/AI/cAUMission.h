@@ -41,6 +41,10 @@ namespace AI
         virtual void OnEnterGlobalMissionState(AI::cMission::etGlobalMissionState); // cRegisteredClass 33: 0x8245EBC0
         virtual void OnEnterComplete(); // cRegisteredClass 34: 0x822AC510
         virtual void GetSaveStateForMissionState(unsigned char &,unsigned char &); // cRegisteredClass 36: 0x8245F380
+        // CD2: cAUMission's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void TickUpdate(float); // cRegisteredClass 8: 0x82271FD8
     };
 }
 

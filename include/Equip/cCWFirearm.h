@@ -55,6 +55,14 @@ namespace Equip
         virtual void vf279(); // 279: 0x82399798
         virtual Fun_Runtime::cScriptTypeRegistration const * RetScriptTypeRegistration() const; // cSafeDeletable 1: 0x826164D0
     private:
+        // CD2: cCWFirearm's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void ActivateLightAttachment(); // 338: 0x82618118
+        virtual void DeactivateLightAttachment(); // 339: 0x82618178
+        virtual bool IsLightAttachmentActive() const; // 340: 0x826181A0
+        virtual void NotifyTracked(Equip::cEquipment *); // 341: 0x826181C8
+    private:
         CD2_LAYOUT_CHECKS(cCWFirearm, CD2_SIZE(cCWFirearm, 0xAB0))
     };
 }

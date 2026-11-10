@@ -54,6 +54,13 @@ namespace Equip
         virtual unsigned int GetMaxReplicatedFields() const; // cReplicatedClass 23: 0x82882258
         virtual Fun_Runtime::cScriptTypeRegistration const * RetScriptTypeRegistration() const; // cSafeDeletable 1: 0x8260BAE8
     private:
+        // CD2: cCWSatchelCharge's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual unsigned int RetTotalAmmo() const; // 332: 0x8260BAF8
+        virtual bool CanForceNetTransform() const; // 347: 0x8261CA48
+        virtual bool CanReleaseNetOwnershipOnAVExit() const; // 348: 0x827E56A8
+    private:
         CD2_LAYOUT_CHECKS(cCWSatchelCharge, CD2_SIZE(cCWSatchelCharge, 0xAE0))
     };
 }

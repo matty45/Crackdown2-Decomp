@@ -43,6 +43,11 @@ namespace Prop
         virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x82743E78
         virtual void ReplicateFields(); // cReplicatedClass 9: 0x82743EB8
     private:
+        // CD2: cGasCanister's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void vf272(); // 272: 0x82686318
+    private:
         CD2_LAYOUT_CHECKS(cGasCanister,
             CD2_SIZE(cGasCanister, 0xE40)
             CD2_OFFSET(cGasCanister, m_nCState, 0xE30)

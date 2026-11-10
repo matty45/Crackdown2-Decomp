@@ -68,6 +68,11 @@ namespace Prop
         virtual Fun_Runtime::cClass const & RetClass() const; // cBody 0: 0x8273B478
         virtual bool IsA(Fun_Runtime::cClass const &) const; // cBody 1: 0x8273B480
     public:
+        // CD2: cPivotBasedProp's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void vf272(); // 272: 0x82686318
+    public:
         CD2_LAYOUT_CHECKS(cPivotBasedProp,
             CD2_SIZE(cPivotBasedProp, 0xE40))
     };

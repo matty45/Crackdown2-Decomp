@@ -10,6 +10,8 @@
 #include "fun_runtime/cStateMachine.h"
 
 namespace Prop { class cTurretBase; }
+namespace Fun_Runtime { class State; class Mtx; class cString; class Vec3; }
+namespace CHARACTER { class cCharacter; }
 
 namespace Equip
 {
@@ -42,6 +44,49 @@ namespace Equip
         virtual void SetTurretMounted(Prop::cTurretBase *);     // 321
         virtual Prop::cTurretBase *RetTurretMounted() const;    // 322
         virtual bool IsTurretWeapon() const;                    // 323
+        // Slots 324 to 362: RuffKing's remaining cEquipment virtuals, in its order (its slots 289 to 327). CD2's
+        // cWeaponProjectile, which adds one virtual, has 364 slots, and cHWProjectile's eleven end at 374 with
+        // UpdateAttachedEffect and ReleaseEffect, as cFlocket's table has them. An overloaded pair is declared
+        // non-const first: the compiler gives overloads their slots in reverse.
+        virtual void PostAnimUpdate(float);                     // 324
+        virtual bool GetVisibility();
+        virtual int RetUpperAimIndex() const;
+        virtual int RetUpperReloadIndex() const;
+        virtual int RetUpperFireIndex() const;
+        virtual int RetUpperEquipIndex() const;
+        virtual bool IsLive();                                  // 330
+        virtual bool IsDetonating();
+        virtual unsigned int RetTotalAmmo() const;
+        virtual bool HasMaxAmmo() const;
+        virtual bool IsMarkedForDeletion();
+        virtual bool PickUpRequested(cGameBase *pOwnerTest);    // 335
+        virtual bool CanBeEquipped();
+        virtual void ToggleLightAttachment();
+        virtual void ActivateLightAttachment();
+        virtual void DeactivateLightAttachment();
+        virtual bool IsLightAttachmentActive() const;           // 340
+        virtual void NotifyTracked(cEquipment *);
+        virtual Fun_Runtime::Mtx *GetMatrix(Fun_Runtime::Mtx &Mat);
+        virtual void CreateDynamicObstacle();
+        virtual void DestroyDynamicObstacle();
+        virtual bool CanSpawnPickupVFX();                       // 345
+        virtual Fun_Runtime::cString GetNetDebugString();
+        virtual bool CanForceNetTransform() const;
+        virtual bool CanReleaseNetOwnershipOnAVExit() const;
+        virtual bool CanReleaseNetOwnershipOnInitMsg() const;
+        virtual int RetNetworkLOD(CHARACTER::cCharacter *pRelevantPlayer, int nNodeID);   // 350
+        virtual Fun_Runtime::Vec3 RetReplicationVelocity();
+        virtual void OnFailedOwnershipTransition();
+        virtual bool CheckForOwnershipTransition();
+        virtual bool CanDoOwnershipTransition();
+        virtual Fun_Runtime::State *RetSTATE_Deactivated();     // 355/356
+        virtual Fun_Runtime::State *RetSTATE_Deactivated() const;
+        virtual Fun_Runtime::State *RetSTATE_Idle();            // 357/358
+        virtual Fun_Runtime::State *RetSTATE_Idle() const;
+        virtual Fun_Runtime::State *RetSTATE_Active();          // 359/360
+        virtual Fun_Runtime::State *RetSTATE_Active() const;
+        virtual Fun_Runtime::State *RetSTATE_Paused();          // 361/362
+        virtual Fun_Runtime::State *RetSTATE_Paused() const;
         // Name and base from RuffKing. CD2: cEquipment::MakeNew (0x82604650) allocates 0x2F0 and calls this constructor
         // (0x826071F8), which calls cDynamicBodyPrototype's (0x82686DD8).
         class cEquipmentPrototype : public PHYSICS::cDynamicBody::cDynamicBodyPrototype

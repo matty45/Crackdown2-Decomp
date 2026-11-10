@@ -1,14 +1,16 @@
 #ifndef AI_CANIMPARAMS_H
 #define AI_CANIMPARAMS_H
 
-#include "gom/non_game_base.h"
+#include "rws/attributes.h"
 #include "fun_runtime/class.h"
 #include "rws/attributes.h"
 #include "cd2/memory.h"
 
 namespace AI
 {
-    class cAnimParams : public cNonGameBase
+    // CD2's table (0x8210F6EC) has RWS::CAttributeHandler's eleven slots, then RetClass, IsA, RetClassName and Destruct in slots
+    // 11 to 14, as RuffKing and Burn declares the class: a CAttributeHandler.
+    class cAnimParams : public RWS::CAttributeHandler
     {
     public:
         static __forceinline Fun_Runtime::cClass &StaticCreateClass()
@@ -26,6 +28,11 @@ namespace AI
         virtual const Fun_Runtime::cClass &RetClass() const;
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         virtual const char *RetClassName() const;
+        virtual void Destruct();
+        // CD2: cAnimParams's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x824DF750
     };
 }
 

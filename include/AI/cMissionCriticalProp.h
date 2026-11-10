@@ -66,6 +66,11 @@ namespace AI
         virtual void vf335(); // 335: 0x8245B5E8
         virtual void vf340(); // 340: 0x8245B3A8
     private:
+        // CD2: cMissionCriticalProp's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void vf272(); // 272: 0x82686318
+    private:
         CD2_LAYOUT_CHECKS(cMissionCriticalProp,
             CD2_SIZE(cMissionCriticalProp, 0xE40)
             CD2_OFFSET(cMissionCriticalProp, m_bInteractable, 0xE30))

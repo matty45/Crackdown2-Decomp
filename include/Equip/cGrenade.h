@@ -61,6 +61,14 @@ namespace Equip
         virtual void ReplicateFields(); // cReplicatedClass 9: 0x821FEA10
         virtual unsigned int GetMaxReplicatedFields() const; // cReplicatedClass 23: 0x82889198
     private:
+        // CD2: cGrenade's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual bool IsLive(); // 330: 0x8260AAB0
+        virtual bool IsDetonating(); // 331: 0x8260AAF8
+        virtual bool CanBeEquipped(); // 336: 0x8261EE50
+        virtual bool CanReleaseNetOwnershipOnInitMsg() const; // 349: 0x8261F720
+    private:
         CD2_LAYOUT_CHECKS(cGrenade, CD2_SIZE(cGrenade, 0x9C0))
     };
 }

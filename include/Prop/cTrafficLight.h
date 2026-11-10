@@ -103,6 +103,11 @@ namespace Prop
         virtual void vf326(); // 326: 0x82747C28
         virtual void vf338(); // 338: 0x82747C20
     protected:
+        // CD2: cTrafficLight's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void vf272(); // 272: 0x82686318
+    protected:
         CD2_LAYOUT_CHECKS(cTrafficLight,
             CD2_SIZE(cTrafficLight, 0xE60)
             CD2_OFFSET(cTrafficLight, m_iTrafficControlEdgeID, 0xE30)

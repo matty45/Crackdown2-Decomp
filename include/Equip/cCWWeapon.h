@@ -94,6 +94,15 @@ namespace Equip
         virtual void TriggerReloadAudio(); // 319: 0x826084D0
         virtual void SetTurretMounted(Prop::cTurretBase *); // 321: 0x826085F8
     private:
+        // CD2: cCWWeapon's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void PostAnimUpdate(float); // 324: 0x826084C0
+        virtual int RetUpperAimIndex() const; // 326: 0x826087A8
+        virtual int RetUpperReloadIndex() const; // 327: 0x826087B8
+        virtual int RetUpperFireIndex() const; // 328: 0x826087C8
+        virtual int RetUpperEquipIndex() const; // 329: 0x826087D8
+    private:
         CD2_LAYOUT_CHECKS(cCWWeapon,
             CD2_SIZE(cCWWeapon, 0xA10)
             CD2_OFFSET(cCWWeapon, m_fAIAccuracyCone, 0x8C4)

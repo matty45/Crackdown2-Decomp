@@ -8,6 +8,8 @@
 
 namespace AI
 {
+    // RuffKing's base. CD2's table (0x82104B28) holds this class's RetClass, IsA and RetClassName in slots 11 to 13, where
+    // cBasePatrolRouteEvent declares them.
     class cTRCamLookAtStop : public cTrainingRouteEvent
     {
     public:

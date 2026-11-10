@@ -78,6 +78,11 @@ namespace Prop
         virtual void SetPingedFieldStatesForNode(unsigned char); // cReplicatedClass 20: 0x8274B268
         virtual unsigned int GetMaxReplicatedFields() const; // cReplicatedClass 23: 0x8288EA78
     private:
+        // CD2: cTurretBase's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void vf272(); // 272: 0x82686318
+    private:
         CD2_LAYOUT_CHECKS(cTurretBase,
             CD2_SIZE(cTurretBase, 0x1080)
             CD2_OFFSET(cTurretBase, m_pWeapon, 0xE30)

@@ -33,6 +33,11 @@ namespace AI
         virtual void TermReplication(); // cRegisteredClass 38: 0x82456D28
     protected:
         virtual void OnLeaveGlobalMissionState(AI::cMission::etGlobalMissionState); // cRegisteredClass 32: 0x82457060
+        // CD2: cRefineryMission's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    protected:
+        virtual void OnEnterMissionState(unsigned char); // cRegisteredClass 31: 0x82456E28
+        virtual void OnEnterGlobalMissionState(AI::cMission::etGlobalMissionState); // cRegisteredClass 33: 0x824570E0
     };
 }
 

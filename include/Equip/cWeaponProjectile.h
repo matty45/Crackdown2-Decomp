@@ -45,6 +45,8 @@ namespace Equip
         static Fun_Runtime::cClass &StaticCreateClass();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
+        // Slot 363, the class's one new virtual (RuffKing: PickUpRequested(), beside cEquipment's with an owner).
+        virtual bool PickUpRequested();
         // CD2: cWeaponProjectile's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
@@ -66,6 +68,15 @@ namespace Equip
         virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x82606198
         virtual void ReplicateFields(); // cReplicatedClass 9: 0x822F3468
         virtual unsigned int GetMaxReplicatedFields() const; // cReplicatedClass 23: 0x8288E110
+        // CD2: cWeaponProjectile's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual bool HasMaxAmmo() const; // 333: 0x827E56A8
+        virtual bool IsMarkedForDeletion(); // 334: 0x827E56A8
+        virtual Fun_Runtime::State * RetSTATE_Idle() const; // 357: 0x82604838
+        virtual Fun_Runtime::State * RetSTATE_Idle(); // 358: 0x82604838
+        virtual Fun_Runtime::State * RetSTATE_Active() const; // 359: 0x82604888
+        virtual Fun_Runtime::State * RetSTATE_Active(); // 360: 0x82604888
     };
 }
 
