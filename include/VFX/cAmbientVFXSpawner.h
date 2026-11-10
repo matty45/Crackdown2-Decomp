@@ -17,15 +17,9 @@
 #include "fun_runtime/class.h"
 #include "fun_runtime/randgen.h"
 #include "fun_runtime/vec3.h"
+#include "fun_runtime/quat.h"
 #include "Sim/cTimeOfDay.h"
 #include "rws/time.h"
-
-namespace Fun_Runtime
-{
-    // Stand-ins: RuffKing names, layouts as used here.
-    __declspec(align(16)) struct Quat { float v[4]; };
-}
-
 
 namespace VFX
 {
@@ -116,7 +110,9 @@ namespace VFX
         static Fun_Runtime::cClass &StaticCreateClass();
         virtual const Fun_Runtime::cClass &RetClass() const;
         virtual bool IsA(const Fun_Runtime::cClass &) const;
-        virtual ~cAmbientVFXSpawnerBase();
+        // CD2's linked-spawner deleting wrapper restores this base's vptr and
+        // calls the nonvirtual TermVFX body (0x827FA3B0) after GUID cleanup.
+        virtual ~cAmbientVFXSpawnerBase() { TermVFX(); }
 
         cAmbientVFXSpawnerBase(const RWS::CAttributePacket &)
             : m_pVFXInstance(0), m_pNextActiveSpatialVFX(0), m_pPrototype(0), m_bInSpatialGrid(false),
@@ -140,6 +136,9 @@ namespace VFX
         }
         virtual bool SpawnVFX();
         virtual bool ReleaseVFX();
+        // RuffKing names the immediate cleanup operation; CD2 clears the instance
+        // pointer here, unlike the virtual fade/release path at 0x827FA210.
+        void TermVFX();
 
         Fun_Runtime::Quat m_Rot;
         Fun_Runtime::Vec3 m_Pos;
@@ -157,6 +156,8 @@ namespace VFX
         static cAmbientVFXManager *ms_pInstance;
         static cAmbientVFXManager *RetInstancePtr() { return ms_pInstance; }
         void RegisterAmbientVFXSpawner(cAmbientVFXSpawnerBase *);
+        // RuffKing name; CD2's linked-spawner ForceStop calls 0x827F8C58.
+        void UnRegisterAmbientVFXSpawner(cAmbientVFXSpawnerBase *);
     };
 
     class cAmbientVFXSpawner : public cAmbientVFXSpawnerBase

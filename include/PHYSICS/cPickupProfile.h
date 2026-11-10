@@ -8,10 +8,14 @@
 
 namespace PHYSICS
 {
-    class cPickupProfile
+    // RuffKing names CAttributeHandler as the primary base; CD2 0x8270CD10
+    // constructs only its 0x18 bytes. The allocation-policy base has no retail state.
+    class cPickupProfile : public RWS::CAttributeHandler
     {
     public:
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
+        // CD2 table 0x82002EFC, slot 11.
+        virtual const char *RetClassName() const;
     };
 }
 

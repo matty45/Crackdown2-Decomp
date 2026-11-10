@@ -17,6 +17,21 @@
 
 namespace RPG
 {
+    RWS::CAttributeHandler *cPvPLevelSetup::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cPvPLevelSetup(packet);
+    }
+
+    const char *cPvPLevelSetup::RetClassName() const
+    {
+        return "cPvPLevelSetup";
+    }
+
+    const char *cPvPSkillsetProfile::RetClassName() const
+    {
+        return "cPvPSkillsetProfile";
+    }
+
     static RWS::CClassFactory::CRegistrar cPvPLevelSetupRegistrar(
         "cPvPLevelSetup", cPvPLevelSetup::MakeNew, 0x10C, false);
 

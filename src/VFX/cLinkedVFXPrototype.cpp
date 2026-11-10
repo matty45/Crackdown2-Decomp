@@ -8,12 +8,33 @@
 #include "AI/aiconstants.h"
 #include "rws/classfactory.h"
 #include "VFX/cLinkedVFXPrototype.h"
+#include "VFX/cLinkedVFXSpawner.h"
+#include "cd2/memory.h"
 
 namespace VFX
 {
+    RWS::CAttributeHandler *cLinkedVFXPrototype::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cLinkedVFXPrototype(packet);
+    }
+
     const char *cLinkedVFXPrototype::RetClassName() const
     {
         return "cLinkedVFXPrototype";
+    }
+
+    // CD2 keeps these spawner interface bodies in this file's range. The table
+    // installed by the spawner factory at 0x827FA780 identifies their owner.
+    const Fun_Runtime::cClass &cLinkedVFXSpawner::RetClass() const
+    {
+        return *ms_pcLinkedVFXSpawnerClass;
+    }
+
+    void cLinkedVFXPrototype::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cAmbientVFXPrototypeBase::HandleAttributes(packet);
+        if (packet.IsInstanceCreationPacket())
+            m_EventHandler.Register(this, packet.GetInstanceId());
     }
 
     static RWS::CClassFactory::CRegistrar cLinkedVFXPrototypeRegistrar(

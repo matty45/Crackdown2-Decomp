@@ -21,6 +21,13 @@ namespace Vehicle { class cVehicle; }
 
 namespace ZoneManager
 {
+    // RuffKing's enum; CD2 stores the trigger-zone type at +0xD0.
+    enum eTriggerZoneType
+    {
+        eTZT_DetectLocalPlayerOnly = 0,
+        eTZT_DetectAllPlayers
+    };
+
     class cPlayerTriggerBase : public RWS::CSystemCommands, public RWS::CAttributeHandler, public RWS::DynamicAllocationPolicy,
                                public SaveGame::cLoadSaveObject
     {
@@ -34,7 +41,8 @@ namespace ZoneManager
         virtual bool DoCollision(CHARACTER::cCharacter *);
         virtual bool IsWithin(const Fun_Runtime::Vec3 &) const = 0;
         virtual bool IsVehicleWithin(const Vehicle::cVehicle *) const;
-        virtual void InitTriggerZone();
+        // CD2 0x8280FB68, primary slot 14; inlined at the end of local-trigger construction.
+        virtual void InitTriggerZone() { m_bDoCollision = true; }
         virtual void TermTriggerZone();
         virtual void OnPlayerEnter(CHARACTER::cCharacter *) = 0;
         virtual void OnPlayerLeave(CHARACTER::cCharacter *) = 0;
@@ -51,13 +59,20 @@ namespace ZoneManager
         Fun_Runtime::Vec3 m_vScale;
 
     private:
-        unsigned char m_unmodelledD0[0xE0 - 0xD0];
+        // Reference member names and offsets; CD2's base constructor initializes
+        // these, and InitTriggerZone writes the collision flag at +0xD5.
+        eTriggerZoneType m_eType;
+        bool m_bAllowDeadCharacters;
+        bool m_bDoCollision;
 
         CD2_LAYOUT_CHECKS(cPlayerTriggerBase,
             CD2_SIZE(cPlayerTriggerBase, 0xE0)
             CD2_OFFSET(cPlayerTriggerBase, m_vContainedPlayers, 0x20)
             CD2_OFFSET(cPlayerTriggerBase, m_Transform, 0x80)
-            CD2_OFFSET(cPlayerTriggerBase, m_vScale, 0xC0))
+            CD2_OFFSET(cPlayerTriggerBase, m_vScale, 0xC0)
+            CD2_OFFSET(cPlayerTriggerBase, m_eType, 0xD0)
+            CD2_OFFSET(cPlayerTriggerBase, m_bAllowDeadCharacters, 0xD4)
+            CD2_OFFSET(cPlayerTriggerBase, m_bDoCollision, 0xD5))
     };
 }
 

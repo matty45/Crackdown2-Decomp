@@ -11,6 +11,8 @@ namespace ZoneManager
     class cPlayerTriggerCylinder : public cPlayerTriggerBase
     {
     public:
+        // CD2 0x8280E1E0, called without arguments by the updraft-zone factory.
+        cPlayerTriggerCylinder();
         virtual void HandleAttributes(const RWS::CAttributePacket &);
         virtual bool IsWithin(const Fun_Runtime::Vec3 &) const;
         virtual ~cPlayerTriggerCylinder() {}

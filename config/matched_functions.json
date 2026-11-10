@@ -11586,6 +11586,11 @@
         "size": 40,
         "symbol": "??__EnPART_PERCENT_WEIGHT@@",
         "ltcg": true
+      },
+      {
+        "address": "0x824EB840",
+        "size": 172,
+        "symbol": "?MakeNew@cPropCarryNPCAnimationProfile@Anim@@"
       }
     ],
     "src/Anim/cPropDropAnimationProfile.cpp": [
@@ -22441,6 +22446,26 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x827FA478",
+        "size": 224,
+        "symbol": "?MakeNew@cLinkedVFXPrototype@VFX@@"
+      },
+      {
+        "address": "0x827FA568",
+        "size": 116,
+        "symbol": "??_GcLinkedVFXPrototype@VFX@@"
+      },
+      {
+        "address": "0x827FA5E0",
+        "size": 12,
+        "symbol": "?RetClass@cLinkedVFXSpawner@VFX@@"
+      },
+      {
+        "address": "0x827FA650",
+        "size": 144,
+        "symbol": "?HandleAttributes@cLinkedVFXPrototype@VFX@@"
       }
     ],
     "src/VFX/cOvercast.cpp": [
@@ -22810,6 +22835,11 @@
         "address": "0x83042600",
         "size": 12,
         "symbol": "??__FcScatterRegistrar@VFX@@"
+      },
+      {
+        "address": "0x827AA298",
+        "size": 12,
+        "symbol": "?RetClassName@cScatter@VFX@@"
       }
     ],
     "src/VFX/cSkyDome.cpp": [
@@ -50145,6 +50175,31 @@
         "address": "0x8303B260",
         "size": 12,
         "symbol": "??__FcPebbleDashMissionRegistrar@AI@@"
+      },
+      {
+        "address": "0x82489C38",
+        "size": 88,
+        "symbol": "?MakeNew@cLocalPlayerTrigger@AI@@"
+      },
+      {
+        "address": "0x82489C90",
+        "size": 12,
+        "symbol": "?RetClassName@cLocalPlayerTrigger@AI@@"
+      },
+      {
+        "address": "0x82489EA0",
+        "size": 80,
+        "symbol": "??_GcLocalPlayerTrigger@AI@@"
+      },
+      {
+        "address": "0x82489EF0",
+        "size": 104,
+        "symbol": "??1cLocalPlayerTrigger@AI@@"
+      },
+      {
+        "address": "0x82489DC0",
+        "size": 220,
+        "symbol": "??0cLocalPlayerTrigger@AI@@"
       }
     ],
     "src/AI/Behaviour/NPC/Peacekeeper/PeacekeeperPrototype.cpp": [
@@ -50986,6 +51041,16 @@
         "address": "0x83039588",
         "size": 12,
         "symbol": "??__FcSpawnPointRegistrar@Activity@@"
+      },
+      {
+        "address": "0x823D1B68",
+        "size": 12,
+        "symbol": "?RetClass@cSpawnPoint@Activity@@"
+      },
+      {
+        "address": "0x823D1DA0",
+        "size": 92,
+        "symbol": "?MakeNew@cSpawnPoint@Activity@@"
       }
     ],
     "src/Activity/SpawnPoint/cSpawnPointBase.cpp": [
@@ -51110,6 +51175,16 @@
         "address": "0x82F59778",
         "size": 40,
         "symbol": "??__E?ms_pcSpawnPointBaseClass@cSpawnPointBase@Activity@@"
+      },
+      {
+        "address": "0x823D2B38",
+        "size": 184,
+        "symbol": "?HandleAttributes@cSpawnPointBase@Activity@@"
+      },
+      {
+        "address": "0x823D2BF0",
+        "size": 164,
+        "symbol": "?HandleSystemCommands@cSpawnPointBase@Activity@@"
       }
     ],
     "src/Activity/SpawnPoint/cTurretSpawnPoint.cpp": [
@@ -54267,6 +54342,11 @@
         "address": "0x830400E0",
         "size": 12,
         "symbol": "??__FcTestRendererRegistrar@GameRenderer@@"
+      },
+      {
+        "address": "0x82667890",
+        "size": 12,
+        "symbol": "?RetClassName@cTestRenderer@GameRenderer@@"
       }
     ],
     "src/GameRenderer/cVehicleColourPalette.cpp": [
@@ -54279,6 +54359,16 @@
         "address": "0x83040120",
         "size": 12,
         "symbol": "??__FcVehicleColourPaletteRegistrar@GameRenderer@@"
+      },
+      {
+        "address": "0x8266B008",
+        "size": 120,
+        "symbol": "?MakeNew@cVehicleColourPalette@GameRenderer@@"
+      },
+      {
+        "address": "0x8266B080",
+        "size": 12,
+        "symbol": "?RetClassName@cVehicleColourPalette@GameRenderer@@"
       }
     ],
     "src/PHYSICS/cPickupProfile.cpp": [
@@ -54342,6 +54432,11 @@
         "address": "0x83040C58",
         "size": 12,
         "symbol": "??__FcPickupProfileRegistrar@PHYSICS@@"
+      },
+      {
+        "address": "0x8270CDE0",
+        "size": 12,
+        "symbol": "?RetClassName@cPickupProfile@PHYSICS@@"
       }
     ],
     "src/PHYSICS/cUniqueStuntZone.cpp": [
@@ -54630,6 +54725,26 @@
         "address": "0x830413B8",
         "size": 12,
         "symbol": "??__FcWingSuitUpdraftZoneRegistrar@CHARACTER@@"
+      },
+      {
+        "address": "0x827284C8",
+        "size": 12,
+        "symbol": "?RetClassName@cWingSuitUpdraftZoneProfile@CHARACTER@@"
+      },
+      {
+        "address": "0x82728400",
+        "size": 196,
+        "symbol": "?MakeNew@cWingSuitUpdraftZoneProfile@CHARACTER@@"
+      },
+      {
+        "address": "0x827284D8",
+        "size": 192,
+        "symbol": "?MakeNew@cWingSuitUpdraftZone@CHARACTER@@"
+      },
+      {
+        "address": "0x82728598",
+        "size": 12,
+        "symbol": "?RetClassName@cWingSuitUpdraftZone@CHARACTER@@"
       }
     ],
     "src/RPG/cSkillSet.cpp": [
@@ -55144,6 +55259,21 @@
         "address": "0x83041E50",
         "size": 12,
         "symbol": "??__FcPvPSkillsetProfileRegistrar@RPG@@"
+      },
+      {
+        "address": "0x82763818",
+        "size": 12,
+        "symbol": "?RetClassName@cPvPLevelSetup@RPG@@"
+      },
+      {
+        "address": "0x827638C0",
+        "size": 12,
+        "symbol": "?RetClassName@cPvPSkillsetProfile@RPG@@"
+      },
+      {
+        "address": "0x82763730",
+        "size": 228,
+        "symbol": "?MakeNew@cPvPLevelSetup@RPG@@"
       }
     ],
     "src/RPG/cAchievementTargets.cpp": [
@@ -55268,6 +55398,16 @@
         "address": "0x83042170",
         "size": 12,
         "symbol": "??__FcAchievementTargetsInterfaceRegistrar@RPG@@"
+      },
+      {
+        "address": "0x827775C0",
+        "size": 100,
+        "symbol": "?MakeNew@cAchievementTargetsInterface@RPG@@"
+      },
+      {
+        "address": "0x82777628",
+        "size": 12,
+        "symbol": "?RetClassName@cAchievementTargetsInterface@RPG@@"
       }
     ],
     "src/gom/cTargetDebugManager.cpp": [
@@ -55434,6 +55574,21 @@
         "address": "0x830427F8",
         "size": 12,
         "symbol": "??__FcWeatherSystemRegistrar@VFX@@"
+      },
+      {
+        "address": "0x827D7AB8",
+        "size": 12,
+        "symbol": "?RetClassName@cWeatherSetup@VFX@@"
+      },
+      {
+        "address": "0x827D7A08",
+        "size": 172,
+        "symbol": "?MakeNew@cWeatherSetup@VFX@@"
+      },
+      {
+        "address": "0x827D7B10",
+        "size": 12,
+        "symbol": "?RetClassName@cWeatherSystem@VFX@@"
       }
     ],
     "src/VFX/cLinkedVFXSpawner.cpp": [
@@ -55461,6 +55616,31 @@
         "address": "0x8300B3F8",
         "size": 104,
         "symbol": "??__EcLinkedVFXSpawnercAmbientVFXSpawnerBaseInheritRegistrar@VFX@@"
+      },
+      {
+        "address": "0x827FA780",
+        "size": 236,
+        "symbol": "?MakeNew@cLinkedVFXSpawner@VFX@@"
+      },
+      {
+        "address": "0x827FA870",
+        "size": 104,
+        "symbol": "??_GcLinkedVFXSpawner@VFX@@"
+      },
+      {
+        "address": "0x827FABB8",
+        "size": 144,
+        "symbol": "?ForceStart@cLinkedVFXSpawner@VFX@@"
+      },
+      {
+        "address": "0x827FAE88",
+        "size": 36,
+        "symbol": "?CanSpawn@cLinkedVFXSpawner@VFX@@"
+      },
+      {
+        "address": "0x827FAEB0",
+        "size": 80,
+        "symbol": "?OnVFXFinished@cLinkedVFXSpawner@VFX@@"
       }
     ],
     "src/VFX/cPlaceableLight.cpp": [
@@ -55488,6 +55668,11 @@
         "address": "0x83043028",
         "size": 12,
         "symbol": "??__FcPlaceableLightRegistrar@VFX@@"
+      },
+      {
+        "address": "0x82801D08",
+        "size": 12,
+        "symbol": "?RetClass@cPlaceableLight@VFX@@"
       }
     ],
     "src/Audio/cWorldGameObject.cpp": [
@@ -55634,6 +55819,16 @@
         "address": "0x83042440",
         "size": 12,
         "symbol": "??__FcBarrierRegistrar@VFX@@"
+      },
+      {
+        "address": "0x8278F0D8",
+        "size": 12,
+        "symbol": "?RetClassName@cBarrierSettings@VFX@@"
+      },
+      {
+        "address": "0x8278F130",
+        "size": 12,
+        "symbol": "?RetClassName@cBarrier@VFX@@"
       }
     ],
     "src/PHYSICS/cNetDynamicBody.cpp": [

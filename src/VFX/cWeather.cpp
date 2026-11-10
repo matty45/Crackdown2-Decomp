@@ -10,6 +10,21 @@
 
 namespace VFX
 {
+    RWS::CAttributeHandler *cWeatherSetup::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cWeatherSetup(packet);
+    }
+
+    const char *cWeatherSetup::RetClassName() const
+    {
+        return "cWeatherSetup";
+    }
+
+    const char *cWeatherSystem::RetClassName() const
+    {
+        return "cWeatherSystem";
+    }
+
     static RWS::CClassFactory::CRegistrar cWeatherSetupRegistrar(
         "cWeatherSetup", cWeatherSetup::MakeNew, 0x64, false);
 

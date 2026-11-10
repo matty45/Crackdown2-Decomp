@@ -18,10 +18,22 @@
 
 namespace Activity
 {
+    const Fun_Runtime::cClass &cSpawnPoint::RetClass() const
+    {
+        return *ms_pcSpawnPointClass;
+    }
+
     Fun_Runtime::cClass &cSpawnPoint::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cSpawnPointClass = new Fun_Runtime::cClass(0x5D1F3, "cSpawnPoint", 0x70);
         return *cSpawnPointClass;
+    }
+
+    RWS::CAttributeHandler *cSpawnPoint::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        cSpawnPoint *point = new cSpawnPoint;
+        point->HandleAttributes(packet);
+        return 0;
     }
 
     const Fun_Runtime::cClass *cSpawnPoint::ms_pcSpawnPointClass = &cSpawnPoint::StaticCreateClass();

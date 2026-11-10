@@ -5,13 +5,18 @@
 #define VFX_CBARRIER_H
 
 #include "rws/attributes.h"
+#include "GDb/cDebugPageHandler.h"
 
 namespace VFX
 {
-    class cBarrier
+    // Burn's base order agrees with CD2 constructor 0x8278F850: debug-page
+    // subobject at +0x18. Instance storage is not modelled.
+    class cBarrier : public RWS::CAttributeHandler, public GDb::cDebugPageHandler
     {
     public:
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
+        // Primary table 0x8214C584, slot 11.
+        virtual const char *RetClassName() const;
     };
 }
 

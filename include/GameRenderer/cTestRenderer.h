@@ -5,13 +5,20 @@
 
 #include "fun_runtime/class.h"
 #include "rws/attributes.h"
+#include "rws/eventhandler.h"
+#include "GDb/cDebugPageHandler.h"
 
 namespace GameRenderer
 {
-    class cTestRenderer
+    // Burn's base order agrees with CD2 constructor 0x82667A90: the event
+    // and debug-page subobjects are at +0x18 and +0x1C. Instance storage is not modelled.
+    class cTestRenderer : public RWS::CAttributeHandler, public RWS::CEventHandler,
+        public GDb::cDebugPageHandler
     {
     public:
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
+        // Primary table 0x8212E3A0, slot 11.
+        virtual const char *RetClassName() const;
     };
 }
 

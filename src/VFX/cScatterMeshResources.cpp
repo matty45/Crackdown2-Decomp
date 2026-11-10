@@ -15,6 +15,11 @@
 
 namespace VFX
 {
+    const char *cScatter::RetClassName() const
+    {
+        return "cScatter";
+    }
+
     static RWS::CClassFactory::CRegistrar cScatterRegistrar(
         "cScatter", cScatter::MakeNew, 0x550, false);
 

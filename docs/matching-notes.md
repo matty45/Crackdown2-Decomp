@@ -74,6 +74,12 @@ end, in one line, and is removed when the function matches. History belongs in g
   cPositionalProxy and also remains exact using that shared type.
 
 ## Codegen idioms
+- **Ambient-spawner destruction inlines the base's immediate cleanup.** CD2's cLinkedVFXSpawner deleting
+  wrapper (0x827FA870) destroys its GUID handler, restores cAmbientVFXSpawnerBase's table, then calls TermVFX
+  (0x827FA3B0). Declaring the base destructor out of line mislabeled TermVFX and omitted the three table-restore
+  instructions. An inline base destructor calling the reference-named TermVFX restores those instructions and
+  makes the deleting wrapper EXACT. Its own base deleting wrapper at 0x822E6768 independently has the same
+  table-store/TermVFX sequence; the virtual ReleaseVFX path at 0x827FA210 instead performs fade/release handling.
 - **Safe-pointer insertion belongs to the typed constructor.** CD2's cObjectInstigatorEvent constructor
   (0x823EC280) initializes each payload, installs its typed safe-pointer vptr, then links the node. A/B: putting
   insertion in cSafeDeletablePointerBase leaves extra base/derived vptr stores (22/57 LTCG words); initializing
@@ -772,3 +778,23 @@ One line each: what is ruled out. Remove the line when the function matches.
   Earlier /O1 /Oi probes without those helper boundaries did not cover all functions and did not rule out this build.
 - XDK libraries remain linked from the pinned SDK. Their proprietary implementations, including code derived from
   PNG, JPEG and zlib, are outside the published-source middleware matching scope.
+- cPvPSkillsetProfile::MakeNew (0x82763828): Burn's rank pointer at +0x18 and six skill pointers at +0x1C
+  establish the 0x34-byte layout. An inline constructor with the singleton assignment and XMemSet has the correct
+  operations but differs in base-clear/vtable scheduling (29/37 words in both modes); initializer-list versus body
+  initialization, defining the reference-named singleton in this object, and bounded source search did not improve
+  it. The partial factory body was removed.
+- cLongDistancePropManager::HandleAttributes (0x823DA998): the command loop, CMD_MAXPROPS field store and vector
+  reserve call agree, but rwSwap32 followed by narrowing lets the compiler eliminate CD2's full swap sequence
+  (25/49 words). _byteswap_ulong instead folds the payload load into lwbrx (24/49); neither probe was retained.
+- cLinkedVFXSpawner::ForceStop (0x827FAC48): typed in-play flag, manager unregister and virtual ReleaseVFX call
+  give 22/24 words in both modes; the this move and virtual-function load swap order. Bounded search did not improve
+  it, and the partial body was removed. Its IsA (0x827FA5F0, owned by cLinkedVFXPrototype.cpp) is byte-exact but
+  references the 0x830ACBD8 global-constant copy while that file's header initializers use 0x8321C138; unpromoted.
+- cSpawnPoint constructor (0x823D1F80): Burn's 0x50-byte base layout and CD2's GUID handler at +0x54 establish
+  the 0x70-byte class. Initializer-list and body initialization, a single captured UID increment, and novtable
+  probes did not recover CD2's initialization scheduling in either build. The constructor probes were removed.
+  cPlaceableLight::MakeNew (0x82801E18) still needs the base constructor's return-value propagation; its probe
+  was removed. cPlaceableLight::IsA (0x82801D18) is plain EXACT but 21/23 words under LTCG, so it is unpromoted.
+- cSpawnPointBase::HandleAttributes (0x823D2B38): the named GUID local is needed before prototype lookup;
+  passing GetAs_RWSGUID() directly omits CD2's address reload. The local form is EXACT in plain and LTCG.
+  HandleSystemCommands (0x823D2BF0) returns after the first CMD_LoadMatrix, also EXACT in both modes.

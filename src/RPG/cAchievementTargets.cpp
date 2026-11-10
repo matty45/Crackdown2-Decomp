@@ -17,6 +17,16 @@
 
 namespace RPG
 {
+    RWS::CAttributeHandler *cAchievementTargetsInterface::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cAchievementTargetsInterface(packet);
+    }
+
+    const char *cAchievementTargetsInterface::RetClassName() const
+    {
+        return "cAchievementTargetsInterface";
+    }
+
     static RWS::CClassFactory::CRegistrar cAchievementTargetsInterfaceRegistrar(
         "cAchievementTargetsInterface", cAchievementTargetsInterface::MakeNew, 0x18, false);
 }

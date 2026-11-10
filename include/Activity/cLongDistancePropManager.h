@@ -41,6 +41,8 @@ namespace Activity
         // CD2 0x823DA730: registered-class virtual slot 1.
         virtual bool IsA(const Fun_Runtime::cClass &c) const;
         virtual const char *RetClassName() const;
+        // CD2 0x823DA998, primary slot 1; RuffKing names command 0 CMD_MAXPROPS.
+        virtual void HandleAttributes(const RWS::CAttributePacket &);
 
     protected:
         Fun_Runtime::cVector<cSpawnPoint *> m_vpSpawnPoints;

@@ -17,6 +17,11 @@
 
 namespace GameRenderer
 {
+    const char *cTestRenderer::RetClassName() const
+    {
+        return "cTestRenderer";
+    }
+
     static RWS::CClassFactory::CRegistrar cTestRendererRegistrar(
         "cTestRenderer", cTestRenderer::MakeNew, 0x19810, false);
 }

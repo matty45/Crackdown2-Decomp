@@ -9,6 +9,16 @@
 
 namespace GameRenderer
 {
+    RWS::CAttributeHandler *cVehicleColourPalette::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cVehicleColourPalette(packet);
+    }
+
+    const char *cVehicleColourPalette::RetClassName() const
+    {
+        return "cVehicleColourPalette";
+    }
+
     static RWS::CClassFactory::CRegistrar cVehicleColourPaletteRegistrar(
         "cVehicleColourPalette", cVehicleColourPalette::MakeNew, 0xCC, false);
 }

@@ -13,6 +13,11 @@
 
 namespace PHYSICS
 {
+    const char *cPickupProfile::RetClassName() const
+    {
+        return "cPickupProfile";
+    }
+
     static RWS::CClassFactory::CRegistrar cPickupProfileRegistrar(
         "cPickupProfile", cPickupProfile::MakeNew, 0x18, false);
 }

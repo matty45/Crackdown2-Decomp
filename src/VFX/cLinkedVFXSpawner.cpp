@@ -16,6 +16,39 @@ namespace VFX
         return *cLinkedVFXSpawnerClass;
     }
 
+    RWS::CAttributeHandler *cLinkedVFXSpawner::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        cLinkedVFXSpawner *spawner = new cLinkedVFXSpawner(packet);
+        spawner->HandleAttributes(packet);
+        return 0;
+    }
+
+    void cLinkedVFXSpawner::ForceStart(char nPlayCount)
+    {
+        if (!m_bInPlay)
+        {
+            m_bInPlay = true;
+            cAmbientVFXManager::RetInstancePtr()->RegisterAmbientVFXSpawner(this);
+            m_nPlayCount = nPlayCount;
+            if (CanSpawn())
+                SpawnVFX();
+        }
+    }
+
+    bool cLinkedVFXSpawner::CanSpawn() const
+    {
+        if (!m_nPlayCount)
+            return false;
+        return m_bRelevantToPlayer != 0;
+    }
+
+    void cLinkedVFXSpawner::OnVFXFinished()
+    {
+        ReleaseVFX();
+        if (m_nPlayCount > 0)
+            --m_nPlayCount;
+    }
+
     const Fun_Runtime::cClass *cLinkedVFXSpawner::ms_pcLinkedVFXSpawnerClass = &cLinkedVFXSpawner::StaticCreateClass();
 
     static RWS::CClassFactory::CRegistrar cLinkedVFXSpawnerRegistrar(

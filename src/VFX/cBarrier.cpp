@@ -17,6 +17,16 @@
 
 namespace VFX
 {
+    const char *cBarrierSettings::RetClassName() const
+    {
+        return "cBarrierSettings";
+    }
+
+    const char *cBarrier::RetClassName() const
+    {
+        return "cBarrier";
+    }
+
     static RWS::CClassFactory::CRegistrar cBarrierSettingsRegistrar(
         "cBarrierSettings", cBarrierSettings::MakeNew, 0x60, false);
 

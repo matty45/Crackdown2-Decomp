@@ -10,6 +10,9 @@ namespace Anim
     class cPropCarryNPCAnimationProfile : public cSpecificAnimationProfile, public cProfileDataPropCarryNPC
     {
     public:
+        // CD2 0x824EB840 inlines the derived constructor after the shared profile constructor.
+        __forceinline cPropCarryNPCAnimationProfile()
+            : cProfileDataPropCarryNPC(static_cast<cSpecificAnimationProfile &>(*this)) {}
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
         virtual void HandleAttributes(const RWS::CAttributePacket &);

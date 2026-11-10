@@ -8,10 +8,21 @@
 
 namespace RPG
 {
-    class cAchievementTargetsInterface
+    // Burn derives this data interface directly from CAttributeHandler. CD2's
+    // 0x18-byte allocation at 0x827775C0 confirms that it adds no instance fields.
+    class cAchievementTargetsInterface : public RWS::CAttributeHandler
     {
     public:
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
+        cAchievementTargetsInterface(const RWS::CAttributePacket &) {}
+        virtual ~cAchievementTargetsInterface();
+        virtual void HandleAttributes(const RWS::CAttributePacket &);
+        // CD2 0x82147AF8 has this virtual in slot 11, followed by Destruct.
+        virtual const char *RetClassName() const;
+        virtual void Destruct();
+
+        CD2_LAYOUT_CHECKS(cAchievementTargetsInterface,
+            CD2_SIZE(cAchievementTargetsInterface, 0x18))
     };
 }
 

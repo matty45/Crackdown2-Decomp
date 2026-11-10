@@ -8,10 +8,14 @@
 
 namespace VFX
 {
-    class cBarrierSettings
+    // Burn's base agrees with the five base-field clears in CD2 0x8278EFA8.
+    // Instance fields remain unmodelled.
+    class cBarrierSettings : public RWS::CAttributeHandler
     {
     public:
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
+        // CD2 table 0x8214C550, slot 11.
+        virtual const char *RetClassName() const;
     };
 }
 

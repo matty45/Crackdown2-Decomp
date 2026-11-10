@@ -8935,7 +8935,7 @@ src/Activity/SpawnPoint/cReaperAerialSpawnPoint.cpp
 # RuffKing cSpawnPoint.obj (Libraries/Shared/ActivityManager/SpawnPoint/cSpawnPoint.cpp): CD2's initializer run from 0x82F59068 carries the class registrars of cSpawnPoint at 0x82F59378;
 # the text range runs from the first to the last function those registrars name (the class markers).
 src/Activity/SpawnPoint/cSpawnPoint.cpp
-  text 0x823D1D00 0x823D1DFC   # class markers: cSpawnPoint::StaticCreateClass 0x823D1D00, cSpawnPoint::MakeNew 0x823D1DA0
+  text 0x823D1B68 0x823D2720   # class markers: StaticCreateClass 0x823D1D00, MakeNew 0x823D1DA0; user-authorized extension: constructor 0x823D1F80 installs table 0x82002810; its own RetClass/IsA, deleting wrapper, Spawn and HandleAttributes span 0x823D1B68..0x823D2720 (IDA bounds); Burn's cSpawnPoint interface confirms their names and the two derived byte fields
   init 0x82F59068   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82F59090   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82F590B8   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
@@ -8965,7 +8965,7 @@ src/Activity/SpawnPoint/cSpawnPoint.cpp
 # RuffKing cSpawnPointBase.obj (Libraries/Shared/ActivityManager/SpawnPoint/cSpawnPointBase.cpp): CD2's initializer run from 0x82F59468 carries the class registrars of cSpawnPointBase at 0x82F59778;
 # the text range runs from the first to the last function those registrars name (the class markers).
 src/Activity/SpawnPoint/cSpawnPointBase.cpp
-  text 0x823D2A98 0x823D2B34   # class markers: cSpawnPointBase::StaticCreateClass 0x823D2A98
+  text 0x823D2A98 0x823D2DBC   # StaticCreateClass followed by HandleAttributes (class-name iterator) and the shared base virtuals HandleSystemCommands, SetInAV and RetSpawnedObjectID; all are installed in the cSpawnPoint/cPlaceableLight tables (0x82002810/0x82155260); IDA confirms the final function end
   init 0x82F59468   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82F59490   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82F594B8   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
@@ -9985,7 +9985,7 @@ src/VFX/cWeather.cpp
 # RuffKing cLinkedVFXSpawner.obj (Libraries/Shared/VFX/cLinkedVFXSpawner.cpp): CD2's initializer run (own initializers only) carries the class registrars of cLinkedVFXSpawner at 0x8300B380;
 # the text range runs from the first to the last function those registrars name (the class markers).
 src/VFX/cLinkedVFXSpawner.cpp
-  text 0x827FA6E0 0x827FA86C   # class markers: cLinkedVFXSpawner::StaticCreateClass 0x827FA6E0, cLinkedVFXSpawner::MakeNew 0x827FA780
+  text 0x827FA6E0 0x827FAF00   # class markers: cLinkedVFXSpawner::StaticCreateClass 0x827FA6E0, MakeNew 0x827FA780; user-authorized extension: factory installs table 0x82154FC8, whose own deleting destructor, SpawnVFX, CanSpawn and OnVFXFinished end at 0x827FAF00 (IDA bounds); the intervening HandleAttributes and ForceStart/ForceStop bodies use its confirmed 0x70-byte layout; no existing source range overlaps
   init 0x8300B380   # class pointer: cLinkedVFXSpawner::ms_pcLinkedVFXSpawnerClass = StaticCreateClass() (0x827FA6E0)
   init 0x8300B3A8   # class-factory registrar for "cLinkedVFXSpawner" (MakeNew 0x827FA780, size 0x70)
   atexit 0x83042F40   # destroys the class-factory registrar for "cLinkedVFXSpawner", registered by its initializer
@@ -9994,7 +9994,7 @@ src/VFX/cLinkedVFXSpawner.cpp
 # RuffKing cPlaceableLight.obj (Libraries/Shared/VFX/cPlaceableLight.cpp): CD2's initializer run (own initializers only) carries the class registrars of cPlaceableLight at 0x8300B618;
 # the text range runs from the first to the last function those registrars name (the class markers).
 src/VFX/cPlaceableLight.cpp
-  text 0x82801D78 0x82801E90   # class markers: cPlaceableLight::StaticCreateClass 0x82801D78, cPlaceableLight::MakeNew 0x82801E18
+  text 0x82801D08 0x82801E90   # RetClass/IsA at 0x82801D08/0x82801D18 are slots 0/1 of the factory-installed cPlaceableLight table 0x82155260; followed by StaticCreateClass and MakeNew.
   init 0x8300B618   # class pointer: cPlaceableLight::ms_pcPlaceableLightClass = StaticCreateClass() (0x82801D78)
   init 0x8300B640   # inheritance registrar: cPlaceableLight under cSpawnPoint (StaticCreateClass 0x823D1D00)
   init 0x8300B6A8   # class-factory registrar for "cPlaceableLight" (MakeNew 0x82801E18, size 0x80)

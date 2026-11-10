@@ -12,9 +12,29 @@
 #include "rws/classfactory.h"
 #include "AI/cLocalPlayerTrigger.h"
 #include "AI/cPebbleDashMission.h"
+#include "cd2/memory.h"
 
 namespace AI
 {
+    RWS::CAttributeHandler *cLocalPlayerTrigger::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cLocalPlayerTrigger(packet);
+    }
+
+    const char *cLocalPlayerTrigger::RetClassName() const
+    {
+        return "cLocalPlayerTrigger";
+    }
+
+    cLocalPlayerTrigger::cLocalPlayerTrigger(const RWS::CAttributePacket &packet)
+        : cPlayerTriggerZone(false), m_nTriggerFlags(0)
+    {
+        m_EventHandler.Register(this, packet.GetInstanceId());
+        InitTriggerZone();
+    }
+
+    cLocalPlayerTrigger::~cLocalPlayerTrigger() {}
+
     static RWS::CClassFactory::CRegistrar cLocalPlayerTriggerRegistrar(
         "cLocalPlayerTrigger", cLocalPlayerTrigger::MakeNew, 0x100, false);
 

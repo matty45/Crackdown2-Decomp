@@ -10,6 +10,11 @@
 
 namespace VFX
 {
+    const Fun_Runtime::cClass &cPlaceableLight::RetClass() const
+    {
+        return *ms_pcPlaceableLightClass;
+    }
+
     Fun_Runtime::cClass &cPlaceableLight::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cPlaceableLightClass = new Fun_Runtime::cClass(0x5D1F6, "cPlaceableLight", 0x80);

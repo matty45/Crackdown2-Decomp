@@ -18,6 +18,26 @@
 
 namespace CHARACTER
 {
+    RWS::CAttributeHandler *cWingSuitUpdraftZoneProfile::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cWingSuitUpdraftZoneProfile(packet);
+    }
+
+    const char *cWingSuitUpdraftZoneProfile::RetClassName() const
+    {
+        return "cWingSuitUpdraftZoneProfile";
+    }
+
+    RWS::CAttributeHandler *cWingSuitUpdraftZone::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cWingSuitUpdraftZone(packet);
+    }
+
+    const char *cWingSuitUpdraftZone::RetClassName() const
+    {
+        return "cWingSuitUpdraftZone";
+    }
+
     static RWS::CClassFactory::CRegistrar cWingSuitUpdraftZoneProfileRegistrar(
         "cWingSuitUpdraftZoneProfile", cWingSuitUpdraftZoneProfile::MakeNew, 0x3C, false);
 
