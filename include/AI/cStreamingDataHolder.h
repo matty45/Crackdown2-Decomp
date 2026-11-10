@@ -21,6 +21,11 @@ namespace AI
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         virtual const char *RetClassName() const;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &packet, bool);
+        // CD2: cStreamingDataHolder's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x8244C238
+        virtual int RetUniqueID(); // CEventHandler 1: 0x82604E70
     };
 }
 

@@ -17,6 +17,12 @@ namespace CHARACTER
         {
         public:
             cCharacterMotionPrototype(const RWS::CAttributePacket &);
+            // CD2: cCharacterMotionPrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+            // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+        public:
+            virtual void Slot3(); // cStreamingResourceClient 3: 0x8254DFE8
+            virtual void Slot4(); // cStreamingResourceClient 4: 0x8254DF98
+        public:
             CD2_LAYOUT_CHECKS(cCharacterMotionPrototype, CD2_SIZE(cCharacterMotionPrototype, 0x280))
         };
         // Own slots 314..346. Names/signatures are unresolved; CD2's last six entries are pure.

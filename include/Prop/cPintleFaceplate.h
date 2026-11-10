@@ -20,6 +20,13 @@ namespace Prop
         static Fun_Runtime::cClass &StaticCreateClass();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
+        // CD2: cPintleFaceplate's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual bool EnterPhysicalState(); // 7: 0x82745578
+        virtual void Slot23(); // 23: 0x822C2DF0
+        virtual void vf271(); // 271: 0x82745490
+        virtual void vf272(); // 272: 0x827454F8
     };
 }
 

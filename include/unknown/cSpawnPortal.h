@@ -24,6 +24,11 @@ namespace unknown
                 : Prop::cHingedProp::cHingedPropPrototype(packet) {}
             virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
 
+            // CD2: cSpawnPortalPrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+            // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+        public:
+            virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x8273E530
+        public:
             CD2_LAYOUT_CHECKS(cSpawnPortalPrototype,
                 CD2_SIZE(cSpawnPortalPrototype, 0x530))
         };
@@ -41,6 +46,11 @@ namespace unknown
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcSpawnPortalClass;
         static Fun_Runtime::cClass &StaticCreateClass();
+        // CD2: cSpawnPortal's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void Slot13(); // 13: 0x8273E528
+        virtual void Slot23(); // 23: 0x8273E3C0
     };
 }
 

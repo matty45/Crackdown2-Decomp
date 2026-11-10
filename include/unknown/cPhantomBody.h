@@ -24,6 +24,11 @@ namespace unknown
 
             unsigned int m_nE0;
 
+            // CD2: cPhantomBodyPrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+            // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+        public:
+            virtual Fun_Runtime::RetVal Init(RWS::CAttributePacket const &); // 5: 0x8268AD98
+        public:
             CD2_LAYOUT_CHECKS(cPhantomBodyPrototype,
                 CD2_SIZE(cPhantomBodyPrototype, 0xF0)
                 CD2_OFFSET(cPhantomBodyPrototype, m_nE0, 0xE0))

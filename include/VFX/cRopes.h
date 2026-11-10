@@ -191,6 +191,11 @@ namespace VFX
         static void ShowRopeSegments(void *, wchar_t *);
 
     public:
+        // CD2: cRopes's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual int RetUniqueID(); // CEventHandler 1: 0x82604E70
+    public:
         CD2_LAYOUT_CHECKS(cRopes,
             CD2_SIZE(cRopes, 0xCC)
             CD2_OFFSET(cRopes, m_lSegments, 0x80)

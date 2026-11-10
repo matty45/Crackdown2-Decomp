@@ -64,6 +64,10 @@ namespace CHARACTER
             // __forceinline: CD2 inlines this into MakeNew, which this compiler does only when forced
             // (docs/matching-notes.md, "Inlining").
             __forceinline cCharacterInterfacePrototype(const RWS::CAttributePacket &packet) : GOM::cObjectPrototype(packet) {}
+            // CD2: cCharacterInterfacePrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+            // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+        public:
+            virtual Fun_Runtime::RetVal Init(RWS::CAttributePacket const &); // 5: 0x8254F970
         };
 
         // CD2 0x8254EC78 takes no prototype argument; 0x8254E890 is its placement factory.
@@ -147,6 +151,21 @@ namespace CHARACTER
         unsigned char RetLODLevel() const;
         float RetHealthFraction();
 
+        // CD2: cCharacterInterface's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x827FBD60
+        virtual Fun_Runtime::RetVal Term(); // 6: 0x8254EE10
+        virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // 18: 0x822A04C8
+        virtual void Slot40(); // 40: 0x822A8398
+        virtual void Slot41(); // 41: 0x822C8B18
+        virtual void Slot44(); // 44: 0x823E7650
+        virtual void Slot45(); // 45: 0x821DB348
+        virtual void Slot46(); // 46: 0x823E7780
+        virtual void Slot47(); // 47: 0x823E76B8
+        virtual int RetUniqueID(); // CEventHandler 1: 0x82604E70
+        virtual Fun_Runtime::Vec3 RetPosition() const; // cSafeDeletable 3: 0x823E7660
+    public:
         CD2_LAYOUT_CHECKS(cCharacterInterface,
             CD2_SIZE(cCharacterInterface, 0xC0)
             CD2_OFFSET(cCharacterInterface, m_pCharacter, 0x7C)

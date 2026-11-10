@@ -24,6 +24,11 @@ namespace GameManagement
     private:
         // RuffKing names/count; CD2 MakeNew clears 16 bytes at 0x837C2610.
         static float m_aPingTime[4];
+        // CD2: cHUDPingProfile's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual bool HandleDataInNewDesignBuild(); // 9: 0x8288FB78
+    private:
         CD2_LAYOUT_CHECKS(cHUDPingProfile, CD2_SIZE(cHUDPingProfile, 0x18))
     };
 }

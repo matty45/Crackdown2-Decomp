@@ -95,7 +95,10 @@ public:
     virtual void Slot28();
     virtual void Slot29();
     virtual void Slot30();
-    virtual bool EnterRenderableState();
+    // Slot 31: RuffKing's EnterRenderableState(eResourcesType), a virtual of its own beside CAttributeHandler's
+    // EnterRenderableState() (slot 8). CD2: cTrafficLight's override (0x82747898) is in slot 31 of its table, where
+    // cTransVehicleDamageProp's holds the function that override tail-calls (0x822DC0B0).
+    virtual bool EnterRenderableState(eResourcesType eResources);
     virtual void LeaveRenderableState();
     virtual void Slot33();
     virtual void Slot34();
@@ -115,8 +118,7 @@ public:
     virtual void Slot46();
     virtual void Slot47();
     virtual void Slot48();
-    virtual void Slot49();
-    // Actual CD2 slot 49: legacy SlotN labels above drift by one after EnterRenderableState.
+    // Slot 49 (the SlotN labels from 33 to 48 are the CD2 slot numbers).
     // The character-interface override at 0x823E7778 reads its reference-named alive flag.
     virtual bool IsAlive() const;
     virtual void Slot51();
@@ -138,6 +140,11 @@ public:
     virtual void Slot67();
     virtual void Slot68();
 
+    // CD2: cNonGameBase's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+    // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+public:
+    virtual bool EnterPhysicalState(); // 7: 0x82653B30
+public:
     CD2_LAYOUT_CHECKS(cNonGameBase,
         CD2_SIZE(cNonGameBase, 0x7C)
         CD2_OFFSET(cNonGameBase, m_pPrototype, 0x44)

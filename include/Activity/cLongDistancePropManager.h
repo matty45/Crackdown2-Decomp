@@ -48,6 +48,12 @@ namespace Activity
         Fun_Runtime::cVector<cSpawnPoint *> m_vpSpawnPoints;
         unsigned short m_nMaxProps;
 
+        // CD2: cLongDistancePropManager's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual int RetUniqueID(); // CEventHandler 1: 0x82604E70
+        virtual void HandleEvents(RWS::CMsg &); // CEventHandler 5: 0x821E5240
+    protected:
         CD2_LAYOUT_CHECKS(cLongDistancePropManager,
             CD2_SIZE(cLongDistancePropManager, 0x94)
             CD2_OFFSET(cLongDistancePropManager, m_vpSpawnPoints, 0x80)

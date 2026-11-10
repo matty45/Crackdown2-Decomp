@@ -42,6 +42,11 @@ namespace AI
             float m_fUnknownA4; // 0xA4
             unsigned char m_unmodelledA8[0xB0 - 0xA8];
 
+            // CD2: cVehicleAttackedRockingBehaviourPrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+            // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+        public:
+            virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x824CFE18
+        private:
             CD2_LAYOUT_CHECKS(cVehicleAttackedRockingBehaviourPrototype,
                 CD2_SIZE(cVehicleAttackedRockingBehaviourPrototype, 0xB0)
                 CD2_OFFSET(cVehicleAttackedRockingBehaviourPrototype, m_fUnknown90, 0x90)

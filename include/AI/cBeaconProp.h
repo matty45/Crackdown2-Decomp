@@ -26,6 +26,11 @@ namespace AI
                 : cMissionCriticalProp::cMissionCriticalPropPrototype(packet) {}
             virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
 
+            // CD2: cBeaconPropPrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+            // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+        public:
+            virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x8245C428
+        public:
             CD2_LAYOUT_CHECKS(cBeaconPropPrototype,
                 CD2_SIZE(cBeaconPropPrototype, 0x500))
         };
@@ -52,6 +57,12 @@ namespace AI
     protected:
         // Reference member name/order; CD2's hkEntityListener starts at +0xE40.
         cBeaconMission *m_pBeaconMission;
+        // CD2: cBeaconProp's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual bool EnterPhysicalState(); // 7: 0x8245C5E0
+        virtual void vf76(); // 76: 0x8245C550
+    protected:
         CD2_LAYOUT_CHECKS(cBeaconProp,
             CD2_SIZE(cBeaconProp, 0xE50)
             CD2_OFFSET(cBeaconProp, m_pBeaconMission, 0xE44))

@@ -28,6 +28,11 @@ namespace unknown
         Editor::cGUIDEventHandler<cLaunchPadLocation> m_EventHandler;
         LaunchPad::cLaunchPadTargetLocation *m_pTarget;
 
+        // CD2: cLaunchPadLocation's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x827141E0
+    private:
         CD2_LAYOUT_CHECKS(cLaunchPadLocation,
             CD2_SIZE(cLaunchPadLocation, 0xA0)
             CD2_OFFSET(cLaunchPadLocation, m_pLaunchPad, 0x80)

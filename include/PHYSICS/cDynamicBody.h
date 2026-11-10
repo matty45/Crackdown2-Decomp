@@ -57,6 +57,71 @@ namespace PHYSICS
         virtual void vf299(); virtual void vf300(); virtual void vf301(); virtual void vf302(); virtual void vf303();
     private:
         unsigned char m_unknown298[0x420 - 0x298];
+        // CD2: cDynamicBody's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual Fun_Runtime::RetVal Term(); // 6: 0x822C5828
+        virtual bool EnterPhysicalState(); // 7: 0x82605A38
+        virtual void Slot13(); // 13: 0x82729CA8
+        virtual void Slot14(); // 14: 0x8272C228
+        virtual void Slot15(); // 15: 0x82608298
+        virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // 18: 0x8263ACD0
+        virtual void Slot23(); // 23: 0x82325CF8
+        virtual void Slot24(); // 24: 0x8272A7F8
+        virtual void Slot27(); // 27: 0x821D0000
+        virtual bool EnterRenderableState(eResourcesType); // 31: 0x822DC0B0
+        virtual void LeaveRenderableState(); // 32: 0x8272A488
+        virtual void Slot35(); // 35: 0x82686238
+        virtual Fun_Runtime::RetVal Reinitialise(GOM::cSpawner const *); // 38: 0x82688148
+        virtual Fun_Runtime::RetVal TermForReuse(); // 39: 0x82688198
+        virtual void Slot46(); // 46: 0x82686CE0
+        virtual void Slot55(); // 54: 0x826862F0
+        virtual void Slot64(); // 63: 0x82689C78
+        virtual void vf76(); // 76: 0x8237D638
+        virtual void vf86(); // 86: 0x8272B1F0
+        virtual void vf87(); // 87: 0x8272B2B0
+        virtual void vf91(); // 91: 0x8272B540
+        virtual void vf92(); // 92: 0x8272B338
+        virtual void vf101(); // 101: 0x82686D08
+        virtual void vf102(); // 102: 0x82292150
+        virtual void vf107(); // 107: 0x8236E830
+        virtual void vf108(); // 108: 0x82269868
+        virtual void vf109(); // 109: 0x82687860
+        virtual void vf111(); // 111: 0x82209A98
+        virtual void vf114(); // 114: 0x82685C48
+        virtual void vf115(); // 115: 0x8229DA48
+        virtual void vf117(); // 117: 0x8223F228
+        virtual void vf118(); // 118: 0x82457988
+        virtual void vf119(); // 119: 0x82686D20
+        virtual void vf120(); // 120: 0x82271ED0
+        virtual void vf121(); // 121: 0x82686D28
+        virtual void vf122(); // 122: 0x82457A50
+        virtual void vf123(); // 123: 0x8288FB78
+        virtual void vf127(); // 127: 0x8272BC10
+        virtual void vf134(); // 134: 0x82457A38
+        virtual void vf153(); // 153: 0x8272ABE0
+        virtual void vf154(); // 154: 0x8272AC18
+        virtual void vf158(); // 158: 0x8272ADB0
+        virtual void vf159(); // 159: 0x826865E0
+        virtual void vf161(); // 161: 0x82686560
+        virtual void vf162(); // 162: 0x826866B0
+        virtual void vf166(); // 166: 0x8288FB78
+        virtual void vf169(); // 169: 0x82685878
+        virtual void vf170(); // 170: 0x826858C0
+        virtual void vf183(); // 183: 0x82346D60
+        virtual void vf204(); // 204: 0x824579F0
+        virtual void vf205(); // 205: 0x824579F8
+        virtual void vf206(); // 206: 0x82457A00
+        virtual void vf207(); // 207: 0x82457A08
+        virtual void vf208(); // 208: 0x82457A10
+        virtual void vf209(); // 209: 0x82457A18
+        virtual void vf210(); // 210: 0x82457A30
+        virtual void vf211(); // 211: 0x822C5AB8
+        virtual void vf216(); // 216: 0x82685D20
+        virtual void vf217(); // 217: 0x82604F40
+    protected:
+        virtual void UpdateRenderMatrix(); // 26: 0x826DA5B8
+    private:
         CD2_LAYOUT_CHECKS(cDynamicBody, CD2_SIZE(cDynamicBody, 0x420))
     };
 }

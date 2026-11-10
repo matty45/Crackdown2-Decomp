@@ -33,6 +33,13 @@ namespace PHYSICS
         unsigned char m_nNumPlayersToCollect;
         unsigned char m_nCurrentNumPlayers;
 
+        // CD2: cOnlineOrb's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual Fun_Runtime::RetVal Init(RWS::CAttributePacket const &); // 5: 0x82710BC0
+        virtual void HandleEvents(RWS::CMsg &); // CEventHandler 5: 0x82710D28
+        virtual bool IsA(Fun_Runtime::cClass const &) const; // cRegisteredClass 1: 0x822E2438
+    protected:
         CD2_LAYOUT_CHECKS(cOnlineOrb,
             CD2_SIZE(cOnlineOrb, 0x170)
             CD2_OFFSET(cOnlineOrb, m_vBobOffset, 0x150)

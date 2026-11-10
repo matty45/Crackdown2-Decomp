@@ -71,6 +71,12 @@ namespace AI
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         virtual const char *RetClassName() const;
 
+        // CD2: cPedestrianBase's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void HandleEvents(RWS::CMsg &); // CEventHandler 5: 0x824A9310
+        virtual void Slot2(); // cSafeDeletable 2: 0x824AA9D8
+    public:
         CD2_LAYOUT_CHECKS(cPedestrianBase,
             CD2_SIZE(cPedestrianBase, 0x120)
             CD2_OFFSET(cPedestrianBase, m_nState, 0xC0)

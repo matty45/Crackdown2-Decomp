@@ -30,6 +30,13 @@ namespace Equip
         float m_fBarrelSpeed;                      // 0xAB0 (RuffKing's name)
         unsigned char m_unmodelledAB4[0xAC0 - 0xAB4];
 
+        // CD2: cMiniGun's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void Slot23(); // 23: 0x8263B4B8
+        virtual Fun_Runtime::cClass const & RetClass() const; // cBody 0: 0x8263BA60
+        virtual bool IsA(Fun_Runtime::cClass const &) const; // cBody 1: 0x8263BA10
+    private:
         CD2_LAYOUT_CHECKS(cMiniGun,
             CD2_SIZE(cMiniGun, 0xAC0))
     };

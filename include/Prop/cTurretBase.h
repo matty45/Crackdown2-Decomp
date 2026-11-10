@@ -57,6 +57,27 @@ namespace Prop
         Fun_Runtime::cSafeDeletablePointer<CHARACTER::cCharacter> m_pUsingCharacter;
         unsigned char m_unknownE50[0x1080 - 0xE50];
 
+        // CD2: cTurretBase's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual Fun_Runtime::RetVal Term(); // 6: 0x827488D0
+        virtual bool EnterPhysicalState(); // 7: 0x82748A08
+        virtual void Slot14(); // 14: 0x827489C0
+        virtual void Slot23(); // 23: 0x8274B008
+        virtual bool EnterRenderableState(eResourcesType); // 31: 0x82748B10
+        virtual void Slot61(); // 60: 0x8274BA40
+        virtual void vf76(); // 76: 0x82748BB8
+        virtual void vf196(); // 196: 0x82748940
+        virtual unsigned short RetCollisionSystemGroup(); // 197: 0x82748990
+        virtual void vf226(); // 226: 0x8274BB58
+        virtual void vf235(); // 235: 0x8274BC28
+        virtual void vf236(); // 236: 0x8274BBC8
+        virtual void CalculateLOD(int); // cReplicatedClass 3: 0x8274BAF0
+        virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x8274B0F0
+        virtual void ReplicateFields(); // cReplicatedClass 9: 0x8274B2B0
+        virtual void SetPingedFieldStatesForNode(unsigned char); // cReplicatedClass 20: 0x8274B268
+        virtual unsigned int GetMaxReplicatedFields() const; // cReplicatedClass 23: 0x8288EA78
+    private:
         CD2_LAYOUT_CHECKS(cTurretBase,
             CD2_SIZE(cTurretBase, 0x1080)
             CD2_OFFSET(cTurretBase, m_pWeapon, 0xE30)

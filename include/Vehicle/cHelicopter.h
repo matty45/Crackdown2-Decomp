@@ -32,6 +32,11 @@ namespace Vehicle
         private:
             unsigned char m_unmodelled36C[0x4C0 - 0x36C];
 
+            // CD2: cHeliPrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+            // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+        public:
+            virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x826E1B70
+        private:
             CD2_LAYOUT_CHECKS(cHeliPrototype,
                 CD2_SIZE(cHeliPrototype, 0x4C0)
                 CD2_OFFSET(cHeliPrototype, m_fMaxThrustVelo, 0x368))

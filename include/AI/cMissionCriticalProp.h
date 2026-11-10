@@ -25,6 +25,11 @@ namespace AI
 
             unsigned int m_nInteractionAnimID;
 
+            // CD2: cMissionCriticalPropPrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+            // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+        public:
+            virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x8245B010
+        public:
             CD2_LAYOUT_CHECKS(cMissionCriticalPropPrototype,
                 CD2_SIZE(cMissionCriticalPropPrototype, 0x500)
                 CD2_OFFSET(cMissionCriticalPropPrototype, m_nInteractionAnimID, 0x4F0))
@@ -47,6 +52,20 @@ namespace AI
     private:
         // RuffKing name; CD2 constructor 0x8245B0C8 stores one at +0xE30.
         bool m_bInteractable;
+        // CD2: cMissionCriticalProp's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual bool EnterPhysicalState(); // 7: 0x8272A070
+        virtual void Slot20(); // 20: 0x8245B2C8
+        virtual void Slot23(); // 23: 0x822C2DF0
+        virtual void vf76(); // 76: 0x8245B338
+        virtual void vf78(); // 78: 0x8288FB78
+        virtual void vf79(); // 79: 0x8245B428
+        virtual void vf83(); // 83: 0x8245B570
+        virtual void vf226(); // 226: 0x8245B5F8
+        virtual void vf335(); // 335: 0x8245B5E8
+        virtual void vf340(); // 340: 0x8245B3A8
+    private:
         CD2_LAYOUT_CHECKS(cMissionCriticalProp,
             CD2_SIZE(cMissionCriticalProp, 0xE40)
             CD2_OFFSET(cMissionCriticalProp, m_bInteractable, 0xE30))

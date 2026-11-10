@@ -44,6 +44,17 @@ namespace Equip
         // Own fields not recovered; 0xAB0 is the size its class-factory registrar gives (derived classes start there).
         unsigned char m_unmodelledA10[0xAB0 - 0xA10];
 
+        // CD2: cCWFirearm's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual Fun_Runtime::RetVal Term(); // 6: 0x82617F58
+        virtual void Slot13(); // 13: 0x82617FB0
+        virtual void Slot14(); // 14: 0x82618008
+        virtual void Slot23(); // 23: 0x822DC738
+        virtual void vf257(); // 257: 0x826181F8
+        virtual void vf279(); // 279: 0x82399798
+        virtual Fun_Runtime::cScriptTypeRegistration const * RetScriptTypeRegistration() const; // cSafeDeletable 1: 0x826164D0
+    private:
         CD2_LAYOUT_CHECKS(cCWFirearm, CD2_SIZE(cCWFirearm, 0xAB0))
     };
 }

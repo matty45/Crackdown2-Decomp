@@ -24,6 +24,11 @@ namespace ZoneManager
     private:
         Fun_Runtime::cStringc m_strName;            // 0xE0
 
+        // CD2: cVOAZone's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x8280EB08
+    private:
         CD2_LAYOUT_CHECKS(cVOAZone,
             CD2_SIZE(cVOAZone, 0x100)
             CD2_OFFSET(cVOAZone, m_strName, 0xE0))

@@ -22,6 +22,12 @@ namespace VFX
         Fun_Runtime::cString m_sName;                 // 0x18 (RuffKing name and type)
         unsigned char m_unmodelled34[0x1A0 - 0x34];
 
+        // CD2: cLightData's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x82800990
+        virtual bool HandleDataInNewDesignBuild(); // 9: 0x8288FB78
+    private:
         CD2_LAYOUT_CHECKS(cLightData,
             CD2_SIZE(cLightData, 0x1A0)
             CD2_OFFSET(cLightData, m_sName, 0x18))

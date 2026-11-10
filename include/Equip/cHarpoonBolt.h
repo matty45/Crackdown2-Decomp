@@ -22,6 +22,12 @@ namespace Equip
             __forceinline cHarpoonBoltPrototype(const RWS::CAttributePacket &packet)
                 : cWeaponProjectile::cWeaponProjectilePrototype(packet) {}
 
+            // CD2: cHarpoonBoltPrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+            // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+        public:
+            virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x82629020
+            virtual Fun_Runtime::RetVal Init(RWS::CAttributePacket const &); // 5: 0x82629028
+        public:
             CD2_LAYOUT_CHECKS(cHarpoonBoltPrototype,
                 CD2_SIZE(cHarpoonBoltPrototype, 0x2F0))
         };

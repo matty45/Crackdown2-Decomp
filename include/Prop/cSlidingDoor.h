@@ -23,6 +23,12 @@ namespace Prop
             // __forceinline: CD2 inlines this constructor into MakeNew (docs/matching-notes.md, "Inlining").
             __forceinline cSlidingDoorPrototype(const RWS::CAttributePacket &packet) : Prop::cPrismaticProp::cPrismaticPropPrototype(packet) {}
 
+            // CD2: cSlidingDoorPrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+            // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+        public:
+            virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x8273CC70
+            virtual Fun_Runtime::RetVal Init(RWS::CAttributePacket const &); // 5: 0x82746D80
+        public:
             CD2_LAYOUT_CHECKS(cSlidingDoorPrototype, CD2_SIZE(cSlidingDoorPrototype, 0x530))
         };
 

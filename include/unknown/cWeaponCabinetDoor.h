@@ -28,6 +28,11 @@ namespace unknown
         private:
             unsigned char m_unmodelled530[0x540 - 0x530];
 
+            // CD2: cWeaponCabinetDoorPrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+            // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+        public:
+            virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x827414B8
+        private:
             CD2_LAYOUT_CHECKS(cWeaponCabinetDoorPrototype,
                 CD2_SIZE(cWeaponCabinetDoorPrototype, 0x540))
         };
@@ -45,6 +50,11 @@ namespace unknown
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcWeaponCabinetDoorClass;
         static Fun_Runtime::cClass &StaticCreateClass();
+        // CD2: cWeaponCabinetDoor's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void Slot13(); // 13: 0x82741478
+        virtual void Slot23(); // 23: 0x827412A0
     };
 }
 

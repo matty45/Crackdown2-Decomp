@@ -45,6 +45,13 @@ namespace Equip
         float m_fExtendTrans;                      // 0xAB4
         unsigned char m_unmodelledAB8[0xAC0 - 0xAB8];
 
+        // CD2: cChainGun's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void Slot23(); // 23: 0x82616828
+        virtual Fun_Runtime::cClass const & RetClass() const; // cBody 0: 0x82617C88
+        virtual bool IsA(Fun_Runtime::cClass const &) const; // cBody 1: 0x82617C90
+    private:
         CD2_LAYOUT_CHECKS(cChainGun,
             CD2_SIZE(cChainGun, 0xAC0))
     };

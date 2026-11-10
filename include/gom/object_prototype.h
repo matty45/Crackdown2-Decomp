@@ -71,6 +71,11 @@ namespace GOM
         virtual void NotifyResourceLoaded(RWS::CResource &);
         virtual void ReCalculateResourceState();
 
+        // CD2: cObjectPrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual Fun_Runtime::RetVal Init(RWS::CAttributePacket const &); // 5: 0x826541A8
+    public:
         CD2_LAYOUT_CHECKS(cObjectPrototype,
             CD2_SIZE(cObjectPrototype, 0x70)
             CD2_OFFSET(cObjectPrototype, m_nResourceState, 0x44)

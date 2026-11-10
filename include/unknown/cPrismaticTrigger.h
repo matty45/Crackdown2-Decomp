@@ -23,6 +23,11 @@ namespace unknown
 
             unsigned int m_nE0;
 
+            // CD2: cPrismaticTriggerPrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+            // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+        public:
+            virtual Fun_Runtime::RetVal Init(RWS::CAttributePacket const &); // 5: 0x8273DE40
+        public:
             CD2_LAYOUT_CHECKS(cPrismaticTriggerPrototype,
                 CD2_SIZE(cPrismaticTriggerPrototype, 0xF0)
                 CD2_OFFSET(cPrismaticTriggerPrototype, m_nE0, 0xE0))

@@ -25,6 +25,12 @@ namespace AI
         virtual const Fun_Runtime::cClass &RetClass() const;
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         virtual const char *RetClassName() const;
+        // CD2: ScroungerKamikaze's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void V104(); // 104: 0x824BE1D8
+        virtual void V108(); // 108: 0x824BDF98
+        virtual void Slot2(); // cSafeDeletable 2: 0x824BE218
     };
 }
 

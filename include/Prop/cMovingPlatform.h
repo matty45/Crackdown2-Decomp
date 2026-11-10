@@ -26,6 +26,17 @@ namespace Prop
         static const Fun_Runtime::cClass *ms_pcMovingPlatformClass;
         static Fun_Runtime::cClass &StaticCreateClass();
         virtual const char *RetClassName() const;
+        // CD2: cMovingPlatform's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual Fun_Runtime::RetVal Term(); // 6: 0x8273ACC8
+        virtual bool EnterPhysicalState(); // 7: 0x8273AD28
+        virtual void Slot13(); // 13: 0x82732350
+        virtual void Slot23(); // 23: 0x8273AD20
+        virtual void Slot27(); // 27: 0x8273AD98
+        virtual void HandleEvents(RWS::CMsg &); // CEventHandler 5: 0x8273AAE8
+        virtual Fun_Runtime::cClass const & RetClass() const; // cBody 0: 0x8273AE08
+        virtual bool IsA(Fun_Runtime::cClass const &) const; // cBody 1: 0x8273ADB0
     };
 }
 

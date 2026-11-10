@@ -31,6 +31,15 @@ namespace unknown
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcBoostPackClass;
         static Fun_Runtime::cClass &StaticCreateClass();
+        // CD2: cBoostPack's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual Fun_Runtime::RetVal Term(); // 6: 0x8260AE90
+        virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // 18: 0x8260B430
+        virtual Fun_Runtime::cClass const & RetClass() const; // cBody 0: 0x8260B138
+        virtual bool IsA(Fun_Runtime::cClass const &) const; // cBody 1: 0x8260B140
+        virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x8261F5F0
+        virtual void ReplicateFields(); // cReplicatedClass 9: 0x82396118
     };
 }
 

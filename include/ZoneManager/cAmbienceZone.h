@@ -29,6 +29,12 @@ namespace ZoneManager
         bool m_bPreviouslyLeft;                     // 0xFD
         bool m_bIndoor;                             // 0xFE
 
+        // CD2: cAmbienceZone's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x8280FA50
+        virtual void TermTriggerZone(); // 15: 0x8280F6B8
+    private:
         CD2_LAYOUT_CHECKS(cAmbienceZone,
             CD2_SIZE(cAmbienceZone, 0x100)
             CD2_OFFSET(cAmbienceZone, m_strName, 0xE0)

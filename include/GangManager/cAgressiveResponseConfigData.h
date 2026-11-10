@@ -40,6 +40,14 @@ namespace GangManager
         float m_fMaxAVPadding;                    // 0x4C
         RWS::RWSGUID m_nGlobalPKGangGUID;         // 0x50
 
+        // CD2: cAgressiveResponseConfigData's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual Fun_Runtime::cClass const & RetClass() const; // cRegisteredClass 0: 0x823E5800
+        virtual bool IsA(Fun_Runtime::cClass const &) const; // cRegisteredClass 1: 0x823E5810
+        virtual Fun_Runtime::cScriptTypeRegistration const * RetScriptTypeRegistration() const; // cSafeDeletable 1: 0x823E5870
+        virtual char const * RetName() const; // cSafeDeletable 4: 0x823E5880
+    public:
         CD2_LAYOUT_CHECKS(cAgressiveResponseConfigData,
             CD2_SIZE(cAgressiveResponseConfigData, 0x60)
             CD2_OFFSET(cAgressiveResponseConfigData, m_nMaxNumVehicles, 0x34)

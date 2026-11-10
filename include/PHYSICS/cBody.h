@@ -25,6 +25,14 @@ namespace PHYSICS
         {
         public:
             cBodyPrototype(const RWS::CAttributePacket &);
+            // CD2's body prototypes have three virtuals of their own, in slots 11 to 13 of every derived prototype's
+            // table (0x8211FCB0 for cWeaponProjectilePrototype): 0x826846C8, 0x82457800 and 0x826846A0. RuffKing has
+            // the last two (RetCollisionData, IsValidCollisionData); their CD2 bodies return the pointer at 0x1E0 and
+            // test it and the word at its +8. The first is CD2's own: it stores into 0x1E0 the result of a virtual
+            // call on its argument's member at 0xE0, or 0 (name and parameter type ours).
+            virtual void SetCollisionDataFrom(cBodyPrototype *pSource);  // 11
+            virtual class cColData *RetCollisionData();                  // 12
+            virtual bool IsValidCollisionData();                         // 13
 
         private:
             unsigned char m_unmodelledE0[0x1F0 - 0xE0];
@@ -87,6 +95,18 @@ namespace PHYSICS
         bool m_bSuspended;                          // 0x24D, cleared by TermForReuse (0x82683738)
         unsigned char m_nActivationType;            // 0x24E
         bool m_bHasBeenNearLocalPlayer;             // 0x24F
+        // CD2: cBody's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual bool EnterPhysicalState(); // 7: 0x82683A48
+        virtual void Slot13(); // 13: 0x826838B8
+        virtual void UpdateRenderMatrix(); // 26: 0x82683DC0
+        virtual void Slot27(); // 27: 0x82683AF0
+        virtual void Slot41(); // 41: 0x82684070
+        virtual void Slot43(); // 43: 0x82683F70
+        virtual void vf114(); // 114: 0x82683838
+        virtual Fun_Runtime::cScriptTypeRegistration const * RetScriptTypeRegistration() const; // cSafeDeletable 1: 0x8245AE28
+    protected:
         CD2_LAYOUT_CHECKS(cBody,
             CD2_SIZE(cBody, 0x250)
             CD2_OFFSET(cBody, m_fSpeed, 0x124)

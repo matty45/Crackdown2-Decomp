@@ -33,6 +33,14 @@ namespace Equip
         // CD2 0x8260B4B0.
         virtual ~cCloakingDevice();
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
+        // CD2: cCloakingDevice's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual Fun_Runtime::RetVal Term(); // 6: 0x8260B460
+        virtual bool ShouldBeForceStored(); // 317: 0x827E56A8
+        virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x8261F5F0
+        virtual void ReplicateFields(); // cReplicatedClass 9: 0x82396118
+    public:
         CD2_LAYOUT_CHECKS(cCloakingDevice, CD2_SIZE(cCloakingDevice, 0x9C0))
     };
 }

@@ -33,6 +33,12 @@ namespace Equip
     private:
         cRefractorBeam m_Beam;
 
+        // CD2: cRefractor's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // 18: 0x82608168
+        virtual Fun_Runtime::cScriptTypeRegistration const * RetScriptTypeRegistration() const; // cSafeDeletable 1: 0x82607BD0
+    private:
         CD2_LAYOUT_CHECKS(cRefractor,
             CD2_SIZE(cRefractor, 0xA60)
             CD2_OFFSET(cRefractor, m_Beam, 0xA10))

@@ -54,10 +54,10 @@ namespace Prop
         return "cTrafficLight";
     }
 
-    bool cTrafficLight::EnterRenderableState()
+    bool cTrafficLight::EnterRenderableState(eResourcesType eResources)
     {
         m_bFirstRender = true;
-        return cProp::EnterRenderableState();
+        return cProp::EnterRenderableState(eResources);
     }
 
     void cTrafficLight::UpdateRenderMatrix()

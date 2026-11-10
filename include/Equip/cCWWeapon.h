@@ -35,6 +35,14 @@ namespace Equip
             bool m_bTurret; // RuffKing name (its 0x3A8); CD2 reads 0x3D8
             unsigned char m_unmodelled3D9[0x3E0 - 0x3D9];
 
+            // CD2: cCWWeaponPrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+            // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+        public:
+            virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x8263BDB8
+            virtual unsigned int RetHeadShotKillPoints() const; // 23: 0x826164B8
+            virtual unsigned int RetArmKillPoints() const; // 24: 0x826164C0
+            virtual unsigned int RetLegKillPoints() const; // 25: 0x826164C8
+        private:
             CD2_LAYOUT_CHECKS(cCWWeaponPrototype,
                 CD2_SIZE(cCWWeaponPrototype, 0x3E0)
                 CD2_OFFSET(cCWWeaponPrototype, m_bTurret, 0x3D8))
@@ -73,6 +81,19 @@ namespace Equip
         Prop::cTurretBase *m_pTurret;   // RuffKing name; SetTurretMounted (0x826085F8) and RetTurretMounted use 0x8F0
     private:
         unsigned char m_unmodelled8F4[0xA10 - 0x8F4];
+        // CD2: cCWWeapon's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void Slot13(); // 13: 0x82630028
+        virtual void Slot14(); // 14: 0x826082A0
+        virtual void Slot23(); // 23: 0x822AD100
+        virtual void Slot61(); // 60: 0x826086B8
+        virtual void vf257(); // 257: 0x8226CA68
+        virtual void vf278(); // 278: 0x823AF810
+        virtual int RetNumHands() const; // 315: 0x82608550
+        virtual void TriggerReloadAudio(); // 319: 0x826084D0
+        virtual void SetTurretMounted(Prop::cTurretBase *); // 321: 0x826085F8
+    private:
         CD2_LAYOUT_CHECKS(cCWWeapon,
             CD2_SIZE(cCWWeapon, 0xA10)
             CD2_OFFSET(cCWWeapon, m_fAIAccuracyCone, 0x8C4)

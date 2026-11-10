@@ -21,6 +21,13 @@ namespace Vehicle
     private:
         RWS::CEventId m_Msg_Data_Modified;           // 0x8E0
 
+        // CD2: cCarProfile's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x8269C160
+        virtual Fun_Runtime::RetVal Init(RWS::CAttributePacket const &); // 5: 0x8269C018
+        virtual Fun_Runtime::RetVal Term(); // 6: 0x8269C088
+    private:
         CD2_LAYOUT_CHECKS(cCarProfile,
             CD2_SIZE(cCarProfile, 0x8F0)
             CD2_OFFSET(cCarProfile, m_Msg_Data_Modified, 0x8E0))

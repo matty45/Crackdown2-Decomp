@@ -32,6 +32,14 @@ namespace Equip
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
     private:
         unsigned char m_unmodelled870[0x8C0 - 0x870];
+        // CD2: cWeapon's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void vf140(); // 140: 0x8234A320
+        virtual void vf274(); // 274: 0x82335618
+        virtual void vf275(); // 275: 0x82609F30
+        virtual void vf276(); // 276: 0x82609FA8
+    private:
         CD2_LAYOUT_CHECKS(cWeapon, CD2_SIZE(cWeapon, 0x8C0))
     };
 }

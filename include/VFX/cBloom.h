@@ -39,6 +39,12 @@ namespace VFX
         // Name ours: RuffKing's dump names no field, but its size leaves room for this one; the constructor zeroes it.
         unsigned int m_unknown7C;
 
+        // CD2: cBloom's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x82580578
+        virtual int RetUniqueID(); // CEventHandler 1: 0x82604E70
+    private:
         CD2_LAYOUT_CHECKS(cBloom,
             CD2_SIZE(cBloom, 0x80)
             CD2_OFFSET(cBloom, m_unknown7C, 0x7C))

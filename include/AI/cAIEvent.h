@@ -39,6 +39,11 @@ namespace AI
         cAIEventSubscription *m_pSubscription;
         unsigned int m_nTimeStamp;
 
+        // CD2: cAIEvent's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual Fun_Runtime::Vec3 RetPosition() const; // cSafeDeletable 3: 0x8243E628
+    protected:
         CD2_LAYOUT_CHECKS(cAIEvent,
             CD2_SIZE(cAIEvent, 0x44)
             CD2_OFFSET(cAIEvent, m_eEventType, 0x28)

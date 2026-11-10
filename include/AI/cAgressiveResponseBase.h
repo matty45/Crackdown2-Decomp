@@ -19,11 +19,35 @@ namespace AI
                 : cChaseBehaviourPrototype(packet)
             {
             }
+            // CD2: cAgressiveResponseBasePrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+            // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+        public:
+            virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x824CC6F8
         };
 
         cAgressiveResponseBase();
         static Fun_Runtime::cClass &StaticCreateClass();
         virtual void vf119();
+        // CD2: cAgressiveResponseBase's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void OnEnter(); // 68: 0x824C9530
+        virtual void OnExit(); // 69: 0x824C96F0
+        virtual void Slot72(); // 72: 0x824C9638
+        virtual void OnEvent74(AI::NPCTarget *); // 74: 0x824CB058
+        virtual void OnEvent75(AI::NPCTarget *); // 75: 0x824CB118
+        virtual void Slot76(); // 76: 0x824CB610
+        virtual void Slot77(); // 77: 0x824CB530
+        virtual void Slot79(); // 79: 0x824C9770
+        virtual void Slot82(); // 82: 0x824CAFA8
+        virtual void Update(float); // 96: 0x824C97E0
+        virtual void GetState(int); // 100: 0x824CBF08
+        virtual void V102(); // 102: 0x824C9A70
+        virtual void Slot109(); // 109: 0x824CAA60
+        virtual void Slot112(); // 112: 0x824CAC70
+        virtual void V118(); // 118: 0x824CB938
+        virtual void Slot2(); // cSafeDeletable 2: 0x824CBAA0
+    public:
         CD2_LAYOUT_CHECKS(cAgressiveResponseBase, CD2_SIZE(cAgressiveResponseBase, 0x100))
     };
 }

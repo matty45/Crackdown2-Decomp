@@ -24,6 +24,12 @@ namespace unknown
 
             int m_n530;
 
+            // CD2: cAgencyGarageDoorPrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+            // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+        public:
+            virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x827349A0
+            virtual Fun_Runtime::RetVal Init(RWS::CAttributePacket const &); // 5: 0x82734A50
+        public:
             CD2_LAYOUT_CHECKS(cAgencyGarageDoorPrototype,
                 CD2_SIZE(cAgencyGarageDoorPrototype, 0x540)
                 CD2_OFFSET(cAgencyGarageDoorPrototype, m_n530, 0x530))

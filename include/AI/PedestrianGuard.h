@@ -33,6 +33,11 @@ namespace AI
             bool m_bUnknown91; // 0x91
             unsigned char m_unmodelled92[0xA0 - 0x92];
 
+            // CD2: PedestrianGuardPrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+            // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+        public:
+            virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x824AB5D8
+        private:
             CD2_LAYOUT_CHECKS(PedestrianGuardPrototype,
                 CD2_SIZE(PedestrianGuardPrototype, 0xA0)
                 CD2_OFFSET(PedestrianGuardPrototype, m_bUnknown90, 0x90))
@@ -52,6 +57,11 @@ namespace AI
         unsigned char m_unmodelled128[0x130 - 0x128];
 
         // 0x130: the size the class registrar gives.
+        // CD2: PedestrianGuard's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void Slot2(); // cSafeDeletable 2: 0x824AB4D0
+    private:
         CD2_LAYOUT_CHECKS(PedestrianGuard,
             CD2_SIZE(PedestrianGuard, 0x130)
             CD2_OFFSET(PedestrianGuard, m_nUnknown120, 0x120)

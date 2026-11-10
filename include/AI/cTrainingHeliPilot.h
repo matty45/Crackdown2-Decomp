@@ -35,6 +35,11 @@ namespace AI
         cAIEventSubscription *m_pPatrolEventHandle; // 0x144
         unsigned char m_unmodelled148[0x150 - 0x148];
 
+        // CD2: cTrainingHeliPilot's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void Slot2(); // cSafeDeletable 2: 0x824D63A0
+    private:
         CD2_LAYOUT_CHECKS(cTrainingHeliPilot,
             CD2_SIZE(cTrainingHeliPilot, 0x150)
             CD2_OFFSET(cTrainingHeliPilot, m_pTrainingMission, 0x140)

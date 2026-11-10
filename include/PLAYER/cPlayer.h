@@ -112,6 +112,33 @@ namespace PLAYER
         virtual void vf133();
         virtual void vf134();    // 0x82720D70: as authority, debounces GA_CHARACTER_OBJECTINTERACT
 
+        // CD2: cPlayer's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual Fun_Runtime::RetVal Term(); // 6: 0x8237D410
+        virtual bool EnterPhysicalState(); // 7: 0x821EE6B8
+        virtual void Slot22(); // 22: 0x82723D50
+        virtual void Slot23(); // 23: 0x82723E80
+        virtual void Slot24(); // 24: 0x82723E38
+        virtual void Slot51(); // 50: 0x82721230
+        virtual void vf69(); // 69: 0x827240B8
+        virtual void vf73(); // 73: 0x82720DC8
+        virtual void vf74(); // 74: 0x823EFCD8
+        virtual void vf77(); // 77: 0x8271FEC0
+        virtual void vf78(); // 78: 0x82721AD8
+        virtual void vf82(); // 82: 0x827205C8
+        virtual void vf83(); // 83: 0x82386D18
+        virtual void vf84(); // 84: 0x823EF930
+        virtual void vf85(); // 85: 0x827203F0
+        virtual void vf86(); // 86: 0x82720FF0
+        virtual void vf93(); // 93: 0x822E6700
+        virtual void vf108(); // 108: 0x8232F958
+        virtual void vf109(); // 109: 0x82399A88
+        virtual void vf115(); // 115: 0x827219D0
+        virtual void vf121(); // 121: 0x8237D1E0
+        virtual void vf124(); // 124: 0x82723C80
+        virtual void Slot2(); // cSafeDeletable 2: 0x82724A30
+    public:
         CD2_LAYOUT_CHECKS(cPlayer,
             CD2_SIZE(cPlayer, 0x1160)
             CD2_OFFSET(cPlayer, m_nH2HContactFrame, 0x7E4)

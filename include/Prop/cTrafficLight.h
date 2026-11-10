@@ -58,6 +58,11 @@ namespace Prop
             unsigned char m_pad501[0x510 - 0x501];
 
         public:
+            // CD2: cTrafficLightPrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+            // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+        public:
+            virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x82747C80
+        public:
             CD2_LAYOUT_CHECKS(cTrafficLightPrototype,
                 CD2_SIZE(cTrafficLightPrototype, 0x510)
             CD2_OFFSET(cTrafficLightPrototype, m_nNumLights, 0x4F0)
@@ -80,7 +85,7 @@ namespace Prop
 
     public:
         virtual const char *RetClassName() const;
-        virtual bool EnterRenderableState();                           // slot 31, 0x82747898
+        virtual bool EnterRenderableState(eResourcesType eResources);                           // slot 31, 0x82747898
         virtual void UpdateRenderMatrix();                               // slot 26, 0x827478F8
 
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
@@ -88,6 +93,16 @@ namespace Prop
     protected:
         bool AddLight(int, AI::cJunctionNodeController::eSignalColour);  // 0x82747998
 
+        // CD2: cTrafficLight's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual Fun_Runtime::RetVal Term(); // 6: 0x82747740
+        virtual bool EnterPhysicalState(); // 7: 0x8272A070
+        virtual void Slot23(); // 23: 0x822C2DF0
+        virtual void LeaveRenderableState(); // 32: 0x827478A8
+        virtual void vf326(); // 326: 0x82747C28
+        virtual void vf338(); // 338: 0x82747C20
+    protected:
         CD2_LAYOUT_CHECKS(cTrafficLight,
             CD2_SIZE(cTrafficLight, 0xE60)
             CD2_OFFSET(cTrafficLight, m_iTrafficControlEdgeID, 0xE30)

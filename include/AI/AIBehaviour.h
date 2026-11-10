@@ -31,6 +31,13 @@ namespace AI
         static Fun_Runtime::cClass &StaticCreateClass();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
+        // CD2: AIBehaviour's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x827FBD60
+        virtual int RetUniqueID(); // CEventHandler 1: 0x82604E70
+        virtual Fun_Runtime::cClass const & RetClass() const; // cRegisteredClass 0: 0x824A8720
+        virtual bool IsA(Fun_Runtime::cClass const &) const; // cRegisteredClass 1: 0x824A8730
     };
 }
 

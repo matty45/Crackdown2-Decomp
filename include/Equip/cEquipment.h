@@ -85,6 +85,11 @@ namespace Equip
         private:
             unsigned char m_unmodelled2CC[0x2F0 - 0x2CC];
 
+            // CD2: cEquipmentPrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+            // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+        public:
+            virtual Fun_Runtime::RetVal Init(RWS::CAttributePacket const &); // 5: 0x82607978
+        private:
             CD2_LAYOUT_CHECKS(cEquipmentPrototype,
                 CD2_SIZE(cEquipmentPrototype, 0x2F0)
                 CD2_OFFSET(cEquipmentPrototype, m_fDroppedDeletionTime, 0x280)
@@ -107,6 +112,65 @@ namespace Equip
     private:
         // CD2 constructor 0x82604AF8: reference hierarchy, descriptor size 0x870.
         unsigned char m_unmodelled7A4[0x870 - 0x7A4];
+        // CD2: cEquipment's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual Fun_Runtime::RetVal Term(); // 6: 0x82608200
+        virtual void Slot13(); // 13: 0x8261E5D8
+        virtual void Slot14(); // 14: 0x82685850
+        virtual void Slot23(); // 23: 0x821D0F58
+        virtual void Slot24(); // 24: 0x822C9E98
+        virtual void UpdateRenderMatrix(); // 26: 0x822DD5A0
+        virtual void LeaveRenderableState(); // 32: 0x82605B40
+        virtual void Slot63(); // 62: 0x82605FD0
+        virtual void Slot64(); // 63: 0x82605D20
+        virtual void vf76(); // 76: 0x822E88B0
+        virtual void vf86(); // 86: 0x826057A8
+        virtual void vf87(); // 87: 0x826058A8
+        virtual void vf91(); // 91: 0x82605710
+        virtual void vf92(); // 92: 0x82605610
+        virtual void vf122(); // 122: 0x82605008
+        virtual void vf127(); // 127: 0x82605010
+        virtual void vf153(); // 153: 0x82604F98
+        virtual void vf154(); // 154: 0x82604FA0
+        virtual void vf158(); // 158: 0x82689BF0
+        virtual void vf168(); // 168: 0x822CDDC0
+        virtual void vf244(); // 244: 0x8288FB78
+        virtual void vf245(); // 245: 0x827E56A8
+        virtual void vf254(); // 254: 0x822C5A30
+        virtual void vf257(); // 257: 0x822312B0
+        virtual void vf258(); // 258: 0x82608838
+        virtual void vf259(); // 259: 0x82608850
+        virtual void vf260(); // 260: 0x82608868
+        virtual void vf261(); // 261: 0x82608880
+        virtual void vf262(); // 262: 0x826088D8
+        virtual void vf266(); // 266: 0x82686C98
+        virtual void vf272(); // 272: 0x827454F8
+        virtual void vf280(); // 280: 0x827E56A8
+        virtual void vf281(); // 281: 0x8288FB78
+        virtual void vf282(); // 282: 0x827E56A8
+        virtual void vf284(); // 284: 0x82605CF0
+        virtual void vf285(); // 285: 0x82605D08
+        virtual void vf288(); // 288: 0x827E56A8
+        virtual void vf295(); // 295: 0x82580578
+        virtual void vf296(); // 296: 0x82580578
+        virtual void vf304(); // 304: 0x82580578
+        virtual void vf309(); // 309: 0x82580578
+        virtual void vf310(); // 310: 0x827E56A8
+        virtual void SetNetRole(etNetRole); // cNetRoleObject 1: 0x82606B80
+        virtual void CalculateRelevancy(int); // cReplicatedClass 2: 0x825DEEE0
+        virtual void CalculateLOD(int); // cReplicatedClass 3: 0x826066B0
+        virtual bool CanSendTermPacketOnNotRelevant() const; // cReplicatedClass 4: 0x8288FB78
+        virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x8260A298
+        virtual void ReplicateFields(); // cReplicatedClass 9: 0x82205518
+        virtual void ReplicateHeaderData(); // cReplicatedClass 10: 0x82605FE0
+        virtual unsigned int GetNumObjectIDBits() const; // cReplicatedClass 16: 0x8288E558
+        virtual SNetworkHeader::etNetworkDataType GetReplicatedObjectType() const; // cReplicatedClass 22: 0x8288CA00
+        virtual unsigned int GetMaxReplicatedFields() const; // cReplicatedClass 23: 0x8288E460
+    protected:
+        virtual void EventTriggerStartFire(CHARACTER::cCharacter *); // cIgnitable 10: 0x82580578
+        virtual void EventTriggerEndFire(); // cIgnitable 12: 0x82580578
+    private:
         CD2_LAYOUT_CHECKS(cEquipment, CD2_SIZE(cEquipment, 0x870))
     };
 }

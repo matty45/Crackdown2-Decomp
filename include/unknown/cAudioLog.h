@@ -40,6 +40,12 @@ namespace unknown
         Fun_Runtime::cStringc m_nameKey;
         Fun_Runtime::cStringc m_textKey;
 
+        // CD2: cAudioLog's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual Fun_Runtime::RetVal Init(RWS::CAttributePacket const &); // 5: 0x8270F758
+        virtual void HandleEvents(RWS::CMsg &); // CEventHandler 5: 0x82709930
+    protected:
         CD2_LAYOUT_CHECKS(cAudioLog,
             CD2_SIZE(cAudioLog, 0x1A0)
             CD2_OFFSET(cAudioLog, m_EventHandler, 0x150)

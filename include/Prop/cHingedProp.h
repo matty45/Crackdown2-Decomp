@@ -138,6 +138,23 @@ namespace Prop
         virtual bool IsInRotatingFreeState() { return IsIn_State(RetSTATE_Rotating_Free()); }
         virtual bool IsInBrokenOffState() { return IsIn_State(RetSTATE_Broken_Off()); }
 
+        // CD2: cHingedProp's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual Fun_Runtime::RetVal Term(); // 6: 0x8273EE70
+        virtual void Slot13(); // 13: 0x82738208
+        virtual void Slot23(); // 23: 0x8222F568
+        virtual void vf167(); // 167: 0x82738708
+        virtual void vf271(); // 271: 0x82737A00
+        virtual void vf283(); // 283: 0x82737A80
+        virtual void vf314(); // 314: 0x827379D0
+        virtual void vf317(); // 317: 0x82737A40
+        virtual void vf320(); // 320: 0x827E56A8
+        virtual void CreateConstraintData(); // 341: 0x82737B28
+        virtual void DestroyConstraintData(); // 342: 0x82737EF8
+        virtual Fun_Runtime::cClass const & RetClass() const; // cBody 0: 0x8273E5A0
+        virtual bool IsA(Fun_Runtime::cClass const &) const; // cBody 1: 0x8273E548
+    public:
         CD2_LAYOUT_CHECKS(cHingedProp,
             CD2_SIZE(cHingedProp, 0xEB0)
             CD2_OFFSET(cHingedProp, m_InitialTransform, 0xE40)

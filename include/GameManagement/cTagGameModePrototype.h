@@ -45,6 +45,22 @@ namespace GameManagement
         bool m_bMapPingFade;
         unsigned int m_nOrbCarrierMMColour;
 
+        // CD2: cTagGameModePrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x828521B8
+        virtual GameManagement::etGameModeType RetType() const; // 14: 0x8288F788
+        virtual void vf15(); // 15: 0x8288FB78
+        virtual void vf16(); // 16: 0x827E56A8
+        virtual void vf17(); // 17: 0x8288FB78
+        virtual void vf18(); // 18: 0x8288FB78
+        virtual void vf19(); // 19: 0x827E56A8
+        virtual void vf23(); // 23: 0x8288FB78
+        virtual void vf24(); // 24: 0x8288FB78
+        virtual void vf25(); // 25: 0x82889A60
+        virtual void vf26(); // 26: 0x8288D5C0
+        virtual void vf40(); // 40: 0x828520F0
+    protected:
         CD2_LAYOUT_CHECKS(cTagGameModePrototype,
             CD2_SIZE(cTagGameModePrototype, 0x1D8)
             CD2_OFFSET(cTagGameModePrototype, m_sItPrototypeName, 0x148)

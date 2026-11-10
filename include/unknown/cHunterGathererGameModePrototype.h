@@ -44,6 +44,21 @@ namespace unknown
         int m_nParameter18C;
         float m_fParameter190;
         unsigned char m_unmodelled194[4];
+        // CD2: cHunterGathererGameModePrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual GameManagement::etGameModeType RetType() const; // 14: 0x8288CA00
+        virtual void vf15(); // 15: 0x8288FB78
+        virtual void vf16(); // 16: 0x827E56A8
+        virtual void vf17(); // 17: 0x8288FB78
+        virtual void vf18(); // 18: 0x8288FB78
+        virtual void vf19(); // 19: 0x827E56A8
+        virtual void vf23(); // 23: 0x8288FB78
+        virtual void vf24(); // 24: 0x8287E968
+        virtual void vf25(); // 25: 0x8288F780
+        virtual void vf26(); // 26: 0x8288D5C0
+        virtual void vf40(); // 40: 0x8287E3B0
+    private:
         CD2_LAYOUT_CHECKS(cHunterGathererGameModePrototype,
             CD2_SIZE(cHunterGathererGameModePrototype, 0x198)
             CD2_OFFSET(cHunterGathererGameModePrototype, m_fParameter148, 0x148)

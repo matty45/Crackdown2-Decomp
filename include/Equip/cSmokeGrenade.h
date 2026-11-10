@@ -50,6 +50,16 @@ namespace Equip
         int m_nSmokeTime_msec;
         bool m_bDeleteOnDetonationEnd;
 
+        // CD2: cSmokeGrenade's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual Fun_Runtime::RetVal Term(); // 6: 0x822F4390
+        virtual void Slot23(); // 23: 0x82622BB8
+        virtual void vf140(); // 140: 0x82622BF8
+        virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x8261F5F0
+        virtual void ReplicateFields(); // cReplicatedClass 9: 0x82396118
+        virtual Fun_Runtime::cScriptTypeRegistration const * RetScriptTypeRegistration() const; // cSafeDeletable 1: 0x8261DFC0
+    protected:
         CD2_LAYOUT_CHECKS(cSmokeGrenade,
             CD2_SIZE(cSmokeGrenade, 0x9D0)
             CD2_OFFSET(cSmokeGrenade, m_pSmokeVFX, 0x9C0)

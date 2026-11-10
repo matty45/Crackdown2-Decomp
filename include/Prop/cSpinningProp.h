@@ -34,6 +34,21 @@ namespace Prop
         static const Fun_Runtime::cClass *ms_pcSpinningPropClass;
         static Fun_Runtime::cClass &StaticCreateClass();
         virtual const char *RetClassName() const;
+        // CD2: cSpinningProp's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual Fun_Runtime::RetVal Term(); // 6: 0x8273EE70
+        virtual void Slot13(); // 13: 0x8273EDE0
+        virtual void vf271(); // 271: 0x8273EED8
+        virtual void vf283(); // 283: 0x8273EF58
+        virtual void vf314(); // 314: 0x8273EEC8
+        virtual void vf317(); // 317: 0x8273EF18
+        virtual void vf320(); // 320: 0x827E56A8
+        virtual void CreateConstraintData(); // 341: 0x8273F000
+        virtual void DestroyConstraintData(); // 342: 0x8273F250
+        virtual Fun_Runtime::cClass const & RetClass() const; // cBody 0: 0x8273FA38
+        virtual bool IsA(Fun_Runtime::cClass const &) const; // cBody 1: 0x8273FA50
+        virtual Fun_Runtime::cScriptTypeRegistration const * RetScriptTypeRegistration() const; // cSafeDeletable 1: 0x82457AD8
     };
 }
 

@@ -21,6 +21,11 @@ namespace RPG
         virtual const char *RetClassName() const;
         virtual void Destruct();
 
+        // CD2: cAchievementTargetsInterface's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual bool HandleDataInNewDesignBuild(); // 9: 0x8288FB78
+    public:
         CD2_LAYOUT_CHECKS(cAchievementTargetsInterface,
             CD2_SIZE(cAchievementTargetsInterface, 0x18))
     };

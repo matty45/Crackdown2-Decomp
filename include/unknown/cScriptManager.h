@@ -44,6 +44,11 @@ namespace unknown
         std::vector<Fun_Runtime::cStringc> m_SearchPaths;
         unsigned char m_unmodelled428[8];
         static cScriptManager *ms_pInstance;
+        // CD2: cScriptManager's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x827FBD60
+    private:
         CD2_LAYOUT_CHECKS(cScriptManager,
             CD2_SIZE(cScriptManager, 0x430)
             CD2_OFFSET(cScriptManager, m_ScriptNames, 0x80)

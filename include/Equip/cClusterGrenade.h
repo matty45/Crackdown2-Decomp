@@ -39,6 +39,11 @@ namespace Equip
         private:
             unsigned char m_unmodelled3A0[0x3B0 - 0x3A0];
 
+            // CD2: cClusterGrenadePrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+            // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+        public:
+            virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x82619F50
+        private:
             CD2_LAYOUT_CHECKS(cClusterGrenadePrototype,
                 CD2_SIZE(cClusterGrenadePrototype, 0x3B0)
                 CD2_OFFSET(cClusterGrenadePrototype, m_pBombletProto, 0x390)

@@ -38,6 +38,29 @@ namespace Equip
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
     private:
         unsigned char m_unmodelled8C0[0x9C0 - 0x8C0];
+        // CD2: cGrenade's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual Fun_Runtime::RetVal Term(); // 6: 0x8229DF90
+        virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // 18: 0x8261D5C0
+        virtual void Slot24(); // 24: 0x8261F1F8
+        virtual void vf76(); // 76: 0x8261F060
+        virtual void vf140(); // 140: 0x8261C148
+        virtual void vf158(); // 158: 0x82277CE8
+        virtual void vf166(); // 166: 0x827E56A8
+        virtual void vf258(); // 258: 0x8261F348
+        virtual void vf259(); // 259: 0x8261F360
+        virtual void vf260(); // 260: 0x8261F378
+        virtual void vf261(); // 261: 0x8261F390
+        virtual void vf262(); // 262: 0x8261F3E8
+        virtual void vf275(); // 275: 0x8261F528
+        virtual void vf284(); // 284: 0x8261F1A0
+        virtual void vf300(); // 300: 0x8261F588
+        virtual void SetStatus(Equip::cEquipment::EQUIP_STATUS); // 316: 0x8261EEF8
+        virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x821FE5B8
+        virtual void ReplicateFields(); // cReplicatedClass 9: 0x821FEA10
+        virtual unsigned int GetMaxReplicatedFields() const; // cReplicatedClass 23: 0x82889198
+    private:
         CD2_LAYOUT_CHECKS(cGrenade, CD2_SIZE(cGrenade, 0x9C0))
     };
 }

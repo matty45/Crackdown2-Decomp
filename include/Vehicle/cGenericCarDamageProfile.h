@@ -35,6 +35,12 @@ namespace Vehicle
         Fun_Runtime::cStringc m_sExtraDebrisProto;        // 0x3C
         float m_fHingeOpenFraction;                       // 0x58
 
+        // CD2: cGenericCarDamageProfile's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x826A66D8
+        virtual bool HandleDataInNewDesignBuild(); // 9: 0x8288FB78
+    private:
         CD2_LAYOUT_CHECKS(cGenericCarDamageProfile,
             CD2_SIZE(cGenericCarDamageProfile, 0x5C)
             CD2_OFFSET(cGenericCarDamageProfile, m_pExtraDebrisPrototype, 0x1C)

@@ -29,6 +29,11 @@ namespace AI
         // Own fields not recovered; 0x140 is the size its registrar and descriptor give (derived pilots start there).
         unsigned char m_unmodelledC0[0x140 - 0xC0];
 
+        // CD2: cPilotBase's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void Slot2(); // cSafeDeletable 2: 0x824D3DE0
+    private:
         CD2_LAYOUT_CHECKS(cPilotBase, CD2_SIZE(cPilotBase, 0x140))
     };
 }

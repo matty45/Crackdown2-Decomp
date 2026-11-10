@@ -36,6 +36,24 @@ namespace Equip
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
     private:
         unsigned char m_unmodelled9D0[0xAE0 - 0x9D0];
+        // CD2: cCWSatchelCharge's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual Fun_Runtime::RetVal Term(); // 6: 0x8261B0E8
+        virtual bool EnterPhysicalState(); // 7: 0x8261C198
+        virtual void Slot14(); // 14: 0x8261A610
+        virtual void Slot23(); // 23: 0x8261A7A0
+        virtual void Slot24(); // 24: 0x8261A8A8
+        virtual void UpdateRenderMatrix(); // 26: 0x8261A988
+        virtual void Slot27(); // 27: 0x8261C240
+        virtual void vf158(); // 158: 0x8261BAB8
+        virtual void vf168(); // 168: 0x8261A688
+        virtual void SetStatus(Equip::cEquipment::EQUIP_STATUS); // 316: 0x8261AA20
+        virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x82620970
+        virtual void ReplicateFields(); // cReplicatedClass 9: 0x826209B0
+        virtual unsigned int GetMaxReplicatedFields() const; // cReplicatedClass 23: 0x82882258
+        virtual Fun_Runtime::cScriptTypeRegistration const * RetScriptTypeRegistration() const; // cSafeDeletable 1: 0x8260BAE8
+    private:
         CD2_LAYOUT_CHECKS(cCWSatchelCharge, CD2_SIZE(cCWSatchelCharge, 0xAE0))
     };
 }

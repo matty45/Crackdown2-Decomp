@@ -32,6 +32,16 @@ namespace unknown
     private:
         // Descriptor and factory allocation agree on the complete size; own fields remain unrecovered.
         unsigned char m_unmodelled7C[0x190 - 0x7C];
+        // CD2: cDebugPlayer's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x82715470
+        virtual Fun_Runtime::RetVal Init(RWS::CAttributePacket const &); // 5: 0x82715070
+        virtual bool HandleDataInNewDesignBuild(); // 9: 0x8288FB78
+        virtual void Slot51(); // 50: 0x82715908
+        virtual int RetUniqueID(); // CEventHandler 1: 0x82604E70
+        virtual void HandleEvents(RWS::CMsg &); // CEventHandler 5: 0x82715208
+    private:
         CD2_LAYOUT_CHECKS(cDebugPlayer, CD2_SIZE(cDebugPlayer, 0x190))
     };
 }

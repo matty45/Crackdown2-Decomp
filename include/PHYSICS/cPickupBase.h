@@ -39,6 +39,15 @@ namespace PHYSICS
         bool m_bForceFadeIn;
     private:
         unsigned char m_unmodelledB4[0x150 - 0xB4];
+        // CD2: cPickupBase's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x827FBD60
+        virtual Fun_Runtime::RetVal Term(); // 6: 0x827096B8
+        virtual void Slot46(); // 46: 0x827090F0
+        virtual int RetUniqueID(); // CEventHandler 1: 0x82604E70
+        virtual Fun_Runtime::Vec3 RetPosition() const; // cSafeDeletable 3: 0x827090C8
+    private:
         CD2_LAYOUT_CHECKS(cPickupBase,
             CD2_SIZE(cPickupBase, 0x150)
             CD2_OFFSET(cPickupBase, m_nID, 0x80)

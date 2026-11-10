@@ -39,6 +39,19 @@ namespace unknown
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcLiftClass;
         static Fun_Runtime::cClass &StaticCreateClass();
+        // CD2: cLift's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual bool EnterPhysicalState(); // 7: 0x82739A00
+        virtual void Slot13(); // 13: 0x8273A4C8
+        virtual void Slot23(); // 23: 0x82739B80
+        virtual void Slot27(); // 27: 0x82739638
+        virtual bool EnterRenderableState(eResourcesType); // 31: 0x82739630
+        virtual void vf76(); // 76: 0x82457958
+        virtual void vf140(); // 140: 0x82739900
+        virtual void vf158(); // 158: 0x827397F8
+    protected:
+        virtual bool IsKeyframed(); // 350: 0x8288FB78
     };
 }
 

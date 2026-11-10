@@ -20,6 +20,10 @@ __declspec(align(16)) class cGameBase : public RWS::CSystemCommands, public cNon
 
         private:
             unsigned char m_unmodelled70[0xE0 - 0x70];
+            // CD2: cGameBasePrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+            // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+        public:
+            virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x8273DDF0
         };
 
         // CD2 0x82650268 creates the named runtime descriptor.
@@ -66,6 +70,31 @@ private:
     float m_fFullHealth;
     float m_fFullHealthMultiplier;
     unsigned char m_unknown11C[0x120 - 0x11C];
+    // CD2: cGameBase's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+    // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+public:
+    virtual char const * RetClassName() const; // 11: 0x82451430
+    virtual void Slot13(); // 13: 0x826511F8
+    virtual void Slot14(); // 14: 0x8288FB78
+    virtual void Slot15(); // 15: 0x82323C98
+    virtual void Slot17(); // 17: 0x82650838
+    virtual void Slot23(); // 23: 0x82808DC8
+    virtual void Slot30(); // 30: 0x82651DB0
+    virtual void LeaveRenderableState(); // 32: 0x822A12E0
+    virtual void Slot40(); // 40: 0x82451458
+    virtual void Slot41(); // 41: 0x82651950
+    virtual void Slot42(); // 42: 0x82651970
+    virtual void Slot43(); // 43: 0x82651910
+    virtual void Slot44(); // 44: 0x8288FB78
+    virtual void Slot45(); // 45: 0x82451460
+    virtual void Slot47(); // 47: 0x82564710
+    virtual void Slot51(); // 50: 0x82451500
+    virtual int RetUniqueID(); // CEventHandler 1: 0x82604E70
+    virtual bool IsA(Fun_Runtime::cClass const &) const; // cRegisteredClass 1: 0x824CDC50
+    virtual Fun_Runtime::cScriptTypeRegistration const * RetScriptTypeRegistration() const; // cSafeDeletable 1: 0x82451440
+    virtual Fun_Runtime::Vec3 RetPosition() const; // cSafeDeletable 3: 0x82451478
+    virtual char const * RetName() const; // cSafeDeletable 4: 0x82451538
+private:
     CD2_LAYOUT_CHECKS(cGameBase,
         CD2_SIZE(cGameBase, 0x120)
         CD2_OFFSET(cGameBase, m_fHealth, 0x110)

@@ -22,6 +22,11 @@ namespace unknown
             __forceinline cTeleporterDoorPrototype(const RWS::CAttributePacket &packet)
                 : Prop::cPrismaticProp::cPrismaticPropPrototype(packet) {}
 
+            // CD2: cTeleporterDoorPrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+            // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+        public:
+            virtual Fun_Runtime::RetVal Init(RWS::CAttributePacket const &); // 5: 0x82740EC8
+        public:
             CD2_LAYOUT_CHECKS(cTeleporterDoorPrototype,
                 CD2_SIZE(cTeleporterDoorPrototype, 0x530))
         };
@@ -35,6 +40,13 @@ namespace unknown
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcTeleporterDoorClass;
         static Fun_Runtime::cClass &StaticCreateClass();
+        // CD2: cTeleporterDoor's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void Slot13(); // 13: 0x82740E80
+        virtual void Slot23(); // 23: 0x82740BF8
+        virtual Fun_Runtime::cClass const & RetClass() const; // cBody 0: 0x82740F10
+        virtual bool IsA(Fun_Runtime::cClass const &) const; // cBody 1: 0x82740F18
     };
 }
 

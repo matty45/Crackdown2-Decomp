@@ -25,6 +25,18 @@ namespace unknown
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcSticklerGrenadeClass;
         static Fun_Runtime::cClass &StaticCreateClass();
+        // CD2: cSticklerGrenade's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // 18: 0x826234C0
+        virtual void Slot23(); // 23: 0x82623758
+        virtual void Slot24(); // 24: 0x826237B8
+        virtual void vf76(); // 76: 0x82623BC0
+        virtual void vf158(); // 158: 0x82623810
+        virtual void vf199(); // 199: 0x82623B40
+        virtual void vf284(); // 284: 0x82623B60
+        virtual Fun_Runtime::cClass const & RetClass() const; // cBody 0: 0x82623E38
+        virtual bool IsA(Fun_Runtime::cClass const &) const; // cBody 1: 0x82623E40
     };
 }
 

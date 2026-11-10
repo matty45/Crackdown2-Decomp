@@ -37,6 +37,10 @@ namespace Equip
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcRealNadeLauncherClass;
         static Fun_Runtime::cClass &StaticCreateClass();
+        // CD2: cRealNadeLauncher's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void Slot23(); // 23: 0x82634C90
     };
 }
 

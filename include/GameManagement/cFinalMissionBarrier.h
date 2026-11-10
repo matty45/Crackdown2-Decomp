@@ -33,6 +33,11 @@ namespace GameManagement
                 m_pBarrier->Disable();
         }
 
+        // CD2: cFinalMissionBarrier's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x8284F4E0
+    public:
         CD2_LAYOUT_CHECKS(cFinalMissionBarrier,
             CD2_SIZE(cFinalMissionBarrier, 0x80)
             CD2_OFFSET(cFinalMissionBarrier, m_mXForm, 0x20)

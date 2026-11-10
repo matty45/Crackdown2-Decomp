@@ -55,6 +55,15 @@ namespace CHARACTER
         Fun_Runtime::cString m_sProfileName;        // 0xA8 (RuffKing 0xD8)
         RWS::CEventId m_Msg_Return_Self;            // 0xC4 (RuffKing 0xF4)
 
+        // CD2: cCwCharacterStateProfile's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x82540560
+        virtual Fun_Runtime::RetVal Term(); // 6: 0x82540550
+        virtual bool HandleDataInNewDesignBuild(); // 9: 0x8288FB78
+        virtual bool AllocatedFromFixedPool(); // 10: 0x8288FB78
+        virtual int RetUniqueID(); // CEventHandler 1: 0x82604E70
+    private:
         CD2_LAYOUT_CHECKS(cCwCharacterStateProfile,
             CD2_SIZE(cCwCharacterStateProfile, 0xCC)
             CD2_OFFSET(cCwCharacterStateProfile, m_StateData, 0x7C)

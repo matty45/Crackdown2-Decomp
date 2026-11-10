@@ -69,6 +69,11 @@ namespace Vehicle
         private:
             unsigned char m_unmodelled2CC[0x350 - 0x2CC];
 
+            // CD2: cVehiclePrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+            // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+        public:
+            virtual Fun_Runtime::RetVal Init(RWS::CAttributePacket const &); // 5: 0x826E1C40
+        private:
             CD2_LAYOUT_CHECKS(cVehiclePrototype,
                 CD2_SIZE(cVehiclePrototype, 0x350)
                 CD2_OFFSET(cVehiclePrototype, m_VehicleSeatEntranceAngle, 0x2C4)
@@ -167,6 +172,108 @@ namespace Vehicle
         bool m_bIsBeingHiJackedByAI;                    // 0x15F7
         unsigned char m_unmodelled15F8[0x1740 - 0x15F8];
 
+        // CD2: cVehicle's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual Fun_Runtime::RetVal Term(); // 6: 0x826E1CE0
+        virtual bool EnterPhysicalState(); // 7: 0x821D9BF0
+        virtual void Slot13(); // 13: 0x826E1B68
+        virtual void Slot14(); // 14: 0x826D1DB0
+        virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // 18: 0x826E1C78
+        virtual void Slot23(); // 23: 0x8236D6D8
+        virtual void Slot24(); // 24: 0x8236FFA8
+        virtual void Slot27(); // 27: 0x826BD9C0
+        virtual void Slot30(); // 30: 0x826D2610
+        virtual bool EnterRenderableState(eResourcesType); // 31: 0x826D2A18
+        virtual void Slot37(); // 37: 0x826E1D80
+        virtual Fun_Runtime::RetVal Reinitialise(GOM::cSpawner const *); // 38: 0x826E1D40
+        virtual Fun_Runtime::RetVal TermForReuse(); // 39: 0x826E1D10
+        virtual void Slot57(); // 56: 0x826BDBF0
+        virtual void Slot58(); // 57: 0x826BDC60
+        virtual void Slot59(); // 58: 0x826BDC28
+        virtual void Slot61(); // 60: 0x826CD9F8
+        virtual void Slot62(); // 61: 0x8272C3E8
+        virtual void vf72(); // 72: 0x826D0C18
+        virtual void vf76(); // 76: 0x823BA1C0
+        virtual void vf86(); // 86: 0x826D02C0
+        virtual void vf87(); // 87: 0x823B7280
+        virtual void vf91(); // 91: 0x826D0910
+        virtual void vf92(); // 92: 0x821F2308
+        virtual void vf93(); // 93: 0x821D71C0
+        virtual void vf96(); // 96: 0x826D1748
+        virtual void vf105(); // 105: 0x826C0188
+        virtual void vf114(); // 114: 0x822EFF00
+        virtual void vf122(); // 122: 0x826BDCC8
+        virtual void vf123(); // 123: 0x826BDCC0
+        virtual void vf127(); // 127: 0x823938C8
+        virtual void vf132(); // 132: 0x826DAA30
+        virtual void vf139(); // 139: 0x826BDA08
+        virtual void vf140(); // 140: 0x826BB3A8
+        virtual void vf142(); // 142: 0x822849D0
+        virtual void vf143(); // 143: 0x826BE8F0
+        virtual void vf145(); // 145: 0x822849F8
+        virtual void vf153(); // 153: 0x821D0CD0
+        virtual void vf154(); // 154: 0x826AB0F0
+        virtual void vf156(); // 156: 0x826D93F0
+        virtual void vf157(); // 157: 0x826D4948
+        virtual void vf158(); // 158: 0x82689BF0
+        virtual void vf163(); // 163: 0x822F2B50
+        virtual void vf164(); // 164: 0x8226AB60
+        virtual void vf167(); // 167: 0x826D9308
+        virtual void vf183(); // 183: 0x8228E650
+        virtual void vf196(); // 196: 0x826D4DB0
+        virtual void vf211(); // 211: 0x822B2E88
+        virtual void vf212(); // 212: 0x8229C2B8
+        virtual void vf213(); // 213: 0x826DA4B0
+        virtual void vf215(); // 215: 0x826DA108
+        virtual void vf217(); // 217: 0x826BE560
+        virtual void vf240(); // 240: 0x826B8918
+        virtual void vf241(); // 241: 0x826AB178
+        virtual void vf242(); // 242: 0x826AB0E8
+        virtual void vf243(); // 243: 0x822AEAA8
+        virtual void vf254(); // 254: 0x826D4A40
+        virtual void vf258(); // 258: 0x823B0A90
+        virtual void vf259(); // 259: 0x821FF1F8
+        virtual void vf260(); // 260: 0x826DD358
+        virtual void vf261(); // 261: 0x826DD370
+        virtual void vf262(); // 262: 0x826DD3C8
+        virtual void vf263(); // 263: 0x826D7EB8
+        virtual void vf264(); // 264: 0x826D7FA0
+        virtual void vf265(); // 265: 0x826D86A0
+        virtual void vf266(); // 266: 0x826D20E8
+        virtual void vf271(); // 271: 0x826D4990
+        virtual void vf280(); // 280: 0x826DA608
+        virtual void vf281(); // 281: 0x826DA678
+        virtual void vf282(); // 282: 0x826AB170
+        virtual void vf283(); // 283: 0x826DECE0
+        virtual void vf284(); // 284: 0x82687678
+        virtual void vf285(); // 285: 0x826877F0
+        virtual void vf288(); // 288: 0x82311E28
+        virtual void vf290(); // 290: 0x826D9408
+        virtual void vf295(); // 295: 0x826D2F68
+        virtual void vf296(); // 296: 0x826D2CF8
+        virtual void vf298(); // 298: 0x8288FB78
+        virtual void vf304(); // 304: 0x826DAA40
+        virtual void vf309(); // 309: 0x826AB150
+        virtual void vf310(); // 310: 0x826AB158
+        virtual void HandleEvents(RWS::CMsg &); // CEventHandler 5: 0x82245448
+        virtual void ActivateDynamicObstacle(); // cDynamicObstacleOwner 2: 0x82405AA8
+        virtual void SetNetRole(etNetRole); // cNetRoleObject 1: 0x826DDB08
+        virtual void CalculateRelevancy(int); // cReplicatedClass 2: 0x826DC898
+        virtual void CalculateLOD(int); // cReplicatedClass 3: 0x826BD6C0
+        virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x82395FB0
+        virtual void ReplicateFields(); // cReplicatedClass 9: 0x826BD6C8
+        virtual void ReplicateHeaderData(); // cReplicatedClass 10: 0x826DB570
+        virtual void SetPingedFieldStatesForNode(unsigned char); // cReplicatedClass 20: 0x826CE5A0
+        virtual SNetworkHeader::etNetworkDataType GetReplicatedObjectType() const; // cReplicatedClass 22: 0x8288F788
+        virtual unsigned int GetMaxReplicatedFields() const; // cReplicatedClass 23: 0x82889078
+        virtual Fun_Runtime::cScriptTypeRegistration const * RetScriptTypeRegistration() const; // cSafeDeletable 1: 0x826AB0D8
+    protected:
+        virtual Fun_Runtime::Vec3 RetIgnitablePosition() const; // cIgnitable 4: 0x826D1A18
+        virtual bool CanDoFireDamage() const; // cIgnitable 6: 0x827E56A8
+        virtual void EventTriggerStartFire(CHARACTER::cCharacter *); // cIgnitable 10: 0x826D17E8
+        virtual void EventTriggerEndFire(); // cIgnitable 12: 0x826D1800
+    private:
         CD2_LAYOUT_CHECKS(cVehicle,
             CD2_SIZE(cVehicle, 0x1740)
             CD2_OFFSET(cVehicle, m_bIsBeingHiJackedByAI, 0x15F7)

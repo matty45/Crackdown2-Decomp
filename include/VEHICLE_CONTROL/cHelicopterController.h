@@ -51,6 +51,10 @@ namespace VEHICLE_CONTROL
         public:
             __forceinline cVehicleControllerPrototype(const RWS::CAttributePacket &packet) : GOM::cObjectPrototype(packet) {}
             virtual ~cVehicleControllerPrototype();
+            // CD2: cVehicleControllerPrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+            // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+        public:
+            virtual Fun_Runtime::RetVal Init(RWS::CAttributePacket const &); // 5: 0x82781F80
         };
 
         cVehicleController();
@@ -108,6 +112,10 @@ namespace VEHICLE_CONTROL
         unsigned char m_pad8C[8];
         Vehicle::cVehicle *m_pVehicle; // 0x94
         unsigned char m_pad98[0x7A8];
+        // CD2: cVehicleController's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x827FBD60
     };
 
 

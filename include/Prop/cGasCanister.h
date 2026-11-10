@@ -28,6 +28,21 @@ namespace Prop
         float m_fRocketTimer;
         unsigned int m_nNumKillsForLocalPlayer;
         bool m_bFuseAudioPlayed;
+        // CD2: cGasCanister's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual bool EnterPhysicalState(); // 7: 0x8272A070
+        virtual void Slot23(); // 23: 0x8226CB58
+        virtual void Slot64(); // 63: 0x82743DB0
+        virtual void vf76(); // 76: 0x827439E0
+        virtual void vf127(); // 127: 0x82743988
+        virtual void vf330(); // 330: 0x8288FB78
+        virtual void vf331(); // 331: 0x8288FB78
+        virtual Fun_Runtime::cClass const & RetClass() const; // cBody 0: 0x82744240
+        virtual bool IsA(Fun_Runtime::cClass const &) const; // cBody 1: 0x82744248
+        virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x82743E78
+        virtual void ReplicateFields(); // cReplicatedClass 9: 0x82743EB8
+    private:
         CD2_LAYOUT_CHECKS(cGasCanister,
             CD2_SIZE(cGasCanister, 0xE40)
             CD2_OFFSET(cGasCanister, m_nCState, 0xE30)

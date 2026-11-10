@@ -36,6 +36,11 @@ namespace Vehicle
         private:
             unsigned char m_unmodelled369[0x440 - 0x369];
 
+            // CD2: cLandVehiclePrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+            // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+        public:
+            virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x826C6D50
+        private:
             CD2_LAYOUT_CHECKS(cLandVehiclePrototype,
                 CD2_SIZE(cLandVehiclePrototype, 0x440)
                 CD2_OFFSET(cLandVehiclePrototype, m_nLightType, 0x350)

@@ -22,6 +22,11 @@ namespace unknown
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcOutlines2Class;
         static Fun_Runtime::cClass &StaticCreateClass();
+        // CD2: cOutlines2's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual int RetUniqueID(); // CEventHandler 1: 0x82604E70
+    public:
         CD2_LAYOUT_CHECKS(cOutlines2, CD2_SIZE(cOutlines2, 0x7C))
     };
 }

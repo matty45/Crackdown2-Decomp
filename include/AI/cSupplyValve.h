@@ -37,6 +37,18 @@ namespace AI
         virtual const char *RetClassName() const;
         // CD2 0x822C8900.
         virtual ~cSupplyValve();
+        // CD2: cSupplyValve's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void Slot20(); // 20: 0x823ABEF8
+        virtual void vf76(); // 76: 0x824585F8
+        virtual void vf78(); // 78: 0x8288FB78
+        virtual void vf79(); // 79: 0x82457F00
+        virtual void vf80(); // 80: 0x82457F78
+        virtual void vf82(); // 82: 0x82457FE0
+        virtual void vf83(); // 83: 0x824581A0
+        virtual void vf84(); // 84: 0x82458248
+        virtual void vf335(); // 335: 0x82458618
     };
 }
 

@@ -25,6 +25,12 @@ namespace Equip
             // Inline: CD2's deleting destructor (0x82609768) restores this class's vptrs, then calls the base's.
             virtual ~cWeaponProjectilePrototype() {}
 
+            // CD2: cWeaponProjectilePrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+            // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+        public:
+            virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x826073B8
+            virtual unsigned int RetPvPKillPoints() const; // 22: 0x827E56A8
+        public:
             CD2_LAYOUT_CHECKS(cWeaponProjectilePrototype,
                 CD2_SIZE(cWeaponProjectilePrototype, 0x2F0))
         };
@@ -39,6 +45,27 @@ namespace Equip
         static Fun_Runtime::cClass &StaticCreateClass();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
+        // CD2: cWeaponProjectile's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual Fun_Runtime::RetVal Term(); // 6: 0x82604D68
+        virtual void Slot13(); // 13: 0x82604F48
+        virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // 18: 0x8228C898
+        virtual void Slot23(); // 23: 0x822D04B8
+        virtual void vf258(); // 258: 0x82580578
+        virtual void vf259(); // 259: 0x82580578
+        virtual void vf260(); // 260: 0x82580578
+        virtual void vf261(); // 261: 0x82580578
+        virtual void vf262(); // 262: 0x82580578
+        virtual void vf288(); // 288: 0x82686390
+        virtual void SetStatus(Equip::cEquipment::EQUIP_STATUS); // 316: 0x82605128
+        virtual bool Activate(); // 318: 0x827E56A8
+        virtual unsigned int RetWeaponPriority() const; // 320: 0x827E56A8
+        virtual Fun_Runtime::cClass const & RetClass() const; // cBody 0: 0x8260AA68
+        virtual bool IsA(Fun_Runtime::cClass const &) const; // cBody 1: 0x8260AA98
+        virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x82606198
+        virtual void ReplicateFields(); // cReplicatedClass 9: 0x822F3468
+        virtual unsigned int GetMaxReplicatedFields() const; // cReplicatedClass 23: 0x8288E110
     };
 }
 

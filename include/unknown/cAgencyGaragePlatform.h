@@ -23,6 +23,19 @@ namespace unknown
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcAgencyGaragePlatformClass;
         static Fun_Runtime::cClass &StaticCreateClass();
+        // CD2: cAgencyGaragePlatform's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual bool EnterPhysicalState(); // 7: 0x82736628
+        virtual void Slot13(); // 13: 0x827365F0
+        virtual void vf76(); // 76: 0x82457958
+        virtual Fun_Runtime::cClass const & RetClass() const; // cBody 0: 0x82736D40
+        virtual bool IsA(Fun_Runtime::cClass const &) const; // cBody 1: 0x82736D48
+    protected:
+        virtual Fun_Runtime::State * RetSTATE_Min() const; // 351: 0x82736448
+        virtual Fun_Runtime::State * RetSTATE_Min(); // 352: 0x82736448
+        virtual Fun_Runtime::State * RetSTATE_Max() const; // 353: 0x82736498
+        virtual Fun_Runtime::State * RetSTATE_Max(); // 354: 0x82736498
     };
 }
 

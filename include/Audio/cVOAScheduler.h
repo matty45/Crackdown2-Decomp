@@ -46,6 +46,11 @@ namespace Audio
     private:
         // Descriptor and factory allocation agree on the complete size; own fields remain unrecovered.
         unsigned char m_unmodelled20[0x480 - 0x20];
+        // CD2: cVOAScheduler's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x828370E0
+    private:
         CD2_LAYOUT_CHECKS(cVOAScheduler, CD2_SIZE(cVOAScheduler, 0x480))
     };
 }

@@ -23,6 +23,11 @@ namespace Equip
                 : cCWSatchelCharge::cCWSatchelChargePrototype(packet) {}
             virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
 
+            // CD2: cJumpPadPrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+            // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+        public:
+            virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x8260EC10
+        public:
             CD2_LAYOUT_CHECKS(cJumpPadPrototype,
                 CD2_SIZE(cJumpPadPrototype, 0x430))
         };

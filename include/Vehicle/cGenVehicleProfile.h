@@ -35,6 +35,13 @@ namespace Vehicle
         static float m_fPlayerCharacterDamageModifier[12];
         static float m_fAIGearChangeRatio; // CD2 case 84; constructor default is 0.6f.
         // Descriptor and factory allocation agree on the complete size; own fields remain unrecovered.
+        // CD2: cGenVehicleProfile's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x8269C870
+        virtual bool HandleDataInNewDesignBuild(); // 9: 0x8288FB78
+        virtual int RetUniqueID(); // CEventHandler 1: 0x82604E70
+    private:
         CD2_LAYOUT_CHECKS(cGenVehicleProfile, CD2_SIZE(cGenVehicleProfile, 0x7C))
     };
 }

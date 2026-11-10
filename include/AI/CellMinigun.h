@@ -31,6 +31,11 @@ namespace AI
         unsigned int m_nUnknownF0; // 0xF0
         unsigned char m_unmodelledF4[0x100 - 0xF4];
         // 0x100: the size CellMinigun's class registrar gives.
+        // CD2: CellMinigun's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void Slot2(); // cSafeDeletable 2: 0x824C3C98
+    private:
         CD2_LAYOUT_CHECKS(CellMinigun,
             CD2_SIZE(CellMinigun, 0x100)
             CD2_OFFSET(CellMinigun, m_nUnknownF0, 0xF0))

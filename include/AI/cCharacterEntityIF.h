@@ -69,6 +69,10 @@ namespace AI
             // __forceinline: CD2 inlines the constructor chain into MakeNew (as cCharacterInterfacePrototype's).
             __forceinline cCharacterEntityIFPrototype(const RWS::CAttributePacket &packet)
                 : CHARACTER::cCharacterInterface::cCharacterInterfacePrototype(packet) {}
+            // CD2: cCharacterEntityIFPrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+            // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+        public:
+            virtual Fun_Runtime::RetVal Init(RWS::CAttributePacket const &); // 5: 0x823F5050
         };
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *memory);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
@@ -104,6 +108,23 @@ namespace AI
         virtual void vf115(); virtual void vf116(); virtual void vf117(); virtual void vf118(); virtual void vf119();
         virtual void vf120(); virtual void vf121(); virtual void vf122(); virtual void vf123(); virtual void vf124();
 
+        // CD2: cCharacterEntityIF's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void Slot52(); // 51: 0x823F0300
+        virtual void Slot62(); // 61: 0x823F4828
+        virtual void vf75(); // 75: 0x8224C0C0
+        virtual void vf76(); // 76: 0x82360140
+        virtual void vf80(); // 80: 0x823EF740
+        virtual void vf81(); // 81: 0x823EF860
+        virtual void vf87(); // 87: 0x823F0230
+        virtual void vf90(); // 90: 0x823F0180
+        virtual bool ForceIntoVehicle(Vehicle::cVehicle *,unsigned int); // 100: 0x823F46C0
+        virtual bool ForceOutOfVehicle(); // 101: 0x823F46D0
+        virtual void vf105(); // 105: 0x823F0260
+        virtual void vf106(); // 106: 0x823F02B0
+        virtual bool IsA(Fun_Runtime::cClass const &) const; // cRegisteredClass 1: 0x8222FC18
+    public:
         CD2_LAYOUT_CHECKS(cCharacterEntityIF,
             CD2_SIZE(cCharacterEntityIF, 0x540)
             CD2_OFFSET(cCharacterEntityIF, m_upperbodyAnimationParams, 0x480)

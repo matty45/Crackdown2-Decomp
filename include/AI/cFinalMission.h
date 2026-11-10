@@ -21,6 +21,21 @@ namespace AI
         virtual const Fun_Runtime::cClass &RetClass() const;
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         virtual const char *RetClassName() const;
+        // CD2: cFinalMission's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void TickUpdate(float); // cRegisteredClass 8: 0x8246D070
+        virtual void OnClientMissionStateNotification(unsigned char,unsigned char); // cRegisteredClass 15: 0x8246C340
+        virtual void OnChildMissionCompleted(AI::cMission *); // cRegisteredClass 22: 0x8246C238
+        virtual bool ArePrerequisitesComplete() const; // cRegisteredClass 23: 0x8246E5E8
+        virtual bool IsLocalPlayerNearby() const; // cRegisteredClass 24: 0x8246E5F8
+        virtual void InitReplication(); // cRegisteredClass 37: 0x8246BDD0
+        virtual void TermReplication(); // cRegisteredClass 38: 0x8246BEE0
+    protected:
+        virtual void OnLeaveMissionState(unsigned char); // cRegisteredClass 29: 0x8246CC98
+        virtual void OnEnterMissionState(unsigned char); // cRegisteredClass 31: 0x8246CA40
+        virtual void OnEnterGlobalMissionState(AI::cMission::etGlobalMissionState); // cRegisteredClass 33: 0x8246C248
+        virtual void GetSaveStateForMissionState(unsigned char &,unsigned char &); // cRegisteredClass 36: 0x8246C430
     };
 }
 

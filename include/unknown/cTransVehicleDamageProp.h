@@ -23,6 +23,11 @@ namespace unknown
             __forceinline cTransVehicleDamagePropPrototype(const RWS::CAttributePacket &packet)
                 : Prop::cVehicleDamageProp::cVehicleDamagePropPrototype(packet) {}
 
+            // CD2: cTransVehicleDamagePropPrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+            // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+        public:
+            virtual Fun_Runtime::RetVal Init(RWS::CAttributePacket const &); // 5: 0x82731CC0
+        public:
             CD2_LAYOUT_CHECKS(cTransVehicleDamagePropPrototype,
                 CD2_SIZE(cTransVehicleDamagePropPrototype, 0x4F0))
         };

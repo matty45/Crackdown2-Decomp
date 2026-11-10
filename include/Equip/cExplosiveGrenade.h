@@ -39,6 +39,13 @@ namespace Equip
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
     private:
         unsigned char m_unmodelled9C4[0x9D0 - 0x9C4];
+        // CD2: cExplosiveGrenade's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void vf276(); // 276: 0x82380B90
+        virtual void vf277(); // 277: 0x8261DA58
+        virtual unsigned int GetMaxReplicatedFields() const; // cReplicatedClass 23: 0x8288E730
+    private:
         CD2_LAYOUT_CHECKS(cExplosiveGrenade, CD2_SIZE(cExplosiveGrenade, 0x9D0))
     };
 }

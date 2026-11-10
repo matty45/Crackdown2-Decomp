@@ -19,6 +19,11 @@ namespace unknown
         virtual ~cZone(); // CD2 0x8280B6D0, out of line
     private:
         Fun_Runtime::cStringc m_strName;
+        // CD2: cZone's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual char const * RetName() const; // cSafeDeletable 4: 0x828D1A88
+    private:
         CD2_LAYOUT_CHECKS(cZone,
             CD2_SIZE(cZone, 0x38)
             CD2_OFFSET(cZone, m_strName, 0x1C))

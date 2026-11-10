@@ -36,6 +36,11 @@ namespace Equip
         unsigned char m_nBarrelID;                  // 0xA24
         unsigned char m_unmodelledA25[0xA30 - 0xA25];
 
+        // CD2: cFlocketLauncher's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void Slot23(); // 23: 0x82631098
+    private:
         CD2_LAYOUT_CHECKS(cFlocketLauncher,
             CD2_SIZE(cFlocketLauncher, 0xA30)
             CD2_OFFSET(cFlocketLauncher, m_fAttackTime, 0xA20)

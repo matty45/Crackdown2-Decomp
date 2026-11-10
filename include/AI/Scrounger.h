@@ -43,6 +43,11 @@ namespace AI
         // Other own fields not recovered; 0x130 is the size its registrar and descriptor give.
         unsigned char m_unmodelled124[0x130 - 0x124];
 
+        // CD2: Scrounger's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void Slot85(); // 85: 0x824BAF98
+    private:
         CD2_LAYOUT_CHECKS(Scrounger,
             CD2_SIZE(Scrounger, 0x130)
             CD2_OFFSET(Scrounger, m_nUnknown120, 0x120))

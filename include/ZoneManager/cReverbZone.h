@@ -45,6 +45,12 @@ namespace ZoneManager
         bool m_bPreviouslyEntered;                  // 0x140
         bool m_bPreviouslyLeft;                     // 0x141
 
+        // CD2: cReverbZone's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x8280F018
+        virtual void TermTriggerZone(); // 15: 0x8280F6B8
+    private:
         CD2_LAYOUT_CHECKS(cReverbZone,
             CD2_SIZE(cReverbZone, 0x150)
             CD2_OFFSET(cReverbZone, m_strName, 0xE0)

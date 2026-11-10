@@ -47,6 +47,12 @@ namespace VFX
         unsigned long m_PulseColour1;           // 0x80
         unsigned long m_PulseColour2;           // 0x84
 
+        // CD2: cBeamData's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x82802530
+        virtual bool HandleDataInNewDesignBuild(); // 9: 0x8288FB78
+    public:
         CD2_LAYOUT_CHECKS(cBeamData,
             CD2_SIZE(cBeamData, 0x88)
             CD2_OFFSET(cBeamData, m_sName, 0x18)

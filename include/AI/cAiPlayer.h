@@ -88,6 +88,11 @@ namespace AI
             unsigned int m_nUnknown80; // 0x80
             // 0x84-0x90: tail padding (GOM::cObjectPrototype is 16-byte aligned).
 
+            // CD2: cAiPlayerPrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+            // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+        public:
+            virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x823EB318
+        private:
             CD2_LAYOUT_CHECKS(cAiPlayerPrototype,
                 CD2_SIZE(cAiPlayerPrototype, 0x90)
                 CD2_OFFSET(cAiPlayerPrototype, m_nUnknown70, 0x70))
@@ -173,6 +178,30 @@ namespace AI
         // Not cAiPlayer's (see src/AI/cAiPlayer.cpp): kept here under its old name until its class is known.
         static int RetConstantC8();
 
+        // CD2: cAiPlayer's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual Fun_Runtime::RetVal Term(); // 6: 0x823E8BE8
+        virtual bool EnterPhysicalState(); // 7: 0x823E8FA0
+        virtual void Slot17(); // 17: 0x823E8848
+        virtual void Slot21(); // 21: 0x8227FBC8
+        virtual void Slot27(); // 27: 0x821D2968
+        virtual void Slot63(); // 62: 0x823E7A38
+        virtual void Slot64(); // 63: 0x8227FAE8
+        virtual void Slot65(); // 64: 0x823E8B50
+        virtual void vf69(); // 69: 0x823E8AB8
+        virtual void vf73(); // 73: 0x823E92C8
+        virtual void vf74(); // 74: 0x82377190
+        virtual void vf77(); // 77: 0x823E9040
+        virtual void vf78(); // 78: 0x823867E0
+        virtual void vf79(); // 79: 0x823A04A0
+        virtual void vf84(); // 84: 0x823E92B0
+        virtual bool ShouldTriggerVocalEvent(); // 111: 0x8237B148
+        virtual void vf114(); // 114: 0x8234B7A0
+        virtual void vf116(); // 116: 0x823E8D20
+        virtual void vf117(); // 117: 0x8288FB78
+        virtual void Slot2(); // cSafeDeletable 2: 0x823E9FD0
+    public:
         CD2_LAYOUT_CHECKS(cAiPlayer,
             CD2_SIZE(cAiPlayer, 0x620)
             CD2_OFFSET(cAiPlayer, m_DamageCache, 0x540)

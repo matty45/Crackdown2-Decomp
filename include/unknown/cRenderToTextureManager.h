@@ -34,6 +34,12 @@ namespace unknown
         unsigned int m_word84;
         Fun_Runtime::cVector<cRenderToTextureEntry> m_Entries;
         static cRenderToTextureManager *ms_pInstance;
+        // CD2: cRenderToTextureManager's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x827FBD60
+        virtual int RetUniqueID(); // CEventHandler 1: 0x82604E70
+    private:
         CD2_LAYOUT_CHECKS(cRenderToTextureManager,
             CD2_SIZE(cRenderToTextureManager, 0x98)
             CD2_OFFSET(cRenderToTextureManager, m_pBlackTexture, 0x7C)

@@ -26,6 +26,11 @@ namespace AI
         Editor::cGUIDEventHandler<cMissionActivationCylinder> m_EventHandler;
         bool m_bMissionCritical;
 
+        // CD2: cMissionActivationCylinder's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x8248B0C0
+    protected:
         CD2_LAYOUT_CHECKS(cMissionActivationCylinder,
             CD2_SIZE(cMissionActivationCylinder, 0x110)
             CD2_OFFSET(cMissionActivationCylinder, m_EventHandler, 0xF0)

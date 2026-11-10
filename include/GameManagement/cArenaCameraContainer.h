@@ -23,6 +23,11 @@ namespace GameManagement
     protected:
         Fun_Runtime::cVector<Cam::cCameraMarker *> m_vCameraMarkers; // 0x18
 
+        // CD2: cArenaCameraContainer's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x8284DC88
+    protected:
         CD2_LAYOUT_CHECKS(cArenaCameraContainer,
             CD2_SIZE(cArenaCameraContainer, 0x28)
             CD2_OFFSET(cArenaCameraContainer, m_vCameraMarkers, 0x18))

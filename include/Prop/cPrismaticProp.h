@@ -139,6 +139,21 @@ namespace Prop
         virtual bool IsInSlidingFreeState() { return IsIn_State(RetSTATE_Sliding_Free()); }
         virtual bool IsInBrokenOffState() { return IsIn_State(RetSTATE_Broken_Off()); }
 
+        // CD2: cPrismaticProp's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual Fun_Runtime::RetVal Term(); // 6: 0x8273EE70
+        virtual void Slot13(); // 13: 0x8273BD80
+        virtual void vf167(); // 167: 0x8235AC80
+        virtual void vf271(); // 271: 0x8273BF28
+        virtual void vf283(); // 283: 0x8273BE58
+        virtual void vf314(); // 314: 0x8273BF00
+        virtual void vf317(); // 317: 0x8273BF68
+        virtual void vf320(); // 320: 0x827E56A8
+        virtual void CreateConstraintData(); // 341: 0x8273C0F8
+        virtual void DestroyConstraintData(); // 342: 0x8273C570
+        virtual Fun_Runtime::cScriptTypeRegistration const * RetScriptTypeRegistration() const; // cSafeDeletable 1: 0x827361D0
+    public:
         CD2_LAYOUT_CHECKS(cPrismaticProp,
             CD2_SIZE(cPrismaticProp, 0xED0)
             CD2_OFFSET(cPrismaticProp, m_InitialTransform, 0xE40)

@@ -33,6 +33,11 @@ namespace AI
         unsigned int m_nUnknownF4;       // 0xF4
         Fun_Runtime::Vec3 m_vUnknown100; // 0x100 (aligned 16)
         // 0x110: the size CellRocket's class registrar gives.
+        // CD2: CellRocket's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void Slot2(); // cSafeDeletable 2: 0x824C4ED0
+    private:
         CD2_LAYOUT_CHECKS(CellRocket,
             CD2_SIZE(CellRocket, 0x110)
             CD2_OFFSET(CellRocket, m_nUnknownF0, 0xF0)

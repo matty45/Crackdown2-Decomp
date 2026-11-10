@@ -34,6 +34,12 @@ namespace unknown
         unsigned char m_unmodelled50[4];
         GangManager::cGangInfo *m_pInitialGangInControl;
         GangManager::cGangInfo *m_pGangInControl;
+        // CD2: cPopulationZone's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x8280C500
+        virtual bool AllocatedFromFixedPool(); // 10: 0x8288FB78
+    private:
         CD2_LAYOUT_CHECKS(cPopulationZone,
             CD2_OFFSET(cPopulationZone, m_pInitialGangInControl, 0x54)
             CD2_OFFSET(cPopulationZone, m_pGangInControl, 0x58))

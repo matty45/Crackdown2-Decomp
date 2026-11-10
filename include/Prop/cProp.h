@@ -78,6 +78,36 @@ namespace Prop
     protected:
         virtual void UpdateRenderMatrix();   // overrides cNonGameBase's slot 26; 0x826DA5B8 (folded with cVehicle's)
 
+        // CD2: cProp's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual bool EnterPhysicalState(); // 7: 0x8273B110
+        virtual void Slot27(); // 27: 0x8272A370
+        virtual void Slot62(); // 61: 0x8272C3E8
+        virtual void Slot63(); // 62: 0x823B8858
+        virtual void vf68(); // 68: 0x8272BFA0
+        virtual void vf72(); // 72: 0x826D0C18
+        virtual void vf103(); // 103: 0x8272CCD8
+        virtual void vf104(); // 104: 0x8272D218
+        virtual void vf105(); // 105: 0x8272CD70
+        virtual void vf106(); // 106: 0x8272D168
+        virtual void vf129(); // 129: 0x8272C2F8
+        virtual void vf132(); // 132: 0x8272D2B0
+        virtual void vf140(); // 140: 0x82729F20
+        virtual void vf156(); // 156: 0x8272F1A0
+        virtual void vf174(); // 174: 0x8272CA50
+        virtual void vf175(); // 175: 0x8272CB28
+        virtual void vf176(); // 176: 0x8272CE68
+        virtual void vf177(); // 177: 0x8272CF20
+        virtual void vf179(); // 179: 0x82457A68
+        virtual void vf226(); // 226: 0x82730450
+        virtual void vf271(); // 271: 0x8272AAC8
+        virtual void vf283(); // 283: 0x823A22E0
+        virtual void OnEnterNetRoleAuthority(etNetRole); // cNetRoleObject 2: 0x827296A0
+        virtual void OnEnterNetRoleSimulated(etNetRole); // cNetRoleObject 3: 0x827296A0
+        virtual void SetPingedFieldStatesForNode(unsigned char); // cReplicatedClass 20: 0x827303C0
+        virtual char const * RetName() const; // cSafeDeletable 4: 0x8272C3E0
+    protected:
         CD2_LAYOUT_CHECKS(cProp,
             CD2_SIZE(cProp, 0xE30))
     };

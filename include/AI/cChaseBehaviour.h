@@ -289,6 +289,12 @@ namespace AI
         unsigned char padB8[0xC4 - 0xB8];
         unsigned char m_bC4;      // a state index: cAgressiveResponseChaseBehaviour slot 117 compares it with 7
         unsigned char padC5[0xD0 - 0xC5];
+        // CD2: NPCBehaviourSM's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x827FBD60
+        virtual int RetUniqueID(); // CEventHandler 1: 0x82604E70
+        virtual void Slot2(); // cSafeDeletable 2: 0x824AD480
     };
 
     class NPCBehaviourPrototype : public GOM::cObjectPrototype
@@ -354,6 +360,27 @@ namespace AI
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *proto, void *mem);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
 
+        // CD2: cChaseBehaviour's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void Slot71(); // 71: 0x824ABAA8
+        virtual void Slot72(); // 72: 0x8221B7C8
+        virtual void Slot79(); // 79: 0x82580578
+        virtual void Slot80(unsigned char,unsigned char,unsigned char); // 80: 0x82580578
+        virtual void Slot83(); // 83: 0x82580578
+        virtual void Slot86(); // 86: 0x82580578
+        virtual void Slot95(); // 95: 0x8288FB78
+        virtual void Slot101(); // 101: 0x82580578
+        virtual void Slot103(); // 103: 0x82216E98
+        virtual void Slot105(); // 105: 0x82580578
+        virtual void Slot109(); // 109: 0x82580578
+        virtual void Slot110(); // 110: 0x82580578
+        virtual void Slot112(); // 112: 0x82580578
+        virtual void Slot113(); // 113: 0x82580578
+        virtual void Slot114(); // 114: 0x82580578
+        virtual AI::NPCTarget * GetTarget(); // 115: 0x824C9098
+        virtual int GetTargetId(); // 116: 0x8288F788
+    public:
         CD2_LAYOUT_CHECKS(cChaseBehaviour,
             CD2_SIZE(cChaseBehaviour, 0x100)
             CD2_OFFSET(cChaseBehaviour, m_hD0, 0xD0)

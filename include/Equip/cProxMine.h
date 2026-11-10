@@ -44,6 +44,12 @@ namespace Equip
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcProxMineClass;
         static Fun_Runtime::cClass &StaticCreateClass();
+        // CD2: cProxMine's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual Fun_Runtime::RetVal Term(); // 6: 0x82620F40
+        virtual void Slot23(); // 23: 0x8261FD88
+        virtual void UpdateRenderMatrix(); // 26: 0x826209F0
     };
 }
 

@@ -38,6 +38,12 @@ namespace unknown
     private:
         // Descriptor and factory allocation agree on the complete size; own fields remain unrecovered.
         cPopulationZonePool *m_pPopulationZonePool;
+        // CD2: cZoneManager's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x827FBD60
+        virtual int RetUniqueID(); // CEventHandler 1: 0x82604E70
+    private:
         CD2_LAYOUT_CHECKS(cZoneManager,
             CD2_SIZE(cZoneManager, 0x84)
             CD2_OFFSET(cZoneManager, m_pPopulationZonePool, 0x80))

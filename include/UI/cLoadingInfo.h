@@ -29,6 +29,11 @@ namespace UI
         // CD2 registrar 0x83024828 registers factory 0x828B09A8 for a 0x54-byte class.
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
+        // CD2: cLoadingInfo's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x8239CD30
+    public:
         CD2_LAYOUT_CHECKS(cLoadingInfo,
             CD2_SIZE(cLoadingInfo, 0x54)
             CD2_OFFSET(cLoadingInfo, m_NameHash, 0x18)

@@ -22,6 +22,11 @@ namespace ZoneManager
         float m_fRadius;
         float m_fRadiusSq;
 
+        // CD2: cPlayerTriggerCylinder's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
+        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
+    public:
+        virtual bool IsVehicleWithin(Vehicle::cVehicle const *) const; // 13: 0x821D1D20
+    protected:
         CD2_LAYOUT_CHECKS(cPlayerTriggerCylinder,
             CD2_SIZE(cPlayerTriggerCylinder, 0xF0)
             CD2_OFFSET(cPlayerTriggerCylinder, m_fHeight, 0xE0)
