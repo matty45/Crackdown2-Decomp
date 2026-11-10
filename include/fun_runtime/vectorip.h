@@ -13,6 +13,7 @@ namespace Fun_Runtime
     public:
         cVectorip() : last_(data_) {}
         unsigned int size() const { return last_ - data_; }
+        T *&operator[](unsigned int i) { return data_[i]; }
     private:
         T **last_;
         __declspec(align(16)) T *data_[N];

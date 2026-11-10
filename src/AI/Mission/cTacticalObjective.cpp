@@ -20,6 +20,33 @@ namespace AI
     static RWS::CClassFactory::CRegistrar cHeliDropPointRegistrar(
         "cHeliDropPoint", cHeliDropPoint::MakeNew, 0x80, false);
 
+    const Fun_Runtime::cClass &cHeliDropPoint::RetClass() const
+    {
+        return *ms_pcHeliDropPointClass;
+    }
+
+    const char *cHeliDropPoint::RetClassName() const
+    {
+        return "cHeliDropPoint";
+    }
+
+    const char *cTacticalObjective::RetClassName() const
+    {
+        return "cTacticalObjective";
+    }
+
+    void cTacticalObjective::Destruct()
+    {
+        this->~cTacticalObjective();
+    }
+
+    void cHeliDropPoint::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        HandleSystemCommands(packet);
+        if (packet.IsInstanceCreationPacket())
+            m_EventHandler.Register(this, packet.GetInstanceId());
+    }
+
     Fun_Runtime::cClass &cTacticalObjective::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cTacticalObjectiveClass = new Fun_Runtime::cClass(0x9F3D5, "cTacticalObjective", 0x530);

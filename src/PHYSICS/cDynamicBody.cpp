@@ -23,6 +23,11 @@ namespace PHYSICS
         return *ms_pcNetDynamicBodyClass;
     }
 
+    bool cNetDynamicBody::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcNetDynamicBodyClass->IsA(c);
+    }
+
     static Fun_Runtime::cScriptTypeRegistrar<cDynamicBody> cDynamicBodyScriptRegistrar(
         "cDynamicBody", "cBody");
 

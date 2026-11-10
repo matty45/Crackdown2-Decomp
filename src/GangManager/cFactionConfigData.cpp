@@ -17,6 +17,7 @@
 #include "CHARACTER/cRagdollProfile.h"
 #include "AI/aiconstants.h"
 #include "GangManager/cFactionConfigData.h"
+#include "GangManager/cFactionInfo.h"
 #include "AI/cFactionTargetingProfile.h"
 #include "editor/guid_event_handler.h"
 #include "rws/classfactory.h"
@@ -36,21 +37,11 @@ namespace Fun_Runtime
 
 namespace GangManager
 {
-    struct tFaction
-    {
-        unsigned char pad0[0x1C];
-        unsigned int m_nField1C;
-        unsigned char pad1[0x98 - 0x20];
-        const AI::tAIFactionTargetData *m_pTargetingData;   // RuffKing: cFactionInfo::m_pTargetingData
-        unsigned char pad2[0xA4 - 0x9C];
-        unsigned int m_anLevelTriggers[6];
-    };
-
     class cGangManager
     {
     public:
         unsigned char pad[0x30];
-        tFaction *m_apFactions[6];
+        cFactionInfo *m_apFactions[6];
         static cGangManager *sm_pGangManager;
         static cGangManager *RetGangManager() { return sm_pGangManager; }
     };
@@ -64,6 +55,17 @@ namespace GangManager
     const char *cFactionConfigData::RetClassName() const
     {
         return pcFactionConfigDataClassID;
+    }
+
+    // cFactionInfo's script-host virtuals, placed by the linker between cFactionConfigData's.
+    const Fun_Runtime::cClass &cFactionInfo::RetClass() const
+    {
+        return *ms_pcFactionInfoClass;
+    }
+
+    const char *cFactionInfo::RetName() const
+    {
+        return m_sName.c_str();
     }
 
     void cFactionConfigData::HandleAttributes(const RWS::CAttributePacket &packet)
@@ -104,13 +106,13 @@ namespace GangManager
 
         if (packet.IsInstanceCreationPacket())
         {
-            tFaction *pFaction = cGangManager::RetGangManager()->m_apFactions[m_Faction];
+            cFactionInfo *pFaction = cGangManager::RetGangManager()->m_apFactions[m_Faction];
             if (pFaction)
             {
-                pFaction->m_anLevelTriggers[0] = 0;
+                pFaction->m_nEnforcerRatingForLevel[0] = 0;
                 for (unsigned char i = 1; i < 6; ++i)
-                    pFaction->m_anLevelTriggers[i] = (unsigned int)m_afLevelTriggers[i - 1];
-                pFaction->m_nField1C = pFaction->m_anLevelTriggers[5];
+                    pFaction->m_nEnforcerRatingForLevel[i] = (unsigned int)m_afLevelTriggers[i - 1];
+                pFaction->m_nMaxEnforcerRating = pFaction->m_nEnforcerRatingForLevel[5];
                 const AI::tAIFactionTargetData *pData = m_pTargetingProfile->RetFactionTargetData();
                 if (pData)
                     pFaction->m_pTargetingData = pData;
@@ -125,4 +127,6 @@ namespace GangManager
 
     static RWS::CClassFactory::CRegistrar cFactionConfigDataRegistrar(
         "cFactionConfigData", cFactionConfigData::MakeNew, 0x50, false);
+
+    const Fun_Runtime::cClass *cFactionInfo::ms_pcFactionInfoClass = &cFactionInfo::StaticCreateClass();
 }

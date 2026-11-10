@@ -32,6 +32,13 @@
 #include <stddef.h>
 #include <new>
 #include "fun_runtime/script_type_registrar.h"
+#include "GMan/cGameManager.h"
+#include "AI/AIUtil.h"
+#include "Input/cGameControlManager.h"
+#include "Input/InputInitialisation.h"
+#include "AI/cPlayerAIBreakoutAttemptEvent.h"
+#include "AI/cDeadPlayerEvent.h"
+#include "AI/cReincarnatedEvent.h"
 
 namespace PLAYER
 {
@@ -42,7 +49,29 @@ namespace PLAYER
     {
         return "eBreakoutInput";
     }
+}
 
+// CD2 places these AI event getters (0x8271F168..0x8271F188) between cPlayer's own functions, so the AI block sits here.
+namespace AI
+{
+    const Fun_Runtime::cScriptTypeRegistration *cPlayerAIBreakoutAttemptEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cPlayerAIBreakoutAttemptEvent;
+    }
+
+    const Fun_Runtime::cScriptTypeRegistration *cDeadPlayerEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cDeadPlayerEvent;
+    }
+
+    const Fun_Runtime::cScriptTypeRegistration *cReincarnatedEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cReincarnatedEvent;
+    }
+}
+
+namespace PLAYER
+{
     Fun_Runtime::cClass &cPlayer::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cPlayerClass = new Fun_Runtime::cClass(4, "cPlayer", 0x1160);
@@ -122,6 +151,62 @@ namespace PLAYER
                 static_cast<CHARACTER::cCwTransCharacterWrapper *>(pCharacter)->SetAITargeting(bAITargeting);
         }
         m_bIsAITargeting = bAITargeting;
+    }
+
+    void cPlayer::ForceCharacterH2HContact()
+    {
+        m_nH2HContactFrame = GMan::cGameManager::ms_nGameTicks;
+    }
+
+    bool cPlayer::HasRecentlyHadH2HContact()
+    {
+        return GMan::cGameManager::ms_nGameTicks < m_nH2HContactFrame + 30;
+    }
+
+    bool cPlayer::vf97()
+    {
+        return m_byteD99;
+    }
+
+    void cPlayer::vf130()
+    {
+        m_fEC4 = 0.0f;
+    }
+
+    void cPlayer::vf131()
+    {
+        if (m_eNetRole == eNR_Authority)
+        {
+            Input::cGameController *pController = Input::cGameControlManager::RetInstancePtr()->RetPrimaryController();
+            if (pController)
+                pController->DebounceAction(GA_CHARACTER_OBJECTDROP);
+        }
+    }
+
+    void cPlayer::vf134()
+    {
+        if (m_eNetRole == eNR_Authority)
+        {
+            Input::cGameController *pController = Input::cGameControlManager::RetInstancePtr()->RetPrimaryController();
+            if (pController)
+                pController->DebounceAction(GA_CHARACTER_OBJECTINTERACT);
+        }
+    }
+
+    bool cPlayer::ShouldTriggerFootStepEvent()
+    {
+        return RetCharacter()->RetLODLevel() <= 1;
+    }
+
+    bool cPlayer::ShouldTriggerBulletSoundEvent()
+    {
+        float fTime = AI::RetGameTime();
+        if (m_fLastBulletSoundTime < fTime - 1.0f)
+        {
+            m_fLastBulletSoundTime = fTime;
+            return true;
+        }
+        return false;
     }
 
     static RWS::CClassFactory::CRegistrar cPlayerRegistrar(

@@ -12,6 +12,15 @@ namespace unknown
         return "cLaunchPadLocation";
     }
 
+    cLaunchPadLocation::~cLaunchPadLocation()
+    {
+        if (m_pLaunchPad)
+        {
+            delete m_pLaunchPad;
+            m_pLaunchPad = 0;
+        }
+    }
+
     static RWS::CClassFactory::CRegistrar cLaunchPadLocationRegistrar(
         "cLaunchPadLocation", cLaunchPadLocation::MakeNew, 0xA0, false);
 }

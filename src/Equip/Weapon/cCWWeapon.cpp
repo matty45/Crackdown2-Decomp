@@ -38,6 +38,16 @@ namespace Equip
     }
     unsigned int cCWWeapon::RetNumberOfShotsTaken() const { return m_uiShotCount; }
 
+    Prop::cTurretBase *cCWWeapon::RetTurretMounted() const
+    {
+        return m_pTurret;
+    }
+
+    bool cCWWeapon::IsTurretWeapon() const
+    {
+        return static_cast<const cCWWeaponPrototype *>(m_pPrototype)->IsTurretWeapon();
+    }
+
     const Fun_Runtime::cClass *cCWWeapon::ms_pcCWWeaponClass = &cCWWeapon::StaticCreateClass();
 
     Fun_Runtime::cClass &cCWWeapon::StaticCreateClass()

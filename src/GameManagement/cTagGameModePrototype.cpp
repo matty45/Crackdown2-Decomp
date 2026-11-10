@@ -8,12 +8,23 @@
 #include "AI/aiconstants.h"
 #include "rws/classfactory.h"
 #include "GameManagement/cTagGameModePrototype.h"
+#include "cd2/memory.h"
 
 namespace GameManagement
 {
+    RWS::CAttributeHandler *cTagGameModePrototype::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cTagGameModePrototype;
+    }
+
     const char *cTagGameModePrototype::RetClassName() const
     {
         return "cTagGameModePrototype";
+    }
+
+    int cTagGameModePrototype::RetStringID() const
+    {
+        return 0xB993343F;
     }
 
     static RWS::CClassFactory::CRegistrar cTagGameModePrototypeRegistrar(

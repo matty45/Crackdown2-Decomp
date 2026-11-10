@@ -8,12 +8,27 @@
 #include "AI/aiconstants.h"
 #include "rws/classfactory.h"
 #include "GameManagement/cFinalMissionBarrier.h"
+#include "cd2/memory.h"
 
 namespace GameManagement
 {
+    RWS::CAttributeHandler *cFinalMissionBarrier::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cFinalMissionBarrier;
+    }
+
     const char *cFinalMissionBarrier::RetClassName() const
     {
         return "cFinalMissionBarrier";
+    }
+
+    void cFinalMissionBarrier::Create()
+    {
+        if (m_pBarrier && !m_pBarrier->IsEnabled())
+        {
+            m_pBarrier->SetMesh(GetBarrierMesh(), m_mXForm, GetBarrierSettings());
+            m_pBarrier->EnableKillzone(false);
+        }
     }
 
     static RWS::CClassFactory::CRegistrar cFinalMissionBarrierRegistrar(

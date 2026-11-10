@@ -19,6 +19,17 @@
 
 namespace VFX
 {
+    void cGlobalLight::SetOccluded(bool bOccluded)
+    {
+        if (bOccluded)
+        {
+            if (!IsOccluded())
+                cGlobalLightManager::ms_pSingleton->AddOccludedLight(this);
+        }
+        else if (IsOccluded())
+            cGlobalLightManager::ms_pSingleton->RemoveOccludedLight(this);
+    }
+
     const char *cGlobalLightManager::RetClassName() const
     {
         return "cGlobalLightManager";

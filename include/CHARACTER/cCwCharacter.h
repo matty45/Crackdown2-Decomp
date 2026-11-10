@@ -20,6 +20,13 @@ namespace CHARACTER
         static Fun_Runtime::cClass &StaticCreateClass();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
+        // Out of line: CD2 0x8253F570 (SpawnFromPrototype 0x8253F4A0 tail-calls it with the prototype).
+        cCwCharacter(GOM::cObjectPrototype *pPrototype);
+        // CD2 cReplicatedClass slot 23 (0x8253F4C0).
+        virtual unsigned int GetMaxReplicatedFields() const;
+        // CD2 primary slots 441/442 (0x8253F4C8/0x8253F4D0); names from Burn.
+        virtual unsigned char RetReplicatedBehaviourState() const;
+        virtual void ForceReplicatedBehaviourState(unsigned char nState);
 
         // CD2's MakeNew (0x8253F438) allocates 0x340 bytes and calls this prototype's out-of-line packet constructor
         // (0x82540068).
@@ -35,9 +42,15 @@ namespace CHARACTER
         };
 
     private:
-        unsigned char m_unmodelled2CC0[0x2CE0 - 0x2CC0];
+        unsigned char m_unmodelled2CC0[0x2CC8 - 0x2CC0];
+    protected:
+        unsigned char m_nReplicatedBehaviourState;      // 0x2CC8 (Burn 0x2B20)
+    private:
+        unsigned char m_unmodelled2CC9[0x2CE0 - 0x2CC9];
 
-        CD2_LAYOUT_CHECKS(cCwCharacter, CD2_SIZE(cCwCharacter, 0x2CE0))
+        CD2_LAYOUT_CHECKS(cCwCharacter,
+            CD2_SIZE(cCwCharacter, 0x2CE0)
+            CD2_OFFSET(cCwCharacter, m_nReplicatedBehaviourState, 0x2CC8))
     };
 }
 

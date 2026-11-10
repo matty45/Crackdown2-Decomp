@@ -46,6 +46,12 @@ namespace CHARACTER
         return "eBones";
     }
 
+    // The infinite-ammo flag is tested in place: CD2 reads the byte here rather than calling IsInfiniteAmmo.
+    bool cCharacter::IsUsingInfiniteAmmo()
+    {
+        return (m_flags2815 & 0x10) != 0 || IsPowerUpActive(ePowerUp_InfiniteAmmo);
+    }
+
     bool cCharacter::IsInGodMode() const
     {
         return (m_flags2815 & 0x20) != 0;

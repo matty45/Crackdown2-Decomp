@@ -16,6 +16,14 @@ namespace GameManagement
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
         virtual void HandleAttributes(const RWS::CAttributePacket &);
+        // CD2 table 0x8215BE58 slots 12..14, in Burn's order: Destruct is the shared body at 0x8273FBA8;
+        // Create and Destroy are empty (the shared blr) in this class.
+        virtual void Destruct();
+        virtual void Create() {}
+        virtual void Destroy() {}
+        // Burn: inline accessors.
+        VFX::BarrierMesh *GetBarrierMesh() const { return m_pBarrierMesh; }
+        const VFX::cBarrierSettings *GetBarrierSettings() const { return m_pBarrierSettings; }
     private:
         // Burn/RuffKing names; CD2 MakeNew clears these two pointers at 0x18/0x1C.
         VFX::BarrierMesh *m_pBarrierMesh;

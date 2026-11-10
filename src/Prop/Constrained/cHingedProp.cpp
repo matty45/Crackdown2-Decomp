@@ -63,6 +63,102 @@ namespace Prop
         return 0;
     }
 
+    inline Fun_Runtime::State *cHingedProp::StaticRetSTATE_Min()
+    {
+        static STATE_Min s_State;
+        return &s_State;
+    }
+
+    Fun_Runtime::State *cHingedProp::RetSTATE_Min() const
+    {
+        return StaticRetSTATE_Min();
+    }
+
+    Fun_Runtime::State *cHingedProp::RetSTATE_Min()
+    {
+        return StaticRetSTATE_Min();
+    }
+
+    inline Fun_Runtime::State *cHingedProp::StaticRetSTATE_Max()
+    {
+        static STATE_Max s_State;
+        return &s_State;
+    }
+
+    Fun_Runtime::State *cHingedProp::RetSTATE_Max() const
+    {
+        return StaticRetSTATE_Max();
+    }
+
+    Fun_Runtime::State *cHingedProp::RetSTATE_Max()
+    {
+        return StaticRetSTATE_Max();
+    }
+
+    inline Fun_Runtime::State *cHingedProp::StaticRetSTATE_Rotating_To_Min()
+    {
+        static STATE_Rotating_To_Min s_State;
+        return &s_State;
+    }
+
+    Fun_Runtime::State *cHingedProp::RetSTATE_Rotating_To_Min() const
+    {
+        return StaticRetSTATE_Rotating_To_Min();
+    }
+
+    Fun_Runtime::State *cHingedProp::RetSTATE_Rotating_To_Min()
+    {
+        return StaticRetSTATE_Rotating_To_Min();
+    }
+
+    inline Fun_Runtime::State *cHingedProp::StaticRetSTATE_Rotating_To_Max()
+    {
+        static STATE_Rotating_To_Max s_State;
+        return &s_State;
+    }
+
+    Fun_Runtime::State *cHingedProp::RetSTATE_Rotating_To_Max() const
+    {
+        return StaticRetSTATE_Rotating_To_Max();
+    }
+
+    Fun_Runtime::State *cHingedProp::RetSTATE_Rotating_To_Max()
+    {
+        return StaticRetSTATE_Rotating_To_Max();
+    }
+
+    inline Fun_Runtime::State *cHingedProp::StaticRetSTATE_Rotating_Free()
+    {
+        static STATE_Rotating_Free s_State;
+        return &s_State;
+    }
+
+    Fun_Runtime::State *cHingedProp::RetSTATE_Rotating_Free() const
+    {
+        return StaticRetSTATE_Rotating_Free();
+    }
+
+    Fun_Runtime::State *cHingedProp::RetSTATE_Rotating_Free()
+    {
+        return StaticRetSTATE_Rotating_Free();
+    }
+
+    inline Fun_Runtime::State *cHingedProp::StaticRetSTATE_Broken_Off()
+    {
+        static STATE_Broken_Off s_State;
+        return &s_State;
+    }
+
+    Fun_Runtime::State *cHingedProp::RetSTATE_Broken_Off() const
+    {
+        return StaticRetSTATE_Broken_Off();
+    }
+
+    Fun_Runtime::State *cHingedProp::RetSTATE_Broken_Off()
+    {
+        return StaticRetSTATE_Broken_Off();
+    }
+
     // CD2 0x82FF70D0: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cHingedPropcPivotBasedPropInheritRegistrar(
         Prop::cHingedProp::StaticCreateClass(), Prop::cPivotBasedProp::StaticCreateClass());

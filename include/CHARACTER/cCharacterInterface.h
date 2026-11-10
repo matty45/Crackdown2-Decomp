@@ -115,12 +115,12 @@ namespace CHARACTER
         virtual void vf89();
         virtual void vf90();
         virtual void vf91();
-        virtual void vf92();
+        virtual void ForceCharacterH2HContact();      // slot 92: RuffKing order; cPlayer 0x82720FC0 stores the tick count
         virtual void vf93();
-        virtual void vf94();
+        virtual bool HasRecentlyHadH2HContact();      // slot 94: RuffKing order; base 0x827E56A8 returns false
         virtual void vf95();
         virtual void vf96();
-        virtual void vf97();
+        virtual bool vf97();                          // slot 97: base 0x827E56A8 returns false; cPlayer 0x8271F160 returns a flag
         virtual void vf98();
         virtual void vf99();
         virtual bool ForceIntoVehicle(Vehicle::cVehicle *, unsigned int);

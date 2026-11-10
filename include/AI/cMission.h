@@ -9,6 +9,14 @@ namespace AI
     class cMission : public cMissionBase
     {
     public:
+        enum etGlobalMissionState
+        {
+            eGMS_Uncompletable = 0,
+            eGMS_Incomplete = 1,
+            eGMS_Complete = 2,
+            eGMS_NumStates = 3,
+            eGMS_Invalid = 3
+        };
         static Fun_Runtime::cClass &StaticCreateClass();
         cMission();
         virtual ~cMission();
@@ -16,6 +24,36 @@ namespace AI
         virtual bool IsOwnedLocally();
         virtual SNetworkHeader::etNetworkDataType GetReplicatedObjectType() const;
         virtual unsigned int GetMaxReplicatedFields() const;
+        virtual void TickUpdate(float);
+        virtual void ResetMission();
+        // Primary slots 17..38 in RuffKing's order, without its debug-only CompleteMission: CD2's mission tables
+        // have RetClassName at 17 and Destruct at 18 (RuffKing 20/21), and cTacticalObjective's overrides fall on
+        // IsComplete 20, IsLocalPlayerNearby 24, the delivery notifications 25..27, the mission-state handlers
+        // 29..33 and GetSaveStateForMissionState/InitReplication/TermReplication 36..38 (39 slots in all).
+        virtual const char *RetClassName() const;
+        virtual void Destruct();
+        virtual void EnableCompletion();
+        virtual bool IsComplete() const;
+        virtual bool IsCompletable() const;
+        virtual void OnChildMissionCompleted(cMission *);
+        virtual bool ArePrerequisitesComplete() const;
+        virtual bool IsLocalPlayerNearby() const;
+        virtual void NotifyDeliveryStart(int);
+        virtual void NotifyDeliveryDrop(bool);
+        virtual void NotifyDeliveryFinish(bool);
+    protected:
+        virtual void TriggerCompletionVOA();
+        virtual void OnLeaveMissionState(unsigned char);
+        virtual void OnTransitionMissionState(unsigned char);
+        virtual void OnEnterMissionState(unsigned char);
+        virtual void OnLeaveGlobalMissionState(etGlobalMissionState);
+        virtual void OnEnterGlobalMissionState(etGlobalMissionState);
+        virtual void OnEnterComplete();
+        virtual void OnMissionUnlocked();
+        virtual void GetSaveStateForMissionState(unsigned char &, unsigned char &);
+    public:
+        virtual void InitReplication();
+        virtual void TermReplication();
     };
 }
 #endif

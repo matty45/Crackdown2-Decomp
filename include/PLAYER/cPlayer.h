@@ -47,7 +47,7 @@ namespace PLAYER
         bool m_bAutomaticAIBreakout; // 0xD92
     private:
         unsigned char m_padD93[0xD99 - 0xD93];
-        unsigned char m_byteD99; // 0xD99
+        bool m_byteD99; // 0xD99: a flag (slot 97 returns it as bool)
         unsigned char m_padD9A[0xDC0 - 0xD9A];
     protected:
         char m_strName[255]; // 0xDC0; RuffKing name and size, CD2 RetName address adjusted from cScriptHost
@@ -91,6 +91,26 @@ namespace PLAYER
         int RetAutomaticAIBreakoutFlags() const;
         void *RetCameraPtr() const;
         void SetAITargeting(bool bAITargeting);
+
+        // Primary-table overrides (table 0x8200C0E0): slots 92, 94, 112 and 113.
+        virtual void ForceCharacterH2HContact();
+        virtual bool HasRecentlyHadH2HContact();
+        virtual bool ShouldTriggerFootStepEvent();
+        virtual bool ShouldTriggerBulletSoundEvent();
+        virtual bool vf97();     // slot 97 (0x8271F160): returns m_byteD99; no reference name
+
+        // cPlayer's own primary slots 125..138 (table 0x8200C0E0 has 139 entries; cCharacterEntityIF ends at 124).
+        // Unnamed slots keep their index; 125, 127 and 129 are bodies in the order-list region.
+        virtual void vf125();
+        virtual void vf126();
+        virtual void vf127();
+        virtual void vf128();
+        virtual void vf129();
+        virtual void vf130();    // 0x82720AC0: clears m_fEC4
+        virtual void vf131();    // 0x82720B88: as authority, debounces GA_CHARACTER_OBJECTDROP
+        virtual void vf132();
+        virtual void vf133();
+        virtual void vf134();    // 0x82720D70: as authority, debounces GA_CHARACTER_OBJECTINTERACT
 
         CD2_LAYOUT_CHECKS(cPlayer,
             CD2_SIZE(cPlayer, 0x1160)

@@ -13,7 +13,18 @@ typedef __vector4 hkQuadReal;
 class hkVector4
 {
 public:
-    hkVector4() {}
+    // CD2's build of the Havok headers marks a default-constructed vector as uninitialised: every component is
+    // (hkReal)0xffffffff (0x4F800000). Evidence: one 16-byte constant of four such words at 0x8216E870, loaded with
+    // lvx128 and stored to each default-constructed vector by 127 functions (four stores for a local hkTransform);
+    // and IDENTITY_TRANSFORM's rotation, which its constructor default-constructs before hkRotation::set, holds these
+    // words in CD2's initialised data in all 994 copies while its initializer stores only the translation. A constant
+    // vector assigned whole reproduces both (the compiler folds the stores into the static's initial data); four
+    // scalar stores give the same data but stfs instructions at run time, which CD2 does not have.
+    hkVector4()
+    {
+        static const hkQuadReal uninitialised = { (hkReal)0xffffffff, (hkReal)0xffffffff, (hkReal)0xffffffff, (hkReal)0xffffffff };
+        m_quad = uninitialised;
+    }
     hkVector4(hkReal x, hkReal y, hkReal z, hkReal w = 0.0f)
     {
         __declspec(align(16)) hkReal q[4] = { x, y, z, w };

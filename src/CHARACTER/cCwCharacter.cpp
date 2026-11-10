@@ -36,6 +36,28 @@ namespace CHARACTER
         return new cCwCharacterPrototype(packet);
     }
 
+    RWS::CAttributeHandler *cCwCharacter::SpawnFromPrototype(GOM::cObjectPrototype *pPrototype, void *pMem)
+    {
+        if (pMem)
+            return new (pMem) cCwCharacter(pPrototype);
+        return 0;
+    }
+
+    unsigned int cCwCharacter::GetMaxReplicatedFields() const
+    {
+        return 0x3F;
+    }
+
+    unsigned char cCwCharacter::RetReplicatedBehaviourState() const
+    {
+        return m_nReplicatedBehaviourState;
+    }
+
+    void cCwCharacter::ForceReplicatedBehaviourState(unsigned char nState)
+    {
+        m_nReplicatedBehaviourState = nState;
+    }
+
     Fun_Runtime::cClass &cCwCharacter::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cCwCharacterClass = new Fun_Runtime::cClass(0x6A2, "cCwCharacter", 0x2CE0);

@@ -6,6 +6,7 @@
 #define VFX_CGLOBALLIGHTMANAGER_H
 
 #include "gom/non_game_base.h"
+#include "VFX/cGlobalLight.h"
 
 namespace VFX
 {
@@ -21,6 +22,13 @@ namespace VFX
         cGlobalLightManager();
 
     private:
+        friend class cGlobalLight;
+        // RuffKing names; CD2 0x827FC2F0/0x827FC3B0 take the light and return whether it was added/removed.
+        bool AddOccludedLight(cGlobalLight *pLight);
+        bool RemoveOccludedLight(cGlobalLight *pLightToRemove);
+        // CD2 0x83801524 (SetOccluded reads it before the add/remove calls).
+        static cGlobalLightManager *ms_pSingleton;
+
         unsigned char m_unmodelled7C[0x5AE0 - 0x7C];
 
         CD2_LAYOUT_CHECKS(cGlobalLightManager, CD2_SIZE(cGlobalLightManager, 0x5AE0))

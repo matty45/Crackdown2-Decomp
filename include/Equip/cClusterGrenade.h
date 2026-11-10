@@ -9,6 +9,7 @@
 #define EQUIP_CCLUSTERGRENADE_H
 
 #include "fun_runtime/class.h"
+#include "fun_runtime/randgen.h"
 
 namespace Equip
 {
@@ -17,10 +18,33 @@ namespace Equip
     public:
         // RuffKing prototype name/base; CD2 Init is primary slot 5 (0x8261A0F8).
         // Interface only: instance fields and allocation size remain unrecovered.
+        // CD2: MakeNew (0x82619728) allocates 0x3B0 and inlines this constructor over cExplosiveGrenadePrototype's
+        // (0x821FE7C8); field names and order are RuffKing's (its 0x370..0x37C), CD2's offsets from that constructor
+        // and RetRandomBombletSpeed (0x82619920).
         class cClusterGrenadePrototype : public cExplosiveGrenade::cExplosiveGrenadePrototype
         {
         public:
+            __forceinline cClusterGrenadePrototype(const RWS::CAttributePacket &packet)
+                : cExplosiveGrenade::cExplosiveGrenadePrototype(packet), m_pBombletProto(0), m_nNumBomblets(0),
+                  m_fMaxBombletSpeed(0.0f), m_fMinBombletSpeed(0.0f)
+            {
+            }
             virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
+
+            GOM::cObjectPrototype *m_pBombletProto; // 0x390
+            unsigned char m_nNumBomblets;           // 0x394
+            float m_fMaxBombletSpeed;               // 0x398
+            float m_fMinBombletSpeed;               // 0x39C
+
+        private:
+            unsigned char m_unmodelled3A0[0x3B0 - 0x3A0];
+
+            CD2_LAYOUT_CHECKS(cClusterGrenadePrototype,
+                CD2_SIZE(cClusterGrenadePrototype, 0x3B0)
+                CD2_OFFSET(cClusterGrenadePrototype, m_pBombletProto, 0x390)
+                CD2_OFFSET(cClusterGrenadePrototype, m_nNumBomblets, 0x394)
+                CD2_OFFSET(cClusterGrenadePrototype, m_fMaxBombletSpeed, 0x398)
+                CD2_OFFSET(cClusterGrenadePrototype, m_fMinBombletSpeed, 0x39C))
         };
 
         // __forceinline: CD2's placement factory 0x826197C8 inlines this constructor (base call and every vtable store);

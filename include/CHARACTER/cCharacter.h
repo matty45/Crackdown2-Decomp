@@ -66,6 +66,8 @@ namespace CHARACTER
         virtual unsigned int GetMaxReplicatedFields() const;
         bool IsInGodMode() const;
         bool IsInfiniteAmmo() const;
+        // CD2 0x82543058; RuffKing/Burn name it.
+        bool IsUsingInfiniteAmmo();
         bool RetIsOnFire() const { return IsOnFire(); }
         unsigned char RetLODLevel() const { return m_eLODLevel; }
         TGT::cTargeting *RetTargeting() { return m_pTargeting; }
@@ -178,8 +180,10 @@ namespace CHARACTER
         virtual void vf438();
         virtual void vf439();
         virtual void vf440();
-        virtual void vf441();
-        virtual void vf442();
+        // Slots 441/442: Burn's RetReplicatedBehaviourState/ForceReplicatedBehaviourState (consecutive there);
+        // cCwCharacter's overrides (0x8253F4C8/0x8253F4D0) read and write its byte at 0x2CC8.
+        virtual unsigned char RetReplicatedBehaviourState() const;
+        virtual void ForceReplicatedBehaviourState(unsigned char nState);
         virtual void vf443();
         virtual void vf444();
         virtual unsigned int RetLastVehicleHitID() const;

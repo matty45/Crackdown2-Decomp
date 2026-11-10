@@ -25,10 +25,19 @@ namespace Equip
             cCWWeaponPrototype(const RWS::CAttributePacket &);
 
         private:
-            unsigned char m_unmodelled350[0x3E0 - 0x350];
+            unsigned char m_unmodelled350[0x3D8 - 0x350];
+
+        public:
+            // RuffKing's inline accessor; cCWWeapon::IsTurretWeapon (0x82607C10) reads the flag through it.
+            bool IsTurretWeapon() const { return m_bTurret; }
+
+        private:
+            bool m_bTurret; // RuffKing name (its 0x3A8); CD2 reads 0x3D8
+            unsigned char m_unmodelled3D9[0x3E0 - 0x3D9];
 
             CD2_LAYOUT_CHECKS(cCWWeaponPrototype,
-                CD2_SIZE(cCWWeaponPrototype, 0x3E0))
+                CD2_SIZE(cCWWeaponPrototype, 0x3E0)
+                CD2_OFFSET(cCWWeaponPrototype, m_bTurret, 0x3D8))
         };
 
         // CD2 factory 0x82607BB8 forwards only this, without a prototype argument.
@@ -39,6 +48,9 @@ namespace Equip
         float RetAIPathClearCone() const;
         unsigned int RetAINumberOfShotsToFullAccuracy() const;
         unsigned int RetNumberOfShotsTaken() const;
+        // cEquipment slots 322/323 (CD2 0x82607C08, 0x82607C10).
+        virtual Prop::cTurretBase *RetTurretMounted() const;
+        virtual bool IsTurretWeapon() const;
         // CD2 0x82607BA8: primary virtual slot 11 returns the registered class name.
         virtual const char *RetClassName() const;
         // CD2 spawning initializer 0x82FCB890 names placement factory 0x82607bb8.
@@ -56,14 +68,19 @@ namespace Equip
         unsigned int m_uiAINumberOfShotsToReachFullAccuracy;
         unsigned int m_uiShotCount;
     private:
-        unsigned char m_unmodelled8D8[0xA10 - 0x8D8];
+        unsigned char m_unmodelled8D8[0x8F0 - 0x8D8];
+    protected:
+        Prop::cTurretBase *m_pTurret;   // RuffKing name; SetTurretMounted (0x826085F8) and RetTurretMounted use 0x8F0
+    private:
+        unsigned char m_unmodelled8F4[0xA10 - 0x8F4];
         CD2_LAYOUT_CHECKS(cCWWeapon,
             CD2_SIZE(cCWWeapon, 0xA10)
             CD2_OFFSET(cCWWeapon, m_fAIAccuracyCone, 0x8C4)
             CD2_OFFSET(cCWWeapon, m_fAIPathClearCone, 0x8C8)
             CD2_OFFSET(cCWWeapon, m_fAIInitialAccuracyCone, 0x8CC)
             CD2_OFFSET(cCWWeapon, m_uiAINumberOfShotsToReachFullAccuracy, 0x8D0)
-            CD2_OFFSET(cCWWeapon, m_uiShotCount, 0x8D4))
+            CD2_OFFSET(cCWWeapon, m_uiShotCount, 0x8D4)
+            CD2_OFFSET(cCWWeapon, m_pTurret, 0x8F0))
     };
 }
 

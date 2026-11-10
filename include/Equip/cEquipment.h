@@ -9,6 +9,8 @@
 #include "PHYSICS/cNetDynamicBody.h"
 #include "fun_runtime/cStateMachine.h"
 
+namespace Prop { class cTurretBase; }
+
 namespace Equip
 {
     class cEquipment : public PHYSICS::cNetDynamicBody, public Fun_Runtime::cStateMachine
@@ -18,6 +20,28 @@ namespace Equip
         virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         // CD2 0x82604CA8 (out of line: cWeaponProjectile's destructor 0x826096C0 calls it).
         virtual ~cEquipment();
+        // RuffKing's EQUIP_STATUS (SetStatus's parameter).
+        enum EQUIP_STATUS
+        {
+            STATUS_UNDEFINDED = 0,
+            STATUS_FREE,
+            STATUS_STORED,
+            STATUS_EQUIPPED,
+            STATUS_MOUNTED
+        };
+        // Own primary slots from 314 (table 0x82010000 has 363 entries; cNetDynamicBody ends at 313). Names and order
+        // are RuffKing's (its slots 279..288); CD2's bodies agree: 315/317 return 1, 319/321 are empty, 322/323 return
+        // 0 here, and cCWWeapon's 321/322 (0x826085F8/0x82607C08) set and return the turret pointer at 0x8F0.
+        virtual void ResetHavokPhysics();                       // 314
+        virtual int RetNumHands() const;                        // 315
+        virtual void SetStatus(EQUIP_STATUS);                   // 316
+        virtual bool ShouldBeForceStored();                     // 317
+        virtual bool Activate();                                // 318
+        virtual void TriggerReloadAudio();                      // 319
+        virtual unsigned int RetWeaponPriority() const;         // 320
+        virtual void SetTurretMounted(Prop::cTurretBase *);     // 321
+        virtual Prop::cTurretBase *RetTurretMounted() const;    // 322
+        virtual bool IsTurretWeapon() const;                    // 323
         // Name and base from RuffKing. CD2: cEquipment::MakeNew (0x82604650) allocates 0x2F0 and calls this constructor
         // (0x826071F8), which calls cDynamicBodyPrototype's (0x82686DD8).
         class cEquipmentPrototype : public PHYSICS::cDynamicBody::cDynamicBodyPrototype

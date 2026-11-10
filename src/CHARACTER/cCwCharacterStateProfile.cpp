@@ -20,6 +20,12 @@ namespace CHARACTER
         return "eCharacterStates";
     }
 
+    cCwCharacterStateProfile::~cCwCharacterStateProfile()
+    {
+        UnLinkMsg(m_Msg_Return_Self);
+        UnRegisterMsg(m_Msg_Return_Self);
+    }
+
     static RWS::CClassFactory::CRegistrar cCwCharacterStateProfileRegistrar(
         "cCwCharacterStateProfile", cCwCharacterStateProfile::MakeNew, 0xCC, false);
 

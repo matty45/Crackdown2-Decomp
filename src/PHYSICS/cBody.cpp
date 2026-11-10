@@ -121,6 +121,11 @@ namespace PHYSICS
         return Ret_OK;
     }
 
+    void cBody::HandleAttributes(const RWS::CAttributePacket &attr)
+    {
+        cGameBase::HandleAttributes(attr);
+    }
+
     RWS::CAttributeHandler *cBody::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
     {
         if (memory)

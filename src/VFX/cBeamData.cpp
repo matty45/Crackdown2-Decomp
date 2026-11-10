@@ -9,6 +9,7 @@
 #include "VFX/cGlobalLightShader.h"
 #include "rws/classfactory.h"
 #include "VFX/cBeamData.h"
+#include "VFX/cBeamManager.h"
 #include "cd2/memory.h"
 
 namespace VFX
@@ -25,6 +26,12 @@ namespace VFX
     const char *cBeamData::RetClassName() const
     {
         return "cBeamData";
+    }
+
+    // CD2 keeps the manager's registered-class getter in this object's range (table 0x82155350, slot 0).
+    const Fun_Runtime::cClass &cBeamManager::RetClass() const
+    {
+        return *ms_pcBeamManagerClass;
     }
 
     static RWS::CClassFactory::CRegistrar cBeamDataRegistrar(

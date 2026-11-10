@@ -63,6 +63,102 @@ namespace Prop
         return 0;
     }
 
+    inline Fun_Runtime::State *cPrismaticProp::StaticRetSTATE_Min()
+    {
+        static STATE_Min s_State;
+        return &s_State;
+    }
+
+    Fun_Runtime::State *cPrismaticProp::RetSTATE_Min()
+    {
+        return StaticRetSTATE_Min();
+    }
+
+    Fun_Runtime::State *cPrismaticProp::RetSTATE_Min() const
+    {
+        return StaticRetSTATE_Min();
+    }
+
+    inline Fun_Runtime::State *cPrismaticProp::StaticRetSTATE_Max()
+    {
+        static STATE_Max s_State;
+        return &s_State;
+    }
+
+    Fun_Runtime::State *cPrismaticProp::RetSTATE_Max()
+    {
+        return StaticRetSTATE_Max();
+    }
+
+    Fun_Runtime::State *cPrismaticProp::RetSTATE_Max() const
+    {
+        return StaticRetSTATE_Max();
+    }
+
+    inline Fun_Runtime::State *cPrismaticProp::StaticRetSTATE_Sliding_To_Min()
+    {
+        static STATE_Sliding_To_Min s_State;
+        return &s_State;
+    }
+
+    Fun_Runtime::State *cPrismaticProp::RetSTATE_Sliding_To_Min()
+    {
+        return StaticRetSTATE_Sliding_To_Min();
+    }
+
+    Fun_Runtime::State *cPrismaticProp::RetSTATE_Sliding_To_Min() const
+    {
+        return StaticRetSTATE_Sliding_To_Min();
+    }
+
+    inline Fun_Runtime::State *cPrismaticProp::StaticRetSTATE_Sliding_To_Max()
+    {
+        static STATE_Sliding_To_Max s_State;
+        return &s_State;
+    }
+
+    Fun_Runtime::State *cPrismaticProp::RetSTATE_Sliding_To_Max()
+    {
+        return StaticRetSTATE_Sliding_To_Max();
+    }
+
+    Fun_Runtime::State *cPrismaticProp::RetSTATE_Sliding_To_Max() const
+    {
+        return StaticRetSTATE_Sliding_To_Max();
+    }
+
+    inline Fun_Runtime::State *cPrismaticProp::StaticRetSTATE_Sliding_Free()
+    {
+        static STATE_Sliding_Free s_State;
+        return &s_State;
+    }
+
+    Fun_Runtime::State *cPrismaticProp::RetSTATE_Sliding_Free()
+    {
+        return StaticRetSTATE_Sliding_Free();
+    }
+
+    Fun_Runtime::State *cPrismaticProp::RetSTATE_Sliding_Free() const
+    {
+        return StaticRetSTATE_Sliding_Free();
+    }
+
+    inline Fun_Runtime::State *cPrismaticProp::StaticRetSTATE_Broken_Off()
+    {
+        static STATE_Broken_Off s_State;
+        return &s_State;
+    }
+
+    Fun_Runtime::State *cPrismaticProp::RetSTATE_Broken_Off()
+    {
+        return StaticRetSTATE_Broken_Off();
+    }
+
+    Fun_Runtime::State *cPrismaticProp::RetSTATE_Broken_Off() const
+    {
+        return StaticRetSTATE_Broken_Off();
+    }
+
     // CD2 0x82FF81C0: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cPrismaticPropcPivotBasedPropInheritRegistrar(
         Prop::cPrismaticProp::StaticCreateClass(), Prop::cPivotBasedProp::StaticCreateClass());

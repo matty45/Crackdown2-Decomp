@@ -241,7 +241,7 @@ namespace AI
         virtual void Slot77();
         virtual void Slot78();
         virtual void Slot79();
-        virtual void Slot80();
+        virtual void Slot80(unsigned char nEventType, unsigned char nEventSubType, unsigned char nEvent); // RuffKing OnCharacterEvent (cAgressiveResponseChaseBehaviour 0x824CAF68)
         virtual void Slot81();
         virtual void Slot82();
         virtual void Slot83();
@@ -287,7 +287,7 @@ namespace AI
         float m_fTimer;           // 0xB0
         void *m_pB4;              // 0xB4
         unsigned char padB8[0xC4 - 0xB8];
-        bool m_bC4;
+        unsigned char m_bC4;      // a state index: cAgressiveResponseChaseBehaviour slot 117 compares it with 7
         unsigned char padC5[0xD0 - 0xC5];
     };
 

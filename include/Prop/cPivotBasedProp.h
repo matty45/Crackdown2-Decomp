@@ -5,10 +5,14 @@
 
 #include "Prop/cProp.h"
 #include "fun_runtime/vec3.h"
+#include "fun_runtime/cStateMachine.h"
+#include "fun_runtime/State.h"
 
 namespace Prop
 {
-    class cPivotBasedProp : public Prop::cProp
+    // CD2 constructor 0x8273AFF8: cProp, then the RuffKing cStateMachine base at 0xE30 (zeroed, no vptr). Primary
+    // table 0x8213FEB8 has 345 slots: 341/342 the constraint-data hooks (both an empty blr), 343/344 RetSTATE_Base.
+    class cPivotBasedProp : public Prop::cProp, public Fun_Runtime::cStateMachine
     {
     public:
         // CD2 0x823616B8: restores this class's vtables (primary 0x8213FEB8), then calls cProp's destructor.
@@ -38,6 +42,27 @@ namespace Prop
         static const Fun_Runtime::cClass *ms_pcPivotBasedPropClass;
         static Fun_Runtime::cClass &StaticCreateClass();
         virtual const char *RetClassName() const;
+        virtual void CreateConstraintData() {}      // slot 341
+        virtual void DestroyConstraintData();       // slot 342
+        // RuffKing state class; CD2 table 0x8213DFE0.
+        class STATE_Base : public Fun_Runtime::State
+        {
+        public:
+            virtual void BeginState(Fun_Runtime::cStateMachine *pSM);
+            virtual void EndState(Fun_Runtime::cStateMachine *pSM);
+            virtual void EnterPhysicalState(Fun_Runtime::cStateMachine *);
+            virtual void LeavePhysicalState(Fun_Runtime::cStateMachine *);
+        };
+
+    protected:
+        static Fun_Runtime::State *StaticRetSTATE_Base();
+        // Non-const first: MSVC reverses overload slots (cHingedProp's GoTo*/IsIn* calls show it).
+        virtual Fun_Runtime::State *RetSTATE_Base();         // slots 343/344 (0x8273AFA8, folded)
+        virtual Fun_Runtime::State *RetSTATE_Base() const;
+
+    public:
+        CD2_LAYOUT_CHECKS(cPivotBasedProp,
+            CD2_SIZE(cPivotBasedProp, 0xE40))
     };
 }
 

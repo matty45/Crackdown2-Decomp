@@ -22,6 +22,11 @@ namespace VFX
         return "cBarrierSettings";
     }
 
+    RWS::CAttributeHandler *cBarrier::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cBarrier;
+    }
+
     const char *cBarrier::RetClassName() const
     {
         return "cBarrier";

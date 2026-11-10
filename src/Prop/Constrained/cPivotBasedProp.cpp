@@ -59,6 +59,26 @@ namespace Prop
         return 0;
     }
 
+    inline Fun_Runtime::State *cPivotBasedProp::StaticRetSTATE_Base()
+    {
+        static STATE_Base s_State;
+        return &s_State;
+    }
+
+    Fun_Runtime::State *cPivotBasedProp::RetSTATE_Base() const
+    {
+        return StaticRetSTATE_Base();
+    }
+
+    Fun_Runtime::State *cPivotBasedProp::RetSTATE_Base()
+    {
+        return StaticRetSTATE_Base();
+    }
+
+    cPivotBasedProp::cPivotBasedProp(GOM::cObjectPrototype *pPrototype) : cProp(pPrototype)
+    {
+    }
+
     // CD2 0x82FF7D30: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cPivotBasedPropcPropInheritRegistrar(
         Prop::cPivotBasedProp::StaticCreateClass(), Prop::cProp::StaticCreateClass());

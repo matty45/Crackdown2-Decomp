@@ -37,6 +37,8 @@ public:
     virtual ~cGameBase() {}
     // Called by cBody's overrides: Init(packet) 0x82323A98, Term 0x82650EB8, Reinitialise 0x82651008 and TermForReuse
     // 0x82650F80.
+    // CD2 0x822C4BE0: cGameBase table 0x8212CA20 slot 1; cBody's override (0x826838B0) tail-calls it.
+    virtual void HandleAttributes(const RWS::CAttributePacket &);
     virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
     virtual Fun_Runtime::RetVal Init(const GOM::cSpawner *); // CD2 0x826508E0
     virtual Fun_Runtime::RetVal Term();

@@ -11,8 +11,12 @@
 #include "rws/attributes.h"
 #include "rws/dynamicallocationpolicy.h"
 #include "SaveGame/cLoadSaveObject.h"
+namespace Activity { class cSquadSpawnPoint; }
+namespace Damage { class cDamage; }
 namespace AI
 {
+    class cMissionCriticalPropSpawnPoint;
+
     class cMissionBase : public Fun_Runtime::cRegisteredClass, public cReplicatedClass,
         public Network::cNetRoleObject, public RWS::CSystemCommands, public RWS::CAttributeHandler,
         public RWS::DynamicAllocationPolicy, public SaveGame::cLoadSaveObject
@@ -26,6 +30,24 @@ namespace AI
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         virtual bool IsSequential() const;
         virtual void SetPingedFieldStatesForNode(unsigned char);
+        // Primary slots 2..16 (after cRegisteredClass's RetClass/IsA), in RuffKing's order. CD2's mission tables
+        // (cTacticalObjective 0x820073D8, cCellStrongholdMission 0x82007478) agree up to slot 16; CD2 has none of
+        // RuffKing's three debug-page virtuals (DebugPageEnter, RenderDebugPage, RetMenuText) after them.
+        virtual void Activate();
+        virtual void Deactivate();
+        virtual void ResetMission() = 0;
+        virtual void NotifySquadDead(Activity::cSquadSpawnPoint *);
+        virtual void NotifySquadDelete(Activity::cSquadSpawnPoint *);
+        virtual void NotifySquadSpawn(Activity::cSquadSpawnPoint *);
+        virtual void TickUpdate(float) = 0;
+        virtual unsigned short RetMissionID() const;
+        virtual void OnMissionCriticalPropTakeDamage(cMissionCriticalPropSpawnPoint *, Damage::cDamage &);
+        virtual void OnMissionCriticalPropDestroyed(cMissionCriticalPropSpawnPoint *);
+        virtual void OnMissionCriticalPropUsed(cMissionCriticalPropSpawnPoint *, unsigned char);
+        virtual void OnMissionCriticalPropDetached(cMissionCriticalPropSpawnPoint *);
+        virtual void OnMissionCriticalPropApproachedByLocalPlayer(cMissionCriticalPropSpawnPoint *);
+        virtual void OnClientMissionStateNotification(unsigned char, unsigned char);
+        virtual void OnSquadGroupBlockedMessage(bool, unsigned char);
         CD2_LAYOUT_CHECKS(cMissionBase,
             CD2_OFFSET(cMissionBase, m_eNetRole, 0x244)
             CD2_OFFSET(cMissionBase, m_Flags, 0x24C))

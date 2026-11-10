@@ -38,6 +38,8 @@ namespace PHYSICS
         // CD2 spawning initializer 0x82FDF730 names placement factory 0x82683300.
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         virtual ~cBody();
+        // CD2 0x826838B0: primary slot 1, forwards to cGameBase's.
+        virtual void HandleAttributes(const RWS::CAttributePacket &);
         // Primary slot 6 (0x826836F8): calls cGameBase's and returns Ret_OK.
         virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
         virtual Fun_Runtime::RetVal Init(const GOM::cSpawner *);

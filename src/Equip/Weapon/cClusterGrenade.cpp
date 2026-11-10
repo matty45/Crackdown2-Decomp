@@ -47,6 +47,11 @@ namespace Equip
     static Fun_Runtime::cInheritanceRegistrar cClusterGrenadecExplosiveGrenadeInheritRegistrar(
         Equip::cClusterGrenade::StaticCreateClass(), Equip::cExplosiveGrenade::StaticCreateClass());
 
+    RWS::CAttributeHandler *cClusterGrenade::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cClusterGrenadePrototype(packet);
+    }
+
     const char *cClusterGrenade::RetClassName() const
     {
         return "cClusterGrenade";
