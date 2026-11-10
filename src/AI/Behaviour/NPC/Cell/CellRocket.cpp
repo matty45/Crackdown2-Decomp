@@ -19,8 +19,6 @@ namespace AI
 {
     const Fun_Runtime::cClass *CellRocket::ms_pCellRocketClass = &CellRocket::StaticCreateClass();
 
-    CellRocket::CellRocket() {}
-
     const Fun_Runtime::cClass &CellRocket::RetClass() const
     {
         return *ms_pCellRocketClass;
@@ -34,6 +32,14 @@ namespace AI
     const char *CellRocket::RetClassName() const
     {
         return "CellRocket";
+    }
+
+    // CD2 0x824C3DE8: placement factory; NPCArmedBehaviour's constructor stays out of line, the rest is inlined.
+    RWS::CAttributeHandler *CellRocket::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) CellRocket;
+        return 0;
     }
 
     bool CellRocket::IsA(const Fun_Runtime::cClass &c) const

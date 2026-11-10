@@ -39,6 +39,14 @@ namespace AI
         return "Goliath";
     }
 
+    // CD2 0x824B0F28: placement factory; NPCBehaviourSM's constructor stays out of line, the rest is inlined.
+    RWS::CAttributeHandler *Goliath::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) Goliath;
+        return 0;
+    }
+
     Fun_Runtime::cClass &Goliath::StaticCreateClass()
     {
         static Fun_Runtime::cClass *GoliathClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "Goliath", 0x100);

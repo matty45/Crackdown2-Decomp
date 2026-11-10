@@ -16,6 +16,12 @@
 
 namespace AI
 {
+    // CD2 0x824AB020: the class factory builds the prototype.
+    RWS::CAttributeHandler *PedestrianGuard::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new PedestrianGuardPrototype(packet);
+    }
+
     const char *PedestrianGuard::RetClassName() const
     {
         return "PedestrianGuard";
@@ -41,6 +47,8 @@ namespace AI
     {
         return ms_pPedestrianGuardClass->IsA(c);
     }
+
+    PedestrianGuard::PedestrianGuard() : m_nUnknown120(0), m_nUnknown124(0) {}
 
     // CD2 0x82F92DE8: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar PedestrianGuardcPedestrianBaseInheritRegistrar(

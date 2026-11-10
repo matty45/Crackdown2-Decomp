@@ -63,6 +63,12 @@ namespace AI
         --g_838015E0;
     }
 
+    // CD2 0x823E78A8: the class factory builds the prototype.
+    RWS::CAttributeHandler *cAiPlayer::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cAiPlayerPrototype(packet);
+    }
+
     RWS::CAttributeHandler *cAiPlayer::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
     {
         if (memory)

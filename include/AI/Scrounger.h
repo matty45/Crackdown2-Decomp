@@ -26,7 +26,8 @@ namespace AI
     class Scrounger : public AI::FreakBase
     {
     public:
-        // CD2 factory 0x824BAA80 forwards only this, without a prototype argument.
+        // CD2 factory 0x824BAA80 forwards only this, without a prototype argument. CD2 0x824BABB0, out of line:
+        // FreakBase's constructor (0x824ABD60), the class vptrs, then the word at 0x120 = 13.
         Scrounger();
         // CD2 spawning initializer 0x82F943C8 names placement factory 0x824baa80.
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
@@ -38,10 +39,13 @@ namespace AI
         virtual const char *RetClassName() const;
 
     private:
-        // Own fields not recovered; 0x130 is the size its registrar and descriptor give.
-        unsigned char m_unmodelled120[0x130 - 0x120];
+        unsigned int m_nUnknown120; // 0x120 (name ours; the constructor sets 13)
+        // Other own fields not recovered; 0x130 is the size its registrar and descriptor give.
+        unsigned char m_unmodelled124[0x130 - 0x124];
 
-        CD2_LAYOUT_CHECKS(Scrounger, CD2_SIZE(Scrounger, 0x130))
+        CD2_LAYOUT_CHECKS(Scrounger,
+            CD2_SIZE(Scrounger, 0x130)
+            CD2_OFFSET(Scrounger, m_nUnknown120, 0x120))
     };
 }
 

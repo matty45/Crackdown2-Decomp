@@ -13,7 +13,9 @@ namespace AI
     {
     public:
         // CD2 spawning initializer 0x82F93F90 names placement factory 0x824b26a8.
-        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
+        static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *memory);
+        // CD2 0x824B27E0, out of line: SpawnFromPrototype tail-calls it with the prototype.
+        Reaper(GOM::cObjectPrototype *prototype);
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pReaperClass;
 
