@@ -18,8 +18,6 @@ namespace AI
 {
     const Fun_Runtime::cClass *CellMinigun::ms_pCellMinigunClass = &CellMinigun::StaticCreateClass();
 
-    CellMinigun::CellMinigun() {}
-
     const Fun_Runtime::cClass &CellMinigun::RetClass() const
     {
         return *ms_pCellMinigunClass;
@@ -28,6 +26,14 @@ namespace AI
     const char *CellMinigun::RetClassName() const
     {
         return "CellMinigun";
+    }
+
+    // CD2 0x824C3228: placement factory; NPCArmedBehaviour's constructor stays out of line, the rest is inlined.
+    RWS::CAttributeHandler *CellMinigun::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) CellMinigun;
+        return 0;
     }
 
     bool CellMinigun::IsA(const Fun_Runtime::cClass &c) const

@@ -35,6 +35,14 @@ namespace AI
         return "Reaper";
     }
 
+    // CD2 0x824B26A8: placement factory; the constructor stays out of line (a tail call).
+    RWS::CAttributeHandler *Reaper::SpawnFromPrototype(GOM::cObjectPrototype *prototype, void *memory)
+    {
+        if (memory)
+            return new (memory) Reaper(prototype);
+        return 0;
+    }
+
     bool Reaper::IsA(const Fun_Runtime::cClass &c) const
     {
         return ms_pReaperClass->IsA(c);

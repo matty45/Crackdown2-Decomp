@@ -28,7 +28,12 @@
    "direct_constants": []
   },
   "src/AI/Behaviour/NPC/Cell/CellRocket.cpp": {
-   "direct_constants": []
+   "direct_constants": [
+    [
+     48,
+     "3ff0000000000000"
+    ]
+   ]
   },
   "src/AI/Behaviour/NPC/Cell/CellTurret.cpp": {
    "direct_constants": []
@@ -51,7 +56,12 @@
    ]
   },
   "src/AI/Behaviour/NPC/Freak/Goliath.cpp": {
-   "direct_constants": []
+   "direct_constants": [
+    [
+     48,
+     "0000000000000000"
+    ]
+   ]
   },
   "src/AI/Behaviour/NPC/Freak/Reaper.cpp": {
    "direct_constants": []
@@ -510,7 +520,32 @@
    "direct_constants": []
   },
   "src/AI/cVehicleAttackedRockingBehaviour.cpp": {
-   "direct_constants": []
+   "direct_constants": [
+    [
+     48,
+     "3fd3333340000000"
+    ],
+    [
+     48,
+     "4000000000000000"
+    ],
+    [
+     48,
+     "4008000000000000"
+    ],
+    [
+     48,
+     "4010000000000000"
+    ],
+    [
+     48,
+     "408f400000000000"
+    ],
+    [
+     48,
+     "40b3880000000000"
+    ]
+   ]
   },
   "src/AI/cVehicleCollectionBehaviour.cpp": {
    "direct_constants": []
@@ -7738,6 +7773,48 @@
     ]
    },
    "size": 224
+  },
+  "0x823E78A8": {
+   "ltcg": {
+    "ends": true,
+    "sha": "dfc24b8894b83d57e240afd3c2394e68f69353846d619eefdbf5fb51e3092ad5"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     28,
+     48,
+     52,
+     56,
+     64,
+     68
+    ],
+    "sha": "dfc24b8894b83d57e240afd3c2394e68f69353846d619eefdbf5fb51e3092ad5",
+    "strings": {},
+    "targets": [
+     [
+      28,
+      "call",
+      "0x8264DDA0"
+     ],
+     [
+      48,
+      "call",
+      "0x82654118"
+     ],
+     [
+      64,
+      "data",
+      "0x820FB0BC"
+     ],
+     [
+      68,
+      "data",
+      "0x821327A4"
+     ]
+    ]
+   },
+   "size": 148
   },
   "0x823E7940": {
    "ltcg": {
@@ -18878,6 +18955,48 @@
    },
    "size": 280
   },
+  "0x824AB020": {
+   "ltcg": {
+    "ends": true,
+    "sha": "16242a03701246239a2c5b5a226107825a8c127659b10108c0b04a8a29081c9b"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     28,
+     48,
+     52,
+     56,
+     64,
+     68
+    ],
+    "sha": "16242a03701246239a2c5b5a226107825a8c127659b10108c0b04a8a29081c9b",
+    "strings": {},
+    "targets": [
+     [
+      28,
+      "call",
+      "0x8264DDA0"
+     ],
+     [
+      48,
+      "call",
+      "0x824A8608"
+     ],
+     [
+      64,
+      "data",
+      "0x82109010"
+     ],
+     [
+      68,
+      "data",
+      "0x821327A4"
+     ]
+    ]
+   },
+   "size": 124
+  },
   "0x824AB0A0": {
    "ltcg": {
     "ends": true,
@@ -18954,6 +19073,47 @@
    "size": 12,
    "vtable": {
     "slot": 0,
+    "table": "0x82109008",
+    "tables": 1
+   }
+  },
+  "0x824AB0D8": {
+   "ltcg": {
+    "ends": true,
+    "sha": "9e5ebf8c1e365b476996993edeea6bb8998224117faac58a164c7c9442a8a08c"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     0,
+     8,
+     28,
+     36,
+     48
+    ],
+    "sha": "9238eaa8680ca42455fd847dba39e5b7bc37de6000d0fe886eaf3ed35e29824a",
+    "strings": {},
+    "targets": [
+     [
+      8,
+      "data",
+      "0x8381EB50"
+     ],
+     [
+      36,
+      "data",
+      "0x830ACBD8"
+     ],
+     [
+      48,
+      "data",
+      "0x830ACBD8"
+     ]
+    ]
+   },
+   "size": 92,
+   "vtable": {
+    "slot": 1,
     "table": "0x82109008",
     "tables": 1
    }
@@ -19041,6 +19201,63 @@
     ]
    },
    "size": 164
+  },
+  "0x824AB1E0": {
+   "ltcg": {
+    "ends": true,
+    "sha": "c2425f27639fe3d08dfaba4b0aefca254da49942bcc35a0f84e9eae1284baeb7"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     20,
+     24,
+     28,
+     32,
+     36,
+     40,
+     44,
+     48,
+     52,
+     68,
+     76
+    ],
+    "sha": "c2425f27639fe3d08dfaba4b0aefca254da49942bcc35a0f84e9eae1284baeb7",
+    "strings": {},
+    "targets": [
+     [
+      20,
+      "call",
+      "0x824A91F8"
+     ],
+     [
+      44,
+      "data",
+      "0x8200AE78"
+     ],
+     [
+      48,
+      "data",
+      "0x82108F70"
+     ],
+     [
+      52,
+      "data",
+      "0x82109054"
+     ],
+     [
+      68,
+      "data",
+      "0x82109008"
+     ],
+     [
+      76,
+      "data",
+      "0x82108FC0"
+     ]
+    ]
+   },
+   "size": 120
   },
   "0x824AB6F0": {
    "ltcg": {
@@ -19502,6 +19719,47 @@
     "tables": 1
    }
   },
+  "0x824B0E48": {
+   "ltcg": {
+    "ends": true,
+    "sha": "9e5ebf8c1e365b476996993edeea6bb8998224117faac58a164c7c9442a8a08c"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     0,
+     8,
+     28,
+     36,
+     48
+    ],
+    "sha": "9238eaa8680ca42455fd847dba39e5b7bc37de6000d0fe886eaf3ed35e29824a",
+    "strings": {},
+    "targets": [
+     [
+      8,
+      "data",
+      "0x8381ED50"
+     ],
+     [
+      36,
+      "data",
+      "0x830ACBD8"
+     ],
+     [
+      48,
+      "data",
+      "0x830ACBD8"
+     ]
+    ]
+   },
+   "size": 92,
+   "vtable": {
+    "slot": 1,
+    "table": "0x8210984C",
+    "tables": 1
+   }
+  },
   "0x824B0EA8": {
    "ltcg": {
     "ends": true,
@@ -19573,6 +19831,72 @@
     "table": "0x821096A0",
     "tables": 1
    }
+  },
+  "0x824B0F28": {
+   "ltcg": {
+    "ends": true,
+    "sha": "c0683a7d93d8f45af5b3a59431b2e8c11f59e467e3245f0fed16fa1bc4828cf3"
+   },
+   "plain": {
+    "constants": {
+     "0x820F7680": "00000000"
+    },
+    "relocations": [
+     32,
+     36,
+     40,
+     44,
+     48,
+     52,
+     56,
+     60,
+     64,
+     68,
+     76,
+     84,
+     88
+    ],
+    "sha": "c0683a7d93d8f45af5b3a59431b2e8c11f59e467e3245f0fed16fa1bc4828cf3",
+    "strings": {},
+    "targets": [
+     [
+      32,
+      "call",
+      "0x824ABA30"
+     ],
+     [
+      60,
+      "data",
+      "0x82109834"
+     ],
+     [
+      64,
+      "data",
+      "0x8210B4D8"
+     ],
+     [
+      68,
+      "data",
+      "0x821096A0"
+     ],
+     [
+      76,
+      "data",
+      "0x8210984C"
+     ],
+     [
+      84,
+      "data",
+      "0x8212CED0"
+     ],
+     [
+      88,
+      "data",
+      "0x820F7680"
+     ]
+    ]
+   },
+   "size": 196
   },
   "0x824B1040": {
    "ltcg": {
@@ -19715,6 +20039,28 @@
     "table": "0x82109970",
     "tables": 1
    }
+  },
+  "0x824B26A8": {
+   "ltcg": {
+    "ends": true,
+    "sha": "0bac54399d9a16fc7ae11d1f387da49c6080fc67df04ca9b11c88ddfb177bd9f"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     20
+    ],
+    "sha": "0bac54399d9a16fc7ae11d1f387da49c6080fc67df04ca9b11c88ddfb177bd9f",
+    "strings": {},
+    "targets": [
+     [
+      20,
+      "branch",
+      "0x824B27E0"
+     ]
+    ]
+   },
+   "size": 32
   },
   "0x824B26C8": {
    "ltcg": {
@@ -20060,6 +20406,63 @@
     ]
    },
    "size": 164
+  },
+  "0x824BABB0": {
+   "ltcg": {
+    "ends": true,
+    "sha": "c1dd05792eb0f500b806bc005d2ce480242fbddd9a7aead5ac0c77c880a16bd3"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     20,
+     24,
+     28,
+     32,
+     36,
+     40,
+     44,
+     48,
+     52,
+     60,
+     68
+    ],
+    "sha": "c1dd05792eb0f500b806bc005d2ce480242fbddd9a7aead5ac0c77c880a16bd3",
+    "strings": {},
+    "targets": [
+     [
+      20,
+      "call",
+      "0x824ABD60"
+     ],
+     [
+      44,
+      "data",
+      "0x82109CC8"
+     ],
+     [
+      48,
+      "data",
+      "0x82109FA4"
+     ],
+     [
+      52,
+      "data",
+      "0x82109FD4"
+     ],
+     [
+      60,
+      "data",
+      "0x82109FBC"
+     ],
+     [
+      68,
+      "data",
+      "0x8210A67C"
+     ]
+    ]
+   },
+   "size": 116
   },
   "0x824BDDE0": {
    "ltcg": {
@@ -21329,6 +21732,63 @@
     "tables": 1
    }
   },
+  "0x824C3228": {
+   "ltcg": {
+    "ends": true,
+    "sha": "3a30691fae64cc68fbcd42fe1f59bd11c82681a638cea6054c9b38fa9bc38105"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     32,
+     36,
+     40,
+     44,
+     48,
+     52,
+     56,
+     60,
+     64,
+     72,
+     80
+    ],
+    "sha": "3a30691fae64cc68fbcd42fe1f59bd11c82681a638cea6054c9b38fa9bc38105",
+    "strings": {},
+    "targets": [
+     [
+      32,
+      "call",
+      "0x824A8070"
+     ],
+     [
+      56,
+      "data",
+      "0x8200BED0"
+     ],
+     [
+      60,
+      "data",
+      "0x8210AB10"
+     ],
+     [
+      64,
+      "data",
+      "0x8210AB6C"
+     ],
+     [
+      72,
+      "data",
+      "0x8210AB54"
+     ],
+     [
+      80,
+      "data",
+      "0x8210AB30"
+     ]
+    ]
+   },
+   "size": 152
+  },
   "0x824C32C0": {
    "ltcg": {
     "ends": true,
@@ -21539,6 +21999,85 @@
     "table": "0x8200BCC0",
     "tables": 1
    }
+  },
+  "0x824C3DE8": {
+   "ltcg": {
+    "ends": true,
+    "sha": "32f9cbba031bee3f45f863e09870a67ee8aab4cc42f73d9b634618f6b8af8af1"
+   },
+   "plain": {
+    "constants": {
+     "0x8208E84C": "3f800000"
+    },
+    "relocations": [
+     32,
+     36,
+     40,
+     44,
+     48,
+     52,
+     56,
+     64,
+     68,
+     72,
+     76,
+     92,
+     100,
+     112,
+     120,
+     144
+    ],
+    "sha": "a45350e3490bd809e2775ac542329123fd41e4320fd1193e1dd3e01e2c737058",
+    "strings": {},
+    "targets": [
+     [
+      32,
+      "call",
+      "0x824A8070"
+     ],
+     [
+      48,
+      "data",
+      "0x8200BCC0"
+     ],
+     [
+      68,
+      "data",
+      "0x8210AB10"
+     ],
+     [
+      72,
+      "data",
+      "0x8210AB80"
+     ],
+     [
+      76,
+      "data",
+      "0x8210AB98"
+     ],
+     [
+      92,
+      "data",
+      "0x8383A850"
+     ],
+     [
+      100,
+      "data",
+      "0x8210AB30"
+     ],
+     [
+      120,
+      "data",
+      "0x8383A850"
+     ],
+     [
+      144,
+      "data",
+      "0x8208E84C"
+     ]
+    ]
+   },
+   "size": 200
   },
   "0x824C3EB0": {
    "ltcg": {
@@ -24313,6 +24852,97 @@
    },
    "size": 16
   },
+  "0x824CF6C8": {
+   "ltcg": {
+    "ends": true,
+    "sha": "c86802003f793aba38651ef15773b18b93fa7757118ffae8a79db1de68e6b8cd"
+   },
+   "plain": {
+    "constants": {
+     "0x82077294": "3e99999a",
+     "0x820E0B50": "40800000",
+     "0x820E1A28": "40000000",
+     "0x820F2444": "40400000",
+     "0x821149AC": "459c4000",
+     "0x8213D7C4": "447a0000"
+    },
+    "relocations": [
+     28,
+     48,
+     52,
+     56,
+     60,
+     64,
+     68,
+     72,
+     76,
+     80,
+     84,
+     88,
+     92,
+     96,
+     100,
+     104,
+     108,
+     112
+    ],
+    "sha": "c86802003f793aba38651ef15773b18b93fa7757118ffae8a79db1de68e6b8cd",
+    "strings": {},
+    "targets": [
+     [
+      28,
+      "call",
+      "0x8264DDA0"
+     ],
+     [
+      48,
+      "call",
+      "0x824A8608"
+     ],
+     [
+      76,
+      "data",
+      "0x82077294"
+     ],
+     [
+      84,
+      "data",
+      "0x820F2444"
+     ],
+     [
+      92,
+      "data",
+      "0x820E1A28"
+     ],
+     [
+      96,
+      "data",
+      "0x8210BED0"
+     ],
+     [
+      100,
+      "data",
+      "0x8213D7C4"
+     ],
+     [
+      104,
+      "data",
+      "0x821327A4"
+     ],
+     [
+      108,
+      "data",
+      "0x821149AC"
+     ],
+     [
+      112,
+      "data",
+      "0x820E0B50"
+     ]
+    ]
+   },
+   "size": 184
+  },
   "0x824CF780": {
    "ltcg": {
     "ends": true,
@@ -24342,6 +24972,63 @@
     "table": "0x8200A6F0",
     "tables": 1
    }
+  },
+  "0x824CF790": {
+   "ltcg": {
+    "ends": true,
+    "sha": "5309569ea1a976e2329fd272c60adf34cb8b10fdb536adbbfdbb524653b4043e"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     32,
+     36,
+     40,
+     44,
+     48,
+     52,
+     56,
+     60,
+     64,
+     72,
+     80
+    ],
+    "sha": "5309569ea1a976e2329fd272c60adf34cb8b10fdb536adbbfdbb524653b4043e",
+    "strings": {},
+    "targets": [
+     [
+      32,
+      "call",
+      "0x824A89C8"
+     ],
+     [
+      56,
+      "data",
+      "0x8200A6F0"
+     ],
+     [
+      60,
+      "data",
+      "0x8210B4D8"
+     ],
+     [
+      64,
+      "data",
+      "0x8210BEC8"
+     ],
+     [
+      72,
+      "data",
+      "0x8210BEB0"
+     ],
+     [
+      80,
+      "data",
+      "0x8212CED0"
+     ]
+    ]
+   },
+   "size": 152
   },
   "0x824CF828": {
    "ltcg": {

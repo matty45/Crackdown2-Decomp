@@ -18,8 +18,6 @@ namespace AI
 {
     const Fun_Runtime::cClass *cVehicleAttackedRockingBehaviour::ms_pcVehicleAttackedRockingBehaviourClass = &cVehicleAttackedRockingBehaviour::StaticCreateClass();
 
-    cVehicleAttackedRockingBehaviour::cVehicleAttackedRockingBehaviour() {}
-
     const Fun_Runtime::cClass &cVehicleAttackedRockingBehaviour::RetClass() const
     {
         return *ms_pcVehicleAttackedRockingBehaviourClass;
@@ -30,6 +28,14 @@ namespace AI
         return "cVehicleAttackedRockingBehaviour";
     }
 
+    // CD2 0x824CF790: placement factory; NPCBehaviour's constructor stays out of line, the rest is inlined.
+    RWS::CAttributeHandler *cVehicleAttackedRockingBehaviour::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cVehicleAttackedRockingBehaviour;
+        return 0;
+    }
+
     bool cVehicleAttackedRockingBehaviour::IsA(const Fun_Runtime::cClass &c) const
     {
         return ms_pcVehicleAttackedRockingBehaviourClass->IsA(c);
@@ -37,7 +43,7 @@ namespace AI
 
     RWS::CAttributeHandler *cVehicleAttackedRockingBehaviour::MakeNew(const RWS::CAttributePacket &packet, bool)
     {
-        return new cVehicleAttackedRockingBehaviour();
+        return new cVehicleAttackedRockingBehaviourPrototype(packet);
     }
 
     static RWS::CClassFactory::CRegistrar cVehicleAttackedRockingBehaviourRegistrar(

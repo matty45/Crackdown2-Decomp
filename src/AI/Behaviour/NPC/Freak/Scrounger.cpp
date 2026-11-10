@@ -47,6 +47,8 @@ namespace AI
         return ms_pScroungerClass->IsA(c);
     }
 
+    Scrounger::Scrounger() : m_nUnknown120(13) {}
+
     // CD2 0x82F94310: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar ScroungerFreakBaseInheritRegistrar(
         AI::Scrounger::StaticCreateClass(), AI::FreakBase::StaticCreateClass());

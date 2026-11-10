@@ -2528,6 +2528,11 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x823E78A8",
+        "size": 148,
+        "symbol": "?MakeNew@cAiPlayer@AI@@"
       }
     ],
     "src/AI/cCharacterEntityIF.cpp": [
@@ -7690,6 +7695,21 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x824AB020",
+        "size": 124,
+        "symbol": "?MakeNew@PedestrianGuard@AI@@"
+      },
+      {
+        "address": "0x824AB0D8",
+        "size": 92,
+        "symbol": "?IsA@PedestrianGuard@AI@@"
+      },
+      {
+        "address": "0x824AB1E0",
+        "size": 120,
+        "symbol": "??0PedestrianGuard@AI@@"
       }
     ],
     "src/AI/Behaviour/NPC/Freak/Scrounger.cpp": [
@@ -7854,6 +7874,11 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x824BABB0",
+        "size": 116,
+        "symbol": "??0Scrounger@AI@@"
       }
     ],
     "src/AI/Squad/Squad.cpp": [
@@ -25642,6 +25667,11 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x824C3228",
+        "size": 152,
+        "symbol": "?SpawnFromPrototype@CellMinigun@AI@@"
       }
     ],
     "src/AI/Behaviour/NPC/Cell/CellRocket.cpp": [
@@ -25779,6 +25809,11 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x824C3DE8",
+        "size": 200,
+        "symbol": "?SpawnFromPrototype@CellRocket@AI@@"
       }
     ],
     "src/AI/Behaviour/NPC/Cell/CellTurret.cpp": [
@@ -27625,6 +27660,16 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x824CF6C8",
+        "size": 184,
+        "symbol": "?MakeNew@cVehicleAttackedRockingBehaviour@AI@@"
+      },
+      {
+        "address": "0x824CF790",
+        "size": 152,
+        "symbol": "?SpawnFromPrototype@cVehicleAttackedRockingBehaviour@AI@@"
       }
     ],
     "src/AI/cVehicleCollectionBehaviour.cpp": [
@@ -28482,6 +28527,11 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x824B26A8",
+        "size": 32,
+        "symbol": "?SpawnFromPrototype@Reaper@AI@@"
       }
     ],
     "src/AI/Behaviour/NPC/Freak/ScroungerKamikaze.cpp": [
@@ -32679,6 +32729,16 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x824B0E48",
+        "size": 92,
+        "symbol": "?IsA@Goliath@AI@@"
+      },
+      {
+        "address": "0x824B0F28",
+        "size": 196,
+        "symbol": "?SpawnFromPrototype@Goliath@AI@@"
       }
     ],
     "src/Anim/cCharacterAnimSetManager.cpp": [
