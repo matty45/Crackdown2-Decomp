@@ -155,6 +155,34 @@ the main branch's tools (`cd2.py review`), and it is merged only when they pass.
 | `examples/matching/` | the first matched functions, from the feasibility pilots, with throwaway types |
 | `tests/` | header layout tests and gate self-tests |
 
+## Credits
+
+**The game.** Crackdown 2 was developed by Ruffian Games and published by Microsoft Game Studios in 2010. This project
+exists to study and preserve their work.
+
+**Open-source libraries** whose original source is in `src/middleware/`, each under its own license:
+- Lua 5.0.2, by Roberto Ierusalimschy, Luiz Henrique de Figueiredo and Waldemar Celes (Tecgraf, PUC-Rio), under the
+  MIT license (`src/middleware/lua/COPYRIGHT`).
+- zlib 1.2.3, by Jean-loup Gailly and Mark Adler, under the zlib license.
+- libjpeg 6b, by Thomas G. Lane and the Independent JPEG Group. This software is based in part on the work of the
+  Independent JPEG Group.
+
+**Tools** built from source in `tools/external/`:
+- [jeff](https://github.com/rjkiv/jeff) by rjkiv, the Xbox 360 splitter behind `setup` and the relink round trip,
+  itself forked from encounter's [decomp-toolkit](https://github.com/encounter/decomp-toolkit).
+- [objdiff](https://github.com/encounter/objdiff) by encounter, whose instruction alignment drives `diff`, `search`
+  and the objdiff report.
+- [resym](https://github.com/ergrelet/resym) by ergrelet, for browsing the types of the reference builds' PDBs.
+
+**Ideas.** Tracking data beside code, per-file data ranges and the objdiff project file follow the example of
+ChimpsAtSea's [Halo Reach decompilation](https://github.com/ChimpsAtSea/Reach) and the decomp-toolkit projects before
+it.
+
+**Contributors.** Everyone who has worked on this repository; `git shortlog -sn` lists them.
+
+Thank you to everybody that has helped contribute to this project and the people that have made these amazing tools that have made this project possible.
+
+
 ## Legal
 
 This is a fan project for preservation and study. It is not affiliated with or endorsed by Microsoft, Ruffian Games
