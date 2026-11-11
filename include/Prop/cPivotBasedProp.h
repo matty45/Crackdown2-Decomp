@@ -75,6 +75,11 @@ namespace Prop
     public:
         CD2_LAYOUT_CHECKS(cPivotBasedProp,
             CD2_SIZE(cPivotBasedProp, 0xE40))
+
+    public:
+        // CD2 table 0x8213FEB8 differs from cProp at these inherited slots.
+        virtual bool EnterPhysicalState(); // slot 7: 0x8273B110
+        virtual void Slot23(); // slot 23: 0x82325CF8
     };
 }
 

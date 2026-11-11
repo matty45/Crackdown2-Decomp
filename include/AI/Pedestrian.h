@@ -13,6 +13,9 @@ namespace AI
     class Pedestrian : public cPedestrianBase
     {
     public:
+        // CD2 table 0x82108DB0 has 112 primary slots. Names/signatures of these slots remain unrecovered.
+        virtual void vf111(); // primary slot 111
+
         static Fun_Runtime::cClass &StaticCreateClass();
         // __forceinline: CD2 inlines this constructor into SpawnFromPrototype, which this compiler does only when forced
         // (docs/matching-notes.md, "Inlining").
@@ -27,6 +30,16 @@ namespace AI
 
         CD2_LAYOUT_CHECKS(Pedestrian,
             CD2_SIZE(Pedestrian, 0x120))
+
+    public:
+        // CD2 table 0x82108DB0 differs from cPedestrianBase at these inherited slots.
+        virtual void OnEnter(); // slot 68: 0x824A8F30
+        virtual void OnExit(); // slot 69: 0x824A8F38
+        virtual void Slot71(); // slot 71: 0x824A8FE8
+        virtual void Slot79(); // slot 79: 0x824AB478
+        virtual void vf98(); // slot 98: 0x824A8F40
+        virtual void vf99(); // slot 99: 0x824A8F48
+        virtual void vf100(); // slot 100: 0x824A8F50
     };
 }
 

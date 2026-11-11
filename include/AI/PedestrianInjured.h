@@ -25,6 +25,12 @@ namespace AI
         virtual const Fun_Runtime::cClass &RetClass() const;
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         virtual const char *RetClassName() const;
+
+    public:
+        // CD2 table 0x8200B038 differs from PedestrianGuard at these inherited slots.
+        virtual void OnEnter(); // slot 68: 0x824AB8A8
+        virtual void vf98(); // slot 98: 0x824AB980
+        virtual void vf99(); // slot 99: 0x824AB998
     };
 }
 

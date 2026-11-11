@@ -42,7 +42,6 @@ namespace CHARACTER
         virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
-        virtual const char *RetCharacterStates() const;
         // CD2 0x82540900: CEventHandler slot 5 (this is the subobject at 0x18). RuffKing names the override and the
         // event.
         virtual void HandleEvents(RWS::CMsg &);

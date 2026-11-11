@@ -29,6 +29,17 @@ namespace AI
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
         virtual void Slot2(); // cSafeDeletable 2: 0x824D07A0
+
+    public:
+        // CD2 table 0x8210BF10 differs from cPilotBase at these inherited slots.
+        virtual void OnExit(); // slot 69: 0x824C7978
+        virtual void Slot71(); // slot 71: 0x824D01F8
+        virtual void vf98(); // slot 98: 0x824D6BE8
+        virtual void vf100(); // slot 100: 0x824D62E8
+        virtual void vf104(); // slot 104: 0x824D0278
+        virtual void vf106(); // slot 106: 0x824D03A0
+        virtual void vf110(); // slot 110: 0x824D04B8
+        virtual void vf113(); // slot 113: 0x824D01C0
     };
 }
 

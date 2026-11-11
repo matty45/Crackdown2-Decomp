@@ -9,6 +9,29 @@ namespace Equip
     class cGrenade : public cWeapon
     {
     public:
+        // CD2 constructor 0x8261E238 installs 427-slot table 0x82014DD0. Names/signatures of these slots remain unrecovered.
+        virtual void vf406(); // primary slot 406
+        virtual void vf407(); // primary slot 407
+        virtual void vf408(); // primary slot 408
+        virtual void vf409(); // primary slot 409
+        virtual void vf410(); // primary slot 410
+        virtual void vf411(); // primary slot 411
+        virtual void vf412(); // primary slot 412
+        virtual void vf413(); // primary slot 413
+        virtual void vf414(); // primary slot 414
+        virtual void vf415(); // primary slot 415
+        virtual void vf416(); // primary slot 416
+        virtual void vf417(); // primary slot 417
+        virtual void vf418(); // primary slot 418
+        virtual void vf419(); // primary slot 419
+        virtual void vf420(); // primary slot 420
+        virtual void vf421(); // primary slot 421
+        virtual void vf422(); // primary slot 422
+        virtual void vf423(); // primary slot 423
+        virtual void vf424(); // primary slot 424
+        virtual void vf425(); // primary slot 425
+        virtual void vf426(); // primary slot 426
+
         // CD2 0x8261DFC0: cScriptHost slot 1; descriptive method name is ours.
         virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         // CD2 0x8261E460 (out of line: cExplosiveGrenade's and cCloakingDevice's destructors call it).
@@ -70,6 +93,16 @@ namespace Equip
         virtual bool CanReleaseNetOwnershipOnInitMsg() const; // 349: 0x8261F720
     private:
         CD2_LAYOUT_CHECKS(cGrenade, CD2_SIZE(cGrenade, 0x9C0))
+
+    public:
+        // CD2 table 0x82014DD0 differs from cWeapon at these inherited slots.
+        virtual void vf367(); // slot 367: 0x823789C8
+        virtual void vf388(); // slot 388: 0x8261F2D8
+
+    public:
+        // CD2 table 0x82014DD0 differs from cWeapon at these inherited slots.
+        virtual void Slot13(); // slot 13: 0x8261E5D8
+        virtual void Slot23(); // slot 23: 0x821D0F58
     };
 }
 #endif

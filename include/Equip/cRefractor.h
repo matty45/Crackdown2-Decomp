@@ -42,6 +42,11 @@ namespace Equip
         CD2_LAYOUT_CHECKS(cRefractor,
             CD2_SIZE(cRefractor, 0xA60)
             CD2_OFFSET(cRefractor, m_Beam, 0xA10))
+
+    public:
+        // CD2 table 0x82121FC0 differs from cCWWeapon at these inherited slots.
+        virtual void vf378(); // slot 378: 0x82610978
+        virtual void vf408(); // slot 408: 0x826182E8
     };
 }
 

@@ -14,6 +14,9 @@ namespace unknown
     class cSpawnPortal : public Prop::cHingedProp
     {
     public:
+        // CD2 table 0x821410A8 has 373 primary slots. Names/signatures of these slots remain unrecovered.
+        virtual void vf372(); // primary slot 372
+
         // Prototype name ours, from cSpawnPortal::MakeNew (0x8273DFE8).
         // CD2 confirms the shared parent constructor and Init slot 5 (0x8273E538).
         // MakeNew allocates 0x530 and inlines the constructor over cHingedPropPrototype's (0x82738740): no fields of its own.

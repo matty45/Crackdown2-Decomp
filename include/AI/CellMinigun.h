@@ -39,6 +39,26 @@ namespace AI
         CD2_LAYOUT_CHECKS(CellMinigun,
             CD2_SIZE(CellMinigun, 0x100)
             CD2_OFFSET(CellMinigun, m_nUnknownF0, 0xF0))
+
+    public:
+        // CD2 table 0x8200BED0 differs from NPCArmedBehaviour at these inherited slots.
+        virtual void OnEnter(); // slot 68: 0x824C33D8
+        virtual void OnExit(); // slot 69: 0x824C5648
+        virtual void Slot71(); // slot 71: 0x824C3A48
+        virtual void Slot73(); // slot 73: 0x824C35F8
+        virtual void OnEvent74(NPCTarget *t); // slot 74: 0x824C3510
+        virtual void OnEvent75(NPCTarget *t); // slot 75: 0x824C3728
+        virtual void Slot79(); // slot 79: 0x824C34C0
+        virtual void Slot83(); // slot 83: 0x824C41E8
+        virtual void Slot85(); // slot 85: 0x824C3D30
+        virtual void vf98(); // slot 98: 0x824C3870
+        virtual void vf102(); // slot 102: 0x824C3B18
+        virtual void vf103(); // slot 103: 0x824C3AB0
+        virtual void vf104(); // slot 104: 0x824C3B68
+        virtual void vf105(); // slot 105: 0x824C3BB8
+        virtual void vf106(); // slot 106: 0x82580578
+        virtual void vf109(); // slot 109: 0x824C3C58
+        virtual void vf110(); // slot 110: 0x82580578
     };
 }
 

@@ -63,6 +63,9 @@ namespace AI
     class cAiPlayer : public cCharacterEntityIF
     {
     public:
+        // CD2 overrides cCharacterInterface's spawner Init in this class.
+        virtual Fun_Runtime::RetVal Init(const GOM::cSpawner *);
+
         // CD2 0x823E7950 placement-constructs this class through 0x823E8650.
         cAiPlayer();
         // The body (0x822FFE70) lies in the order-list region; its deleting wrapper (0x823E87F8) calls it.
@@ -212,6 +215,11 @@ namespace AI
             CD2_OFFSET(cAiPlayer, m_nShotsRemaining, 0x614)
             CD2_OFFSET(cAiPlayer, m_bInterestingObjectReactionEnabled, 0x616)
             CD2_OFFSET(cAiPlayer, m_nInterestingObjectPriority, 0x617))
+
+    public:
+        // CD2 table 0x8200B930 differs from cCharacterEntityIF at these inherited slots.
+        virtual void vf115(); // slot 115: 0x823E8C88
+        virtual void vf121(); // slot 121: 0x8227FB20
     };
 }
 

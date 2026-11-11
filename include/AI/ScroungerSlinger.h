@@ -66,6 +66,13 @@ namespace AI
             CD2_SIZE(ScroungerSlinger, 0x140)
             CD2_OFFSET(ScroungerSlinger, m_nNextSlingTime, 0x130)
             CD2_OFFSET(ScroungerSlinger, m_bSniper, 0x138))
+
+    public:
+        // CD2 table 0x8210A398 differs from Scrounger at these inherited slots.
+        virtual void vf120(); // slot 120: 0x824BEEA0
+        virtual void vf157(); // slot 157: 0x824BF7D8
+        virtual void vf162(); // slot 162: 0x824BF768
+        virtual void vf165(); // slot 165: 0x824BEF28
     };
 }
 

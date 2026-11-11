@@ -66,6 +66,19 @@ namespace AI
             CD2_SIZE(PedestrianGuard, 0x130)
             CD2_OFFSET(PedestrianGuard, m_nUnknown120, 0x120)
             CD2_OFFSET(PedestrianGuard, m_nUnknown124, 0x124))
+
+    public:
+        // CD2 table 0x8200AE78 differs from cPedestrianBase at these inherited slots.
+        virtual void OnEnter(); // slot 68: 0x824AB258
+        virtual void OnExit(); // slot 69: 0x824AB928
+        virtual void Slot73(); // slot 73: 0x824AB2D8
+        virtual void OnEvent74(NPCTarget *t); // slot 74: 0x824AB368
+        virtual void OnEvent75(NPCTarget *t); // slot 75: 0x824AB408
+        virtual void Slot77(); // slot 77: 0x82580578
+        virtual void Slot79(); // slot 79: 0x824AB478
+        virtual void vf98(); // slot 98: 0x824AB480
+        virtual void vf99(); // slot 99: 0x824AB4B8
+        virtual void vf100(); // slot 100: 0x824AB558
     };
 }
 

@@ -1251,6 +1251,7 @@ src/AI/cPedestrianBase.cpp
   folded 0x830ACBD8   # cd2.py datasplits: data the linker shares with another file
 
 src/AI/Behaviour/NPC/Civilian/PedestrianGuard.cpp
+  folded 0x830ACBD8   # IsA reads the shared header constant table (also used by cRopes and cAmbientVFXSpawner)
   text 0x824AB020 0x824AB558   # auto: PedestrianGuard; RuffKing PedestrianGuard.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82F92E50
   atexit 0x8303B770
@@ -1335,6 +1336,7 @@ src/AI/Behaviour/NPC/Freak/FreakBase.cpp
   bss    0x8381EC0C 0x8381ECB4   # cd2.py datasplits: 21 located, fPhysicsSimulationTick .. FreakBaseSpawningRegistrar
 
 src/AI/Behaviour/NPC/Freak/Goliath.cpp
+  folded 0x830ACBD8   # IsA reads the shared header constant table (also used by cRopes and cAmbientVFXSpawner)
   text 0x824B0E38 0x824B1F5C   # auto: Goliath; RuffKing Goliath.obj; 11 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82F93B08
   atexit 0x8303B818
@@ -5152,6 +5154,7 @@ src/GangManager/cAgressiveResponseTurretVehicleSetup.cpp
   bss    0x838401C0 0x83840221   # cd2.py datasplits: 10 located, fPhysicsSimulationTick .. cAgressiveResponseTurretVehicleSetupRegi
 
 src/GangManager/cFactionConfigData.cpp
+  bss 0x83840498 0x8384049C   # cFactionInfo class pointer: initialized by 0x82FDCB50, read by RetClass 0x82676288
   text 0x826761B0 0x826766E0   # contains F09-F12, tiny accessors of other classes (pool, globals): inline functions
                                # emitted by this object (still unmatched). F09/F10 (0x82676288, 0x82676298) are
                                # cFactionInfo's RetClass and IsA: they read the class pointer 0x83840498, which this

@@ -38,6 +38,10 @@ namespace Equip
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcShrapnelGrenadeClass;
         static Fun_Runtime::cClass &StaticCreateClass();
+
+    public:
+        // CD2 table 0x82124760 differs from cExplosiveGrenade at these inherited slots.
+        virtual void vf419(); // slot 419: 0x82621DA8
     };
 }
 

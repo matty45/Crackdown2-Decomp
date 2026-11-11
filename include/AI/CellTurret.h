@@ -27,6 +27,25 @@ namespace AI
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
         virtual void Slot2(); // cSafeDeletable 2: 0x824C5DF8
+
+    public:
+        // CD2 table 0x8210ABE0 differs from NPCArmedBehaviour at these inherited slots.
+        virtual void OnEnter(); // slot 68: 0x824C55F0
+        virtual void OnExit(); // slot 69: 0x824C5648
+        virtual void Slot71(); // slot 71: 0x824C5C28
+        virtual void Slot73(); // slot 73: 0x824C56B8
+        virtual void OnEvent74(NPCTarget *t); // slot 74: 0x824C56B8
+        virtual void OnEvent75(NPCTarget *t); // slot 75: 0x824C5798
+        virtual void Slot79(); // slot 79: 0x824C34C0
+        virtual void vf97(); // slot 97: 0x824C5420
+        virtual void vf102(); // slot 102: 0x824C58B0
+        virtual void vf103(); // slot 103: 0x824C5A58
+        virtual void vf104(); // slot 104: 0x82580578
+        virtual void vf105(); // slot 105: 0x824C5B30
+        virtual void vf106(); // slot 106: 0x82580578
+        virtual void vf109(); // slot 109: 0x82580578
+        virtual void vf110(); // slot 110: 0x82580578
+        virtual void vf112(); // slot 112: 0x824C54B8
     };
 }
 

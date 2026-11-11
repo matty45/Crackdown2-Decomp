@@ -13,6 +13,12 @@ namespace Equip
     class cCWWeapon : public cWeapon
     {
     public:
+        // CD2 table 0x820133D0 extends the inherited interface at these slots.
+        virtual void vf406();
+        virtual void vf407();
+        virtual void vf408();
+        virtual void vf409();
+
         // CD2 0x82607BD0: cScriptHost slot 1; descriptive method name is ours.
         virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         // CD2 0x82256348 (out of line: cCWHeavyWeapon's and cCWFirearm's destructors call it).
@@ -111,6 +117,20 @@ namespace Equip
             CD2_OFFSET(cCWWeapon, m_uiAINumberOfShotsToReachFullAccuracy, 0x8D0)
             CD2_OFFSET(cCWWeapon, m_uiShotCount, 0x8D4)
             CD2_OFFSET(cCWWeapon, m_pTurret, 0x8F0))
+
+    public:
+        // CD2 table 0x820133D0 differs from cWeapon at these inherited slots.
+        virtual void vf140(); // slot 140: 0x8234A320
+        virtual void SetStatus(EQUIP_STATUS); // slot 316: 0x82237160
+        virtual void vf366(); // slot 366: 0x82608300
+        virtual void vf367(); // slot 367: 0x823789C8
+        virtual void vf378(); // slot 378: 0x8227C820
+        virtual void vf380(); // slot 380: 0x82225C50
+        virtual void vf381(); // slot 381: 0x82608440
+        virtual void vf383(); // slot 383: 0x8263B7E8
+        virtual void vf388(); // slot 388: 0x823478E0
+        virtual void vf401(); // slot 401: 0x82608560
+        virtual void vf405(); // slot 405: 0x826087E8
     };
 }
 

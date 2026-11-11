@@ -67,6 +67,10 @@ namespace Equip
         static Fun_Runtime::cClass &StaticCreateClass();
 
         CD2_LAYOUT_CHECKS(cClusterGrenade, CD2_SIZE(cClusterGrenade, 0x9D0))
+
+    public:
+        // CD2 table 0x82016228 differs from cExplosiveGrenade at these inherited slots.
+        virtual void vf419(); // slot 419: 0x826199E8
     };
 }
 

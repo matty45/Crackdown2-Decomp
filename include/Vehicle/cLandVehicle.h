@@ -22,6 +22,9 @@ namespace Vehicle
         class cLandVehiclePrototype : public cVehicle::cVehiclePrototype
         {
         public:
+            // CD2's folded deleting wrapper 0x826EC1A0 restores this class's
+            // table 0x8200352C, then calls cVehiclePrototype's destructor.
+            virtual ~cLandVehiclePrototype() {}
             cLandVehiclePrototype(const RWS::CAttributePacket &);   // CD2 0x826C6B90
             virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);   // CD2 0x826C79B8
 

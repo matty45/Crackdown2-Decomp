@@ -33,6 +33,11 @@ namespace AI
         CD2_LAYOUT_CHECKS(TrainingPilot,
             CD2_SIZE(TrainingPilot, 0xD0)
             CD2_OFFSET(TrainingPilot, m_bPatrolling, 0xC0))
+
+    public:
+        // CD2 table 0x8210B358 differs from NPCBehaviour at these inherited slots.
+        virtual void OnEnter(); // slot 68: 0x824C8F58
+        virtual void Slot71(); // slot 71: 0x824C8F68
     };
 }
 

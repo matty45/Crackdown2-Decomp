@@ -12,6 +12,14 @@ namespace AI
     class Reaper : public FreakBase
     {
     public:
+        // CD2 table 0x82109970 has 185 primary slots.
+        virtual void vf179();
+        virtual void vf180();
+        virtual void vf181();
+        virtual void vf182();
+        virtual void vf183();
+        virtual void vf184();
+
         // CD2 spawning initializer 0x82F93F90 names placement factory 0x824b26a8.
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *memory);
         // CD2 0x824B27E0, out of line: SpawnFromPrototype tail-calls it with the prototype.
@@ -59,6 +67,30 @@ namespace AI
         virtual AI::NPCTarget * GetTarget(); // 115: 0x824B2E18
         virtual void V117(); // 117: 0x824B4CC0
         virtual void V118(); // 118: 0x824AE038
+
+    public:
+        // CD2 table 0x82109970 differs from FreakBase at these inherited slots.
+        virtual void Slot85(); // slot 85: 0x824A8A90
+        virtual void vf120(); // slot 120: 0x824B3278
+        virtual void vf121(); // slot 121: 0x824ADFA0
+        virtual void vf125(); // slot 125: 0x824B3058
+        virtual void vf141(); // slot 141: 0x824B3940
+        virtual void vf142(); // slot 142: 0x824B3D28
+        virtual void vf147(); // slot 147: 0x824B30A8
+        virtual void vf148(); // slot 148: 0x824B4C78
+        virtual void vf152(); // slot 152: 0x824B35C0
+        virtual void vf157(); // slot 157: 0x824B8050
+        virtual void vf161(); // slot 161: 0x824B6D80
+        virtual void vf162(); // slot 162: 0x824B7020
+        virtual void vf165(); // slot 165: 0x824B7290
+        virtual void vf166(); // slot 166: 0x824B6548
+        virtual void vf171(); // slot 171: 0x824B65E8
+        virtual void vf173(); // slot 173: 0x824B7F50
+
+    public:
+        // CD2 table 0x82109970 differs from FreakBase at these inherited slots.
+        virtual void V102(); // slot 102: 0x824BACF0
+        virtual void V106(); // slot 106: 0x824BB7B8
     };
 }
 

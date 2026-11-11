@@ -49,6 +49,10 @@ namespace Prop
         virtual Fun_Runtime::cClass const & RetClass() const; // cBody 0: 0x8273FA38
         virtual bool IsA(Fun_Runtime::cClass const &) const; // cBody 1: 0x8273FA50
         virtual Fun_Runtime::cScriptTypeRegistration const * RetScriptTypeRegistration() const; // cSafeDeletable 1: 0x82457AD8
+
+    public:
+        // CD2 table 0x82141860 differs from cPivotBasedProp at these inherited slots.
+        virtual Fun_Runtime::RetVal Init(const GOM::cSpawner *); // slot 18: 0x8273EBD8
     };
 }
 

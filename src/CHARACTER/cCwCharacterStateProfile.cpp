@@ -5,6 +5,7 @@
 #include "CHARACTER/characterconsts.h"
 #include "fun_runtime/retval.h"
 #include "CHARACTER/cCwCharacterStateProfile.h"
+#include "CHARACTER/cCharacterStatesScriptRegistration.h"
 #include "rws/classfactory.h"
 #include "rws/msg.h"
 
@@ -15,7 +16,7 @@ namespace CHARACTER
         return "cCwCharacterStateProfile";
     }
 
-    const char *cCwCharacterStateProfile::RetCharacterStates() const
+    const char *cCharacterStatesScriptRegistration::RetName() const
     {
         return "eCharacterStates";
     }

@@ -87,6 +87,10 @@ namespace Prop
             CD2_SIZE(cTurretBase, 0x1080)
             CD2_OFFSET(cTurretBase, m_pWeapon, 0xE30)
             CD2_OFFSET(cTurretBase, m_pUsingCharacter, 0xE40))
+
+    public:
+        // CD2 table 0x82144C88 differs from cProp at these inherited slots.
+        virtual Fun_Runtime::RetVal Init(const GOM::cSpawner *); // slot 18: 0x827486E8
     };
 }
 

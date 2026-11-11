@@ -45,6 +45,10 @@ namespace Equip
             CD2_SIZE(cFlocketLauncher, 0xA30)
             CD2_OFFSET(cFlocketLauncher, m_fAttackTime, 0xA20)
             CD2_OFFSET(cFlocketLauncher, m_nBarrelID, 0xA24))
+
+    public:
+        // CD2 table 0x82128278 differs from cCWHeavyWeapon at these inherited slots.
+        virtual void vf378(); // slot 378: 0x826315E8
     };
 }
 

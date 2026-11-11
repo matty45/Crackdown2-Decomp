@@ -50,6 +50,16 @@ namespace Equip
         virtual Fun_Runtime::RetVal Term(); // 6: 0x82620F40
         virtual void Slot23(); // 23: 0x8261FD88
         virtual void UpdateRenderMatrix(); // 26: 0x826209F0
+
+    public:
+        // CD2 table 0x82123EF0 differs from cCWSatchelCharge at these inherited slots.
+        virtual void vf406(); // slot 406: 0x826202B8
+        virtual void vf413(); // slot 413: 0x82620EB0
+
+    public:
+        // CD2 table 0x82123EF0 differs from cCWSatchelCharge at these inherited slots.
+        virtual void vf427(); // slot 427: 0x8261FC88
+        virtual void vf428(); // slot 428: 0x8261FBF0
     };
 }
 

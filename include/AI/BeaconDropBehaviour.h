@@ -36,6 +36,14 @@ namespace AI
         CD2_LAYOUT_CHECKS(BeaconDropBehaviour,
             CD2_SIZE(BeaconDropBehaviour, 0x150)
             CD2_OFFSET(BeaconDropBehaviour, m_pBeaconMission, 0x140))
+
+    public:
+        // CD2 table 0x8200B588 differs from cPilotBase at these inherited slots.
+        virtual void OnExit(); // slot 69: 0x824C7978
+        virtual void vf100(); // slot 100: 0x824D2FD8
+        virtual void vf103(); // slot 103: 0x824C7B40
+        virtual void vf111(); // slot 111: 0x824C79F0
+        virtual void vf113(); // slot 113: 0x824D2E18
     };
 }
 

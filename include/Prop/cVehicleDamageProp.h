@@ -12,6 +12,10 @@ namespace Prop
     class cVehicleDamageProp : public Prop::cProp
     {
     public:
+        // CD2 table 0x82011120 extends the inherited interface at these slots.
+        virtual void vf341();
+        virtual void vf342();
+
         static const Fun_Runtime::cClass *ms_pcVehicleDamagePropClass;
         // CD2 0x8234EC90: restores this class's vtables (primary 0x82011120), then calls cProp's destructor.
         virtual ~cVehicleDamageProp();
@@ -60,6 +64,10 @@ namespace Prop
         virtual void vf334(); // 334: 0x823872E0
         virtual Fun_Runtime::cClass const & RetClass() const; // cBody 0: 0x82731D18
         virtual bool IsA(Fun_Runtime::cClass const &) const; // cBody 1: 0x82731D20
+
+    public:
+        // CD2 table 0x82011120 differs from cProp at these inherited slots.
+        virtual Fun_Runtime::RetVal Init(const GOM::cSpawner *); // slot 18: 0x827320B8
     };
 }
 

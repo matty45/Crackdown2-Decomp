@@ -262,24 +262,6 @@ namespace AI
         virtual void V98();
         virtual void SetState(int n);
         virtual void GetState(int n);
-        virtual void Slot101();
-        virtual void V102();
-        virtual void Slot103();
-        virtual void V104();
-        virtual void Slot105();
-        virtual void V106();
-        virtual void V107();
-        virtual void V108();
-        virtual void Slot109();
-        virtual void Slot110();
-        virtual void V111(float dt);
-        virtual void Slot112();
-        virtual void Slot113();
-        virtual void Slot114();
-        virtual NPCTarget *GetTarget();
-        virtual int GetTargetId();
-        virtual void V117();
-        virtual void V118();
         NPCHost *m_pHost;         // 0x7C
         unsigned char pad80[0xA8 - 0x80];
         int m_nState;             // 0xA8
@@ -336,6 +318,26 @@ namespace AI
         cChaseBehaviour();
         virtual const char *RetClassName() const;
 
+        // CD2 NPCBehaviourSM table 0x821091A8 and Goliath table 0x821096A0
+        // end at slot 100. Chase-specific entries 101..118 belong here.
+        virtual void Slot101();
+        virtual void V102();
+        virtual void Slot103();
+        virtual void V104();
+        virtual void Slot105();
+        virtual void V106();
+        virtual void V107();
+        virtual void V108();
+        virtual void Slot109();
+        virtual void Slot110();
+        virtual void V111(float dt);
+        virtual void Slot112();
+        virtual void Slot113();
+        virtual void Slot114();
+        virtual NPCTarget *GetTarget();
+        virtual int GetTargetId();
+        virtual void V117();
+        virtual void V118();
         virtual void OnEnter();
         virtual void OnExit();
         virtual void OnEvent74(NPCTarget *t);
@@ -344,14 +346,6 @@ namespace AI
         bool TryBindTarget();
         virtual void Update(float dt);
         virtual void GetState(int n);
-        virtual void V102();
-        virtual void V104();
-        virtual void V106();
-        virtual void V107();
-        virtual void V108();
-        virtual void V111(float dt);
-        virtual void V117();
-        virtual void V118();
         virtual const Fun_Runtime::cClass &RetClass() const;
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         virtual void Slot2();     // cSafeDeletable slot 2: cChaseBehaviour's own (0x824CE808, not yet matched)
@@ -370,16 +364,6 @@ namespace AI
         virtual void Slot83(); // 83: 0x82580578
         virtual void Slot86(); // 86: 0x82580578
         virtual void Slot95(); // 95: 0x8288FB78
-        virtual void Slot101(); // 101: 0x82580578
-        virtual void Slot103(); // 103: 0x82216E98
-        virtual void Slot105(); // 105: 0x82580578
-        virtual void Slot109(); // 109: 0x82580578
-        virtual void Slot110(); // 110: 0x82580578
-        virtual void Slot112(); // 112: 0x82580578
-        virtual void Slot113(); // 113: 0x82580578
-        virtual void Slot114(); // 114: 0x82580578
-        virtual AI::NPCTarget * GetTarget(); // 115: 0x824C9098
-        virtual int GetTargetId(); // 116: 0x8288F788
     public:
         CD2_LAYOUT_CHECKS(cChaseBehaviour,
             CD2_SIZE(cChaseBehaviour, 0x100)

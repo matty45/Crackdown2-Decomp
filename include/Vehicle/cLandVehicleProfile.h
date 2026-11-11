@@ -27,6 +27,11 @@ namespace Vehicle
         // CD2 0x8269F780: MakeNew (0x8269F730) calls it out of line with only this.
         cLandVehicleProfile();
         virtual ~cLandVehicleProfile();
+        // CD2 primary table 0x821334BC: resource handler, wheel-count Init,
+        // and SetupMultiAxles at slots 1, 2 and 3. Names from RuffKing.
+        virtual bool HandleResources(const RWS::CAttributePacket &);
+        virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &, unsigned char);
+        virtual void SetupMultiAxles();
         // CD2 0x8269FA58: attribute-handler vtable slot 6, returning Ret_OK.
         virtual Fun_Runtime::RetVal Term();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);

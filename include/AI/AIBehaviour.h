@@ -14,6 +14,12 @@ namespace AI
     class AIBehaviour : public cNonGameBase
     {
     public:
+        // CD2 table 0x82107B90 has 72 entries. Slots 68..71 are shared by NPC behaviours.
+        virtual void OnEnter();
+        virtual void OnExit();
+        virtual void Slot70();
+        virtual void Slot71();
+
         static const Fun_Runtime::cClass *ms_pAIBehaviourClass;
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         // CD2 MakeNew (0x824a4a10) allocates 0x70 bytes, calls GOM::cObjectPrototype's constructor (0x82654118) with the packet and
@@ -23,6 +29,9 @@ namespace AI
         public:
             // __forceinline: CD2 inlines this constructor into MakeNew (docs/matching-notes.md, "Inlining").
             __forceinline AIBehaviourPrototype(const RWS::CAttributePacket &packet) : GOM::cObjectPrototype(packet) {}
+            // CD2's table 0x82107B60 has twelve slots; RuffKing names the
+            // prototype's sole additional virtual RetPrimaryWeapon.
+            virtual const RWS::RWSGUID &RetPrimaryWeapon() const;
 
             CD2_LAYOUT_CHECKS(AIBehaviourPrototype, CD2_SIZE(AIBehaviourPrototype, 0x70))
         };

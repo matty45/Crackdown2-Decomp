@@ -10,6 +10,16 @@ namespace Equip
     class cExplosiveGrenade : public cGrenade, public ExplosionManager::cExplosionCallback
     {
     public:
+        // CD2 table 0x82015480 extends the inherited interface at these slots.
+        virtual void vf427();
+        virtual void vf428();
+        virtual void vf429();
+        virtual void vf430();
+        virtual void vf431();
+
+        // CD2's cluster and shrapnel script-host tables share 0x82619670;
+        // cGrenade's corresponding slot holds 0x8261DFC0.
+        virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         // CD2 0x8261D220: placement factory.
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         // CD2 0x8261D3F0: restores this class's vtables, then calls cGrenade's destructor.
@@ -47,6 +57,19 @@ namespace Equip
         virtual unsigned int GetMaxReplicatedFields() const; // cReplicatedClass 23: 0x8288E730
     private:
         CD2_LAYOUT_CHECKS(cExplosiveGrenade, CD2_SIZE(cExplosiveGrenade, 0x9D0))
+
+    public:
+        // CD2 table 0x82015480 differs from cGrenade at these inherited slots.
+        virtual Fun_Runtime::RetVal Term(); // slot 6: 0x8229DF90
+        virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // slot 18: 0x8261D5C0
+        virtual void vf406(); // slot 406: 0x8261D628
+        virtual void vf408(); // slot 408: 0x8261D490
+        virtual void vf415(); // slot 415: 0x8261DAD0
+        virtual void vf416(); // slot 416: 0x8261D6A8
+        virtual void vf419(); // slot 419: 0x8261D740
+        virtual void vf423(); // slot 423: 0x8261D6E8
+        virtual void vf424(); // slot 424: 0x8261DBC8
+        virtual void vf425(); // slot 425: 0x8261DC90
     };
 }
 #endif

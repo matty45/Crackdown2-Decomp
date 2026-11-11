@@ -21,9 +21,6 @@ namespace Vehicle
         {
         public:
             cCarPrototype(const RWS::CAttributePacket &);       // CD2 0x826B7BE0
-            // Inline: the deleting destructor of every derived prototype without a destructor of its own (one folded
-            // copy, 0x826EC1A0) stores this class's vptrs and then calls cVehiclePrototype's destructor directly.
-            virtual ~cCarPrototype() {}
             virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);   // CD2 0x826B7CF8
 
         private:

@@ -49,6 +49,10 @@ namespace AI
         virtual void vf83(); // 83: 0x824581A0
         virtual void vf84(); // 84: 0x82458248
         virtual void vf335(); // 335: 0x82458618
+
+    public:
+        // CD2 table 0x82102438 differs from cSpinningProp at these inherited slots.
+        virtual Fun_Runtime::RetVal Init(const GOM::cSpawner *); // slot 18: 0x82457ED0
     };
 }
 

@@ -182,7 +182,8 @@ namespace VFX
         void Render();
         static void GetRopeSegment(RopeSegmentData **);
         static void ReturnRopeSegment(RopeSegmentData **);
-        virtual void RenderDebugPage(int, int);
+        // CD2's release debug interface has no RenderDebugPage slot (the primary
+        // table ends after cNonGameBase's 68 slots, at 0x82155550).
 
         static Fun_Runtime::cClass &StaticCreateClass();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);

@@ -74,6 +74,7 @@ end, in one line, and is removed when the function matches. History belongs in g
   cPositionalProxy and also remains exact using that shared type.
 
 ## Codegen idioms
+- **Inherited overload declarations can move a new virtual slot.** Adding cNonGameBase::Init(CAttributePacket const&) before RetClassName caused the compiler to place its new Init(cSpawner const*) overload ahead of primary slot 11, shifting the tables despite unchanged matched function bodies. Moving the inherited overload beside the existing spawner overload restores all 68 slots; the plain data checks then report no table-extent or multi-address errors from this shift.
 - **Ambient-spawner destruction inlines the base's immediate cleanup.** CD2's cLinkedVFXSpawner deleting
   wrapper (0x827FA870) destroys its GUID handler, restores cAmbientVFXSpawnerBase's table, then calls TermVFX
   (0x827FA3B0). Declaring the base destructor out of line mislabeled TermVFX and omitted the three table-restore
@@ -813,3 +814,5 @@ One line each: what is ruled out. Remove the line when the function matches.
 - cSpawnPointBase::HandleAttributes (0x823D2B38): the named GUID local is needed before prototype lookup;
   passing GetAs_RWSGUID() directly omits CD2's address reload. The local form is EXACT in plain and LTCG.
   HandleSystemCommands (0x823D2BF0) returns after the first CMD_LoadMatrix, also EXACT in both modes.
+
+- Helicopter-controller file deleting wrapper (0x82783448): the former cHelicopterControllerPrototype claim was incorrect. Its table is 0x8214C264, while the prototype constructor installs 0x8214C1A8 with deleting wrapper 0x82684630. The actual destructor 0x82783498 unregisters events and destroys state through +0x37C; ownership remains open.

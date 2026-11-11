@@ -22,6 +22,9 @@ namespace PHYSICS
         virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
+        // Reference-named resource handler: slot 1 of the data-side primary
+        // interface; land-vehicle tables retain it at 0x8269FAE8.
+        virtual bool HandleResources(const RWS::CAttributePacket &);
 
     protected:
         Fun_Runtime::cString m_sProfileName;        // 0x2DC

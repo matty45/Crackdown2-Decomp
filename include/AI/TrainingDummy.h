@@ -39,6 +39,13 @@ namespace AI
             CD2_OFFSET(TrainingDummy, m_nEmoteTime, 0xC4)
             CD2_OFFSET(TrainingDummy, m_nDamageFlags, 0xC8)
             CD2_OFFSET(TrainingDummy, m_nSpawnAction, 0xC9))
+
+    public:
+        // CD2 table 0x8210B1C0 differs from NPCBehaviour at these inherited slots.
+        virtual void OnEnter(); // slot 68: 0x824C86F0
+        virtual void Slot71(); // slot 71: 0x824C8758
+        virtual void Slot73(); // slot 73: 0x824C8CE8
+        virtual void Slot86(); // slot 86: 0x824C83F0
     };
 }
 

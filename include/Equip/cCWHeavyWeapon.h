@@ -9,6 +9,9 @@ namespace Equip
     class cCWHeavyWeapon : public cCWWeapon
     {
     public:
+        // CD2 table 0x82013A38 extends the inherited interface at these slots.
+        virtual void vf410();
+
         // CD2 0x8262FCA0: cScriptHost slot 1; descriptive method name is ours.
         virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         // CD2 0x8262FCB0: restores this class's vtables, then calls the base destructor (out of line: derived destructors call it).
@@ -49,6 +52,11 @@ namespace Equip
         virtual void vf279(); // 279: 0x82630770
     private:
         CD2_LAYOUT_CHECKS(cCWHeavyWeapon, CD2_SIZE(cCWHeavyWeapon, 0xA20))
+
+    public:
+        // CD2 table 0x82013A38 differs from cCWWeapon at these inherited slots.
+        virtual void vf378(); // slot 378: 0x82630030
+        virtual void vf404(); // slot 404: 0x8262FF10
     };
 }
 #endif

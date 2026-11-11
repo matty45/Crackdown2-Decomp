@@ -7,13 +7,13 @@ original Xbox 360 XDK compiler and the game's flags, produces code byte-identica
 Contributions are welcome **by hand or with any AI agent**. Every claimed match is recomputed by tools the contributor
 cannot influence (see "How correctness is guaranteed").
 
-## Status (2026-11-10)
+## Status (2026-11-11)
 
 | | |
 |---|---|
 | Functions in the game | 74,550 (corrected function inventory), 14.3 MB of code |
 | Source files set up | 528 (77 of them open-source middleware) |
-| Functions matched | 11,571 (9,587 in a plain build, 1,984 more under link-time code generation), 984 of them open-source middleware |
+| Functions matched | 11,666 (9,682 in a plain build, 1,984 more under link-time code generation), 984 of them open-source middleware |
 | Full relink of the split game | byte-identical round trip (`tools/relink.py`) |
 | Middleware objects relinked in place of the split's | byte-identical: zlib, libjpeg and Lua, 77 objects, code, data and layout (a `verify` gate) |
 
@@ -32,15 +32,15 @@ breakdown and the per-file numbers.
 
 | | Functions | Code | |
 |---|---:|---:|---:|
-| Matched | 10,586 + 1 folded copy | 459.8 KB | 3.1% |
+| Matched | 10,681 + 1 folded copy | 466.9 KB | 3.2% |
 | In progress (tracked in the manifest, not yet exact) | 3 | 0.5 KB | 0.0% |
-| Open in the set-up source files | 3,788 | 1.20 MB | 8.4% |
+| Open in the set-up source files | 3,693 | 1.19 MB | 8.3% |
 | Game span not yet split into source files | 15,124 | 3.90 MB | 27.2% |
 | Order-list region, not yet assigned (hot functions of every object, game and library) | 2,856 | 1.61 MB | 11.2% |
 | Initializers and at-exit destructors, not yet assigned (every object's) | 17,038 | 0.59 MB | 4.1% |
 
 At least 5.1 MB of game code is left, plus the game's share of the order-list region and of the initializers. The
-matched code is about 5.8% of the game code, counting the whole order-list region and all unassigned initializers as
+matched code is about 5.9% of the game code, counting the whole order-list region and all unassigned initializers as
 game code.
 
 **Open-source middleware (its published source in `src/middleware/`, see below)**
@@ -66,9 +66,9 @@ game code.
 
 | | Data | |
 |---|---:|---:|
-| Located and checked: what matched functions reach (vtables, initialized data, constants, strings) | 229.5 KB | 2.0% |
+| Located and checked: what matched functions reach (vtables, initialized data, constants, strings) | 245.0 KB | 2.1% |
 | In source files' data ranges (`config/splits.txt`), not located yet | 36.0 KB | 0.3% |
-| In no source file's range yet | 11.1 MB | 97.7% |
+| In no source file's range yet | 11.1 MB | 97.6% |
 
 The middleware's data is proven whole by the round trip above, not only where its functions reach it.
 

@@ -14,6 +14,11 @@ namespace Equip
     class cCWFirearm : public Equip::cCWWeapon
     {
     public:
+        // CD2 table 0x820140A8 extends the inherited interface at these slots.
+        virtual void vf410();
+        virtual void vf411();
+        virtual void vf412();
+
         // CD2 0x82617EB8: restores this class's vtables, then calls the base destructor (out of line: cUVTurret's calls it).
         virtual ~cCWFirearm();
         // Name and base from RuffKing. CD2: cCWFirearm::MakeNew (0x82617D50) allocates 0x6E0 and calls this constructor
@@ -64,6 +69,13 @@ namespace Equip
         virtual void NotifyTracked(Equip::cEquipment *); // 341: 0x826181C8
     private:
         CD2_LAYOUT_CHECKS(cCWFirearm, CD2_SIZE(cCWFirearm, 0xAB0))
+
+    public:
+        // CD2 table 0x820140A8 differs from cCWWeapon at these inherited slots.
+        virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // slot 18: 0x8263ACD0
+        virtual void vf378(); // slot 378: 0x82336D88
+        virtual void vf407(); // slot 407: 0x823ABBE8
+        virtual void vf408(); // slot 408: 0x826182E8
     };
 }
 

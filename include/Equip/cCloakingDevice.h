@@ -42,6 +42,16 @@ namespace Equip
         virtual void ReplicateFields(); // cReplicatedClass 9: 0x82396118
     public:
         CD2_LAYOUT_CHECKS(cCloakingDevice, CD2_SIZE(cCloakingDevice, 0x9C0))
+
+    public:
+        // CD2 table 0x82014720 differs from cGrenade at these inherited slots.
+        virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // slot 18: 0x8260B430
+        virtual void vf378(); // slot 378: 0x8260B8C8
+        virtual void vf379(); // slot 379: 0x8260B788
+        virtual void vf380(); // slot 380: 0x8260B978
+        virtual void vf381(); // slot 381: 0x8260B360
+        virtual void vf409(); // slot 409: 0x8260B3D0
+        virtual void vf410(); // slot 410: 0x8260B558
     };
 }
 #endif

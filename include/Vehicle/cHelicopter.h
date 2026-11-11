@@ -15,6 +15,9 @@ namespace Vehicle
     class cHelicopter : public cVehicle
     {
     public:
+        // CD2 helicopter table overrides the vehicle engine-start slot with an empty body.
+        virtual void StartEngine();
+
         // Name, base and size (0x4C0) from RuffKing; CD2's MakeNew (0x826B8A78) allocates 0x4C0 bytes and calls the
         // constructor at 0x826B8D10. m_fMaxThrustVelo (RuffKing 0x368) is what cHelicopterController::AssignVehicle
         // copies as the controller's default maximum speed.

@@ -12,6 +12,9 @@ namespace Vehicle
     class cEightWheelerProfile : public cLandVehicleProfile
     {
     public:
+        // CD2 primary data-table slot 3 differs from cLandVehicleProfile.
+        virtual void SetupMultiAxles();
+
         virtual ~cEightWheelerProfile();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;

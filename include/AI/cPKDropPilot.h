@@ -36,6 +36,16 @@ namespace AI
         CD2_LAYOUT_CHECKS(cPKDropPilot,
             CD2_SIZE(cPKDropPilot, 0x150)
             CD2_OFFSET(cPKDropPilot, m_pTOMission, 0x140))
+
+    public:
+        // CD2 table 0x8210CA60 differs from cPilotBase at these inherited slots.
+        virtual void OnExit(); // slot 69: 0x824C7978
+        virtual void vf98(); // slot 98: 0x824D6BE8
+        virtual void vf100(); // slot 100: 0x824D5188
+        virtual void vf107(); // slot 107: 0x824D5098
+        virtual void vf111(); // slot 111: 0x824D4D60
+        virtual void vf112(); // slot 112: 0x824D4FC8
+        virtual void vf113(); // slot 113: 0x824D2E18
     };
 }
 

@@ -39,6 +39,9 @@ namespace Prop
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pcPropClass;
         virtual const Fun_Runtime::cClass &RetClass() const;
+        // CD2's prop script-host slot holds 0x8245AE28, rather than
+        // cDynamicBody's 0x82684BC0 (including the traffic-light table).
+        virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         // CD2 0x82729538, called by cTrafficLight's destructor (0x827475C8).
         cProp(GOM::cObjectPrototype *); // CD2 0x82337808
         virtual ~cProp();
@@ -123,6 +126,12 @@ namespace Prop
     protected:
         CD2_LAYOUT_CHECKS(cProp,
             CD2_SIZE(cProp, 0xE30))
+
+    public:
+        // CD2 table 0x8200DFC8 differs from cNetDynamicBody at these inherited slots.
+        virtual void vf304(); // slot 304: 0x82457AB8
+        virtual void vf309(); // slot 309: 0x82457AC8
+        virtual void vf310(); // slot 310: 0x82457AD0
     };
 }
 

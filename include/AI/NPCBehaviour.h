@@ -20,10 +20,37 @@ namespace Activity
 namespace AI
 {
     class cAiPlayer;
+    class NPCTarget;
 
     class NPCBehaviour : public AIBehaviour
     {
     public:
+        // CD2 constructor 0x824A89C8 installs the 96-slot table 0x82108C08.
+        virtual void Slot72();
+        virtual void Slot73();
+        virtual void OnEvent74(NPCTarget *t);
+        virtual void OnEvent75(NPCTarget *t);
+        virtual void Slot76();
+        virtual void Slot77();
+        virtual void Slot78();
+        virtual void Slot79();
+        virtual void Slot80(unsigned char nEventType, unsigned char nEventSubType, unsigned char nEvent); // RuffKing OnCharacterEvent (cAgressiveResponseChaseBehaviour 0x824CAF68)
+        virtual void Slot81();
+        virtual void Slot82();
+        virtual void Slot83();
+        virtual void Slot84();
+        virtual void Slot85();
+        virtual void Slot86();
+        virtual void Slot87();
+        virtual void Slot88();
+        virtual void Slot89();
+        virtual void Slot90();
+        virtual void Slot91();
+        virtual void Slot92();
+        virtual void Slot93();
+        virtual void Slot94();
+        virtual void Slot95();
+
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         // CD2 0x824A87A0 creates the named runtime descriptor.
         static Fun_Runtime::cClass &StaticCreateClass();

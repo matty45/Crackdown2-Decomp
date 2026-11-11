@@ -41,6 +41,10 @@ namespace Prop
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
         virtual void vf272(); // 272: 0x82686318
+
+    public:
+        // CD2 table 0x8213F800 differs from cProp at these inherited slots.
+        virtual Fun_Runtime::RetVal Init(const GOM::cSpawner *); // slot 18: 0x8273AC78
     };
 }
 

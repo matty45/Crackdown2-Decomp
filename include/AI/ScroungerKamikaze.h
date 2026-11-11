@@ -31,6 +31,14 @@ namespace AI
         virtual void V104(); // 104: 0x824BE1D8
         virtual void V108(); // 108: 0x824BDF98
         virtual void Slot2(); // cSafeDeletable 2: 0x824BE218
+
+    public:
+        // CD2 table 0x82109FF0 differs from Scrounger at these inherited slots.
+        virtual void vf120(); // slot 120: 0x824BE018
+        virtual void vf144(); // slot 144: 0x824BE1F0
+        virtual void vf158(); // slot 158: 0x824BE2D0
+        virtual void vf160(); // slot 160: 0x82580578
+        virtual void vf170(); // slot 170: 0x82580578
     };
 }
 

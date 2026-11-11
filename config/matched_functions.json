@@ -1307,11 +1307,6 @@
         "symbol": "?GetWrapped@cPointVector@VEHICLE_CONTROL@@"
       },
       {
-        "address": "0x82783448",
-        "size": 80,
-        "symbol": "??_GcHelicopterControllerPrototype@cHelicopterController@VEHICLE_CONTROL@@"
-      },
-      {
         "address": "0x83005770",
         "size": 76,
         "symbol": "??__EcHelicopterControllerRegistrar@VEHICLE_CONTROL@@"
@@ -14810,7 +14805,7 @@
       {
         "address": "0x825402E8",
         "size": 12,
-        "symbol": "?RetCharacterStates@cCwCharacterStateProfile@CHARACTER@@"
+        "symbol": "?RetName@cCharacterStatesScriptRegistration@CHARACTER@@"
       },
       {
         "address": "0x82540550",

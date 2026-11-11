@@ -65,6 +65,12 @@ namespace Equip
             CD2_OFFSET(cSmokeGrenade, m_pSmokeVFX, 0x9C0)
             CD2_OFFSET(cSmokeGrenade, m_nSmokeTime_msec, 0x9C4)
             CD2_OFFSET(cSmokeGrenade, m_bDeleteOnDetonationEnd, 0x9C8))
+
+    public:
+        // CD2 table 0x82124F98 differs from cGrenade at these inherited slots.
+        virtual void vf419(); // slot 419: 0x826229A0
+        virtual void vf420(); // slot 420: 0x82622AA8
+        virtual void vf421(); // slot 421: 0x82622B70
     };
 }
 

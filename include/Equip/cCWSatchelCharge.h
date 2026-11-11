@@ -62,6 +62,17 @@ namespace Equip
         virtual bool CanReleaseNetOwnershipOnAVExit() const; // 348: 0x827E56A8
     private:
         CD2_LAYOUT_CHECKS(cCWSatchelCharge, CD2_SIZE(cCWSatchelCharge, 0xAE0))
+
+    public:
+        // CD2 table 0x821234F8 differs from cExplosiveGrenade at these inherited slots.
+        virtual void vf412(); // slot 412: 0x8288FB78
+        virtual void vf414(); // slot 414: 0x8288FB78
+        virtual void vf416(); // slot 416: 0x8261B028
+        virtual void vf420(); // slot 420: 0x8261C2A0
+        virtual void vf422(); // slot 422: 0x827E56A8
+        virtual void vf426(); // slot 426: 0x8260BB00
+        virtual void vf429(); // slot 429: 0x8261C130
+        virtual void vf430(); // slot 430: 0x8261C328
     };
 }
 #endif

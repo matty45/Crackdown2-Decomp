@@ -55,6 +55,10 @@ namespace Equip
     private:
         CD2_LAYOUT_CHECKS(cFlakCannon,
             CD2_SIZE(cFlakCannon, 0xA30))
+
+    public:
+        // CD2 table 0x8212A238 differs from cCWHeavyWeapon at these inherited slots.
+        virtual void vf410(); // slot 410: 0x8263AC80
     };
 }
 

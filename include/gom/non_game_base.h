@@ -83,6 +83,11 @@ public:
     virtual void Slot16();
     virtual void Slot17();
     virtual Fun_Runtime::RetVal Init(const GOM::cSpawner *);
+    // Keep this inherited overload beside Init(cSpawner*): declaring it before
+    // RetClassName moves the compiler's new Init slot ahead of slot 11.
+    // CD2's non-game table holds 0x82653860, rather than CAttributeHandler's
+    // 0x823D9718.
+    virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
     virtual void Slot19();
     virtual void Slot20();
     virtual void Slot21();

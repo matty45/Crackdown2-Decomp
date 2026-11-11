@@ -161,6 +161,10 @@ namespace Prop
             CD2_OFFSET(cPrismaticProp, m_vecWorldPerpAxis, 0xEB0)
             CD2_OFFSET(cPrismaticProp, m_fSlideSpeed, 0xEC0)
             CD2_OFFSET(cPrismaticProp, m_pConstraint, 0xEC8))
+
+    public:
+        // CD2 table 0x821405E8 differs from cPivotBasedProp at these inherited slots.
+        virtual Fun_Runtime::RetVal Init(const GOM::cSpawner *); // slot 18: 0x8273BD50
     };
 }
 

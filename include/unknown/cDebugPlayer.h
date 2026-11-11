@@ -13,6 +13,10 @@ namespace unknown
     class cDebugPlayer : public cNonGameBase
     {
     public:
+        // CD2 table 0x8213A438 has 70 primary slots. Names/signatures of these slots remain unrecovered.
+        virtual void vf68(); // primary slot 68
+        virtual void vf69(); // primary slot 69
+
         // CD2 0x82714D38: the allocation factory calls this constructor out of line.
         cDebugPlayer();
         // CD2 0x82714668: registered-class virtual slot 0 reads this class descriptor.

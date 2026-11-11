@@ -13,6 +13,16 @@ namespace AI
     class CellGuard : public AI::NPCArmedBehaviour, public cNPCArmourySetup
     {
     public:
+        // CD2 table 0x8210A8E0 extends the inherited interface at these slots.
+        virtual void vf132();
+        virtual void vf133();
+        virtual void vf134();
+        virtual void vf135();
+        virtual void vf136();
+        virtual void vf137();
+        virtual void vf138();
+        virtual void vf139();
+
         virtual const Fun_Runtime::cClass &RetClass() const;
         // CD2 descriptor pointer 0x8381f1c0; its initializer names CellGuard.
         static const Fun_Runtime::cClass *ms_pCellGuardClass;
@@ -24,6 +34,24 @@ namespace AI
 
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
+
+    public:
+        // CD2 table 0x8210A8E0: overrides relative to NPCArmedBehaviour.
+        virtual void OnEnter(); // slot 68: 0x824C1880
+        virtual void OnExit(); // slot 69: 0x824C1BF0
+        virtual void Slot71(); // slot 71: 0x82250650
+        virtual void Slot73(); // slot 73: 0x824C1F48
+        virtual void OnEvent74(NPCTarget *t); // slot 74: 0x824C1CC8
+        virtual void OnEvent75(NPCTarget *t); // slot 75: 0x824C2078
+        virtual void Slot77(); // slot 77: 0x824C11C8
+        virtual void Slot80(unsigned char nEventType, unsigned char nEventSubType, unsigned char nEvent); // slot 80: 0x824C2700
+        virtual void Slot81(); // slot 81: 0x824C3070
+        virtual void Slot82(); // slot 82: 0x824C1FF8
+        virtual void Slot83(); // slot 83: 0x824C2A50
+        virtual void Slot85(); // slot 85: 0x824C14C0
+        virtual void Slot87(); // slot 87: 0x824C2D90
+        virtual void Slot89(); // slot 89: 0x824C0EA0
+        virtual void vf97(); // slot 97: 0x824C0EB8
     };
 }
 

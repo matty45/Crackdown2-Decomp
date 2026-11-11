@@ -14,6 +14,16 @@ namespace unknown
     class cBoostPack : public Equip::cGrenade
     {
     public:
+        // CD2 table 0x8211FD38 places GetField9C4 at slot 435. Names/signatures of these slots remain unrecovered.
+        virtual void vf427(); // primary slot 427
+        virtual void vf428(); // primary slot 428
+        virtual void vf429(); // primary slot 429
+        virtual void vf430(); // primary slot 430
+        virtual void vf431(); // primary slot 431
+        virtual void vf432(); // primary slot 432
+        virtual void vf433(); // primary slot 433
+        virtual void vf434(); // primary slot 434
+
         // Inline: CD2's placement factory (0x8260AC68) calls cGrenade's (0x8261E238) constructor, then stores this class's vptrs.
         __forceinline cBoostPack() : m_fField9C4(100.0f) {}
         // CD2 0x8260AD38: cScriptHost slot 1; descriptive method name is ours.
@@ -40,6 +50,11 @@ namespace unknown
         virtual bool IsA(Fun_Runtime::cClass const &) const; // cBody 1: 0x8260B140
         virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x8261F5F0
         virtual void ReplicateFields(); // cReplicatedClass 9: 0x82396118
+
+    public:
+        // CD2 table 0x8211FD38 differs from cGrenade at these inherited slots.
+        virtual void vf381(); // slot 381: 0x827E56A8
+        virtual void vf410(); // slot 410: 0x8260B558
     };
 }
 

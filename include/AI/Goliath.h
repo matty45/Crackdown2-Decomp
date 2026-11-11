@@ -27,6 +27,8 @@ namespace AI
     class Goliath : public AI::NPCBehaviourSM
     {
     public:
+        virtual void Slot2(); // cSafeDeletable slot 2: CD2 0x824B1D60
+
         // CD2 spawning initializer 0x82F93B58 names placement factory 0x824b0f28.
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *memory);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
@@ -57,6 +59,20 @@ namespace AI
             CD2_OFFSET(Goliath, m_vUnknownD0, 0xD0)
             CD2_OFFSET(Goliath, m_nUnknownE4, 0xE4)
             CD2_OFFSET(Goliath, m_fUnknownF4, 0xF4))
+
+    public:
+        // CD2 table 0x821096A0 differs from NPCBehaviourSM at these inherited slots.
+        virtual void OnEnter(); // slot 68: 0x824B10E8
+        virtual void OnExit(); // slot 69: 0x824B12F8
+        virtual void Slot71(); // slot 71: 0x824B1790
+        virtual void Slot72(); // slot 72: 0x824B1190
+        virtual void Slot80(unsigned char nEventType, unsigned char nEventSubType, unsigned char nEvent); // slot 80: 0x824B1E00
+        virtual void Slot89(); // slot 89: 0x824B12C0
+        virtual void Slot90(); // slot 90: 0x824B0FF0
+        virtual void Slot91(); // slot 91: 0x82564710
+        virtual void Slot92(); // slot 92: 0x824B1030
+        virtual void Slot93(); // slot 93: 0x824B12F0
+        virtual void GetState(int n); // slot 100: 0x824B1348
     };
 }
 

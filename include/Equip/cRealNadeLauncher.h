@@ -41,6 +41,10 @@ namespace Equip
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
         virtual void Slot23(); // 23: 0x82634C90
+
+    public:
+        // CD2 table 0x82129248 differs from cCWHeavyWeapon at these inherited slots.
+        virtual void vf378(); // slot 378: 0x82634C98
     };
 }
 

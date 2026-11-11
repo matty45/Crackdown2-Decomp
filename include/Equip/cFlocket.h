@@ -27,6 +27,10 @@ namespace Equip
     class cHWProjectile : public cWeaponProjectile, public ExplosionManager::cExplosionCallback
     {
     public:
+        // CD2's qualified base calls in cFlocket reach these HW-projectile
+        // implementations, distinct from cWeaponProjectile's replication bodies.
+        virtual void ReplicateInitialFields();
+        virtual void ReplicateFields();
         // CD2 spawning initializer 0x82FD27B0 names placement factory 0x8262a7e0.
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         // CD2 0x8262A7F8 creates the named runtime descriptor.

@@ -31,6 +31,10 @@ namespace Prop
     class cTrafficLight : public cProp
     {
     public:
+        // CD2 table 0x8200F530 has 343 primary slots. Names/signatures of these slots remain unrecovered.
+        virtual void vf341(); // primary slot 341
+        virtual void vf342(); // primary slot 342
+
         // CD2 descriptor 0x8237e118 names this class; spawning registration 0x82FFC3A8.
         static Fun_Runtime::cClass &StaticCreateClass();
 
@@ -119,6 +123,10 @@ namespace Prop
             CD2_OFFSET(cTrafficLight, m_paBillboardLight, 0xE44)
             CD2_OFFSET(cTrafficLight, m_pNextActive, 0xE4C)
             CD2_OFFSET(cTrafficLight, m_pPrevActive, 0xE50))
+
+    public:
+        // CD2 table 0x8200F530 differs from cProp at these inherited slots.
+        virtual Fun_Runtime::RetVal Init(const GOM::cSpawner *); // slot 18: 0x827476C8
     };
 }
 

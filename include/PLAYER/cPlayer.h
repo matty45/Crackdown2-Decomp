@@ -59,6 +59,9 @@ namespace PLAYER
         unsigned char m_padF1C[0x1160 - 0xF1C];
 
     public:
+        // CD2 primary slot 18 overrides the character-interface initializer.
+        virtual Fun_Runtime::RetVal Init(const GOM::cSpawner *);
+
         // CD2 0x8271F140: cScriptHost slot 1; descriptive method name is ours.
         virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         // The body (0x823B7ED8) lies in the order-list region; its deleting wrapper (0x8271FE70) calls it.
@@ -150,6 +153,11 @@ namespace PLAYER
             CD2_OFFSET(cPlayer, m_byteD99, 0xD99)
             CD2_OFFSET(cPlayer, m_fEC4, 0xEC4)
             CD2_OFFSET(cPlayer, m_pCamera, 0xF18))
+
+    public:
+        // CD2 table 0x8200C0E0 differs from cCharacterEntityIF at these inherited slots.
+        virtual void vf116(); // slot 116: 0x821F5B18
+        virtual void vf117(); // slot 117: 0x82724990
     };
 }
 

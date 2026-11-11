@@ -54,6 +54,14 @@ namespace Equip
     private:
         CD2_LAYOUT_CHECKS(cChainGun,
             CD2_SIZE(cChainGun, 0xAC0))
+
+    public:
+        // CD2 table 0x82122960 differs from cCWFirearm at these inherited slots.
+        virtual void vf383(); // slot 383: 0x82616E10
+
+    public:
+        // CD2 table 0x82122960 differs from cCWFirearm at these inherited slots.
+        virtual void vf410(); // slot 410: 0x82616E60
     };
 }
 

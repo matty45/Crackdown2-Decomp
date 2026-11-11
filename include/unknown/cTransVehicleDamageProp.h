@@ -42,6 +42,11 @@ namespace unknown
         static Fun_Runtime::cClass &StaticCreateClass();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
+
+    public:
+        // CD2 table 0x8200EFD0 differs from cVehicleDamageProp at these inherited slots.
+        virtual void Slot15(); // slot 15: 0x82730F50
+        virtual void vf317(); // slot 317: 0x82731120
     };
 }
 

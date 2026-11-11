@@ -14,6 +14,11 @@ namespace AI
     class cVehicleAttackedRockingBehaviour : public NPCBehaviour
     {
     public:
+        // CD2 table 0x8200A6F0 has 99 primary slots. Names/signatures of these slots remain unrecovered.
+        virtual void vf96(); // primary slot 96
+        virtual void vf97(); // primary slot 97
+        virtual void vf98(); // primary slot 98
+
         // CD2 spawning initializer 0x82F9A5F8 names placement factory 0x824cf790.
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *memory);
         static Fun_Runtime::cClass &StaticCreateClass();
@@ -66,6 +71,11 @@ namespace AI
         CD2_LAYOUT_CHECKS(cVehicleAttackedRockingBehaviour,
             CD2_SIZE(cVehicleAttackedRockingBehaviour, 0xD0)
             CD2_OFFSET(cVehicleAttackedRockingBehaviour, m_nUnknownC0, 0xC0))
+
+    public:
+        // CD2 table 0x8200A6F0 differs from NPCBehaviour at these inherited slots.
+        virtual void OnEnter(); // slot 68: 0x824CF940
+        virtual void Slot71(); // slot 71: 0x824CF9C0
     };
 }
 
