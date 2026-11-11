@@ -53,7 +53,7 @@ namespace unknown
 
     public:
         // CD2 table 0x8211FD38 differs from cGrenade at these inherited slots.
-        virtual void vf381(); // slot 381: 0x827E56A8
+        virtual bool CanAttack(); // slot 381: 0x827E56A8
         virtual void vf410(); // slot 410: 0x8260B558
     };
 }

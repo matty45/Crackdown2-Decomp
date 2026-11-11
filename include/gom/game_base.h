@@ -4,6 +4,7 @@
 #define CD2_GOM_GAME_BASE_H
 #include "gom/non_game_base.h"
 #include "rws/systemcommands.h"
+namespace Fun_Runtime { class Mtx; }
 __declspec(align(16)) class cGameBase : public RWS::CSystemCommands, public cNonGameBase
 {
     public:
@@ -32,6 +33,8 @@ __declspec(align(16)) class cGameBase : public RWS::CSystemCommands, public cNon
         virtual const Fun_Runtime::cClass &RetClass() const;
 
 public:
+    // RuffKing name; CD2 0x82651AB8 filters the +0x4C owner by runtime class.
+    cGameBase *RetOwnerGameObject();
     // CD2 script registration names the setter at 0x824C83F8; RuffKing names the member.
     void SetFullHealth(float);
     // RuffKing's three health members; CD2's script wrapper 0x8254E8E8 reads 0x110/0x114/0x118.
@@ -56,7 +59,11 @@ public:
     virtual void vf80(); virtual void vf81(); virtual void vf82(); virtual void vf83(); virtual void vf84(); virtual void vf85();
     virtual void vf86(); virtual void vf87(); virtual void vf88(); virtual void vf89(); virtual void vf90(); virtual void vf91();
     virtual void vf92(); virtual void vf93(); virtual void vf94(); virtual void vf95(); virtual void vf96(); virtual void vf97();
-    virtual void vf98(); virtual void vf99(); virtual void vf100(); virtual void vf101(); virtual void vf102(); virtual void vf103();
+    // CD2 slot 98 (0x82651D68) copies IdentityMtx into the output, as RuffKing
+    // cGameBase::GetAimMatrix (0x8274B830) does. Other vf98 declarations in the
+    // non-game behaviour hierarchy belong to a separate interface.
+    virtual void GetAimMatrix(Fun_Runtime::Mtx &);
+    virtual void vf99(); virtual void vf100(); virtual void vf101(); virtual void vf102(); virtual void vf103();
     virtual void vf104(); virtual void vf105(); virtual void vf106(); virtual void vf107(); virtual void vf108(); virtual void vf109();
     virtual void vf110(); virtual void vf111(); virtual void vf112(); virtual void vf113(); virtual void vf114(); virtual void vf115();
     virtual void vf116(); virtual void vf117(); virtual void vf118(); virtual void vf119(); virtual void vf120(); virtual void vf121();

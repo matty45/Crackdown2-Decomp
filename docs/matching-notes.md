@@ -569,6 +569,8 @@ Middleware with published source lives in `src/middleware/<library>/` (each with
 
 ## Open functions
 One line each: what is ruled out. Remove the line when the function matches.
+- `Equip::cWeapon::ProcessReloading` (0x8221BF38): the typed timer decrement and idle transition have the right structure, but CD2 keeps this in r3 across its delta-time call (0x827671D0), where the current plain/LTCG model uses r31 and restores r3. The callee is unmatched and therefore correctly remains opaque to LTCG; reconstruct and match it before retrying. Probe removed.
+- `Equip::cWeapon` constructor (0x82609AA8): typed own fields and the shared Mtx default identity constructor give 20/63 words in plain and LTCG. CD2 retains a matrix-address calculation, reverses the live zero/one constant registers, and schedules its timer literal later. Constructor probe removed; its placement factory and both destructor forms are EXACT independently.
 - cTODNotification constructor (0x82773E90): typed fields/event ID and a body assignment for days-passed give 19/28 words in plain and LTCG; initializing days-passed in the member list gives 17/28. Early this/vptr scheduling differs, standard search finds no improvement, and removing the registered-class base changes no code. Constructor probe removed.
 - cCharacterInterface::IsA (0x8254E7B0) is byte-exact in both builds, but it reads the 0x830ACBD8 global-constant copy while this file's constructor/constants use 0x830C0E04; the per-file global identity conflicts. Probe removed rather than promoting a WRONG TARGET dependency.
 - Enum value registration at 0x823EECB0: direct Lua pushlstring/pushnumber/settable calls have the right call sequence, but CD2's split float anchors and preserved-register frame differ under plain and LTCG checks; search did not resolve them. Probe removed.
@@ -896,3 +898,72 @@ One line each: what is ruled out. Remove the line when the function matches.
   vector parameters all omit that stage (7/24 words in strict checks, 18 versus 24
   instructions). The partial bodies and unused wrapper probes were removed. Do not
   manufacture a self-copy to fill the instruction gap; recover the original wrapper.
+- Weapon object ownership: the original cWeapon.obj defines cWeaponProjectile too (the reference cWeapon.h
+  contains both classes). The old class-only projectile scaffold included cWeapon's prototype and ammo bodies.
+  cWeaponPrototype::Init (0x8260A790) reads Ret_OK at 0x83838A28, inside the independently located cWeapon data
+  range. Consolidating these sources in Equip/Weapon/cWeapon.cpp preserves all existing matches and makes Init
+  EXACT with the correct data owner, without introducing a folded-data exception.
+  Constructor 0x8260A370 confirms three muzzle vectors followed by ammo/range fields; CD2 retains the
+  CMD_MUZZLE_POSITION_LEANING_OVER_WALL vector that the later reference removes. Constructor 0x82609AA8
+  establishes the activation matrix and live ammo/timer/flag members. The nine promoted ammo/range/activation
+  functions and prototype Init are EXACT in plain and LTCG checks.
+- Weapon state/ammo follow-up: the clamped amount returned by IncrementClipAmmo is a separate result local;
+  mutating the input amount changes the branch shape, while the conditional-expression result is EXACT in both
+  builds. The same source form matches the other three ammo arithmetic methods. Infinite stored ammo accepts a
+  decrement without changing storage, but rejects increments (returns zero).
+  cWeapon's idle/reload state tables at 0x8211FB90/0x8211FBA8 establish the three callbacks of each state.
+  Compiling an isolated state callback under LTCG removes its unused state-object parameter (six of eight words);
+  restoring the real singleton getter and table preserves that virtual callback ABI and makes it EXACT.
+  The const/non-const getters share their CD2 addresses and are recorded as evidenced folds.
+- Weapon active/prototype follow-up: the active singleton and its three callbacks use the same complete shared
+  state model as idle. Reference BeginAttack/ProcessAttack/EndAttack declarations replace the corresponding
+  slot placeholders throughout the derived weapon headers; bool returns and access are preserved.
+  CD2 cEquipmentPrototype's constructor (0x826071F8) establishes category at +0x29C and equipment type at +0x2CC;
+  the weapon prototype selects CATEGORY_WEAPON/eEquipT_Primary. Typed fields and ZeroVec initializers make its
+  constructor (0x8260A370) EXACT at 59/59 words in both builds; its factory and 13-case attribute handler match too.
+  The equipment prototype owns HandleAttributes (0x826073B8); declaring that missing override removes the false
+  game-base attribution. The projectile prototype inherits it and RetPvPKillPoints unchanged.
+  An implicit weapon-prototype destructor generated an 80-byte deleting wrapper. CD2's shared 104-byte wrapper
+  (0x82623BE0) restores the weapon-prototype tables before equipment-prototype cleanup: an explicit inline empty
+  destructor reproduces that transition, all bytes and all four relocation targets. Its folded manifest entry
+  counts the shared physical function once. No alias was added to conceal the shorter wrapper.
+- Weapon instance follow-up: the empty out-of-line destructor and its generated deleting wrapper are EXACT
+  (0x8237A6A0 and 0x82318258). The destructor stores the unchanged positional-proxy table 0x82120E8C.
+  Actual equipment and weapon tables retain the base empty slots 258..262 and 140 respectively; former
+  scaffold declarations had attributed later derived overrides to those bases. Projectile Term and Init
+  likewise inherit unchanged base implementations. Correcting declarations avoids false relocation aliases.
+  Cross-file verification establishes cCWWeapon as the first owner of Term (0x82608200) and slots 258..262
+  (0x82608838..0x826088D8), and cProp as the first owner of the distinct prop implementations in those slots.
+  The weapon primary table also requires its own RetClassName override at 0x821FF128.
+  CD2 equipment construction establishes m_fTimer at +0x7E4, corroborated by the weapon reload callbacks;
+  NotifyReloadComplete and FinishReload clear that timer and return to idle, matching both compiler modes.
+- Weapon owner/reload follow-up: cNonGameBase owns m_pOwner at +0x4C, independently established by its
+  constructor and cGameBase::RetOwnerGameObject. CanAttack only applies idle/ammo checks to an authority owner;
+  absent or non-authority owners return true. The direct RetOwner() expression, reference IsIdle wrapper and
+  early returns reproduce all 39 words; keeping the owner in a local changes the zero comparison.
+  BeginAttack records RetAttackDuration in the equipment timer and requests the owner's GetAimMatrix into
+  m_matActivateMatrix. Reference implementations corroborate both the owner query and slot 98's identity copy.
+  BeginReloading calls RetReloadDuration but then starts a fixed three-second timeout in both CD2 and RuffKing;
+  its discarded return is deliberate evidence, not a source variable added to manipulate code generation.
+  EndReloading clears the independently typed reload flag. All four callbacks are EXACT in both modes.
+- CW weapon follow-up: CD2's own slots 315 and 326..329 extend the recovered cCWWeapon source range through
+  0x826087E8. Their prototype reads establish the reference-named hand count at +0x374 and four upper-body
+  animation indices at +0x3AC..+0x3B8. The six adjacent AI setters/resetters use existing instance members;
+  RevertAIAccuracyCone additionally establishes the prototype default at +0x37C. All eleven methods are EXACT.
+- CW weapon reload/lifetime follow-up: RetReloadDuration uses the existing character RetSkill interface and
+  eSk_FireArms, with level one for an absent or non-character owner. The reference RetFirearmSkillLevel overloads
+  provide the real shared query; the typed five-float reload array starts at prototype +0x3C0. The duration method
+  is LTCG EXACT (38/38 words), while CanAttack's pintle-mount/timer test is EXACT in both modes.
+  PostAnimUpdate forwards UpdateAttachedMuzzleEffect, establishing that reference name at slot 408 and retaining
+  the protected overrides in cCWFirearm and cRefractor.
+  The prototype's named cStringc at +0x350 makes its out-of-line destructor EXACT (37/37 words); its Init returns
+  this object's Ret_OK. Own table 0x8211F278 establishes the actual handlers and inherits zero kill-point methods;
+  cCWFirearmPrototype first owns the nonzero kill-point overrides, and both firearm/heavy prototypes override Init
+  and HandleAttributes. The 80-byte deleting wrapper matches all bytes and both callees. Four CD2 prototype
+  tables share it (including cSucknBlowGunPrototype); its folded entry counts the physical function once.
+  NotifyAttackComplete returns to the idle singleton. InitMaxAmmo calls the two virtual ammo setters with their
+  prototype maxima, re-reading the prototype between calls; cGrenade shares this same body. Both are EXACT in
+  plain and LTCG builds, using the reference names at slots 409 and 367 respectively.
+  The reference static ms_Randomiser is independently identified by CD2's burst-pause consumer 0x8222B5D0
+  (generator at 0x838389A0). Its default initializer 0x82FCB930 and empty cleanup 0x8303F358 match with the shared
+  cRandGen, in the source's original initializer order immediately after the script registrar.

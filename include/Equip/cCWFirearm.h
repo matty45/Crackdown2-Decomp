@@ -27,6 +27,12 @@ namespace Equip
         {
         public:
             cCWFirearmPrototype(const RWS::CAttributePacket &);
+            // CD2 own table 0x820056B0 differs from cCWWeaponPrototype here.
+            virtual void HandleAttributes(const RWS::CAttributePacket &); // 1: 0x823728F8
+            virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &); // 5: 0x82618768
+            virtual unsigned int RetHeadShotKillPoints() const; // 23: 0x826164B8
+            virtual unsigned int RetArmKillPoints() const; // 24: 0x826164C0
+            virtual unsigned int RetLegKillPoints() const; // 25: 0x826164C8
 
         private:
             unsigned char m_unmodelled3E0[0x6E0 - 0x3E0];
@@ -73,9 +79,12 @@ namespace Equip
     public:
         // CD2 table 0x820140A8 differs from cCWWeapon at these inherited slots.
         virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // slot 18: 0x8263ACD0
-        virtual void vf378(); // slot 378: 0x82336D88
+    protected:
+        virtual bool BeginAttack(); // slot 378: 0x82336D88
+    public:
         virtual void vf407(); // slot 407: 0x823ABBE8
-        virtual void vf408(); // slot 408: 0x826182E8
+    protected:
+        virtual void UpdateAttachedMuzzleEffect(); // slot 408: 0x826182E8
     };
 }
 

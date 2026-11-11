@@ -29,6 +29,17 @@
 
 namespace Equip
 {
+    void cCWWeapon::NotifyAttackComplete()
+    {
+        GoTo_State(RetSTATE_Idle());
+    }
+
+    void cCWWeapon::InitMaxAmmo()
+    {
+        SetCurrentAmmoCount(static_cast<const cCWWeaponPrototype *>(m_pPrototype)->m_nMaxClipAmmo);
+        SetCurrentStoredAmmo(static_cast<const cCWWeaponPrototype *>(m_pPrototype)->m_nMaxStoredAmmo);
+    }
+
     float cCWWeapon::RetAIAccuracyCone() const { return m_fAIAccuracyCone; }
     float cCWWeapon::RetAIInitialAccuracyCone() const { return m_fAIInitialAccuracyCone; }
     float cCWWeapon::RetAIPathClearCone() const { return m_fAIPathClearCone; }
@@ -92,4 +103,91 @@ namespace Equip
     {
         return &cCWWeaponScriptRegistrar;
     }
+
+    bool cCWWeapon::CanAttack()
+    {
+        if (cWeapon::CanAttack())
+        {
+            if (!RetPintleMount() || m_fAttackTimer > RetAttackDuration())
+                return true;
+        }
+        return false;
+    }
+
+    void cCWWeapon::PostAnimUpdate(float)
+    {
+        UpdateAttachedMuzzleEffect();
+    }
+
+    int cCWWeapon::RetNumHands() const
+    {
+        return static_cast<const cCWWeaponPrototype *>(m_pPrototype)->m_nNumHands;
+    }
+
+    float cCWWeapon::RetReloadDuration() const
+    {
+        const unsigned char level = RetFirearmSkillLevel();
+        return static_cast<const cCWWeaponPrototype *>(m_pPrototype)->m_fReloadTime[level - 1];
+    }
+
+    void cCWWeapon::SetAIAccuracyCone(float value)
+    {
+        m_fAIAccuracyCone = value;
+    }
+
+    void cCWWeapon::SetAIInitialAccuracyCone(float value)
+    {
+        m_fAIInitialAccuracyCone = value;
+    }
+
+    void cCWWeapon::SetAIPathClearCone(float value)
+    {
+        m_fAIPathClearCone = value;
+    }
+
+    void cCWWeapon::SetAINumberOfShotsToFullAccuracy(unsigned int value)
+    {
+        m_uiAINumberOfShotsToReachFullAccuracy = value;
+    }
+
+    void cCWWeapon::RevertAIAccuracyCone()
+    {
+        m_fAIAccuracyCone = static_cast<const cCWWeaponPrototype *>(m_pPrototype)->m_fAIAccuracyCone;
+    }
+
+    void cCWWeapon::ResetNumberOfShotsTaken()
+    {
+        m_uiShotCount = 0;
+    }
+
+    int cCWWeapon::RetUpperAimIndex() const
+    {
+        return static_cast<const cCWWeaponPrototype *>(m_pPrototype)->m_nUpperAimIndex;
+    }
+
+    int cCWWeapon::RetUpperReloadIndex() const
+    {
+        return static_cast<const cCWWeaponPrototype *>(m_pPrototype)->m_nUpperReloadIndex;
+    }
+
+    int cCWWeapon::RetUpperFireIndex() const
+    {
+        return static_cast<const cCWWeaponPrototype *>(m_pPrototype)->m_nUpperFireIndex;
+    }
+
+    int cCWWeapon::RetUpperEquipIndex() const
+    {
+        return static_cast<const cCWWeaponPrototype *>(m_pPrototype)->m_nUpperEquipIndex;
+    }
+
+    cCWWeapon::cCWWeaponPrototype::~cCWWeaponPrototype()
+    {
+    }
+
+    Fun_Runtime::RetVal cCWWeapon::cCWWeaponPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
+
+    Fun_Runtime::cRandGen cCWWeapon::ms_Randomiser;
 }

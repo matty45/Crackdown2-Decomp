@@ -28,8 +28,11 @@ namespace Equip
             // CD2: cWeaponProjectilePrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
             // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
         public:
-            virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x826073B8
-            virtual unsigned int RetPvPKillPoints() const; // 22: 0x827E56A8
+            // Reconstruction update: these slots are inherited unchanged from
+            // cEquipmentPrototype. Its missing HandleAttributes declaration caused
+            // the former per-projectile attribution; no overrides are needed here.
+            // 1: 0x826073B8
+            // 22: 0x827E56A8
         public:
             CD2_LAYOUT_CHECKS(cWeaponProjectilePrototype,
                 CD2_SIZE(cWeaponProjectilePrototype, 0x2F0))
@@ -50,9 +53,11 @@ namespace Equip
         // CD2: cWeaponProjectile's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
-        virtual Fun_Runtime::RetVal Term(); // 6: 0x82604D68
+        // virtual Fun_Runtime::RetVal Term(); // 6: 0x82604D68
+        // Reconstruction update: slot 6 inherits cEquipment::Term unchanged.
         virtual void Slot13(); // 13: 0x82604F48
-        virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // 18: 0x8228C898
+        // virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // 18: 0x8228C898
+        // Reconstruction update: slot 18 inherits cDynamicBody::Init unchanged.
         virtual void Slot23(); // 23: 0x822D04B8
         virtual void vf258(); // 258: 0x82580578
         virtual void vf259(); // 259: 0x82580578

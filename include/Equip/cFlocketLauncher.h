@@ -48,7 +48,7 @@ namespace Equip
 
     public:
         // CD2 table 0x82128278 differs from cCWHeavyWeapon at these inherited slots.
-        virtual void vf378(); // slot 378: 0x826315E8
+        virtual bool BeginAttack(); // slot 378: 0x826315E8
     };
 }
 

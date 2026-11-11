@@ -8,6 +8,7 @@
 #include "fun_runtime/class.h"
 #include "PHYSICS/cNetDynamicBody.h"
 #include "fun_runtime/cStateMachine.h"
+#include "fun_runtime/State.h"
 
 namespace Prop { class cTurretBase; }
 namespace Fun_Runtime { class State; class Mtx; class cString; class Vec3; }
@@ -15,8 +16,37 @@ namespace CHARACTER { class cCharacter; }
 
 namespace Equip
 {
+    // Reference equipment enums; CD2 cEquipmentPrototype initializes category 5
+    // and type 0, while cWeaponPrototype changes them to weapon (0), primary (1).
+    enum eEquipmentType { eEquipT_None = 0, eEquipT_Primary, eEquipT_Secondary };
+    enum EQUIP_CATEGORY
+    {
+        CATEGORY_WEAPON = 0, CATEGORY_MISC, CATEGORY_CLOTHING,
+        CATEGORY_AMMUNITION, CATEGORY_END, CATEGORY_UNDEFINED
+    };
+
     class cEquipment : public PHYSICS::cNetDynamicBody, public Fun_Runtime::cStateMachine
     {
+    protected:
+        // Shared reference base of cWeapon::STATE_Idle. These states have no
+        // members beyond State's name pointer; CD2's derived state table has three slots.
+        class STATE_Idle : public Fun_Runtime::State
+        {
+        public:
+            virtual void BeginState(Fun_Runtime::cStateMachine *);
+            virtual void EndState(Fun_Runtime::cStateMachine *);
+            virtual void Process(Fun_Runtime::cStateMachine *);
+            CD2_LAYOUT_CHECKS(STATE_Idle, CD2_SIZE(STATE_Idle, 8))
+        };
+        // Reference active-state base has the same complete eight-byte State storage.
+        class STATE_Active : public Fun_Runtime::State
+        {
+        public:
+            virtual void BeginState(Fun_Runtime::cStateMachine *);
+            virtual void EndState(Fun_Runtime::cStateMachine *);
+            virtual void Process(Fun_Runtime::cStateMachine *);
+            CD2_LAYOUT_CHECKS(STATE_Active, CD2_SIZE(STATE_Active, 8))
+        };
     public:
         // CD2 0x826046D0: cScriptHost slot 1; descriptive method name is ours.
         virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
@@ -95,6 +125,8 @@ namespace Equip
             cEquipmentPrototype(const RWS::CAttributePacket &);
             // CD2 0x82607328 (out of line: cWeaponProjectilePrototype's deleting destructor calls it).
             virtual ~cEquipmentPrototype();
+            // Reference owns this override; CD2 table 0x8211EED8 slot 1 is 0x826073B8.
+            virtual void HandleAttributes(const RWS::CAttributePacket &);
             // Prototype table slots 14..25 (0x8211EED8; slots 11..13 come from the body prototypes, which do not
             // declare them yet). Names, order and fields are RuffKing's, one slot later there; the getters read
             // RuffKing's offsets except the two pickup-VFX IDs, which are 4 bytes higher in CD2.
@@ -121,14 +153,21 @@ namespace Equip
             bool m_bLoadedCmdSpawn;         // 0x292
 
         private:
-            unsigned char m_unmodelled293[0x2C4 - 0x293];
+            unsigned char m_unmodelled293[0x29C - 0x293];
+
+        protected:
+            EQUIP_CATEGORY m_EquipmentCategory; // CD2 constructor 0x826071F8: +0x29C, initially CATEGORY_UNDEFINED
+
+        private:
+            unsigned char m_unmodelled2A0[0x2C4 - 0x2A0];
 
         protected:
             int m_nInInvPickupId;           // 0x2C4
             int m_nNotInInvPickupId;        // 0x2C8
+            eEquipmentType m_EquipmentType; // CD2 constructor 0x826071F8: +0x2CC, initially eEquipT_None
 
         private:
-            unsigned char m_unmodelled2CC[0x2F0 - 0x2CC];
+            unsigned char m_unmodelled2D0[0x2F0 - 0x2D0];
 
             // CD2: cEquipmentPrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
             // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
@@ -141,8 +180,10 @@ namespace Equip
                 CD2_OFFSET(cEquipmentPrototype, m_fMaxZoomFactor, 0x288)
                 CD2_OFFSET(cEquipmentPrototype, m_bCanZoom, 0x290)
                 CD2_OFFSET(cEquipmentPrototype, m_bLoadedCmdSpawn, 0x292)
+                CD2_OFFSET(cEquipmentPrototype, m_EquipmentCategory, 0x29C)
                 CD2_OFFSET(cEquipmentPrototype, m_nInInvPickupId, 0x2C4)
-                CD2_OFFSET(cEquipmentPrototype, m_nNotInInvPickupId, 0x2C8))
+                CD2_OFFSET(cEquipmentPrototype, m_nNotInInvPickupId, 0x2C8)
+                CD2_OFFSET(cEquipmentPrototype, m_EquipmentType, 0x2CC))
         };
 
         // CD2 placement factory forwards only this; later reference builds add a prototype argument.
@@ -156,7 +197,14 @@ namespace Equip
         static Fun_Runtime::cClass &StaticCreateClass();
     private:
         // CD2 constructor 0x82604AF8: reference hierarchy, descriptor size 0x870.
-        unsigned char m_unmodelled7A4[0x870 - 0x7A4];
+        unsigned char m_unmodelled7A4[0x7E4 - 0x7A4];
+    protected:
+        // RuffKing m_fTimer follows equipment status. CD2 constructor 0x82604AF8
+        // initializes it at +0x7E4; cWeapon::BeginAttack and both reload completions
+        // write this same timer, independently of cWeapon's own attack timer.
+        float m_fTimer;
+    private:
+        unsigned char m_unmodelled7E8[0x870 - 0x7E8];
         // CD2: cEquipment's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
@@ -184,11 +232,14 @@ namespace Equip
         virtual void vf245(); // 245: 0x827E56A8
         virtual void vf254(); // 254: 0x822C5A30
         virtual void vf257(); // 257: 0x822312B0
-        virtual void vf258(); // 258: 0x82608838
-        virtual void vf259(); // 259: 0x82608850
-        virtual void vf260(); // 260: 0x82608868
-        virtual void vf261(); // 261: 0x82608880
-        virtual void vf262(); // 262: 0x826088D8
+        // virtual void vf258(); // 258: 0x82608838
+        // virtual void vf259(); // 259: 0x82608850
+        // virtual void vf260(); // 260: 0x82608868
+        // virtual void vf261(); // 261: 0x82608880
+        // virtual void vf262(); // 262: 0x826088D8
+        // Reconstruction update: cEquipment table 0x82010000 slots 258..262
+        // retain cDynamicBody's empty body 0x82580578. These former declarations
+        // attributed later derived overrides to the equipment base.
         virtual void vf266(); // 266: 0x82686C98
         virtual void vf272(); // 272: 0x827454F8
         virtual void vf280(); // 280: 0x827E56A8
@@ -216,7 +267,9 @@ namespace Equip
         virtual void EventTriggerStartFire(CHARACTER::cCharacter *); // cIgnitable 10: 0x82580578
         virtual void EventTriggerEndFire(); // cIgnitable 12: 0x82580578
     private:
-        CD2_LAYOUT_CHECKS(cEquipment, CD2_SIZE(cEquipment, 0x870))
+        CD2_LAYOUT_CHECKS(cEquipment,
+            CD2_SIZE(cEquipment, 0x870)
+            CD2_OFFSET(cEquipment, m_fTimer, 0x7E4))
     };
 }
 

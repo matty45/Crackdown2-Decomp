@@ -22,6 +22,9 @@ namespace Equip
         {
         public:
             cCWHeavyWeaponPrototype(const RWS::CAttributePacket &);
+            // CD2 own prototype table 0x82128168 overrides both packet handlers.
+            virtual void HandleAttributes(const RWS::CAttributePacket &); // 1: 0x82630A78
+            virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &); // 5: 0x82630C88
 
         private:
             unsigned char m_unmodelled3E0[0x410 - 0x3E0];
@@ -55,7 +58,9 @@ namespace Equip
 
     public:
         // CD2 table 0x82013A38 differs from cCWWeapon at these inherited slots.
-        virtual void vf378(); // slot 378: 0x82630030
+    protected:
+        virtual bool BeginAttack(); // slot 378: 0x82630030
+    public:
         virtual void vf404(); // slot 404: 0x8262FF10
     };
 }

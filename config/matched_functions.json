@@ -15748,73 +15748,6 @@
         "ltcg": true
       }
     ],
-    "src/Equip/cWeaponProjectile.cpp": [
-      {
-        "address": "0x826095E8",
-        "size": 12,
-        "symbol": "?RetClassName@cWeaponProjectile@Equip@@"
-      },
-      {
-        "address": "0x82FCBF68",
-        "size": 76,
-        "symbol": "??__EcWeaponProjectileRegistrar@Equip@@"
-      },
-      {
-        "address": "0x8303F3A8",
-        "size": 12,
-        "symbol": "??__FcWeaponProjectileRegistrar@Equip@@"
-      },
-      {
-        "address": "0x82FCBFB8",
-        "size": 72,
-        "symbol": "??__EcWeaponProjectileSpawningRegistrar@Equip@@"
-      },
-      {
-        "address": "0x826095F8",
-        "size": 24,
-        "symbol": "?SpawnFromPrototype@cWeaponProjectile@Equip@@"
-      },
-      {
-        "address": "0x82609610",
-        "size": 176,
-        "symbol": "??0cWeaponProjectile@Equip@@"
-      },
-      {
-        "address": "0x826096C0",
-        "size": 168,
-        "symbol": "??1cWeaponProjectile@Equip@@"
-      },
-      {
-        "address": "0x826097D0",
-        "size": 80,
-        "symbol": "??_GcWeaponProjectile@Equip@@"
-      },
-      {
-        "address": "0x82609578",
-        "size": 112,
-        "symbol": "?MakeNew@cWeaponProjectile@Equip@@"
-      },
-      {
-        "address": "0x82609768",
-        "size": 104,
-        "symbol": "??_GcWeaponProjectilePrototype@cWeaponProjectile@Equip@@"
-      },
-      {
-        "address": "0x8260A7A0",
-        "size": 156,
-        "symbol": "?StaticCreateClass@cWeaponProjectile@Equip@@"
-      },
-      {
-        "address": "0x82FCBED8",
-        "size": 40,
-        "symbol": "??__E?ms_pcWeaponProjectileClass@cWeaponProjectile@Equip@@"
-      },
-      {
-        "address": "0x82FCBF00",
-        "size": 104,
-        "symbol": "??__EcWeaponProjectilecEquipmentInheritRegistrar@Equip@@"
-      }
-    ],
     "src/GameManagement/cArenaBarrier.cpp": [
       {
         "address": "0x8284EEB0",
@@ -38002,6 +37935,113 @@
         "address": "0x82607C10",
         "size": 12,
         "symbol": "?IsTurretWeapon@cCWWeapon@Equip@@"
+      },
+      {
+        "address": "0x82608550",
+        "size": 12,
+        "symbol": "?RetNumHands@cCWWeapon@Equip@@"
+      },
+      {
+        "address": "0x826087A8",
+        "size": 12,
+        "symbol": "?RetUpperAimIndex@cCWWeapon@Equip@@"
+      },
+      {
+        "address": "0x826087B8",
+        "size": 12,
+        "symbol": "?RetUpperReloadIndex@cCWWeapon@Equip@@"
+      },
+      {
+        "address": "0x826087C8",
+        "size": 12,
+        "symbol": "?RetUpperFireIndex@cCWWeapon@Equip@@"
+      },
+      {
+        "address": "0x826087D8",
+        "size": 12,
+        "symbol": "?RetUpperEquipIndex@cCWWeapon@Equip@@"
+      },
+      {
+        "address": "0x82608768",
+        "size": 8,
+        "symbol": "?SetAIAccuracyCone@cCWWeapon@Equip@@"
+      },
+      {
+        "address": "0x82608770",
+        "size": 8,
+        "symbol": "?SetAIInitialAccuracyCone@cCWWeapon@Equip@@"
+      },
+      {
+        "address": "0x82608778",
+        "size": 8,
+        "symbol": "?SetAIPathClearCone@cCWWeapon@Equip@@"
+      },
+      {
+        "address": "0x82608780",
+        "size": 8,
+        "symbol": "?SetAINumberOfShotsToFullAccuracy@cCWWeapon@Equip@@"
+      },
+      {
+        "address": "0x82608788",
+        "size": 16,
+        "symbol": "?RevertAIAccuracyCone@cCWWeapon@Equip@@"
+      },
+      {
+        "address": "0x82608798",
+        "size": 12,
+        "symbol": "?ResetNumberOfShotsTaken@cCWWeapon@Equip@@"
+      },
+      {
+        "address": "0x82639CE0",
+        "size": 80,
+        "symbol": "??_GcCWWeaponPrototype@cCWWeapon@Equip@@",
+        "folded": true
+      },
+      {
+        "address": "0x82608440",
+        "size": 128,
+        "symbol": "?CanAttack@cCWWeapon@Equip@@"
+      },
+      {
+        "address": "0x826084C0",
+        "size": 16,
+        "symbol": "?PostAnimUpdate@cCWWeapon@Equip@@"
+      },
+      {
+        "address": "0x82608560",
+        "size": 152,
+        "symbol": "?RetReloadDuration@cCWWeapon@Equip@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82608A48",
+        "size": 148,
+        "symbol": "??1cCWWeaponPrototype@cCWWeapon@Equip@@"
+      },
+      {
+        "address": "0x82609260",
+        "size": 16,
+        "symbol": "?Init@cCWWeaponPrototype@cCWWeapon@Equip@@"
+      },
+      {
+        "address": "0x821F0720",
+        "size": 68,
+        "symbol": "?NotifyAttackComplete@cCWWeapon@Equip@@"
+      },
+      {
+        "address": "0x823789C8",
+        "size": 92,
+        "symbol": "?InitMaxAmmo@cCWWeapon@Equip@@"
+      },
+      {
+        "address": "0x82FCB930",
+        "size": 12,
+        "symbol": "??__E?ms_Randomiser@cCWWeapon@Equip@@"
+      },
+      {
+        "address": "0x8303F358",
+        "size": 4,
+        "symbol": "??__F?ms_Randomiser@cCWWeapon@Equip@@"
       }
     ],
     "src/cBoostPack.cpp": [
@@ -49466,6 +49506,308 @@
         "address": "0x8303F380",
         "size": 20,
         "symbol": "??__FcWeaponSpawningRegistrar@Equip@@"
+      },
+      {
+        "address": "0x826095E8",
+        "size": 12,
+        "symbol": "?RetClassName@cWeaponProjectile@Equip@@"
+      },
+      {
+        "address": "0x82FCBF68",
+        "size": 76,
+        "symbol": "??__EcWeaponProjectileRegistrar@Equip@@"
+      },
+      {
+        "address": "0x8303F3A8",
+        "size": 12,
+        "symbol": "??__FcWeaponProjectileRegistrar@Equip@@"
+      },
+      {
+        "address": "0x82FCBFB8",
+        "size": 72,
+        "symbol": "??__EcWeaponProjectileSpawningRegistrar@Equip@@"
+      },
+      {
+        "address": "0x826095F8",
+        "size": 24,
+        "symbol": "?SpawnFromPrototype@cWeaponProjectile@Equip@@"
+      },
+      {
+        "address": "0x82609610",
+        "size": 176,
+        "symbol": "??0cWeaponProjectile@Equip@@"
+      },
+      {
+        "address": "0x826096C0",
+        "size": 168,
+        "symbol": "??1cWeaponProjectile@Equip@@"
+      },
+      {
+        "address": "0x826097D0",
+        "size": 80,
+        "symbol": "??_GcWeaponProjectile@Equip@@"
+      },
+      {
+        "address": "0x82609578",
+        "size": 112,
+        "symbol": "?MakeNew@cWeaponProjectile@Equip@@"
+      },
+      {
+        "address": "0x82609768",
+        "size": 104,
+        "symbol": "??_GcWeaponProjectilePrototype@cWeaponProjectile@Equip@@"
+      },
+      {
+        "address": "0x8260A7A0",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cWeaponProjectile@Equip@@"
+      },
+      {
+        "address": "0x82FCBED8",
+        "size": 40,
+        "symbol": "??__E?ms_pcWeaponProjectileClass@cWeaponProjectile@Equip@@"
+      },
+      {
+        "address": "0x82FCBF00",
+        "size": 104,
+        "symbol": "??__EcWeaponProjectilecEquipmentInheritRegistrar@Equip@@"
+      },
+      {
+        "address": "0x82609C58",
+        "size": 16,
+        "symbol": "?Activate@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x82609DB8",
+        "size": 12,
+        "symbol": "?RetMaxAmmoCount@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x82609DC8",
+        "size": 40,
+        "symbol": "?RetLowAmmoThreshold@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x82609DF0",
+        "size": 32,
+        "symbol": "?SetCurrentStoredAmmo@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x82609E10",
+        "size": 104,
+        "symbol": "?HasStoredAmmo@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x82609F00",
+        "size": 12,
+        "symbol": "?RetWeaponPriority@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x82609F10",
+        "size": 12,
+        "symbol": "?RetMaxOptimalRange@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x82609F20",
+        "size": 12,
+        "symbol": "?RetMinOptimalRange@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x8260A790",
+        "size": 16,
+        "symbol": "?Init@cWeaponPrototype@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x821E61E8",
+        "size": 108,
+        "symbol": "?IsEmpty@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x821F67E0",
+        "size": 32,
+        "symbol": "?EndState@STATE_Reloading@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x822055F8",
+        "size": 48,
+        "symbol": "?IncrementClipAmmo@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x82216C48",
+        "size": 36,
+        "symbol": "?DecrementClipAmmo@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x82235028",
+        "size": 8,
+        "symbol": "?SetCurrentAmmoCount@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x82235030",
+        "size": 80,
+        "symbol": "?RetSTATE_Reloading@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x82235080",
+        "size": 112,
+        "symbol": "?IncrementStoredAmmo@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x8225C8C0",
+        "size": 88,
+        "symbol": "?NeedsReload@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x82378950",
+        "size": 116,
+        "symbol": "?DecrementStoredAmmo@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x823A2A58",
+        "size": 32,
+        "symbol": "?BeginState@STATE_Reloading@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x82609820",
+        "size": 80,
+        "symbol": "?RetSTATE_Idle@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x82609C68",
+        "size": 72,
+        "symbol": "?Deactivate@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x82609D28",
+        "size": 144,
+        "symbol": "?CanReload@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x8260A020",
+        "size": 32,
+        "symbol": "?Process@STATE_Reloading@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x8260A238",
+        "size": 32,
+        "symbol": "?BeginState@STATE_Idle@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x8260A258",
+        "size": 32,
+        "symbol": "?Process@STATE_Idle@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x8260A278",
+        "size": 32,
+        "symbol": "?EndState@STATE_Idle@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x82623BE0",
+        "size": 104,
+        "symbol": "??_GcWeaponPrototype@cWeapon@Equip@@",
+        "folded": true,
+        "note": "Deleting wrapper folded with derived prototype wrappers; CD2 restores the cWeaponPrototype and streaming-client tables, then calls cEquipmentPrototype destruction and heap delete. The inline compiler body and all relocation targets were independently checked."
+      },
+      {
+        "address": "0x82609478",
+        "size": 88,
+        "symbol": "?MakeNew@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x826094F8",
+        "size": 16,
+        "symbol": "?RetAttackDuration@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x82609870",
+        "size": 80,
+        "symbol": "?RetSTATE_Active@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x82609CB0",
+        "size": 120,
+        "symbol": "?InitiateReload@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x8260A040",
+        "size": 32,
+        "symbol": "?BeginState@STATE_Active@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x8260A060",
+        "size": 32,
+        "symbol": "?Process@STATE_Active@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x8260A080",
+        "size": 32,
+        "symbol": "?EndState@STATE_Active@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x8260A370",
+        "size": 236,
+        "symbol": "??0cWeaponPrototype@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x8260A460",
+        "size": 812,
+        "symbol": "?HandleAttributes@cWeaponPrototype@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x821FEDB8",
+        "size": 88,
+        "symbol": "?FinishReload@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x8225C760",
+        "size": 84,
+        "symbol": "?NotifyReloadComplete@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x82318258",
+        "size": 80,
+        "symbol": "??_GcWeapon@Equip@@"
+      },
+      {
+        "address": "0x8237A6A0",
+        "size": 168,
+        "symbol": "??1cWeapon@Equip@@"
+      },
+      {
+        "address": "0x826094D0",
+        "size": 24,
+        "symbol": "?SpawnFromPrototype@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x82609508",
+        "size": 12,
+        "symbol": "?RetClass@cWeaponProjectile@Equip@@"
+      },
+      {
+        "address": "0x821FF128",
+        "size": 12,
+        "symbol": "?RetClassName@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x821F4D98",
+        "size": 156,
+        "symbol": "?CanAttack@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x82229EE0",
+        "size": 76,
+        "symbol": "?BeginReloading@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x823A0DC8",
+        "size": 12,
+        "symbol": "?EndReloading@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x8260A0A0",
+        "size": 100,
+        "symbol": "?BeginAttack@cWeapon@Equip@@"
       }
     ],
     "src/gom/cGameBase.cpp": [

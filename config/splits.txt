@@ -4052,9 +4052,14 @@ src/Equip/cEquipment.cpp
   bss    0x83838804 0x838388D4   # cd2.py datasplits: 22 located, fPhysicsSimulationTick .. cEquipmentScriptRegistrar
 
 src/Equip/Weapon/cCWWeapon.cpp
+  init 0x82FCB930   # ms_Randomiser: reference named static; default zero generator, registers cleanup 0x8303F358 after the script registrar
+  atexit 0x8303F358   # same randomizer's empty default destructor
+  hot 0x821F0720   # own slot 409, NotifyAttackComplete, transitions to the idle singleton
+  hot 0x823789C8   # own slot 367, InitMaxAmmo; maximum clip/stored fields, identical-code fold shared with cGrenade
+  folded 0x82639CE0   # identical prototype deleting wrappers: tables 0x8211F278, 0x82121F48, 0x82122730 and cSucknBlowGunPrototype's 0x8212A1A8 share this 80-byte body; the compiler-generated cCWWeaponPrototype wrapper matches it and calls the matched normal destructor 0x82608A48 and heap delete
   atexit 0x8303F348   # script registrar for cCWWeapon; registration table 0x8211F2E0
   init 0x82FCB8D8   # script registrar for cCWWeapon; registration table 0x8211F2E0
-  text 0x82607B50 0x82608168   # auto: cCWWeapon; RuffKing cCWWeapon.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82607B50 0x82609270   # auto: cCWWeapon; RuffKing cCWWeapon.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended through the named own virtual getters: primary table 0x820133D0 slots 315 and 326..329 point at 0x82608550 and 0x826087A8..0x826087D8, reading this class's prototype. Intervening Term, CanAttack, reload and turret methods occur in the same reference object and occupy this class's own table slots. Extended through prototype Init: constructor 0x82608930 names table 0x8211F278, whose own HandleAttributes and Init are 0x82608AE0 and 0x82609260; destructor 0x82608A48 restores that table and destroys its string before the shared base.
   init 0x82FCB840
   atexit 0x8303F320
   init 0x82FCB7B0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -4082,17 +4087,7 @@ src/Equip/Weapon/cCWWeapon.cpp
   init 0x82FCB798   # header static (aiconstants.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
   atexit 0x8303F318   # header static CHARACTER::gRandGen (characterconsts.h): its at-exit destructor, registered by the initializer
   data   0x831F4384 0x831F444C   # cd2.py datasplits: 5 located, g_GlobalConstants .. fPOINT_LOCK_RADIUS
-  bss    0x838388D4 0x838389A0   # cd2.py datasplits: 22 located, fPhysicsSimulationTick .. cCWWeaponScriptRegistrar
-
-src/Equip/cWeaponProjectile.cpp
-  text 0x82609578 0x8260A83C   # auto: cWeaponProjectile; RuffKing cWeapon.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-07 to the end of cWeaponProjectile::StaticCreateClass (0x8260A7A0), which its class-pointer initializer names
-  init 0x82FCBF68
-  atexit 0x8303F3A8
-  init 0x82FCBFB8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
-  init 0x82FCBED8   # class pointer: cWeaponProjectile::ms_pcWeaponProjectileClass = StaticCreateClass() (0x8260A7A0)
-  init 0x82FCBF00   # inheritance registrar: cWeaponProjectile under cEquipment (StaticCreateClass 0x82604750)
-  bss    0x83838A52 0x83838A53   # cd2.py datasplits: 1 located, cWeaponProjectileRegistrar .. cWeaponProjectileRegistrar
-  bss    0x83838A78 0x83838A80   # cd2.py datasplits: 2 located, ?ms_pcWeaponProjectileClass@cWeaponProje .. cWeaponProjectileSpawningRegistrar
+  bss    0x838388D4 0x838389A8   # cd2.py datasplits: 22 located, fPhysicsSimulationTick .. cCWWeaponScriptRegistrar; extended through the reference-named two-word ms_Randomiser at 0x838389A0, read by 0x8222B5D0
 
 src/cBoostPack.cpp
   atexit 0x8303F400   # script registrar for cBoostPack; registration table 0x82100494
@@ -9426,8 +9421,38 @@ src/CHARACTER/cCharacterMotion.cpp
   bss    0x83824208 0x838242D0   # cd2.py datasplits: 20 located, fPhysicsSimulationTick .. cCharacterMotionScriptRegistrar
 
 src/Equip/Weapon/cWeapon.cpp
-  text 0x82609418 0x82609474   # constructor/descriptor or registered-method evidence; contiguous cold code
+  text 0x82609418 0x8260A83C   # constructor/descriptor or registered-method evidence; contiguous cold code; source consolidation: RuffKing cWeapon.obj defines both cWeapon and cWeaponProjectile, as does its header; CD2 cWeaponPrototype::Init at 0x8260A790 reads this object's Ret_OK at 0x83838A28. The former projectile range and class initializers therefore belong to this same source object.
+  # Former projectile range evidence: auto: cWeaponProjectile; RuffKing cWeapon.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-07 to the end of cWeaponProjectile::StaticCreateClass (0x8260A7A0), which its class-pointer initializer names
+  init 0x82FCBF68
+  atexit 0x8303F3A8
+  init 0x82FCBFB8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82FCBED8   # class pointer: cWeaponProjectile::ms_pcWeaponProjectileClass = StaticCreateClass() (0x8260A7A0)
+  init 0x82FCBF00   # inheritance registrar: cWeaponProjectile under cEquipment (StaticCreateClass 0x82604750)
+  bss    0x83838A52 0x83838A53   # cd2.py datasplits: 1 located, cWeaponProjectileRegistrar .. cWeaponProjectileRegistrar
+  bss    0x83838A78 0x83838A80   # cd2.py datasplits: 2 located, ?ms_pcWeaponProjectileClass@cWeaponProje .. cWeaponProjectileSpawningRegistrar
   hot 0x821FF118   # cWeapon class descriptor virtual getter
+  hot 0x821F4D98   # cWeapon primary slot 381, CanAttack; owner authority, idle-state and empty-ammo checks
+  hot 0x823A0DC8   # cWeapon primary slot 388, EndReloading; clears its reload flag at +0x8BC
+  hot 0x82229EE0   # cWeapon primary slot 386, BeginReloading; duration query, reload flag and three-second equipment timer
+  hot 0x8221BF38   # cWeapon primary slot 387, ProcessReloading; decrements equipment timer and returns to idle
+  hot 0x821FF128   # cWeapon primary table 0x8211F3C8 slot 11: RetClassName returns the registered class name
+  hot 0x82318258   # cWeapon primary table 0x8211F3C8 slot 0; deleting wrapper calls 0x8237A6A0
+  hot 0x821FEDB8   # cWeapon primary slot 391, FinishReload: clears equipment timer and returns to idle
+  hot 0x8225C760   # cWeapon primary slot 389, NotifyReloadComplete: same transition without a return value
+  hot 0x8237A6A0   # cWeapon destructor restores its ten interface tables, then calls cEquipment::~cEquipment at 0x82604CA8
+  hot 0x82235028   # cWeapon primary slot 371: SetCurrentAmmoCount stores its own +0x8B0 field; reference virtual order and CD2 constructor 0x82609AA8 confirm the member
+  folded 0x82623BE0   # deleting wrappers folded: cWeaponPrototype table 0x8211FB20 slot 0 and the derived prototype tables share this 104-byte body; it restores cWeaponPrototype's tables and calls cEquipmentPrototype destruction, matching the compiler-generated wrapper from the inline destructor
+  hot 0x82235030   # cWeapon primary slots 384/385 share its reload-state singleton getter; stores table 0x8211FBA8 (reference STATE_Reloading)
+  hot 0x823A2A58   # STATE_Reloading table 0x8211FBA8 slot 0, BeginState
+  hot 0x821F67E0   # same state table slot 1, EndState
+  hot 0x822055F8   # cWeapon table 0x8211F3C8 slot 399, IncrementClipAmmo; reference own virtual sequence
+  hot 0x82216C48   # same table slot 400, DecrementClipAmmo
+  hot 0x82235080   # same table slot 397, IncrementStoredAmmo
+  hot 0x82378950   # same table slot 398, DecrementStoredAmmo
+  hot 0x8225C8C0   # same table slot 393, NeedsReload
+  hot 0x821E61E8   # same table slot 394, IsEmpty
+  hot 0x8225C7B8   # same table slot 374, IsInfiniteClip
+  hot 0x823A74B8   # same table slot 369, IsUsingInfiniteAmmo
   init 0x82FCBC50   # cWeapon class descriptor pointer initialization
   hot 0x822E5B60   # StaticCreateClass names cWeapon; class ID 0x80, size 0x8C0
   init 0x82FCBE80   # names cWeapon under cEquipment; registrar table 0x8211FB88

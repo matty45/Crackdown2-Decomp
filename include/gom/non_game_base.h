@@ -40,7 +40,10 @@ private:
 protected:
     GOM::cObjectPrototype *m_pPrototype;    // 0x44
 private:
-    unsigned char m_pad48[0x50 - 0x48];
+    unsigned char m_pad48[0x4C - 0x48];
+    // RuffKing m_pOwner. CD2's constructor 0x82653588 clears +0x4C;
+    // cGameBase::RetOwnerGameObject (0x82651AB8) reads it and tests its runtime class.
+    cNonGameBase *m_pOwner;
 protected:
     char *m_p50;
 private:
@@ -51,6 +54,7 @@ private:
     unsigned char m_pad68[0x7C - 0x68];
 
 public:
+        cNonGameBase *RetOwner() const { return m_pOwner; }
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         // Name and base from RuffKing (112 bytes there: no fields of its own). Squad::MakeNew (0x824D81A0) inlines the
@@ -153,6 +157,7 @@ public:
     CD2_LAYOUT_CHECKS(cNonGameBase,
         CD2_SIZE(cNonGameBase, 0x7C)
         CD2_OFFSET(cNonGameBase, m_pPrototype, 0x44)
+        CD2_OFFSET(cNonGameBase, m_pOwner, 0x4C)
         CD2_OFFSET(cNonGameBase, m_p50, 0x50)
         CD2_OFFSET(cNonGameBase, m_nUniqueID, 0x64))
 };

@@ -104,6 +104,12 @@ namespace Prop
         virtual void vf177(); // 177: 0x8272CF20
         virtual void vf179(); // 179: 0x82457A68
         virtual void vf226(); // 226: 0x82730450
+        // CD2 cProp table 0x8200DFC8 overrides cNetDynamicBody's empty slots.
+        virtual void vf258(); // 258: 0x82730470
+        virtual void vf259(); // 259: 0x82730488
+        virtual void vf260(); // 260: 0x827304A0
+        virtual void vf261(); // 261: 0x82258750
+        virtual void vf262(); // 262: 0x827304B8
         virtual void vf271(); // 271: 0x8272AAC8
         virtual void vf283(); // 283: 0x823A22E0
         virtual void OnEnterNetRoleAuthority(etNetRole); // cNetRoleObject 2: 0x827296A0

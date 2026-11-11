@@ -96,8 +96,9 @@ namespace Equip
 
     public:
         // CD2 table 0x82014DD0 differs from cWeapon at these inherited slots.
-        virtual void vf367(); // slot 367: 0x823789C8
-        virtual void vf388(); // slot 388: 0x8261F2D8
+        virtual void InitMaxAmmo(); // slot 367: 0x823789C8
+    protected:
+        virtual void EndReloading(); // slot 388: 0x8261F2D8
 
     public:
         // CD2 table 0x82014DD0 differs from cWeapon at these inherited slots.
