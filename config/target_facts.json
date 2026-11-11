@@ -1,7 +1,7 @@
 {
  "coverage": {
   "defined": 23058,
-  "files": 530,
+  "files": 531,
   "located": 9225,
   "pointers": 29574,
   "ranged": 471
@@ -95351,6 +95351,25 @@
    },
    "size": 80
   },
+  "0x82484C20": {
+   "ltcg": {
+    "ends": true,
+    "sha": "b4e5b841a85458d706ce565774bff15fc236d9a1c32918002eaf7617c05def21"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [],
+    "sha": "b4e5b841a85458d706ce565774bff15fc236d9a1c32918002eaf7617c05def21",
+    "strings": {},
+    "targets": []
+   },
+   "size": 12,
+   "vtable": {
+    "slot": 36,
+    "table": "0x820075B8",
+    "tables": 1
+   }
+  },
   "0x82485588": {
    "ltcg": {
     "ends": true,
@@ -102977,6 +102996,25 @@
    },
    "size": 164
   },
+  "0x824C8F58": {
+   "ltcg": {
+    "ends": true,
+    "sha": "cc6c41e368677fa4da92dd42bfd06e2e27eddc636082493c218fb35e837f7e85"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [],
+    "sha": "cc6c41e368677fa4da92dd42bfd06e2e27eddc636082493c218fb35e837f7e85",
+    "strings": {},
+    "targets": []
+   },
+   "size": 12,
+   "vtable": {
+    "slot": 68,
+    "table": "0x8210B358",
+    "tables": 1
+   }
+  },
   "0x824C9210": {
    "ltcg": {
     "ends": true,
@@ -103411,6 +103449,25 @@
    "size": 20,
    "vtable": {
     "slot": 148,
+    "table": "0x8210B748",
+    "tables": 1
+   }
+  },
+  "0x824CAA00": {
+   "ltcg": {
+    "ends": true,
+    "sha": "f9d774e4a4bf0e9245a97ab8aa6092213b1f6336eb11c82393ba3e989575abbd"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [],
+    "sha": "f9d774e4a4bf0e9245a97ab8aa6092213b1f6336eb11c82393ba3e989575abbd",
+    "strings": {},
+    "targets": []
+   },
+   "size": 12,
+   "vtable": {
+    "slot": 149,
     "table": "0x8210B748",
     "tables": 1
    }
@@ -105064,6 +105121,36 @@
    },
    "size": 164
   },
+  "0x824D0B68": {
+   "ltcg": {
+    "ends": true,
+    "sha": "895fe9afb4049e772281c8b7c81647dcab35c221ffd54389652b873d103fc373"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     0,
+     4
+    ],
+    "sha": "895fe9afb4049e772281c8b7c81647dcab35c221ffd54389652b873d103fc373",
+    "strings": {
+     "0x8210C114:33": "56cff1125e010289f62dcc639d4c6069a112b9e19390e7d2064f7abc877c868d"
+    },
+    "targets": [
+     [
+      4,
+      "data",
+      "0x8210C114"
+     ]
+    ]
+   },
+   "size": 12,
+   "vtable": {
+    "slot": 11,
+    "table": "0x8210C140",
+    "tables": 1
+   }
+  },
   "0x824D16D0": {
    "ltcg": {
     "ends": true,
@@ -105288,6 +105375,36 @@
     ]
    },
    "size": 112
+  },
+  "0x824D28C0": {
+   "ltcg": {
+    "ends": true,
+    "sha": "895fe9afb4049e772281c8b7c81647dcab35c221ffd54389652b873d103fc373"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     0,
+     4
+    ],
+    "sha": "895fe9afb4049e772281c8b7c81647dcab35c221ffd54389652b873d103fc373",
+    "strings": {
+     "0x8210C530:30": "1d59806394b7e5dcfa1b0c70f39e667bf6282048b0e3fb40fed7b6b4cc2bfe19"
+    },
+    "targets": [
+     [
+      4,
+      "data",
+      "0x8210C530"
+     ]
+    ]
+   },
+   "size": 12,
+   "vtable": {
+    "slot": 11,
+    "table": "0x8210C550",
+    "tables": 1
+   }
   },
   "0x824D2B50": {
    "ltcg": {
@@ -129962,6 +130079,36 @@
    "vtable": {
     "slot": 11,
     "table": "0x8212D908",
+    "tables": 1
+   }
+  },
+  "0x8265B9F0": {
+   "ltcg": {
+    "ends": true,
+    "sha": "895fe9afb4049e772281c8b7c81647dcab35c221ffd54389652b873d103fc373"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     0,
+     4
+    ],
+    "sha": "895fe9afb4049e772281c8b7c81647dcab35c221ffd54389652b873d103fc373",
+    "strings": {
+     "0x8212D968:8": "c4892d97ab42d428eef7295b9da0b140604af8b3a9337ca8605ce1ce4ac4c1da"
+    },
+    "targets": [
+     [
+      4,
+      "data",
+      "0x8212D968"
+     ]
+    ]
+   },
+   "size": 12,
+   "vtable": {
+    "slot": 11,
+    "table": "0x8212D970",
     "tables": 1
    }
   },
@@ -164953,6 +165100,36 @@
    "vtable": {
     "slot": 0,
     "table": "0x8215A420",
+    "tables": 1
+   }
+  },
+  "0x82837648": {
+   "ltcg": {
+    "ends": true,
+    "sha": "895fe9afb4049e772281c8b7c81647dcab35c221ffd54389652b873d103fc373"
+   },
+   "plain": {
+    "constants": {},
+    "relocations": [
+     0,
+     4
+    ],
+    "sha": "895fe9afb4049e772281c8b7c81647dcab35c221ffd54389652b873d103fc373",
+    "strings": {
+     "0x8215A48C:17": "80b25d2cb8526c8a3d80d40e3218d15bbee62d69f1c899c36858456857ed932d"
+    },
+    "targets": [
+     [
+      4,
+      "data",
+      "0x8215A48C"
+     ]
+    ]
+   },
+   "size": 12,
+   "vtable": {
+    "slot": 7,
+    "table": "0x820022DC",
     "tables": 1
    }
   },
@@ -514644,6 +514821,9 @@
   ],
   "0x8247F028": [
    "0x820075FC"
+  ],
+  "0x82484C20": [
+   "0x82007648"
   ],
   "0x82486EC0": [
    "0x82104A0C"

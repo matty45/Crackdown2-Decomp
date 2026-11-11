@@ -14,6 +14,7 @@ namespace AI
     class cChaseAndAttackPilotBehaviour : public cAgressiveResponsePilotBehaviour
     {
     public:
+        virtual const char *RetClassName() const;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static Fun_Runtime::cClass &StaticCreateClass();

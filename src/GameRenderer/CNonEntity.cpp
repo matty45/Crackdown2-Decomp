@@ -11,6 +11,11 @@ namespace GameRenderer
     static RWS::CClassFactory::CRegistrar CEntityRegistrar(
         "CEntity", CEntity::MakeNew, 0x80, false);
 
+    const char *CEntity::RetClassName() const
+    {
+        return "CEntity";
+    }
+
     const char *CNonEntity::RetClassName() const
     {
         return "CNonEntity";

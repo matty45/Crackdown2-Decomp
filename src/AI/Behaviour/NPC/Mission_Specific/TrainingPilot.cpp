@@ -64,4 +64,9 @@ namespace AI
     // CD2 0x82F98CA8: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar TrainingPilotSpawningRegistrar(
         TrainingPilot::StaticCreateClass(), TrainingPilot::SpawnFromPrototype);
+
+    void TrainingPilot::OnEnter()
+    {
+        m_bPatrolling = false;
+    }
 }

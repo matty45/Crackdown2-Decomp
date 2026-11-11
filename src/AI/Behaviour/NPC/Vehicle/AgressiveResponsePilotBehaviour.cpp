@@ -21,6 +21,11 @@ namespace AI
 {
     const Fun_Runtime::cClass *cAgressiveResponsePilotBehaviour::ms_pcAgressiveResponsePilotBehaviourClass = &cAgressiveResponsePilotBehaviour::StaticCreateClass();
 
+    const char *cAgressiveResponsePilotBehaviour::RetClassName() const
+    {
+        return "cAgressiveResponsePilotBehaviour";
+    }
+
     static Fun_Runtime::cInheritanceRegistrar cAgressiveResponsePilotBehaviourcAgressiveResponseBaseInheritRegistrar(
         cAgressiveResponsePilotBehaviour::StaticCreateClass(), cAgressiveResponseBase::StaticCreateClass());
 

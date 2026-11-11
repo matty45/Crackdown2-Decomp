@@ -34,6 +34,11 @@ namespace AI
     {
         return new cTrainingMission();
     }
+
+    void cTrainingMission::GetSaveStateForMissionState(unsigned char &, unsigned char &saveState)
+    {
+        saveState = 0;
+    }
 }
 
 static RWS::CClassFactory::CRegistrar cTrainingMissionRegistrar(

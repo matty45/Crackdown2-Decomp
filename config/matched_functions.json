@@ -18925,6 +18925,11 @@
         "symbol": "??__FCNonEntityRegistrar@GameRenderer@@YAXXZ"
       },
       {
+        "address": "0x8265B9F0",
+        "size": 12,
+        "symbol": "?RetClassName@CEntity@GameRenderer@@"
+      },
+      {
         "address": "0x82FD8628",
         "size": 36,
         "symbol": "??__EfMAX_TIME_STEP@@"
@@ -24615,6 +24620,11 @@
         "address": "0x824CA478",
         "size": 20,
         "symbol": "?ExitMoveToCover@cAgressiveResponseChaseBehaviour@AI@@"
+      },
+      {
+        "address": "0x824CAA00",
+        "size": 12,
+        "symbol": "?ExitEngagingFromCover@cAgressiveResponseChaseBehaviour@AI@@"
       }
     ],
     "src/AI/cAmbientTrafficBehaviour.cpp": [
@@ -27439,6 +27449,11 @@
         "symbol": "?RetClassName@cTrainingMission@AI@@"
       },
       {
+        "address": "0x82484C20",
+        "size": 12,
+        "symbol": "?GetSaveStateForMissionState@cTrainingMission@AI@@"
+      },
+      {
         "address": "0x82F8BC88",
         "size": 76,
         "symbol": "??__EcTrainingMissionRegistrar@@"
@@ -29377,6 +29392,11 @@
         "address": "0x82F98CA8",
         "size": 72,
         "symbol": "??__ETrainingPilotSpawningRegistrar@AI@@"
+      },
+      {
+        "address": "0x824C8F58",
+        "size": 12,
+        "symbol": "?OnEnter@TrainingPilot@AI@@"
       },
       {
         "address": "0x824C8DA8",
@@ -54310,6 +54330,11 @@
         "address": "0x8303BCF0",
         "size": 20,
         "symbol": "??__FcAgressiveResponsePilotBehaviourSpawningRegistrar@AI@@"
+      },
+      {
+        "address": "0x824D0B68",
+        "size": 12,
+        "symbol": "?RetClassName@cAgressiveResponsePilotBehaviour@AI@@"
       }
     ],
     "src/AI/Behaviour/NPC/Vehicle/ChaseAndAttackPilotBehaviour.cpp": [
@@ -54410,6 +54435,11 @@
         "address": "0x8303BD48",
         "size": 20,
         "symbol": "??__FcChaseAndAttackPilotBehaviourSpawningRegistrar@AI@@"
+      },
+      {
+        "address": "0x824D28C0",
+        "size": 12,
+        "symbol": "?RetClassName@cChaseAndAttackPilotBehaviour@AI@@"
       }
     ],
     "src/Anim/cAnimationParams.cpp": [
@@ -56215,6 +56245,11 @@
         "address": "0x83043840",
         "size": 12,
         "symbol": "??__FcWorldGameObjectRegistrar@Audio@@"
+      },
+      {
+        "address": "0x82837648",
+        "size": 12,
+        "symbol": "?RetClassName@cWorldGameObject@Audio@@"
       }
     ],
     "src/VFX/cBarrier.cpp": [
