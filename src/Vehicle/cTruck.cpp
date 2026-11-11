@@ -9,6 +9,9 @@
 #include "CHARACTER/cCharacterController.h"
 #include "CHARACTER/cRagdollProfile.h"
 #include "Vehicle/cTruck.h"
+#include "PHYSICS/cPhysicsUniverse.h"
+#include "PHYSICS/cPhysicsWorld.h"
+#include "Havok/hkRigidBody.h"
 #include "rws/classfactory.h"
 #include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
@@ -56,6 +59,16 @@ namespace Vehicle
     {
         static Fun_Runtime::cClass *cTruckClass = new Fun_Runtime::cClass(0x11, "cTruck", 0x3290);
         return *cTruckClass;
+    }
+
+    void cTruck::RemoveWedge()
+    {
+        if (m_pWedgeRigidBody)
+        {
+            m_pWedgeRigidBody->removeReference();
+            PHYSICS::cPhysicsUniverse::m_pPrimaryWorld->removeEntity(m_pWedgeRigidBody);
+            m_pWedgeRigidBody = 0;
+        }
     }
 
     Fun_Runtime::RetVal cTruck::cTruckPrototype::Init(const RWS::CAttributePacket &)

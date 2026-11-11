@@ -10,6 +10,8 @@
 #include "CHARACTER/cRagdollProfile.h"
 #include "AI/aiconstants.h"
 #include "Vehicle/cLandVehicle.h"
+#include "PHYSICS/cCustomVehicleInstance.h"
+#include "Havok/hkVehicleDriverInputAnalogStatus.h"
 #include "rws/classfactory.h"
 #include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
@@ -62,6 +64,33 @@ namespace Vehicle
     {
         static Fun_Runtime::cClass *cLandVehicleClass = new Fun_Runtime::cClass(0x642, "cLandVehicle", 0x28C0);
         return *cLandVehicleClass;
+    }
+
+    bool cLandVehicle::IsReversing()
+    {
+        return m_pVehicleInstance ? bool(m_pVehicleInstance->IsReversing()) : false;
+    }
+
+    bool cLandVehicle::IsBraking()
+    {
+        return m_pVehicleInstance ? bool(m_pVehicleInstance->IsBraking()) : false;
+    }
+
+    bool cLandVehicle::IsHandbrakeOn()
+    {
+        return m_pVehicleInstance ? bool(static_cast<hkVehicleDriverInputAnalogStatus *>(m_pVehicleInstance->m_deviceStatus)->m_handbrakeButtonPressed == true) : false;
+    }
+
+    void cLandVehicle::SetEngineDamage(float modifier)
+    {
+        if (m_pVehicleInstance)
+            m_pVehicleInstance->m_DamageTorqueEfficiencyMultiplier = modifier;
+    }
+
+    void cLandVehicle::SetSteeringAngle(float angle)
+    {
+        if (m_pVehicleInstance)
+            m_pVehicleInstance->SetSteeringAngle(angle);
     }
 
     bool cLandVehicle::IsAPoliceVehicle()

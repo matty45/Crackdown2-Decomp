@@ -6,6 +6,8 @@
 
 #include <vectorintrinsics.h>
 #include "cd2/layout.h"
+#include "Havok/hkSimdReal.h"
+#include <math.h>
 
 typedef float hkReal;
 typedef __vector4 hkQuadReal;
@@ -32,6 +34,9 @@ public:
     }
     hkVector4(const hkVector4 &v) { m_quad = v.m_quad; }
     void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
+    const hkQuadReal &getQuad() const { return m_quad; }
+    hkSimdReal dot3(const hkVector4 &other) const { return hkSimdReal(__vmsum3fp(m_quad, other.m_quad)); }
+    hkSimdReal length3() const { return hkSimdReal(sqrtf(__vmsum3fp(m_quad, m_quad).x)); }
 
 private:
     hkQuadReal m_quad;

@@ -12,6 +12,8 @@
 #include "gom/object_prototype.h"
 #include "Vehicle/cVehicle.h"
 
+namespace PHYSICS { class cCustomVehicleInstance; }
+
 namespace Vehicle
 {
     class cLandVehicle : public cVehicle
@@ -65,19 +67,28 @@ namespace Vehicle
         // Registered-class table 0x8213477C: slot 0 (0x826C0D48) and slot 1 (0x826C0D58).
         virtual const Fun_Runtime::cClass &RetClass() const;
         virtual bool IsA(const Fun_Runtime::cClass &) const;
+        // CD2 virtual slots 326, 327, 353 and 363; names agree with the reference interfaces.
+        virtual bool IsReversing();
+        bool IsBraking();
+        virtual bool IsHandbrakeOn();
+        virtual void SetEngineDamage(float);
+        virtual void SetSteeringAngle(float);
         // CD2 slot 417, 0x826C6B88; reference member name and offset agree.
         virtual void SetMustStop(bool);
         // CD2 primary slot 410 (0x826C4980), matching the reference police-light virtual order.
         virtual bool IsAPoliceVehicle();
 
     private:
-        unsigned char m_unmodelled1740[0x2894 - 0x1740];
+        unsigned char m_unmodelled1740[0x1DA4 - 0x1740];
+        PHYSICS::cCustomVehicleInstance *m_pVehicleInstance;
+        unsigned char m_unmodelled1DA8[0x2894 - 0x1DA8];
         bool m_bMustStop;
         unsigned char m_unmodelled2895[0x28C0 - 0x2895];
 
         CD2_LAYOUT_CHECKS(cLandVehicle,
             CD2_SIZE(cLandVehicle, 0x28C0)
-            CD2_OFFSET(cLandVehicle, m_bMustStop, 0x2894))
+            CD2_OFFSET(cLandVehicle, m_bMustStop, 0x2894)
+            CD2_OFFSET(cLandVehicle, m_pVehicleInstance, 0x1DA4))
     };
 }
 

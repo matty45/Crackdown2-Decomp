@@ -13,8 +13,6 @@ namespace Audio
 {
     const Fun_Runtime::cClass *cWorldGameObjectPosition::ms_pcWorldGameObjectPositionClass = &cWorldGameObjectPosition::StaticCreateClass();
 
-    cWorldGameObjectPosition::cWorldGameObjectPosition() {}
-
     const Fun_Runtime::cClass &cWorldGameObjectPosition::RetClass() const
     {
         return *ms_pcWorldGameObjectPositionClass;
@@ -30,10 +28,12 @@ namespace Audio
         return ms_pcWorldGameObjectPositionClass->IsA(c);
     }
 
+
     RWS::CAttributeHandler *cWorldGameObjectPosition::MakeNew(const RWS::CAttributePacket &packet, bool)
     {
-        return new cWorldGameObjectPosition();
+        return new cWorldGameObjectPosition(packet);
     }
+
 }
 
 static RWS::CClassFactory::CRegistrar cWorldGameObjectPositionRegistrar(

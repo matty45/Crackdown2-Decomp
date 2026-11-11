@@ -590,7 +590,7 @@ One line each: what is ruled out. Remove the line when the function matches.
   written order of the two sums makes no difference (/fp:fast reorders them and merges the second into the first),
   nor does testing the stored `out[]` values, declaring `x` before `z` (worse), or /fp:precise or /fp:strict with
   either order (worse), `#pragma optimize("g", off)` (0%), `__fsqrts` or a double `sqrt` (no change), inline
-  helpers reading `out[]` (worse), and a length helper in another file under LTCG (not inlined under /Ob1). CD2
+  (Later: an `if (normalise && x * x + z * z < 0.01f)` form with an `else if (normalise)` reaches 91.7% by objdiff, but `check` scores it 45.2% (plain and LTCG): the second normalise test is compiled in. An early `if (!normalise) return;` with the sums in either order recomputes nothing and scores 75.7%; swapping the operands of `x * inv` changes nothing.) helpers reading `out[]` (worse), and a length helper in another file under LTCG (not inlined under /Ob1). CD2
   computes the two sums separately, in opposite orders. Best lead (91.7% by objdiff): `if (normalise && x * x + z * z
   < 0.01f) { zero } else if (normalise) { normalise }`. The square-root sum is then not available on every path, so it
   is computed again exactly as in CD2. But our build, plain or LTCG, keeps the second `normalise` test, which CD2 does
@@ -816,3 +816,83 @@ One line each: what is ruled out. Remove the line when the function matches.
   HandleSystemCommands (0x823D2BF0) returns after the first CMD_LoadMatrix, also EXACT in both modes.
 
 - Helicopter-controller file deleting wrapper (0x82783448): the former cHelicopterControllerPrototype claim was incorrect. Its table is 0x8214C264, while the prototype constructor installs 0x8214C1A8 with deleting wrapper 0x82684630. The actual destructor 0x82783498 unregisters events and destroys state through +0x37C; ownership remains open.
+
+- cWorldGameObjectPosition: Burn/RuffKing and CD2 factory 0x82837F18 establish position +0x20,
+  direction +0x30, created flag +0x40, world-object pointer +0x44 and ID +0x48 (size 0x50).
+  The inline empty destructor yields deleting wrapper 0x82837FC8 EXACT in plain and LTCG.
+  Factory initialization remains unpromoted: literal vectors have scheduling/load differences; explicit
+  g_GlobalConstants scalar constructor arguments reproduce its bytes but reference the file-local copy at
+  0x832AA110, while IsA uses 0x830ACBD8. A separate global-namespace static (as reference objects list it)
+  exposes two COFF statics both named g_GlobalConstants, at distinct section offsets; relocs.Obj currently
+  keys symbols only by name and merges them. Those duplicate-static probes were removed. Resolve source
+  ownership and COFF identity before promoting; never alias the two different addresses as one object.
+
+- cGrappler mixed compiler settings: its factory, placement factory, class getter, name getter and
+  descriptor-pointer initializer are EXACT with the existing /Ox /Ob1 configuration. A/B probes showed
+  /Od /Ob0 reproduces the four later inheritance/factory/spawning/atexit registrar sequences, while
+  breaking the existing optimized header initializers and prototype Init. Whole-file /Od is therefore
+  unsupported; no compiler override was retained. The unoptimized bodies and registrars remain open.
+- Land-vehicle Havok interfaces: IsHandbrakeOn, SetEngineDamage and SetSteeringAngle are EXACT in
+  plain and LTCG with m_pVehicleInstance at +0x1DA4. The first uses hkVehicleDriverInputAnalogStatus's
+  hkBool at +0x10; SetSteeringAngle forwards to cCustomVehicleInstance (0x8269AD68), whose steering-angle
+  store and wheel loop identify the method. IsReversing/IsBraking are also EXACT after calling the
+  reference-named cCustomVehicleInstance helpers that return hkBool by value. A/B: converting the
+  field directly omits CD2's sign extension; returning the same field through the real hkBool-valued
+  helper preserves it. Changing char to signed char alone did not help. The matching base virtual
+  names replace the old numeric aliases at the existing folded false/empty addresses; no new alias
+  address was added.
+- cCustomVehicleInstance's recovered source range 0x82699F00..0x8269ADC8 contains its RPM/phantom
+  virtuals, compiler-generated copy helpers and SetSteeringAngle. The constructor installs table
+  0x82133048 at 0x82699680 and initializes the reference-named custom fields through +0xDB1; that
+  table's slots 9/11/4 identify calcRPM/calcMPH/getPhantoms. The copied custom/base/wheel layouts
+  identify the intervening helpers. calcRPM, calcMPH, getPhantoms and SetSteeringAngle are promoted.
+  SetSteeringAngle assigns the main angle and walks the signed wheel count, updating only wheels
+  selected by hkVehicleDefaultSteering::m_doesWheelSteer; the ordinary typed loop is EXACT in both builds.
+
+- cCustomVehicleInstance::calcMPH (0x82699F08): CD2 uses the rounded 2.2369974f factor,
+  not 2.2369363f. The hkEntity motion pointer (+0x50), hkRigidMotion linear velocity (+0xD0),
+  and SIMD/scalar wrappers recover the original access chain. A/B: converting dot3 through
+  hkSimdReal first emits stvewx; length3 must instead extract the dot product before sqrtf,
+  then construct hkSimdReal's splat. Its float conversion uses stvewx. This gives 21/21
+  words under LTCG; plain output still differs, so the manifest records ltcg:true.
+- cCharacterControllerComplex: constructor 0x82282670 installs table 0x821147D8 and
+  initializes the reference character info at +0xE0, velocities at +0x150..+0x1D0,
+  phantom +0x234, listener +0x240 and state flags +0x300..+0x302. The getter range
+  0x8255E2B8..0x8255E5F8 and matching table slots establish the new source split.
+  CD2's three flag bytes use the reverse declaration order within each byte compared
+  with the later reference: reversing the groups makes all predicates and SetIsInWater
+  EXACT. CD2 also swaps the standing-body predicate/heading slots and inserts a
+  boolean listener query at slot 51; that slot's name/signature remains open, with no body.
+  Disassembly places the two ApplyVecticalForce overloads at 52/53, the two-float
+  RetVecticalForce arithmetic at 54 and ForceLinearVelocity at 55.
+  The 43 promoted getters/setters are EXACT in plain and LTCG.
+  Vec3's real storage is a single __vector4. A/B: implicit assignment of our scalar-view
+  union expands into scalar copies, while explicit whole-vector assignment preserves
+  the original storage operation and makes SetEffectsVelocity/SetADMOffset EXACT.
+  The reference-named Set and Zero helpers recover GetPositionPhantom, horizontal-only
+  controls and ZeroLastControlsVelocity without raw offsets. ZeroEffectsVelocity remains
+  open: it passes the shared zero object's address directly to the virtual setter,
+  whereas our OldVec3 conversion constructs a temporary.
+
+- cCharacterControllerSimple: constructor 0x82564780 installs primary table 0x8200A880
+  at 0x825647C0. Its dimension info at +0x70, phantom +0x134, position +0x230 and
+  flag bytes +0x250/+0x251 agree with the getter range 0x82564578..0x82564780.
+  Twenty-five getters/setters in that range and two gravity setters at 0x82566548/
+  0x82566560 are EXACT in plain and LTCG. The latter are primary slots 73/74 and
+  access the same own gravity/flag fields, establishing their source ownership.
+  IsNearGround, IsNearFlatGround and IsOnGround share one address; only the first
+  is promoted. The distinct table 0x8200BB28 shares some bodies but is not assigned
+  this class's identity. CD2's masks place physical presence at byte 0x250 bit 2,
+  in-water at bit 1, unsafe at bit 0, still at bit 7, expensive checks at bit 4;
+  supported is byte 0x251 bit 7, switched direction bit 3 and gravity override bit 2.
+  GetLastGroundNormal returns a three-component value with w=1: using the shared
+  OldVec3-to-Vec3 conversion is EXACT; the member differs from the later Vec3 type.
+  The common interface now reaches slot 95, following the reference sequence after
+  CD2's extra slot 51. The final CD2 slot 96 remains unrecovered.
+- Simple/complex AddEffectsVelocity (0x825646B0/0x8255E538): vector addition and
+  virtual setter dispatch agree, but CD2 retains an aggregate-copy stage (two 64-bit
+  loads/stores) after the SIMD temporary store. Direct __vaddfp conversion, a natural
+  inline operator+, constructor body versus initializer list and value versus reference
+  vector parameters all omit that stage (7/24 words in strict checks, 18 versus 24
+  instructions). The partial bodies and unused wrapper probes were removed. Do not
+  manufacture a self-copy to fill the instruction gap; recover the original wrapper.

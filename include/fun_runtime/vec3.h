@@ -6,6 +6,7 @@
 #define FUN_RUNTIME_VEC3_H
 
 #include <ppcintrinsics.h>
+#include <vectorintrinsics.h>
 #include "fun_runtime/oldvec3.h"
 
 namespace Fun_Runtime
@@ -20,6 +21,10 @@ namespace Fun_Runtime
         };
 
         Vec3() : x(0.0f), y(0.0f), z(0.0f) {}
+        void Set(float xValue, float yValue, float zValue) { x = xValue; y = yValue; z = zValue; }
+        // CD2 ZeroLastControlsVelocity loads the complete typed zero-vector object.
+        void Zero() { v = __lvx(&ZeroVec, 0); }
+        Vec3 &operator=(const Vec3 &other) { v = other.v; return *this; }
         Vec3(const Vec3 &o) : v(o.v) { x = o.x; w = 0.0f; y = o.y; z = o.z; }
         // RuffKing declares Vec3(const OldVec3 &); w = 1.0 as in RuffKing's Vec3(float, float, float). CD2's
         // AI::cPedestrianBase constructor builds two members from ZeroVec this way: each component read after the

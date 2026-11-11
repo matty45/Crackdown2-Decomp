@@ -9,6 +9,8 @@
 #include "fun_runtime/retval.h"
 #include "Vehicle/cCar.h"
 
+class hkRigidBody;
+
 namespace Vehicle
 {
     class cTruck : public cCar
@@ -29,6 +31,7 @@ namespace Vehicle
         };
 
         cTruck();
+        void RemoveWedge();
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *memory);
         static Fun_Runtime::cClass &StaticCreateClass();
         // CD2 0x826CB3D8, registered by the class-factory registrar (0x82FE9578).
@@ -39,10 +42,13 @@ namespace Vehicle
         virtual const char *RetClassName() const;
 
     private:
-        unsigned char m_unmodelled3070[0x3290 - 0x3070];
+        // RuffKing field name; CD2 RemoveWedge loads and clears +0x3070.
+        hkRigidBody *m_pWedgeRigidBody;
+        unsigned char m_unmodelled3074[0x3290 - 0x3074];
 
         CD2_LAYOUT_CHECKS(cTruck,
-            CD2_SIZE(cTruck, 0x3290))
+            CD2_SIZE(cTruck, 0x3290)
+            CD2_OFFSET(cTruck, m_pWedgeRigidBody, 0x3070))
     };
 }
 

@@ -17,11 +17,37 @@
 #include "CHARACTER/cCharacterController.h"
 #include "CHARACTER/cRagdollProfile.h"
 #include "unknown/cGrapplerPrototype.h"
+#include "unknown/cGrappler.h"
+#include "cd2/memory.h"
+#include <new>
 
 namespace unknown
 {
+    const Fun_Runtime::cClass &cGrappler::RetClass() const
+    {
+        return *ms_pcGrapplerClass;
+    }
+
+    RWS::CAttributeHandler *cGrappler::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cGrapplerPrototype(packet);
+    }
+
+    const char *cGrappler::RetClassName() const
+    {
+        return "cGrappler";
+    }
+
+    RWS::CAttributeHandler *cGrappler::SpawnFromPrototype(GOM::cObjectPrototype *prototype, void *memory)
+    {
+        if (memory)
+            return new (memory) cGrappler(prototype);
+        return 0;
+    }
+
     Fun_Runtime::RetVal cGrapplerPrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;
     }
+    const Fun_Runtime::cClass *cGrappler::ms_pcGrapplerClass = &cGrappler::StaticCreateClass();
 }

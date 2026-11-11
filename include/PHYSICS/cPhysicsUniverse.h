@@ -11,9 +11,12 @@
 
 namespace PHYSICS
 {
+    class cPhysicsWorld;
     class cPhysicsUniverse : public cNonGameBase
     {
     public:
+        // RuffKing static name; CD2 RemoveWedge (0x826CC448) loads it at 0x83800DD4.
+        static cPhysicsWorld *m_pPrimaryWorld;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         static const Fun_Runtime::cClass *ms_pcPhysicsUniverseClass;

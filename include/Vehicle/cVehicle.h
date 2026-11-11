@@ -118,14 +118,14 @@ namespace Vehicle
         // Primary slots 314..441: cVehicle's own virtuals (see above).
         virtual void vf314(); virtual void vf315(); virtual void vf316(); virtual void vf317(); virtual void vf318(); virtual void vf319();
         virtual void vf320(); virtual void vf321(); virtual void vf322(); virtual void vf323(); virtual void vf324(); virtual void vf325();
-        virtual void vf326(); virtual void vf327(); virtual void vf328(); virtual void vf329(); virtual void vf330(); virtual void vf331();
+        virtual bool IsReversing(); virtual bool IsHandbrakeOn(); virtual void vf328(); virtual void vf329(); virtual void vf330(); virtual void vf331();
         virtual void vf332(); virtual void vf333(); virtual void vf334(); virtual void vf335(); virtual void vf336(); virtual void vf337();
         virtual void vf338(); virtual void vf339(); virtual void vf340(); virtual void vf341(); virtual void vf342(); virtual void vf343();
         virtual void SetEngineState(const etEngineStatus eNewState); virtual void StartEngine(); virtual void StopEngine(); virtual void vf347(); virtual void vf348(); virtual bool LocateParts(const char **, unsigned short);
-        virtual bool CreateParts(const char **, unsigned short); virtual void vf351(); virtual void vf352(); virtual void vf353(); virtual void vf354(); virtual void vf355();
+        virtual bool CreateParts(const char **, unsigned short); virtual void vf351(); virtual void vf352(); virtual void SetSteeringAngle(float); virtual void vf354(); virtual void vf355();
         virtual void vf356(); virtual void vf357(); virtual void vf358(); virtual void vf359();
         virtual float RetTheoreticalMaxMPH();   // slot 360, CD2 0x826CC788
-        virtual void vf361(); virtual void vf362(); virtual void vf363(); virtual void vf364(); virtual void vf365(); virtual void vf366();
+        virtual void vf361(); virtual void vf362(); virtual void SetEngineDamage(float); virtual void vf364(); virtual void vf365(); virtual void vf366();
         virtual void vf367(); virtual void vf368(); virtual void vf369(); virtual void SetPhysicsLOD(unsigned char nNewLOD); virtual void EventPhysicsLODChange(unsigned char, unsigned char); virtual void vf372();
         virtual float RetNetworkDoorOpenCloseSpeed(unsigned char nSeatIdx); virtual void vf374(); virtual void vf375(); virtual void vf376(); virtual void vf377(); virtual void vf378();
         virtual unsigned char GetForceOpenMask(); virtual void vf380(); virtual void vf381(); virtual bool IsLightActive(VFX::cGlobalLight *pLight, unsigned char nLightType, unsigned char nIndex); virtual void vf383(); virtual void vf384();

@@ -4,7 +4,13 @@
 #ifndef HAVOK_HKRIGIDBODY_H
 #define HAVOK_HKRIGIDBODY_H
 #include "Havok/hkEntity.h"
+#include "Havok/hkRigidMotion.h"
 class hkRigidBody : public hkEntity
 {
+public:
+    const hkVector4 &getLinearVelocity() const
+    {
+        return static_cast<const hkRigidMotion *>(m_motion)->getLinearVelocity();
+    }
 };
 #endif

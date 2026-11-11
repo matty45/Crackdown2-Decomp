@@ -21884,6 +21884,31 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x826C48D0",
+        "size": 44,
+        "symbol": "?IsHandbrakeOn@cLandVehicle@Vehicle@@"
+      },
+      {
+        "address": "0x826C4928",
+        "size": 20,
+        "symbol": "?SetEngineDamage@cLandVehicle@Vehicle@@"
+      },
+      {
+        "address": "0x826C4968",
+        "size": 20,
+        "symbol": "?SetSteeringAngle@cLandVehicle@Vehicle@@"
+      },
+      {
+        "address": "0x826C4880",
+        "size": 40,
+        "symbol": "?IsReversing@cLandVehicle@Vehicle@@"
+      },
+      {
+        "address": "0x826C48A8",
+        "size": 40,
+        "symbol": "?IsBraking@cLandVehicle@Vehicle@@"
       }
     ],
     "src/Vehicle/cLandVehicleProfile.cpp": [
@@ -29803,6 +29828,11 @@
         "address": "0x83013AD8",
         "size": 176,
         "symbol": "??__E?ms_pcWorldGameObjectPositionClass@cWorldGameObjectPosition@Audio@@"
+      },
+      {
+        "address": "0x82837FC8",
+        "size": 92,
+        "symbol": "??_GcWorldGameObjectPosition@Audio@@"
       }
     ],
     "src/VEHICLE_CONTROL/cVehicleCollectionZone.cpp": [
@@ -30181,6 +30211,11 @@
         "size": 56,
         "symbol": "??__EfStepDotTan@CHARACTER@@",
         "ltcg": true
+      },
+      {
+        "address": "0x826CC448",
+        "size": 84,
+        "symbol": "?RemoveWedge@cTruck@Vehicle@@"
       }
     ],
     "src/cCwTransCharacter.cpp": [
@@ -48810,6 +48845,31 @@
         "size": 40,
         "symbol": "??__EnPART_PERCENT_WEIGHT@@",
         "ltcg": true
+      },
+      {
+        "address": "0x82631A38",
+        "size": 12,
+        "symbol": "?RetClass@cGrappler@unknown@@"
+      },
+      {
+        "address": "0x82631AA8",
+        "size": 88,
+        "symbol": "?MakeNew@cGrappler@unknown@@"
+      },
+      {
+        "address": "0x82631B00",
+        "size": 12,
+        "symbol": "?RetClassName@cGrappler@unknown@@"
+      },
+      {
+        "address": "0x82631B10",
+        "size": 32,
+        "symbol": "?SpawnFromPrototype@cGrappler@unknown@@"
+      },
+      {
+        "address": "0x82FD3680",
+        "size": 40,
+        "symbol": "??__E?ms_pcGrapplerClass@cGrappler@unknown@@"
       }
     ],
     "src/AI/cAiTargetInfo.cpp": [
@@ -61395,6 +61455,246 @@
         "address": "0x82F47918",
         "size": 12,
         "symbol": "?jzero_far@@"
+      }
+    ],
+    "src/PHYSICS/cCustomVehicleInstance.cpp": [
+      {
+        "address": "0x82699F00",
+        "size": 8,
+        "symbol": "?calcRPM@cCustomVehicleInstance@PHYSICS@@"
+      },
+      {
+        "address": "0x82699F60",
+        "size": 20,
+        "symbol": "?getPhantoms@cCustomVehicleInstance@PHYSICS@@"
+      },
+      {
+        "address": "0x8269AD68",
+        "size": 92,
+        "symbol": "?SetSteeringAngle@cCustomVehicleInstance@PHYSICS@@"
+      },
+      {
+        "address": "0x82699F08",
+        "size": 84,
+        "symbol": "?calcMPH@cCustomVehicleInstance@PHYSICS@@",
+        "ltcg": true
+      }
+    ],
+    "src/CHARACTER/cCharacterControllerComplex.cpp": [
+      {
+        "address": "0x8255E2B8",
+        "size": 8,
+        "symbol": "?RetPtrListener@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E2C0",
+        "size": 8,
+        "symbol": "?RetPlatformVelocity@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E2C8",
+        "size": 28,
+        "symbol": "?GetPositionPhantom@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E2E8",
+        "size": 8,
+        "symbol": "?RetMaxStandheight@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E2F0",
+        "size": 8,
+        "symbol": "?RetStandHalfBox@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E2F8",
+        "size": 8,
+        "symbol": "?RetPtrShapePhantom@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E300",
+        "size": 12,
+        "symbol": "?IsPhantomInWorld@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E310",
+        "size": 12,
+        "symbol": "?IsInUnsafePosition@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E320",
+        "size": 12,
+        "symbol": "?IsNearGround@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E330",
+        "size": 12,
+        "symbol": "?IsNearFlatGround@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E340",
+        "size": 12,
+        "symbol": "?IsOnGround@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E350",
+        "size": 12,
+        "symbol": "?IsStill@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E360",
+        "size": 12,
+        "symbol": "?IsInWater@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E370",
+        "size": 20,
+        "symbol": "?SetIsInWater@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E388",
+        "size": 8,
+        "symbol": "?RetWaterSurfaceState@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E390",
+        "size": 12,
+        "symbol": "?IsOnSteps@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E3A0",
+        "size": 12,
+        "symbol": "?IsSteppingUp@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E3B0",
+        "size": 12,
+        "symbol": "?IsSteppingDown@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E3C0",
+        "size": 12,
+        "symbol": "?IsUpperBodyFireFlatBlocked@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E3D0",
+        "size": 12,
+        "symbol": "?IsUpperBodyAimBlocked@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E3E0",
+        "size": 12,
+        "symbol": "?IsUpperBodyFireBlocked@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E3F0",
+        "size": 12,
+        "symbol": "?IsUpperBlodyBlockedBySolidObject@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E400",
+        "size": 12,
+        "symbol": "?HasSwitchedDirection@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E410",
+        "size": 12,
+        "symbol": "?IsPartiallySupported@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E420",
+        "size": 24,
+        "symbol": "?RetStandingOnBody@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E4B8",
+        "size": 8,
+        "symbol": "?RetStandingOnBodyLocalHeading@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E4C0",
+        "size": 8,
+        "symbol": "?RetLinearVelocity@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E4C8",
+        "size": 8,
+        "symbol": "?RetAverageLinearVelocity@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E4D0",
+        "size": 8,
+        "symbol": "?Ret2DVelocity@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E4D8",
+        "size": 8,
+        "symbol": "?Ret2DAverageVelocity@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E4E0",
+        "size": 8,
+        "symbol": "?RetLastControlsVelocity@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E4E8",
+        "size": 8,
+        "symbol": "?RetControlsVelocity@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E4F0",
+        "size": 32,
+        "symbol": "?SetControlsVelocity@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E510",
+        "size": 24,
+        "symbol": "?ZeroLastControlsVelocity@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E528",
+        "size": 16,
+        "symbol": "?SetEffectsVelocity@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E5B0",
+        "size": 8,
+        "symbol": "?RetEffectsVelocity@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E5B8",
+        "size": 8,
+        "symbol": "?SetEffectsYVelocity@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E5C0",
+        "size": 8,
+        "symbol": "?RetEffectsYVelocity@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E5C8",
+        "size": 16,
+        "symbol": "?SetADMOffset@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E5D8",
+        "size": 8,
+        "symbol": "?SetFwdStick@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E5E0",
+        "size": 8,
+        "symbol": "?SetStrafeStick@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E5E8",
+        "size": 8,
+        "symbol": "?RetFwdStick@cCharacterControllerComplex@CHARACTER@@"
+      },
+      {
+        "address": "0x8255E5F0",
+        "size": 8,
+        "symbol": "?RetStrafeStick@cCharacterControllerComplex@CHARACTER@@"
       }
     ]
   }

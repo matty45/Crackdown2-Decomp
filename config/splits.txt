@@ -3965,6 +3965,12 @@ src/CHARACTER/cNPCTintProfile.cpp
   atexit 0x8303D140
   bss    0x838255B9 0x838255BA   # cd2.py datasplits: 1 located, cNPCTintProfileRegistrar .. cNPCTintProfileRegistrar
 
+src/CHARACTER/cCharacterControllerComplex.cpp
+  text 0x8255E2B8 0x8255E5F8   # complex-controller getters: primary table 0x821147D8 installed at 0x8228268C; reference dimensions at +0xE0, platform velocity +0x1A0, phantom/listener +0x234/+0x240
+
+src/CHARACTER/cCharacterControllerSimple.cpp
+  text 0x82564578 0x82564780   # simple-controller getter range: table 0x8200A880 installed by constructor 0x82564780 at 0x825647C0; reference dimensions +0x70, phantom +0x134, position +0x230
+
 src/CHARACTER/cRagdollProfile.cpp
   text 0x82575DD8 0x82578028   # auto: cRagdollProfile; RuffKing cRagdollProfile.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 3 after: used only by this file (calls, addresses, vtables it installs)
   init 0x82FB1D30
@@ -4832,6 +4838,7 @@ src/cGrappler.cpp
   atexit 0x8303FA08   # header static CHARACTER::gRandGen (characterconsts.h): its at-exit destructor, registered by the initializer
   data   0x831F5D4C 0x831F5E00   # cd2.py datasplits: 4 located, g_GlobalConstants .. fWALK_VELOCITY_THRESHOLD_DOUBLED
   bss    0x83839F00 0x83839F84   # cd2.py datasplits: 16 located, fPhysicsSimulationTick .. nPART_PERCENT_WEIGHT
+  bss    0x83839F90 0x83839F94   # cGrappler class-descriptor pointer: initializer 0x82FD3680 stores here; RetClass 0x82631A38 loads it
 
 src/Equip/Gadget/cRealNadeLauncher.cpp
   text 0x82634928 0x82635480   # auto: cRealNadeLauncher; RuffKing cRealNadeLauncher.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 15 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
@@ -5450,6 +5457,9 @@ src/Vehicle/cEightWheelerProfile.cpp
   init 0x82FE5B58   # header static (physicsproject.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
   data   0x831FFC04 0x831FFC90   # cd2.py datasplits: 2 located, g_GlobalConstants .. IDENTITY_TRANSFORM
   bss    0x83847480 0x838474E1   # cd2.py datasplits: 10 located, fPhysicsSimulationTick .. cEightWheelerProfileRegistrar
+
+src/PHYSICS/cCustomVehicleInstance.cpp
+  text 0x82699F00 0x8269ADC8   # cCustomVehicleInstance: table 0x82133048 slots 9/11/4 (installed at 0x82699680), derived/base/wheel copy helpers, then SetSteeringAngle called at 0x826C4968; next function begins at 0x8269ADC8
 
 src/Vehicle/cGenVehicleProfile.cpp
   text 0x8269C608 0x8269DD48   # auto: cGenVehicleProfile; RuffKing cGenVehicleProfile.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 3 after: used only by this file (calls, addresses, vtables it installs)
