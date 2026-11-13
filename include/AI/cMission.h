@@ -24,8 +24,19 @@ namespace AI
         virtual bool IsOwnedLocally();
         virtual SNetworkHeader::etNetworkDataType GetReplicatedObjectType() const;
         virtual unsigned int GetMaxReplicatedFields() const;
+        virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x8245A230
+        virtual void ReplicateFields(); // cReplicatedClass 9: 0x8230E318
+        virtual unsigned int GetNumObjectIDBits() const; // cReplicatedClass 16: 0x8288AD98
         virtual void TickUpdate(float);
         virtual void ResetMission();
+        // RuffKing's name and signature; CD2 0x82459BE0, called by cTacticalObjective::NotifyDeliveryStart.
+        void SetMissionState(unsigned char nMissionState, bool bAllowAutoSave);
+        // RuffKing's name; CD2 0x8245A390 (outside the scaffolded files), called by cDocksMission's Activate/Deactivate.
+        void SetAssociatedZonesEnabled(bool bEnabled);
+        // CD2's cMission table (0x82102D28) holds its own Activate (0x82459568) and Deactivate (0x82459618) in slots 2
+        // and 3; the missions' overrides call them.
+        virtual void Activate();
+        virtual void Deactivate();
         // Primary slots 17..38 in RuffKing's order, without its debug-only CompleteMission: CD2's mission tables
         // have RetClassName at 17 and Destruct at 18 (RuffKing 20/21), and cTacticalObjective's overrides fall on
         // IsComplete 20, IsLocalPlayerNearby 24, the delivery notifications 25..27, the mission-state handlers
@@ -54,6 +65,10 @@ namespace AI
     public:
         virtual void InitReplication();
         virtual void TermReplication();
+        // cLoadSaveObject overrides: the table CD2's constructor installs at +0x260 (0x82104564) holds 0x82459CF0 and
+        // 0x82459DC8; cPebbleDashMission, which overrides neither, has the same table.
+        virtual void Load(SaveGame::cLoadStream *pStream);
+        virtual void Save(SaveGame::cSaveStream *pStream);
     protected:
         // Fields in RuffKing's names and order (cMission.h); complete size 0x3C0 as CD2's descriptor gives.
         etGlobalMissionState m_eGlobalMissionState;

@@ -4,6 +4,12 @@
 #ifndef GMAN_CGAMEMANAGER_H
 #define GMAN_CGAMEMANAGER_H
 
+#include "rws/eventid.h"
+
+// RuffKing's cGameManager.cpp defines this message at global scope; CD2's copy is at 0x8383A95C, which
+// cTrainingMission::OnMissionUnlocked (0x82480DA0) links with the format "Mtx *".
+extern RWS::CEventId iMsgRestartPlayer;
+
 namespace GMan
 {
     class cGameManager

@@ -15,11 +15,11 @@ namespace unknown
     {
     public:
         // CD2 table 0x8211FD38 places GetField9C4 at slot 435. Names/signatures of these slots remain unrecovered.
-        virtual void vf427(); // primary slot 427
-        virtual void vf428(); // primary slot 428
+        virtual float vf427(); // primary slot 427: CD2 0x8260AD48 reads prototype +0x370
+        virtual float vf428(); // primary slot 428: CD2 0x8260AD58 reads prototype +0x374
         virtual void vf429(); // primary slot 429
-        virtual void vf430(); // primary slot 430
-        virtual void vf431(); // primary slot 431
+        virtual float vf430(); // primary slot 430: CD2 0x8260AD68 reads prototype +0x37C
+        virtual bool vf431(); // primary slot 431: CD2 0x8260AD78 reads prototype +0x380
         virtual void vf432(bool); // primary slot 432: CD2 0x8260AD88 stores its byte argument at 0x9C0
         virtual bool vf433(); // primary slot 433: CD2 0x8260AEC0 returns the byte at 0x9C0 and clears it
         virtual void vf434(float); // primary slot 434: CD2 0x8260AD90 stores its float argument at 0x9C4

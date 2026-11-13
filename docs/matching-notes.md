@@ -156,6 +156,12 @@ end, in one line, and is removed when the function matches. History belongs in g
     cases (order 1,2,3,4,5,0,6 reproduced one target).
   - A test like `blt 8 / bne`, case 8's body first, needs every label listed: `case 8: ...; break; case 0: ... case 7:`.
     `if/else` chains and `default: if (<8)` do not give it.
+  - Compares in value order whose first body is the one tested last (`cmpwi 1; beq L; cmpwi 2; bne end; <case 2>;
+    L: <case 1>`) are a switch written in that body order, not an `if/else if`: cFinalMission's
+    OnEnterGlobalMissionState (0x8246C248) is 52.5% as `if (== 1) .. else if (== 2)` and EXACT as `switch { case 2:
+    ...; case 1: ... }`. Range compares (`cmplwi 1; blt; cmplwi 10; blt; <default>`) with the default's body first
+    come from `default:` written first and each range's labels listed (its GetSaveStateForMissionState, 37.5% as
+    nested ifs); the mission save-state and client-notification overrides follow these two shapes.
 - Byte swizzles only produce `rlwimi`/`inslwi` for particular expression shapes, e.g.
   `(x>>24)|((x>>8)&0xFF00)|((x<<8)&0xFF0000)|(x<<24)`. Write `HIBYTE(x)` as `(unsigned char)(x >> 24)`.
 - Calling virtual slot N needs the class to declare N virtuals before it. Use the real headers in `include/` rather
@@ -234,6 +240,10 @@ end, in one line, and is removed when the function matches. History belongs in g
 - **Downcast from a base subobject:** `static_cast<P*>(basePtr)` gives `cmplwi; addi -0x1C; bne; li 0`;
   `X *x = xs ? static_cast<X*>(xs) : 0; if (x) ...` gives the jump-threaded form. For the second null test after a
   safe-pointer downcast, call the inline `RetCharacter()`-style accessor; integer arithmetic does not reproduce it.
+  Going through the conditional `RetCharacter()` from another inline (`PLAYER::cPlayer::RetLocalPlayerCharacter()`)
+  adds a register copy (`clrrwi rX, rY, 0`) before the `-0x1C`; converting the safe pointer itself
+  (`return g_pLocalPlayer->m_pCharacter;`, its `operator T *`) does not. A/B on cBreachHoleMission::IsLocalPlayerNearby
+  (0x82473330): 29.4% through RetCharacter, EXACT through the conversion operator.
 - **Subobject pointer null test:** `&p->m_member` followed by `if (ptr)` gives the single `addic. r11,r9,0x18; beq`. A
   derived-to-base pointer conversion adds a second null test.
 - **`Fun_Runtime::g_GlobalConstants` is per object file**: a `static` object defined in `fun_runtime/class.h`, as in RuffKing
@@ -252,6 +262,12 @@ end, in one line, and is removed when the function matches. History belongs in g
   it goes through `Vec3(const OldVec3 &)`: each component is reloaded after the previous store, then w = 1.0.
 - **Two safe pointers with the same pointee type share one vtable-address load; CD2 building it twice means two types**
   (the linker folds the tables later). cAiPlayer's constructor matches only with different pointee types.
+- **A singleton pointer only the constructor and destructor touch is file-local.** CD2's cBaseJumperMission stores
+  `this` to 0x838009C0 in the middle of a Vec3 member's initialization and clears it after the destructor's first
+  member load: the compiler moved the stores freely, which it does only for a variable whose address nothing outside
+  the file can see. A/B: as an external static member, MakeNew (0x82488FB0) 50/58 and the deleting destructor
+  (0x824890A8) 32/42 words, plain and LTCG; as a `static` variable in the source file, with the constructor and
+  destructor defined there `__forceinline`, both EXACT. Check the global's cross-references before choosing.
 - **Member initialization order.** Members with default constructors (e.g. `Vec3`) are initialized in declaration order
   before the body. To match CD2's interleaving, put scalar fields in the mem-initializer list too; body assignments come
   after all of them. Inline constructor store order follows the order of assignments in the BODY, not member
@@ -578,6 +594,17 @@ Middleware with published source lives in `src/middleware/<library>/` (each with
   variants (example specs in `tools/research/compiler_re/sweeps/`).
 
 ## Open functions
+
+- `cCharacterGlobalDlcProfile` factory/deleting wrapper (0x82552490/0x82552590): reference field block matches CD2's initialized offsets and size 0xA8. Literal defaults and a reference-named SetDefaults helper leave constant-hoisting/store-order differences (best 26/59 LTCG words); inline versus out-of-class forced-inline singleton-clearing destruction both give 17/26 words. Probes removed; typed layout retained.
+
+- `cAudioBaseProfile` constructor (0x82527860): event/script bases and own bool/string/event fields give the correct 0x60 layout and exact destructor, but the shared cSafeDeletable constructor remains an out-of-line call where CD2 inlines its list-head setup. Natural constructor probe removed (8.3% plain); no base layout workaround added.
+
+- `cSurfaceProfile::MakeNew` (0x82695F98): adding the reference packet parameter to the explicit forced-inline constructor leaves the same saved-object-register/vptr-store mismatch (37 instructions versus CD2's 32). Implicit default construction instead leaves a constructor call. Original source restored; no promotion.
+
+- `cGameDamageProfile::HandleAttributes` (0x825560A0): four float cases and creation-packet test agree, but shared GUID registration passes handler/GUID/object instead of CD2's GUID/object-reference insertion at 0x82886380 followed by m_GUID assignment (112/130 words). Requested the shared inline operation from its header owner; probe removed.
+
+- `cExplosivesSkillProfile::MakeNew` (0x827530D0): typed shared base/string/event layout gives 38/48 words with forced-inline construction; initializer-list versus body assignment is identical. CD2 stores the primary vptr through the base constructor's returned pointer before the secondary tables; the current compiler schedules that store through the saved object pointer. Ordinary inline leaves a constructor call. Probe removed.
+- `cExplosivesSkillProfile::HandleAttributes` (0x827532C0): the typed two-case handler is plain EXACT, but LTCG specializes the wide-string assign call by removing its default offset/count arguments, losing the preserved -1 register and changing the frame (14/78 words). Native float conversion and string/event offsets agree. Probe removed.
 
 - `cFaceTargetScriptRegistration::RegisterValues` (0x823EEF80): recovered keys and values 0, 30, 90, 181; CD2 anchors its float reads at 0x820F7680, outside the current LTCG pool model. Literal source loses the preserved base register; probe removed, unpromoted.
 

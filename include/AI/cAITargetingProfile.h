@@ -34,7 +34,8 @@ namespace AI
         virtual const char *RetClassName() const;
         virtual void Destruct();
         virtual void HandleAttributes(const RWS::CAttributePacket &attr);
-        const tAITargetData *RetData() const;
+        // CD2 SetupTargetData (0x824523F0) inlines this reference-named getter.
+        const tAITargetData *RetData() const { return &m_TargetData; }
 
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &attr, bool bGlobal);
         static const char *RetRWSClassName();

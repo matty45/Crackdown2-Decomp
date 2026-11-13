@@ -4734,6 +4734,11 @@
     ],
     "src/PHYSICS/LaunchPad/cLaunchPadConfig.cpp": [
       {
+        "address": "0x82713E38",
+        "size": 488,
+        "symbol": "?HandleAttributes@cLaunchPadConfig@unknown@@"
+      },
+      {
         "address": "0x82713E28",
         "size": 12,
         "symbol": "?RetClassName@cLaunchPadConfig@unknown@@"
@@ -6786,6 +6791,56 @@
         "symbol": "?RetClass@cDocksMission@AI@@"
       },
       {
+        "address": "0x82474668",
+        "size": 76,
+        "symbol": "?Activate@cDocksMission@AI@@"
+      },
+      {
+        "address": "0x824746B8",
+        "size": 56,
+        "symbol": "?Deactivate@cDocksMission@AI@@"
+      },
+      {
+        "address": "0x82474790",
+        "size": 72,
+        "symbol": "?TickUpdate@cDocksMission@AI@@"
+      },
+      {
+        "address": "0x824748B0",
+        "size": 64,
+        "symbol": "?GetSaveStateForMissionState@cDocksMission@AI@@"
+      },
+      {
+        "address": "0x824748F0",
+        "size": 32,
+        "symbol": "?ResetMission@cDocksMission@AI@@"
+      },
+      {
+        "address": "0x82474A40",
+        "size": 100,
+        "symbol": "?NumAssociatedMissionsComplete@cDocksMission@AI@@"
+      },
+      {
+        "address": "0x82474AA8",
+        "size": 8,
+        "symbol": "?NotifyDeliveryStart@cDocksMission@AI@@"
+      },
+      {
+        "address": "0x82474AB0",
+        "size": 12,
+        "symbol": "?NotifyDeliveryFinish@cDocksMission@AI@@"
+      },
+      {
+        "address": "0x82474AC0",
+        "size": 28,
+        "symbol": "?NotifyDeliveryDrop@cDocksMission@AI@@"
+      },
+      {
+        "address": "0x82474D60",
+        "size": 132,
+        "symbol": "?IsLocalPlayerNearby@cDocksMission@AI@@"
+      },
+      {
         "address": "0x82F8A480",
         "size": 104,
         "symbol": "??__EcDocksMissioncMissionInheritRegistrar@AI@@"
@@ -7073,6 +7128,11 @@
       }
     ],
     "src/AI/Targeting/cFactionTargetingProfile.cpp": [
+      {
+        "address": "0x824523F0",
+        "size": 132,
+        "symbol": "?SetupTargetData@cFactionTargetingProfile@AI@@"
+      },
       {
         "address": "0x82451FF8",
         "size": 12,
@@ -7452,6 +7512,11 @@
     ],
     "src/AI/Mission/cMissionActivationCylinder.cpp": [
       {
+        "address": "0x8248AF38",
+        "size": 192,
+        "symbol": "?MakeNew@cMissionActivationCylinder@AI@@"
+      },
+      {
         "address": "0x8248AFF8",
         "size": 12,
         "symbol": "?RetClassName@cMissionActivationCylinder@AI@@"
@@ -7590,6 +7655,11 @@
       }
     ],
     "src/AI/Mission/cMissionActivationZone.cpp": [
+      {
+        "address": "0x8248B3F0",
+        "size": 188,
+        "symbol": "?MakeNew@cMissionActivationZone@AI@@"
+      },
       {
         "address": "0x8248B4B0",
         "size": 12,
@@ -15676,6 +15746,16 @@
     ],
     "src/CHARACTER/cGameDamageProfile.cpp": [
       {
+        "address": "0x82555F60",
+        "size": 196,
+        "symbol": "?MakeNew@cGameDamageProfile@CHARACTER@@"
+      },
+      {
+        "address": "0x82556038",
+        "size": 104,
+        "symbol": "??_GcGameDamageProfile@CHARACTER@@"
+      },
+      {
         "address": "0x82556028",
         "size": 12,
         "symbol": "?RetClassName@cGameDamageProfile@CHARACTER@@"
@@ -17975,6 +18055,11 @@
       }
     ],
     "src/GameManagement/cGameModeVFXProfile.cpp": [
+      {
+        "address": "0x82849D38",
+        "size": 724,
+        "symbol": "?HandleAttributes@cGameModeVFXProfile@GameManagement@@"
+      },
       {
         "address": "0x82849CC8",
         "size": 12,
@@ -25175,6 +25260,11 @@
         "address": "0x8245C748",
         "size": 64,
         "symbol": "?MakeNew@cAgencyTowerSegmentMission@AI@@"
+      },
+      {
+        "address": "0x8245C798",
+        "size": 12,
+        "symbol": "?ResetMission@cAgencyTowerSegmentMission@AI@@"
       }
     ],
     "src/AI/cAgentPickup.cpp": [
@@ -26030,6 +26120,26 @@
         "address": "0x8245D500",
         "size": 64,
         "symbol": "?MakeNew@cAUMission@AI@@"
+      },
+      {
+        "address": "0x8245E200",
+        "size": 56,
+        "symbol": "?Activate@cAUMission@AI@@"
+      },
+      {
+        "address": "0x8245E238",
+        "size": 4,
+        "symbol": "?Deactivate@cAUMission@AI@@"
+      },
+      {
+        "address": "0x8245F380",
+        "size": 168,
+        "symbol": "?GetSaveStateForMissionState@cAUMission@AI@@"
+      },
+      {
+        "address": "0x8245F540",
+        "size": 8,
+        "symbol": "?IsLocalPlayerOnAnyPad@cAUMission@AI@@"
       }
     ],
     "src/AI/Mission/AchievementMissions/cBaseJumperMission.cpp": [
@@ -26044,9 +26154,44 @@
         "symbol": "?RetClass@cBaseJumperMission@AI@@"
       },
       {
+        "address": "0x82488FB0",
+        "size": 232,
+        "symbol": "?MakeNew@cBaseJumperMission@AI@@"
+      },
+      {
         "address": "0x82489098",
         "size": 12,
         "symbol": "?RetClassName@cBaseJumperMission@AI@@"
+      },
+      {
+        "address": "0x824890A8",
+        "size": 168,
+        "symbol": "??_GcBaseJumperMission@AI@@"
+      },
+      {
+        "address": "0x82489578",
+        "size": 8,
+        "symbol": "?RetClass@cBaseJumperMission@AI@@WBA@"
+      },
+      {
+        "address": "0x82489580",
+        "size": 8,
+        "symbol": "??_EcBaseJumperMission@AI@@WBA@"
+      },
+      {
+        "address": "0x82489588",
+        "size": 8,
+        "symbol": "?IsA@cBaseJumperMission@AI@@WBA@"
+      },
+      {
+        "address": "0x82489590",
+        "size": 8,
+        "symbol": "??_EcBaseJumperMission@AI@@WCEA@"
+      },
+      {
+        "address": "0x82489598",
+        "size": 8,
+        "symbol": "??_EcBaseJumperMission@AI@@WCEI@"
       },
       {
         "address": "0x82F8DE78",
@@ -26375,6 +26520,26 @@
         "address": "0x82461228",
         "size": 64,
         "symbol": "?MakeNew@cBeaconMission@AI@@"
+      },
+      {
+        "address": "0x82464E80",
+        "size": 136,
+        "symbol": "?OnLeaveGlobalMissionState@cBeaconMission@AI@@"
+      },
+      {
+        "address": "0x82464F60",
+        "size": 80,
+        "symbol": "?OnClientMissionStateNotification@cBeaconMission@AI@@"
+      },
+      {
+        "address": "0x82467B10",
+        "size": 32,
+        "symbol": "?NotifyDeliveryStart@cBeaconMission@AI@@"
+      },
+      {
+        "address": "0x82467B90",
+        "size": 44,
+        "symbol": "?NotifyDeliveryFinish@cBeaconMission@AI@@"
       }
     ],
     "src/AI/cBreachHole.cpp": [
@@ -26387,6 +26552,11 @@
         "address": "0x8246E6E8",
         "size": 12,
         "symbol": "?RetClass@cBreachHole@AI@@"
+      },
+      {
+        "address": "0x8246E758",
+        "size": 68,
+        "symbol": "?MakeNew@cBreachHole@AI@@"
       },
       {
         "address": "0x8246E7A0",
@@ -26563,9 +26733,49 @@
         "symbol": "?RetClass@cBreachHoleMission@AI@@"
       },
       {
+        "address": "0x82471370",
+        "size": 64,
+        "symbol": "?MakeNew@cBreachHoleMission@AI@@"
+      },
+      {
         "address": "0x824713B0",
         "size": 12,
         "symbol": "?RetClassName@cBreachHoleMission@AI@@"
+      },
+      {
+        "address": "0x824713C0",
+        "size": 76,
+        "symbol": "?ResetMission@cBreachHoleMission@AI@@"
+      },
+      {
+        "address": "0x82471800",
+        "size": 84,
+        "symbol": "?Activate@cBreachHoleMission@AI@@"
+      },
+      {
+        "address": "0x82471858",
+        "size": 80,
+        "symbol": "?Deactivate@cBreachHoleMission@AI@@"
+      },
+      {
+        "address": "0x82472618",
+        "size": 84,
+        "symbol": "?GetSaveStateForMissionState@cBreachHoleMission@AI@@"
+      },
+      {
+        "address": "0x82472888",
+        "size": 16,
+        "symbol": "?OnTransitionMissionState@cBreachHoleMission@AI@@"
+      },
+      {
+        "address": "0x82472EA0",
+        "size": 8,
+        "symbol": "?NotifyDeliveryStart@cBreachHoleMission@AI@@"
+      },
+      {
+        "address": "0x82473330",
+        "size": 64,
+        "symbol": "?IsLocalPlayerNearby@cBreachHoleMission@AI@@"
       },
       {
         "address": "0x82F89E38",
@@ -26720,6 +26930,21 @@
         "address": "0x82474F50",
         "size": 12,
         "symbol": "?RetClassName@cCellStrongholdMission@AI@@"
+      },
+      {
+        "address": "0x82475090",
+        "size": 12,
+        "symbol": "?Activate@cCellStrongholdMission@AI@@"
+      },
+      {
+        "address": "0x82475360",
+        "size": 44,
+        "symbol": "?OnLeaveGlobalMissionState@cCellStrongholdMission@AI@@"
+      },
+      {
+        "address": "0x82475508",
+        "size": 64,
+        "symbol": "?IsLocalPlayerNearby@cCellStrongholdMission@AI@@"
       },
       {
         "address": "0x82F8A870",
@@ -27667,6 +27892,21 @@
         "address": "0x8246A830",
         "size": 64,
         "symbol": "?MakeNew@cFinalMission@AI@@"
+      },
+      {
+        "address": "0x8246C248",
+        "size": 244,
+        "symbol": "?OnEnterGlobalMissionState@cFinalMission@AI@@"
+      },
+      {
+        "address": "0x8246C430",
+        "size": 64,
+        "symbol": "?GetSaveStateForMissionState@cFinalMission@AI@@"
+      },
+      {
+        "address": "0x8246E5E8",
+        "size": 16,
+        "symbol": "?ArePrerequisitesComplete@cFinalMission@AI@@"
       }
     ],
     "src/AI/cFreakSniperEvent.cpp": [
@@ -27901,6 +28141,11 @@
         "address": "0x8248A3C0",
         "size": 12,
         "symbol": "?RetClass@cHeliCallZone@AI@@"
+      },
+      {
+        "address": "0x8248A430",
+        "size": 68,
+        "symbol": "?MakeNew@cHeliCallZone@AI@@"
       },
       {
         "address": "0x8248A478",
@@ -28808,6 +29053,11 @@
         "address": "0x82456A80",
         "size": 64,
         "symbol": "?MakeNew@cRefineryMission@AI@@"
+      },
+      {
+        "address": "0x82457230",
+        "size": 64,
+        "symbol": "?IsLocalPlayerNearby@cRefineryMission@AI@@"
       }
     ],
     "src/AI/cTrainingHeliPilot.cpp": [
@@ -28991,9 +29241,19 @@
         "symbol": "?RetClass@cTrainingMission@AI@@"
       },
       {
+        "address": "0x8247EFE8",
+        "size": 64,
+        "symbol": "?MakeNew@cTrainingMission@AI@@"
+      },
+      {
         "address": "0x8247F028",
         "size": 12,
         "symbol": "?RetClassName@cTrainingMission@AI@@"
+      },
+      {
+        "address": "0x8247F038",
+        "size": 24,
+        "symbol": "?Destruct@cTrainingMission@AI@@"
       },
       {
         "address": "0x82484C20",
@@ -29014,6 +29274,26 @@
         "address": "0x8247F3F8",
         "size": 80,
         "symbol": "??_GcTrainingMission@AI@@"
+      },
+      {
+        "address": "0x82480900",
+        "size": 60,
+        "symbol": "?Activate@cTrainingMission@AI@@"
+      },
+      {
+        "address": "0x82480940",
+        "size": 52,
+        "symbol": "?Deactivate@cTrainingMission@AI@@"
+      },
+      {
+        "address": "0x82480DA0",
+        "size": 88,
+        "symbol": "?OnMissionUnlocked@cTrainingMission@AI@@"
+      },
+      {
+        "address": "0x82480DF8",
+        "size": 16,
+        "symbol": "?OnLeaveGlobalMissionState@cTrainingMission@AI@@"
       },
       {
         "address": "0x82F8B940",
@@ -32008,6 +32288,11 @@
       }
     ],
     "src/ExplosionManager/cExplosionLevelInfo.cpp": [
+      {
+        "address": "0x8263E5E0",
+        "size": 240,
+        "symbol": "?MakeNew@cExplosionLevelInfo@ExplosionManager@@"
+      },
       {
         "address": "0x8263E6D0",
         "size": 12,
@@ -35621,6 +35906,26 @@
     ],
     "src/AudioLogic/cAudioBaseProfile.cpp": [
       {
+        "address": "0x82527710",
+        "size": 92,
+        "symbol": "?IsA@cAudioBaseProfile@AudioLogic@@"
+      },
+      {
+        "address": "0x82527950",
+        "size": 80,
+        "symbol": "??_GcAudioBaseProfile@AudioLogic@@"
+      },
+      {
+        "address": "0x825279A0",
+        "size": 24,
+        "symbol": "?Init@cAudioBaseProfile@AudioLogic@@"
+      },
+      {
+        "address": "0x825279B8",
+        "size": 184,
+        "symbol": "??1cAudioBaseProfile@AudioLogic@@"
+      },
+      {
         "address": "0x825277B8",
         "size": 12,
         "symbol": "?RetClassName@cAudioBaseProfile@AudioLogic@@"
@@ -35663,6 +35968,41 @@
     ],
     "src/AudioLogic/cAudioLandVehicleExtrasProfile.cpp": [
       {
+        "address": "0x82527C98",
+        "size": 92,
+        "symbol": "?IsA@cAudioLandVehicleExtrasProfile@AudioLogic@@"
+      },
+      {
+        "address": "0x82527CF8",
+        "size": 160,
+        "symbol": "?MakeNew@cAudioLandVehicleExtrasProfile@AudioLogic@@"
+      },
+      {
+        "address": "0x82527E40",
+        "size": 128,
+        "symbol": "??_GcAudioLandVehicleExtrasProfile@AudioLogic@@"
+      },
+      {
+        "address": "0x82527EC0",
+        "size": 24,
+        "symbol": "?Init@cAudioLandVehicleExtrasProfile@AudioLogic@@"
+      },
+      {
+        "address": "0x82527ED8",
+        "size": 244,
+        "symbol": "?HandleAttributes@cAudioLandVehicleExtrasProfile@AudioLogic@@"
+      },
+      {
+        "address": "0x82527FD0",
+        "size": 8,
+        "symbol": "??_EcAudioLandVehicleExtrasProfile@AudioLogic@@WBM@AAPAXI@Z"
+      },
+      {
+        "address": "0x82527FD8",
+        "size": 8,
+        "symbol": "??_EcAudioLandVehicleExtrasProfile@AudioLogic@@WBI@AAPAXI@Z"
+      },
+      {
         "address": "0x82527D98",
         "size": 12,
         "symbol": "?RetClassName@cAudioLandVehicleExtrasProfile@AudioLogic@@"
@@ -35699,6 +36039,36 @@
       }
     ],
     "src/AudioLogic/cAudioLandVehicleProfile.cpp": [
+      {
+        "address": "0x82527FF0",
+        "size": 92,
+        "symbol": "?IsA@cAudioLandVehicleProfile@AudioLogic@@"
+      },
+      {
+        "address": "0x82528050",
+        "size": 136,
+        "symbol": "?MakeNew@cAudioLandVehicleProfile@AudioLogic@@"
+      },
+      {
+        "address": "0x82528180",
+        "size": 128,
+        "symbol": "??_GcAudioLandVehicleProfile@AudioLogic@@"
+      },
+      {
+        "address": "0x82528200",
+        "size": 24,
+        "symbol": "?Init@cAudioLandVehicleProfile@AudioLogic@@"
+      },
+      {
+        "address": "0x82528498",
+        "size": 8,
+        "symbol": "??_EcAudioLandVehicleProfile@AudioLogic@@WBI@AAPAXI@Z"
+      },
+      {
+        "address": "0x825284A0",
+        "size": 8,
+        "symbol": "??_EcAudioLandVehicleProfile@AudioLogic@@WBM@AAPAXI@Z"
+      },
       {
         "address": "0x825280D8",
         "size": 12,
@@ -40803,6 +41173,11 @@
     ],
     "src/cBoostPack.cpp": [
       {
+        "address": "0x8260ABB0",
+        "size": 168,
+        "symbol": "?MakeNew@cBoostPack@unknown@@"
+      },
+      {
         "address": "0x8260ADA0",
         "size": 156,
         "symbol": "?StaticCreateClass@cBoostPack@unknown@@"
@@ -40848,9 +41223,19 @@
         "symbol": "??__FcBoostPackScriptRegistrar@unknown@@"
       },
       {
+        "address": "0x8260AE90",
+        "size": 48,
+        "symbol": "?Term@cBoostPack@unknown@@"
+      },
+      {
         "address": "0x8260AED8",
         "size": 168,
         "symbol": "??1cBoostPack@unknown@@"
+      },
+      {
+        "address": "0x8260AF80",
+        "size": 400,
+        "symbol": "?HandleAttributes@cBoostPackPrototype@unknown@@"
       },
       {
         "address": "0x8260AE40",
@@ -40861,6 +41246,26 @@
         "address": "0x8260AD38",
         "size": 12,
         "symbol": "?RetScriptTypeRegistration@cBoostPack@unknown@@"
+      },
+      {
+        "address": "0x8260AD48",
+        "size": 12,
+        "symbol": "?vf427@cBoostPack@unknown@@"
+      },
+      {
+        "address": "0x8260AD58",
+        "size": 12,
+        "symbol": "?vf428@cBoostPack@unknown@@"
+      },
+      {
+        "address": "0x8260AD68",
+        "size": 12,
+        "symbol": "?vf430@cBoostPack@unknown@@"
+      },
+      {
+        "address": "0x8260AD78",
+        "size": 12,
+        "symbol": "?vf431@cBoostPack@unknown@@"
       },
       {
         "address": "0x8260AD98",
@@ -52096,6 +52501,31 @@
     ],
     "src/cExplosivesSkillProfile.cpp": [
       {
+        "address": "0x82753060",
+        "size": 12,
+        "symbol": "?RetClass@cExplosivesSkillProfile@RPG@@"
+      },
+      {
+        "address": "0x82753070",
+        "size": 92,
+        "symbol": "?IsA@cExplosivesSkillProfile@RPG@@"
+      },
+      {
+        "address": "0x827531A0",
+        "size": 80,
+        "symbol": "??_GcExplosivesSkillProfile@RPG@@"
+      },
+      {
+        "address": "0x827531F0",
+        "size": 16,
+        "symbol": "?Init@cExplosivesSkillProfile@RPG@@"
+      },
+      {
+        "address": "0x82753200",
+        "size": 192,
+        "symbol": "??1cExplosivesSkillProfile@RPG@@"
+      },
+      {
         "address": "0x82FFD408",
         "size": 76,
         "symbol": "??__EcExplosivesSkillProfileRegistrar@RPG@@"
@@ -54042,6 +54472,16 @@
         "symbol": "?RetName@cGameImportanceScriptRegistration@@"
       },
       {
+        "address": "0x82652EA0",
+        "size": 36,
+        "symbol": "?RetProtoTypeName@cNonGameBase@@"
+      },
+      {
+        "address": "0x82652EC8",
+        "size": 60,
+        "symbol": "?RetCentre@cNonGameBase@@"
+      },
+      {
         "address": "0x82FD6DD0",
         "size": 72,
         "symbol": "??__Eg_cGameImportanceScriptRegistration@@"
@@ -54834,9 +55274,19 @@
         "symbol": "?RetClass@cHeliDropPoint@AI@@"
       },
       {
+        "address": "0x82475638",
+        "size": 92,
+        "symbol": "?IsA@cHeliDropPoint@AI@@"
+      },
+      {
         "address": "0x82475788",
         "size": 12,
         "symbol": "?RetClassName@cHeliDropPoint@AI@@"
+      },
+      {
+        "address": "0x824757F8",
+        "size": 64,
+        "symbol": "?MakeNew@cTacticalObjective@AI@@"
       },
       {
         "address": "0x82475838",
@@ -54849,9 +55299,54 @@
         "symbol": "?Destruct@cTacticalObjective@AI@@"
       },
       {
+        "address": "0x82475860",
+        "size": 28,
+        "symbol": "?IsComplete@cTacticalObjective@AI@@"
+      },
+      {
+        "address": "0x82475880",
+        "size": 28,
+        "symbol": "?HasBackupBeenCalled@cTacticalObjective@AI@@"
+      },
+      {
         "address": "0x82475908",
         "size": 156,
         "symbol": "?HandleAttributes@cHeliDropPoint@AI@@"
+      },
+      {
+        "address": "0x82475D88",
+        "size": 200,
+        "symbol": "?InitReplication@cTacticalObjective@AI@@"
+      },
+      {
+        "address": "0x82475E50",
+        "size": 128,
+        "symbol": "?TermReplication@cTacticalObjective@AI@@"
+      },
+      {
+        "address": "0x82476228",
+        "size": 96,
+        "symbol": "?OnLeaveGlobalMissionState@cTacticalObjective@AI@@"
+      },
+      {
+        "address": "0x82476288",
+        "size": 84,
+        "symbol": "?GetSaveStateForMissionState@cTacticalObjective@AI@@"
+      },
+      {
+        "address": "0x82477D90",
+        "size": 32,
+        "symbol": "?NotifyDeliveryStart@cTacticalObjective@AI@@"
+      },
+      {
+        "address": "0x82477E58",
+        "size": 76,
+        "symbol": "?NotifyDeliveryFinish@cTacticalObjective@AI@@"
+      },
+      {
+        "address": "0x82478A80",
+        "size": 32,
+        "symbol": "?IsLocalPlayerNearby@cTacticalObjective@AI@@"
       }
     ],
     "src/AI/Mission/AchievementMissions/cPebbleDashMission.cpp": [
@@ -54998,6 +55493,26 @@
         "symbol": "?RetClassName@cLocalPlayerTrigger@AI@@"
       },
       {
+        "address": "0x82489CA0",
+        "size": 12,
+        "symbol": "?RetClass@cPebbleDashMission@AI@@"
+      },
+      {
+        "address": "0x82489CB0",
+        "size": 92,
+        "symbol": "?IsA@cPebbleDashMission@AI@@"
+      },
+      {
+        "address": "0x82489D10",
+        "size": 160,
+        "symbol": "?MakeNew@cPebbleDashMission@AI@@"
+      },
+      {
+        "address": "0x82489DB0",
+        "size": 12,
+        "symbol": "?RetClassName@cPebbleDashMission@AI@@"
+      },
+      {
         "address": "0x82489EA0",
         "size": 80,
         "symbol": "??_GcLocalPlayerTrigger@AI@@"
@@ -55011,6 +55526,31 @@
         "address": "0x82489DC0",
         "size": 220,
         "symbol": "??0cLocalPlayerTrigger@AI@@"
+      },
+      {
+        "address": "0x8248A0C8",
+        "size": 4,
+        "symbol": "?Activate@cPebbleDashMission@AI@@"
+      },
+      {
+        "address": "0x8248A2C0",
+        "size": 8,
+        "symbol": "??_EcPebbleDashMission@AI@@WCEA@"
+      },
+      {
+        "address": "0x8248A2C8",
+        "size": 8,
+        "symbol": "??_EcPebbleDashMission@AI@@WCEI@"
+      },
+      {
+        "address": "0x8248A2D0",
+        "size": 8,
+        "symbol": "?RetClass@cPebbleDashMission@AI@@WBA@"
+      },
+      {
+        "address": "0x8248A2D8",
+        "size": 8,
+        "symbol": "?IsA@cPebbleDashMission@AI@@WBA@"
       }
     ],
     "src/AI/Behaviour/NPC/Peacekeeper/PeacekeeperPrototype.cpp": [

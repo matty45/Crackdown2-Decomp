@@ -10,6 +10,7 @@
 #include "AI/cCellStrongholdMission.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
+#include "PLAYER/cPlayer.h"
 
 namespace AI
 {
@@ -49,4 +50,30 @@ namespace AI
     // CD2 0x82F8A870: runtime mission inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cCellStrongholdMissioncMissionInheritRegistrar(
         AI::cCellStrongholdMission::StaticCreateClass(), AI::cMission::StaticCreateClass());
+
+    void cCellStrongholdMission::Activate()
+    {
+        m_eMissionState = eCSMS_Inactive;
+        cMission::Activate();
+    }
+
+    void cCellStrongholdMission::OnLeaveGlobalMissionState(etGlobalMissionState nState)
+    {
+        if (nState == eGMS_Incomplete)
+        {
+            if (m_pContainmentZone)
+                m_pContainmentZone->TermTriggerZone();
+        }
+    }
+
+    bool cCellStrongholdMission::IsLocalPlayerNearby() const
+    {
+        if (m_pContainmentZone)
+        {
+            const CHARACTER::cCharacter *pCharacter = PLAYER::cPlayer::RetLocalPlayerCharacter();
+            if (pCharacter)
+                return m_pContainmentZone->IsInTriggerZone(pCharacter);
+        }
+        return false;
+    }
 }

@@ -138,7 +138,10 @@ namespace Prop
         virtual void vf127(); // 127: 0x8272BC10
         virtual void CalculateRelevancy(int); // cReplicatedClass 2: 0x827302C0
         virtual void CalculateLOD(int); // cReplicatedClass 3: 0x822D76B0
+        virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x8272F450
+        virtual void ReplicateFields(); // cReplicatedClass 9: 0x8272F878
         virtual void ReplicateHeaderData(); // cReplicatedClass 10: 0x8272F1E0
+        virtual unsigned int GetNumObjectIDBits() const; // cReplicatedClass 16: 0x82882258
     protected:
         virtual void EventTriggerStartFire(CHARACTER::cCharacter *); // cIgnitable 10: 0x8272B5E8
         virtual void EventTriggerEndFire(); // cIgnitable 12: 0x8272B858

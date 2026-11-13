@@ -11,6 +11,11 @@
 
 namespace AI
 {
+    RWS::CAttributeHandler *cMissionActivationZone::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cMissionActivationZone;
+    }
+
     const char *cMissionActivationZone::RetClassName() const
     {
         return "cMissionActivationZone";

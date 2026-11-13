@@ -21,12 +21,19 @@
 #include "gom/proto_registrar.h"
 #include "rws/classfactory.h"
 #include "unknown/cBoostPack.h"
+#include "unknown/cBoostPackPrototype.h"
 #include "cd2/memory.h"
 #include "fun_runtime/script_type_registrar.h"
 #include <new>
+#include "rw/rwmem.h"
 
 namespace unknown
 {
+    RWS::CAttributeHandler *cBoostPack::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cBoostPackPrototype(packet);
+    }
+
     const Fun_Runtime::cClass *cBoostPack::ms_pcBoostPackClass = &cBoostPack::StaticCreateClass();
 
     Fun_Runtime::cClass &cBoostPack::StaticCreateClass()
@@ -51,6 +58,26 @@ namespace unknown
         return "cBoostPack";
     }
 
+    float cBoostPack::vf427()
+    {
+        return static_cast<const cBoostPackPrototype *>(m_pPrototype)->m_fField370;
+    }
+
+    float cBoostPack::vf428()
+    {
+        return static_cast<const cBoostPackPrototype *>(m_pPrototype)->m_fField374;
+    }
+
+    float cBoostPack::vf430()
+    {
+        return static_cast<const cBoostPackPrototype *>(m_pPrototype)->m_fField37C;
+    }
+
+    bool cBoostPack::vf431()
+    {
+        return static_cast<const cBoostPackPrototype *>(m_pPrototype)->m_bField380;
+    }
+
     void cBoostPack::vf432(bool b)
     {
         m_bField9C0 = b;
@@ -66,6 +93,11 @@ namespace unknown
         return m_fField9C4;
     }
 
+    Fun_Runtime::RetVal cBoostPack::Term()
+    {
+        return Equip::cGrenade::Term();
+    }
+
     bool cBoostPack::vf433()
     {
         bool b = m_bField9C0;
@@ -76,6 +108,41 @@ namespace unknown
     // CD2 0x8260AED8 has no derived cleanup beyond vtable restoration.
     cBoostPack::~cBoostPack()
     {
+    }
+
+    void cBoostPackPrototype::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        Equip::cGrenade::cGrenadePrototype::HandleAttributes(packet);
+        for (RWS::CAttributeCommandIterator it(packet, "cBoostPack"); !it.IsFinished(); ++it)
+        {
+            switch (it->GetCommandId())
+            {
+            case 0:
+                {
+                    float value = it->GetAs_float();
+                    RwMemNative32(&value, sizeof(value));
+                    m_fField374 = value;
+                }
+                break;
+            case 1:
+                {
+                    float value = it->GetAs_float();
+                    RwMemNative32(&value, sizeof(value));
+                    m_fField378 = value;
+                }
+                break;
+            case 2:
+                {
+                    float value = it->GetAs_float();
+                    RwMemNative32(&value, sizeof(value));
+                    m_fField37C = value;
+                }
+                break;
+            case 3:
+                m_bField380 = rwSwap32(it->GetAs_UInt32()) != 0;
+                break;
+            }
+        }
     }
 
     // CD2 script-type registration; constructor/table evidence identifies the child and parent.

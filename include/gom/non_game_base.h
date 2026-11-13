@@ -55,6 +55,11 @@ private:
 
 public:
         cNonGameBase *RetOwner() const { return m_pOwner; }
+        // CD2 0x82652EA0, registered as the script method "RetProtoTypeName"; RuffKing's body.
+        const char *RetProtoTypeName() const;
+        // CD2 0x82652EC8, registered as the script method "RetCentre" (the linker folded the characters' identical
+        // slot-389 override into it).
+        Fun_Runtime::Vec3 RetCentre() const;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         // Name and base from RuffKing (112 bytes there: no fields of its own). Squad::MakeNew (0x824D81A0) inlines the

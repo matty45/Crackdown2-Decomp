@@ -16,6 +16,7 @@
 #include "rws/classfactory.h"
 #include "AudioLogic/cAudioBaseProfile.h"
 #include "cd2/memory.h"
+#include "fun_runtime/retval.h"
 
 namespace AudioLogic
 {
@@ -40,6 +41,25 @@ namespace AudioLogic
     bool cAudioBaseProfile::IsA(const Fun_Runtime::cClass &c) const
     {
         return ms_pcAudioBaseProfileClass->IsA(c);
+    }
+
+    Fun_Runtime::RetVal cAudioBaseProfile::Init(const RWS::CAttributePacket &)
+    {
+        m_bReset = false;
+        return Ret_OK;
+    }
+
+    Fun_Runtime::RetVal cAudioBaseProfile::Term()
+    {
+        m_bReset = false;
+        return Ret_OK;
+    }
+
+    cAudioBaseProfile::~cAudioBaseProfile()
+    {
+        UnLinkMsg(m_Msg_Return_Audio_Self);
+        UnRegisterMsg(m_Msg_Return_Audio_Self);
+        m_bReset = false;
     }
 
     static RWS::CClassFactory::CRegistrar cAudioBaseProfileRegistrar(

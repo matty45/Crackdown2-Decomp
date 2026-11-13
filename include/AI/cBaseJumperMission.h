@@ -5,9 +5,13 @@
 #include "fun_runtime/class.h"
 #include "rws/attributes.h"
 #include "cd2/memory.h"
+#include "fun_runtime/vector.h"
+#include "fun_runtime/vec3.h"
 
 namespace AI
 {
+    class cLocalPlayerTrigger;
+
     // RuffKing's base. CD2's primary table (0x82105378) starts with this class's RetClass and IsA and holds its RetClassName
     // in slot 17, as cMission's does.
     class cBaseJumperMission : public cMission
@@ -22,7 +26,22 @@ namespace AI
         }
         static const Fun_Runtime::cClass *ms_pcBaseJumperMissionClass;
 
+        // RuffKing's states.
+        enum eBaseJumperMissionState
+        {
+            eBJState_Inactive = 0,
+            eBJState_InChopper,
+            eBJState_Falling,
+            eBJState_FallComplete,
+            eBJState_InLandingZone,
+            eBJState_Landed,
+            eBJState_Complete,
+        };
+
+        // Defined in the source file, where they keep the running mission in a file-local pointer: CD2 expands the
+        // constructor into MakeNew (0x82488FB0) and the destructor into the deleting destructor (0x824890A8).
         cBaseJumperMission();
+        virtual ~cBaseJumperMission();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &packet, bool);
 
         virtual const Fun_Runtime::cClass &RetClass() const;
@@ -31,13 +50,21 @@ namespace AI
         // CD2: cBaseJumperMission's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
-        virtual void Activate(); // cRegisteredClass 2: 0x82459568
-        virtual void Deactivate(); // cRegisteredClass 3: 0x82459618
         virtual void TickUpdate(float); // cRegisteredClass 8: 0x82489260
-    protected:
-        // Size 0x400 from CD2's registrar (MakeNew allocates it); the fields after cMission are not modelled.
-        unsigned int m_unmodelled3C0[(0x400 - 0x3C0) / 4];
-        CD2_LAYOUT_CHECKS(cBaseJumperMission, CD2_SIZE(cBaseJumperMission, 0x400))
+        // Attribute-handler slot 1 (table 0x82105490): 0x82489150.
+        virtual void HandleAttributes(const RWS::CAttributePacket &);
+    private:
+        // RuffKing's fields; its size (0x400) is CD2's registrar size, and MakeNew initializes them at these offsets.
+        Fun_Runtime::cVector<cLocalPlayerTrigger *> m_LandingZones;    // 0x3C0
+        eBaseJumperMissionState m_eBJState;                             // 0x3D0
+        Fun_Runtime::Vec3 m_vFallStartPos;                              // 0x3E0
+        float m_fFallDist;                                              // 0x3F0
+        CD2_LAYOUT_CHECKS(cBaseJumperMission,
+            CD2_SIZE(cBaseJumperMission, 0x400)
+            CD2_OFFSET(cBaseJumperMission, m_LandingZones, 0x3C0)
+            CD2_OFFSET(cBaseJumperMission, m_eBJState, 0x3D0)
+            CD2_OFFSET(cBaseJumperMission, m_vFallStartPos, 0x3E0)
+            CD2_OFFSET(cBaseJumperMission, m_fFallDist, 0x3F0))
     };
 }
 

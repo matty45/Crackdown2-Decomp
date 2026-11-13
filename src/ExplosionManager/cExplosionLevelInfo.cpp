@@ -1,7 +1,6 @@
-// ExplosionManager/cExplosionLevelInfo.cpp: four mapped functions verified exact.
+// ExplosionManager/cExplosionLevelInfo.cpp.
 // Reference layout: refs/ruffking_pdb_ref/DevBranches/Kingdoms/Source/Code/Libraries/Shared/ExplosionManager/cExplosionLevelInfo.h.
-// The constructor supplies the vtable used by the deleting destructor; its factory
-// has not been promoted as an exact match.
+// CD2 inlines the constructor in its factory; it supplies the vtable used by the deleting destructor.
 
 // Header constants: CD2's initializer run for this object shows these headers' constants in this order. RuffKing's
 // object gets them through its other headers (docs/matching-notes.md, "Header constants"); included directly here.

@@ -17,6 +17,7 @@
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
 #include "rw/rwmem.h"
+#include "AI/cAITargetingProfile.h"
 
 namespace AI
 {
@@ -68,6 +69,13 @@ namespace AI
                 break;
             }
         }
+    }
+
+    void cFactionTargetingProfile::SetupTargetData(const RWS::RWSGUID guid, GangManager::eFactions faction)
+    {
+        cAITargetingProfile *profile = Editor::cGUIDLinker<cAITargetingProfile>::LinkToObject(guid);
+        if (profile)
+            m_FactionData.m_apTargetData[faction] = profile->RetData();
     }
 
     RWS::CAttributeHandler *cFactionTargetingProfile::MakeNew(const RWS::CAttributePacket &attr, bool)

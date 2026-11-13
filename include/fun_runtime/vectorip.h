@@ -14,6 +14,11 @@ namespace Fun_Runtime
         cVectorip() : last_(data_) {}
         unsigned int size() const { return last_ - data_; }
         T *&operator[](unsigned int i) { return data_[i]; }
+        // Pointer iterators, as cDocksMission's mission loops (0x82474A40, 0x82474D60) walk the inline storage.
+        T **begin() { return data_; }
+        T **end() { return last_; }
+        T *const *begin() const { return data_; }
+        T *const *end() const { return last_; }
     private:
         T **last_;
         __declspec(align(16)) T *data_[N];

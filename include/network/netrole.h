@@ -26,6 +26,8 @@ namespace Network
         cNetRoleObject();
         // Descriptive accessor name is ours; exposes the reference-named role member.
         etNetRole RetNetRole() const { return m_eNetRole; }
+        // RuffKing's name; CD2 expands it (cDocksMission::TickUpdate 0x82474790 compares the role with 3).
+        bool IsAuthority() const { return m_eNetRole == eNR_Authority; }
         virtual ~cNetRoleObject();
         virtual void SetNetRole(etNetRole);
         virtual void OnEnterNetRoleAuthority(etNetRole);

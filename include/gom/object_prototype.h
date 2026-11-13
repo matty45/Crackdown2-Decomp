@@ -51,7 +51,12 @@ namespace GOM
     class cObjectPrototype : public RWS::CAttributeHandler, public ResourceManager::cStreamingResourceClient
     {
     private:
-        unsigned char m_pad24[0x44 - 0x24];
+        unsigned char m_pad24[0x34 - 0x24];
+    public:
+        // RuffKing's name and offset; cNonGameBase::RetProtoTypeName (0x82652EA0) returns it.
+        const char *m_pName;              // 0x34
+    private:
+        unsigned char m_pad38[0x44 - 0x38];
         unsigned char m_nResourceState;   // 0x44: HasLoadedResources (0x82655540) tests it
         unsigned char m_pad45[0x50 - 0x45];
         Fun_Runtime::tAABB m_LocalAABB;   // 0x50: the constructor (0x82654118) stores both vectors
@@ -78,6 +83,7 @@ namespace GOM
     public:
         CD2_LAYOUT_CHECKS(cObjectPrototype,
             CD2_SIZE(cObjectPrototype, 0x70)
+            CD2_OFFSET(cObjectPrototype, m_pName, 0x34)
             CD2_OFFSET(cObjectPrototype, m_nResourceState, 0x44)
             CD2_OFFSET(cObjectPrototype, m_LocalAABB, 0x50))
     };

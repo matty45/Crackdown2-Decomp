@@ -6,6 +6,7 @@
 #include "fun_runtime/class.h"
 #include "rws/attributes.h"
 #include "cd2/memory.h"
+#include "GMan/cGameManager.h"
 
 namespace AI
 {
@@ -33,6 +34,62 @@ namespace AI
         virtual const char *RetClassName() const;
         // RWS::CEventHandler's pure virtual (RuffKing declares the override).
         virtual void HandleEvents(RWS::CMsg &);
+        // CD2 0x8247F038; the linker folded cFinalMission's and cBeaconMission's identical bodies into it.
+        virtual void Destruct();
+
+        // RuffKing's mission states.
+        enum eTrainingMissionState
+        {
+            eTMS_InitialRespawn = 0,
+            eTMS_WaitOnTrigger,
+            eTMS_TrainingIntro,
+            eTMS_SystemCheckIntro,
+            eTMS_SystemCheckHealth,
+            eTMS_SystemCheckMiniMap,
+            eTMS_SystemCheckReticule,
+            eTMS_SystemCheckAimIntro,
+            eTMS_SystemCheckAim,
+            eTMS_SystemInvertOption,
+            eTMS_SystemCheckOutro,
+            eTMS_AgilityIntro,
+            eTMS_AgilityOrbOutro,
+            eTMS_AgilityRaceIntro,
+            eTMS_AgilityRace,
+            eTMS_AgilityRaceFail,
+            eTMS_AgilityRaceOutro,
+            eTMS_LeapOfFaith,
+            eTMS_LeapOfFaithOutro,
+            eTMS_FirearmsPickupRifle,
+            eTMS_FirearmsFreeAimIntro,
+            eTMS_FirearmsFreeAim,
+            eTMS_FirearmsSubTarget,
+            eTMS_FirearmsPickupShotgun,
+            eTMS_FirearmsSurvivalIntro,
+            eTMS_FirearmsSurvival,
+            eTMS_StrengthIntro,
+            eTMS_StrengthPracticeIntro,
+            eTMS_StrengthPractice,
+            eTMS_StrengthSurvivalIntro,
+            eTMS_StrengthSurvival,
+            eTMS_ExplosivesPickupGrenade,
+            eTMS_ExplosivesIntro,
+            eTMS_Explosives,
+            eTMS_DrivingIntro,
+            eTMS_DrivingComplete,
+            eTMS_AwaitingPickup,
+            eTMS_Finale,
+            eTMS_Complete,
+            eTMS_Num,
+        };
+
+        void StopMission();                             // CD2 0x82480978
+        // RuffKing's name; CD2 expands it into OnMissionUnlocked (0x82480DA0).
+        void StartMission()
+        {
+            StopMission();
+            SetMissionState(eTMS_InitialRespawn, true);
+            LinkMsg(iMsgRestartPlayer, "Mtx *", 0x8000);
+        }
         // CD2: cTrainingMission's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
@@ -45,6 +102,12 @@ namespace AI
         virtual void OnLeaveGlobalMissionState(AI::cMission::etGlobalMissionState); // cRegisteredClass 32: 0x82480DF8
         virtual void OnMissionUnlocked(); // cRegisteredClass 35: 0x82480DA0
         virtual void GetSaveStateForMissionState(unsigned char &,unsigned char &); // cRegisteredClass 36: 0x82484C20
+
+    private:
+        // Size 0x9D0 from CD2's registrar and MakeNew (0x8247EFE8); the fields after the event handler at 0x3C0 are
+        // not modelled.
+        unsigned char m_unmodelled3C4[0x9D0 - 0x3C4];
+        CD2_LAYOUT_CHECKS(cTrainingMission, CD2_SIZE(cTrainingMission, 0x9D0))
     };
 }
 

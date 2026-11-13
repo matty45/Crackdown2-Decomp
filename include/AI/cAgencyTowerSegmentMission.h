@@ -21,10 +21,20 @@ namespace AI
         virtual const Fun_Runtime::cClass &RetClass() const;
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         virtual const char *RetClassName() const;
+        // RuffKing's states; CD2's ResetMission (0x8245C798) returns to the first.
+        enum etTowerMissionState
+        {
+            eTMS_TowerSegmentIsScaffolding = 0,
+            eTMS_TowerSegmentIsPartiallyComplete = 1,
+            eTMS_TowerSegmentIsComplete = 2,
+            eTMS_DebugStateOffset = 3,
+            eTMS_NumStates = 3,
+        };
         // CD2: cAgencyTowerSegmentMission's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
         virtual void Activate(); // cRegisteredClass 2: 0x8245CD58
+        virtual void Deactivate(); // cRegisteredClass 3: 0x8245E238 (folded with cAUMission's identical body)
         virtual void ResetMission(); // cRegisteredClass 4: 0x8245C798
         virtual void TickUpdate(float); // cRegisteredClass 8: 0x8245D058
         virtual void TermReplication(); // cRegisteredClass 38: 0x8245CCF8

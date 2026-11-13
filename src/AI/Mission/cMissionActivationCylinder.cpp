@@ -11,6 +11,11 @@
 
 namespace AI
 {
+    RWS::CAttributeHandler *cMissionActivationCylinder::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cMissionActivationCylinder;
+    }
+
     const char *cMissionActivationCylinder::RetClassName() const
     {
         return "cMissionActivationCylinder";

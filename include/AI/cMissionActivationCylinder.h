@@ -17,6 +17,8 @@ namespace AI
         // The reference declares both callbacks; CD2 installs concrete entries at primary slots 16 and 17.
         virtual void OnPlayerEnter(CHARACTER::cCharacter *);
         virtual void OnPlayerLeave(CHARACTER::cCharacter *);
+        // __forceinline: CD2's MakeNew (0x8248AF38) expands it after the base constructor call and passes no packet.
+        __forceinline cMissionActivationCylinder() : m_bMissionCritical(false) {}
         // CD2 0x8248B058.
         virtual ~cMissionActivationCylinder();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);

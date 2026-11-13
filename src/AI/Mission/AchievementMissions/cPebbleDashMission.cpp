@@ -35,6 +35,31 @@ namespace AI
 
     cLocalPlayerTrigger::~cLocalPlayerTrigger() {}
 
+    const Fun_Runtime::cClass &cPebbleDashMission::RetClass() const
+    {
+        return *ms_pcPebbleDashMissionClass;
+    }
+
+    bool cPebbleDashMission::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcPebbleDashMissionClass->IsA(c);
+    }
+
+    RWS::CAttributeHandler *cPebbleDashMission::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cPebbleDashMission;
+    }
+
+    const char *cPebbleDashMission::RetClassName() const
+    {
+        return "cPebbleDashMission";
+    }
+
+    void cPebbleDashMission::Activate()
+    {
+        cMission::Activate();
+    }
+
     static RWS::CClassFactory::CRegistrar cLocalPlayerTriggerRegistrar(
         "cLocalPlayerTrigger", cLocalPlayerTrigger::MakeNew, 0x100, false);
 

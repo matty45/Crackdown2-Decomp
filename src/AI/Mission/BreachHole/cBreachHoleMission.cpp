@@ -10,6 +10,7 @@
 #include "AI/cBreachHoleMission.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
+#include "PLAYER/cPlayer.h"
 
 namespace AI
 {
@@ -49,4 +50,71 @@ namespace AI
     // CD2 0x82F89E38: runtime mission inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cBreachHoleMissioncMissionInheritRegistrar(
         AI::cBreachHoleMission::StaticCreateClass(), AI::cMission::StaticCreateClass());
+
+    void cBreachHoleMission::ResetMission()
+    {
+        if (IsAuthority())
+        {
+            SetMissionState(eBS_Closed, true);
+            m_fCurrentTimer = 0.0f;
+        }
+    }
+
+    void cBreachHoleMission::Activate()
+    {
+        if (m_pActivationZone)
+            m_pActivationZone->InitTriggerZone();
+        m_eMissionState = eBS_Closed;
+        cMission::Activate();
+    }
+
+    void cBreachHoleMission::Deactivate()
+    {
+        if (m_pActivationZone)
+            m_pActivationZone->TermTriggerZone();
+        cMission::Deactivate();
+    }
+
+    void cBreachHoleMission::GetSaveStateForMissionState(unsigned char &nGlobalMissionState, unsigned char &nMissionState)
+    {
+        switch (nMissionState)
+        {
+        case eBS_Open:
+        case eBS_Standby:
+        case eBS_FailedToOpen:
+        case eBS_Closed:
+            nMissionState = eBS_Closed;
+            break;
+        case eBS_Destroyed:
+        case eBS_ChopperClosing:
+            nMissionState = eBS_Destroyed;
+            break;
+        default:
+            nGlobalMissionState = m_eGlobalMissionState;
+            nMissionState = m_eMissionState;
+            break;
+        }
+    }
+
+    void cBreachHoleMission::OnTransitionMissionState(unsigned char nNewMissionState)
+    {
+        m_ePrevMissionState = m_eMissionState;
+        m_eMissionState = nNewMissionState;
+    }
+
+    void cBreachHoleMission::NotifyDeliveryStart(int nHeliID)
+    {
+        m_nHeliID = nHeliID;
+    }
+
+    bool cBreachHoleMission::IsLocalPlayerNearby() const
+    {
+        if (m_pActivationZone)
+        {
+            CHARACTER::cCharacter *pCharacter = PLAYER::cPlayer::RetLocalPlayerCharacter();
+            if (pCharacter)
+                return m_pActivationZone->IsWithin(pCharacter);
+        }
+        return false;
+    }
 }

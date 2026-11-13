@@ -24,6 +24,26 @@ namespace AI
     public:
         // CD2 0x8245A6A8 names the runtime class; constructor ABI takes only this.
         static Fun_Runtime::cClass &StaticCreateClass();
+        // RuffKing's squad groups; cDocksMission::Activate (0x82474668) activates eSG_B.
+        enum etSquadGroup
+        {
+            eSG_A = 0,
+            eSG_B = 1,
+            eSG_C = 2,
+            eSG_D = 3,
+            eSG_E = 4,
+            eSG_F = 5,
+            eSG_G = 6,
+            eSG_H = 7,
+            eSG_I = 8,
+            eSG_J = 9,
+            eSG_K = 10,
+            eSG_L = 11,
+            eSG_NumGroups = 12,
+            eSG_None = 12,
+        };
+        // RuffKing's name; CD2 0x8245A9B8 (outside the scaffolded files).
+        void SetSquadGroup(etSquadGroup eGroupToActivate);
         cMissionBase();
         virtual ~cMissionBase();
         virtual const Fun_Runtime::cClass &RetClass() const;
@@ -48,6 +68,9 @@ namespace AI
         virtual void OnMissionCriticalPropApproachedByLocalPlayer(cMissionCriticalPropSpawnPoint *);
         virtual void OnClientMissionStateNotification(unsigned char, unsigned char);
         virtual void OnSquadGroupBlockedMessage(bool, unsigned char);
+        // CAttributeHandler slot 6: every mission's attribute-handler table (cMission's 0x82102E28, cPebbleDashMission's
+        // 0x82105810, ...) holds 0x82458C20 there, ahead of cMission's code.
+        virtual Fun_Runtime::RetVal Term();
     protected:
         // Fields in RuffKing's names and order (cMissionBase.h, 0x350 bytes); RuffKing's cMission ends at 0x3C0 like
         // CD2's, and its derived missions' fields fall at CD2's offsets (cFinalMission 0x3C5, cBeaconMission 0x3CA).

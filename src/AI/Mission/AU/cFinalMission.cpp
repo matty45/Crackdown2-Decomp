@@ -54,4 +54,57 @@ namespace AI
     // CD2 0x82F89330: runtime mission inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cFinalMissioncMissionInheritRegistrar(
         AI::cFinalMission::StaticCreateClass(), AI::cMission::StaticCreateClass());
+
+    void cFinalMission::OnEnterGlobalMissionState(etGlobalMissionState nState)
+    {
+        switch (nState)
+        {
+        case eGMS_Complete:
+            if (m_pCore1ContainmentZone)
+                m_pCore1ContainmentZone->TermTriggerZone();
+            if (m_pCore2ContainmentZone)
+                m_pCore2ContainmentZone->TermTriggerZone();
+            if (m_pCore3ContainmentZone)
+                m_pCore3ContainmentZone->TermTriggerZone();
+            break;
+        case eGMS_Incomplete:
+            if (m_pCore1ContainmentZone)
+                m_pCore1ContainmentZone->InitTriggerZone();
+            if (m_pCore2ContainmentZone)
+                m_pCore2ContainmentZone->InitTriggerZone();
+            if (m_pCore3ContainmentZone)
+                m_pCore3ContainmentZone->InitTriggerZone();
+            break;
+        }
+    }
+
+    void cFinalMission::GetSaveStateForMissionState(unsigned char &nGlobalMissionState, unsigned char &nMissionState)
+    {
+        switch (nMissionState)
+        {
+        default:
+            nGlobalMissionState = m_eGlobalMissionState;
+            nMissionState = m_eMissionState;
+            break;
+        case eFMS_Ready:
+        case eFMS_Charging1:
+        case eFMS_Charging2:
+        case eFMS_Charging3:
+        case eFMS_Collapse:
+        case eFMS_Detonate:
+        case eFMS_Complete:
+        case eFMS_Failed:
+        case eFMS_Resetting:
+            nMissionState = eFMS_Ready;
+            break;
+        case eFMS_Blocked:
+            nMissionState = eFMS_Blocked;
+            break;
+        }
+    }
+
+    bool cFinalMission::ArePrerequisitesComplete() const
+    {
+        return m_eMissionState != eFMS_Blocked;
+    }
 }

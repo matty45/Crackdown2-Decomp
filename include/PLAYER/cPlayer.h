@@ -81,6 +81,17 @@ namespace PLAYER
                 CD2_SIZE(cPlayerPrototype, 0x70))
         };
         static const Fun_Runtime::cClass *ms_pcPlayerClass;
+        // RuffKing's name; CD2 0x83800F88, read by cTacticalObjective::IsLocalPlayerNearby (0x82478A80).
+        static cPlayer *g_pLocalPlayer;
+        // RuffKing's name; inline in CD2 (cBreachHoleMission::IsLocalPlayerNearby 0x82473330 expands it). It converts
+        // the typed safe pointer directly: one null test before the 0x1C adjustment, where RetCharacter's conditional
+        // adds a register copy.
+        static CHARACTER::cCharacter *RetLocalPlayerCharacter()
+        {
+            if (g_pLocalPlayer)
+                return g_pLocalPlayer->m_pCharacter;
+            return 0;
+        }
         static Fun_Runtime::cClass &StaticCreateClass();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *memory);

@@ -166,6 +166,13 @@ namespace Vehicle
         return nMask;
     }
 
+    bool cVehicle::IsLightActive(VFX::cGlobalLight *pLight, unsigned char, unsigned char)
+    {
+        if (pLight)
+            return !pLight->IsDamaged();
+        return true;
+    }
+
     float cVehicle::RetNetworkDoorOpenCloseSpeed(unsigned char)
     {
         return 0.1f;

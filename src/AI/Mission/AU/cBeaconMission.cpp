@@ -57,4 +57,52 @@ namespace AI
     // CD2 0x82F88C20: runtime mission inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cBeaconMissioncMissionInheritRegistrar(
         AI::cBeaconMission::StaticCreateClass(), AI::cMission::StaticCreateClass());
+
+    void cBeaconMission::OnLeaveGlobalMissionState(etGlobalMissionState nState)
+    {
+        switch (nState)
+        {
+        case eGMS_Complete:
+            if (m_pActivationZone)
+                m_pActivationZone->Hide();
+            break;
+        case eGMS_Incomplete:
+            for (Fun_Runtime::cVector<cMissionActivationCylinder *>::iterator it = m_vContainmentZones.begin();
+                 it != m_vContainmentZones.end(); ++it)
+                (*it)->TermTriggerZone();
+            break;
+        }
+    }
+
+    void cBeaconMission::OnClientMissionStateNotification(unsigned char nMissionState, unsigned char)
+    {
+        switch (m_eMissionState)
+        {
+        case eBMS_RaisingWFDRT:
+        case eBMS_ChargingBeacon:
+        case eBMS_ChargingSWGT:
+            if (nMissionState == eBMS_RaisingWFDRT)
+                SetMissionState(eBMS_Failed, true);
+            break;
+        case eBMS_EnRoute:
+            if (nMissionState == eBMS_EnRoute)
+                SetMissionState(eBMS_Dropping, true);
+            break;
+        }
+    }
+
+    void cBeaconMission::NotifyDeliveryStart(int nHeliID)
+    {
+        m_nHeliID = nHeliID;
+        if (nHeliID != 0)
+            SetMissionState(eBMS_EnRoute, true);
+        else
+            SetMissionState(eBMS_AbortDelivery, true);
+    }
+
+    void cBeaconMission::NotifyDeliveryFinish(bool bSuccess)
+    {
+        if (!bSuccess && m_eMissionState != eBMS_Resetting)
+            ResetMission();
+    }
 }

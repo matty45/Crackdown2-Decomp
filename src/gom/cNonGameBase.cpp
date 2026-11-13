@@ -22,6 +22,18 @@
         return "eGameImportance";
     }
 
+    const char *cNonGameBase::RetProtoTypeName() const
+    {
+        if (m_pPrototype)
+            return m_pPrototype->m_pName;
+        return RetClassName();
+    }
+
+    Fun_Runtime::Vec3 cNonGameBase::RetCentre() const
+    {
+        return RetPosition();
+    }
+
     Fun_Runtime::cClass &cNonGameBase::StaticCreateClass()
     {
         static Fun_Runtime::cClass *descriptor = new Fun_Runtime::cClass(0x3EE, "cNonGameBase", 0x7C);

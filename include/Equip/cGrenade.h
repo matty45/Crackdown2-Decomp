@@ -43,6 +43,8 @@ namespace Equip
         {
         public:
             cGrenadePrototype(const RWS::CAttributePacket &);
+            // CD2 boost-pack handler 0x8260AF80 forwards to this method at 0x82296B10.
+            virtual void HandleAttributes(const RWS::CAttributePacket &);
 
         private:
             unsigned char m_unmodelled350[0x370 - 0x350];

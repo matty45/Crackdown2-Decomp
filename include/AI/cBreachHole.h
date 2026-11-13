@@ -7,6 +7,7 @@
 #include "rws/dynamicallocationpolicy.h"
 #include "fun_runtime/class.h"
 #include "rws/attributes.h"
+#include "cd2/layout.h"
 
 namespace AI
 {
@@ -34,6 +35,12 @@ namespace AI
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
         virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x8246EC00
+
+    private:
+        // CD2's registrar and MakeNew (0x8246E758) give 0x1C0 bytes; RuffKing's class (cBreach.h) is 0x170, so its
+        // field offsets are not CD2's past the first ones. Not modelled yet.
+        unsigned char m_unmodelled20[0x1C0 - 0x20];
+        CD2_LAYOUT_CHECKS(cBreachHole, CD2_SIZE(cBreachHole, 0x1C0))
     };
 }
 

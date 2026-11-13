@@ -62,4 +62,9 @@ namespace AI
     // CD2 0x82F88028: runtime mission inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cAgencyTowerSegmentMissioncMissionInheritRegistrar(
         AI::cAgencyTowerSegmentMission::StaticCreateClass(), AI::cMission::StaticCreateClass());
+
+    void cAgencyTowerSegmentMission::ResetMission()
+    {
+        SetMissionState(eTMS_TowerSegmentIsScaffolding, true);
+    }
 }

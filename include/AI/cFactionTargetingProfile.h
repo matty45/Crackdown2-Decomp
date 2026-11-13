@@ -1,8 +1,7 @@
 // AI::cFactionTargetingProfile: per-faction targeting profiles, set from RWS attributes. Layout from the RuffKing PDB,
 // confirmed against CD2: size 0x50 (the registrar 0x82F84518 and MakeNew 0x82451FA0 allocate 0x50 bytes); the
 // constructor 0x82452008 zeroes m_FactionData (0x18) and builds m_EventHandler (0x3C).
-// SetupTargetData is the function at 0x824523F0, right after HandleAttributes (which calls it for commands 0..5); it is
-// outside this file's range in config/splits.txt and not matched yet.
+// SetupTargetData (0x824523F0) resolves a profile GUID and stores its typed target-data pointer for commands 0..5.
 #ifndef AI_CFACTIONTARGETINGPROFILE_H
 #define AI_CFACTIONTARGETINGPROFILE_H
 

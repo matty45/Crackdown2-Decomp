@@ -24,7 +24,8 @@ namespace ExplosionManager
         float m_fCameraShakeAmount;
 
     public:
-        cExplosionLevelInfo(const RWS::CAttributePacket &);
+        // CD2 factory 0x8263E5E0 contains the full initialization sequence.
+        __forceinline cExplosionLevelInfo(const RWS::CAttributePacket &);
         virtual ~cExplosionLevelInfo() {}
         virtual const char *RetClassName() const;
         virtual void Destruct();

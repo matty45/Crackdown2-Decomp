@@ -35,6 +35,35 @@ namespace AI
         return new cTrainingMission();
     }
 
+    void cTrainingMission::Destruct()
+    {
+        this->~cTrainingMission();
+    }
+
+    void cTrainingMission::Activate()
+    {
+        cMission::Activate();
+        // No state yet; RuffKing passes the same 0xFF.
+        SetMissionState(0xFF, true);
+    }
+
+    void cTrainingMission::Deactivate()
+    {
+        cMission::Deactivate();
+        StopMission();
+    }
+
+    void cTrainingMission::OnMissionUnlocked()
+    {
+        StartMission();
+    }
+
+    void cTrainingMission::OnLeaveGlobalMissionState(etGlobalMissionState nState)
+    {
+        if (nState == eGMS_Incomplete)
+            StopMission();
+    }
+
     void cTrainingMission::GetSaveStateForMissionState(unsigned char &, unsigned char &saveState)
     {
         saveState = 0;

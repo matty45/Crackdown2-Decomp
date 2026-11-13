@@ -28,9 +28,35 @@
 
 namespace RPG
 {
+    const Fun_Runtime::cClass &cExplosivesSkillProfile::RetClass() const
+    {
+        return *ms_pcExplosivesSkillProfileClass;
+    }
+
+    bool cExplosivesSkillProfile::IsA(const Fun_Runtime::cClass &testClass) const
+    {
+        return ms_pcExplosivesSkillProfileClass->IsA(testClass);
+    }
+
     const char *cExplosivesSkillProfile::RetClassName() const
     {
         return "cExplosivesSkillProfile";
+    }
+
+    Fun_Runtime::RetVal cExplosivesSkillProfile::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
+
+    Fun_Runtime::RetVal cExplosivesSkillProfile::Term()
+    {
+        return Ret_OK;
+    }
+
+    cExplosivesSkillProfile::~cExplosivesSkillProfile()
+    {
+        UnLinkMsg(m_Msg_Return_Self);
+        UnRegisterMsg(m_Msg_Return_Self);
     }
 
     // CD2 0x82FFD408 (initializer) and 0x83041D40 (at-exit destructor).

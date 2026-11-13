@@ -5,6 +5,7 @@
 #include "fun_runtime/class.h"
 #include "rws/attributes.h"
 #include "AI/cMission.h"
+#include "AI/cMissionActivationCylinder.h"
 
 namespace AI
 {
@@ -25,6 +26,7 @@ namespace AI
         // CD2: cRefineryMission's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
+        virtual void Activate(); // cRegisteredClass 2: 0x8248A0C8 (folded with cPebbleDashMission's identical body)
         virtual void Deactivate(); // cRegisteredClass 3: 0x82456DA8
         virtual void TickUpdate(float); // cRegisteredClass 8: 0x82456F70
         virtual void OnMissionCriticalPropUsed(AI::cMissionCriticalPropSpawnPoint *,unsigned char); // cRegisteredClass 12: 0x822AC238
@@ -39,9 +41,13 @@ namespace AI
         virtual void OnEnterMissionState(unsigned char); // cRegisteredClass 31: 0x82456E28
         virtual void OnEnterGlobalMissionState(AI::cMission::etGlobalMissionState); // cRegisteredClass 33: 0x824570E0
     protected:
-        // Size 0x400 from CD2's registrar (MakeNew allocates it); the fields after cMission are not modelled.
-        unsigned int m_unmodelled3C0[(0x400 - 0x3C0) / 4];
-        CD2_LAYOUT_CHECKS(cRefineryMission, CD2_SIZE(cRefineryMission, 0x400))
+        // RuffKing's first field; IsLocalPlayerNearby (0x82457230) tests the local player against it. Size 0x400 from
+        // CD2's registrar (RuffKing's is the same); the rest is not modelled.
+        cMissionActivationCylinder *m_pContainmentZone;         // 0x3C0
+        unsigned int m_unmodelled3C4[(0x400 - 0x3C4) / 4];
+        CD2_LAYOUT_CHECKS(cRefineryMission,
+            CD2_SIZE(cRefineryMission, 0x400)
+            CD2_OFFSET(cRefineryMission, m_pContainmentZone, 0x3C0))
     };
 }
 

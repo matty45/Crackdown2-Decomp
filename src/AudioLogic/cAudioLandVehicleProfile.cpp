@@ -20,6 +20,11 @@
 
 namespace AudioLogic
 {
+    RWS::CAttributeHandler *cAudioLandVehicleProfile::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cAudioLandVehicleProfile;
+    }
+
     const char *cAudioLandVehicleProfile::RetClassName() const
     {
         return "cAudioLandVehicleProfile";
@@ -41,6 +46,18 @@ namespace AudioLogic
     bool cAudioLandVehicleProfile::IsA(const Fun_Runtime::cClass &c) const
     {
         return ms_pcAudioLandVehicleProfileClass->IsA(c);
+    }
+
+    Fun_Runtime::RetVal cAudioLandVehicleProfile::Init(const RWS::CAttributePacket &)
+    {
+        m_bReset = false;
+        return Ret_OK;
+    }
+
+    Fun_Runtime::RetVal cAudioLandVehicleProfile::Term()
+    {
+        m_bReset = false;
+        return Ret_OK;
     }
 
     static RWS::CClassFactory::CRegistrar cAudioLandVehicleProfileRegistrar(

@@ -20,6 +20,11 @@
 
 namespace AudioLogic
 {
+    RWS::CAttributeHandler *cAudioLandVehicleExtrasProfile::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cAudioLandVehicleExtrasProfile;
+    }
+
     const char *cAudioLandVehicleExtrasProfile::RetClassName() const
     {
         return "cAudioLandVehicleExtrasProfile";
@@ -41,6 +46,45 @@ namespace AudioLogic
     bool cAudioLandVehicleExtrasProfile::IsA(const Fun_Runtime::cClass &c) const
     {
         return ms_pcAudioLandVehicleExtrasProfileClass->IsA(c);
+    }
+
+    Fun_Runtime::RetVal cAudioLandVehicleExtrasProfile::Init(const RWS::CAttributePacket &)
+    {
+        m_bReset = false;
+        return Ret_OK;
+    }
+
+    Fun_Runtime::RetVal cAudioLandVehicleExtrasProfile::Term()
+    {
+        m_bReset = false;
+        return Ret_OK;
+    }
+
+    void cAudioLandVehicleExtrasProfile::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cAudioBaseProfile::HandleAttributes(packet);
+        for (RWS::CAttributeCommandIterator it(packet, "cAudioLandVehicleExtrasProfile"); !it.IsFinished(); ++it)
+        {
+            // ParseRWS retains the mutable text parameter declared by the reference API.
+            switch (it->GetCommandId())
+            {
+            case CMD_TAKEOFF_RPM_VS_TIME:
+                AudioEngine::cAudioGraph::ParseRWS(const_cast<char *>(it->GetAs_char_ptr()), m_TakeoffRPMVsTime);
+                break;
+            case CMD_DISENGAGE_RPM_VS_TIME:
+                AudioEngine::cAudioGraph::ParseRWS(const_cast<char *>(it->GetAs_char_ptr()), m_GearDisengageRPMVsTime);
+                break;
+            case CMD_ENGAGE_RPM_VS_TIME:
+                AudioEngine::cAudioGraph::ParseRWS(const_cast<char *>(it->GetAs_char_ptr()), m_GearEngageRPMVsTime);
+                break;
+            case CMD_DISENGAGE_LOAD_VS_TIME:
+                AudioEngine::cAudioGraph::ParseRWS(const_cast<char *>(it->GetAs_char_ptr()), m_GearDisengageLoadVsTime);
+                break;
+            case CMD_ENGAGE_LOAD_VS_TIME:
+                AudioEngine::cAudioGraph::ParseRWS(const_cast<char *>(it->GetAs_char_ptr()), m_GearEngageLoadVsTime);
+                break;
+            }
+        }
     }
 
     static RWS::CClassFactory::CRegistrar cAudioLandVehicleExtrasProfileRegistrar(

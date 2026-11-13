@@ -10,6 +10,7 @@
 #include "rws/classfactory.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "cd2/memory.h"
+#include "PLAYER/cPlayer.h"
 
 namespace AI
 {
@@ -45,6 +46,17 @@ namespace AI
 
     static Fun_Runtime::cInheritanceRegistrar cRefineryMissioncMissionInheritRegistrar(
         cRefineryMission::StaticCreateClass(), cMission::StaticCreateClass());
+
+    bool cRefineryMission::IsLocalPlayerNearby() const
+    {
+        if (m_pContainmentZone)
+        {
+            const CHARACTER::cCharacter *pCharacter = PLAYER::cPlayer::RetLocalPlayerCharacter();
+            if (pCharacter)
+                return m_pContainmentZone->IsInTriggerZone(pCharacter);
+        }
+        return false;
+    }
 }
 
 static RWS::CClassFactory::CRegistrar cRefineryMissionRegistrar(
