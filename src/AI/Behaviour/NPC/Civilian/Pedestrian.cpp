@@ -41,6 +41,31 @@ namespace AI
         return "Pedestrian";
     }
 
+    void Pedestrian::OnEnter()
+    {
+        cPedestrianBase::OnEnter();
+    }
+
+    void Pedestrian::OnExit()
+    {
+        cPedestrianBase::OnExit();
+    }
+
+    void Pedestrian::Slot71()
+    {
+        cPedestrianBase::Slot71();
+    }
+
+    void Pedestrian::vf98()
+    {
+        cPedestrianBase::vf98();
+    }
+
+    void Pedestrian::vf99()
+    {
+        cPedestrianBase::vf99();
+    }
+
     static RWS::CClassFactory::CRegistrar PedestrianRegistrar(
         "Pedestrian", Pedestrian::MakeNew, 0x120, false);
 

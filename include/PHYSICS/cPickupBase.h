@@ -44,9 +44,9 @@ namespace PHYSICS
     public:
         virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x827FBD60
         virtual Fun_Runtime::RetVal Term(); // 6: 0x827096B8
-        virtual void Slot46(); // 46: 0x827090F0
+        virtual Fun_Runtime::Vec3 RetPosition() const; // 46: 0x827090F0
         virtual int RetUniqueID(); // CEventHandler 1: 0x82604E70
-        virtual Fun_Runtime::Vec3 RetPosition() const; // cSafeDeletable 3: 0x827090C8
+        virtual Fun_Runtime::Vec3 RetScriptPosition() const; // cSafeDeletable 3: 0x827090C8
     private:
         CD2_LAYOUT_CHECKS(cPickupBase,
             CD2_SIZE(cPickupBase, 0x150)

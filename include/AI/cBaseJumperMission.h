@@ -34,6 +34,10 @@ namespace AI
         virtual void Activate(); // cRegisteredClass 2: 0x82459568
         virtual void Deactivate(); // cRegisteredClass 3: 0x82459618
         virtual void TickUpdate(float); // cRegisteredClass 8: 0x82489260
+    protected:
+        // Size 0x400 from CD2's registrar (MakeNew allocates it); the fields after cMission are not modelled.
+        unsigned int m_unmodelled3C0[(0x400 - 0x3C0) / 4];
+        CD2_LAYOUT_CHECKS(cBaseJumperMission, CD2_SIZE(cBaseJumperMission, 0x400))
     };
 }
 

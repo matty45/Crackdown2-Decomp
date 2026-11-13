@@ -32,6 +32,11 @@ namespace AI
         return ms_pcBeaconMissionClass->IsA(c);
     }
 
+    void cBeaconMission::NotifySquadDead(Activity::cSquadSpawnPoint *)
+    {
+        ++m_nNumInitialSquadsDead;
+    }
+
     RWS::CAttributeHandler *cBeaconMission::MakeNew(const RWS::CAttributePacket &packet, bool)
     {
         return new cBeaconMission();

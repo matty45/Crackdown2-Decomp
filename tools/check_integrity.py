@@ -24,12 +24,12 @@ it). All checks must pass:
 
 The same CD2 function declared under two names is caught by the relocation-target check (tools/verify_src.py).
 """
-import collections, json, os, re, struct, subprocess, sys
+import collections, concurrent.futures, json, os, re, struct, subprocess, sys
 
 TOOLS = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, TOOLS)
 import buildcache  # noqa: E402
-from verify_src import XDK, BIN, ROOT, flags_for, load_file_flags, ltcg_built, load_middleware, work_dir
+from verify_src import XDK, BIN, ROOT, WORKERS, flags_for, load_file_flags, ltcg_built, load_middleware, work_dir
 
 HOT = (0x821D0000, 0x823D0000)
 # CD2's sections that hold data (from its section table): .rdata, and .data, which also holds the zero-initialized data
@@ -297,10 +297,15 @@ def run(manifest, splits, extra_type_roots=(), extra_sources=(), skip_compile=Fa
         tmp = work_dir('integrity_')
         owners = collections.defaultdict(list)
         sources = [os.path.join(ROOT, f) for f in manifest] + list(extra_sources)
-        for n, path in enumerate(sources):
+
+        def build(job):
+            n, path = job
             obj = os.path.join(tmp, '%d_%s.obj' % (n, os.path.basename(path)))
-            r = buildcache.compile([os.path.join(BIN, 'cl.exe')] + flags_for(path, flag_table) + ['/I' + os.path.dirname(path),
-                                    '/Fo' + obj, path], env)
+            return obj, buildcache.compile([os.path.join(BIN, 'cl.exe')] + flags_for(path, flag_table) +
+                                           ['/I' + os.path.dirname(path), '/Fo' + obj, path], env)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=WORKERS) as pool:
+            builds = list(pool.map(build, enumerate(sources)))
+        for path, (obj, r) in zip(sources, builds):
             if r.returncode:
                 failures['functions'].append('%s does not compile' % path)
                 continue

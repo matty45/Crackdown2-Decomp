@@ -37,6 +37,7 @@
 #include "AI/cGrenadeVocalEvent.h"
 #include "Sim/cTimeOfDay.h"
 #include "cd2/memory.h"
+#include "lua/lua.h"
 #include <new>
 
 Fun_Runtime::cScriptTypeRegistrar<AI::cAiPlayer> g_cAiPlayer("cAIPlayer", "cCharacterEntityIF");     // global at 0x83803448
@@ -295,6 +296,19 @@ namespace AI
         return false;
     }
 
+    void cMapStatusScriptRegistration::RegisterValues(lua_State *state)
+    {
+        lua_pushliteral(state, "nPassive");
+        lua_pushnumber(state, 0.0f);
+        lua_settable(state, -3);
+        lua_pushliteral(state, "nPriority");
+        lua_pushnumber(state, 1.0f);
+        lua_settable(state, -3);
+        lua_pushliteral(state, "nHighPriority");
+        lua_pushnumber(state, 2.0f);
+        lua_settable(state, -3);
+    }
+
     static RWS::CClassFactory::CRegistrar cAiPlayerRegistrar(
         "cAiPlayer", cAiPlayer::MakeNew, 0x620, false);
 
@@ -305,4 +319,13 @@ namespace AI
     // CD2 0x82F60588: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cAiPlayerSpawningRegistrar(
         cAiPlayer::StaticCreateClass(), cAiPlayer::SpawnFromPrototype);
+    // CD2 0x82F60628 registers enum object 0x8380346C with table 0x820FB0F0.
+    static cTriggerEventFlagsScriptRegistration g_cTriggerEventFlagsScriptRegistration;
+
+    // CD2 0x82F60670 registers enum object 0x83803470 with table 0x820FB0FC.
+    static cEnemyStatusScriptRegistration g_cEnemyStatusScriptRegistration;
+
+    // CD2 0x82F606B8 registers enum object 0x83803474 with table 0x820FB108.
+    static cMapStatusScriptRegistration g_cMapStatusScriptRegistration;
+
 }

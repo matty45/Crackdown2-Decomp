@@ -15,9 +15,12 @@
 #include "rws/classfactory.h"
 #include "gom/proto_registrar.h"
 #include "cd2/memory.h"
+#include "gom/cGameImportanceScriptRegistration.h"
 
-    static Fun_Runtime::cScriptTypeRegistrar<cNonGameBase> cNonGameBaseScriptRegistrar(
-        "cNonGameBase", "cScriptHost");
+    const char *cGameImportanceScriptRegistration::RetName() const
+    {
+        return "eGameImportance";
+    }
 
     Fun_Runtime::cClass &cNonGameBase::StaticCreateClass()
     {
@@ -36,7 +39,18 @@
     static GOM::cProtoRegistrar cNonGameBaseSpawningRegistrar(
         cNonGameBase::StaticCreateClass(), cNonGameBase::SpawnFromPrototype);
 
+    static Fun_Runtime::cScriptTypeRegistrar<cNonGameBase> cNonGameBaseScriptRegistrar(
+        "cNonGameBase", "cScriptHost");
+
     const Fun_Runtime::cClass &cNonGameBase::RetClass() const
     {
         return *ms_pcNonGameBaseClass;
     }
+
+    Fun_Runtime::Vec3 cNonGameBase::RetPosition() const
+    {
+        return RetScriptPosition();
+    }
+
+    // CD2 0x82FD6DD0: enum object at 0x8383ABB4, table 0x8212CF1C.
+    static cGameImportanceScriptRegistration g_cGameImportanceScriptRegistration;

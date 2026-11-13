@@ -46,6 +46,7 @@
 #include "AI/cFaceTargetScriptRegistration.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
+#include "lua/lua.h"
 #include <new>
 
 namespace AI
@@ -316,6 +317,19 @@ namespace AI
         return &g_cTouchedGrenadeEvent;
     }
 
+    void cStateScriptRegistration::RegisterValues(lua_State *state)
+    {
+        lua_pushliteral(state, "nNone");
+        lua_pushnumber(state, 0.0f);
+        lua_settable(state, -3);
+        lua_pushliteral(state, "nWander");
+        lua_pushnumber(state, 1.0f);
+        lua_settable(state, -3);
+        lua_pushliteral(state, "nRetreat");
+        lua_pushnumber(state, 2.0f);
+        lua_settable(state, -3);
+    }
+
     static RWS::CClassFactory::CRegistrar cCharacterEntityIFRegistrar(
         "cCharacterEntityIF", cCharacterEntityIF::MakeNew, 0x540, false);
 
@@ -326,4 +340,19 @@ namespace AI
     // CD2 0x82F60E10: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cCharacterEntityIFSpawningRegistrar(
         cCharacterEntityIF::StaticCreateClass(), cCharacterEntityIF::SpawnFromPrototype);
+    // CD2 0x82F60EB0 registers this four-byte enum object at 0x838035F0.
+    static cMovementTypeScriptRegistration g_cMovementTypeScriptRegistration;
+
+    // CD2 0x82F60EF8 registers the perception enum at 0x838035F4.
+    static cPerceptionOptionsScriptRegistration g_cPerceptionOptionsScriptRegistration;
+
+    // CD2 0x82F60F40 registers the facing enum at 0x838035F8.
+    static cFaceTargetScriptRegistration g_cFaceTargetScriptRegistration;
+
+    // CD2 0x82F60F88 registers the behavior-state enum at 0x838035FC.
+    static cStateScriptRegistration g_cStateScriptRegistration;
+
+    // CD2 0x82F60FD0 registers the attack-state enum at 0x83803600.
+    static cAttackStateScriptRegistration g_cAttackStateScriptRegistration;
+
 }

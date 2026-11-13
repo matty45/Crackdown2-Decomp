@@ -15,9 +15,44 @@ namespace unknown
     public:
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pcInterestingObjectClass;
+        // Script methods (names from CD2's registration at 0x82454EA4..0x824552CC); each field is named after the
+        // script method that reads or writes it.
+        unsigned char RetBasicReaction();
+        float RetMaximumDuration();
+        float RetMinimumDuration();
+        bool IsDangerous();
+        void SetType(int);
+        void SetMaxReactingChars(unsigned short);
+        void IncrementReactingCharCount();
+        void DecrementReactingCharCount();
+        void SetBasicReaction(unsigned char);
+        void SetMaximumDuration(float);
+        void SetMinimumDuration(float);
+        void SetPriority(unsigned char);
+        void SetDangerous(bool);
     private:
-        unsigned char m_unmodelled1C[0x40 - 0x1C];
-        CD2_LAYOUT_CHECKS(cInterestingObject, CD2_SIZE(cInterestingObject, 0x40))
+        unsigned char m_unmodelled1C[0x20 - 0x1C];
+        int m_nType;
+        unsigned char m_unmodelled24[0x2C - 0x24];
+        float m_fMaximumDuration;
+        float m_fMinimumDuration;
+        unsigned short m_nReactingCharCount;
+        unsigned short m_nMaxReactingChars;
+        unsigned char m_unmodelled38[0x3A - 0x38];
+        unsigned char m_eBasicReaction; // eBasicReactions
+        unsigned char m_ePriority;      // eNotifyPriority
+        bool m_bDangerous;
+        unsigned char m_unmodelled3D[0x40 - 0x3D];
+        CD2_LAYOUT_CHECKS(cInterestingObject,
+            CD2_SIZE(cInterestingObject, 0x40)
+            CD2_OFFSET(cInterestingObject, m_nType, 0x20)
+            CD2_OFFSET(cInterestingObject, m_fMaximumDuration, 0x2C)
+            CD2_OFFSET(cInterestingObject, m_fMinimumDuration, 0x30)
+            CD2_OFFSET(cInterestingObject, m_nReactingCharCount, 0x34)
+            CD2_OFFSET(cInterestingObject, m_nMaxReactingChars, 0x36)
+            CD2_OFFSET(cInterestingObject, m_eBasicReaction, 0x3A)
+            CD2_OFFSET(cInterestingObject, m_ePriority, 0x3B)
+            CD2_OFFSET(cInterestingObject, m_bDangerous, 0x3C))
     };
 }
 

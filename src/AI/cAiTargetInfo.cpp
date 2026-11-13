@@ -10,10 +10,22 @@
 #include "CHARACTER/cRagdollProfile.h"
 #include "AI/aiconstants.h"
 #include "AI/cAiTargetInfo.h"
+#include "AI/cTargetInfoFlagsScriptRegistration.h"
+#include "AI/cTargetEventFlagsScriptRegistration.h"
 #include "fun_runtime/script_type_registrar.h"
 
 namespace AI
 {
+    const char *cTargetInfoFlagsScriptRegistration::RetName() const
+    {
+        return "eTargetInfoFlags";
+    }
+
+    const char *cTargetEventFlagsScriptRegistration::RetName() const
+    {
+        return "eTargetEventFlags";
+    }
+
     bool cAiTargetInfo::IsPrimaryFireInRange() const
     {
         return m_bPrimaryFireInRange;
@@ -21,4 +33,10 @@ namespace AI
 
     static Fun_Runtime::cScriptTypeRegistrar<cAiTargetInfo> cAiTargetInfoScriptRegistrar(
         "cAiTargetInfo", "cScriptHost");
+    // CD2 0x82F820D8: enum object 0x8381B240, table 0x82000B28.
+    static cTargetInfoFlagsScriptRegistration g_cTargetInfoFlagsScriptRegistration;
+
+    // CD2 0x82F82120: enum object 0x8381B244, table 0x8210173C.
+    static cTargetEventFlagsScriptRegistration g_cTargetEventFlagsScriptRegistration;
+
 }

@@ -20,9 +20,9 @@ namespace unknown
         virtual void vf429(); // primary slot 429
         virtual void vf430(); // primary slot 430
         virtual void vf431(); // primary slot 431
-        virtual void vf432(); // primary slot 432
-        virtual void vf433(); // primary slot 433
-        virtual void vf434(); // primary slot 434
+        virtual void vf432(bool); // primary slot 432: CD2 0x8260AD88 stores its byte argument at 0x9C0
+        virtual bool vf433(); // primary slot 433: CD2 0x8260AEC0 returns the byte at 0x9C0 and clears it
+        virtual void vf434(float); // primary slot 434: CD2 0x8260AD90 stores its float argument at 0x9C4
 
         // Inline: CD2's placement factory (0x8260AC68) calls cGrenade's (0x8261E238) constructor, then stores this class's vptrs.
         __forceinline cBoostPack() : m_fField9C4(100.0f) {}
@@ -34,7 +34,7 @@ namespace unknown
         virtual ~cBoostPack();
         // CD2 0x8260AD98: float getter at offset 0x9C4.
         virtual float GetField9C4() const;
-        int m_nWord9C0; // 0x9C0
+        bool m_bField9C0; // 0x9C0: a byte, as slots 432 and 433 store and load it
         float m_fField9C4; // 0x9C4
         // CD2 spawning initializer 0x82FCC368 names placement factory 0x8260ac68.
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);

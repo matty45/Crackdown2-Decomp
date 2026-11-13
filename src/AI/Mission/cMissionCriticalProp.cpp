@@ -26,6 +26,7 @@
 #include "rws/classfactory.h"
 #include "AI/cMissionCriticalProp.h"
 #include "cd2/memory.h"
+#include "rw/rwmem.h"
 #include <new>
 
 namespace AI
@@ -58,6 +59,20 @@ namespace AI
         return Ret_OK;
     }
 
+    void cMissionCriticalProp::cMissionCriticalPropPrototype::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cPropPrototype::HandleAttributes(packet);
+        for (RWS::CAttributeCommandIterator it(packet, "cMissionCriticalProp"); !it.IsFinished(); ++it)
+        {
+            switch (it->GetCommandId())
+            {
+            case 0:
+                m_nInteractionAnimID = rwSwap32(it->GetAs_UInt32());
+                break;
+            }
+        }
+    }
+
     cMissionCriticalProp::cMissionCriticalProp(GOM::cObjectPrototype *prototype)
         : Prop::cProp(prototype), m_bInteractable(true)
     {
@@ -71,6 +86,11 @@ namespace AI
     Fun_Runtime::RetVal cMissionCriticalProp::Init(const GOM::cSpawner *spawner)
     {
         return Prop::cProp::Init(spawner);
+    }
+
+    unsigned int cMissionCriticalProp::RetInteractionAnimID() const
+    {
+        return static_cast<cMissionCriticalPropPrototype *>(m_pPrototype)->m_nInteractionAnimID;
     }
 
     const Fun_Runtime::cClass *cMissionCriticalProp::ms_pcMissionCriticalPropClass = &cMissionCriticalProp::StaticCreateClass();

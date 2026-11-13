@@ -95,4 +95,7 @@ namespace CHARACTER
     // CD2 script-type registration; constructor/table evidence identifies the child and parent.
     static Fun_Runtime::cScriptTypeRegistrar<cCharacter> cCharacterScriptRegistrar(
         "cCharacter", "cCharacterMotion");
+    // CD2 0x82FAD848 registers enum object 0x83824128 with table 0x821138FC.
+    static cBonesScriptRegistration g_cBonesScriptRegistration;
+
 }

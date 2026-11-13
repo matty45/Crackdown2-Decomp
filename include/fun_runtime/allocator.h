@@ -25,7 +25,7 @@ namespace Fun_Runtime
         static pointer allocate(size_type n);
         void deallocate(pointer p, size_type) { XDestroyHeapBlock(p); }
         void construct(pointer p, const T &v) { new ((void *)p) T(v); }
-        void destroy(pointer) {}
+        void destroy(pointer p) { p->~T(); }
         pointer address(reference r) const { return &r; }
         const_pointer address(const_reference r) const { return &r; }
         size_type max_size() const { return 0x3FFFFFFF; }

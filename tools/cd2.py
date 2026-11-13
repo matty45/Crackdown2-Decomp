@@ -70,7 +70,8 @@ import search as srch  # noqa: E402
 import bench  # noqa: E402
 import verify_ltcg  # noqa: E402
 from verify_src import (ROOT, XDK, BIN, EXPECTED_ENTRY, CODE_SECTIONS, pe_reader, toolchain_problems,  # noqa: E402
-                        local_config, run_compiler, flags_for, file_flags, ltcg_built, symbol_matches, vtable_fact,
+                        local_config, run_compiler, flags_for, plain_command, file_flags, ltcg_built, symbol_matches,
+                        manifest_index, verify_workers, vtable_fact,
                         vtable_slot_problem, waived, load_middleware, compiled_as_c, compile_sizes, game_tables,
                         game_data_check, work_dir)
 from check_integrity import load_splits  # noqa: E402
@@ -446,6 +447,7 @@ POLICY_ERRORS = [
     (r'\(\s*\(\s*(?:const\s+)?[\w:]+\s*\*\s*\)\s*OPERAND\s*\)\s*\[', 'raw memory indexed through a cast'),
 )]
 PRAGMA_ALLOWED = ('pack', 'warning', 'once')
+LINE_DIRECTIVE = re.compile(r'#line (\d+) "(.*)"')  # the preprocessor's record of where the lines after it come from
 OFFSETOF = '(size_t)&reinterpret_cast<const volatile char&>('  # what offsetof (CD2_LAYOUT_CHECKS) expands to
 
 
@@ -843,10 +845,11 @@ def warning_findings(src, path, e, roots):
 def function_spans(src, symbols):
     """{symbol prefix: (first line, last line)} of the function bodies the file defines (search.find_body)."""
     text = open(os.path.join(ROOT, src), errors='replace').read()
+    toks = srch.lex(text)
     out = {}
     for s in symbols:
         try:
-            b = srch.find_body(text, s)
+            b = srch.find_body(text, s, toks)
         except Exception:
             b = None
         if b:
@@ -854,15 +857,16 @@ def function_spans(src, symbols):
     return out
 
 
-def rules(src, extra_roots=(), roots=None, include=None, symbols=(), waivers=None):
+def rules(src, extra_roots=(), roots=None, include=None, symbols=(), waivers=None, opened=None):
     """The source policy and the matching rules for one file: dict(hard=[...] (file-level errors: the policy cannot
     vouch for anything), findings=[dict(rule, file, line, message)] ([match] rules), advisory=[...],
     exceptions=[...]). symbols: the file's function symbol prefixes, for telling locals from members. A finding that
     config/middleware.txt waives (a middleware library's original source, under src/middleware/) is listed among the
-    exceptions instead of the findings; waivers replaces that table (the self-test)."""
+    exceptions instead of the findings; waivers replaces that table (the self-test). opened (a list) receives every file
+    the preprocessor opened, for the lint cache."""
     hard, advisory, exceptions = [], [], []
     findings = []
-    e_text, w = policy(src, extra_roots, roots, include, _structured=True)
+    e_text, w = policy(src, extra_roots, roots, include, _structured=True, opened=opened)
     hard, structured, pwarn = e_text
     advisory += pwarn
     findings += structured
@@ -913,7 +917,7 @@ def finding_text(x):
     return '%s:%d: %s (%s): %s' % (x['file'], x['line'], x['rule'], MATCH_RULES[x['rule']], x['message'])
 
 
-def policy(src, extra_roots=(), roots=None, include=None, _structured=False, waivers=None):
+def policy(src, extra_roots=(), roots=None, include=None, _structured=False, waivers=None, opened=None):
     """(errors, warnings) of the source policy for one file. Checked on the preprocessed source, so macros cannot hide
     anything; only lines that come from this repository count, and every included file must come from the repository
     or the XDK. extra_roots: more directories that count as the repository (for the self-test). roots and include
@@ -928,57 +932,58 @@ def policy(src, extra_roots=(), roots=None, include=None, _structured=False, wai
     for n, line in enumerate(open(path, errors='replace'), 1):
         if re.match(r'\s*#\s*line\b', line):
             errors.append('%s:%d: #line directive (would disguise where code comes from)' % (src, n))
-    # this compiler has no /Fi: /P writes <name>.i to the current directory, a fresh one per call (no file is reused, so
-    # nothing still held by another process from an earlier call gets in the way)
-    pp = tempfile.mkdtemp(prefix='pp_', dir=scratch_dir('pp'))
+    # /E: the preprocessed source on stdout, its diagnostics on stderr. (/P writes it to a file instead, and a file of
+    # that size written under the repository waits seconds for the virus scanner, every file of every lint.)
     e = env()
     if include is not None:
         e['INCLUDE'] = ';'.join([os.path.join(XDK, 'include', 'xbox')] + list(include))
-    try:
-        r = run_compiler([os.path.join(BIN, 'cl.exe')] + flags_for(path) + ['/P', '/I' + os.path.dirname(path), path], env=e,
-                         cwd=pp)
-        if r.returncode:
-            if _structured:
-                return (['%s: preprocessor error\n%s' % (src, (r.stdout + r.stderr)[-2000:])], [], warnings), []
-            return ['%s: preprocessor error\n%s' % (src, (r.stdout + r.stderr)[-2000:])], warnings
-        preprocessed = open(os.path.join(pp, os.path.splitext(os.path.basename(src))[0] + '.i'), errors='replace').readlines()
-    finally:
-        shutil.rmtree(pp, ignore_errors=True)
+    r = run_compiler([os.path.join(BIN, 'cl.exe')] + flags_for(path) + ['/E', '/I' + os.path.dirname(path), path], env=e,
+                     cwd=scratch_dir('pp'), errors='replace')
+    if r.returncode:
+        if _structured:
+            return (['%s: preprocessor error\n%s' % (src, r.stderr[-2000:])], [], warnings), []
+        return ['%s: preprocessor error\n%s' % (src, r.stderr[-2000:])], warnings
+    preprocessed = r.stdout.splitlines(True)
     if roots is None:
         roots = [os.path.join(ROOT, 'src'), os.path.join(ROOT, 'include')]
     roots = [os.path.normcase(os.path.abspath(r)) for r in list(roots) + list(extra_roots)]
     ref = os.path.normcase(os.path.join(ROOT, 'include', 'ref'))
     xdk = os.path.normcase(XDK)
     origin, lineno, ours = path, 0, True
+    origin_rel = rel(origin)  # rel() of the current origin, worked out once per #line (not once per line)
+    own_path = os.path.normcase(os.path.abspath(path))
     seen_outside = set()
     own = []  # (where, text) of every line from the repository, for the whole-file pass
     placeholders = set()  # placeholder names in the file's own lines (its headers are listed by lint once)
     for line in preprocessed:
-        m = re.match(r'#line (\d+) "(.*)"', line)
+        m = LINE_DIRECTIVE.match(line) if line.startswith('#line') else None
         if m:
             lineno, origin = int(m.group(1)) - 1, os.path.normcase(os.path.abspath(m.group(2).replace('\\\\', '\\')))
+            if opened is not None:
+                opened.append(origin)
             ours = any(origin.startswith(p) for p in roots) and not origin.startswith(ref)
             if not ours and not origin.startswith(xdk) and origin not in seen_outside:
                 seen_outside.add(origin)
                 errors.append('%s: includes %s, which is neither in the repository nor in the XDK' % (src, origin))
+            origin_rel = rel(origin) if ours else None
             continue
         lineno += 1
         if not ours:
             continue
         repo_files.add(origin)
-        where = '%s:%d' % (rel(origin), lineno)
+        where = '%s:%d' % (origin_rel, lineno)
         text = without_offsetof(line.split('//', 1)[0])
-        own.append((where, text.rstrip('\n'), rel(origin), lineno))
+        own.append((where, text.rstrip('\n'), origin_rel, lineno))
         for pat, what in POLICY_ERRORS:
             if pat.search(text):
                 rule = 'R4' if what.startswith('pointer arithmetic') else 'R18'
-                structured.append(dict(rule=rule, file=rel(origin), line=lineno, message=what))
+                structured.append(dict(rule=rule, file=origin_rel, line=lineno, message=what))
         pm = re.match(r'\s*#\s*pragma\s+(\w+)', text)
         if pm and pm.group(1) not in PRAGMA_ALLOWED:
             errors.append('%s: #pragma %s (allowed: %s)' % (where, pm.group(1), ', '.join(PRAGMA_ALLOWED)))
         if re.search(r'\bgoto\b', text):
             warnings.append('%s: goto (needs review: rarely what the original source did)' % where)
-        if origin == os.path.normcase(os.path.abspath(path)):
+        if origin == own_path:
             placeholders.update(placeholder_names(text))
     starts, at = [], 0
     for _, text, _, _ in own:
@@ -1005,7 +1010,7 @@ def policy(src, extra_roots=(), roots=None, include=None, _structured=False, wai
 def compile_file(src):
     obj = scratch('obj', os.path.basename(src) + '.obj')
     os.makedirs(os.path.dirname(obj), exist_ok=True)
-    r = buildcache.compile([os.path.join(BIN, 'cl.exe')] + flags_for(src) + ['/Fo' + obj, os.path.join(ROOT, src)], env())
+    r = buildcache.compile(plain_command(src, obj), env())
     if r.returncode:
         raise Fail('%s: compile error\n%s' % (src, (r.stdout + r.stderr)[-3000:]))
     return obj
@@ -1073,13 +1078,11 @@ def compare_file(src, funcs, ltcg=False):
         else:
             res['status'] = '%.1f%%' % res['plain']
         results.append(res)
-    for other, g in man['files'].items():  # names other files' matched functions stand for
-        for e in g:
-            if e.get('matching', True):
-                for n, _, _ in compiled:
-                    if symbol_matches(e['symbol'], n):
-                        # an internal name stands for each file's own copy: (other, n) never meets this file's
-                        known.setdefault(relocs.known_key(other, n, robj), int(e['address'], 16))
+    index = manifest_index(man)
+    for n, _, _ in compiled:  # names other files' matched functions stand for
+        for other, e in index.naming(n):
+            # an internal name stands for each file's own copy: (other, n) never meets this file's
+            known.setdefault(relocs.known_key(other, n, robj), int(e['address'], 16))
     # the data the exact functions reach (a vtable a constructor stores), the data it points at, and the data located
     # through the matched functions it points at must equal CD2's
     users = collections.defaultdict(set)  # data symbol -> the functions referencing it
@@ -1702,7 +1705,7 @@ def cmd_objdiff(a):
     def build(src):
         obj = os.path.join(BASE, os.path.splitext(src)[0] + '.obj')
         os.makedirs(os.path.dirname(obj), exist_ok=True)
-        r = buildcache.compile([os.path.join(BIN, 'cl.exe')] + flags_for(src) + ['/Fo' + obj, os.path.join(ROOT, src)], env())
+        r = buildcache.compile(plain_command(src, obj), env())
         return obj if r.returncode == 0 else None
     with concurrent.futures.ThreadPoolExecutor(max_workers=verify_ltcg.WORKERS) as pool:
         objs = dict(zip(files, pool.map(build, files)))
@@ -2235,8 +2238,80 @@ def policy_self_test():
         ok &= good
         out.append(dict(case=what, expected='rejected' if bad else 'accepted', result='rejected' if rejected else 'accepted',
                         ok=good))
+    for what, expected, good in lint_cache_self_test(d):
+        ok &= good
+        out.append(dict(case=what, expected=expected, result=expected if good else 'the opposite', ok=good))
     shutil.rmtree(outside, ignore_errors=True)
     return ok, out
+
+
+def lint_cache_self_test(d):
+    """The lint cache (lint_file): a result is reused, a reused result equals a fresh one, and a result is not reused
+    once a header the preprocessor opened changes. [(case, expected, as expected)]"""
+    src = 'src/AI/cChaseBehaviour.cpp'
+    entries = manifest()['files'].get(src, [])
+    saved = buildcache.CACHE, os.environ.pop('CD2_NO_CACHE', None)
+    buildcache.CACHE = os.path.join(d, 'lint_cache')
+    try:
+        before = dict(buildcache.stats)
+        first, second = lint_file(src, entries), lint_file(src, entries)
+        reused = (buildcache.stats['lint_misses'] == before['lint_misses'] + 1 and
+                  buildcache.stats['lint_hits'] == before['lint_hits'] + 1)
+        os.environ['CD2_NO_CACHE'] = '1'
+        fresh = lint_file(src, entries)
+        del os.environ['CD2_NO_CACHE']
+        real = buildcache.file_sha  # a header the preprocessor opened now hashes differently
+        buildcache.file_sha = lambda p: 'changed' if p.lower().endswith('aiconstants.h') else real(p)
+        try:
+            lint_file(src, entries)
+        finally:
+            buildcache.file_sha = real
+        missed = buildcache.stats['lint_misses'] == before['lint_misses'] + 2
+    finally:
+        buildcache.CACHE = saved[0]
+        if saved[1] is not None:
+            os.environ['CD2_NO_CACHE'] = saved[1]
+    return [('lint cache: a result is reused', 'accepted', reused),
+            ('lint cache: a reused result equals a fresh one', 'accepted', first == second == fresh),
+            ('lint cache: a changed header is not reused', 'rejected', missed)]
+
+
+_rule_code = []
+
+
+def lint_key(src, symbols):
+    """The lint cache's key for src (tools/buildcache.py): the compiler's view of the file (toolchain, flags, include
+    path, the source, the header names), the symbols its spans are found for, the waiver table, and the code of the
+    rules themselves; the files the preprocessor opened are the entry's deps"""
+    if not _rule_code:
+        _rule_code.append(buildcache.sha(b''.join(open(os.path.join(TOOLS, f), 'rb').read()
+                                                  for f in ('cd2.py', 'search.py', 'verify_src.py'))))
+    path = os.path.join(ROOT, src)
+    return buildcache.entry('lint', buildcache.digest(dict(
+        buildcache.common(env(), os.path.dirname(path)), flags=flags_for(path), source=os.path.abspath(path),
+        source_sha=buildcache.file_sha(path), symbols=symbols, waivers=load_middleware(), rules=_rule_code[0])))
+
+
+def lint_file(src, entries):
+    """The source policy's result for one file (cmd_lint), cached by lint_key while nothing the preprocessor opened has
+    changed. entries: its manifest entries."""
+    entries = [e for e in entries if e.get('matching', True)]
+    symbols = [e['symbol'] for e in entries]
+    cached = lint_key(src, symbols) if buildcache.cacheable(os.path.join(ROOT, src)) else None
+    if cached:
+        rec = buildcache.lookup(cached)
+        if rec is not None:
+            buildcache.count('lint_hits')
+            return dict(rec['result'], matched=len(entries))
+        buildcache.count('lint_misses')
+    opened = []
+    ru = rules(src, symbols=symbols, opened=opened)
+    pending = pending_functions(src, symbols, ru['findings']) if not ru['hard'] else {}
+    res = dict(file=src, errors=ru['hard'], findings=[finding_text(x) for x in ru['findings']], pending=sorted(pending),
+               warnings=ru['advisory'], exceptions=ru['exceptions'])
+    if cached and not ru['hard']:  # a file-level error may be the file system's (a held file): never kept
+        buildcache.store(cached, {}, dict(deps=buildcache.deps_of(opened + [os.path.join(ROOT, src)]), result=res))
+    return dict(res, matched=len(entries))
 
 
 def cmd_lint(a):
@@ -2254,15 +2329,8 @@ def cmd_lint(a):
             continue
         todo.append(src)
 
-    def one(src):
-        entries = [e for e in man.get(src, []) if e.get('matching', True)]
-        ru = rules(src, symbols=[e['symbol'] for e in entries])
-        pending = pending_functions(src, [e['symbol'] for e in entries], ru['findings']) if not ru['hard'] else {}
-        return dict(file=src, errors=ru['hard'], findings=[finding_text(x) for x in ru['findings']],
-                    pending=sorted(pending), warnings=ru['advisory'], exceptions=ru['exceptions'],
-                    matched=len(entries))
-    pool = concurrent.futures.ThreadPoolExecutor(max_workers=verify_ltcg.WORKERS)
-    res = list(pool.map(one, todo))
+    pool = concurrent.futures.ThreadPoolExecutor(max_workers=getattr(a, 'workers', None) or verify_ltcg.WORKERS)
+    res = list(pool.map(lambda src: lint_file(src, man.get(src, [])), todo))
     pool.shutdown()
     matched = sum(r['matched'] for r in res)
     pending = sum(len(r['pending']) for r in res)
@@ -2326,9 +2394,11 @@ def cmd_verify(a):
     # workspaces are private to its process), so they all run at once while the in-process gates run here
     pool = concurrent.futures.ThreadPoolExecutor(max_workers=len(gates))
     t0, runs = time.time(), {}
+    workers = verify_workers()  # each gate's share of the processors
+    gate_env = dict(os.environ, CD2_WORKERS=str(workers))
 
     def run(name, cmd):
-        r = subprocess.run(cmd, capture_output=True, text=True)
+        r = subprocess.run(cmd, capture_output=True, text=True, env=gate_env)
         print('%s: done in %d s' % (name, time.time() - t0), file=sys.stderr, flush=True)
         return r
     print('running %d gates in parallel...' % sum(1 for _, cmd, _ in gates if cmd), file=sys.stderr, flush=True)
@@ -2343,7 +2413,7 @@ def cmd_verify(a):
             out.append(dict(gate=name, ok=not tp, detail='; '.join(tp) or 'pinned'))
             continue
         if name == 'source policy':
-            lint = cmd_lint(argparse.Namespace(files=[], self_test=False))
+            lint = cmd_lint(argparse.Namespace(files=[], self_test=False, workers=workers))
             bad = [e for f in lint['files'] for e in f['errors']]
             bad += ['%s: %s is MATCH-PENDING (%s)' % (f['file'], s, '; '.join(x for x in f['findings'])[:200])
                     for f in lint['files'] for s in f.get('pending', [])]

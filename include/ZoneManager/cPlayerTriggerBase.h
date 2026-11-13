@@ -16,6 +16,7 @@
 #include "fun_runtime/vec3.h"
 #include "CHARACTER/cCharacter.h"
 #include "cd2/layout.h"
+#include "PHYSICS/cOBBox.h"
 
 namespace Vehicle { class cVehicle; }
 
@@ -39,20 +40,28 @@ namespace ZoneManager
         virtual void HandleAttributes(const RWS::CAttributePacket &);
         // CD2 cPlayerTriggerZone table 0x82155B98 has 18 entries: these are slots 11..17.
         virtual bool DoCollision(CHARACTER::cCharacter *);
+        bool IsWithin(CHARACTER::cCharacter *) const;
         virtual bool IsWithin(const Fun_Runtime::Vec3 &) const = 0;
+        bool IsInTriggerZone(const CHARACTER::cCharacter *) const;
         virtual bool IsVehicleWithin(const Vehicle::cVehicle *) const;
         // CD2 0x8280FB68, primary slot 14; inlined at the end of local-trigger construction.
         virtual void InitTriggerZone() { m_bDoCollision = true; }
         virtual void TermTriggerZone();
+        // Reference name; CD2 zone Load callbacks test the collision flag at +0xD5.
+        bool IsInitialised() const { return m_bDoCollision; }
         virtual void OnPlayerEnter(CHARACTER::cCharacter *) = 0;
         virtual void OnPlayerLeave(CHARACTER::cCharacter *) = 0;
 
     protected:
+        void AddPlayer(CHARACTER::cCharacter *);
+        void RemovePlayer(CHARACTER::cCharacter *, bool removeFromContainer);
         Fun_Runtime::cVector<Fun_Runtime::cSafeDeletablePointer<CHARACTER::cCharacter> > m_vContainedPlayers;
 
-    private:
+    protected:
         // RuffKing: PHYSICS::cOBBox m_OBBox, not modelled yet.
-        unsigned char m_unmodelled30[0x80 - 0x30];
+        // Now modelled using the reference's complete box layout; CD2's
+        // point-containment wrapper confirms this member's +0x30 position.
+        PHYSICS::cOBBox m_OBBox;
 
     protected:
         Fun_Runtime::Mtx m_Transform;
@@ -68,6 +77,7 @@ namespace ZoneManager
         CD2_LAYOUT_CHECKS(cPlayerTriggerBase,
             CD2_SIZE(cPlayerTriggerBase, 0xE0)
             CD2_OFFSET(cPlayerTriggerBase, m_vContainedPlayers, 0x20)
+            CD2_OFFSET(cPlayerTriggerBase, m_OBBox, 0x30)
             CD2_OFFSET(cPlayerTriggerBase, m_Transform, 0x80)
             CD2_OFFSET(cPlayerTriggerBase, m_vScale, 0xC0)
             CD2_OFFSET(cPlayerTriggerBase, m_eType, 0xD0)

@@ -17,6 +17,10 @@ namespace AI
         static Fun_Runtime::cClass &StaticCreateClass();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
+    protected:
+        // Size 0x450 from CD2's registrar (MakeNew allocates it); the fields after cMission are not modelled.
+        unsigned int m_unmodelled3C0[(0x450 - 0x3C0) / 4];
+        CD2_LAYOUT_CHECKS(cDocksMission, CD2_SIZE(cDocksMission, 0x450))
     };
 }
 

@@ -20,6 +20,10 @@ namespace ZoneManager
         virtual ~cVOAZone();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
+        // RuffKing declares these overrides; CD2's load/save table points to
+        // 0x8280EDB0 and 0x8280EE30 instead of the inherited empty bodies.
+        virtual void Load(SaveGame::cLoadStream *);
+        virtual void Save(SaveGame::cSaveStream *);
 
     private:
         Fun_Runtime::cStringc m_strName;            // 0xE0

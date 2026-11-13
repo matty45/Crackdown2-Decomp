@@ -49,7 +49,7 @@ namespace PHYSICS
         virtual void vf251(); virtual void vf252(); virtual void vf253(); virtual void vf254(); virtual void vf255(); virtual void vf256();
         virtual void vf257(); virtual void vf258(); virtual void vf259(); virtual void vf260(); virtual void vf261(); virtual void vf262();
         virtual void vf263(); virtual void vf264(); virtual void vf265(); virtual void vf266(); virtual void vf267(); virtual void vf268();
-        virtual void vf269(); virtual void vf270(); virtual void vf271(); virtual void vf272(); virtual void vf273(); virtual void vf274();
+        virtual void vf269(); virtual void vf270(); virtual void EnterGhostState(); virtual void vf272(); virtual void vf273(); virtual void vf274();
         virtual void vf275(); virtual void vf276(); virtual void vf277(); virtual void vf278(); virtual void vf279(); virtual void vf280();
         virtual void vf281(); virtual void vf282(); virtual void vf283(); virtual void vf284(); virtual void vf285(); virtual void vf286();
         virtual void vf287(); virtual void vf288(); virtual void vf289(); virtual void vf290(); virtual void vf291(); virtual void vf292();
@@ -74,7 +74,7 @@ namespace PHYSICS
         virtual void Slot35(); // 35: 0x82686238
         virtual Fun_Runtime::RetVal Reinitialise(GOM::cSpawner const *); // 38: 0x82688148
         virtual Fun_Runtime::RetVal TermForReuse(); // 39: 0x82688198
-        virtual void Slot46(); // 46: 0x82686CE0
+        virtual Fun_Runtime::Vec3 RetPosition() const; // 46: 0x82686CE0
         virtual void Slot55(); // 54: 0x826862F0
         virtual void Slot64(); // 63: 0x82689C78
         virtual void vf76(); // 76: 0x8237D638

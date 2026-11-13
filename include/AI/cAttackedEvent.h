@@ -15,7 +15,7 @@ namespace AI
     {
     public:
         virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
-        virtual Fun_Runtime::Vec3 RetPosition() const;
+        virtual Fun_Runtime::Vec3 RetScriptPosition() const;
         virtual bool IsValid();
     protected:
         Fun_Runtime::cSafeDeletablePointer<cCharacterEntityIF> m_pAttacker;

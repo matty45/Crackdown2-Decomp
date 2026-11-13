@@ -13,7 +13,7 @@ namespace AI
     {
     public:
         virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
-        virtual Fun_Runtime::Vec3 RetPosition() const;
+        virtual Fun_Runtime::Vec3 RetScriptPosition() const;
         virtual void Slot5();
         virtual bool IsValid();
     protected:

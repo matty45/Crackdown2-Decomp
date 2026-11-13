@@ -15,6 +15,11 @@ namespace Prop
     class cPrismaticProp : public Prop::cPivotBasedProp
     {
     public:
+        // CD2 script registration names these nonvirtual no-argument actions;
+        // the reference header supplies their void signatures.
+        void SlideToMax();
+        void SlideToMin();
+        void SlideFree();
         // CD2 placement factory 0x8273B5B0; constructor signature follows RuffKing.
         cPrismaticProp(GOM::cObjectPrototype *);
         // CD2 0x8273BC98: restores this class's vtables (primary 0x821405E8), then calls the base destructor.
@@ -145,10 +150,10 @@ namespace Prop
         virtual Fun_Runtime::RetVal Term(); // 6: 0x8273EE70
         virtual void Slot13(); // 13: 0x8273BD80
         virtual void vf167(); // 167: 0x8235AC80
-        virtual void vf271(); // 271: 0x8273BF28
+        virtual void EnterGhostState(); // 271: 0x8273BF28
         virtual void vf283(); // 283: 0x8273BE58
-        virtual void vf314(); // 314: 0x8273BF00
-        virtual void vf317(); // 317: 0x8273BF68
+        virtual void Breakoff(bool bForce); // 314: 0x8273BF00
+        virtual void OnSpawnedAsFragment(cGameBase *pParent); // 317: 0x8273BF68
         virtual void vf320(); // 320: 0x827E56A8
         virtual void CreateConstraintData(); // 341: 0x8273C0F8
         virtual void DestroyConstraintData(); // 342: 0x8273C570

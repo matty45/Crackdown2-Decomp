@@ -30,7 +30,7 @@ import coff  # noqa: E402
 import cvtypes  # noqa: E402
 import relocs  # noqa: E402
 import verify_ltcg  # noqa: E402
-from verify_src import (ROOT, XDK, BIN, EXPECTED_ENTRY, DATA_PLANTS, pe_reader, check_toolchain, flags_for,  # noqa: E402
+from verify_src import (ROOT, XDK, BIN, EXPECTED_ENTRY, DATA_PLANTS, pe_reader, check_toolchain, plain_command,  # noqa: E402
                         file_flags, ltcg_built, plant_copy, symbol_matches, vtable_fact, vtable_slot_problem,
                         compile_z7, game_tables, game_data_check, data_coverage, coverage_figures, data_splits, work_dir)
 
@@ -51,8 +51,7 @@ def compile_plain(src, d, path=None):
     """Compile the repository file src (or a modified copy at path, with src's directory on the include path), and
     beside it its /Z7 build, whose records give the sizes of its data (object_sizes)."""
     obj = os.path.join(d, os.path.basename(src) + '.obj')
-    r = buildcache.compile([os.path.join(BIN, 'cl.exe')] + flags_for(src) + ['/I' + os.path.dirname(os.path.join(ROOT, src)),
-                            '/Fo' + obj, path or os.path.join(ROOT, src)], env())
+    r = buildcache.compile(plain_command(src, obj, path), env())
     if r.returncode:
         raise SystemExit('%s: compile error\n%s' % (src, r.stdout + r.stderr))
     compile_z7(src, d, env(), path)
@@ -209,6 +208,8 @@ def check_recorded_data(f, sym, addr, obj, d, facts, contents, used=None):
     if d['data'] is not None and sha(relocs.mask_words(d['data'], rec['relocations'])) != rec.get('sha'):
         problems.append('%s %s at %08X: its %X bytes outside its relocations differ from CD2 (from recorded facts)'
                         % (f, sym, addr, d['size']))
+    elif d['data'] is not None and not rec['relocations']:
+        contents[(addr, d['size'])] = d['data']  # CD2's bytes there, confirmed (relocs.identical_copies reads them)
     words = {int(k): int(v, 16) for k, v in rec['words'].items()}
     for off, t, target, addend in d['relocations']:
         if off not in words:
@@ -250,8 +251,8 @@ def stale_facts(facts, used):
 
 
 def record(read, references=None):
-    """references: cd2.py game_references() (computed from the game when not given)."""
-    os.environ['CD2_NO_CACHE'] = '1'  # recorded facts never depend on a cached object (tools/buildcache.py)
+    """references: cd2.py game_references() (computed from the game when not given). The builds go through the caches
+    (tools/buildcache.py) unless CD2_NO_CACHE=1, as `cd2.py review` sets."""
     if references is None:
         import cd2
         references = cd2.game_references()
@@ -356,10 +357,87 @@ def record(read, references=None):
 
 # ---------------------------------------------------------------------------------------------------- verify
 
-def verify(override=None, ltcg=True, out=print):
+def plain_file(src, funcs, obj, sizes, facts):
+    """verify's plain check of one file, from its build (obj and the sizes of its data): dict(lines (its output), ok,
+    total, pending, nfuncs, entries (the references of its exact functions), problems, known, contents (the constants
+    and strings they reach, as recorded), robj). It depends on nothing but the file's build and the recorded facts."""
+    compiled = list(coff.functions(obj))
+    robj = relocs.Obj(obj, sizes)
+    r = dict(lines=[src], ok=0, total=0, pending=0, nfuncs=0, entries=[], problems=[], known={}, contents={}, robj=robj)
+    out, entries, problems, known, contents = r['lines'].append, r['entries'], r['problems'], r['known'], r['contents']
+    for f in funcs:
+        va, size, tracked = int(f['address'], 16), f['size'], f.get('matching', True)
+        fe = facts['functions'].get(f['address'])
+        found = [(n, c, rl) for n, c, rl in compiled if symbol_matches(f['symbol'], n)]
+        if found and tracked:
+            known[relocs.known_key(src, found[0][0], robj)] = va
+            vp = vtable_slot_problem(found[0][0], (fe or {}).get('vtable'))
+            if vp:
+                problems.append('%s %s: %s' % (src, found[0][0], vp))
+        if f.get('ltcg') and not ltcg_built(src):  # a plain object has no LTCG build to be exact in
+            r['total'] += bool(tracked)
+            out('  %08X  INVALID      %s   [marked "ltcg" in a plain object]' % (va, f['symbol']))
+            continue
+        if f.get('ltcg'):
+            continue  # exact only under LTCG: verify's LTCG part
+        r['total'] += bool(tracked)
+        r['pending'] += not tracked
+        if not found:
+            out('  %08X  symbol not found: %s' % (va, f['symbol']))
+            continue
+        name, code, rl = found[0]
+        if fe is None or fe['size'] != size:
+            out('  %08X  NO FACTS     %s' % (va, name))
+            if tracked:
+                problems.append('%s: no recorded facts for %08X (run `py -I tools/cd2.py facts record`)' % (src, va))
+            continue
+        p = fe.get('plain')
+        exact = bool(p) and sorted(rl) == p['relocations'] and \
+            sorted(getattr(rl, 'absolute', ())) == p.get('absolute_relocations', []) and \
+            len(code) == size and sha(mask(code, rl)) == p['sha']
+        if exact and tracked:
+            stored = {off: int(a, 16) for off, kind, a in p['targets']}
+            for off, t, sym, add in robj.relocations(name):
+                if t == relocs.REFHI:
+                    continue
+                if off not in stored:
+                    problems.append('%s %s+%X: relocation not in the recorded facts' % (src, name, off))
+                    continue
+                kind = 'call' if t == relocs.REL24 else 'data'
+                if t == relocs.ADDR32:
+                    kind = 'local address'
+                    try:
+                        expected = (va + robj.local_address_offset(name, off, sym, add)) & 0xFFFFFFFF
+                        if stored[off] != expected:
+                            problems.append('%s %s+%X: ADDR32 destination differs from the recorded target'
+                                            % (src, name, off))
+                    except ValueError as e:
+                        problems.append('%s %s+%X: %s' % (src, name, off, e))
+                entries.append((src, name, sym, stored[off], kind, off, robj))
+                if relocs.is_constant(sym):
+                    want = bytes.fromhex(sym.split('@', 1)[1])
+                    rec = p['constants'].get('0x%08X' % stored[off])
+                    if rec is not None:
+                        contents[(stored[off], len(want))] = bytes.fromhex(rec)
+                elif relocs.is_string(sym):
+                    ours = relocs.string_bytes(robj, sym)
+                    if ours is not None:
+                        rec = p['strings'].get('0x%08X:%d' % (stored[off], len(ours)))
+                        contents[(stored[off], len(ours))] = ours if rec == sha(ours) else b'\0' * len(ours)
+            r['nfuncs'] += 1
+        r['ok'] += exact and tracked
+        out('  %08X  %4d bytes  %-8s %s%s' % (va, size, 'EXACT' if exact else 'differs', name,
+                                                '' if tracked else '   [work in progress]'))
+    return r
+
+
+def verify(override=None, ltcg=True, out=print, shared=None):
     """Plain build, relocation targets and (with ltcg) the LTCG build, from the recorded facts. override: {src: path of
-    a modified copy} (for the self-test). Returns (passed, problems)."""
+    a modified copy} (for the self-test). shared: a dict that keeps the builds and plain checks of the files override
+    leaves alone from one call to the next (the self-test's calls differ in one file each). Returns (passed,
+    problems)."""
     override = override or {}
+    shared = {} if shared is None else shared
     man = json.load(open(MANIFEST))
     if not os.path.exists(FACTS):
         raise SystemExit('no %s: run `py -I tools/cd2.py facts record`' % FACTS)
@@ -384,80 +462,30 @@ def verify(override=None, ltcg=True, out=print):
         os.makedirs(d, exist_ok=True)
         return d
     def build(src):
+        if src not in override and ('build', src) in shared:
+            return shared[('build', src)]
         d = own_dir(src, 'plain')
         obj = compile_plain(src, d, override.get(src))
-        return obj, object_sizes(obj)
+        res = obj, object_sizes(obj)
+        if src not in override:
+            shared[('build', src)] = res
+        return res
     objs = dict(zip(man['files'], pool.map(build, man['files'])))
     file_objs = []
     for src, funcs in man['files'].items():
-        obj, sizes = objs[src]
-        compiled = list(coff.functions(obj))
-        robj = relocs.Obj(obj, sizes)
-        file_objs.append((src, robj))
-        out(src)
-        for f in funcs:
-            va, size, tracked = int(f['address'], 16), f['size'], f.get('matching', True)
-            fe = facts['functions'].get(f['address'])
-            found = [(n, c, rl) for n, c, rl in compiled if symbol_matches(f['symbol'], n)]
-            if found and tracked:
-                known[relocs.known_key(src, found[0][0], robj)] = va
-                vp = vtable_slot_problem(found[0][0], (fe or {}).get('vtable'))
-                if vp:
-                    problems.append('%s %s: %s' % (src, found[0][0], vp))
-            if f.get('ltcg') and not ltcg_built(src):  # a plain object has no LTCG build to be exact in
-                total += bool(tracked)
-                out('  %08X  INVALID      %s   [marked "ltcg" in a plain object]' % (va, f['symbol']))
-                continue
-            if f.get('ltcg'):
-                continue  # exact only under LTCG: below
-            total += bool(tracked)
-            pending += not tracked
-            if not found:
-                out('  %08X  symbol not found: %s' % (va, f['symbol']))
-                continue
-            name, code, rl = found[0]
-            if fe is None or fe['size'] != size:
-                out('  %08X  NO FACTS     %s' % (va, name))
-                if tracked:
-                    problems.append('%s: no recorded facts for %08X (run `py -I tools/cd2.py facts record`)' % (src, va))
-                continue
-            p = fe.get('plain')
-            exact = bool(p) and sorted(rl) == p['relocations'] and \
-                sorted(getattr(rl, 'absolute', ())) == p.get('absolute_relocations', []) and \
-                len(code) == size and sha(mask(code, rl)) == p['sha']
-            if exact and tracked:
-                stored = {off: int(a, 16) for off, kind, a in p['targets']}
-                for off, t, sym, add in robj.relocations(name):
-                    if t == relocs.REFHI:
-                        continue
-                    if off not in stored:
-                        problems.append('%s %s+%X: relocation not in the recorded facts' % (src, name, off))
-                        continue
-                    kind = 'call' if t == relocs.REL24 else 'data'
-                    if t == relocs.ADDR32:
-                        kind = 'local address'
-                        try:
-                            expected = (va + robj.local_address_offset(name, off, sym, add)) & 0xFFFFFFFF
-                            if stored[off] != expected:
-                                problems.append('%s %s+%X: ADDR32 destination differs from the recorded target'
-                                                % (src, name, off))
-                        except ValueError as e:
-                            problems.append('%s %s+%X: %s' % (src, name, off, e))
-                    entries.append((src, name, sym, stored[off], kind, off, robj))
-                    if relocs.is_constant(sym):
-                        want = bytes.fromhex(sym.split('@', 1)[1])
-                        rec = p['constants'].get('0x%08X' % stored[off])
-                        if rec is not None:
-                            contents[(stored[off], len(want))] = bytes.fromhex(rec)
-                    elif relocs.is_string(sym):
-                        ours = relocs.string_bytes(robj, sym)
-                        if ours is not None:
-                            rec = p['strings'].get('0x%08X:%d' % (stored[off], len(ours)))
-                            contents[(stored[off], len(ours))] = ours if rec == sha(ours) else b'\0' * len(ours)
-                nfuncs += 1
-            ok += exact and tracked
-            out('  %08X  %4d bytes  %-8s %s%s' % (va, size, 'EXACT' if exact else 'differs', name,
-                                                    '' if tracked else '   [work in progress]'))
+        part = shared.get(('plain', src)) if src not in override else None
+        if part is None:
+            part = plain_file(src, funcs, *objs[src], facts)
+            if src not in override:
+                shared[('plain', src)] = part
+        file_objs.append((src, part['robj']))
+        for line in part['lines']:
+            out(line)
+        ok, total, pending, nfuncs = ok + part['ok'], total + part['total'], pending + part['pending'], nfuncs + part['nfuncs']
+        entries += part['entries']
+        problems += part['problems']
+        known.update(part['known'])
+        contents.update(part['contents'])
     # the data, as tools/verify_src.py checks it, from the recorded data facts and the game's recorded answers
     oracle = Oracle(facts)
     nrefs = len(entries)
@@ -571,7 +599,8 @@ def self_test():
     tmp = work_dir('facts_selftest_')
     # a plant is caught when it adds a problem to the unmodified repository's (whose open problems, if any, do not
     # count); a plant exact only under LTCG must add one about its own file, as the baseline has no LTCG check
-    passed, base = verify(ltcg=False, out=lambda m: None)
+    shared = {}  # the builds and plain checks of the files a case leaves alone, kept from one case to the next
+    passed, base = verify(ltcg=False, out=lambda m: None, shared=shared)
     base = set(base)
 
     def added(problems, src=None):
@@ -599,7 +628,7 @@ def self_test():
         path = os.path.join(tmp, os.path.basename(src))
         open(path, 'w', newline='').write(text[:i] + new + text[i + len(old):])
         lt = what.startswith('LTCG')
-        _, problems = verify(override={src: path}, ltcg=lt, out=lambda m: None)
+        _, problems = verify(override={src: path}, ltcg=lt, out=lambda m: None, shared=shared)
         caught = bool(added(problems, src if lt else None))
         ok &= caught
         print('self-test %-30s %s' % (what, 'caught' if caught else 'NOT CAUGHT'))
@@ -619,7 +648,7 @@ def self_test():
         open(os.path.join(d, hdr), 'w', newline='').write(text[:at] + text[at + len('virtual '):])
         path = os.path.join(d, os.path.basename(src))
         shutil.copy(os.path.join(ROOT, src), path)
-        _, problems = verify(override={src: path}, ltcg=False, out=lambda m: None)
+        _, problems = verify(override={src: path}, ltcg=False, out=lambda m: None, shared=shared)
         caught = any('R13' in pr for pr in added(problems))
         ok &= caught
         print('self-test %-30s %s' % (what, 'caught' if caught else 'NOT CAUGHT'))
@@ -630,7 +659,7 @@ def self_test():
             print('self-test %-30s cannot plant it in %s (update the self-test)' % (what, hdr))
             ok = False
             continue
-        _, problems = verify(override={src: path}, ltcg=False, out=lambda m: None)
+        _, problems = verify(override={src: path}, ltcg=False, out=lambda m: None, shared=shared)
         caught = bool(added(problems))
         ok &= caught
         print('self-test %-30s %s' % (what, 'caught' if caught else 'NOT CAUGHT'))

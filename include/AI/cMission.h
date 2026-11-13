@@ -54,6 +54,33 @@ namespace AI
     public:
         virtual void InitReplication();
         virtual void TermReplication();
+    protected:
+        // Fields in RuffKing's names and order (cMission.h); complete size 0x3C0 as CD2's descriptor gives.
+        etGlobalMissionState m_eGlobalMissionState;
+        float m_fSquadSwitchTimer;
+        unsigned int m_SecondaryObjectiveCompletionStatus;
+        bool m_bLocallyBlocked;
+        unsigned short m_nBlockedNodes;
+        unsigned int m_lChildMissions[3];         // RuffKing: cList<cMission *>; not modelled
+        cMission *m_pParentMission;
+        unsigned int m_lMissionCriticalProps[3];  // RuffKing: cList<cMissionCriticalPropSpawnPoint *>; not modelled
+        void *m_pCompletionZone;                   // RuffKing: cMissionCompletionZone *
+        unsigned char m_eMissionState;
+        int m_nMissionTier;
+        unsigned int m_EventHandler[5];           // RuffKing: Editor::cGUIDEventHandler<cMission>; not modelled
+        void *m_aAssociatedZoneGUIDs;              // RuffKing: RWS::RWSGUID *
+        void *m_apAssociatedARZone;                // RuffKing: GangManager::tARZoneData **
+        bool *m_abAssociatedZonesEnabled;
+        unsigned int m_nNumAssociatedARZones;
+        unsigned int m_nLocNameID;
+        void *m_pSecondaryObjectivesInfo;          // RuffKing: cSecondaryObjectivesInfo *
+        CD2_LAYOUT_CHECKS(cMission,
+            CD2_OFFSET(cMission, m_eGlobalMissionState, 0x350)
+            CD2_OFFSET(cMission, m_pParentMission, 0x36C)
+            CD2_OFFSET(cMission, m_eMissionState, 0x380)
+            CD2_OFFSET(cMission, m_EventHandler, 0x388)
+            CD2_OFFSET(cMission, m_pSecondaryObjectivesInfo, 0x3B0)
+            CD2_SIZE(cMission, 0x3C0))
     };
 }
 #endif

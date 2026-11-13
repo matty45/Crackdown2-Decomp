@@ -12,6 +12,7 @@
 #define GAMEMANAGEMENT_CGAMEMODEARENA_H
 
 #include <string.h>
+#include "fun_runtime/pointer_list.h"
 #include "rws/attributes.h"
 #include "GameManagement/cGMMResource.h"
 #include "rws/eventid.h"
@@ -35,28 +36,7 @@ namespace GameManagement
     // Historical stand-in description above: constructor 0x828498C0 now establishes the shared
     // RWS::CEventHandler base and typed cGMMResource members in GameManagement/cGMMResource.h.
 
-    // std::list<T*> with out-of-line push_back and destructor (CD2 0x827FAF00 / 0x82470DA8); constructor inline.
-    struct cListNode
-    {
-        cListNode *m_pNext;
-        cListNode *m_pPrev;
-        void *m_pValue;
-    };
-    cListNode *AllocListNode();
-    inline cListNode **NextPtr(cListNode *p) { return &p->m_pNext; }
-    inline cListNode **PrevPtr(cListNode *p) { return &p->m_pPrev; }
-
-    class cList
-    {
-    public:
-        cList() { cListNode *n = AllocListNode(); if (n) n->m_pNext = n; cListNode **pp = PrevPtr(n); if (pp) *pp = n; m_pHead = n; m_nSize = 0; }
-        ~cList();
-        void push_back(void *const &);
-    private:
-        int m_nAlloc;
-        cListNode *m_pHead;
-        int m_nSize;
-    };
+    typedef Fun_Runtime::cPointerList<void *> cList;
 
     // std::vector<T*> with a leading empty-allocator slot (0x10 bytes). Destructor and erase are inline in CD2.
     template <class T>

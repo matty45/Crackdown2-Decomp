@@ -5,6 +5,8 @@
 class hkShape;
 class hkCdBody
 {
+public:
+    const hkShape *getShape() const { return m_shape; }
 protected:
     const hkShape *m_shape;
     unsigned int m_shapeKey;

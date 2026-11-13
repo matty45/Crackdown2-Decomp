@@ -32,6 +32,11 @@ namespace AI
         return ms_pcFinalMissionClass->IsA(c);
     }
 
+    void cFinalMission::OnChildMissionCompleted(AI::cMission *)
+    {
+        ++m_nNumChildMissionsCompleted;
+    }
+
     RWS::CAttributeHandler *cFinalMission::MakeNew(const RWS::CAttributePacket &packet, bool)
     {
         return new cFinalMission();

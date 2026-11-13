@@ -24,10 +24,18 @@ The compiler and linker must be the builds pinned in `config/toolchain.txt`; eve
 temporary folder, and removes its folders when it exits. A process that is killed never gets to; the next tool that
 starts removes the folders of processes that no longer run.
 
-**Build cache:** `buildcache.py` reuses the object of a source under `src/` when nothing the compiler read has changed
-(the pinned toolchain, the command line, the source, every header it opened, and the set of header names under
-`include/` and `src/`), so a gate recompiles only what an edit touched. `CD2_NO_CACHE=1` turns it off; `cd2.py review`
-and `cd2.py facts record` always run without it. Its size is capped by `CD2_CACHE_MB` (default 2048).
+**Caches:** `buildcache.py` reuses the object of a source under `src/` when nothing the compiler read has changed
+(the pinned toolchain, the command line and the compiler's environment variables, the source, every header it opened,
+and the set of header names under `include/` and `src/`), so a gate recompiles only what an edit touched. Every gate
+builds a file with the same command (`verify_src.plain_command`), so they share its object. The same way, the LTCG
+gate reuses a file's linked model (`verify_ltcg.build_ltcg`, keyed also by the generated model and the dependencies'
+objects) and the source policy reuses a file's result (`cd2.py lint_file`, keyed also by the rules' own code); the
+self-tests prove a reused result equals a fresh one and is dropped when a header changes. `CD2_NO_CACHE=1` turns them
+all off; `cd2.py review` always runs without them (its `--record-facts` too). Their size is capped by `CD2_CACHE_MB`
+(default 2048).
+
+**Workers:** a tool builds `CD2_WORKERS` files at once (default: half the processors, at least 2); `cd2.py verify`,
+which runs every gate at the same time, gives each gate a quarter of the processors unless `CD2_WORKERS` is set.
 
 Every file is compiled with the game's flags (`verify_src.FLAGS`). The exceptions are libraries CD2 linked that were
 built with other settings: `config/file_flags.txt` (maintainers only) adds `/Ob0`–`/Ob2`, `/D` macros or `plain` per

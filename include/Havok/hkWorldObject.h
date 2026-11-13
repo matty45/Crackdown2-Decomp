@@ -12,6 +12,8 @@ class hkWorldObject : public hkReferencedObject
 {
 public:
     virtual hkWorldOperation::Result setShape(hkShape *);
+    const hkCollidable *getCollidable() const { return &m_collidable; }
+    hkCollidable *getCollidableRw() { return &m_collidable; }
 protected:
     virtual hkMotionState *getMotionState() = 0;
     hkWorld *m_world;

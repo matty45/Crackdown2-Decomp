@@ -21,6 +21,7 @@
 #include "unknown/cPopulationZone.h"
 #include "unknown/cPopTODScriptRegistration.h"
 #include "cd2/memory.h"
+#include "lua/lua.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "fun_runtime/script_type_registrar.h"
 
@@ -59,6 +60,16 @@ namespace unknown
             m_pGangInControl = gang;
     }
 
+    void cPopTODScriptRegistration::RegisterValues(lua_State *state)
+    {
+        lua_pushliteral(state, "DAYTIME");
+        lua_pushnumber(state, 0.0f);
+        lua_settable(state, -3);
+        lua_pushliteral(state, "NIGHTTIME");
+        lua_pushnumber(state, 1.0f);
+        lua_settable(state, -3);
+    }
+
     const Fun_Runtime::cClass *cPopulationZone::ms_pcPopulationZoneClass = &cPopulationZone::StaticCreateClass();
 
     Fun_Runtime::cClass &cPopulationZone::StaticCreateClass()
@@ -88,4 +99,8 @@ namespace unknown
     {
         return &cPopulationZoneScriptRegistrar;
     }
+
+    // CD2 0x8300DDC8 registers enum object 0x838FFEAC with table 0x82155B00.
+    static cPopTODScriptRegistration g_cPopTODScriptRegistration;
+
 }

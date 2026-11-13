@@ -99,7 +99,7 @@ public:
     virtual int RetUniqueID(); // CEventHandler 1: 0x82604E70
     virtual bool IsA(Fun_Runtime::cClass const &) const; // cRegisteredClass 1: 0x824CDC50
     virtual Fun_Runtime::cScriptTypeRegistration const * RetScriptTypeRegistration() const; // cSafeDeletable 1: 0x82451440
-    virtual Fun_Runtime::Vec3 RetPosition() const; // cSafeDeletable 3: 0x82451478
+    virtual Fun_Runtime::Vec3 RetScriptPosition() const; // cSafeDeletable 3: 0x82451478
     virtual char const * RetName() const; // cSafeDeletable 4: 0x82451538
 private:
     CD2_LAYOUT_CHECKS(cGameBase,

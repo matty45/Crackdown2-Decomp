@@ -8,6 +8,7 @@
 #include "CHARACTER/cCharacterStatesScriptRegistration.h"
 #include "rws/classfactory.h"
 #include "rws/msg.h"
+#include "lua/lua.h"
 
 namespace CHARACTER
 {
@@ -21,6 +22,13 @@ namespace CHARACTER
         return "eCharacterStates";
     }
 
+    void cCharacterStatesScriptRegistration::RegisterValues(lua_State *state)
+    {
+        lua_pushliteral(state, "nNormal");
+        lua_pushnumber(state, 0.0f);
+        lua_settable(state, -3);
+    }
+
     cCwCharacterStateProfile::~cCwCharacterStateProfile()
     {
         UnLinkMsg(m_Msg_Return_Self);
@@ -29,6 +37,9 @@ namespace CHARACTER
 
     static RWS::CClassFactory::CRegistrar cCwCharacterStateProfileRegistrar(
         "cCwCharacterStateProfile", cCwCharacterStateProfile::MakeNew, 0xCC, false);
+
+    // CD2 initializer 0x82FACB88 registers the enum object and installs table 0x82112CA8.
+    static cCharacterStatesScriptRegistration g_cCharacterStatesScriptRegistration;
 
     Fun_Runtime::RetVal cCwCharacterStateProfile::Init(const RWS::CAttributePacket &)
     {

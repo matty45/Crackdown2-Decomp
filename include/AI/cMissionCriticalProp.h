@@ -63,7 +63,7 @@ namespace AI
         virtual void vf79(); // 79: 0x8245B428
         virtual void vf83(); // 83: 0x8245B570
         virtual void vf226(); // 226: 0x8245B5F8
-        virtual void vf335(); // 335: 0x8245B5E8
+        virtual unsigned int RetInteractionAnimID() const; // 335: 0x8245B5E8
         virtual void vf340(); // 340: 0x8245B3A8
     private:
         // CD2: cMissionCriticalProp's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an

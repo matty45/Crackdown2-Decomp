@@ -45,6 +45,10 @@ namespace AI
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
         virtual void TickUpdate(float); // cRegisteredClass 8: 0x82271FD8
+    protected:
+        // Size 0x5F0 from CD2's registrar (MakeNew allocates it); the fields after cMission are not modelled.
+        unsigned int m_unmodelled3C0[(0x5F0 - 0x3C0) / 4];
+        CD2_LAYOUT_CHECKS(cAUMission, CD2_SIZE(cAUMission, 0x5F0))
     };
 }
 

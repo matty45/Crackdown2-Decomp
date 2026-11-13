@@ -25,7 +25,9 @@ namespace ZoneManager
         // CD2: cPlayerTriggerCylinder's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
-        virtual bool IsVehicleWithin(Vehicle::cVehicle const *) const; // 13: 0x821D1D20
+        // 13: 0x821D1D20
+        // This is inherited cPlayerTriggerBase::IsVehicleWithin: both CD2 tables
+        // hold the same address, and RuffKing's cylinder declares no override.
     protected:
         CD2_LAYOUT_CHECKS(cPlayerTriggerCylinder,
             CD2_SIZE(cPlayerTriggerCylinder, 0xF0)

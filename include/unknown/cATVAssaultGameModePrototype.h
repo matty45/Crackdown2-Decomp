@@ -17,6 +17,9 @@ namespace unknown
     public:
         // Out of line: CD2 0x8287B358 (MakeNew calls it).
         cATVAssaultGameModePrototype();
+        // CD2 0x8287B4C0 destroys the narrow-string member at +0x22C, then
+        // calls cGameModePrototype's destructor. Team variants call it out of line.
+        virtual ~cATVAssaultGameModePrototype();
 
     private:
         unsigned char m_unmodelled148[0x260 - 0x148];

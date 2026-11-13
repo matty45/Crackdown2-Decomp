@@ -53,10 +53,10 @@ namespace Prop
         virtual void vf147(); // 147: 0x82730BC0
         virtual void vf148(); // 148: 0x82730BB8
         virtual void vf156(); // 156: 0x8288F788
-        virtual void vf271(); // 271: 0x82732200
+        virtual void EnterGhostState(); // 271: 0x82732200
         virtual void vf272(); // 272: 0x827322C0
         virtual void vf288(); // 288: 0x82732A18
-        virtual void vf317(); // 317: 0x82731120
+        virtual void OnSpawnedAsFragment(cGameBase *pParent); // 317: 0x82731120
         virtual void vf327(); // 327: 0x82730BA0
         virtual void vf328(); // 328: 0x82730BA8
         virtual void vf329(); // 329: 0x82732460

@@ -51,9 +51,26 @@ namespace unknown
         return "cBoostPack";
     }
 
+    void cBoostPack::vf432(bool b)
+    {
+        m_bField9C0 = b;
+    }
+
+    void cBoostPack::vf434(float f)
+    {
+        m_fField9C4 = f;
+    }
+
     float cBoostPack::GetField9C4() const
     {
         return m_fField9C4;
+    }
+
+    bool cBoostPack::vf433()
+    {
+        bool b = m_bField9C0;
+        m_bField9C0 = false;
+        return b;
     }
 
     // CD2 0x8260AED8 has no derived cleanup beyond vtable restoration.

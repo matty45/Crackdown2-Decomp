@@ -29,6 +29,15 @@
 
 namespace Prop
 {
+    // RuffKing's prop motion types (cProp.h).
+    enum eMotionType
+    {
+        eMT_FIXED = 0,
+        eMT_FIXEDUNTILBROKEN,
+        eMT_DYNAMIC,
+        eMT_MAX,
+    };
+
     class cProp : public PHYSICS::cNetDynamicBody, public ExplosionManager::cExplosionCallback,
         public AI::cDynamicObstacleOwner, public Equip::cSatchelChargeTarget
     {
@@ -55,16 +64,19 @@ namespace Prop
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         // CD2's cProp table 0x8200DFC8 has 341 primary slots, extending cNetDynamicBody's 314.
         // These slot indices are retained until the individual virtual names/signatures are recovered.
-        virtual void vf314(); virtual void vf315(); virtual void vf316(); virtual void vf317(); virtual void vf318();
+        virtual void Breakoff(bool bForce); virtual void vf315(); virtual void vf316(); virtual void OnSpawnedAsFragment(cGameBase *pParent); virtual void vf318();
         virtual void vf319(); virtual void vf320(); virtual void vf321(); virtual void vf322(); virtual void vf323();
         virtual void vf324(); virtual void vf325(); virtual void vf326(); virtual void vf327(); virtual void vf328();
         virtual void vf329(); virtual void vf330(); virtual void vf331(); virtual void vf332(); virtual void vf333();
-        virtual void vf334(); virtual void vf335(); virtual void vf336(); virtual void vf337(); virtual void vf338();
+        virtual void vf334(); virtual unsigned int RetInteractionAnimID() const; virtual void vf336(); virtual void vf337(); virtual void vf338();
         virtual void vf339(); virtual void vf340();
-        class cPropPrototype : public GOM::cObjectPrototype
+        class cPropPrototype : public PHYSICS::cDynamicBody::cDynamicBodyPrototype
         {
+        public:
+            // RuffKing's first own field; CD2's cSpinningProp::GoToInitialState (0x8273EC48) compares it with eMT_DYNAMIC.
+            eMotionType m_nMotionType;                      // 0x280
         private:
-            unsigned char m_pad70[0x4F0 - 0x70];
+            unsigned char m_unmodelled284[0x4F0 - 0x284];
 
         public:
             cPropPrototype(const RWS::CAttributePacket &);   // 0x8272D390
@@ -72,7 +84,8 @@ namespace Prop
             virtual void HandleAttributes(const RWS::CAttributePacket &);
 
             CD2_LAYOUT_CHECKS(cPropPrototype,
-                CD2_SIZE(cPropPrototype, 0x4F0))
+                CD2_SIZE(cPropPrototype, 0x4F0)
+                CD2_OFFSET(cPropPrototype, m_nMotionType, 0x280))
         };
 
     private:
@@ -110,7 +123,7 @@ namespace Prop
         virtual void vf260(); // 260: 0x827304A0
         virtual void vf261(); // 261: 0x82258750
         virtual void vf262(); // 262: 0x827304B8
-        virtual void vf271(); // 271: 0x8272AAC8
+        virtual void EnterGhostState(); // 271: 0x8272AAC8
         virtual void vf283(); // 283: 0x823A22E0
         virtual void OnEnterNetRoleAuthority(etNetRole); // cNetRoleObject 2: 0x827296A0
         virtual void OnEnterNetRoleSimulated(etNetRole); // cNetRoleObject 3: 0x827296A0

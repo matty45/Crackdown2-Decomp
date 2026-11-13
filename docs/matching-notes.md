@@ -6,6 +6,7 @@ codegen change) that will help with other functions. What you tried on one funct
 end, in one line, and is removed when the function matches. History belongs in git, not here.
 
 ## Shared bases
+- **Position has two distinct virtual interfaces in CD2.** Primary slot 46 is the reference-named `cNonGameBase::RetPosition() const`, returning a `Vec3`. Its default body at 0x823CBEA8 forwards through the cScriptHost subobject at +0x1C, slot 3; that script slot now has the descriptive name `RetScriptPosition` to keep the interfaces separate. Physics and character interfaces override the primary slot. With this signature, `cPlayerTriggerBase::IsVehicleWithin` (0x821D1D20) naturally compiles the primary vehicle-position call followed by its slot-12 point test, exact in both modes.
 - **CD2 characters retain the shared physics and replication hierarchy.** Constructors 0x82308218/0x82543408
   establish cCharacterMotion : cNetDynamicBody (0x11F0, 347 primary slots) and cCharacter : cCharacterMotion,
   cSatchelChargeTarget (+0x11F0; 452 primary slots). cIgnitable owns the fire flag at +0x261; cReplicatedClass's
@@ -74,6 +75,15 @@ end, in one line, and is removed when the function matches. History belongs in g
   cPositionalProxy and also remains exact using that shared type.
 
 ## Codegen idioms
+- **Enum registration objects keep the virtual Lua ABI visible to LTCG.** Character-state registration
+  (0x82540308) is 22/22 words in a plain build when only the method exists, but LTCG removes unused `this`
+  and moves `lua_State*` from r4 to r3. CD2 initializer 0x82FACB88 calls the shared four-byte registrar
+  constructor (0x827729A8), installs table 0x82112CA8, and registers cleanup 0x8303CE60. Recovering that
+  actual static instance makes the unchanged method 22/22 words under LTCG too; the initializer and
+  cleanup independently check 18/18 and 5/5 words in both builds. Adjacent AI enum objects at
+  0x838035F0..0x83803600 confirm the four-byte stride. Use the middleware's published Lua header with
+  its verified float number ABI rather than duplicating C API declarations.
+- **Load-stream bounds checks remain separate in CD2.** At `cLoadStream::Read` (0x82767390), checking the chunk end and buffer end in two consecutive `if` statements gives 39/39 words in plain and LTCG. Combining the predicates with `||` gives 9/39 words: the compiler moves the shared failure block after the copy and merges the initial unloaded return. Both checks invalidate the stream before returning false; keep their original structure.
 - **Inherited overload declarations can move a new virtual slot.** Adding cNonGameBase::Init(CAttributePacket const&) before RetClassName caused the compiler to place its new Init(cSpawner const*) overload ahead of primary slot 11, shifting the tables despite unchanged matched function bodies. Moving the inherited overload beside the existing spawner overload restores all 68 slots; the plain data checks then report no table-extent or multi-address errors from this shift.
 - **Ambient-spawner destruction inlines the base's immediate cleanup.** CD2's cLinkedVFXSpawner deleting
   wrapper (0x827FA870) destroys its GUID handler, restores cAmbientVFXSpawnerBase's table, then calls TermVFX
@@ -568,6 +578,15 @@ Middleware with published source lives in `src/middleware/<library>/` (each with
   variants (example specs in `tools/research/compiler_re/sweeps/`).
 
 ## Open functions
+
+- `cFaceTargetScriptRegistration::RegisterValues` (0x823EEF80): recovered keys and values 0, 30, 90, 181; CD2 anchors its float reads at 0x820F7680, outside the current LTCG pool model. Literal source loses the preserved base register; probe removed, unpromoted.
+
+- `cMovementTypeScriptRegistration::RegisterValues` (0x823EECB0): recovered Lua keys/values/order; literal source emits 58 instructions, CD2 has 60. CD2 anchors 0 and 3 through 0x820F2444, outside the current LTCG pool model; plain and LTCG probes removed, unpromoted.
+
+- `cSpinningPropPrototype::HandleAttributes` (0x8273F628): typed attribute loop and runtime `Pi2 = g_GlobalConstants.CONST_FLOAT_PI * 2` give 72/72 code words in plain and LTCG, but both builds leave `Pi2` zero while CD2 initializes it to 2*pi. Literal 2*pi hoists into f31 and changes the body. Data checks correctly reject the runtime-initializer probe; removed, unpromoted.
+- `cPlayerTriggerBase` constructor (0x8280DB80): reference box/vector layout and `reserve(1)` reproduce the stores and call, but inline box scale-from-ZeroVec plus shared Mtx initialization gives only 7/79 LTCG words (77 versus 79 plain instructions); GUID-store scheduling and box/matrix address calculations still differ. Constructor probe removed.
+- `cLoadStream::Read` (0x82767390): the typed reader with separate chunk/buffer checks gives 39/39 words in plain and LTCG, but adding it as a matched dependency changes `cVOAZone::Load` from 32/32 to 2/32 LTCG words; `noinline` on Read does not restore the caller. Probe and reader claim removed; the whole-program caller context remains unresolved.
+- `cSpinningProp::Term` (0x8273EE70): inline reconstructed `cStateMachine::GoTo_State(0)` plus `cPivotBasedProp::Term()` gives 22/22 words in plain and LTCG, but exposing that helper body changes existing folded `GoToSpinningFreeState` and `GoToSpinningClockWiseState` from 17/17 to 2/17 LTCG words; probe removed, helper visibility remains unresolved.
 One line each: what is ruled out. Remove the line when the function matches.
 - `Equip::cWeapon::ProcessReloading` (0x8221BF38): the typed timer decrement and idle transition have the right structure, but CD2 keeps this in r3 across its delta-time call (0x827671D0), where the current plain/LTCG model uses r31 and restores r3. The callee is unmatched and therefore correctly remains opaque to LTCG; reconstruct and match it before retrying. Probe removed.
 - `Equip::cWeapon` constructor (0x82609AA8): typed own fields and the shared Mtx default identity constructor give 20/63 words in plain and LTCG. CD2 retains a matrix-address calculation, reverses the live zero/one constant registers, and schedules its timer literal later. Constructor probe removed; its placement factory and both destructor forms are EXACT independently.
@@ -967,3 +986,26 @@ One line each: what is ruled out. Remove the line when the function matches.
   The reference static ms_Randomiser is independently identified by CD2's burst-pause consumer 0x8222B5D0
   (generator at 0x838389A0). Its default initializer 0x82FCB930 and empty cleanup 0x8303F358 match with the shared
   cRandGen, in the source's original initializer order immediately after the script registrar.
+
+### Typed script-method registration and shared pointer lists
+
+Weapon registrar `0x826098C0` passes native eight-byte const-member pointers to
+16-byte descriptor factories and inserts the resulting pointers into its first
+12-byte list. Taking addresses of the actual virtual members emits the MSVC
+virtual-call thunks; these must not be handwritten forwarding functions. The
+descriptor has one virtual Lua invocation slot and no virtual destructor.
+
+A/B checks on the same registrar distinguish container models. A declaration-only
+list insertion gives 103/122 words in plain and LTCG builds: stack stores of the
+member-pointer adjustment are scheduled differently. Full XDK `std::list` gives
+122/122 plain words but inlines insertion into the LTCG caller, leaving only
+2/122 words there. The typed `cPointerList` adapter models the observed node
+construction, length check and links, retaining external allocation/destruction.
+It gives 122/122 in both modes with no rule findings. Its insertion body is still
+unmatched; this result proves the caller, not that body. Reference `cList` derives
+from `std::list`, so the adapter is explicitly marked as an incomplete stand-in.
+
+The descriptor constructor initializes the name in its base and the member pointer
+in its derived initializer list. Moving the name assignment into the derived
+constructor body reorders two stores: both 96-byte factories score 22/24 words.
+Base/member initialization yields 24/24 in both plain and LTCG checks.

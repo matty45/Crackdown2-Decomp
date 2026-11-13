@@ -21,6 +21,8 @@ namespace AI
             return *cHeliCallZoneClass;
         }
         static const Fun_Runtime::cClass *ms_pcHeliCallZoneClass;
+        // RuffKing name: the zone the player is in, set by OnPlayerEnter (CD2 0x8248AA18) and cleared by OnPlayerLeave.
+        static cHeliCallZone *m_pCurrentCallZone;
 
         cHeliCallZone();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &packet, bool);

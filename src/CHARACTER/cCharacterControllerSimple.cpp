@@ -59,6 +59,11 @@ namespace CHARACTER
         m_bInWater = inWater;
     }
 
+    eWaterSurfaceState cCharacterControllerSimple::RetWaterSurfaceState() const
+    {
+        return m_bInWater ? eWSS_On : eWSS_None;
+    }
+
     bool cCharacterControllerSimple::HasSwitchedDirection() const
     {
         return m_bHasSwitchedDirection;
@@ -128,6 +133,100 @@ namespace CHARACTER
     Fun_Runtime::Vec3 cCharacterControllerSimple::GetLastGroundNormal()
     {
         return m_vLastGroundNormal;
+    }
+
+    float cCharacterControllerSimple::ApplyVecticalForce(float height, float time)
+    {
+        float force = RetVecticalForce(height, time);
+        SetEffectsYVelocity(force);
+        return force;
+    }
+
+    float cCharacterControllerSimple::ApplyVecticalForce(float force)
+    {
+        Fun_Runtime::Vec3 velocity;
+        velocity.Set(0.0f, force, 0.0f);
+        AddEffectsVelocity(velocity);
+        return force;
+    }
+
+    void cCharacterControllerSimple::NoUpdate()
+    {
+        m_bSupported = true;
+        m_bInWater = false;
+    }
+
+    const hkShape * cCharacterControllerSimple::RetPtrShape() const
+    {
+        return m_pPhantom->getCollidable()->getShape();
+    }
+
+    const hkCollidable * cCharacterControllerSimple::RetPtrCollidable() const
+    {
+        if (m_pPhantom)
+            return m_pPhantom->getCollidable();
+        return 0;
+    }
+
+    bool cCharacterControllerSimple::HasCollidable() const
+    {
+        if (!m_pPhantom)
+            return false;
+        return m_pPhantom->getCollidable() != 0;
+    }
+
+    float cCharacterControllerSimple::RetCollisionTollerance() const
+    {
+        return 0.02f;
+    }
+
+    float cCharacterControllerSimple::RetRadius() const
+    {
+        if (m_bUsingCrouch)
+            return m_CharacterInfo.m_fCrouchRadius;
+        else if (m_bUsingProne)
+            return m_CharacterInfo.m_fHeight;
+        return m_CharacterInfo.m_fRadius;
+    }
+
+    float cCharacterControllerSimple::RetStandRadius() const
+    {
+        return m_CharacterInfo.m_fRadius;
+    }
+
+    float cCharacterControllerSimple::RetHeight() const
+    {
+        if (m_bUsingCrouch)
+            return m_CharacterInfo.m_fCrouchHeight;
+        else if (m_bUsingProne)
+            return 0.2f;
+        return m_CharacterInfo.m_fHeight;
+    }
+
+    float cCharacterControllerSimple::RetHalfHeight() const
+    {
+        if (m_bUsingCrouch)
+            return m_CharacterInfo.m_fCrouchHalfHeight;
+        else if (m_bUsingProne)
+            return 0.1f;
+        return m_CharacterInfo.m_fHalfHeight;
+    }
+
+    float cCharacterControllerSimple::RetMinWorldHeight() const
+    {
+        return m_hkPosition.getQuad().y;
+    }
+
+    inline float cCharacterControllerSimple::RetGravity()
+    {
+        if (m_bUseGravityOverride)
+            return m_fGravityOverride;
+        return m_CharacterInfo.m_Gravity.getQuad().y;
+    }
+
+    float cCharacterControllerSimple::RetVecticalForce(float fHeight, float fTime)
+    {
+        return (fHeight - RetGravity() * (fTime * fTime) * 0.5f) / fTime;
     }
 
     void cCharacterControllerSimple::SetGravityOverride(float gravity)

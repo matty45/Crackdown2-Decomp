@@ -232,4 +232,7 @@ namespace PLAYER
     {
         return &cPlayerScriptRegistrar;
     }
+    // CD2 0x82FF3E20 registers enum object 0x8384A848 with table 0x8213D54C.
+    static cBreakoutInputScriptRegistration g_cBreakoutInputScriptRegistration;
+
 }

@@ -9,6 +9,8 @@
 #include "rws/classfactory.h"
 #include "ZoneManager/cVOAZone.h"
 #include "cd2/memory.h"
+#include "SaveGame/cLoadStream.h"
+#include "SaveGame/cSaveStream.h"
 
 namespace ZoneManager
 {
@@ -24,6 +26,24 @@ namespace ZoneManager
 
     cVOAZone::~cVOAZone()
     {
+    }
+
+    void cVOAZone::Load(SaveGame::cLoadStream *stream)
+    {
+        bool initialised = true;
+        stream->ReadBool(initialised);
+        if (initialised)
+        {
+            if (!IsInitialised())
+                InitTriggerZone();
+        }
+        else if (IsInitialised())
+            TermTriggerZone();
+    }
+
+    void cVOAZone::Save(SaveGame::cSaveStream *stream)
+    {
+        stream->WriteBool(IsInitialised());
     }
 
     static RWS::CClassFactory::CRegistrar cVOAZoneRegistrar(

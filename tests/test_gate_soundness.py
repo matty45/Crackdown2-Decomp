@@ -99,6 +99,62 @@ class JumpTableLabelTests(unittest.TestCase):
             self.obj(3).local_address_offset('f', 0, '$LN5')
 
 
+class IdenticalCopiesTests(unittest.TestCase):
+    """One file's internal datum may resolve to two CD2 addresses only when relocs.LTCG_SHARED_COPIES lists its name,
+    one address is the listed shared copy, and both hold identical, not all-zero copies of its exact size (LTCG's
+    inlined HasAncestor reads one object's g_GlobalConstants in every object)."""
+    name = '?g_GlobalConstants@Fun_Runtime@@3UtGlobalConstants@1@A'
+    shared = relocs.LTCG_SHARED_COPIES[name]
+    memory = {shared: words(0, 1, 2, 100), 0x2000: words(0, 1, 2, 100), 0x3000: words(0, 1, 2, 101),
+              0x4000: words(0, 1, 2, 100)}
+
+    class Obj:
+        def __init__(self, internal, size, exact=True, name=None):
+            self.internal, self.size, self.exact, self.name = internal, size, exact, name
+
+        def symbol_bytes(self, name, n):
+            return None
+
+        def data_symbol(self, name):
+            if name != self.name:
+                return None
+            return dict(data=None, size=self.size, exact=self.exact, comdat=False, relocations=[])
+
+    def problems(self, *addrs, name=None, size=16, exact=True, internal=True, data=True, memory=None):
+        name = name or self.name
+        obj = self.Obj({name} if internal else set(), size, exact, name if data else None)
+        entries = [('f.cpp', 'f%d' % k, name, a, 'data', 0, obj) for k, a in enumerate(addrs)]
+        mem = memory or self.memory
+        return relocs.check_consistency(entries, lambda va, n: mem[va][:n], {}, {})
+
+    def test_own_copy_and_the_shared_copy_are_one_datum(self):
+        self.assertFalse(self.problems(self.shared, 0x2000))
+
+    def test_a_copy_that_differs_is_caught(self):
+        self.assertTrue(self.problems(self.shared, 0x3000))
+
+    def test_identical_copies_without_the_shared_one_are_caught(self):
+        self.assertTrue(self.problems(0x2000, 0x4000))
+
+    def test_a_third_copy_is_caught(self):
+        self.assertTrue(self.problems(self.shared, 0x2000, 0x4000))
+
+    def test_an_unlisted_name_is_caught(self):
+        self.assertTrue(self.problems(self.shared, 0x2000, name='?fOther@@3UtGlobalConstants@Fun_Runtime@@A'))
+
+    def test_zero_copies_are_caught(self):
+        self.assertTrue(self.problems(self.shared, 0x2000, memory={self.shared: bytes(16), 0x2000: bytes(16)}))
+
+    def test_a_size_that_is_not_exact_is_caught(self):
+        self.assertTrue(self.problems(self.shared, 0x2000, exact=False))
+
+    def test_an_external_name_is_caught(self):
+        self.assertTrue(self.problems(self.shared, 0x2000, internal=False))
+
+    def test_a_function_is_caught(self):
+        self.assertTrue(self.problems(self.shared, 0x2000, data=False))
+
+
 class ImageTests(unittest.TestCase):
     def test_another_image_is_refused(self):
         # a one-section PE that is not the extracted game image

@@ -15,7 +15,8 @@ namespace Equip
         virtual void vf408(); // primary slot 408
         virtual void vf409(); // primary slot 409
         virtual void vf410(); // primary slot 410
-        virtual void vf411(); // primary slot 411
+        // Slot 411 (CD2 0x8260AAA8) returns m_bDetonated, as RuffKing's inline HasDetonated does.
+        virtual bool HasDetonated(); // primary slot 411
         virtual void vf412(); // primary slot 412
         virtual void vf413(); // primary slot 413
         virtual void vf414(); // primary slot 414
@@ -60,7 +61,12 @@ namespace Equip
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
     private:
-        unsigned char m_unmodelled8C0[0x9C0 - 0x8C0];
+        // RuffKing names; CD2 keeps RuffKing's order 0x20 bytes earlier (IsLive 0x8260AAB0 reads 0x8C4, HasDetonated
+        // 0x8260AAA8 reads 0x8C5).
+        float m_fLastGrenadeSoundTime;
+        bool m_bLive;
+        bool m_bDetonated;
+        unsigned char m_unmodelled8C6[0x9C0 - 0x8C6];
         // CD2: cGrenade's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
@@ -92,7 +98,7 @@ namespace Equip
         virtual bool CanBeEquipped(); // 336: 0x8261EE50
         virtual bool CanReleaseNetOwnershipOnInitMsg() const; // 349: 0x8261F720
     private:
-        CD2_LAYOUT_CHECKS(cGrenade, CD2_SIZE(cGrenade, 0x9C0))
+        CD2_LAYOUT_CHECKS(cGrenade, CD2_SIZE(cGrenade, 0x9C0) CD2_OFFSET(cGrenade, m_bLive, 0x8C4) CD2_OFFSET(cGrenade, m_bDetonated, 0x8C5))
 
     public:
         // CD2 table 0x82014DD0 differs from cWeapon at these inherited slots.

@@ -27,6 +27,8 @@
 #include "cd2/memory.h"
 #include "fun_runtime/script_type_registrar.h"
 #include <new>
+#include "fun_runtime/member_script_method.h"
+#include "fun_runtime/pointer_list_impl.h"
 
 namespace Equip
 {
@@ -68,5 +70,25 @@ namespace Equip
     const Fun_Runtime::cScriptTypeRegistration *cHWGrenadeProjectile::RetScriptTypeRegistration() const
     {
         return &cHWGrenadeProjectileScriptRegistrar;
+    }
+}
+
+namespace Fun_Runtime
+{
+    template <>
+    void cScriptTypeRegistrar<Equip::cHWGrenadeProjectile>::RegisterMethods()
+    {
+        RegisterMethod(&Equip::cHWGrenadeProjectile::IsLive, "IsLive");
+        RegisterMethod(&Equip::cHWGrenadeProjectile::HasExploded, "HasExploded");
+    }
+}
+
+namespace Equip
+{
+    // CD2 table 0x82127130 slot 375 uses the shared false-returning body;
+    // grenade subclasses can override this default explosion query.
+    bool cHWGrenadeProjectile::HasExploded()
+    {
+        return false;
     }
 }

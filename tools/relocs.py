@@ -14,7 +14,9 @@ Rules (check_consistency):
     to the manifest address in the same file: every file has its own copy, see known_key);
   - names that embed an address (Ext_82954E48, sub_82954E48, fn_82954E48) must resolve to that address;
   - names with internal linkage (header statics, their initializers) are one name, one address per file, and within a
-    file an address one of them resolves to has no other name;
+    file an address one of them resolves to has no other name. One exception, listed by name in LTCG_SHARED_COPIES
+    and checked by CONTENT (identical_copies): g_GlobalConstants may resolve to the file's own copy and to 0x830ACBD8,
+    the copy LTCG's inlined cClass::HasAncestor reads in every object, when both hold identical, not all-zero bytes;
   - local (per-object) symbols ('$...', '.rdata' section symbols) are only checked for content where possible.
 Data (check_data, check_extents): the data a matched function references and our object defines (a vtable, an
 initialized global, a constant table) must equal CD2's at the resolved address, byte for byte outside its relocations;
@@ -66,7 +68,13 @@ class Obj:
         self.internal = {s['name'] for s in self.symbols.values() if s['cls'] == 3 and s['sec'] > 0}
 
     def functions(self):
-        """{name: (section index, offset, size)} for function symbols defined in code sections"""
+        """{name: (section index, offset, size)} for function symbols defined in code sections (worked out once: every
+        relocation lookup asks for it)"""
+        if getattr(self, '_functions', None) is None:
+            self._functions = self._find_functions()
+        return self._functions
+
+    def _find_functions(self):
         out, by_sec = {}, collections.defaultdict(list)
         for s in self.symbols.values():
             if s['sec'] > 0 and s['cls'] in (2, 3) and self.sections[s['sec'] - 1]['ch'] & 0x20 \
@@ -517,6 +525,34 @@ def known_key(src, name, obj):
     return (src, name) if name in getattr(obj, 'internal', ()) else name
 
 
+# The one known case of identical_copies, by name: {internal data name: the CD2 copy LTCG's inlined code reads}.
+# Fun_Runtime::g_GlobalConstants (fun_runtime/class.h) is a static in a header, so every object has its own copy; LTCG
+# inlined cClass::HasAncestor from the one COMDAT the linker kept, so every IsA reads that object's copy at 0x830ACBD8,
+# while each file's own code (its header constants' initializers) reads its own copy. Add a name only with that
+# evidence: anything not listed here keeps the rule one name, one address per file.
+LTCG_SHARED_COPIES = {'g_GlobalConstants': 0x830ACBD8, '?g_GlobalConstants@Fun_Runtime@@3UtGlobalConstants@1@A': 0x830ACBD8}
+
+
+def identical_copies(obj, sym, addrs, read):
+    """Whether the several CD2 addresses one file's internal name resolves to are the file's own copy of a datum
+    LTCG_SHARED_COPIES lists plus the copy LTCG's inlined code reads: exactly two addresses, one of them the listed
+    one, holding identical bytes, not all zero, over the datum's exact size. Any other name, a third address, another
+    shared address or a copy that differs is still a problem."""
+    shared = LTCG_SHARED_COPIES.get(sym)
+    if shared is None or len(addrs) != 2 or shared not in addrs:
+        return False
+    if is_local(sym) or sym not in getattr(obj, 'internal', ()) or not hasattr(obj, 'data_symbol'):
+        return False
+    d = obj.data_symbol(sym)
+    if not d or not d['exact'] or d['size'] < 8:
+        return False
+    try:
+        copies = {bytes(read(a, d['size'])) for a in addrs}
+    except (ValueError, KeyError):
+        return False
+    return len(copies) == 1 and any(next(iter(copies)))
+
+
 def check_consistency(entries, read, aliases, known):
     """entries: [(file, function, symbol, address, kind, offset, obj)]; read(va, n) -> CD2 bytes;
     aliases: {address: set(names)} declared in config/symbol_aliases.txt; known: {known_key(): address} from the
@@ -526,6 +562,7 @@ def check_consistency(entries, read, aliases, known):
     by_addr = collections.defaultdict(set)
     by_file_addr = collections.defaultdict(set)  # (file, address) -> names, to check the internal names of a file
     where = collections.defaultdict(list)
+    objs = {}  # an internal name's key -> the object defining it, for identical_copies
     for f, fn, sym, addr, kind, off, obj in entries:
         if kind == 'local address':
             continue  # validated against this function's label offset by resolve/facts.verify
@@ -543,6 +580,8 @@ def check_consistency(entries, read, aliases, known):
             continue
         local = is_local(sym) or sym in getattr(obj, 'internal', ())
         key = (f, sym) if local else sym
+        if local:
+            objs.setdefault(key, obj)
         by_name[key].add(addr)
         where[key].append((addr, '%s+%X' % (fn[:40], off)))
         if not local:
@@ -558,7 +597,7 @@ def check_consistency(entries, read, aliases, known):
     def site(key, addr):  # the first reference that resolves key to addr
         return next((s for a, s in where[key] if a == addr), 'manifest')
     for key, addrs in by_name.items():
-        if len(addrs) > 1:
+        if len(addrs) > 1 and not (isinstance(key, tuple) and identical_copies(objs[key], key[1], addrs, read)):
             problems.append('%s resolves to several addresses: %s'
                             % (key if isinstance(key, str) else '%s in %s' % (key[1], key[0]),
                                ', '.join('%08X (%s)' % (a, site(key, a)) for a in sorted(addrs)[:8])))

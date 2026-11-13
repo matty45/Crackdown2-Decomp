@@ -241,7 +241,7 @@ namespace Vehicle
         virtual void vf264(); // 264: 0x826D7FA0
         virtual void vf265(); // 265: 0x826D86A0
         virtual void vf266(); // 266: 0x826D20E8
-        virtual void vf271(); // 271: 0x826D4990
+        virtual void EnterGhostState(); // 271: 0x826D4990
         virtual void vf280(); // 280: 0x826DA608
         virtual void vf281(); // 281: 0x826DA678
         virtual void vf282(); // 282: 0x826AB170

@@ -27,6 +27,8 @@
 #include "Prop/cPrismaticProp.h"
 #include "cd2/memory.h"
 #include "fun_runtime/script_type_registrar.h"
+#include "fun_runtime/member_script_method.h"
+#include "fun_runtime/pointer_list_impl.h"
 
 namespace Prop
 {
@@ -63,6 +65,27 @@ namespace Prop
         return 0;
     }
 
+}
+
+namespace Fun_Runtime
+{
+    template <>
+    void cScriptTypeRegistrar<Prop::cPrismaticProp>::RegisterMethods()
+    {
+        RegisterMethod(&Prop::cPrismaticProp::SlideToMax, "SlideToMax");
+        RegisterMethod(&Prop::cPrismaticProp::SlideToMin, "SlideToMin");
+        RegisterMethod(&Prop::cPrismaticProp::SlideFree, "SlideFree");
+        RegisterMethod(&Prop::cPrismaticProp::IsInMinState, "IsInMinState");
+        RegisterMethod(&Prop::cPrismaticProp::IsInMaxState, "IsInMaxState");
+        RegisterMethod(&Prop::cPrismaticProp::IsInSlidingToMinState, "IsInSlidingToMinState");
+        RegisterMethod(&Prop::cPrismaticProp::IsInSlidingToMaxState, "IsInSlidingToMaxState");
+        RegisterMethod(&Prop::cPrismaticProp::IsInSlidingFreeState, "IsInSlidingFreeState");
+        RegisterMethod(&Prop::cPrismaticProp::IsInBrokenOffState, "IsInBrokenOffState");
+    }
+}
+
+namespace Prop
+{
     inline Fun_Runtime::State *cPrismaticProp::StaticRetSTATE_Min()
     {
         static STATE_Min s_State;

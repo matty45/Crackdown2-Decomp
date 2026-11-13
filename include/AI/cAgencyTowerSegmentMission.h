@@ -36,6 +36,10 @@ namespace AI
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
         virtual void InitReplication(); // cRegisteredClass 37: 0x8222D3C8
+    protected:
+        // Size 0x710 from CD2's registrar (MakeNew allocates it); the fields after cMission are not modelled.
+        unsigned int m_unmodelled3C0[(0x710 - 0x3C0) / 4];
+        CD2_LAYOUT_CHECKS(cAgencyTowerSegmentMission, CD2_SIZE(cAgencyTowerSegmentMission, 0x710))
     };
 }
 

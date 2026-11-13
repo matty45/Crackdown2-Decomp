@@ -5,6 +5,8 @@
 #ifndef FUN_RUNTIME_CSCRIPTTYPEREGISTRATION_H
 #define FUN_RUNTIME_CSCRIPTTYPEREGISTRATION_H
 #include "cd2/layout.h"
+#include "fun_runtime/pointer_list.h"
+#include "fun_runtime/script_method.h"
 namespace Fun_Runtime
 {
     class cScriptTypeRegistration
@@ -17,12 +19,28 @@ namespace Fun_Runtime
         const char *m_pName;
         const char *m_pParentName;
         // List storage is observed in the constructor; element types are unrecovered.
-        unsigned char m_unmodelledLists[0x18];
+    protected:
+        // First list receives the member-method descriptors in RegisterMethods.
+        cPointerList<cScriptMethod *> m_lMethods;
+        template <class C, class R>
+        void RegisterMethod(R (C::*method)() const, const char *name)
+        {
+            m_lMethods.push_back(CreateConstScriptMethod(name, method));
+        }
+        template <class C, class R>
+        void RegisterMethod(R (C::*method)(), const char *name)
+        {
+            m_lMethods.push_back(CreateScriptMethod(name, method));
+        }
+    private:
+        // The second list's element protocol remains unrecovered.
+        unsigned char m_unmodelledLists[0xC];
         CD2_LAYOUT_CHECKS(cScriptTypeRegistration,
             CD2_SIZE(cScriptTypeRegistration, 0x24)
             CD2_OFFSET(cScriptTypeRegistration, m_pName, 4)
             CD2_OFFSET(cScriptTypeRegistration, m_pParentName, 8)
-            CD2_OFFSET(cScriptTypeRegistration, m_unmodelledLists, 0xC))
+            CD2_OFFSET(cScriptTypeRegistration, m_lMethods, 0xC)
+            CD2_OFFSET(cScriptTypeRegistration, m_unmodelledLists, 0x18))
     };
 }
 #endif

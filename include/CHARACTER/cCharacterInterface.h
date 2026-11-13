@@ -161,10 +161,10 @@ namespace CHARACTER
         virtual void Slot41(); // 41: 0x822C8B18
         virtual void Slot44(); // 44: 0x823E7650
         virtual void Slot45(); // 45: 0x821DB348
-        virtual void Slot46(); // 46: 0x823E7780
+        virtual Fun_Runtime::Vec3 RetPosition() const; // 46: 0x823E7780
         virtual void Slot47(); // 47: 0x823E76B8
         virtual int RetUniqueID(); // CEventHandler 1: 0x82604E70
-        virtual Fun_Runtime::Vec3 RetPosition() const; // cSafeDeletable 3: 0x823E7660
+        virtual Fun_Runtime::Vec3 RetScriptPosition() const; // cSafeDeletable 3: 0x823E7660
     public:
         CD2_LAYOUT_CHECKS(cCharacterInterface,
             CD2_SIZE(cCharacterInterface, 0xC0)

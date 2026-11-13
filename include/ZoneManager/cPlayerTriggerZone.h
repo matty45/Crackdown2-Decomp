@@ -13,6 +13,9 @@ namespace ZoneManager
     public:
         virtual void HandleAttributes(const RWS::CAttributePacket &);
         virtual bool IsWithin(const Fun_Runtime::Vec3 &) const;
+        // CD2 box-zone table 0x82155B98 slot 13 is 0x8220B7E8;
+        // the cylinder retains the base implementation at 0x821D1D20.
+        virtual bool IsVehicleWithin(const Vehicle::cVehicle *) const;
         // Inline in CD2: the zones' MakeNew functions call cPlayerTriggerBase's constructor directly.
         __forceinline cPlayerTriggerZone(bool bAllowDeadCharacters) : cPlayerTriggerBase(bAllowDeadCharacters) {}
         virtual ~cPlayerTriggerZone() {}

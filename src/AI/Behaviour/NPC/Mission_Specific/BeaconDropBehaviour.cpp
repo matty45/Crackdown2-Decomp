@@ -26,6 +26,11 @@ namespace AI
         return 0;
     }
 
+    void BeaconDropBehaviour::OnExit()
+    {
+        cPilotBase::OnExit();
+    }
+
     const Fun_Runtime::cClass &BeaconDropBehaviour::RetClass() const
     {
         return *ms_pBeaconDropBehaviourClass;

@@ -27,6 +27,8 @@
 #include <new>
 #include "cd2/memory.h"
 #include "fun_runtime/script_type_registrar.h"
+#include "fun_runtime/member_script_method.h"
+#include "fun_runtime/pointer_list_impl.h"
 
 namespace Prop
 {
@@ -63,6 +65,28 @@ namespace Prop
         return 0;
     }
 
+}
+
+namespace Fun_Runtime
+{
+    template <>
+    void cScriptTypeRegistrar<Prop::cHingedProp>::RegisterMethods()
+    {
+        RegisterMethod(&Prop::cHingedProp::RotToMax, "RotToMax");
+        RegisterMethod(&Prop::cHingedProp::RotToMin, "RotToMin");
+        RegisterMethod(&Prop::cHingedProp::RotFree, "RotFree");
+        RegisterMethod(&Prop::cHingedProp::DingDong, "DingDong");
+        RegisterMethod(&Prop::cHingedProp::IsInMinState, "IsInMinState");
+        RegisterMethod(&Prop::cHingedProp::IsInMaxState, "IsInMaxState");
+        RegisterMethod(&Prop::cHingedProp::IsInRotatingToMinState, "IsInRotatingToMinState");
+        RegisterMethod(&Prop::cHingedProp::IsInRotatingToMaxState, "IsInRotatingToMaxState");
+        RegisterMethod(&Prop::cHingedProp::IsInRotatingFreeState, "IsInRotatingFreeState");
+        RegisterMethod(&Prop::cHingedProp::IsInBrokenOffState, "IsInBrokenOffState");
+    }
+}
+
+namespace Prop
+{
     inline Fun_Runtime::State *cHingedProp::StaticRetSTATE_Min()
     {
         static STATE_Min s_State;

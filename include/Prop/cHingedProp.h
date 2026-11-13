@@ -16,6 +16,12 @@ namespace Prop
     class cHingedProp : public Prop::cPivotBasedProp
     {
     public:
+        // CD2 script registration names these nonvirtual no-argument actions;
+        // the reference header supplies their void signatures.
+        void RotToMax();
+        void RotToMin();
+        void RotFree();
+        void DingDong();
         // CD2 0x82736E70: cScriptHost slot 1; descriptive method name is ours.
         virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         // CD2 placement factory 0x82736E50; RuffKing signature.
@@ -145,10 +151,10 @@ namespace Prop
         virtual void Slot13(); // 13: 0x82738208
         virtual void Slot23(); // 23: 0x8222F568
         virtual void vf167(); // 167: 0x82738708
-        virtual void vf271(); // 271: 0x82737A00
+        virtual void EnterGhostState(); // 271: 0x82737A00
         virtual void vf283(); // 283: 0x82737A80
-        virtual void vf314(); // 314: 0x827379D0
-        virtual void vf317(); // 317: 0x82737A40
+        virtual void Breakoff(bool bForce); // 314: 0x827379D0
+        virtual void OnSpawnedAsFragment(cGameBase *pParent); // 317: 0x82737A40
         virtual void vf320(); // 320: 0x827E56A8
         virtual void CreateConstraintData(); // 341: 0x82737B28
         virtual void DestroyConstraintData(); // 342: 0x82737EF8

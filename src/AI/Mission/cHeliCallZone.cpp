@@ -13,6 +13,8 @@ namespace AI
 {
     const Fun_Runtime::cClass *cHeliCallZone::ms_pcHeliCallZoneClass = &cHeliCallZone::StaticCreateClass();
 
+    cHeliCallZone *cHeliCallZone::m_pCurrentCallZone;
+
     cHeliCallZone::cHeliCallZone() {}
 
     const Fun_Runtime::cClass &cHeliCallZone::RetClass() const
@@ -33,6 +35,16 @@ namespace AI
     RWS::CAttributeHandler *cHeliCallZone::MakeNew(const RWS::CAttributePacket &packet, bool)
     {
         return new cHeliCallZone();
+    }
+
+    void cHeliCallZone::OnPlayerEnter(CHARACTER::cCharacter *)
+    {
+        m_pCurrentCallZone = this;
+    }
+
+    void cHeliCallZone::OnPlayerLeave(CHARACTER::cCharacter *)
+    {
+        m_pCurrentCallZone = 0;
     }
 }
 

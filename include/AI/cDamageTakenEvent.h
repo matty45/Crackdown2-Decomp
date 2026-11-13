@@ -25,13 +25,44 @@ namespace AI
         // CD2 primary table 0x820FBFF8 slot 1, installed by constructor 0x823EC628.
         virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         cCharacterEntityIF *RetInstigator();
+        float RetAmount();
+        Fun_Runtime::Vec3 RetHitDirection();
+        Fun_Runtime::Vec3 RetHitLocation();
+        unsigned int RetDamageImpactType();
 
     protected:
         Fun_Runtime::cSafeDeletablePointer<cCharacterEntityIF> m_pInstigator; // 0x44
+        // CD2 constructor 0x823EC628 establishes this payload prefix. The enum words precede
+        // the amount and vectors in CD2; RuffKing places them after the vectors instead.
+        // Enum storage is represented by its observed word/byte types until the enums are recovered.
+        unsigned int m_eDamageType;             // 0x54
+        unsigned int m_eDamageSubType;          // 0x58
+        unsigned char m_eDamageImpactType;      // 0x5C
+        char m_nSubTarget;                      // 0x5D
+        bool m_bLockedHit;                      // 0x5E
+        int m_eDamageLocationEnum;              // 0x60
+        float m_fAmount;                       // 0x64
+        // CD2 0x823EC628 stores three components and w=1 at +0x70/+0x80; the aligned
+        // reference Vec3 members naturally follow the scalar prefix without a padding member.
+        Fun_Runtime::Vec3 m_vecHitLocation;      // 0x70
+        Fun_Runtime::Vec3 m_vecHitDirection;     // 0x80
+        // Descriptive name is ours: constructor records RWS game time here, after both vectors.
+        unsigned int m_nRecordedGameTime;       // 0x90
+
 
     public:
         CD2_LAYOUT_CHECKS(cDamageTakenEvent,
-            CD2_OFFSET(cDamageTakenEvent, m_pInstigator, 0x44))
+            CD2_OFFSET(cDamageTakenEvent, m_pInstigator, 0x44)
+            CD2_OFFSET(cDamageTakenEvent, m_eDamageType, 0x54)
+            CD2_OFFSET(cDamageTakenEvent, m_eDamageSubType, 0x58)
+            CD2_OFFSET(cDamageTakenEvent, m_eDamageImpactType, 0x5C)
+            CD2_OFFSET(cDamageTakenEvent, m_nSubTarget, 0x5D)
+            CD2_OFFSET(cDamageTakenEvent, m_bLockedHit, 0x5E)
+            CD2_OFFSET(cDamageTakenEvent, m_eDamageLocationEnum, 0x60)
+            CD2_OFFSET(cDamageTakenEvent, m_fAmount, 0x64)
+            CD2_OFFSET(cDamageTakenEvent, m_vecHitLocation, 0x70)
+            CD2_OFFSET(cDamageTakenEvent, m_vecHitDirection, 0x80)
+            CD2_OFFSET(cDamageTakenEvent, m_nRecordedGameTime, 0x90))
     };
 }
 

@@ -25,7 +25,7 @@ namespace Prop
     public:
         virtual bool EnterPhysicalState(); // 7: 0x82745578
         virtual void Slot23(); // 23: 0x822C2DF0
-        virtual void vf271(); // 271: 0x82745490
+        virtual void EnterGhostState(); // 271: 0x82745490
         virtual void vf272(); // 272: 0x827454F8
     };
 }

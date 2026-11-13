@@ -47,6 +47,18 @@ namespace AI
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
         virtual void TermReplication(); // cRegisteredClass 38: 0x82242398
+    protected:
+        // RuffKing's first cBeaconMission fields (cBeaconMission.h) at CD2's offsets: NotifySquadDead (0x82467EF0) counts
+        // 0x3CA. Size 0x2300 from CD2's registrar; RuffKing's class is smaller, so the rest is not modelled.
+        unsigned int m_unmodelled3C0;
+        unsigned short m_nNumAUMissions;
+        unsigned short m_nNumAUMissionsCompleted;
+        unsigned short m_nNumInitialSquads;
+        unsigned short m_nNumInitialSquadsDead;
+        unsigned int m_unmodelled3CC[(0x2300 - 0x3CC) / 4];
+        CD2_LAYOUT_CHECKS(cBeaconMission,
+            CD2_OFFSET(cBeaconMission, m_nNumInitialSquadsDead, 0x3CA)
+            CD2_SIZE(cBeaconMission, 0x2300))
     };
 }
 

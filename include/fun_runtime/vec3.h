@@ -21,6 +21,8 @@ namespace Fun_Runtime
         };
 
         Vec3() : x(0.0f), y(0.0f), z(0.0f) {}
+        // RuffKing/Burn declare this overload; CD2 damage-vector returns set the homogeneous component to one.
+        Vec3(float xValue, float yValue, float zValue) : x(xValue), y(yValue), z(zValue), w(1.0f) {}
         void Set(float xValue, float yValue, float zValue) { x = xValue; y = yValue; z = zValue; }
         // CD2 ZeroLastControlsVelocity loads the complete typed zero-vector object.
         void Zero() { v = __lvx(&ZeroVec, 0); }

@@ -11,7 +11,7 @@ namespace AI
     {
     public:
         cSoundEvent(unsigned int eventType, Fun_Runtime::cScriptHost *source, float volume);
-        virtual Fun_Runtime::Vec3 RetPosition() const;
+        virtual Fun_Runtime::Vec3 RetScriptPosition() const;
         virtual cCharacterEntityIF *RetInstigator();
         virtual bool CanHearThisSound(cCharacterEntityIF *);
         virtual bool Concerns(cNonGameBase *);

@@ -6,6 +6,7 @@
 #include "CHARACTER/cCharacterController.h"
 #include "CHARACTER/cCharacterInfo.h"
 #include "fun_runtime/vec3.h"
+#include "Havok/hkShapePhantom.h"
 class hkListShape;
 class hkAabbPhantom;
 namespace CHARACTER
@@ -41,6 +42,24 @@ namespace CHARACTER
         virtual void SetLastAIVelocity(const Fun_Runtime::Vec3 &velocity);
         virtual void SetLastSpeedModifier(float speedModifier);
         virtual Fun_Runtime::Vec3 GetLastGroundNormal();
+        // CD2 0x82564620..0x825663F0: more of the controller's slots; names from Burn's and RuffKing's declarations,
+        // bodies as CD2's (the crouch and prone flags select the dimensions, as in Burn).
+        virtual eWaterSurfaceState RetWaterSurfaceState() const;
+        virtual float ApplyVecticalForce(float fHeight, float fTime);
+        virtual float ApplyVecticalForce(float fForce);
+        virtual void NoUpdate();
+        virtual const hkShape *RetPtrShape() const;
+        virtual const hkCollidable *RetPtrCollidable() const;
+        virtual bool HasCollidable() const;
+        virtual float RetCollisionTollerance() const;
+        virtual float RetRadius() const;
+        virtual float RetStandRadius() const;
+        virtual float RetHeight() const;
+        virtual float RetHalfHeight() const;
+        virtual float RetMinWorldHeight() const;
+        virtual float RetVecticalForce(float fHeight, float fTime);
+    protected:
+        float RetGravity();
     private:
         // Own averaging storage at +0x10 is not yet modelled.
         unsigned char m_unmodelledAveraging[0x70 - 4];
@@ -75,7 +94,9 @@ namespace CHARACTER
         unsigned char m_bInWater : 1;
         unsigned char m_bInUnsafePosition : 1;
         unsigned char m_bSupported : 1;
-        unsigned char m_unrecoveredFlags654 : 3;
+        unsigned char m_bUseCylinderShape : 1;
+        unsigned char m_bUsingCrouch : 1;
+        unsigned char m_bUsingProne : 1;
         unsigned char m_bHasSwitchedDirection : 1;
         unsigned char m_bUseGravityOverride : 1;
         unsigned char m_unrecoveredFlags10 : 2;

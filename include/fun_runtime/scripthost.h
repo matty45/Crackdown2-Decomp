@@ -5,6 +5,9 @@
 // cNonGameBase embeds this base at +0x1C. The byte flag at +0x18 is initialized
 // to false; its meaning is not established. Slot names remain stand-ins except
 // RetPosition, RetName, RetClass and IsA, whose behavior identifies them.
+// Slot 3 is now called RetScriptPosition (our descriptive name). It is distinct
+// from cNonGameBase's primary RetPosition: the latter forwards to this script
+// interface by default, while physics classes override the primary slot.
 #ifndef FUN_RUNTIME_SCRIPTHOST_H
 #define FUN_RUNTIME_SCRIPTHOST_H
 #include "fun_runtime/safedeletable.h"
@@ -24,7 +27,7 @@ public:
     // constructed by 0x82772828. Concrete overrides return their own registrar.
     virtual const cScriptTypeRegistration *RetScriptTypeRegistration() const;
     virtual void Slot2();
-    virtual Vec3 RetPosition() const;
+    virtual Vec3 RetScriptPosition() const;
     virtual const char *RetName() const;
     virtual void Slot5();
     virtual const cClass &RetClass() const;

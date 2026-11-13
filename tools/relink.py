@@ -36,7 +36,7 @@ several units share one. Functions CD2 does not have are dropped (/OPT:REF); eve
 cd2.py verify runs it on src/middleware/ (zlib, libjpeg, Lua); --self-test changes one word of our code, then of our
 data, and requires exactly that word to differ.
 """
-import collections, hashlib, os, re, shutil, struct, subprocess, sys
+import collections, hashlib, os, re, shutil, struct, subprocess, sys, tempfile
 
 TOOLS = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, TOOLS)
@@ -247,14 +247,13 @@ def locate_sections(src, read, manifest, work):
     """Our plain object of src, and where CD2 holds its sections: {section index: CD2 address} from the manifest's
     functions and the data their resolved references reach, and {name: CD2 address} of every name they use. A table of
     strings nothing located references (zutil's z_errmsg) is a candidate list, settled by settle_tables."""
-    import relocs
-    from verify_src import flags_for, symbol_matches, XDK
+    import buildcache, relocs
+    from verify_src import plain_command, symbol_matches, XDK
     env = dict(os.environ, PATH=BIN + ';' + os.environ['PATH'],
                INCLUDE=os.path.join(XDK, 'include', 'xbox') + ';' + os.path.join(ROOT, 'include'))
     obj = os.path.join(work, 'ours', os.path.splitext(src)[0].replace('/', '_') + '.obj')
     os.makedirs(os.path.dirname(obj), exist_ok=True)
-    r = subprocess.run([os.path.join(BIN, 'cl.exe')] + flags_for(src) + ['/Fo' + obj, os.path.join(ROOT, src)], env=env,
-                       capture_output=True, text=True)
+    r = buildcache.compile(plain_command(src, obj), env)
     if r.returncode:
         sys.exit('%s: compile error\n%s' % (src, r.stdout + r.stderr))
     robj = relocs.Obj(obj)
@@ -573,7 +572,15 @@ def substitute_units(work, files, lay, orig_exe, local_xex, self_test=False):
             fh.write('%s = %s:0x%08X; // type:%s%s%s\n' % (n, sec, a, 'function' if sec == '.text' else 'object',
                                                             ' size:0x%X' % size if size else '',
                                                             ' data:%s' % kind if kind else ''))
-    open(os.path.join(sub, 'config.yml'), 'w').write('object: ../orig/default_patched.xex\nsplits: splits.txt\n'
+    # the split reads its own link to the XEX: jeff writes the extracted image beside the XEX it reads, and the gate and
+    # its self-test split at the same time
+    own_xex = os.path.join(sub, 'default_patched.xex')
+    if not os.path.exists(own_xex):
+        try:
+            os.link(local_xex, own_xex)
+        except OSError:
+            shutil.copy(local_xex, own_xex)
+    open(os.path.join(sub, 'config.yml'), 'w').write('object: default_patched.xex\nsplits: splits.txt\n'
                                                      'symbols: symbols.txt\n')
     out = os.path.join(sub, 'out')
     if os.path.exists(out):
@@ -668,6 +675,22 @@ def plant(p, keep, path, dst, code):
     return None
 
 
+def place(path, make):
+    """Make the file at path unless it is there: make(part) writes it under a name of this process's own, which then
+    moves into place. verify runs the gate and its self-test at once, so the other may have put its copy there first
+    (and hold it open, which Windows refuses to replace): then that one stays."""
+    if os.path.exists(path):
+        return
+    part = '%s.%d' % (path, os.getpid())
+    make(part)
+    try:
+        os.replace(part, path)
+    except PermissionError:
+        if not os.path.exists(path):
+            raise
+        os.remove(part)
+
+
 def main():
     argv = sys.argv[1:]
     substitute = ([x for x in argv[argv.index('--substitute') + 1:] if not x.startswith('--')]
@@ -688,13 +711,17 @@ def main():
         sys.exit('jeff is not built: powershell -File tools\\build_tools.ps1 jeff')
     os.makedirs(os.path.join(work, 'orig'), exist_ok=True)
     local_xex = os.path.join(work, 'orig', 'default_patched.xex')
-    if not os.path.exists(local_xex):
-        shutil.copy(xex, local_xex)
+    place(local_xex, lambda part: shutil.copy(xex, part))
     orig_exe = os.path.join(work, 'orig', 'default_patched.exe')
-    if not os.path.exists(orig_exe):
-        subprocess.run([JEFF, 'xex', 'extract', local_xex], cwd=os.path.join(work, 'orig'), check=True, capture_output=True)
-        produced = [f for f in os.listdir(os.path.join(work, 'orig')) if f.endswith('.exe')]
-        os.replace(os.path.join(work, 'orig', produced[0]), orig_exe)
+
+    def extract(part):
+        own = tempfile.mkdtemp(dir=os.path.join(work, 'orig'))  # jeff writes the image beside the XEX it reads
+        shutil.copy(local_xex, os.path.join(own, 'default_patched.xex'))
+        subprocess.run([JEFF, 'xex', 'extract', 'default_patched.xex'], cwd=own, check=True, capture_output=True)
+        produced = [f for f in os.listdir(own) if f.endswith('.exe')]
+        os.replace(os.path.join(own, produced[0]), part)
+        shutil.rmtree(own, ignore_errors=True)
+    place(orig_exe, extract)
     out = os.path.join(work, 'out')
     lay = debug_layout(orig_exe)
     if substitute is not None:

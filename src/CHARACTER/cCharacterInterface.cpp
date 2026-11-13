@@ -149,4 +149,7 @@ namespace CHARACTER
     // CD2 0x82FADCD0: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cCharacterInterfaceSpawningRegistrar(
         cCharacterInterface::StaticCreateClass(), cCharacterInterface::SpawnFromPrototype);
+    // CD2 0x82FADD70 registers enum object 0x83824204 with table 0x82113E60.
+    static cLODLevelScriptRegistration g_cLODLevelScriptRegistration;
+
 }

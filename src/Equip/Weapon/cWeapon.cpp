@@ -14,12 +14,15 @@
 #include "AI/aiconstants.h"
 #include "Equip/cWeapon.h"
 #include "Equip/cWeaponProjectile.h"
+#include "Equip/cGrenade.h"
 #include "fun_runtime/script_type_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "rws/classfactory.h"
 #include "gom/proto_registrar.h"
 #include "cd2/memory.h"
 #include "rw/rwmem.h"
+#include "fun_runtime/const_script_method.h"
+#include "fun_runtime/pointer_list_impl.h"
 
 namespace Equip
 {
@@ -242,6 +245,29 @@ namespace Equip
         return StaticRetSTATE_Active();
     }
 
+}
+
+// The explicit registrar specialization must be defined in its template's
+// namespace, between the surrounding weapon definitions in CD2 address order.
+namespace Fun_Runtime
+{
+    template <>
+    void cScriptTypeRegistrar<Equip::cWeapon>::RegisterMethods()
+    {
+        RegisterMethod(&Equip::cWeapon::RetCurrentAmmoCount, "RetCurrentAmmoCount");
+        RegisterMethod(&Equip::cWeapon::RetMaxAmmoCount, "RetMaxAmmoCount");
+        RegisterMethod(&Equip::cWeapon::CanReload, "CanReload");
+        RegisterMethod(&Equip::cWeapon::NeedsReload, "NeedsReload");
+        RegisterMethod(&Equip::cWeapon::IsEmpty, "IsEmpty");
+        RegisterMethod(&Equip::cWeapon::IsAmmoLow, "IsAmmoLow");
+        RegisterMethod(&Equip::cWeapon::RetLowAmmoThreshold, "RetLowAmmoThreshold");
+        RegisterMethod(&Equip::cWeapon::RetMaxOptimalRange, "RetMaxOptimalRange");
+        RegisterMethod(&Equip::cWeapon::RetMinOptimalRange, "RetMinOptimalRange");
+    }
+}
+
+namespace Equip
+{
     bool cWeapon::Activate()
     {
         return InitiateAttack();
@@ -451,6 +477,11 @@ namespace Equip
     static Fun_Runtime::cScriptTypeRegistrar<cWeapon> cWeaponScriptRegistrar(
         "cWeapon", "cEquipment");
 
+    const Fun_Runtime::cScriptTypeRegistration *cWeapon::RetScriptTypeRegistration() const
+    {
+        return &cWeaponScriptRegistrar;
+    }
+
     const Fun_Runtime::cClass *cWeaponProjectile::ms_pcWeaponProjectileClass = &cWeaponProjectile::StaticCreateClass();
 
     static Fun_Runtime::cInheritanceRegistrar cWeaponProjectilecEquipmentInheritRegistrar(
@@ -462,4 +493,16 @@ namespace Equip
     // CD2 0x82FCBFB8: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cWeaponProjectileSpawningRegistrar(
         cWeaponProjectile::StaticCreateClass(), cWeaponProjectile::SpawnFromPrototype);
+
+    // cGrenade's inline getters (RuffKing cGrenade.h): CD2 keeps their one copy in this object's text, after its
+    // adjustor thunks (0x8260AAA8, 0x8260AAB0).
+    bool cGrenade::HasDetonated()
+    {
+        return m_bDetonated;
+    }
+
+    bool cGrenade::IsLive()
+    {
+        return m_bLive;
+    }
 }

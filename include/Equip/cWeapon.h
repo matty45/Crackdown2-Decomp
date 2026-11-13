@@ -25,7 +25,7 @@ namespace Equip
         virtual void vf370(); // primary slot 370
         virtual void SetCurrentAmmoCount(unsigned int); // primary slot 371
         virtual void SetCurrentStoredAmmo(unsigned int); // primary slot 372
-        virtual void vf373(); // primary slot 373
+        virtual void SetInfiniteClip(bool); // primary slot 373
         virtual bool IsInfiniteClip() const; // primary slot 374
         virtual void BeginIdle(); // primary slot 375
         virtual void ProcessIdle(); // primary slot 376
@@ -53,7 +53,7 @@ namespace Equip
         virtual bool CanReload() const; // primary slot 392
         virtual bool NeedsReload() const; // primary slot 393
         virtual bool IsEmpty() const; // primary slot 394
-        virtual void vf395(); // primary slot 395
+        virtual bool IsAmmoLow() const; // primary slot 395
         virtual float RetLowAmmoThreshold() const; // primary slot 396
         virtual unsigned int IncrementStoredAmmo(unsigned int); // primary slot 397
         virtual unsigned int DecrementStoredAmmo(unsigned int); // primary slot 398
@@ -186,6 +186,7 @@ namespace Equip
         // CD2's script-host table 0x8211FA38 slot 1 returns this class's registrar.
         virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         unsigned int RetMaxAmmoCount() const;
+        unsigned int RetCurrentAmmoCount() const { return m_nCurrentClipAmmo; }
         // Reference overloads. CD2 cCWWeapon::RetReloadDuration inlines the owner
         // class test and firearm-skill query, defaulting to level one.
         unsigned char RetFirearmSkillLevel(const cNonGameBase *owner) const

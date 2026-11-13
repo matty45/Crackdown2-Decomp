@@ -124,7 +124,9 @@ public:
     virtual void Slot43();
     virtual void Slot44();
     virtual void Slot45();
-    virtual void Slot46();
+    // Reference name/signature; CD2 primary slot 46 returns a position value.
+    // Its default body (0x823CBEA8) forwards to cScriptHost's separate slot 3.
+    virtual Fun_Runtime::Vec3 RetPosition() const;
     virtual void Slot47();
     virtual void Slot48();
     // Slot 49 (the SlotN labels from 33 to 48 are the CD2 slot numbers).

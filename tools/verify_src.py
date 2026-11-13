@@ -96,6 +96,15 @@ XDK = os.environ.get('XDK_DIR') or local_config().get('xdk') or ''
 BIN = os.path.join(XDK, 'bin', 'win32')
 FLAGS = ['/nologo', '/c', '/Ox', '/Ob1', '/Gy', '/GF', '/GR-', '/GS-', '/fp:fast', '/D_XBOX', '/DNDEBUG', '/W3']
 EXPECTED_ENTRY = 0x823BF8C8  # title-update build
+# builds a tool runs at once: CD2_WORKERS, else half the processors (at least 2). `cd2.py verify`, which runs every
+# gate at the same time, sets CD2_WORKERS for them to their share (verify_workers)
+WORKERS = max(1, int(os.environ.get('CD2_WORKERS') or max(2, (os.cpu_count() or 4) // 2)))
+
+
+def verify_workers():
+    """CD2_WORKERS for each of the gates `cd2.py verify` runs at once: as set, else a quarter of the processors (at
+    least 2); about four of them build at the same time"""
+    return int(os.environ.get('CD2_WORKERS') or max(2, (os.cpu_count() or 8) // 4))
 # sections a matched function may be in: ordinary code, and the compiler's own sections for a file's dynamic
 # initializers (.text$yc) and at-exit destructors (.text$yd). Code anywhere else did not come from ordinary source.
 CODE_SECTIONS = ('.text', '.text$yc', '.text$yd')
@@ -110,13 +119,33 @@ FILE_FLAGS = os.path.join(ROOT, 'config', 'file_flags.txt')
 FILE_OPTION = re.compile(r'^(?:/Ob[012]|/O[12]|/Oi|/TP|/fp:(?:precise|fast|strict)|/D[A-Za-z_]\w*(?:=(?:[\w.]+|"\w+\.h"))?|plain)$')
 
 
+_tables = {}
+
+
+def remembered(path, parse):
+    """parse(path), kept per process while the file's size and time stay the same: the gates ask for the flag and
+    waiver tables for every file they check (reading them each time cost minutes per gate)"""
+    try:
+        st = os.stat(path)
+    except OSError:
+        return parse(path)
+    key = (parse.__name__, os.path.abspath(path), st.st_mtime_ns, st.st_size)
+    if key not in _tables:
+        _tables[key] = parse(path)
+    return list(_tables[key])
+
+
 def load_file_flags(path=None):
     """[(repository path or directory ending in /, [options])] from config/file_flags.txt. Raises ValueError on an
     option outside FILE_OPTION or a line without options."""
     path = path or FILE_FLAGS
-    out = []
     if not os.path.exists(path):
-        return out
+        return []
+    return remembered(path, _parse_file_flags)
+
+
+def _parse_file_flags(path):
+    out = []
     for n, line in enumerate(open(path), 1):
         body = line.split('#', 1)[0].split()
         if not body:
@@ -187,9 +216,13 @@ def load_middleware(path=None):
     """[(library directory ending in /, [waived rules])] from config/middleware.txt. Raises ValueError on a directory
     that is not one level below src/middleware/, a rule outside WAIVABLE, or a line without its reason."""
     path = path or MIDDLEWARE
-    out = []
     if not os.path.exists(path):
-        return out
+        return []
+    return remembered(path, _parse_middleware)
+
+
+def _parse_middleware(path):
+    out = []
     for n, line in enumerate(open(path), 1):
         body, _, why = line.partition('#')
         body = body.split()
@@ -247,6 +280,45 @@ def symbol_matches(symbol, name):
     if not name.startswith(symbol):
         return False
     return not (symbol.endswith('@@') and name[len(symbol):len(symbol) + 1] in THUNK_START and is_thunk(name))
+
+
+class ManifestIndex:
+    """The symbols of a manifest's matched entries (those not marked work in progress), indexed for symbol_matches:
+    a symbol names a compiled name only if it is a prefix of it, so naming() looks up the name's prefixes of each
+    length some symbol has instead of testing all of the manifest's symbols (which, for every file's every
+    reference, grew with the square of the manifest)."""
+
+    def __init__(self, manifest):
+        self.by_symbol = {}  # symbol -> [(place in the manifest, file, entry)]
+        for i, (f, e) in enumerate((f, e) for f, entries in manifest['files'].items() for e in entries):
+            if e.get('matching', True):
+                self.by_symbol.setdefault(e['symbol'], []).append((i, f, e))
+        self.lengths = sorted({len(s) for s in self.by_symbol})
+
+    def naming(self, name):
+        """[(file, entry)] of the matched entries whose symbol names the compiled name (symbol_matches), in manifest
+        order"""
+        out = []
+        for k in self.lengths:
+            if k > len(name):
+                break
+            hits = self.by_symbol.get(name[:k])
+            if hits and symbol_matches(name[:k], name):
+                out += hits
+        return [(f, e) for _, f, e in sorted(out, key=lambda h: h[0])]
+
+
+_indexes = []  # [(manifest, its ManifestIndex)], the most recent few
+
+
+def manifest_index(manifest):
+    """The ManifestIndex of a manifest dict, built once per dict (a caller that changes a manifest makes a new one)"""
+    for m, index in _indexes:
+        if m is manifest:
+            return index
+    index = ManifestIndex(manifest)
+    _indexes[:] = [(manifest, index)] + _indexes[:7]
+    return index
 
 
 _undname = None
@@ -356,13 +428,20 @@ def check_toolchain():
 IMAGE_SHA1 = '0C3091FF5BE77B8FC78D6474229193B598F6CC36'
 
 
+def plain_command(src, obj, path=None, extra=()):
+    """The command of the plain build of repository file src into obj, or of a modified copy of it at path: the same
+    for every gate, so that they share its cached object. /I names src's own folder, where a copy's quoted #includes
+    must still find the headers beside src (for src itself the compiler looks there first anyway)."""
+    return ([os.path.join(BIN, 'cl.exe')] + flags_for(src) + ['/I' + os.path.dirname(os.path.join(ROOT, src))] + list(extra) +
+            ['/Fo' + obj, path or os.path.join(ROOT, src)])
+
+
 def compile_z7(src, out_dir, env, path=None):
     """A /Z7 build of src (or a modified copy at path) in out_dir, beside the gate's own (whose flags stay as pinned;
     /Z7 adds debug records only), for the sizes of its data (tools/cvtypes.py). Returns its path; exits on a compile
     error, as the gate's own build of the same source would have failed too."""
     obj = os.path.join(out_dir, os.path.basename(src) + '.z7.obj')
-    r = buildcache.compile([os.path.join(BIN, 'cl.exe')] + flags_for(src) + ['/Z7', '/I' + os.path.dirname(os.path.join(ROOT, src)),
-                            '/Fo' + obj, path or os.path.join(ROOT, src)], env, run=run_compiler)
+    r = buildcache.compile(plain_command(src, obj, path, ['/Z7']), env, run=run_compiler)
     if r.returncode:
         raise SystemExit('%s: compile error in the /Z7 build\n%s' % (src, r.stdout + r.stderr))
     return obj
@@ -548,6 +627,41 @@ def self_test(read, env):
         caught = bool(relocs.check_consistency(entries, read, {}, known))
         ok &= caught
         print('self-test %-32s %s' % (what, 'caught' if caught else 'NOT CAUGHT'))
+    # 5. one file's internal datum at two addresses (relocs.identical_copies, only for relocs.LTCG_SHARED_COPIES):
+    # CD2's g_GlobalConstants copies at 0x830ACBD8 (every IsA reads it, LTCG having inlined cClass::HasAncestor from
+    # one object) and 0x830ADF6C (cLongDistancePropManager's own) hold the same 0x2C bytes; a copy that differs, two
+    # identical copies neither of them the shared one, a third copy, an unlisted name, a datum without an exact size and
+    # a function are still caught
+    gc = '?g_GlobalConstants@Fun_Runtime@@3UtGlobalConstants@1@A'
+    other = '?fOther@@3UtGlobalConstants@Fun_Runtime@@A'
+
+    class _D(_O):
+        internal = {gc, other, fn}
+
+        def __init__(self, size, exact=True):
+            self.size, self.exact = size, exact
+
+        def data_symbol(self, name):
+            return dict(data=None, size=self.size, exact=self.exact, comdat=False, relocations=[]) \
+                if name in (gc, other) else None
+    pat = read(0x830ACBD8, 0x2C)
+    third = next(a for a in range(0x83080000, 0x830AC000, 4) if read(a, 0x2C) == pat)  # another object's copy
+    for what, name, obj, addrs, want in (
+            ('static, identical copies', gc, _D(0x2C), (0x830ACBD8, 0x830ADF6C), False),
+            ('static, copies that differ', gc, _D(0x2C), (0x830ACBD8, 0x830ACBDC), True),
+            ('static, not the shared copy', gc, _D(0x2C), (third, 0x830ADF6C), True),
+            ('static, three copies', gc, _D(0x2C), (0x830ACBD8, 0x830ADF6C, third), True),
+            ('unlisted static, same bytes', other, _D(0x2C), (0x830ACBD8, 0x830ADF6C), True),
+            ('static of unknown size', gc, _D(0x2C, exact=False), (0x830ACBD8, 0x830ADF6C), True)):
+        entries = [('a', 'f%d' % k, name, x, 'data', 0, obj) for k, x in enumerate(addrs)]
+        got = bool(relocs.check_consistency(entries, read, {}, {}))
+        ok &= got == want
+        print('self-test %-32s %s' % (what, ('caught' if got else 'NOT CAUGHT') if want else
+                                       ('WRONGLY REJECTED' if got else 'accepted')))
+    entries = [('a', 'f', fn, 0x830ACBD8, 'address', 0, _D(0x2C)), ('a', 'g', fn, 0x830ADF6C, 'address', 0, _D(0x2C))]
+    caught = bool(relocs.check_consistency(entries, read, {}, {}))
+    ok &= caught
+    print('self-test %-32s %s' % ('per-file function at two addresses', 'caught' if caught else 'NOT CAUGHT'))
     data_ok = data_self_test(read, env, tmp)
     owner_ok = ownership_self_test(read, env, tmp)
     return cache_self_test(env, tmp) and owner_ok and data_ok and ok
@@ -700,8 +814,7 @@ def file_checks(src, path, read, env, d, splits=None):
     manifest = json.load(open(os.path.join(ROOT, 'config', 'matched_functions.json')))
     os.makedirs(d, exist_ok=True)
     obj = os.path.join(d, os.path.basename(src) + '.obj')
-    r = buildcache.compile([os.path.join(BIN, 'cl.exe')] + flags_for(src) + ['/I' + os.path.dirname(os.path.join(ROOT, src)),
-                            '/Fo' + obj, path or os.path.join(ROOT, src)], env)
+    r = buildcache.compile(plain_command(src, obj, path), env)
     if r.returncode:
         return set(), ['compile error'], []
     compiled = list(coff.functions(obj))
@@ -794,12 +907,12 @@ def plain_gate(read, env, out=print):
         d = os.path.join(tmp, re.sub(r'\W', '_', os.path.splitext(src)[0]))
         os.makedirs(d)
         obj = os.path.join(d, os.path.basename(src) + '.obj')
-        r = buildcache.compile([os.path.join(BIN, 'cl.exe')] + flags_for(src) + ['/Fo' + obj, os.path.join(ROOT, src)], env)
+        r = buildcache.compile(plain_command(src, obj), env)
         if r.returncode:
             return None, r.stdout + r.stderr
         return obj, compile_sizes(src, d, env)
     import concurrent.futures
-    with concurrent.futures.ThreadPoolExecutor(max_workers=max(1, int(os.environ.get('CD2_WORKERS', 2)))) as pool:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=WORKERS) as pool:
         builds = dict(zip(manifest['files'], pool.map(build, manifest['files'])))
     for src, funcs in manifest['files'].items():
         obj, sizes = builds[src]

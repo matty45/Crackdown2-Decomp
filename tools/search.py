@@ -68,10 +68,11 @@ def demangle_name(symbol):
     raise ValueError('cannot read a function name from %r (operators and compiler-generated functions are not searched)' % symbol)
 
 
-def find_body(text, symbol):
-    """(start, end) offsets of the body of the function defined in text, between its braces (exclusive)."""
+def find_body(text, symbol, toks=None):
+    """(start, end) offsets of the body of the function defined in text, between its braces (exclusive). toks: lex(text),
+    when the caller looks up several functions in the same text."""
     name, scope = demangle_name(symbol)
-    toks = lex(text)
+    toks = lex(text) if toks is None else toks
     cands = []
     for i, (k, v, s, e) in enumerate(toks):
         nm = v

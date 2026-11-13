@@ -51,6 +51,11 @@ namespace unknown
         return new cSucknBlowGunPrototype(packet);
     }
 
+    bool cSucknBlowGun::InitiateReload()
+    {
+        return cWeapon::InitiateReload();
+    }
+
     const char *cSucknBlowGun::RetClassName() const
     {
         return "cSucknBlowGun";

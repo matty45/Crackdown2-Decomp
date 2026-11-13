@@ -40,6 +40,10 @@ namespace AI
         virtual void OnEnterMissionState(unsigned char); // cRegisteredClass 31: 0x82472670
         virtual void OnEnterGlobalMissionState(AI::cMission::etGlobalMissionState); // cRegisteredClass 33: 0x824717A0
         virtual void GetSaveStateForMissionState(unsigned char &,unsigned char &); // cRegisteredClass 36: 0x82472618
+    protected:
+        // Size 0x530 from CD2's registrar (MakeNew allocates it); the fields after cMission are not modelled.
+        unsigned int m_unmodelled3C0[(0x530 - 0x3C0) / 4];
+        CD2_LAYOUT_CHECKS(cBreachHoleMission, CD2_SIZE(cBreachHoleMission, 0x530))
     };
 }
 

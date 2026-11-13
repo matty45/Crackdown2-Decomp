@@ -1,5 +1,5 @@
 // STAND-IN: descriptive class name is ours. CD2 table 0x820FB0FC has the shared enum destructor
-// 0x823EC238 and slot-1 getter 0x823E7998 returning "eEnemyStatus". Instance storage remains unrecovered.
+// 0x823EC238 and slot-1 getter 0x823E7998 returning "eEnemyStatus". Four-byte instance: recovered enum registrar base only.
 #ifndef AI_CENEMYSTATUSSCRIPTREGISTRATION_H
 #define AI_CENEMYSTATUSSCRIPTREGISTRATION_H
 
@@ -12,6 +12,7 @@ namespace AI
     public:
         virtual const char *RetName() const;
         virtual void RegisterValues(lua_State *);
+        CD2_LAYOUT_CHECKS(cEnemyStatusScriptRegistration, CD2_SIZE(cEnemyStatusScriptRegistration, 4))
     };
 }
 

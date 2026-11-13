@@ -21,12 +21,15 @@ namespace AI
             __forceinline cSupplyValvePrototype(const RWS::CAttributePacket &packet)
                 : Prop::cSpinningProp::cSpinningPropPrototype(packet) {}
             virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
+            virtual void HandleAttributes(const RWS::CAttributePacket &);
+            int m_nValveBreakOffVFXID; // 0x530
+            unsigned int m_nInteractionAnimID; // 0x534
 
         private:
-            unsigned char m_unmodelled530[0x540 - 0x530];
-
             CD2_LAYOUT_CHECKS(cSupplyValvePrototype,
-                CD2_SIZE(cSupplyValvePrototype, 0x540))
+                CD2_SIZE(cSupplyValvePrototype, 0x540)
+                CD2_OFFSET(cSupplyValvePrototype, m_nValveBreakOffVFXID, 0x530)
+                CD2_OFFSET(cSupplyValvePrototype, m_nInteractionAnimID, 0x534))
         };
 
         // CD2 spawning initializer 0x82F866D0 names placement factory 0x82457c20.
@@ -48,11 +51,16 @@ namespace AI
         virtual void vf82(); // 82: 0x82457FE0
         virtual void vf83(); // 83: 0x824581A0
         virtual void vf84(); // 84: 0x82458248
-        virtual void vf335(); // 335: 0x82458618
+        virtual unsigned int RetInteractionAnimID() const; // 335: 0x82458618
 
     public:
         // CD2 table 0x82102438 differs from cSpinningProp at these inherited slots.
         virtual Fun_Runtime::RetVal Init(const GOM::cSpawner *); // slot 18: 0x82457ED0
+
+    protected:
+        // CD2 primary table 0x82102438, slot 357: return false at 0x827E56A8,
+        // overriding cSpinningProp's return-true implementation at 0x8288FB78.
+        virtual bool CanGoToInitialState() const { return false; }
     };
 }
 

@@ -35,6 +35,10 @@ namespace AI
         virtual void OnLeaveGlobalMissionState(AI::cMission::etGlobalMissionState); // cRegisteredClass 32: 0x82475360
         virtual void OnEnterGlobalMissionState(AI::cMission::etGlobalMissionState); // cRegisteredClass 33: 0x82475298
         virtual void GetSaveStateForMissionState(unsigned char &,unsigned char &); // cRegisteredClass 36: 0x8233F690
+    protected:
+        // Size 0x410 from CD2's registrar (MakeNew allocates it); the fields after cMission are not modelled.
+        unsigned int m_unmodelled3C0[(0x410 - 0x3C0) / 4];
+        CD2_LAYOUT_CHECKS(cCellStrongholdMission, CD2_SIZE(cCellStrongholdMission, 0x410))
     };
 }
 

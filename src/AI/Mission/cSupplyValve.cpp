@@ -23,6 +23,8 @@
 #include "rws/classfactory.h"
 #include "AI/cSupplyValve.h"
 #include "cd2/memory.h"
+#include "VFX/cParticleEffectManager.h"
+#include "rw/rwmem.h"
 
 namespace AI
 {
@@ -47,6 +49,11 @@ namespace AI
         return *cSupplyValveClass;
     }
 
+    Fun_Runtime::RetVal cSupplyValve::Init(const GOM::cSpawner *spawner)
+    {
+        return Prop::cSpinningProp::Init(spawner);
+    }
+
     const Fun_Runtime::cClass *cSupplyValve::ms_pcSupplyValveClass = &cSupplyValve::StaticCreateClass();
 
     static RWS::CClassFactory::CRegistrar cSupplyValveRegistrar(
@@ -64,4 +71,26 @@ namespace AI
     {
         return Ret_OK;
     }
+
+    void cSupplyValve::cSupplyValvePrototype::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cSpinningPropPrototype::HandleAttributes(packet);
+        for (RWS::CAttributeCommandIterator it(packet, "cSupplyValve"); !it.IsFinished(); ++it)
+        {
+            switch (it->GetCommandId())
+            {
+            case 0:
+                m_nValveBreakOffVFXID = VFX::g_pParticleEffectManager->RetEffectId(it->GetAs_char_ptr());
+                break;
+            case 1:
+                m_nInteractionAnimID = rwSwap32(it->GetAs_UInt32());
+                break;
+            }
+        }
+    }
+    unsigned int cSupplyValve::RetInteractionAnimID() const
+    {
+        return static_cast<cSupplyValvePrototype *>(m_pPrototype)->m_nInteractionAnimID;
+    }
+
 }

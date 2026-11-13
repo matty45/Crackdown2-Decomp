@@ -36,6 +36,16 @@ namespace AI
         virtual void OnEnterMissionState(unsigned char); // cRegisteredClass 31: 0x8246CA40
         virtual void OnEnterGlobalMissionState(AI::cMission::etGlobalMissionState); // cRegisteredClass 33: 0x8246C248
         virtual void GetSaveStateForMissionState(unsigned char &,unsigned char &); // cRegisteredClass 36: 0x8246C430
+        // RuffKing's first cFinalMission fields (cFinalMission.h) at CD2's offsets: OnChildMissionCompleted (0x8246C238)
+        // counts 0x3C5. Size 0xC50 from CD2's registrar; RuffKing's class is smaller, so the rest is not modelled.
+        void *m_pActivationZone; // RuffKing: cHeliCallZone *
+        unsigned char m_nNumChildMissions;
+        unsigned char m_nNumChildMissionsCompleted;
+        unsigned char m_unmodelled3C6[2];
+        unsigned int m_unmodelled3C8[(0xC50 - 0x3C8) / 4];
+        CD2_LAYOUT_CHECKS(cFinalMission,
+            CD2_OFFSET(cFinalMission, m_nNumChildMissionsCompleted, 0x3C5)
+            CD2_SIZE(cFinalMission, 0xC50))
     };
 }
 
