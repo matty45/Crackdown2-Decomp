@@ -52,7 +52,7 @@ namespace Prop
         virtual void vf92(); // 92: 0x82732A00
         virtual void vf147(); // 147: 0x82730BC0
         virtual void vf148(); // 148: 0x82730BB8
-        virtual void vf156(); // 156: 0x8288F788
+        virtual hkCollidableQualityType RetCollidableQuality(hkMotion::MotionType); // 156: 0x8288F788
         virtual void EnterGhostState(); // 271: 0x82732200
         virtual void vf272(); // 272: 0x827322C0
         virtual void vf288(); // 288: 0x82732A18

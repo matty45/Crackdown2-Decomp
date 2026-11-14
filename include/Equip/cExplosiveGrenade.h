@@ -62,7 +62,7 @@ namespace Equip
         // CD2 table 0x82015480 differs from cGrenade at these inherited slots.
         virtual Fun_Runtime::RetVal Term(); // slot 6: 0x8229DF90
         virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // slot 18: 0x8261D5C0
-        virtual void vf406(); // slot 406: 0x8261D628
+        virtual void Launched(cGameBase *pAttacker); // slot 406: 0x8261D628
         virtual void vf408(); // slot 408: 0x8261D490
         virtual void vf415(); // slot 415: 0x8261DAD0
         virtual void vf416(); // slot 416: 0x8261D6A8

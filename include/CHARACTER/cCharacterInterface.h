@@ -22,6 +22,8 @@
 
 #include "gom/non_game_base.h"
 #include "gom/object_prototype.h"
+#include "gom/manager.h"
+#include "Equip/cEquipment.h"
 #include "fun_runtime/safedeletable.h"
 #include "fun_runtime/safedeletablepointer.h"
 #include "CHARACTER/cCharacter.h"
@@ -90,6 +92,21 @@ namespace CHARACTER
         Equip::cEquipment *RetEquipmentOfType(unsigned int type);
         Equip::cEquipment *RetRealCurrentPrimaryEquipment();
         bool IsEquipmentTypeInInventory(unsigned int type);
+        // RuffKing's signatures. The prototype form is CD2 0x8254F2F8 (outside the scaffolded files); the name form is
+        // expanded by CD2's callers (AddDefaultEquipmentByName 0x8254E9D0, cCharacterEntityIF's AddEquipment
+        // 0x823EC070), so it is inline here.
+        Equip::cEquipment *AddEquipment(GOM::cObjectPrototype *pPrototype, bool bAutoEquip, bool bSetAmmo,
+            unsigned int nAmmoCount, bool bInfiniteAmmo);
+        Equip::cEquipment *AddEquipment(const char *sProtoName, bool bAutoEquip, bool bSetAmmo, unsigned int nAmmoCount,
+            bool bInfiniteAmmo)
+        {
+            GOM::cObjectPrototype *pPrototype = GOM::FindPrototypeByName(sProtoName, Equip::cEquipment::ms_pcEquipmentClass);
+            if (pPrototype)
+                return AddEquipment(pPrototype, bAutoEquip, bSetAmmo, nAmmoCount, bInfiniteAmmo);
+            return 0;
+        }
+        // CD2 script method "AddDefaultEquipmentByName" (0x8254E9D0).
+        Equip::cEquipment *AddDefaultEquipmentByName(const char *sProtoName, bool bAutoEquip);
         // CD2 0x823E7778: shared character-interface override, outside the current source split.
         virtual bool IsAlive() const { return m_bAlive; }
 

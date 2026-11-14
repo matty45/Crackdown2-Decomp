@@ -73,8 +73,18 @@ end, in one line, and is removed when the function matches. History belongs in g
   callback interfaces retain their inherited tables; the other interfaces get derived tables. Reuse the shared
   headers rather than adding flat padding or duplicate stand-ins. cFlocket's former cPoly420 is the same
   cPositionalProxy and also remains exact using that shared type.
+- **The land-vehicle chain declares every slot CD2 has.** CD2's primary tables: cVehicle 442, cLandVehicle 484,
+  cWheelGroup 489, cCar 495 (cAgencyCar/cAgencySports 495, cAgencyTank 497). Each class header lists, from its
+  constructor's tables, every slot whose address differs from its base's table (overrides under the base's names, new
+  slots as `vfN`), primary and secondary. With them a derived constructor emits a table the data checks accept:
+  cAgencySports's constructor (0x826ED3E8) brought its deleting destructor and 12 adjustor thunks EXACT in both builds.
+  A class whose destructor slot holds cCar's copy (0x826FCDD8; cAgencyCar, cAgencyBuggy, cAgencySUV, cAgencyTank)
+  declares no destructor. Empty and constant-returning slots shared program-wide (0x82580578, 0x8288FB78, 0x827E56A8,
+  0x828D83F8, 0x82457958) need their `vfN` names in `config/symbol_aliases.txt`.
 
 ## Codegen idioms
+- **A parent-walk loop can come from tail-recursive fallback.** `cAnimationProfile::RetSpecificAnimationProfile` (0x824E1090) checks its own slot, then delegates to the parent's const overload. The compiler hoists the handler index and turns recursion into CD2's 16-instruction loop, exact in both modes. An explicit while loop with a cached result emits a 15-instruction conditional return instead; re-reading the slot at its final return emits 18 instructions. Preserve the recursive source rather than trying to force its loop's registers.
+- **Build a typed array range from its saved begin after setup calls.** In ORB::cSkillPickupManager construction (0x82756238), spelling the end as the member array plus its count hoists the adjacent random-generator address across five calls and saves an extra register. Keeping the array begin for memset, then creating a separate iterator and end from that begin after the calls, reproduces the target without changing the operations: 56/56 words in plain and LTCG builds. Reusing the saved begin as the iterator instead removes a move that CD2 retains.
 - **Enum registration objects keep the virtual Lua ABI visible to LTCG.** Character-state registration
   (0x82540308) is 22/22 words in a plain build when only the method exists, but LTCG removes unused `this`
   and moves `lua_State*` from r4 to r3. CD2 initializer 0x82FACB88 calls the shared four-byte registrar
@@ -136,6 +146,13 @@ end, in one line, and is removed when the function matches. History belongs in g
   initialization sequence and makes the factory EXACT.
 - **LTCG can remove unused `this` without a live vtable.** cTrafficLight::IsA was plain EXACT but 21/23 under LTCG: its class argument moved from r4 to r3. Reconstructing the actual destructor and its active-list unlinking emitted the class vtable and restored 23/23 EXACT without changing IsA. A descriptor initializer alone did not fix it.
 - **Default string construction includes the allocator subobject.** In cLoadingInfo's factory, a hand-modelled small-string buffer reproduced every store but lost one object-address calculation. Using the real `std::basic_string` base with the shared `Fun_Runtime::cAllocator` restored that instruction and checked EXACT; keep the library representation rather than adding a temporary to mimic it.
+- **String-attribute assignment and the LTCG assign specialization.** `m_strName = it->GetAs_char_ptr();` (the
+  implicit `cString(const char *)` conversion) addresses the temporary through its stack slot, as CD2 does;
+  `m_strName = Fun_Runtime::cString(it->GetAs_char_ptr())` passes the constructor's returned pointer instead (95.7% at
+  cAmbienceZone::HandleAttributes, 0x8280FA50). The single-file LTCG model then sees the `basic_string::assign(const
+  basic_string &, size_t, size_t)` template body and specializes away its 0/npos arguments (14/70 words), where CD2's
+  shared copy (wide 0x82438418, narrow 0x82438A70) keeps all three. Declaring the instantiation `extern template` in
+  the source file (as for the vector reserve in cRopes.cpp) gives EXACT in both builds (cAmbienceZone, cVOAZone).
 - **A typed safe-pointer assignment can create a temporary.** The reference `cSafeDeletablePointer<T>` has a
   converting `T *` constructor and copy assignment, with no raw-pointer assignment overload. Thus `pAttacker = 0`
   in `AIDamageCache::Flush` constructs, assigns and destroys a temporary. The real `cLinkedListItem` base puts its
@@ -222,6 +239,14 @@ end, in one line, and is removed when the function matches. History belongs in g
   stores) and define that one function; the rest come with it. A/B: cLift with `~cLift() {}` on cPrismaticProp took
   16 functions to EXACT. A base whose destructor lies outside its file's range (order-list region) can still define
   it in its own file to emit the vtable; claim only the in-range functions.
+- **Inline or out-of-line destructor: read CD2's deleting destructor.** When CD2's `??_G` contains the destructor's
+  body (vptr stores, member and base destructors) and the class has no separate `??1`, the destructor is inline in the
+  header, and only a function that installs the vtable emits the `??_G` (an inline constructor in MakeNew); an
+  out-of-line `X::~X() {}` gives a `??_G` that calls a `??1` instead, in plain and LTCG builds. When CD2's `??_G` only
+  calls a `??1` in the same file, define the destructor out of line. A/B on cDocksMission (0x824745D8): out-of-line
+  13.9%; inline destructor plus MakeNew's inline RuffKing constructor EXACT, with IsA and five adjustor thunks.
+  `check` only reports the thunks once claimed: their names are `??_E<class>@<ns>@@W<offset>@` (offset in MSVC's
+  hex letters, 0x248 = `CEI`), `?RetClass@...@@WBA@` and `?IsA@...@@WBA@` for the registered-class copy at +0x10.
 - **The vfptr slot takes the class's alignment.** In a 16-byte-aligned class (a Vec3 member) the first field after
   the vptr is at +0x10, as RuffKing's offsets show (cRefractorBeam's m_pProfile); no padding member is needed.
 - **An implicit destructor can leave no deleting destructor of its own.** cClusterGrenade declares none, so its
@@ -317,6 +342,22 @@ end, in one line, and is removed when the function matches. History belongs in g
   in two 64-bit registers (`ld r4 / ld r5`).
 - String-id hash (inlined `GetStringID`): `int mult = <chain>; int id = 0; for (char c = *s; c != 0; c = *++s)
   id = id * mult + c;` with `mult` declared before `id`.
+- **A chain of early returns versus one `&&` return.** CD2's cVehicle::IsOkToInteract (0x826D6FC8) sends every failed
+  test to one shared `li r11,0; clrlwi r3` tail: that is `return a() && b() && !c() ...;`. Writing the same tests as
+  `if (!a()) return false;` gives each its own epilogue (21.8%). A result variable initialised to `false` and set
+  inside the `if` keeps the 0 in a saved register across the calls (`li r30,0` in the prologue, `mr r3,r30` at the
+  end): cHelicopter::IsOkToInteract (0x826BDEB0) is EXACT only in that form (3.8% with an early `return !x();`).
+  The third shape, `if (a || b || c) return true; return false;`, branches every success to one `li r3,1; blr` and
+  converts the last test in place (`li r3,0; cmplwi; beqlr`): cLandVehicle::IsFunctionallyDamaged (0x826C25D8) is
+  EXACT that way, 70% as `return a || b || c;`.
+- **Helpers CD2 inlines into several files, with no out-of-line copy anywhere,** are header inlines here
+  (cVehicle's IsSufficientlyInWater, IsSeatDoorLocked and RetVehicleSeat, cDynamicBody's IsInWater; RuffKing, built
+  -Ob1, has them out of line). The `&&` form of IsSufficientlyInWater gives CD2's `li 1 / li 0` pair; a flag set in
+  an `if` adds a `li 0` up front.
+- **An override that shares its name with a new overload in the same class moves the overload.** cLandVehicle
+  overrides cBody's `CustomiseShape(hkShape **)` (slot 151) and adds `CustomiseShape(hkShape **, cLandVehicleData *)`
+  (slot 460). With the override declared first, MSVC puts the new overload at the head of the class's new slots (442)
+  and shifts the rest; declared after the overload, both land where CD2 has them (0x826C79C8 calls 0x730, slot 460).
 
 ## Patterns by kind of function
 - **Header constants (the common initializer sequence).** About a thousand objects open their initializer run with
@@ -592,8 +633,35 @@ Middleware with published source lives in `src/middleware/<library>/` (each with
   `cl /d1reportSingleClassLayout<Class>` prints the layout and every vtable, including thunks.
 - **Try source shapes systematically** with `cd2.py search`, or `tools/sweep.py <default.exe> <spec.py>` for named
   variants (example specs in `tools/research/compiler_re/sweeps/`).
+- **Check a class's whole override set against CD2's table before trusting its header.** Several vehicle-chain
+  headers carried override blocks generated from the wrong tables (cDynamicBody's from cProp's and cVehicle's,
+  cVehicle's from cHelicopter's and cWeaponisedHelicopter's; their address comments were wrong too). Compute the
+  slots where CD2's table differs from the parent's (CD2 IDB: cNonGameBase 0x8212CDC0, cGameBase 0x8212CA20, cBody
+  0x8200C938, cDynamicBody 0x8200D058, cNetDynamicBody 0x82131E80, cVehicle 0x82015B40, cHelicopter 0x820168E8) and
+  compare them with the slots `/d1reportSingleClassLayout<Class>` shows as the class's own. A wrong override stays
+  invisible until a derived constructor emits the table; then it is WRONG DATA. Slot ranges of that chain:
+  cNonGameBase 0..67, cGameBase 68..140, cBody 141..226, cDynamicBody 227..303, cNetDynamicBody 304..313,
+  cVehicle 314..441.
+- **Renaming a placeholder virtual also renames its alias.** `config/symbol_aliases.txt` lists mangled names
+  (`?vf304@cEquipment@Equip@@UAAXXZ`); after a rename the old spelling no longer exists and the data check reports
+  the shared body "referenced under several names". Respell the alias in the same change, and rename only within
+  the hierarchy that owns the slot (cCharacter's or cGrenade's `vf418` is another class's slot 418).
 
 ## Open functions
+- `cPulseRiflePrototype::HandleAttributes` (0x8260FFA8): typed profile, double tan and half-angle conversion give 321/323 LTCG words. The comparison uses plain switch offsets 0x8C..0xC8 even though the LTCG pool anchor shifts the table to 0x90..0xCC; the unchanged comparison API with those actual offsets gives 323/323. Official check remains nonexact, so the body and claim were removed pending a maintainer tooling fix.
+- `cPulseRiflePrototype` constructor (0x8260FEA8): whole-profile memset followed by typed defaults and one shared double-tan result gives 12/63 LTCG words; pool/register scheduling remains different. Probe removed; the CD2-evidenced profile layout stays.
+- `cAnimationProfile::RetSpecificAnimationProfile` mutable overload (0x824E10D0): CD2 expands two profile checks before calling the const overload. Direct delegation, explicit const-parent fallback, inline and forceinline forms retain a shorter tail-branch sequence. Probe removed; the const recursive overload at 0x824E1090 is exact independently.
+- Animation sequence-map construction (0x824E1288, cAnimationProfile.cpp): a natural out-of-line cMap constructor calls the SDK tree's _Init instead of expanding its 35 target instructions. Its body/claim were removed; the declaration-only wrapper preserves the independently exact specific-profile constructor and factory.
+- `std::vector<float, cAllocator<float> >::resize` (0x8277F5B8, cSplineController.cpp): one-argument SDK instantiation retains a 12-byte forwarder to the two-argument form (152 bytes); CD2 instead has a 160-byte zero-default expansion. Public float copy/copy_backward/fill_n helpers match independently; resize probe removed pending the original inlining context.
+- `ORB::cSkillPickupProfile` constructor (0x82756D70) and deleting wrapper (0x82756E88): checked full field layout/default constants; initializer-list versus body assignments and Vec3::Set leave LTCG pool/register differences. Inline singleton-clearing destruction reaches 17/26 words in both modes; forceinline does not change it, while an out-of-line body adds an absent call. Probes removed.
+
+- `cAgressiveResponsePilotBehaviour::IsA` (0x824D0BA0): the descriptor query is plain EXACT, but LTCG removes unused this (21/23 words). The placement factory calls the out-of-line constructor, so it does not emit a live vtable; probe removed pending the complete pilot interfaces/layout.
+
+- `cWaterProfile` factory/attribute handler (0x82697560/0x82697740): typed 0x2C water settings and case order 0..4,6..8,5,9,10 give 216/219 plain handler words; LTCG hoists its shared float pool into an extra saved register. The expanded cWave::Setup also reads another object's g_GlobalConstants. Factory keeps the allocation pointer across its base constructor, adding five instructions; probes removed. Its inline empty destructor and design-build override preserve the existing IsA's virtual ABI (23/23 words in both modes).
+
+- `cMission::IsA` (0x82458DA8): the shared class-bitset test is plain EXACT but LTCG removes the unused this parameter (21/23 words). The out-of-line-constructor factory does not emit its vtable; probe removed pending real construction/destruction.
+
+- `BillboardProfile` factory/destructor (0x829128E0/0x82912A10): three typed vectors, reserve(9) on the first two and XMemSet of the strength-level array give a plain-EXACT factory; LTCG gives 16/52 words. Destructor singleton clearing leaves four scheduled stores/moves different (35/39 words); probes removed.
 
 - `cCharacterGlobalDlcProfile` factory/deleting wrapper (0x82552490/0x82552590): reference field block matches CD2's initialized offsets and size 0xA8. Literal defaults and a reference-named SetDefaults helper leave constant-hoisting/store-order differences (best 26/59 LTCG words); inline versus out-of-class forced-inline singleton-clearing destruction both give 17/26 words. Probes removed; typed layout retained.
 
@@ -604,7 +672,6 @@ Middleware with published source lives in `src/middleware/<library>/` (each with
 - `cGameDamageProfile::HandleAttributes` (0x825560A0): four float cases and creation-packet test agree, but shared GUID registration passes handler/GUID/object instead of CD2's GUID/object-reference insertion at 0x82886380 followed by m_GUID assignment (112/130 words). Requested the shared inline operation from its header owner; probe removed.
 
 - `cExplosivesSkillProfile::MakeNew` (0x827530D0): typed shared base/string/event layout gives 38/48 words with forced-inline construction; initializer-list versus body assignment is identical. CD2 stores the primary vptr through the base constructor's returned pointer before the secondary tables; the current compiler schedules that store through the saved object pointer. Ordinary inline leaves a constructor call. Probe removed.
-- `cExplosivesSkillProfile::HandleAttributes` (0x827532C0): the typed two-case handler is plain EXACT, but LTCG specializes the wide-string assign call by removing its default offset/count arguments, losing the preserved -1 register and changing the frame (14/78 words). Native float conversion and string/event offsets agree. Probe removed.
 
 - `cFaceTargetScriptRegistration::RegisterValues` (0x823EEF80): recovered keys and values 0, 30, 90, 181; CD2 anchors its float reads at 0x820F7680, outside the current LTCG pool model. Literal source loses the preserved base register; probe removed, unpromoted.
 
@@ -1014,6 +1081,23 @@ One line each: what is ruled out. Remove the line when the function matches.
   (generator at 0x838389A0). Its default initializer 0x82FCB930 and empty cleanup 0x8303F358 match with the shared
   cRandGen, in the source's original initializer order immediately after the script registrar.
 
+- `cCityGliderMission::MakeNew` (0x824897A0): the inline RuffKing constructor (singleton store, two XMemSet calls,
+  three waypoint vectors) is 49/56 words in plain and LTCG; only the singleton's `lis` is scheduled after the first
+  vptr store instead of with the vptr `lis` group, and `search` finds nothing. Its deleting destructor (0x824898F8),
+  HandleAttributes (0x824899B0) and five thunks (0x82489C08..0x82489C30) lie in cPebbleDashMission.cpp's split range
+  but belong to this object (split fix for the next sync point).
+- cCellStrongholdMission's five thunks (0x82475600..0x82475620) lie in cTacticalObjective.cpp's split range.
+- `cAgencyBuggy::MakeNew` (0x826E98D0): RuffKing's cAgencyBuggyPrototype is modelled (0x4C0/0x540/0x544, size 0x550);
+  CD2 zeroes the 128-byte suspension block with an inline 16-doubleword `stdu` loop, but value-initialisation and a
+  body memset both compile to a memset call here (36%).
+- `cCellStrongholdMission::Update` (0x82475148): RuffKing's body (early return when complete, then a two-case switch)
+  gives every instruction, but CD2 keeps m_fResetTimer and m_fCurrResetTime in f9/f10 across the call to
+  RWS::Time::RetDeltaTimeSecs (0x827671D0): whole-program LTCG knows the callee leaves them alone; the single-file
+  models reload them (30.6% plain and LTCG). Body removed; the declaration stays for TickUpdate.
+- cLandVehicle's RemoveVehicleLights (0x826C2288) and CanActivateVehicleLights (0x826C2A90) inline functions CD2 also
+  keeps out of line (cVehicle::RemoveVehicleLight with the light manager's TermOccludedLight losing its `this`;
+  cVehicle::RetDriver 0x823CC0E8): cross-module LTCG inlining the single-file models cannot reproduce.
+
 ### Typed script-method registration and shared pointer lists
 
 Weapon registrar `0x826098C0` passes native eight-byte const-member pointers to
@@ -1036,3 +1120,11 @@ The descriptor constructor initializes the name in its base and the member point
 in its derived initializer list. Moving the name assignment into the derived
 constructor body reorders two stores: both 96-byte factories score 22/24 words.
 Base/member initialization yields 24/24 in both plain and LTCG checks.
+- `cAmbienceZone::OnPlayerEnter/OnPlayerLeave` (0x8280FB78/0x8280FC20): Burn's `Audio::ScopedProfile` (GameAudioUtil.h, counter 0x838015E0) brackets the game object's static PostEnterEvent/PostExitEvent (0x82838718/0x828389E8) after the arguments are evaluated. CD2 stores the decremented counter after the following `m_bPreviously*` byte store, which only a whole-program view of the never-address-taken counter allows; plain and LTCG models keep the store first (39/41 words). Probes and headers removed.
+- `cAgencyTank` constructor (0x826FCD08): cAgencyCar call, vptrs, out-of-line cFixedVehicleTurret constructor and `m_bMarkerAdded = false` give every instruction, but CD2 hoists the cPositionalProxy (+0x420) table store to fifth place where ours keeps it ninth (54.9%; initializer-list and body forms identical, search finds nothing). Its deleting destructor (0x826FCDD8) and IsA thunk (0x82700760) are EXACT once the constructor emits the table; probe removed.
+- `cVehicle::HandleTryToCloseAlterantiveDoorPermissionQuery` (0x826DEA30, slot 424): RuffKing's body (RetSwapSeat,
+  inline RetVehicleSeat, seat RetStatus == eVSS_Unoccupied, CanSeatDoorBeClosed, IsUpRight) gives every instruction,
+  but CD2 keeps the swap seat in r4 across the call to the leaf cVehicleSeat::RetStatus (0x826DFBE8): whole-program
+  LTCG knows the callee leaves r4 alone; plain and LTCG models keep it in a saved register (30.6%). Removed.
+- `cCar::LeavePhysicalState` (0x826B7538, slot 27, a tail call to cVehicle's): declared inline in cCar.h; it is only
+  emitted where cCar's vtable is, which nothing in cCar.cpp does yet ("missing").

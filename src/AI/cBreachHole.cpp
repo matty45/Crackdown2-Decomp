@@ -47,4 +47,16 @@ namespace AI
         static Fun_Runtime::cClass *cBreachHoleClass = new Fun_Runtime::cClass(0x9F01F, "cBreachHole", 0x1C0);
         return *cBreachHoleClass;
     }
+
+    void cBreachHole::StartDeActivateBreachHole()
+    {
+        if (m_eBreachHoleState != eBHS_Closed)
+        {
+            if (m_fCurrentTimer > m_fOpenTimer)
+                m_fCurrentTimer = m_fOpenTimer;
+            ChangeState(eBHS_Closing);
+        }
+        if (m_pAlternateBreach)
+            m_pAlternateBreach->StartDeActivateBreachHole();
+    }
 }

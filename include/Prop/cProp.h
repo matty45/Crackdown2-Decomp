@@ -98,7 +98,7 @@ namespace Prop
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
         virtual bool EnterPhysicalState(); // 7: 0x8273B110
-        virtual void Slot27(); // 27: 0x8272A370
+        virtual void LeavePhysicalState(); // 27: 0x8272A370
         virtual void Slot62(); // 61: 0x8272C3E8
         virtual void Slot63(); // 62: 0x823B8858
         virtual void vf68(); // 68: 0x8272BFA0
@@ -110,7 +110,7 @@ namespace Prop
         virtual void vf129(); // 129: 0x8272C2F8
         virtual void vf132(); // 132: 0x8272D2B0
         virtual void vf140(); // 140: 0x82729F20
-        virtual void vf156(); // 156: 0x8272F1A0
+        virtual hkCollidableQualityType RetCollidableQuality(hkMotion::MotionType); // 156: 0x8272F1A0
         virtual void vf174(); // 174: 0x8272CA50
         virtual void vf175(); // 175: 0x8272CB28
         virtual void vf176(); // 176: 0x8272CE68
@@ -133,9 +133,20 @@ namespace Prop
         // CD2: cProp's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
-        virtual void Slot64(); // 63: 0x82689C78
+        // CD2 table 0x8200DFC8 owns these entries; cNetDynamicBody retains the body defaults at them.
+        virtual void vf86(); // 86: 0x8272B1F0
+        virtual void vf87(); // 87: 0x8272B2B0
+        virtual void vf91(); // 91: 0x8272B540
         virtual void vf92(); // 92: 0x8272B338
+        virtual GOM::cPointOfInterest *RetPointOfInterest(int nPoint); // 122: 0x82457A50
+        virtual unsigned char RetNumPointsOfInterest(); // 123: 0x8288FB78
+        // CD2 table 0x8200DFC8 overrides these cNetDynamicBody/cDynamicBody slots.
+        virtual void vf158(); // 158: 0x8272ADB0
+        virtual void vf284(); // 284: 0x8272C400
+        virtual void vf285(); // 285: 0x8272C448
         virtual void vf127(); // 127: 0x8272BC10
+        virtual void vf153(); // 153: 0x8272ABE0
+        virtual void vf154(); // 154: 0x8272AC18
         virtual void CalculateRelevancy(int); // cReplicatedClass 2: 0x827302C0
         virtual void CalculateLOD(int); // cReplicatedClass 3: 0x822D76B0
         virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x8272F450
@@ -151,9 +162,9 @@ namespace Prop
 
     public:
         // CD2 table 0x8200DFC8 differs from cNetDynamicBody at these inherited slots.
-        virtual void vf304(); // slot 304: 0x82457AB8
-        virtual void vf309(); // slot 309: 0x82457AC8
-        virtual void vf310(); // slot 310: 0x82457AD0
+        virtual void EndInterpolationOptional(); // slot 304: 0x82457AB8
+        virtual void SetDeletingReason(char); // slot 309: 0x82457AC8
+        virtual char GetDeletingReason(); // slot 310: 0x82457AD0
     };
 }
 

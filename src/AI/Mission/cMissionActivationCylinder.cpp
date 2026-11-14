@@ -11,6 +11,8 @@
 
 namespace AI
 {
+    static const char *const pcMissionActivationCylinderClassID = "cMissionActivationCylinder";
+
     RWS::CAttributeHandler *cMissionActivationCylinder::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cMissionActivationCylinder;
@@ -24,6 +26,15 @@ namespace AI
     // CD2 0x8248B058: only the member's and the bases' destruction.
     cMissionActivationCylinder::~cMissionActivationCylinder()
     {
+    }
+
+    // RuffKing's body (0x823ED4A0) also builds the command iterator and does not read it.
+    void cMissionActivationCylinder::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cPlayerTriggerCylinder::HandleAttributes(packet);
+        RWS::CAttributeCommandIterator it(packet, pcMissionActivationCylinderClassID);
+        if (packet.IsInstanceCreationPacket())
+            m_EventHandler.Register(this, packet.GetInstanceId());
     }
 
     static RWS::CClassFactory::CRegistrar cMissionActivationCylinderRegistrar(

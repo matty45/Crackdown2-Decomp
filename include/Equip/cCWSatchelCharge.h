@@ -45,7 +45,7 @@ namespace Equip
         virtual void Slot23(); // 23: 0x8261A7A0
         virtual void Slot24(); // 24: 0x8261A8A8
         virtual void UpdateRenderMatrix(); // 26: 0x8261A988
-        virtual void Slot27(); // 27: 0x8261C240
+        virtual void LeavePhysicalState(); // 27: 0x8261C240
         virtual void vf158(); // 158: 0x8261BAB8
         virtual void vf168(); // 168: 0x8261A688
         virtual void SetStatus(Equip::cEquipment::EQUIP_STATUS); // 316: 0x8261AA20
@@ -57,7 +57,7 @@ namespace Equip
         // CD2: cCWSatchelCharge's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
-        virtual unsigned int RetTotalAmmo() const; // 332: 0x8260BAF8
+        virtual bool IsMarkedForDeletion(); // CD2 table 0x821234F8 slot 332: 0x8260BAF8; slot 333 inherits RetTotalAmmo.
         virtual bool CanForceNetTransform() const; // 347: 0x8261CA48
         virtual bool CanReleaseNetOwnershipOnAVExit() const; // 348: 0x827E56A8
     private:

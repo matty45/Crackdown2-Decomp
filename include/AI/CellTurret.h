@@ -37,15 +37,15 @@ namespace AI
         virtual void OnEvent74(NPCTarget *t); // slot 74: 0x824C56B8
         virtual void OnEvent75(NPCTarget *t); // slot 75: 0x824C5798
         virtual void Slot79(); // slot 79: 0x824C34C0
-        virtual void vf97(); // slot 97: 0x824C5420
-        virtual void vf102(); // slot 102: 0x824C58B0
-        virtual void vf103(); // slot 103: 0x824C5A58
-        virtual void vf104(); // slot 104: 0x82580578
-        virtual void vf105(); // slot 105: 0x824C5B30
-        virtual void vf106(); // slot 106: 0x82580578
-        virtual void vf109(); // slot 109: 0x82580578
-        virtual void vf110(); // slot 110: 0x82580578
-        virtual void vf112(); // slot 112: 0x824C54B8
+        virtual void OnReplicatedEnter(unsigned char); // slot 97: 0x824C5420
+        virtual void OnIdle(); // slot 102: 0x824C58B0
+        virtual void OnInvestigating(); // slot 103: 0x824C5A58
+        virtual void OnPatrolling(); // slot 104: 0x82580578
+        virtual void OnAttacking(); // slot 105: 0x824C5B30
+        virtual void OnCover(); // slot 106: 0x82580578
+        virtual void OnAmbient(); // slot 109: 0x82580578
+        virtual void OnDrive(); // slot 110: 0x82580578
+        virtual void EnterSubStateInvestigating(); // slot 112: 0x824C54B8
     };
 }
 

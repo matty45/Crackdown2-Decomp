@@ -2921,6 +2921,16 @@
     ],
     "src/AI/cCharacterEntityIF.cpp": [
       {
+        "address": "0x823EC070",
+        "size": 116,
+        "symbol": "?AddEquipment@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823EC0E8",
+        "size": 116,
+        "symbol": "?AddEquipmentDontEquip@cCharacterEntityIF@AI@@"
+      },
+      {
         "address": "0x823EC280",
         "size": 228,
         "symbol": "??0cObjectInstigatorEvent@AI@@"
@@ -6761,9 +6771,49 @@
     ],
     "src/AI/Mission/cDocksMission.cpp": [
       {
+        "address": "0x82474390",
+        "size": 92,
+        "symbol": "?IsA@cDocksMission@AI@@"
+      },
+      {
+        "address": "0x824743F0",
+        "size": 196,
+        "symbol": "?MakeNew@cDocksMission@AI@@"
+      },
+      {
         "address": "0x824744B8",
         "size": 12,
         "symbol": "?RetClassName@cDocksMission@AI@@"
+      },
+      {
+        "address": "0x824745D8",
+        "size": 144,
+        "symbol": "??_GcDocksMission@AI@@"
+      },
+      {
+        "address": "0x82474DE8",
+        "size": 8,
+        "symbol": "??_EcDocksMission@AI@@WCEI@"
+      },
+      {
+        "address": "0x82474DF0",
+        "size": 8,
+        "symbol": "?RetClass@cDocksMission@AI@@WBA@"
+      },
+      {
+        "address": "0x82474DF8",
+        "size": 8,
+        "symbol": "??_EcDocksMission@AI@@WBA@"
+      },
+      {
+        "address": "0x82474E00",
+        "size": 8,
+        "symbol": "?IsA@cDocksMission@AI@@WBA@"
+      },
+      {
+        "address": "0x82474E08",
+        "size": 8,
+        "symbol": "??_EcDocksMission@AI@@WCEA@"
       },
       {
         "address": "0x82F8A4E8",
@@ -7522,6 +7572,11 @@
         "symbol": "?RetClassName@cMissionActivationCylinder@AI@@"
       },
       {
+        "address": "0x8248B0C0",
+        "size": 164,
+        "symbol": "?HandleAttributes@cMissionActivationCylinder@AI@@"
+      },
+      {
         "address": "0x82F8F338",
         "size": 76,
         "symbol": "??__EcMissionActivationCylinderRegistrar@AI@@"
@@ -7664,6 +7719,11 @@
         "address": "0x8248B4B0",
         "size": 12,
         "symbol": "?RetClassName@cMissionActivationZone@AI@@"
+      },
+      {
+        "address": "0x8248B578",
+        "size": 164,
+        "symbol": "?HandleAttributes@cMissionActivationZone@AI@@"
       },
       {
         "address": "0x82F8F698",
@@ -21968,6 +22028,11 @@
     ],
     "src/Vehicle/cCarProfile.cpp": [
       {
+        "address": "0x8269BEF0",
+        "size": 172,
+        "symbol": "?MakeNew@cCarProfile@Vehicle@@"
+      },
+      {
         "address": "0x8269BFA0",
         "size": 12,
         "symbol": "?RetClassName@cCarProfile@Vehicle@@"
@@ -22296,6 +22361,36 @@
         "symbol": "?RetClassName@cHelicopter@Vehicle@@"
       },
       {
+        "address": "0x826BD668",
+        "size": 84,
+        "symbol": "?CheckForReplicationActivation@cHelicopter@Vehicle@@"
+      },
+      {
+        "address": "0x826BDC98",
+        "size": 36,
+        "symbol": "?IsOnGround@cHelicopter@Vehicle@@"
+      },
+      {
+        "address": "0x826BDCC0",
+        "size": 8,
+        "symbol": "?RetNumPointsOfInterest@cHelicopter@Vehicle@@"
+      },
+      {
+        "address": "0x826BDCC8",
+        "size": 44,
+        "symbol": "?RetPointOfInterest@cHelicopter@Vehicle@@"
+      },
+      {
+        "address": "0x826BDDA0",
+        "size": 56,
+        "symbol": "?HandleTryToEnterInteractPermissionQuery@cHelicopter@Vehicle@@"
+      },
+      {
+        "address": "0x826BDEB0",
+        "size": 204,
+        "symbol": "?IsOkToInteract@cHelicopter@Vehicle@@"
+      },
+      {
         "address": "0x82FE8550",
         "size": 76,
         "symbol": "??__EcHelicopterRegistrar@Vehicle@@"
@@ -22465,6 +22560,36 @@
     ],
     "src/Vehicle/cLandVehicle.cpp": [
       {
+        "address": "0x826C2170",
+        "size": 280,
+        "symbol": "?AddVehicleLights@cLandVehicle@Vehicle@@"
+      },
+      {
+        "address": "0x826C25D8",
+        "size": 76,
+        "symbol": "?IsFunctionallyDamaged@cLandVehicle@Vehicle@@"
+      },
+      {
+        "address": "0x826C2B30",
+        "size": 128,
+        "symbol": "?CanTurnOnPoliceLights@cLandVehicle@Vehicle@@"
+      },
+      {
+        "address": "0x826C2BB0",
+        "size": 152,
+        "symbol": "?CanTurnOnExhaustFumes@cLandVehicle@Vehicle@@"
+      },
+      {
+        "address": "0x826C30B0",
+        "size": 36,
+        "symbol": "?FullySubmergedEvent@cLandVehicle@Vehicle@@"
+      },
+      {
+        "address": "0x826C4940",
+        "size": 36,
+        "symbol": "?RetEngineDamage@cLandVehicle@Vehicle@@"
+      },
+      {
         "address": "0x826C4980",
         "size": 20,
         "symbol": "?IsAPoliceVehicle@cLandVehicle@Vehicle@@"
@@ -22473,6 +22598,36 @@
         "address": "0x826C0E10",
         "size": 12,
         "symbol": "?RetClassName@cLandVehicle@Vehicle@@"
+      },
+      {
+        "address": "0x826C5128",
+        "size": 192,
+        "symbol": "?TurnOffPoliceLights@cLandVehicle@Vehicle@@"
+      },
+      {
+        "address": "0x826C51E8",
+        "size": 128,
+        "symbol": "?ActivateVehicleLights@cLandVehicle@Vehicle@@"
+      },
+      {
+        "address": "0x826C5268",
+        "size": 156,
+        "symbol": "?TurnOnVehicleLights@cLandVehicle@Vehicle@@"
+      },
+      {
+        "address": "0x826C5308",
+        "size": 188,
+        "symbol": "?TurnOffVehicleLights@cLandVehicle@Vehicle@@"
+      },
+      {
+        "address": "0x826C5770",
+        "size": 620,
+        "symbol": "?ResetDamagedLights@cLandVehicle@Vehicle@@"
+      },
+      {
+        "address": "0x826C79C8",
+        "size": 20,
+        "symbol": "?CustomiseShape@cLandVehicle@Vehicle@@"
       },
       {
         "address": "0x82FE8A20",
@@ -24146,6 +24301,11 @@
         "symbol": "?RetClassName@cAmbienceZone@ZoneManager@@"
       },
       {
+        "address": "0x8280FA50",
+        "size": 280,
+        "symbol": "?HandleAttributes@cAmbienceZone@ZoneManager@@"
+      },
+      {
         "address": "0x8300EE00",
         "size": 76,
         "symbol": "??__EcAmbienceZoneRegistrar@ZoneManager@@"
@@ -24295,6 +24455,16 @@
         "symbol": "?RetClassName@cReverbZone@ZoneManager@@"
       },
       {
+        "address": "0x8280F6B8",
+        "size": 4,
+        "symbol": "?TermTriggerZone@cReverbZone@ZoneManager@@"
+      },
+      {
+        "address": "0x8280F858",
+        "size": 100,
+        "symbol": "?OnPlayerLeave@cReverbZone@ZoneManager@@"
+      },
+      {
         "address": "0x8300EAA0",
         "size": 76,
         "symbol": "??__EcReverbZoneRegistrar@ZoneManager@@"
@@ -24437,6 +24607,11 @@
         "address": "0x8280EA10",
         "size": 12,
         "symbol": "?RetClassName@cVOAZone@ZoneManager@@"
+      },
+      {
+        "address": "0x8280EB08",
+        "size": 280,
+        "symbol": "?HandleAttributes@cVOAZone@ZoneManager@@"
       },
       {
         "address": "0x8300E740",
@@ -26375,6 +26550,11 @@
         "symbol": "?RetClassName@cBeaconMission@AI@@"
       },
       {
+        "address": "0x82464FB0",
+        "size": 216,
+        "symbol": "?Load@cBeaconMission@AI@@"
+      },
+      {
         "address": "0x82F88C88",
         "size": 76,
         "symbol": "??__EcBeaconMissionRegistrar@@"
@@ -26562,6 +26742,11 @@
         "address": "0x8246E7A0",
         "size": 12,
         "symbol": "?RetClassName@cBreachHole@AI@@"
+      },
+      {
+        "address": "0x8246F990",
+        "size": 96,
+        "symbol": "?StartDeActivateBreachHole@cBreachHole@AI@@"
       },
       {
         "address": "0x82F89720",
@@ -26902,6 +27087,21 @@
         "symbol": "?IsA@cCellStrongholdMission@AI@@"
       },
       {
+        "address": "0x82474E80",
+        "size": 208,
+        "symbol": "?MakeNew@cCellStrongholdMission@AI@@"
+      },
+      {
+        "address": "0x82475000",
+        "size": 144,
+        "symbol": "??_GcCellStrongholdMission@AI@@"
+      },
+      {
+        "address": "0x824750A0",
+        "size": 164,
+        "symbol": "?TickUpdate@cCellStrongholdMission@AI@@"
+      },
+      {
         "address": "0x82F8A8D8",
         "size": 76,
         "symbol": "??__EcCellStrongholdMissionRegistrar@AI@@"
@@ -27215,6 +27415,11 @@
         "symbol": "?IsA@CellMinigun@AI@@"
       },
       {
+        "address": "0x824C3870",
+        "size": 24,
+        "symbol": "?ChangeMainState@CellMinigun@AI@@"
+      },
+      {
         "address": "0x82F95F70",
         "size": 76,
         "symbol": "??__ECellMinigunRegistrar@AI@@"
@@ -27382,6 +27587,11 @@
         "address": "0x824C3EC0",
         "size": 92,
         "symbol": "?IsA@CellRocket@AI@@"
+      },
+      {
+        "address": "0x824C3F20",
+        "size": 24,
+        "symbol": "?ChangeMainState@CellRocket@AI@@"
       },
       {
         "address": "0x82F963A8",
@@ -27735,6 +27945,16 @@
         "address": "0x8246A7D0",
         "size": 92,
         "symbol": "?IsA@cFinalMission@AI@@"
+      },
+      {
+        "address": "0x8246C420",
+        "size": 4,
+        "symbol": "?Load@cFinalMission@AI@@"
+      },
+      {
+        "address": "0x8246C428",
+        "size": 4,
+        "symbol": "?Save@cFinalMission@AI@@"
       },
       {
         "address": "0x82F89398",
@@ -30189,6 +30409,81 @@
         "symbol": "?IsA@NPCArmedBehaviour@AI@@"
       },
       {
+        "address": "0x824A7E60",
+        "size": 12,
+        "symbol": "?GetStateReplicationInfo@NPCArmedBehaviour@AI@@"
+      },
+      {
+        "address": "0x824A7E70",
+        "size": 16,
+        "symbol": "?OnEnterReplicatedState@NPCArmedBehaviour@AI@@"
+      },
+      {
+        "address": "0x824A8070",
+        "size": 160,
+        "symbol": "??0NPCArmedBehaviour@AI@@"
+      },
+      {
+        "address": "0x824A8110",
+        "size": 52,
+        "symbol": "?SetReactResupplyPoint@NPCArmedBehaviour@AI@@"
+      },
+      {
+        "address": "0x824A8148",
+        "size": 92,
+        "symbol": "?OnReplicatedEnter@NPCArmedBehaviour@AI@@"
+      },
+      {
+        "address": "0x824A8330",
+        "size": 204,
+        "symbol": "?Slot71@NPCArmedBehaviour@AI@@"
+      },
+      {
+        "address": "0x824A8400",
+        "size": 8,
+        "symbol": "?ChangeMainState@NPCArmedBehaviour@AI@@"
+      },
+      {
+        "address": "0x824A8408",
+        "size": 92,
+        "symbol": "?ChangeSubState@NPCArmedBehaviour@AI@@"
+      },
+      {
+        "address": "0x824A8468",
+        "size": 208,
+        "symbol": "?EnterSubState@NPCArmedBehaviour@AI@@"
+      },
+      {
+        "address": "0x824A8538",
+        "size": 204,
+        "symbol": "?ExitSubState@NPCArmedBehaviour@AI@@"
+      },
+      {
+        "address": "0x824A8608",
+        "size": 128,
+        "symbol": "??0NPCBehaviourPrototype@AI@@"
+      },
+      {
+        "address": "0x824A8688",
+        "size": 8,
+        "symbol": "?RetPrimaryWeapon@NPCBehaviourPrototype@AI@@"
+      },
+      {
+        "address": "0x824A8690",
+        "size": 116,
+        "symbol": "??1NPCBehaviourPrototype@AI@@"
+      },
+      {
+        "address": "0x824A8708",
+        "size": 24,
+        "symbol": "?SpawnFromPrototype@NPCBehaviour@AI@@"
+      },
+      {
+        "address": "0x824A8790",
+        "size": 16,
+        "symbol": "?OnEnterReplicatedState@NPCBehaviour@AI@@"
+      },
+      {
         "address": "0x82F91D70",
         "size": 76,
         "symbol": "??__ENPCBehaviourRegistrar@AI@@"
@@ -30337,11 +30632,6 @@
         "address": "0x824A8720",
         "size": 12,
         "symbol": "?RetClass@NPCBehaviour@AI@@"
-      },
-      {
-        "address": "0x824A8730",
-        "size": 92,
-        "symbol": "?IsA@NPCBehaviour@AI@@"
       },
       {
         "address": "0x82F91320",
@@ -32814,6 +33104,11 @@
         "symbol": "?RetLODLevel@cCharacterInterface@CHARACTER@@"
       },
       {
+        "address": "0x8254E9D0",
+        "size": 112,
+        "symbol": "?AddDefaultEquipmentByName@cCharacterInterface@CHARACTER@@"
+      },
+      {
         "address": "0x8254EA40",
         "size": 64,
         "symbol": "?IsEquipmentTypeInInventory@cCharacterInterface@CHARACTER@@"
@@ -35250,9 +35545,24 @@
     ],
     "src/AI/Behaviour/AIBehaviour.cpp": [
       {
+        "address": "0x824A4A00",
+        "size": 12,
+        "symbol": "?RetPrimaryWeapon@AIBehaviourPrototype@AIBehaviour@AI@@"
+      },
+      {
         "address": "0x824A4A80",
         "size": 12,
         "symbol": "?RetClassName@AIBehaviour@AI@@"
+      },
+      {
+        "address": "0x824A4A90",
+        "size": 24,
+        "symbol": "?SpawnFromPrototype@AIBehaviour@AI@@"
+      },
+      {
+        "address": "0x824A4AA8",
+        "size": 12,
+        "symbol": "?RetClass@AIBehaviour@AI@@"
       },
       {
         "address": "0x82F90CB8",
@@ -35926,6 +36236,11 @@
         "symbol": "??1cAudioBaseProfile@AudioLogic@@"
       },
       {
+        "address": "0x82527A70",
+        "size": 256,
+        "symbol": "?HandleAttributes@cAudioBaseProfile@AudioLogic@@"
+      },
+      {
         "address": "0x825277B8",
         "size": 12,
         "symbol": "?RetClassName@cAudioBaseProfile@AudioLogic@@"
@@ -36058,6 +36373,11 @@
         "address": "0x82528200",
         "size": 24,
         "symbol": "?Init@cAudioLandVehicleProfile@AudioLogic@@"
+      },
+      {
+        "address": "0x82528218",
+        "size": 640,
+        "symbol": "?HandleAttributes@cAudioLandVehicleProfile@AudioLogic@@"
       },
       {
         "address": "0x82528498",
@@ -36994,6 +37314,11 @@
       }
     ],
     "src/PHYSICS/cWaterProfile.cpp": [
+      {
+        "address": "0x82697500",
+        "size": 92,
+        "symbol": "?IsA@cWaterProfile@PHYSICS@@"
+      },
       {
         "address": "0x82697608",
         "size": 12,
@@ -38736,6 +39061,11 @@
         "symbol": "?RetClassName@cSlidingDoor@Prop@@"
       },
       {
+        "address": "0x82746968",
+        "size": 32,
+        "symbol": "?SpawnFromPrototype@cSlidingDoor@Prop@@"
+      },
+      {
         "address": "0x82FFBC90",
         "size": 76,
         "symbol": "??__EcSlidingDoorRegistrar@Prop@@"
@@ -40469,6 +40799,42 @@
         "symbol": "?StaticCreateClass@cVirtualCamera@unknown@@"
       },
       {
+        "address": "0x825342B0",
+        "size": 8,
+        "symbol": "?AutoCamera@unknown@@"
+      },
+      {
+        "address": "0x825342B8",
+        "size": 8,
+        "symbol": "?FixedCamera@unknown@@"
+      },
+      {
+        "address": "0x825342C0",
+        "size": 8,
+        "symbol": "?FixedTrackingCamera@unknown@@"
+      },
+      {
+        "address": "0x825342C8",
+        "size": 8,
+        "symbol": "?SatelliteCamera@unknown@@"
+      },
+      {
+        "address": "0x825342F8",
+        "size": 8,
+        "symbol": "?FlyCamera@unknown@@"
+      },
+      {
+        "address": "0x825347F8",
+        "size": 96,
+        "symbol": "?ToggleCameraSmoothing@unknown@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82534888",
+        "size": 24,
+        "symbol": "?ToggleH2HCamera@unknown@@"
+      },
+      {
         "address": "0x82FAB680",
         "size": 40,
         "symbol": "??__E?ms_pcVirtualCameraClass@cVirtualCamera@unknown@@"
@@ -41562,6 +41928,11 @@
         "address": "0x8260DE78",
         "size": 156,
         "symbol": "?StaticCreateClass@cPortableLaunchPad@Equip@@"
+      },
+      {
+        "address": "0x8260E788",
+        "size": 40,
+        "symbol": "?Launched@cPortableLaunchPad@Equip@@"
       },
       {
         "address": "0x82FCCDC0",
@@ -43034,9 +43405,19 @@
     ],
     "src/Equip/Weapon/cSmokeGrenade.cpp": [
       {
+        "address": "0x82622640",
+        "size": 128,
+        "symbol": "?MakeNew@cSmokeGrenade@Equip@@"
+      },
+      {
         "address": "0x82622790",
         "size": 152,
         "symbol": "?StaticCreateClass@cSmokeGrenade@Equip@@"
+      },
+      {
+        "address": "0x82622C88",
+        "size": 244,
+        "symbol": "?HandleAttributes@cSmokeGrenadePrototype@cSmokeGrenade@Equip@@"
       },
       {
         "address": "0x82FD0B90",
@@ -43767,9 +44148,19 @@
     ],
     "src/Equip/Gadget/cRealNadeLauncher.cpp": [
       {
+        "address": "0x82634998",
+        "size": 144,
+        "symbol": "?MakeNew@cRealNadeLauncher@Equip@@"
+      },
+      {
         "address": "0x82634B00",
         "size": 152,
         "symbol": "?StaticCreateClass@cRealNadeLauncher@Equip@@"
+      },
+      {
+        "address": "0x826352E0",
+        "size": 308,
+        "symbol": "?HandleAttributes@cRealNadeLauncherPrototype@cRealNadeLauncher@Equip@@"
       },
       {
         "address": "0x82FD3AA0",
@@ -45447,6 +45838,21 @@
         "symbol": "?StaticCreateClass@cWeaponisedHelicopter@unknown@@"
       },
       {
+        "address": "0x826E1CE0",
+        "size": 48,
+        "symbol": "?Term@cWeaponisedHelicopter@unknown@@"
+      },
+      {
+        "address": "0x826E1D10",
+        "size": 48,
+        "symbol": "?TermForReuse@cWeaponisedHelicopter@unknown@@"
+      },
+      {
+        "address": "0x826E1D80",
+        "size": 48,
+        "symbol": "?Slot37@cWeaponisedHelicopter@unknown@@"
+      },
+      {
         "address": "0x82FEA470",
         "size": 40,
         "symbol": "??__E?ms_pcWeaponisedHelicopterClass@cWeaponisedHelicopter@unknown@@"
@@ -45669,6 +46075,11 @@
     ],
     "src/cAgencyATV.cpp": [
       {
+        "address": "0x826E23D8",
+        "size": 24,
+        "symbol": "?SpawnFromPrototype@cAgencyATV@unknown@@"
+      },
+      {
         "address": "0x826E3300",
         "size": 156,
         "symbol": "?StaticCreateClass@cAgencyATV@unknown@@"
@@ -45843,6 +46254,26 @@
         "symbol": "?StaticCreateClass@cAgencyBuggy@Vehicle@@"
       },
       {
+        "address": "0x826E9F58",
+        "size": 200,
+        "symbol": "??0cAgencyBuggy@Vehicle@@QAA@XZ"
+      },
+      {
+        "address": "0x826EA058",
+        "size": 56,
+        "symbol": "?ReplicateInitialFields@cAgencyBuggy@Vehicle@@"
+      },
+      {
+        "address": "0x826EA090",
+        "size": 4,
+        "symbol": "?ReplicateFields@cAgencyBuggy@Vehicle@@"
+      },
+      {
+        "address": "0x826EC070",
+        "size": 8,
+        "symbol": "?IsA@cAgencyBuggy@Vehicle@@WEOA@"
+      },
+      {
         "address": "0x82FEB0B8",
         "size": 40,
         "symbol": "??__E?ms_pcAgencyBuggyClass@cAgencyBuggy@Vehicle@@"
@@ -46005,6 +46436,81 @@
         "address": "0x826ED348",
         "size": 156,
         "symbol": "?StaticCreateClass@cAgencySports@Vehicle@@"
+      },
+      {
+        "address": "0x826ED3E8",
+        "size": 220,
+        "symbol": "??0cAgencySports@Vehicle@@QAA@XZ"
+      },
+      {
+        "address": "0x826ED4C8",
+        "size": 116,
+        "symbol": "??_GcAgencySports@Vehicle@@"
+      },
+      {
+        "address": "0x826ED540",
+        "size": 56,
+        "symbol": "?LeavePhysicalState@cAgencySports@Vehicle@@"
+      },
+      {
+        "address": "0x826ED990",
+        "size": 8,
+        "symbol": "?RetClass@cAgencySports@Vehicle@@WEOA@"
+      },
+      {
+        "address": "0x826ED998",
+        "size": 8,
+        "symbol": "??_EcAgencySports@Vehicle@@WCFA@"
+      },
+      {
+        "address": "0x826ED9A0",
+        "size": 8,
+        "symbol": "?IsA@cAgencySports@Vehicle@@WEOA@"
+      },
+      {
+        "address": "0x826ED9A8",
+        "size": 8,
+        "symbol": "??_EcAgencySports@Vehicle@@WCJE@"
+      },
+      {
+        "address": "0x826ED9B0",
+        "size": 8,
+        "symbol": "??_EcAgencySports@Vehicle@@WBCA@"
+      },
+      {
+        "address": "0x826ED9B8",
+        "size": 8,
+        "symbol": "??_EcAgencySports@Vehicle@@WHKM@"
+      },
+      {
+        "address": "0x826ED9C0",
+        "size": 8,
+        "symbol": "?RetClass@cAgencySports@Vehicle@@WPA@"
+      },
+      {
+        "address": "0x826ED9C8",
+        "size": 8,
+        "symbol": "?IsA@cAgencySports@Vehicle@@WPA@"
+      },
+      {
+        "address": "0x826ED9D0",
+        "size": 8,
+        "symbol": "??_EcAgencySports@Vehicle@@WBI@"
+      },
+      {
+        "address": "0x826ED9D8",
+        "size": 8,
+        "symbol": "??_EcAgencySports@Vehicle@@WFBA@"
+      },
+      {
+        "address": "0x826ED9E0",
+        "size": 8,
+        "symbol": "??_EcAgencySports@Vehicle@@WDI@"
+      },
+      {
+        "address": "0x826ED9E8",
+        "size": 8,
+        "symbol": "??_EcAgencySports@Vehicle@@WBM@"
       },
       {
         "address": "0x82FEB8A0",
@@ -46176,9 +46682,29 @@
     ],
     "src/cAgencySquadChopper.cpp": [
       {
+        "address": "0x826EDB60",
+        "size": 24,
+        "symbol": "?SpawnFromPrototype@cAgencySquadChopper@unknown@@"
+      },
+      {
+        "address": "0x826EDBB0",
+        "size": 20,
+        "symbol": "?RetPintleMount@cAgencySquadChopper@unknown@@"
+      },
+      {
         "address": "0x826EDBC8",
         "size": 156,
         "symbol": "?StaticCreateClass@cAgencySquadChopper@unknown@@"
+      },
+      {
+        "address": "0x826F35B0",
+        "size": 4,
+        "symbol": "?UpdateCollisionLayer@cAgencySquadChopper@unknown@@"
+      },
+      {
+        "address": "0x826F5C50",
+        "size": 4,
+        "symbol": "?CheckForReplicationActivation@cAgencySquadChopper@unknown@@"
       },
       {
         "address": "0x82FEBCD8",
@@ -46330,9 +46856,19 @@
     ],
     "src/Vehicle/Agency/cAgencySUV.cpp": [
       {
+        "address": "0x826FB9C8",
+        "size": 160,
+        "symbol": "?MakeNew@cAgencySUV@Vehicle@@"
+      },
+      {
         "address": "0x826FBC38",
         "size": 156,
         "symbol": "?StaticCreateClass@cAgencySUV@Vehicle@@"
+      },
+      {
+        "address": "0x826FBCD8",
+        "size": 208,
+        "symbol": "??0cAgencySUV@Vehicle@@QAA@XZ"
       },
       {
         "address": "0x82FEC148",
@@ -46497,6 +47033,16 @@
         "address": "0x826FC730",
         "size": 156,
         "symbol": "?StaticCreateClass@cAgencyTank@Vehicle@@"
+      },
+      {
+        "address": "0x826FF820",
+        "size": 52,
+        "symbol": "?ReplicateInitialFields@cAgencyTank@Vehicle@@"
+      },
+      {
+        "address": "0x826FF858",
+        "size": 56,
+        "symbol": "?ReplicateFields@cAgencyTank@Vehicle@@"
       },
       {
         "address": "0x82FEC580",
@@ -50364,6 +50910,61 @@
         "symbol": "?RetFireRadius@cVehicle@Vehicle@@"
       },
       {
+        "address": "0x826D4FC8",
+        "size": 64,
+        "symbol": "?RetPtrPassenger@cVehicle@Vehicle@@"
+      },
+      {
+        "address": "0x826D5020",
+        "size": 76,
+        "symbol": "?RetVehicleTurret@cVehicle@Vehicle@@"
+      },
+      {
+        "address": "0x826D6940",
+        "size": 80,
+        "symbol": "?IsSeatOccupied@cVehicle@Vehicle@@"
+      },
+      {
+        "address": "0x826D6990",
+        "size": 76,
+        "symbol": "?IsSeatIndexOccupied@cVehicle@Vehicle@@"
+      },
+      {
+        "address": "0x826D6FC8",
+        "size": 208,
+        "symbol": "?IsOkToInteract@cVehicle@Vehicle@@"
+      },
+      {
+        "address": "0x826D93D0",
+        "size": 20,
+        "symbol": "?Detonate@cVehicle@Vehicle@@"
+      },
+      {
+        "address": "0x826D93F0",
+        "size": 24,
+        "symbol": "?RetCollidableQuality@cVehicle@Vehicle@@"
+      },
+      {
+        "address": "0x826DAA40",
+        "size": 28,
+        "symbol": "?EndInterpolationOptional@cVehicle@Vehicle@@"
+      },
+      {
+        "address": "0x826DC888",
+        "size": 12,
+        "symbol": "?UpdateNetworkInterpolation@cVehicle@Vehicle@@"
+      },
+      {
+        "address": "0x826DE988",
+        "size": 168,
+        "symbol": "?HandleTryToCloseDoorInteractionPermissionQuery@cVehicle@Vehicle@@"
+      },
+      {
+        "address": "0x826DEF78",
+        "size": 116,
+        "symbol": "?ArbitrateOwnership@cVehicle@Vehicle@@"
+      },
+      {
         "address": "0x82FE9970",
         "size": 104,
         "symbol": "??__EcVehiclecNetDynamicBodyInheritRegistrar@Vehicle@@"
@@ -50781,6 +51382,41 @@
       }
     ],
     "src/Equip/Gadget/cCloakingDevice.cpp": [
+      {
+        "address": "0x8260B1E8",
+        "size": 140,
+        "symbol": "?MakeNew@cCloakingDevice@Equip@@"
+      },
+      {
+        "address": "0x8260B360",
+        "size": 108,
+        "symbol": "?CanAttack@cCloakingDevice@Equip@@"
+      },
+      {
+        "address": "0x8260B3D0",
+        "size": 12,
+        "symbol": "?CanItemUseAmmo@cCloakingDevice@Equip@@"
+      },
+      {
+        "address": "0x8260B430",
+        "size": 48,
+        "symbol": "?Init@cCloakingDevice@Equip@@"
+      },
+      {
+        "address": "0x8260B460",
+        "size": 76,
+        "symbol": "?Term@cCloakingDevice@Equip@@"
+      },
+      {
+        "address": "0x8260B978",
+        "size": 4,
+        "symbol": "?EndAttack@cCloakingDevice@Equip@@"
+      },
+      {
+        "address": "0x8260B980",
+        "size": 256,
+        "symbol": "?HandleAttributes@cCloakingDevicePrototype@cCloakingDevice@Equip@@"
+      },
       {
         "address": "0x82FCC770",
         "size": 72,
@@ -52524,6 +53160,11 @@
         "address": "0x82753200",
         "size": 192,
         "symbol": "??1cExplosivesSkillProfile@RPG@@"
+      },
+      {
+        "address": "0x827532C0",
+        "size": 312,
+        "symbol": "?HandleAttributes@cExplosivesSkillProfile@RPG@@"
       },
       {
         "address": "0x82FFD408",
@@ -55121,6 +55762,11 @@
       }
     ],
     "src/AI/Mission/cTacticalObjective.cpp": [
+      {
+        "address": "0x824781B8",
+        "size": 28,
+        "symbol": "?squad_respawn_lt@AI@@"
+      },
       {
         "address": "0x82F8A928",
         "size": 40,
@@ -59215,6 +59861,21 @@
     ],
     "src/AI/Behaviour/NPC/Vehicle/AgressiveResponsePilotBehaviour.cpp": [
       {
+        "address": "0x824D0B78",
+        "size": 24,
+        "symbol": "?SpawnFromPrototype@cAgressiveResponsePilotBehaviour@AI@@"
+      },
+      {
+        "address": "0x824D0B90",
+        "size": 12,
+        "symbol": "?RetClass@cAgressiveResponsePilotBehaviour@AI@@"
+      },
+      {
+        "address": "0x824D0C00",
+        "size": 164,
+        "symbol": "?StaticCreateClass@cAgressiveResponsePilotBehaviour@AI@@"
+      },
+      {
         "address": "0x82F9AA78",
         "size": 40,
         "symbol": "??__EfPhysicsSimulationTick@@",
@@ -60069,6 +60730,11 @@
       }
     ],
     "src/PHYSICS/cPickupProfile.cpp": [
+      {
+        "address": "0x8270CD10",
+        "size": 204,
+        "symbol": "?MakeNew@cPickupProfile@PHYSICS@@"
+      },
       {
         "address": "0x82FF0B00",
         "size": 40,
@@ -61252,6 +61918,11 @@
       }
     ],
     "src/VFX/cWeather.cpp": [
+      {
+        "address": "0x827D7AC8",
+        "size": 68,
+        "symbol": "?MakeNew@cWeatherSystem@VFX@@"
+      },
       {
         "address": "0x83008FF0",
         "size": 76,
@@ -68295,6 +68966,21 @@
     ],
     "src/RPG/cSkillPickupManager.cpp": [
       {
+        "address": "0x82756068",
+        "size": 24,
+        "symbol": "?ToggleSkillPickupTest@RPG@@"
+      },
+      {
+        "address": "0x82756238",
+        "size": 224,
+        "symbol": "??0cSkillPickupManager@ORB@@"
+      },
+      {
+        "address": "0x82756318",
+        "size": 80,
+        "symbol": "??_GcSkillPickupManager@ORB@@"
+      },
+      {
         "address": "0x82FFDCA0",
         "size": 40,
         "symbol": "??__EfPhysicsSimulationTick@@",
@@ -68408,6 +69094,21 @@
       }
     ],
     "src/VEHICLE_CONTROL/cSplineController.cpp": [
+      {
+        "address": "0x8277F658",
+        "size": 80,
+        "symbol": "??$copy@PAMPAM@std@@"
+      },
+      {
+        "address": "0x8277F6A8",
+        "size": 76,
+        "symbol": "??$copy_backward@PAMPAM@std@@"
+      },
+      {
+        "address": "0x8277F6F8",
+        "size": 32,
+        "symbol": "??$fill_n@PAMIM@std@@"
+      },
       {
         "address": "0x83004C28",
         "size": 40,
@@ -69972,6 +70673,11 @@
     ],
     "src/AI/Event/cSoundEvent.cpp": [
       {
+        "address": "0x82440560",
+        "size": 136,
+        "symbol": "?RegisterValues@cSoundEventSubscriptionTypeScriptRegistration@AI@@"
+      },
+      {
         "address": "0x82F79F18",
         "size": 40,
         "symbol": "??__EfPhysicsSimulationTick@@",
@@ -70329,6 +71035,46 @@
     ],
     "src/AI/Mission/cMission.cpp": [
       {
+        "address": "0x82458CC0",
+        "size": 196,
+        "symbol": "?MakeNew@cSecondaryObjectivesInfo@AI@@"
+      },
+      {
+        "address": "0x82458D88",
+        "size": 12,
+        "symbol": "?RetClassName@cSecondaryObjectivesInfo@AI@@"
+      },
+      {
+        "address": "0x82458D98",
+        "size": 12,
+        "symbol": "?RetClass@cMission@AI@@"
+      },
+      {
+        "address": "0x82458E08",
+        "size": 64,
+        "symbol": "?MakeNew@cMission@AI@@"
+      },
+      {
+        "address": "0x82458E48",
+        "size": 12,
+        "symbol": "?RetClassName@cMission@AI@@"
+      },
+      {
+        "address": "0x82458E58",
+        "size": 104,
+        "symbol": "??_GcSecondaryObjectivesInfo@AI@@"
+      },
+      {
+        "address": "0x82459250",
+        "size": 152,
+        "symbol": "?StaticCreateClass@cMission@AI@@"
+      },
+      {
+        "address": "0x824596A0",
+        "size": 40,
+        "symbol": "?EnableCompletion@cMission@AI@@"
+      },
+      {
         "address": "0x82F86A90",
         "size": 40,
         "symbol": "??__EfPhysicsSimulationTick@@",
@@ -70442,6 +71188,71 @@
       }
     ],
     "src/Anim/cAnimationProfile.cpp": [
+      {
+        "address": "0x824DFF18",
+        "size": 68,
+        "symbol": "?MakeNew@cSpecificAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x824DFF60",
+        "size": 12,
+        "symbol": "?RetClassName@cSpecificAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x824DFF70",
+        "size": 12,
+        "symbol": "?RetClass@cAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x824DFF80",
+        "size": 92,
+        "symbol": "?IsA@cAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x824DFFE0",
+        "size": 180,
+        "symbol": "?MakeNew@cAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x824E0098",
+        "size": 12,
+        "symbol": "?RetClassName@cAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x824E00A8",
+        "size": 124,
+        "symbol": "??0cSpecificAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x824E0230",
+        "size": 160,
+        "symbol": "?HandleAttributes@cSpecificAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x824E02D0",
+        "size": 76,
+        "symbol": "?SetRawAnimation@cSpecificAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x824E0320",
+        "size": 88,
+        "symbol": "?SetRateMultiplier@cSpecificAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x824E0378",
+        "size": 88,
+        "symbol": "?SetBlendTime@cSpecificAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x824E03D0",
+        "size": 76,
+        "symbol": "?SetEndBehavior@cSpecificAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x824E1090",
+        "size": 64,
+        "symbol": "?RetSpecificAnimationProfile@cAnimationProfile@Anim@@QBA"
+      },
       {
         "address": "0x82F9F310",
         "size": 40,

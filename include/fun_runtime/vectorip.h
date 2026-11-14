@@ -6,7 +6,23 @@
 #include "cd2/layout.h"
 namespace Fun_Runtime
 {
-    template <class T, unsigned int N> class cVectorip;
+    // Object elements (RuffKing's cVectorip<Vehicle::cVehicleTurret,3>: last_ at 0, its uninitialized_array of the
+    // elements at 0x10, 0x1B0 bytes). CD2's cVehicle::RetVehicleTurret (0x826D5020) divides the byte difference by the
+    // element size. Stand-in: the storage is declared as the element array.
+    template <class T, unsigned int N>
+    class cVectorip
+    {
+    public:
+        unsigned int size() const { return last_ - data_; }
+        T &operator[](unsigned int i) { return data_[i]; }
+    private:
+        T *last_;
+        __declspec(align(16)) T data_[N];
+        CD2_LAYOUT_CHECKS(cVectorip,
+            CD2_SIZE(cVectorip, (16 + N * sizeof(T) + 15) & ~15)
+            CD2_OFFSET(cVectorip, last_, 0)
+            CD2_OFFSET(cVectorip, data_, 0x10))
+    };
     template <class T, unsigned int N>
     class cVectorip<T *, N>
     {

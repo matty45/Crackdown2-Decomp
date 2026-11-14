@@ -11,6 +11,8 @@
 
 namespace AI
 {
+    static const char *const pcMissionActivationZoneClassID = "cMissionActivationZone";
+
     RWS::CAttributeHandler *cMissionActivationZone::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cMissionActivationZone;
@@ -24,6 +26,15 @@ namespace AI
     // CD2 0x8248B510: only the member's and the bases' destruction.
     cMissionActivationZone::~cMissionActivationZone()
     {
+    }
+
+    // RuffKing's body (0x823ED9D0) also builds the command iterator and does not read it.
+    void cMissionActivationZone::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cPlayerTriggerZone::HandleAttributes(packet);
+        RWS::CAttributeCommandIterator it(packet, pcMissionActivationZoneClassID);
+        if (packet.IsInstanceCreationPacket())
+            m_EventHandler.Register(this, packet.GetInstanceId());
     }
 
     static RWS::CClassFactory::CRegistrar cMissionActivationZoneRegistrar(

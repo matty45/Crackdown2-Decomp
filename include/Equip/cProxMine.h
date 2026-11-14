@@ -53,7 +53,7 @@ namespace Equip
 
     public:
         // CD2 table 0x82123EF0 differs from cCWSatchelCharge at these inherited slots.
-        virtual void vf406(); // slot 406: 0x826202B8
+        virtual void Launched(cGameBase *pAttacker); // slot 406: 0x826202B8
         virtual void vf413(); // slot 413: 0x82620EB0
 
     public:

@@ -19,6 +19,8 @@
 #include "AI/BehaviourClassID.h"
 #include "gom/proto_registrar.h"
 #include "cd2/memory.h"
+#include "AI/NPCBehaviourPrototype.h"
+#include "editor/guid_event_handler.h"
 
 namespace AI
 {
@@ -39,6 +41,16 @@ namespace AI
         return ms_pNPCArmedBehaviourClass->IsA(c);
     }
 
+    unsigned char NPCArmedBehaviour::GetStateReplicationInfo() const
+    {
+        return static_cast<unsigned char>(m_nMainState);
+    }
+
+    void NPCArmedBehaviour::OnEnterReplicatedState(unsigned char state)
+    {
+        OnReplicatedEnter(state);
+    }
+
     Fun_Runtime::cClass &NPCArmedBehaviour::StaticCreateClass()
     {
         static Fun_Runtime::cClass *NPCArmedBehaviourClass =
@@ -52,7 +64,154 @@ namespace AI
     static Fun_Runtime::cInheritanceRegistrar NPCArmedBehaviourNPCBehaviourInheritRegistrar(
         AI::NPCArmedBehaviour::StaticCreateClass(), AI::NPCBehaviour::StaticCreateClass());
 
-    NPCBehaviour::NPCBehaviour() {}
+    NPCArmedBehaviour::NPCArmedBehaviour()
+        : m_nMainState(eMAIN_Null), m_nSubState(0), m_bIsAmbient(false), m_nAmbientAnimID(0)
+    {
+    }
+
+    void NPCArmedBehaviour::SetReactResupplyPoint(const Fun_Runtime::Vec3 &position, const Fun_Runtime::Vec3 &heading)
+    {
+        m_vReactResupply = position;
+        m_vRespawnHeading = heading;
+        m_bReactResupplyPointSet = true;
+        ChangeMainState(eMAIN_ReactResupply);
+    }
+
+    void NPCArmedBehaviour::OnReplicatedEnter(unsigned char state)
+    {
+        OnEnter();
+        ChangeMainState(static_cast<eState>(state));
+    }
+
+    void NPCArmedBehaviour::Slot71()
+    {
+        switch (m_nMainState)
+        {
+        case eMAIN_Idle:
+            OnIdle();
+            break;
+        case eMAIN_Investigate:
+            OnInvestigating();
+            break;
+        case eMAIN_Patrol:
+            OnPatrolling();
+            break;
+        case eMAIN_Attack:
+            OnAttacking();
+            break;
+        case eMAIN_Cover:
+            OnCover();
+            break;
+        case eMAIN_Retreat:
+            OnRetreating();
+            break;
+        case eMAIN_ReactResupply:
+            OnReactResupply();
+            break;
+        case eMAIN_Ambient:
+            OnAmbient();
+            break;
+        case eMAIN_Drive:
+            OnDrive();
+            break;
+        }
+    }
+
+    void NPCArmedBehaviour::ChangeMainState(eState state)
+    {
+        m_nMainState = state;
+    }
+
+    void NPCArmedBehaviour::ChangeSubState(unsigned int state)
+    {
+        ExitSubState();
+        EnterSubState(state);
+    }
+
+    void NPCArmedBehaviour::EnterSubState(unsigned int state)
+    {
+        m_nSubState = state;
+        switch (m_nMainState)
+        {
+        case eMAIN_Idle:
+            EnterSubStateIdle();
+            break;
+        case eMAIN_Investigate:
+            EnterSubStateInvestigating();
+            break;
+        case eMAIN_Patrol:
+            EnterSubStatePatrolling();
+            break;
+        case eMAIN_Attack:
+            EnterSubStateAttacking();
+            break;
+        case eMAIN_Cover:
+            EnterSubStateCover();
+            break;
+        case eMAIN_Retreat:
+            EnterSubStateRetreating();
+            break;
+        case eMAIN_ReactResupply:
+            EnterSubStateReactResupply();
+            break;
+        case eMAIN_Ambient:
+            EnterSubStateAmbient();
+            break;
+        case eMAIN_Drive:
+            EnterSubStateDrive();
+            break;
+        }
+    }
+
+    void NPCArmedBehaviour::ExitSubState()
+    {
+        switch (m_nMainState)
+        {
+        case eMAIN_Idle:
+            ExitSubStateIdle();
+            break;
+        case eMAIN_Investigate:
+            ExitSubStateInvestigating();
+            break;
+        case eMAIN_Patrol:
+            ExitSubStatePatrolling();
+            break;
+        case eMAIN_Attack:
+            ExitSubStateAttacking();
+            break;
+        case eMAIN_Cover:
+            ExitSubStateCover();
+            break;
+        case eMAIN_Retreat:
+            ExitSubStateRetreating();
+            break;
+        case eMAIN_ReactResupply:
+            ExitSubStateReactResupply();
+            break;
+        case eMAIN_Ambient:
+            ExitSubStateAmbient();
+            break;
+        case eMAIN_Drive:
+            ExitSubStateDrive();
+            break;
+        }
+    }
+
+    NPCBehaviourPrototype::NPCBehaviourPrototype(const RWS::CAttributePacket &packet)
+        : AIBehaviour::AIBehaviourPrototype(packet), mPrimary(Editor::g_GUIDNull)
+    {
+    }
+
+    const RWS::RWSGUID &NPCBehaviourPrototype::RetPrimaryWeapon() const
+    {
+        return mPrimary;
+    }
+
+    // NPCBehaviour's constructor is 0x824A89C8, outside this scaffold's text range.
+    RWS::CAttributeHandler *NPCBehaviour::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        return new (memory) NPCBehaviour;
+    }
 
     RWS::CAttributeHandler *NPCBehaviour::MakeNew(const RWS::CAttributePacket &packet, bool)
     {
@@ -64,9 +223,9 @@ namespace AI
         return *ms_pNPCBehaviourClass;
     }
 
-    bool NPCBehaviour::IsA(const Fun_Runtime::cClass &c) const
+    void NPCBehaviour::OnEnterReplicatedState(unsigned char)
     {
-        return ms_pNPCBehaviourClass->IsA(c);
+        OnEnter();
     }
 
     Fun_Runtime::cClass &NPCBehaviour::StaticCreateClass()

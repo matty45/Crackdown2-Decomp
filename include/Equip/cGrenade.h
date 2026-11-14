@@ -4,16 +4,18 @@
 #ifndef EQUIP_CGRENADE_H
 #define EQUIP_CGRENADE_H
 #include "Equip/cWeapon.h"
+#include "fun_runtime/safedeletablepointer.h"
 namespace Equip
 {
     class cGrenade : public cWeapon
     {
     public:
         // CD2 constructor 0x8261E238 installs 427-slot table 0x82014DD0. Names/signatures of these slots remain unrecovered.
-        virtual void vf406(); // primary slot 406
+        // Burn/RuffKing name; CD2 slot 406 is overridden by the launch pad's launcher fallback.
+        virtual void Launched(cGameBase *pAttacker); // primary slot 406
         virtual void vf407(); // primary slot 407
         virtual void vf408(); // primary slot 408
-        virtual void vf409(); // primary slot 409
+        virtual bool CanItemUseAmmo() const; // Primary slot 409; reference name, CD2 cloak override reads its prototype flag.
         virtual void vf410(); // primary slot 410
         // Slot 411 (CD2 0x8260AAA8) returns m_bDetonated, as RuffKing's inline HasDetonated does.
         virtual bool HasDetonated(); // primary slot 411
@@ -68,12 +70,17 @@ namespace Equip
         float m_fLastGrenadeSoundTime;
         bool m_bLive;
         bool m_bDetonated;
-        unsigned char m_unmodelled8C6[0x9C0 - 0x8C6];
+        unsigned char m_unmodelled8C6[0x8E0 - 0x8C6];
+    protected:
+        // Reference name/type; CD2 Launched (0x8260E788) reads the safe-pointer payload at +0x8EC.
+        Fun_Runtime::cSafeDeletablePointer<CHARACTER::cCharacter> m_pCharacterLauncher;
+    private:
+        unsigned char m_unmodelled8F0[0x9C0 - 0x8F0];
         // CD2: cGrenade's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
-        virtual Fun_Runtime::RetVal Term(); // 6: 0x8229DF90
-        virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // 18: 0x8261D5C0
+        virtual Fun_Runtime::RetVal Term(); // CD2 cGrenade table 0x82014DD0 slot 6: 0x822F4390.
+        virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // Same table, slot 18: 0x8261E380.
         virtual void Slot24(); // 24: 0x8261F1F8
         virtual void vf76(); // 76: 0x8261F060
         virtual void vf140(); // 140: 0x8261C148
@@ -100,7 +107,8 @@ namespace Equip
         virtual bool CanBeEquipped(); // 336: 0x8261EE50
         virtual bool CanReleaseNetOwnershipOnInitMsg() const; // 349: 0x8261F720
     private:
-        CD2_LAYOUT_CHECKS(cGrenade, CD2_SIZE(cGrenade, 0x9C0) CD2_OFFSET(cGrenade, m_bLive, 0x8C4) CD2_OFFSET(cGrenade, m_bDetonated, 0x8C5))
+        CD2_LAYOUT_CHECKS(cGrenade, CD2_SIZE(cGrenade, 0x9C0) CD2_OFFSET(cGrenade, m_bLive, 0x8C4) CD2_OFFSET(cGrenade, m_bDetonated, 0x8C5)
+            CD2_OFFSET(cGrenade, m_pCharacterLauncher, 0x8E0))
 
     public:
         // CD2 table 0x82014DD0 differs from cWeapon at these inherited slots.

@@ -25,6 +25,8 @@
 
 namespace PHYSICS
 {
+    cWaterCinfo cWaterProfile::m_WaterInfo;
+
     const char *cWaterProfile::RetClassName() const
     {
         return "cWaterProfile";

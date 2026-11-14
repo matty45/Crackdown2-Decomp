@@ -38,6 +38,8 @@ namespace AudioLogic
     public:
         // Out of line: CD2 0x82527860 (MakeNew calls it).
         cAudioBaseProfile();
+        // CD2 0x82527B90 takes only the profile name; unlike RuffKing it has no this argument.
+        static cAudioBaseProfile *GetAudioProfile(const char *profileName);
 
         bool m_bReset;
     protected:

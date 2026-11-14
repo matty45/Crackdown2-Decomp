@@ -5,9 +5,15 @@
 #include "Vehicle/cCarProfile.h"
 #include "rws/classfactory.h"
 #include "rws/msg.h"
+#include "cd2/memory.h"
 
 namespace Vehicle
 {
+    RWS::CAttributeHandler *cCarProfile::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cCarProfile;
+    }
+
     const char *cCarProfile::RetClassName() const
     {
         return "cCarProfile";

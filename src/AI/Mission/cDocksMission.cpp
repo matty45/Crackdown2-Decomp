@@ -13,6 +13,11 @@
 
 namespace AI
 {
+    RWS::CAttributeHandler *cDocksMission::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cDocksMission;
+    }
+
     const char *cDocksMission::RetClassName() const
     {
         return "cDocksMission";

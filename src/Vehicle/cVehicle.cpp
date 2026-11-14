@@ -19,6 +19,10 @@
 #include "cd2/memory.h"
 #include "VFX/cGlobalLight.h"
 #include "Vehicle/cVehicleSeat.h"
+#include "Network/netcrackdown.h"
+#include "PHYSICS/cDynamicBodyInteractionData.h"
+#include "Damage/cVehicleDamageManager.h"
+#include "PLAYER/cPlayer.h"
 #include <new>
 
 namespace Vehicle
@@ -106,9 +110,60 @@ namespace Vehicle
         m_bEngineShutdown = true;
     }
 
+    CHARACTER::cCharacter *cVehicle::RetPtrPassenger(int nSeat)
+    {
+        if (RetNumberofVehicleSeats() <= nSeat)
+            return 0;
+        return m_VehicleSeats[nSeat]->RetOccupant();
+    }
+
     int cVehicle::RetNumberOfSeats()
     {
         return m_VehicleSeats.size();
+    }
+
+    unsigned char cVehicle::RetCollisionLayer()
+    {
+        return IsInVehicle(PLAYER::cPlayer::g_pLocalPlayer) ? 29 : 4;
+    }
+
+    cVehicleTurret *cVehicle::RetVehicleTurret(int nTurret)
+    {
+        if ((int)m_VehicleTurrets.size() > nTurret && m_VehicleTurrets[nTurret].RetTurret())
+            return &m_VehicleTurrets[nTurret];
+        return 0;
+    }
+
+    bool cVehicle::IsInVehicle(cNonGameBase *pObject)
+    {
+        for (unsigned int i = 0; i < m_VehicleSeats.size(); i++)
+        {
+            if (pObject && m_VehicleSeats[i]->RetOccupant() == pObject)
+                return true;
+        }
+        return false;
+    }
+
+    // CD2's seat numbers here count from 1.
+    bool cVehicle::IsSeatOccupied(unsigned int nSeat)
+    {
+        unsigned int nIndex = nSeat - 1;
+        if (m_VehicleSeats.size() > nIndex && m_VehicleSeats[nIndex]->RetOccupant())
+            return true;
+        return false;
+    }
+
+    bool cVehicle::IsSeatIndexOccupied(unsigned int nSeat)
+    {
+        if (m_VehicleSeats.size() > nSeat && m_VehicleSeats[nSeat]->RetOccupant())
+            return true;
+        return false;
+    }
+
+    bool cVehicle::IsOkToInteract()
+    {
+        return IsOnGround() && IsUpRight() && IsDoorAngleOk() && !IsSufficientlyInWater() && !IsSeatDoorLocked(0)
+            && !IsInFadeToDeleteFinalStage();
     }
 
     bool cVehicle::IsNearTurret(CHARACTER::cCharacter *pCharacter, unsigned int nTurret, char &nAttachPoint, float &fDist)
@@ -140,9 +195,19 @@ namespace Vehicle
         return nMask;
     }
 
+    void cVehicle::Detonate(CHARACTER::cCharacterInterface *pAttacker)
+    {
+        BlowUp(0, pAttacker, 4, true);
+    }
+
     unsigned short cVehicle::RetCollisionSystemGroup()
     {
         return m_nSystemGroup;
+    }
+
+    hkCollidableQualityType cVehicle::RetCollidableQuality(hkMotion::MotionType)
+    {
+        return m_bPlayerInteracting ? HK_COLLIDABLE_QUALITY_CRITICAL : HK_COLLIDABLE_QUALITY_MOVING;
     }
 
     void cVehicle::SetPhysicsLOD(unsigned char nNewLOD)
@@ -153,6 +218,12 @@ namespace Vehicle
             m_nPhysicsLOD = nNewLOD;
             EventPhysicsLODChange(nPrevLOD, nNewLOD);
         }
+    }
+
+    void cVehicle::EndInterpolationOptional()
+    {
+        if (g_CullVehicleInterpOnCollision)
+            m_bNetworkInterpolationActive = false;
     }
 
     unsigned char cVehicle::GetForceOpenMask()
@@ -173,9 +244,40 @@ namespace Vehicle
         return true;
     }
 
+    void cVehicle::UpdateNetworkInterpolation(float dT)
+    {
+        PHYSICS::cNetDynamicBody::UpdateNetworkInterpolation(dT, g_EnableNewVehicleInterp);
+    }
+
+    void cVehicle::HandleTryToCloseDoorInteractionPermissionQuery(PHYSICS::cDynamicBodyInteractionData *pInteractionData,
+        cNonGameBase *pNonGameBase, bool &bInteractionResult)
+    {
+        unsigned int nSeat = pInteractionData->m_nSubItem;
+        float fDist;
+        bool bMirrored;
+        if (CanSeatDoorBeClosed(nSeat) && IsUpRight()
+            && IsNearDoor(static_cast<CHARACTER::cCharacter *>(pNonGameBase), nSeat, fDist, bMirrored))
+        {
+            pInteractionData->m_eInteraction = PHYSICS::eDBIT_CLOSE_DOOR;
+            bInteractionResult = true;
+        }
+        else
+        {
+            pInteractionData->m_eInteraction = PHYSICS::eDBIT_CLOSE_DOOR_FAIL;
+            bInteractionResult = false;
+        }
+    }
+
     float cVehicle::RetNetworkDoorOpenCloseSpeed(unsigned char)
     {
         return 0.1f;
+    }
+
+    PHYSICS::cNetDynamicBody::eArbitrationResult cVehicle::ArbitrateOwnership(unsigned char nNodeID, unsigned int TimeStamp)
+    {
+        if (RetVehicleDamageManager() && RetVehicleDamageManager()->m_nBrakeUpState)
+            return eAR_ThisNodeWon;
+        return PHYSICS::cNetDynamicBody::ArbitrateOwnership(nNodeID, TimeStamp);
     }
 
 }

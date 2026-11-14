@@ -20,14 +20,15 @@ namespace VFX
     public:
         // Out of line: CD2 0x827FB998 (MakeNew calls it).
         cGlobalLightManager();
+        // CD2 0x83801524 (SetOccluded reads it before the add/remove calls; cLandVehicle::AddVehicleLights 0x826C2170
+        // tests it first). RuffKing: VFX::g_pGlobalLightManager.
+        static cGlobalLightManager *ms_pSingleton;
 
     private:
         friend class cGlobalLight;
         // RuffKing names; CD2 0x827FC2F0/0x827FC3B0 take the light and return whether it was added/removed.
         bool AddOccludedLight(cGlobalLight *pLight);
         bool RemoveOccludedLight(cGlobalLight *pLightToRemove);
-        // CD2 0x83801524 (SetOccluded reads it before the add/remove calls).
-        static cGlobalLightManager *ms_pSingleton;
 
         unsigned char m_unmodelled7C[0x5AE0 - 0x7C];
 

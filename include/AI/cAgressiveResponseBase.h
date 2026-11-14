@@ -33,7 +33,7 @@ namespace AI
     public:
         virtual void OnEnter(); // 68: 0x824C9530
         virtual void OnExit(); // 69: 0x824C96F0
-        virtual void Slot72(); // 72: 0x824C9638
+        virtual void OnEnterReplicatedState(unsigned char); // 72: 0x824C9638
         virtual void OnEvent74(AI::NPCTarget *); // 74: 0x824CB058
         virtual void OnEvent75(AI::NPCTarget *); // 75: 0x824CB118
         virtual void Slot76(); // 76: 0x824CB610

@@ -24,11 +24,29 @@ namespace Vehicle
         static const Fun_Runtime::cClass *ms_pcAgencySUVClass;
         static Fun_Runtime::cClass &StaticCreateClass();
 
+        // Registered-class table 0x82138934: slot 0 (0x826FB958) and slot 1 (0x826FB968).
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
+
+        // CD2: cAgencySUV's own virtuals. Each slot below holds, in this class's CD2 vtable 0x82138178, an address its
+        // base's table does not hold there, so the class overrides it; names and signatures are the bases'. The
+        // destructor slot holds cCar's folded copy: the class declares no destructor.
+        virtual void Slot23();                                  // 23: 0x826FBF40
+        virtual Fun_Runtime::RetVal TermForReuse();             // 39: 0x826FBDA8
+        virtual void vf85();                                    // 85: 0x826FBDF0
+        virtual void ReplicateInitialFields();                  // cReplicatedClass 8: 0x826FC570
+        virtual void ReplicateFields();                         // cReplicatedClass 9: 0x826FC5B0
+        virtual unsigned int GetMaxReplicatedFields() const;    // cReplicatedClass 23: 0x82889198
+
     private:
-        unsigned char m_unmodelled30B0[0x30C0 - 0x30B0];
+        // RuffKing's members (0x2FB0 and 0x2FB4 there).
+        float m_fChargeTimer;                                   // 0x30B0
+        unsigned char m_nASUVFlags;                             // 0x30B4
 
         CD2_LAYOUT_CHECKS(cAgencySUV,
-            CD2_SIZE(cAgencySUV, 0x30C0))
+            CD2_SIZE(cAgencySUV, 0x30C0)
+            CD2_OFFSET(cAgencySUV, m_fChargeTimer, 0x30B0)
+            CD2_OFFSET(cAgencySUV, m_nASUVFlags, 0x30B4))
     };
 }
 

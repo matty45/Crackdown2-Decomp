@@ -9,6 +9,8 @@
 #include "rws/classfactory.h"
 #include "ZoneManager/cReverbZone.h"
 #include "cd2/memory.h"
+#include "PLAYER/cPlayer.h"
+#include "Audio/cReverbControl.h"
 
 namespace ZoneManager
 {
@@ -24,6 +26,21 @@ namespace ZoneManager
 
     cReverbZone::~cReverbZone()
     {
+    }
+
+    // CD2's ambience-zone table holds this copy too (identical bodies folded).
+    void cReverbZone::TermTriggerZone()
+    {
+        cPlayerTriggerZone::TermTriggerZone();
+    }
+
+    void cReverbZone::OnPlayerLeave(CHARACTER::cCharacter *pCharacter)
+    {
+        if (pCharacter == PLAYER::cPlayer::RetLocalPlayerCharacter())
+        {
+            Audio::cReverbControl::Exit(m_nLayerType);
+            m_bPreviouslyLeft = true;
+        }
     }
 
     static RWS::CClassFactory::CRegistrar cReverbZoneRegistrar(

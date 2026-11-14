@@ -69,7 +69,7 @@ namespace Equip
         virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // 18: 0x8262AD90
         virtual void Slot23(); // 23: 0x82625800
         virtual void Slot24(); // 24: 0x8262BB08
-        virtual void Slot27(); // 27: 0x82580578
+        virtual void LeavePhysicalState(); // 27: 0x82580578
         virtual bool EnterRenderableState(eResourcesType); // 31: 0x82625738
         virtual void LeaveRenderableState(); // 32: 0x82580578
         virtual void vf76(); // 76: 0x8262CA98
@@ -78,8 +78,8 @@ namespace Equip
         virtual void vf276(); // 276: 0x8262D380
         virtual void vf277(); // 277: 0x8262D400
         virtual void vf300(); // 300: 0x827E56A8
-        virtual void vf306(); // 306: 0x8262C2D8
-        virtual void vf307(); // 307: 0x8262C228
+        virtual void UpdateNetworkInterpolation(float dt, bool bEnableNewInterp); // 306: 0x8262C2D8
+        virtual void ActivateNetworkInterpolation(const Fun_Runtime::Vec3 &vTargetInterpolationPosition, const Fun_Runtime::Quat &qTargetInterpolationOrientation, bool bEnableNewInterp); // 307: 0x8262C228
         virtual void SetStatus(Equip::cEquipment::EQUIP_STATUS); // 316: 0x8262AEB0
         virtual bool CanReleaseNetOwnershipOnAVExit() const; // 348: 0x827E56A8
         virtual int RetNetworkLOD(CHARACTER::cCharacter *,int); // 350: 0x8262AEE8

@@ -7,10 +7,15 @@
 
 #include "rws/attributes.h"
 
+namespace Fun_Runtime { class cClass; }
+
 namespace GOM
 {
     class cObjectPrototype;
     cObjectPrototype *FindPrototypeById(const RWS::RWSGUID &);
+    // CD2 0x82656808 takes only the name and class filter (r3/r4).
+    // RuffKing names the later manager member FindPrototypeByName.
+    cObjectPrototype *FindPrototypeByName(const char *, const Fun_Runtime::cClass *);
 }
 
 #endif

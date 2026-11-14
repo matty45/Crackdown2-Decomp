@@ -30,6 +30,8 @@ namespace VFX
         bool IsOccluded() { return m_nOcclusionIndex >= 0 && m_nOcclusionIndex < 512; }
         // Inlined by CD2 into cVehicle::IsLightActive.
         bool IsDamaged() const { return (m_nFlags & eLP_Damaged) != 0; }
+        // RuffKing declares it; inlined by CD2 into cLandVehicle::ResetDamagedLights (0x826C5770).
+        void ResetDamage() { m_nFlags &= ~eLP_Damaged; }
 
     protected:
         unsigned char m_unmodelled04[0x78 - 4];

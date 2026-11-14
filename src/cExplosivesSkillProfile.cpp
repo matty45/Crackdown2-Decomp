@@ -25,6 +25,13 @@
 #include "RPG/cExplosivesSkillProfile.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "cd2/memory.h"
+#include "rw/rwmem.h"
+
+// CD2 calls external assign at 0x82438418 with offset/count arguments;
+// suppress local LTCG specialization of this shared string instantiation.
+extern template std::basic_string<wchar_t, std::char_traits<wchar_t>, Fun_Runtime::cAllocator<wchar_t> > &
+    std::basic_string<wchar_t, std::char_traits<wchar_t>, Fun_Runtime::cAllocator<wchar_t> >::assign(
+        const std::basic_string<wchar_t, std::char_traits<wchar_t>, Fun_Runtime::cAllocator<wchar_t> > &, size_t, size_t);
 
 namespace RPG
 {
@@ -57,6 +64,30 @@ namespace RPG
     {
         UnLinkMsg(m_Msg_Return_Self);
         UnRegisterMsg(m_Msg_Return_Self);
+    }
+
+    void cExplosivesSkillProfile::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        for (RWS::CAttributeCommandIterator it(packet, "cExplosivesSkillProfile"); !it.IsFinished(); ++it)
+        {
+            switch (it->GetCommandId())
+            {
+            case CMD_AbsorbedExplosiveDamage:
+                {
+                    float value = it->GetAs_float();
+                    RwMemNative32(&value, sizeof(value));
+                    m_fAbsorbedExplosionPercent = value * 0.01f;
+                }
+                break;
+            case CMD_Msg_Return_Self:
+                {
+                    Fun_Runtime::cString profileName(it->GetAs_char_ptr());
+                    m_sProfileName = profileName;
+                }
+                ReplaceLinkedMsg(m_Msg_Return_Self, it->GetAs_char_ptr(), "return cExplosivesSkillProfile*");
+                break;
+            }
+        }
     }
 
     // CD2 0x82FFD408 (initializer) and 0x83041D40 (at-exit destructor).

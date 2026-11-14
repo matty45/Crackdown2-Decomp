@@ -50,15 +50,18 @@ namespace AI
         virtual void OnEvent75(NPCTarget *t); // slot 75: 0x824C3728
         virtual void Slot79(); // slot 79: 0x824C34C0
         virtual void Slot83(); // slot 83: 0x824C41E8
-        virtual void Slot85(); // slot 85: 0x824C3D30
-        virtual void vf98(); // slot 98: 0x824C3870
-        virtual void vf102(); // slot 102: 0x824C3B18
-        virtual void vf103(); // slot 103: 0x824C3AB0
-        virtual void vf104(); // slot 104: 0x824C3B68
-        virtual void vf105(); // slot 105: 0x824C3BB8
-        virtual void vf106(); // slot 106: 0x82580578
-        virtual void vf109(); // slot 109: 0x824C3C58
-        virtual void vf110(); // slot 110: 0x82580578
+        virtual void SetReactResupplyPoint(const Fun_Runtime::Vec3 &, const Fun_Runtime::Vec3 &); // slot 85: 0x824C3D30
+        virtual void ChangeMainState(eState); // slot 98: 0x824C3870
+        virtual void OnIdle(); // slot 102: 0x824C3B18
+        virtual void OnInvestigating(); // slot 103: 0x824C3AB0
+        virtual void OnPatrolling(); // slot 104: 0x824C3B68
+        virtual void OnAttacking(); // slot 105: 0x824C3BB8
+        virtual void OnCover(); // slot 106: 0x82580578
+        virtual void OnAmbient(); // slot 109: 0x824C3C58
+        virtual void OnDrive(); // slot 110: 0x82580578
+    protected:
+        // Reference method; CD2 ChangeMainState tail-calls 0x824C3888 with the new state.
+        void OnEnterState(eState);
     };
 }
 

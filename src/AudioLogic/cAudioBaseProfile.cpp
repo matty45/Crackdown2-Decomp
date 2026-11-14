@@ -18,6 +18,12 @@
 #include "cd2/memory.h"
 #include "fun_runtime/retval.h"
 
+// CD2 calls the external wide-string assign instantiation at 0x82438418 with
+// offset/count arguments; local LTCG specialization otherwise removes them.
+extern template std::basic_string<wchar_t, std::char_traits<wchar_t>, Fun_Runtime::cAllocator<wchar_t> > &
+    std::basic_string<wchar_t, std::char_traits<wchar_t>, Fun_Runtime::cAllocator<wchar_t> >::assign(
+        const std::basic_string<wchar_t, std::char_traits<wchar_t>, Fun_Runtime::cAllocator<wchar_t> > &, size_t, size_t);
+
 namespace AudioLogic
 {
     const char *cAudioBaseProfile::RetClassName() const
@@ -59,6 +65,25 @@ namespace AudioLogic
     {
         UnLinkMsg(m_Msg_Return_Audio_Self);
         UnRegisterMsg(m_Msg_Return_Audio_Self);
+        m_bReset = false;
+    }
+
+    void cAudioBaseProfile::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        RWS::CAttributeHandler::HandleAttributes(packet);
+        for (RWS::CAttributeCommandIterator it(packet, "cAudioBaseProfile"); !it.IsFinished(); ++it)
+        {
+            switch (it->GetCommandId())
+            {
+            case 0:
+                {
+                    Fun_Runtime::cString profileName(it->GetAs_char_ptr());
+                    m_sProfileName = profileName;
+                }
+                ReplaceLinkedMsg(m_Msg_Return_Audio_Self, it->GetAs_char_ptr(), "return cAudioBaseProfile*");
+                break;
+            }
+        }
         m_bReset = false;
     }
 

@@ -12,6 +12,11 @@ namespace AI
     class cGoliathBreachHole : public cBreachHole
     {
     public:
+        // CD2's Goliath table differs from cBreachHole at slots 16..19.
+        virtual void TickUpdate(float, bool); // 0x824740A8
+        virtual void TryKillAllSpawned(); // 0x82474190
+        virtual void ExitState(eBreachHoleState); // 0x82474288
+        virtual void EnterState(eBreachHoleState); // 0x824742D8
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pcGoliathBreachHoleClass;
 

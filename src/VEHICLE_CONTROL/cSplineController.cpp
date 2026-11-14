@@ -9,3 +9,10 @@
 #include "CHARACTER/cCharacterController.h"
 #include "CHARACTER/cRagdollProfile.h"
 #include "AI/aiconstants.h"
+#include <algorithm>
+
+// CD2's range-fill helper takes float storage, an unsigned count and a value
+// reference; the standard template retains a load from that reference each time.
+template float *std::copy<float *, float *>(float *, float *, float *);
+template float *std::copy_backward<float *, float *>(float *, float *, float *);
+template void std::fill_n<float *, unsigned int, float>(float *, unsigned int, const float &);

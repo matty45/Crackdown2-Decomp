@@ -162,6 +162,13 @@ namespace AI
         }
     }
 
+    bool squad_respawn_lt(const cSquadRespawnData &pA, const cSquadRespawnData &pB)
+    {
+        if (pA.m_fNextRespawnTime < pB.m_fNextRespawnTime)
+            return true;
+        return false;
+    }
+
     bool cTacticalObjective::IsLocalPlayerNearby() const
     {
         return IsLocalPlayerInsideInner();

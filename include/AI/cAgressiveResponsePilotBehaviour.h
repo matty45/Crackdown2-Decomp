@@ -14,7 +14,11 @@ namespace AI
     class cAgressiveResponsePilotBehaviour : public cAgressiveResponseBase
     {
     public:
+        // CD2 placement factory tail-calls this constructor at 0x824D0CA8.
+        cAgressiveResponsePilotBehaviour();
         virtual const char *RetClassName() const;
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static Fun_Runtime::cClass &StaticCreateClass();

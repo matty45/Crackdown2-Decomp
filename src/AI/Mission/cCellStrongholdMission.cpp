@@ -11,12 +11,11 @@
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
 #include "PLAYER/cPlayer.h"
+#include "AI/cGameDirectionManager.h"
 
 namespace AI
 {
     const Fun_Runtime::cClass *cCellStrongholdMission::ms_pcCellStrongholdMissionClass = &cCellStrongholdMission::StaticCreateClass();
-
-    cCellStrongholdMission::cCellStrongholdMission() {}
 
     const Fun_Runtime::cClass &cCellStrongholdMission::RetClass() const
     {
@@ -33,9 +32,9 @@ namespace AI
         return ms_pcCellStrongholdMissionClass->IsA(c);
     }
 
-    RWS::CAttributeHandler *cCellStrongholdMission::MakeNew(const RWS::CAttributePacket &packet, bool)
+    RWS::CAttributeHandler *cCellStrongholdMission::MakeNew(const RWS::CAttributePacket &, bool)
     {
-        return new cCellStrongholdMission();
+        return new cCellStrongholdMission;
     }
 
     static RWS::CClassFactory::CRegistrar cCellStrongholdMissionRegistrar(
@@ -55,6 +54,17 @@ namespace AI
     {
         m_eMissionState = eCSMS_Inactive;
         cMission::Activate();
+    }
+
+    void cCellStrongholdMission::TickUpdate(float dT)
+    {
+        TickSquadSwitch(dT);
+        if (IsAuthority())
+            Update();
+        const CHARACTER::cCharacter *pCharacter = PLAYER::cPlayer::RetLocalPlayerCharacter();
+        if (m_eMissionState < eCSMS_Complete && m_pContainmentZone && m_pContainmentZone->IsInTriggerZone(pCharacter)
+            && cGameDirectionManager::ms_pGameDirectionManager)
+            cGameDirectionManager::ms_pGameDirectionManager->SetCurrentCSMission(this);
     }
 
     void cCellStrongholdMission::OnLeaveGlobalMissionState(etGlobalMissionState nState)

@@ -4,6 +4,7 @@
 #include "PHYSICS/physicsproject.h"
 #include "Equip/cLightAttachmentData.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
 
 namespace Equip
 {
@@ -14,4 +15,10 @@ namespace Equip
 
     static RWS::CClassFactory::CRegistrar cLightAttachmentDataRegistrar(
         "cLightAttachmentData", cLightAttachmentData::MakeNew, 0x38, false);
+
+    cLightAttachmentData::~cLightAttachmentData()
+    {
+        UnLinkMsg(m_RetrieveLightData);
+        UnRegisterMsg(m_RetrieveLightData);
+    }
 }

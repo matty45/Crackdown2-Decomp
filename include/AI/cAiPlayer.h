@@ -188,7 +188,7 @@ namespace AI
         virtual bool EnterPhysicalState(); // 7: 0x823E8FA0
         virtual void Slot17(); // 17: 0x823E8848
         virtual void Slot21(); // 21: 0x8227FBC8
-        virtual void Slot27(); // 27: 0x821D2968
+        virtual void LeavePhysicalState(); // 27: 0x821D2968
         virtual void Slot63(); // 62: 0x823E7A38
         virtual void Slot64(); // 63: 0x8227FAE8
         virtual void Slot65(); // 64: 0x823E8B50

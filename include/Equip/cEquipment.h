@@ -86,9 +86,12 @@ namespace Equip
         virtual int RetUpperEquipIndex() const;
         virtual bool IsLive();                                  // 330
         virtual bool IsDetonating();
+        // CD2's weapon tables (cWeapon 0x8211F3C8, cCWWeapon 0x8211FD38, cGrenade 0x82014DD0) hold the false stub at
+        // 332, the clip-plus-stored sum (0x82607A80, RetTotalAmmo) at 333 and the stored-ammo test (0x82378A28,
+        // HasMaxAmmo) at 334.
+        virtual bool IsMarkedForDeletion();                     // 332
         virtual unsigned int RetTotalAmmo() const;
         virtual bool HasMaxAmmo() const;
-        virtual bool IsMarkedForDeletion();
         virtual bool PickUpRequested(cGameBase *pOwnerTest);    // 335
         virtual bool CanBeEquipped();
         virtual void ToggleLightAttachment();
@@ -222,7 +225,8 @@ namespace Equip
         virtual void vf87(); // 87: 0x826058A8
         virtual void vf91(); // 91: 0x82605710
         virtual void vf92(); // 92: 0x82605610
-        virtual void vf122(); // 122: 0x82605008
+        virtual GOM::cPointOfInterest *RetPointOfInterest(int nPoint); // 122: 0x82605008
+        virtual unsigned char RetNumPointsOfInterest(); // 123: 0x8288FB78, unlike cNetDynamicBody's zero return.
         virtual void vf127(); // 127: 0x82605010
         virtual void vf153(); // 153: 0x82604F98
         virtual void vf154(); // 154: 0x82604FA0
@@ -250,9 +254,9 @@ namespace Equip
         virtual void vf288(); // 288: 0x827E56A8
         virtual void vf295(); // 295: 0x82580578
         virtual void vf296(); // 296: 0x82580578
-        virtual void vf304(); // 304: 0x82580578
-        virtual void vf309(); // 309: 0x82580578
-        virtual void vf310(); // 310: 0x827E56A8
+        virtual void EndInterpolationOptional(); // 304: 0x82580578
+        virtual void SetDeletingReason(char); // 309: 0x82580578
+        virtual char GetDeletingReason(); // 310: 0x827E56A8
         virtual void SetNetRole(etNetRole); // cNetRoleObject 1: 0x82606B80
         virtual void CalculateRelevancy(int); // cReplicatedClass 2: 0x825DEEE0
         virtual void CalculateLOD(int); // cReplicatedClass 3: 0x826066B0

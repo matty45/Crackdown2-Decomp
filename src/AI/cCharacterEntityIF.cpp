@@ -134,6 +134,16 @@ namespace AI
         return RetCharacter()->RetCharacterState();
     }
 
+    Equip::cEquipment *cCharacterEntityIF::AddEquipment(const char *sProtoName)
+    {
+        return cCharacterInterface::AddEquipment(sProtoName, true, false, 0, false);
+    }
+
+    Equip::cEquipment *cCharacterEntityIF::AddEquipmentDontEquip(const char *sProtoName)
+    {
+        return cCharacterInterface::AddEquipment(sProtoName, false, false, 0, false);
+    }
+
     unsigned int cCharacterEntityIF::RetMaxAiToAiVisibilityLevel() const
     {
         return m_nMaxAiToAiVisibilityLevel;

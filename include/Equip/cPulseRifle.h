@@ -7,6 +7,7 @@
 #define EQUIP_CPULSERIFLE_H
 
 #include "fun_runtime/class.h"
+#include "Equip/tPulseProfile.h"
 
 namespace Equip
 {
@@ -20,12 +21,15 @@ namespace Equip
         public:
             cPulseRiflePrototype(const RWS::CAttributePacket &);
             virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
+            virtual void HandleAttributes(const RWS::CAttributePacket &);
 
-        private:
-            unsigned char m_unmodelled3E0[0x430 - 0x3E0];
+            tPulseProfile m_PulseProfile;
+            float m_fPulseAISoundRadius;
 
             CD2_LAYOUT_CHECKS(cPulseRiflePrototype,
-                CD2_SIZE(cPulseRiflePrototype, 0x430))
+                CD2_SIZE(cPulseRiflePrototype, 0x430)
+                CD2_OFFSET(cPulseRiflePrototype, m_PulseProfile, 0x3E0)
+                CD2_OFFSET(cPulseRiflePrototype, m_fPulseAISoundRadius, 0x420))
         };
 
         // CD2 0x8260ED38: primary virtual slot 11 returns the registered class name.

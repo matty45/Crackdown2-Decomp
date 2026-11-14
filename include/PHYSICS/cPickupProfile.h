@@ -16,6 +16,24 @@ namespace PHYSICS
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         // CD2 table 0x82002EFC, slot 11.
         virtual const char *RetClassName() const;
+        virtual void Destruct(); // CD2 primary slot 12, shared empty body.
+        virtual ~cPickupProfile();
+        virtual void HandleAttributes(const RWS::CAttributePacket &);
+        virtual bool HandleDataInNewDesignBuild() { return true; }
+        // CD2 expands both static-array reset loops into its factory.
+        cPickupProfile(const RWS::CAttributePacket &);
+    protected:
+        // Reference member names; CD2's factory resets 28 entries, rather
+        // than the smaller effect/collision sets in RuffKing.
+        static int m_aEffectID[28];
+        struct tPickupCollisionData
+        {
+            float fRadiusOnFoot;
+            float fHeightOnFoot;
+            float fRadiusInVehicle;
+        };
+        static tPickupCollisionData ms_aPickupColData[28];
+        CD2_LAYOUT_CHECKS(cPickupProfile, CD2_SIZE(cPickupProfile, 0x18))
     };
 }
 

@@ -64,6 +64,9 @@ namespace AI
         virtual void OnEnterMissionState(unsigned char); // cRegisteredClass 31: 0x8246CA40
         virtual void OnEnterGlobalMissionState(AI::cMission::etGlobalMissionState); // cRegisteredClass 33: 0x8246C248
         virtual void GetSaveStateForMissionState(unsigned char &,unsigned char &); // cRegisteredClass 36: 0x8246C430
+        // cLoadSaveObject table 0x8210418C: RuffKing's overrides, which call cMission's.
+        virtual void Load(SaveGame::cLoadStream *pStream); // cLoadSaveObject 0: 0x8246C420
+        virtual void Save(SaveGame::cSaveStream *pStream); // cLoadSaveObject 1: 0x8246C428
         // RuffKing's cFinalMission fields (cFinalMission.h) at CD2's offsets up to its path lists: OnChildMissionCompleted
         // (0x8246C238) counts 0x3C5, TermReplication (0x8246BEE0) reads the three core spawn points at 0x408..0x410.
         // Size 0xC50 from CD2's registrar; RuffKing's class is 0x990, so CD2's later fields sit elsewhere: the barrier

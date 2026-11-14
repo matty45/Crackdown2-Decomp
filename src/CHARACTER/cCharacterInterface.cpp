@@ -114,6 +114,11 @@ namespace CHARACTER
         return RetCharacter()->RetRealCurrentPrimaryEquipment();
     }
 
+    Equip::cEquipment *cCharacterInterface::AddDefaultEquipmentByName(const char *sProtoName, bool bAutoEquip)
+    {
+        return AddEquipment(sProtoName, bAutoEquip, false, 0, false);
+    }
+
     bool cCharacterInterface::IsEquipmentTypeInInventory(unsigned int type)
     {
         return RetCharacter()->RetEquipmentOfType(type) != 0;

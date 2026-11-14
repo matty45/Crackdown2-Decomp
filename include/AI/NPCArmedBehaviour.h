@@ -1,5 +1,6 @@
 // STAND-IN: RuffKing NPCArmedBehaviour derives from NPCBehaviour. CD2's
-// StaticCreateClass (0x824A7E80) gives size 0xF0; fields after the 0xC0 base are unmodelled.
+// StaticCreateClass (0x824A7E80) gives size 0xF0; constructor 0x824A8070
+// confirms the reference-named vectors and state fields after the 0xC0 base.
 #ifndef AI_NPCARMEDBEHAVIOUR_H
 #define AI_NPCARMEDBEHAVIOUR_H
 #include "AI/NPCBehaviour.h"
@@ -8,40 +9,48 @@ namespace AI
     class NPCArmedBehaviour : public NPCBehaviour
     {
     public:
-        // CD2 constructor 0x824A8070 installs 132-slot table 0x821089B0. Names/signatures of these slots remain unrecovered.
+        enum eState
+        {
+            eMAIN_Null = 0, eMAIN_Idle, eMAIN_Investigate, eMAIN_Patrol,
+            eMAIN_Attack, eMAIN_Cover, eMAIN_Retreat, eMAIN_ReactResupply,
+            eMAIN_Ambient, eMAIN_Drive, eNumMainStates
+        };
+        // CD2 constructor 0x824A8070 installs 132-slot table 0x821089B0.
+        // State callback names follow RuffKing; remaining vf names are unresolved.
         virtual void vf96(); // primary slot 96
-        virtual void vf97(); // primary slot 97
-        virtual void vf98(); // primary slot 98
-        virtual void vf99(); // primary slot 99
-        virtual void vf100(); // primary slot 100
-        virtual void vf101(); // primary slot 101
-        virtual void vf102(); // primary slot 102
-        virtual void vf103(); // primary slot 103
-        virtual void vf104(); // primary slot 104
-        virtual void vf105(); // primary slot 105
-        virtual void vf106(); // primary slot 106
-        virtual void vf107(); // primary slot 107
-        virtual void vf108(); // primary slot 108
-        virtual void vf109(); // primary slot 109
-        virtual void vf110(); // primary slot 110
-        virtual void vf111(); // primary slot 111
-        virtual void vf112(); // primary slot 112
-        virtual void vf113(); // primary slot 113
-        virtual void vf114(); // primary slot 114
-        virtual void vf115(); // primary slot 115
-        virtual void vf116(); // primary slot 116
-        virtual void vf117(); // primary slot 117
-        virtual void vf118(); // primary slot 118
-        virtual void vf119(); // primary slot 119
-        virtual void vf120(); // primary slot 120
-        virtual void vf121(); // primary slot 121
-        virtual void vf122(); // primary slot 122
-        virtual void vf123(); // primary slot 123
-        virtual void vf124(); // primary slot 124
-        virtual void vf125(); // primary slot 125
-        virtual void vf126(); // primary slot 126
-        virtual void vf127(); // primary slot 127
-        virtual void vf128(); // primary slot 128
+        virtual void OnReplicatedEnter(unsigned char); // primary slot 97
+        virtual void ChangeMainState(eState); // primary slot 98
+        virtual void ChangeSubState(unsigned int); // primary slot 99
+        virtual void EnterSubState(unsigned int); // primary slot 100
+        virtual void ExitSubState(); // primary slot 101
+        // CD2 holds _purecall in slots 102..106, 109 and 110.
+        virtual void OnIdle() = 0; // primary slot 102
+        virtual void OnInvestigating() = 0; // primary slot 103
+        virtual void OnPatrolling() = 0; // primary slot 104
+        virtual void OnAttacking() = 0; // primary slot 105
+        virtual void OnCover() = 0; // primary slot 106
+        virtual void OnRetreating(); // primary slot 107
+        virtual void OnReactResupply(); // primary slot 108
+        virtual void OnAmbient() = 0; // primary slot 109
+        virtual void OnDrive() = 0; // primary slot 110
+        virtual void EnterSubStateIdle(); // primary slot 111
+        virtual void EnterSubStateInvestigating(); // primary slot 112
+        virtual void EnterSubStatePatrolling(); // primary slot 113
+        virtual void EnterSubStateAttacking(); // primary slot 114
+        virtual void EnterSubStateCover(); // primary slot 115
+        virtual void EnterSubStateRetreating(); // primary slot 116
+        virtual void EnterSubStateReactResupply(); // primary slot 117
+        virtual void EnterSubStateAmbient(); // primary slot 118
+        virtual void EnterSubStateDrive(); // primary slot 119
+        virtual void ExitSubStateIdle(); // primary slot 120
+        virtual void ExitSubStateInvestigating(); // primary slot 121
+        virtual void ExitSubStatePatrolling(); // primary slot 122
+        virtual void ExitSubStateAttacking(); // primary slot 123
+        virtual void ExitSubStateCover(); // primary slot 124
+        virtual void ExitSubStateRetreating(); // primary slot 125
+        virtual void ExitSubStateReactResupply(); // primary slot 126
+        virtual void ExitSubStateAmbient(); // primary slot 127
+        virtual void ExitSubStateDrive(); // primary slot 128
         virtual void vf129(); // primary slot 129
         virtual void vf130(); // primary slot 130
         virtual void vf131(); // primary slot 131
@@ -51,8 +60,14 @@ namespace AI
         static const Fun_Runtime::cClass *ms_pNPCArmedBehaviourClass;
         virtual const Fun_Runtime::cClass &RetClass() const;
         virtual bool IsA(const Fun_Runtime::cClass &) const;
+    protected:
+        Fun_Runtime::Vec3 m_vInvestigationPoint;
+        Fun_Runtime::Vec3 m_vGuardPoint;
+        eState m_nMainState;
+        unsigned int m_nSubState;
     private:
-        unsigned char m_unmodelledC0[0xF0 - 0xC0];
+        bool m_bIsAmbient;
+        int m_nAmbientAnimID;
     public:
         // Out of line: CD2 0x824A8070 (it first calls NPCBehaviour's 0x824A89C8).
         NPCArmedBehaviour();
@@ -61,14 +76,21 @@ namespace AI
         // and calls ~cNonGameBase directly; NPCBehaviour's own destructor stores none (~cPedestrianBase, 0x824A8EB8).
         virtual ~NPCArmedBehaviour() {}
     private:
-        CD2_LAYOUT_CHECKS(NPCArmedBehaviour, CD2_SIZE(NPCArmedBehaviour, 0xF0))
+        CD2_LAYOUT_CHECKS(NPCArmedBehaviour,
+            CD2_SIZE(NPCArmedBehaviour, 0xF0)
+            CD2_OFFSET(NPCArmedBehaviour, m_vInvestigationPoint, 0xC0)
+            CD2_OFFSET(NPCArmedBehaviour, m_vGuardPoint, 0xD0)
+            CD2_OFFSET(NPCArmedBehaviour, m_nMainState, 0xE0)
+            CD2_OFFSET(NPCArmedBehaviour, m_nSubState, 0xE4)
+            CD2_OFFSET(NPCArmedBehaviour, m_bIsAmbient, 0xE8)
+            CD2_OFFSET(NPCArmedBehaviour, m_nAmbientAnimID, 0xEC))
 
     public:
         // CD2 table 0x821089B0 differs from NPCBehaviour at these inherited slots.
-        virtual void Slot72(); // slot 72: 0x824A7E70
+        virtual void OnEnterReplicatedState(unsigned char); // slot 72: 0x824A7E70
         virtual void Slot79(); // slot 79: 0x824A82C8
-        virtual void Slot85(); // slot 85: 0x824A8110
-        virtual void Slot89(); // slot 89: 0x824A7E60
+        virtual void SetReactResupplyPoint(const Fun_Runtime::Vec3 &, const Fun_Runtime::Vec3 &); // slot 85: 0x824A8110
+        virtual unsigned char GetStateReplicationInfo() const; // slot 89: 0x824A7E60
 
     public:
         // CD2 table 0x821089B0 differs from NPCBehaviour at these inherited slots.
@@ -77,7 +99,7 @@ namespace AI
         // CD2 table 0x821089B0: overrides relative to NPCBehaviour.
         virtual void OnEnter(); // slot 68: 0x824A81A8
         virtual void OnExit(); // slot 69: 0x824A8278
-        virtual void Slot71(); // slot 71: 0x824A8330
+        virtual void Slot71(); // slot 71: 0x824A8330, main-state dispatcher; original name unresolved
     };
 }
 #endif

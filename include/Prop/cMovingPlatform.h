@@ -33,7 +33,7 @@ namespace Prop
         virtual bool EnterPhysicalState(); // 7: 0x8273AD28
         virtual void Slot13(); // 13: 0x82732350
         virtual void Slot23(); // 23: 0x8273AD20
-        virtual void Slot27(); // 27: 0x8273AD98
+        virtual void LeavePhysicalState(); // 27: 0x8273AD98
         virtual void HandleEvents(RWS::CMsg &); // CEventHandler 5: 0x8273AAE8
         virtual Fun_Runtime::cClass const & RetClass() const; // cBody 0: 0x8273AE08
         virtual bool IsA(Fun_Runtime::cClass const &) const; // cBody 1: 0x8273ADB0

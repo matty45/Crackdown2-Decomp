@@ -16,6 +16,7 @@
 #include "rws/classfactory.h"
 #include "AI/cAgressiveResponsePilotBehaviour.h"
 #include "cd2/memory.h"
+#include "AI/BehaviourClassID.h"
 
 namespace AI
 {
@@ -24,6 +25,23 @@ namespace AI
     const char *cAgressiveResponsePilotBehaviour::RetClassName() const
     {
         return "cAgressiveResponsePilotBehaviour";
+    }
+
+    RWS::CAttributeHandler *cAgressiveResponsePilotBehaviour::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        return new (memory) cAgressiveResponsePilotBehaviour;
+    }
+
+    const Fun_Runtime::cClass &cAgressiveResponsePilotBehaviour::RetClass() const
+    {
+        return *ms_pcAgressiveResponsePilotBehaviourClass;
+    }
+
+    Fun_Runtime::cClass &cAgressiveResponsePilotBehaviour::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *pilotClass =
+            new Fun_Runtime::cClass(g_nBehaviourClassID++, "cAgressiveResponsePilotBehaviour", 0x170);
+        return *pilotClass;
     }
 
     static Fun_Runtime::cInheritanceRegistrar cAgressiveResponsePilotBehaviourcAgressiveResponseBaseInheritRegistrar(

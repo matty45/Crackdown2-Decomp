@@ -12,6 +12,9 @@ namespace Vehicle
     class cCarProfile : public cLandVehicleProfile
     {
     public:
+        // CD2's MakeNew (0x8269BEF0) inlines this constructor after cLandVehicleProfile's out-of-line one.
+        // __forceinline: /Ob1 declines it otherwise (docs/matching-notes.md).
+        __forceinline cCarProfile() {}
         virtual ~cCarProfile();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         // CD2 0x8269C210: CEventHandler slot 5 (this is the subobject at 0x278); RuffKing names the override.

@@ -13,6 +13,8 @@ namespace Prop
     class cSlidingDoor : public Prop::cPrismaticProp
     {
     public:
+        // RuffKing signature; CD2's placement factory tail-calls 0x82746A78.
+        cSlidingDoor(GOM::cObjectPrototype *);
         static const Fun_Runtime::cClass *ms_pcSlidingDoorClass;
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         // CD2 MakeNew (0x827468e8) allocates 0x530 bytes, calls Prop::cPrismaticProp::cPrismaticPropPrototype's constructor (0x8273CBD0) with the packet and

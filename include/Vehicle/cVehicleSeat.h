@@ -11,9 +11,20 @@
 
 namespace Vehicle
 {
+    // RuffKing's seat states (its PDB values).
+    enum eVehicleSeatStatus
+    {
+        eVSS_Unoccupied = 0,
+        eVSS_Occupied,
+        eVSS_Transition,
+        eVSS_MaxStates,
+    };
+
     class cVehicleSeat
     {
     public:
+        // RuffKing's; CD2 0x826DFBE8 (cVehicle's HandleTryToCloseAlterantiveDoorPermissionQuery calls it).
+        eVehicleSeatStatus RetStatus();
         // Inlined by CD2 into cVehicle's occupancy queries.
         CHARACTER::cCharacter *RetOccupant() { return m_pOccupant; }
         CHARACTER::cCharacter *RetInteractor() { return m_pInteractor; }

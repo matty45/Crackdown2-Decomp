@@ -10,12 +10,23 @@
 #include "CHARACTER/cRagdollProfile.h"
 #include "AI/aiconstants.h"
 #include "AI/cSoundEventSubscriptionTypeScriptRegistration.h"
+#include "lua/lua.h"
 
 namespace AI
 {
     const char *cSoundEventSubscriptionTypeScriptRegistration::RetName() const
     {
         return "eSoundEventSubscriptionType";
+    }
+
+    void cSoundEventSubscriptionTypeScriptRegistration::RegisterValues(lua_State *state)
+    {
+        lua_pushliteral(state, "nCanHear");
+        lua_pushnumber(state, 0.0f);
+        lua_settable(state, -3);
+        lua_pushliteral(state, "nConcerns");
+        lua_pushnumber(state, 1.0f);
+        lua_settable(state, -3);
     }
 
     // CD2 0x82F7A500 registers this four-byte enum object at 0x83818A58.

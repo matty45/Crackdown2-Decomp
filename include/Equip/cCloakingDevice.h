@@ -14,11 +14,26 @@ namespace Equip
         // CD2 0x8260B350: cScriptHost slot 1; descriptive method name is ours.
         virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         // RuffKing prototype name/base; CD2 Init is primary slot 5 (0x8260BA80).
-        // Interface only: instance fields and allocation size remain unrecovered.
+        // CD2 factory allocates 0x380; attributes independently confirm the two reference-named fields.
         class cCloakingDevicePrototype : public cGrenade::cGrenadePrototype
         {
         public:
+            // CD2 inlines construction into MakeNew; the grenade prototype remains an out-of-line call.
+            __forceinline cCloakingDevicePrototype(const RWS::CAttributePacket &packet)
+                : cGrenadePrototype(packet), m_fArmourDrainAmount(40.0f), m_bItemUsesAmmo(false)
+            {
+                m_EquipmentType = eEquipT_Secondary;
+            }
             virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
+            virtual void HandleAttributes(const RWS::CAttributePacket &);
+            bool CanItemUseAmmo() const { return m_bItemUsesAmmo; }
+        protected:
+            float m_fArmourDrainAmount;
+            bool m_bItemUsesAmmo;
+            CD2_LAYOUT_CHECKS(cCloakingDevicePrototype,
+                CD2_SIZE(cCloakingDevicePrototype, 0x380)
+                CD2_OFFSET(cCloakingDevicePrototype, m_fArmourDrainAmount, 0x370)
+                CD2_OFFSET(cCloakingDevicePrototype, m_bItemUsesAmmo, 0x374))
         };
 
         // CD2 0x8260B278: primary virtual slot 11 returns the registered class name.
@@ -50,8 +65,14 @@ namespace Equip
         virtual void ProcessAttack(); // slot 379: 0x8260B788
         virtual void EndAttack(); // slot 380: 0x8260B978
         virtual bool CanAttack(); // slot 381: 0x8260B360
-        virtual void vf409(); // slot 409: 0x8260B3D0
+        virtual bool CanItemUseAmmo() const; // Slot 409: 0x8260B3D0.
         virtual void vf410(); // slot 410: 0x8260B558
+    protected:
+        void DeCloak(); // RuffKing name; CD2 0x8260B5A0 clears the owner's cloak state.
+        const cCloakingDevicePrototype *RetCloakPrototype() const
+        {
+            return static_cast<const cCloakingDevicePrototype *>(m_pPrototype);
+        }
     };
 }
 #endif

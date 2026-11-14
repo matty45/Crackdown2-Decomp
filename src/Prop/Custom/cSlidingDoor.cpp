@@ -51,6 +51,13 @@ namespace Prop
     static Fun_Runtime::cScriptTypeRegistrar<cSlidingDoor> cSlidingDoorScriptRegistrar(
         "cSlidingDoor", "cPrismaticProp");
 
+    RWS::CAttributeHandler *cSlidingDoor::SpawnFromPrototype(GOM::cObjectPrototype *prototype, void *memory)
+    {
+        if (memory)
+            return new (memory) cSlidingDoor(prototype);
+        return 0;
+    }
+
     Fun_Runtime::cClass &cSlidingDoor::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cSlidingDoorClass = new Fun_Runtime::cClass(0x13882, "cSlidingDoor", 0xF00);

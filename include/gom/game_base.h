@@ -5,6 +5,7 @@
 #include "gom/non_game_base.h"
 #include "rws/systemcommands.h"
 namespace Fun_Runtime { class Mtx; }
+namespace GOM { class cPointOfInterest; }
 __declspec(align(16)) class cGameBase : public RWS::CSystemCommands, public cNonGameBase
 {
     public:
@@ -67,7 +68,7 @@ public:
     virtual void vf104(); virtual void vf105(); virtual void vf106(); virtual void vf107(); virtual void vf108(); virtual void vf109();
     virtual void vf110(); virtual void vf111(); virtual void vf112(); virtual void vf113(); virtual void vf114(); virtual void vf115();
     virtual void vf116(); virtual void vf117(); virtual void vf118(); virtual void vf119(); virtual void vf120(); virtual void vf121();
-    virtual void vf122(); virtual void vf123(); virtual void vf124(); virtual void vf125(); virtual void vf126(); virtual void vf127();
+    virtual GOM::cPointOfInterest *RetPointOfInterest(int nPoint); virtual unsigned char RetNumPointsOfInterest(); virtual void vf124(); virtual void vf125(); virtual void vf126(); virtual void vf127();
     virtual void vf128(); virtual void vf129(); virtual void vf130(); virtual void vf131(); virtual void vf132(); virtual void vf133();
     virtual void vf134(); virtual void vf135(); virtual void vf136(); virtual void vf137(); virtual void vf138(); virtual void vf139();
     virtual void vf140();

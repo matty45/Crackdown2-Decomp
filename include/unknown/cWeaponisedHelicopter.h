@@ -39,6 +39,10 @@ namespace unknown
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         // CD2 0x826E18E0: primary virtual slot 11 returns the registered class name.
         virtual const char *RetClassName() const;
+        // The other slots CD2's table (0x82135668) overrides; the three below only forward to cHelicopter's.
+        virtual Fun_Runtime::RetVal Term();                                    // 6: 0x826E1CE0
+        virtual Fun_Runtime::RetVal Slot37();                                  // 37: 0x826E1D80
+        virtual Fun_Runtime::RetVal TermForReuse();                            // 39: 0x826E1D10
         // CD2 spawning initializer 0x82FEA550 names placement factory 0x826e18f0.
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);

@@ -28,6 +28,15 @@ namespace AI
         static const Fun_Runtime::cClass *ms_pCellGuardClass;
         // CD2 factory 0x824C0B70 forwards only this, without a prototype argument.
         CellGuard();
+        // CD2 table 0x8210A8E0 overrides the armed base's seven pure state callbacks
+        // with the shared empty body at 0x82580578; names come from RuffKing.
+        virtual void OnIdle();
+        virtual void OnInvestigating();
+        virtual void OnPatrolling();
+        virtual void OnAttacking();
+        virtual void OnCover();
+        virtual void OnAmbient();
+        virtual void OnDrive();
         // CD2 descriptor 0x82250988 names this class; spawning registration 0x82F95B88.
         static Fun_Runtime::cClass &StaticCreateClass();
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
@@ -48,10 +57,10 @@ namespace AI
         virtual void Slot81(); // slot 81: 0x824C3070
         virtual void Slot82(); // slot 82: 0x824C1FF8
         virtual void Slot83(); // slot 83: 0x824C2A50
-        virtual void Slot85(); // slot 85: 0x824C14C0
+        virtual void SetReactResupplyPoint(const Fun_Runtime::Vec3 &, const Fun_Runtime::Vec3 &); // slot 85: 0x824C14C0
         virtual void Slot87(); // slot 87: 0x824C2D90
-        virtual void Slot89(); // slot 89: 0x824C0EA0
-        virtual void vf97(); // slot 97: 0x824C0EB8
+        virtual unsigned char GetStateReplicationInfo() const; // slot 89: 0x824C0EA0
+        virtual void OnReplicatedEnter(unsigned char); // slot 97: 0x824C0EB8
     };
 }
 

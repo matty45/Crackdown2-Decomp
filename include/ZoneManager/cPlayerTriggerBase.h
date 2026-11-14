@@ -49,6 +49,8 @@ namespace ZoneManager
         virtual void TermTriggerZone();
         // Reference name; CD2 zone Load callbacks test the collision flag at +0xD5.
         bool IsInitialised() const { return m_bDoCollision; }
+        // RuffKing declares it; inlined by CD2 into cCellStrongholdMission's Update (0x82475148).
+        unsigned int RetNumContainedPlayers() const { return m_vContainedPlayers.size(); }
         virtual void OnPlayerEnter(CHARACTER::cCharacter *) = 0;
         virtual void OnPlayerLeave(CHARACTER::cCharacter *) = 0;
 

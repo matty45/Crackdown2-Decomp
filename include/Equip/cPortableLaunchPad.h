@@ -34,6 +34,7 @@ namespace Equip
 
         // CD2 factory 0x8260DE50 forwards only this, without a prototype argument.
         cPortableLaunchPad();
+        virtual void Launched(cGameBase *pAttacker); // CD2 primary slot 406: 0x8260E788.
         // CD2 0x8260DE40: primary virtual slot 11 returns the registered class name.
         virtual const char *RetClassName() const;
         // CD2 spawning initializer 0x82FCCEA0 names placement factory 0x8260de50.

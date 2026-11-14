@@ -27,6 +27,7 @@
 #include "fun_runtime/inheritance_registrar.h"
 #include "cd2/memory.h"
 #include "rws/classfactory.h"
+#include "rw/rwmem.h"
 #include <new>
 
 namespace Equip
@@ -38,9 +39,61 @@ namespace Equip
     static GOM::cProtoRegistrar cCloakingDeviceSpawningRegistrar(
         cCloakingDevice::StaticCreateClass(), cCloakingDevice::SpawnFromPrototype);
 
+    RWS::CAttributeHandler *cCloakingDevice::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cCloakingDevicePrototype(packet);
+    }
+
     const char *cCloakingDevice::RetClassName() const
     {
         return "cCloakingDevice";
+    }
+
+    bool cCloakingDevice::CanAttack()
+    {
+        return IsIn_State(RetSTATE_Idle()) && RetTotalAmmo() != 0;
+    }
+
+    bool cCloakingDevice::CanItemUseAmmo() const
+    {
+        return RetCloakPrototype()->CanItemUseAmmo();
+    }
+
+    Fun_Runtime::RetVal cCloakingDevice::Init(const GOM::cSpawner *spawnArgs)
+    {
+        return cGrenade::Init(spawnArgs);
+    }
+
+    Fun_Runtime::RetVal cCloakingDevice::Term()
+    {
+        DeCloak();
+        return cGrenade::Term();
+    }
+
+    void cCloakingDevice::EndAttack()
+    {
+        DeCloak();
+    }
+
+    void cCloakingDevice::cCloakingDevicePrototype::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cGrenadePrototype::HandleAttributes(packet);
+        for (RWS::CAttributeCommandIterator it(packet, "cCloakingDevice"); !it.IsFinished(); ++it)
+        {
+            switch (it->GetCommandId())
+            {
+            case 0:
+                {
+                    float amount = it->GetAs_float();
+                    RwMemNative32(&amount, sizeof(amount));
+                    m_fArmourDrainAmount = amount;
+                }
+                break;
+            case 1:
+                m_bItemUsesAmmo = rwSwap32(it->GetAs_UInt32()) != 0;
+                break;
+            }
+        }
     }
 
     Fun_Runtime::RetVal cCloakingDevice::cCloakingDevicePrototype::Init(const RWS::CAttributePacket &)

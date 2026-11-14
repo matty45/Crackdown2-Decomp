@@ -26,6 +26,12 @@ namespace AudioLogic
         virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
         virtual Fun_Runtime::RetVal Term();
         virtual void HandleAttributes(const RWS::CAttributePacket &);
+        enum LoadParameterTypes
+        {
+            CMD_MSG_GET_EXTRAS_PROFILE = 0, CMD_FAKEREV_PEAK_LIMIT,
+            CMD_FAKEREV_RAMPUP_TIME, CMD_FAKEREV_RAMPDOWN_TIME,
+            CMD_FAKEREV_DELAY_TIME, CMD_AUDIO_RPM_MIN, CMD_AUDIO_RPM_MAX
+        };
 
         // RuffKing names/order; CD2's complete size is 0x7C after the 0x60 base.
         cAudioLandVehicleExtrasProfile *m_pExtrasProfile;

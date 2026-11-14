@@ -13,9 +13,30 @@
 
 namespace unknown
 {
+    // Names ours, from CD2's console command "toggleh2hcamera" (0x82227BD0).
+    // The shared switch at 0x830A3042 is initially true and read by camera updates.
+    extern bool g_bH2HCameraEnabled;
+    // "togglecamerasmooth" and its ON/OFF messages identify this shared switch.
+    extern bool g_bCameraSmoothing;
+    void AutoCamera(void *, wchar_t *);
+    void FixedCamera(void *, wchar_t *);
+    void FixedTrackingCamera(void *, wchar_t *);
+    void SatelliteCamera(void *, wchar_t *);
+    void FlyCamera(void *, wchar_t *);
+    void ToggleCameraSmoothing(void *, wchar_t *);
+    void ToggleH2HCamera(void *, wchar_t *);
+
     class cVirtualCamera : public cGameBase, public GDb::cDebugPageHandler
     {
     public:
+        // Names ours, from console-command registrations and their mode arguments.
+        enum eCameraMode
+        {
+            eAutomatic = 8, eFixed = 17, eFixedTracking = 18,
+            eSatellite = 20, eFly = 22
+        };
+        // CD2 0x8252DB88 changes mode through 0x823632D0, then resets mode flags.
+        void ChangeMode(eCameraMode);
         cVirtualCamera(); // CD2 0x8230C710, out of line
         void ToggleByte4E5();
         // CD2 0x8252CDD0: cScriptHost slot 1; descriptive method name is ours.

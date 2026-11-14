@@ -24,6 +24,7 @@
 #include "unknown/cVirtualCamera.h"
 #include "cd2/memory.h"
 #include "fun_runtime/script_type_registrar.h"
+#include "GDb/console.h"
 
 namespace unknown
 {
@@ -68,5 +69,48 @@ namespace unknown
     void cVirtualCamera::ToggleByte4E5()
     {
         m_byte4E5 = !m_byte4E5;
+    }
+
+    void AutoCamera(void *object, wchar_t *)
+    {
+        static_cast<cVirtualCamera *>(object)->ChangeMode(cVirtualCamera::eAutomatic);
+    }
+
+    void FixedCamera(void *object, wchar_t *)
+    {
+        static_cast<cVirtualCamera *>(object)->ChangeMode(cVirtualCamera::eFixed);
+    }
+
+    void FixedTrackingCamera(void *object, wchar_t *)
+    {
+        static_cast<cVirtualCamera *>(object)->ChangeMode(cVirtualCamera::eFixedTracking);
+    }
+
+    void SatelliteCamera(void *object, wchar_t *)
+    {
+        static_cast<cVirtualCamera *>(object)->ChangeMode(cVirtualCamera::eSatellite);
+    }
+
+    void FlyCamera(void *object, wchar_t *)
+    {
+        static_cast<cVirtualCamera *>(object)->ChangeMode(cVirtualCamera::eFly);
+    }
+
+    bool g_bCameraSmoothing = true;
+
+    void ToggleCameraSmoothing(void *, wchar_t *)
+    {
+        g_bCameraSmoothing = !g_bCameraSmoothing;
+        if (g_bCameraSmoothing)
+            GDb::ConsoleOutput(L"Camera Smoothing ON");
+        else
+            GDb::ConsoleOutput(L"Camera Smoothing OFF");
+    }
+
+    bool g_bH2HCameraEnabled = true;
+
+    void ToggleH2HCamera(void *, wchar_t *)
+    {
+        g_bH2HCameraEnabled = !g_bH2HCameraEnabled;
     }
 }

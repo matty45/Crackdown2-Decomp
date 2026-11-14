@@ -20,6 +20,11 @@ namespace VFX
         return "cWeatherSetup";
     }
 
+    RWS::CAttributeHandler *cWeatherSystem::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cWeatherSystem;
+    }
+
     const char *cWeatherSystem::RetClassName() const
     {
         return "cWeatherSystem";

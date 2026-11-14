@@ -7,6 +7,8 @@
 #include "Havok/hkEntityActivationListener.h"
 namespace PHYSICS
 {
+    class cBuoyancyAction;
+
     class cDynamicBody : public cBody, public cIgnitable, public hkEntityActivationListener
     {
     public:
@@ -38,13 +40,15 @@ namespace PHYSICS
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         virtual const Fun_Runtime::cClass &RetClass() const;
         virtual ~cDynamicBody();
+        // CD2's cDynamicBody table (0x8200D058) holds its own class-name getter in slot 11 (0x8254FF00).
+        virtual const char *RetClassName() const;
         virtual void entityDeactivatedCallback(hkEntity *);
         virtual void entityActivatedCallback(hkEntity *);
         // Primary slots 227..303: cDynamicBody's own virtuals. CD2's cDynamicBody table (0x8200D058, stored by the
         // constructor 0x82685050) has 304 slots. Names are not recovered yet; vfN is the slot index.
         virtual void vf227(); virtual void vf228(); virtual void vf229(); virtual void vf230(); virtual void vf231(); virtual void vf232();
         virtual void vf233(); virtual void vf234(); virtual void vf235(); virtual void vf236(); virtual void vf237(); virtual void vf238();
-        virtual void vf239(); virtual void vf240(); virtual void vf241(); virtual void vf242(); virtual void vf243(); virtual void vf244();
+        virtual void vf239(); virtual float RetFwdMPH(); virtual void vf241(); virtual void vf242(); virtual void vf243(); virtual void vf244();
         virtual void vf245(); virtual void vf246(); virtual void vf247(); virtual void vf248(); virtual void vf249(); virtual void vf250();
         virtual void vf251(); virtual void vf252(); virtual void vf253(); virtual void vf254(); virtual void vf255(); virtual void vf256();
         virtual void vf257(); virtual void vf258(); virtual void vf259(); virtual void vf260(); virtual void vf261(); virtual void vf262();
@@ -52,11 +56,22 @@ namespace PHYSICS
         virtual void vf269(); virtual void vf270(); virtual void EnterGhostState(); virtual void vf272(); virtual void vf273(); virtual void vf274();
         virtual void vf275(); virtual void vf276(); virtual void vf277(); virtual void vf278(); virtual void vf279(); virtual void vf280();
         virtual void vf281(); virtual void vf282(); virtual void vf283(); virtual void vf284(); virtual void vf285(); virtual void vf286();
-        virtual void vf287(); virtual void vf288(); virtual void vf289(); virtual void vf290(); virtual void vf291(); virtual void vf292();
+        virtual void vf287(); virtual void vf288(); virtual void vf289(); virtual void vf290(); virtual void vf291(); virtual bool IsInViewFrustum();
         virtual void vf293(); virtual void vf294(); virtual void vf295(); virtual void vf296(); virtual void vf297(); virtual void vf298();
         virtual void vf299(); virtual void vf300(); virtual void vf301(); virtual void vf302(); virtual void vf303();
+        // RuffKing's inline query; CD2 inlines it into cVehicle's IsOkToInteract (0x826D6FC8).
+        bool IsInWater() { return m_bInWater; }
     private:
-        unsigned char m_unknown298[0x420 - 0x298];
+        unsigned char m_unknown298[0x2DC - 0x298];
+    protected:
+        // RuffKing's names; CD2's inlined cVehicle::IsSufficientlyInWater reads them here.
+        cBuoyancyAction *m_pBuoyancyAction;     // 0x2DC
+    private:
+        unsigned char m_unknown2E0[0x2F4 - 0x2E0];
+    protected:
+        bool m_bInWater;                        // 0x2F4
+    private:
+        unsigned char m_unknown2F5[0x420 - 0x2F5];
         // CD2: cDynamicBody's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
@@ -68,7 +83,7 @@ namespace PHYSICS
         virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // 18: 0x8263ACD0
         virtual void Slot23(); // 23: 0x82325CF8
         virtual void Slot24(); // 24: 0x8272A7F8
-        virtual void Slot27(); // 27: 0x821D0000
+        virtual void LeavePhysicalState(); // 27: 0x821D0000
         virtual bool EnterRenderableState(eResourcesType); // 31: 0x822DC0B0
         virtual void LeaveRenderableState(); // 32: 0x8272A488
         virtual void Slot35(); // 35: 0x82686238
@@ -76,12 +91,7 @@ namespace PHYSICS
         virtual Fun_Runtime::RetVal TermForReuse(); // 39: 0x82688198
         virtual Fun_Runtime::Vec3 RetPosition() const; // 46: 0x82686CE0
         virtual void Slot55(); // 54: 0x826862F0
-        virtual void Slot64(); // 63: 0x82689C78
         virtual void vf76(); // 76: 0x8237D638
-        virtual void vf86(); // 86: 0x8272B1F0
-        virtual void vf87(); // 87: 0x8272B2B0
-        virtual void vf91(); // 91: 0x8272B540
-        virtual void vf92(); // 92: 0x8272B338
         virtual void vf101(); // 101: 0x82686D08
         virtual void vf102(); // 102: 0x82292150
         virtual void vf107(); // 107: 0x8236E830
@@ -95,12 +105,6 @@ namespace PHYSICS
         virtual void vf119(); // 119: 0x82686D20
         virtual void vf120(); // 120: 0x82271ED0
         virtual void vf121(); // 121: 0x82686D28
-        virtual void vf122(); // 122: 0x82457A50
-        virtual void vf123(); // 123: 0x8288FB78
-        virtual void vf127(); // 127: 0x8272BC10
-        virtual void vf134(); // 134: 0x82457A38
-        virtual void vf153(); // 153: 0x8272ABE0
-        virtual void vf154(); // 154: 0x8272AC18
         virtual void vf158(); // 158: 0x8272ADB0
         virtual void vf159(); // 159: 0x826865E0
         virtual void vf161(); // 161: 0x82686560
@@ -120,9 +124,11 @@ namespace PHYSICS
         virtual void vf216(); // 216: 0x82685D20
         virtual void vf217(); // 217: 0x82604F40
     protected:
-        virtual void UpdateRenderMatrix(); // 26: 0x826DA5B8
     private:
-        CD2_LAYOUT_CHECKS(cDynamicBody, CD2_SIZE(cDynamicBody, 0x420))
+        CD2_LAYOUT_CHECKS(cDynamicBody,
+            CD2_SIZE(cDynamicBody, 0x420)
+            CD2_OFFSET(cDynamicBody, m_pBuoyancyAction, 0x2DC)
+            CD2_OFFSET(cDynamicBody, m_bInWater, 0x2F4))
     };
 }
 #endif

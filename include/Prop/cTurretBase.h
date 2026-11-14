@@ -67,7 +67,7 @@ namespace Prop
         virtual bool EnterRenderableState(eResourcesType); // 31: 0x82748B10
         virtual void Slot61(); // 60: 0x8274BA40
         virtual void vf76(); // 76: 0x82748BB8
-        virtual void vf196(); // 196: 0x82748940
+        virtual unsigned char RetCollisionLayer(); // 196: 0x82748940
         virtual unsigned short RetCollisionSystemGroup(); // 197: 0x82748990
         virtual void vf226(); // 226: 0x8274BB58
         virtual void vf235(); // 235: 0x8274BC28

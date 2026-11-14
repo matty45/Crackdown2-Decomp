@@ -51,7 +51,13 @@ private:
 protected:
     int m_nUniqueID;                        // 0x64
 private:
-    unsigned char m_pad68[0x7C - 0x68];
+    unsigned char m_pad68[0x79 - 0x68];
+protected:
+    // RuffKing's name (its last byte, 0xAA there); cLandVehicle's CanTurnOnPoliceLights (0x826C2B30) and
+    // CanTurnOnExhaustFumes (0x826C2BB0) test bit 1 of the byte at 0x79 where RuffKing's test m_nNGBFlags & 2.
+    unsigned char m_nNGBFlags;              // 0x79
+private:
+    unsigned char m_pad7A[0x7C - 0x7A];
 
 public:
         cNonGameBase *RetOwner() const { return m_pOwner; }
@@ -68,6 +74,9 @@ public:
         {
         public:
             __forceinline cNonGameBasePrototype(const RWS::CAttributePacket &packet) : GOM::cObjectPrototype(packet) {}
+            // RuffKing declares this destructor; Burn inlines it. CD2 0x82684630
+            // restores this prototype's tables before the shared resource cleanup.
+            virtual ~cNonGameBasePrototype() {}
         };
 
     static Fun_Runtime::cClass &StaticCreateClass();
@@ -105,7 +114,7 @@ public:
     virtual void Slot24();
     virtual void Slot25();
     virtual void UpdateRenderMatrix();      // slot 26: a body copies its matrix into the render matrix (Prop/cProp.h)
-    virtual void Slot27();
+    virtual void LeavePhysicalState();
     virtual void Slot28();
     virtual void Slot29();
     virtual void Slot30();
@@ -118,7 +127,9 @@ public:
     virtual void Slot34();
     virtual void Slot35();
     virtual void Slot36();
-    virtual void Slot37();
+    // Slot 37 returns a result code: cNonGameBase's body (0x82653B00) returns Ret_OK, and cWeaponisedHelicopter's
+    // (0x826E1D80) returns cHelicopter's. Name not recovered.
+    virtual Fun_Runtime::RetVal Slot37();
     // Slot 38: RuffKing's cBody::Reinitialise has the body of CD2's cBody slot 38 (0x82683780).
     virtual Fun_Runtime::RetVal Reinitialise(const GOM::cSpawner *);
     // Slot 39: RuffKing's cBody::TermForReuse has the body of CD2's cBody slot 39 (0x82683738).
@@ -166,7 +177,8 @@ public:
         CD2_OFFSET(cNonGameBase, m_pPrototype, 0x44)
         CD2_OFFSET(cNonGameBase, m_pOwner, 0x4C)
         CD2_OFFSET(cNonGameBase, m_p50, 0x50)
-        CD2_OFFSET(cNonGameBase, m_nUniqueID, 0x64))
+        CD2_OFFSET(cNonGameBase, m_nUniqueID, 0x64)
+        CD2_OFFSET(cNonGameBase, m_nNGBFlags, 0x79))
 };
 
 #endif // GOM_NON_GAME_BASE_H

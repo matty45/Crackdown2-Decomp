@@ -22,6 +22,7 @@
 #include "rws/classfactory.h"
 #include "Equip/cPortableLaunchPad.h"
 #include "cd2/memory.h"
+#include "CHARACTER/cCharacter.h"
 
 namespace Equip
 {
@@ -59,6 +60,14 @@ namespace Equip
         if (memory)
             return new (memory) cPortableLaunchPad;
         return 0;
+    }
+
+    void cPortableLaunchPad::Launched(cGameBase *pAttacker)
+    {
+        if (!pAttacker)
+            pAttacker = m_pCharacterLauncher;
+        if (pAttacker)
+            cExplosiveGrenade::Launched(pAttacker);
     }
 
     Fun_Runtime::RetVal cPortableLaunchPad::cJumpPadPrototype::Init(const RWS::CAttributePacket &)

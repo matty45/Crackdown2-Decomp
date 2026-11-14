@@ -69,4 +69,16 @@ namespace Vehicle
     {
         return Ret_OK;
     }
+
+    void cAgencyTank::ReplicateInitialFields()
+    {
+        cCar::ReplicateInitialFields();
+        m_Turret.ReplicateInitialFields();
+    }
+
+    void cAgencyTank::ReplicateFields()
+    {
+        cCar::ReplicateFields();
+        m_Turret.ReplicateFields(false);
+    }
 }

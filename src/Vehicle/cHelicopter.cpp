@@ -73,4 +73,48 @@ namespace Vehicle
         static Fun_Runtime::cClass *cHelicopterClass = new Fun_Runtime::cClass(0x675, "cHelicopter", 0x2DB0);
         return *cHelicopterClass;
     }
+
+    bool cHelicopter::CheckForReplicationActivation(unsigned int *nRetCode)
+    {
+        bool bResult = cVehicle::CheckForReplicationActivation(nRetCode);
+        if (m_nAttachedObjectIDField && !m_pCarriedObj)
+            return false;
+        return bResult;
+    }
+
+    bool cHelicopter::IsOnGround()
+    {
+        if (!m_pCarriedObj)
+            return cVehicle::IsOnGround();
+        return false;
+    }
+
+    unsigned char cHelicopter::RetNumPointsOfInterest()
+    {
+        return m_nPoiCount;
+    }
+
+    GOM::cPointOfInterest *cHelicopter::RetPointOfInterest(int nPoint)
+    {
+        if (nPoint < m_nPoiCount)
+            return &m_POI[nPoint];
+        return 0;
+    }
+
+    void cHelicopter::HandleTryToEnterInteractPermissionQuery(PHYSICS::cDynamicBodyInteractionData *pInteractionData,
+        cNonGameBase *pNonGameBase, bool &bInteractionResult)
+    {
+        if (pInteractionData->m_nSubItem == 0 || (m_fCurrentArmRot == m_fMinArmRot && m_bDeployArms))
+            cVehicle::HandleTryToEnterInteractPermissionQuery(pInteractionData, pNonGameBase, bInteractionResult);
+        else
+            bInteractionResult = false;
+    }
+
+    bool cHelicopter::IsOkToInteract()
+    {
+        bool bOk = false;
+        if (IsUpRight() && IsDoorAngleOk() && !IsSufficientlyInWater() && !IsDrivenByAI() && !IsInFadeToDeleteFinalStage())
+            bOk = true;
+        return bOk;
+    }
 }

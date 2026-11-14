@@ -14,6 +14,7 @@
 #include "cd2/layout.h"
 #include "gom/non_game_base.h"
 #include "AI/BehaviourClassID.h"
+#include "AI/NPCBehaviourPrototype.h"
 
 // Globals cChaseBehaviour.cpp uses; their real owners and names are not known (the names are ours).
 extern void *g_p830BBDB4;                                   // 0x830BBDB4
@@ -233,7 +234,7 @@ namespace AI
         virtual void OnExit();
         virtual void Slot70();
         virtual void Slot71();
-        virtual void Slot72();
+        virtual void OnEnterReplicatedState(unsigned char);
         virtual void Slot73();
         virtual void OnEvent74(NPCTarget *t);
         virtual void OnEvent75(NPCTarget *t);
@@ -246,11 +247,11 @@ namespace AI
         virtual void Slot82();
         virtual void Slot83();
         virtual void Slot84();
-        virtual void Slot85();
+        virtual void SetReactResupplyPoint(const Fun_Runtime::Vec3 &, const Fun_Runtime::Vec3 &);
         virtual void Slot86();
         virtual void Slot87();
         virtual void Slot88();
-        virtual void Slot89();
+        virtual unsigned char GetStateReplicationInfo() const;
         virtual void Slot90();
         virtual void Slot91();
         virtual void Slot92();
@@ -277,15 +278,6 @@ namespace AI
         virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x827FBD60
         virtual int RetUniqueID(); // CEventHandler 1: 0x82604E70
         virtual void Slot2(); // cSafeDeletable 2: 0x824AD480
-    };
-
-    class NPCBehaviourPrototype : public GOM::cObjectPrototype
-    {
-    public:
-        NPCBehaviourPrototype(const RWS::CAttributePacket &);
-        void HandleAttributesBase(const RWS::CAttributePacket &);
-        void HandleAttributesNPC(const RWS::CAttributePacket &);
-        unsigned char pad[0x90 - 0x70];
     };
 
     class cChaseBehaviour : public NPCBehaviourSM
@@ -358,7 +350,7 @@ namespace AI
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
         virtual void Slot71(); // 71: 0x824ABAA8
-        virtual void Slot72(); // 72: 0x8221B7C8
+        virtual void OnEnterReplicatedState(unsigned char); // 72: 0x8221B7C8
         virtual void Slot79(); // 79: 0x82580578
         virtual void Slot80(unsigned char,unsigned char,unsigned char); // 80: 0x82580578
         virtual void Slot83(); // 83: 0x82580578

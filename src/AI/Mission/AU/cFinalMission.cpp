@@ -78,6 +78,16 @@ namespace AI
         }
     }
 
+    void cFinalMission::Load(SaveGame::cLoadStream *pStream)
+    {
+        cMission::Load(pStream);
+    }
+
+    void cFinalMission::Save(SaveGame::cSaveStream *pStream)
+    {
+        cMission::Save(pStream);
+    }
+
     void cFinalMission::GetSaveStateForMissionState(unsigned char &nGlobalMissionState, unsigned char &nMissionState)
     {
         switch (nMissionState)

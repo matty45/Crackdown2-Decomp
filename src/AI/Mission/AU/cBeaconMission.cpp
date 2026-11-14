@@ -10,6 +10,8 @@
 #include "AI/cBeaconMission.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
+#include "SaveGame/cLoadStream.h"
+#include "Crowd/cCrowdCD2.h"
 
 namespace AI
 {
@@ -89,6 +91,23 @@ namespace AI
                 SetMissionState(eBMS_Dropping, true);
             break;
         }
+    }
+
+    void cBeaconMission::Load(SaveGame::cLoadStream *pStream)
+    {
+        pStream->Read(&m_fLastMissionPhase, 4);
+        pStream->Read(&m_fMissionCompletePhase, 4);
+        pStream->Read(&m_nNumDaysPassed, 4);
+        pStream->Read(&m_nPhase2SpecialCaseSpawnSkip, 4);
+        pStream->Read(&m_nPhase3SpecialCaseExtraDay, 4);
+        if (m_nNumDaysPassed != -1000 && gpCCD2 && !m_zonesInitialised)
+        {
+            SetBeaconZones(m_nNumDaysPassed + m_nPhase2SpecialCaseSpawnSkip + m_nPhase3SpecialCaseExtraDay);
+            LinkToTrafficZones();
+            m_zonesInitialised = true;
+            m_validLoadedData = true;
+        }
+        cMission::Load(pStream);
     }
 
     void cBeaconMission::NotifyDeliveryStart(int nHeliID)

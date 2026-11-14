@@ -47,6 +47,12 @@ namespace AI
         return ms_pCellRocketClass->IsA(c);
     }
 
+    void CellRocket::ChangeMainState(eState state)
+    {
+        m_nMainState = state;
+        ChangeSubState(1);
+    }
+
     static RWS::CClassFactory::CRegistrar CellRocketRegistrar(
         "CellRocket", CellRocket::MakeNew, 0x110, false);
 

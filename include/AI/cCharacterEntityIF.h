@@ -82,6 +82,10 @@ namespace AI
         bool IsInViewCone(Fun_Runtime::cScriptHost *object);
         unsigned char RetMovementType() const;
         unsigned int RetCharacterState(); // CD2 script wrapper 0x823EC048 calls character slot 371.
+        // CD2 script methods "AddEquipment" (0x823EC070) and "AddEquipmentDontEquip" (0x823EC0E8): the interface's
+        // by-name AddEquipment, equipping or not.
+        Equip::cEquipment *AddEquipment(const char *sProtoName);
+        Equip::cEquipment *AddEquipmentDontEquip(const char *sProtoName);
         unsigned int RetMaxAiToAiVisibilityLevel() const;
         void SetMaxAiToAiVisibilityLevel(unsigned int value);
         void SetCheckTargetTooClose(unsigned char value);

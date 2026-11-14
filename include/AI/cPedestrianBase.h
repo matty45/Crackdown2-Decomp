@@ -111,7 +111,7 @@ namespace AI
         virtual void OnEnter(); // slot 68: 0x824A9350
         virtual void OnExit(); // slot 69: 0x824A9588
         virtual void Slot71(); // slot 71: 0x824A9E18
-        virtual void Slot72(); // slot 72: 0x824A8CA0
+        virtual void OnEnterReplicatedState(unsigned char); // slot 72: 0x824A8CA0
         virtual void Slot73(); // slot 73: 0x824A9888
         virtual void OnEvent74(NPCTarget *t); // slot 74: 0x824A9728
         virtual void OnEvent75(NPCTarget *t); // slot 75: 0x824A98F0
@@ -122,7 +122,7 @@ namespace AI
         virtual void Slot83(); // slot 83: 0x824AABF8
         virtual void Slot84(); // slot 84: 0x824A96B0
         virtual void Slot88(); // slot 88: 0x82370840
-        virtual void Slot89(); // slot 89: 0x824D42A8
+        virtual unsigned char GetStateReplicationInfo() const; // slot 89: 0x824D42A8
     };
 }
 

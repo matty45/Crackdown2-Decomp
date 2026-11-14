@@ -48,6 +48,11 @@ namespace Vehicle
     static GOM::cProtoRegistrar cAgencySUVSpawningRegistrar(
         cAgencySUV::StaticCreateClass(), cAgencySUV::SpawnFromPrototype);
 
+    RWS::CAttributeHandler *cAgencySUV::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cAgencySUVPrototype(packet);
+    }
+
     const char *cAgencySUV::RetClassName() const
     {
         return "cAgencySUV";
@@ -63,5 +68,9 @@ namespace Vehicle
     Fun_Runtime::RetVal cAgencySUVPrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;
+    }
+
+    cAgencySUV::cAgencySUV() : m_fChargeTimer(0.0f), m_nASUVFlags(0)
+    {
     }
 }

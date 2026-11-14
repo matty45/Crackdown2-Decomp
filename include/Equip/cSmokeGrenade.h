@@ -21,11 +21,22 @@ namespace Equip
     {
     public:
         // RuffKing prototype name/base; CD2 Init is primary slot 5 (0x82622D80).
-        // Interface only: instance fields and allocation size remain unrecovered.
+        // CD2 MakeNew allocates 0x380 and initializes both reference-named fields.
         class cSmokeGrenadePrototype : public cGrenade::cGrenadePrototype
         {
         public:
+            // CD2 expands construction into MakeNew; its grenade-prototype base stays out of line.
+            __forceinline cSmokeGrenadePrototype(const RWS::CAttributePacket &packet)
+                : cGrenadePrototype(packet), m_nMaxSmokeTime_msec(0), m_nSmokeEffectID(-1) {}
             virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
+            virtual void HandleAttributes(const RWS::CAttributePacket &);
+        protected:
+            int m_nMaxSmokeTime_msec;
+            int m_nSmokeEffectID;
+            CD2_LAYOUT_CHECKS(cSmokeGrenadePrototype,
+                CD2_SIZE(cSmokeGrenadePrototype, 0x380)
+                CD2_OFFSET(cSmokeGrenadePrototype, m_nMaxSmokeTime_msec, 0x370)
+                CD2_OFFSET(cSmokeGrenadePrototype, m_nSmokeEffectID, 0x374))
         };
 
         // CD2 0x826225D0: registered-class virtual slot 0 reads this class descriptor.

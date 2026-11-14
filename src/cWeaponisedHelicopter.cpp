@@ -75,4 +75,19 @@ namespace unknown
     {
         return *ms_pcWeaponisedHelicopterClass;
     }
+
+    Fun_Runtime::RetVal cWeaponisedHelicopter::Term()
+    {
+        return cHelicopter::Term();
+    }
+
+    Fun_Runtime::RetVal cWeaponisedHelicopter::TermForReuse()
+    {
+        return cHelicopter::TermForReuse();
+    }
+
+    Fun_Runtime::RetVal cWeaponisedHelicopter::Slot37()
+    {
+        return cHelicopter::Slot37();
+    }
 }

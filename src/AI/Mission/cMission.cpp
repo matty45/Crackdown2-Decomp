@@ -9,3 +9,46 @@
 #include "CHARACTER/cCharacterController.h"
 #include "CHARACTER/cRagdollProfile.h"
 #include "AI/aiconstants.h"
+#include "AI/cMission.h"
+#include "cd2/memory.h"
+#include "AI/cSecondaryObjectivesInfo.h"
+
+namespace AI
+{
+    RWS::CAttributeHandler *cSecondaryObjectivesInfo::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cSecondaryObjectivesInfo;
+    }
+
+    const char *cSecondaryObjectivesInfo::RetClassName() const
+    {
+        return "cSecondaryObjectivesInfo";
+    }
+
+    const Fun_Runtime::cClass &cMission::RetClass() const
+    {
+        return *ms_pcMissionClass;
+    }
+
+    RWS::CAttributeHandler *cMission::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cMission;
+    }
+
+    const char *cMission::RetClassName() const
+    {
+        return "cMission";
+    }
+
+    Fun_Runtime::cClass &cMission::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cMissionClass = new Fun_Runtime::cClass(0x403, "cMission", 0x3C0);
+        return *cMissionClass;
+    }
+
+    void cMission::EnableCompletion()
+    {
+        if (IsAuthority() && m_eGlobalMissionState == eGMS_Uncompletable)
+            SetGlobalMissionState(eGMS_Incomplete, true);
+    }
+}

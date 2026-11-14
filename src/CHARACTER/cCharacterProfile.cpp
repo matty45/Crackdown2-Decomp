@@ -26,6 +26,11 @@ namespace CHARACTER
         return Ret_OK;
     }
 
+    Fun_Runtime::RetVal cCharacterProfile::Term()
+    {
+        return Ret_OK;
+    }
+
     void cCharacterProfile::HandleEvents(RWS::CMsg &msg)
     {
         if (msg.Id == m_Msg_Return_Self)

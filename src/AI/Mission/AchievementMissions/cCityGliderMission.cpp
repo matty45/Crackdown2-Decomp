@@ -13,7 +13,7 @@ namespace AI
 {
     const Fun_Runtime::cClass *cCityGliderMission::ms_pcCityGliderMissionClass = &cCityGliderMission::StaticCreateClass();
 
-    cCityGliderMission::cCityGliderMission() {}
+    cCityGliderMission *g_pCityGliderMission;
 
     const Fun_Runtime::cClass &cCityGliderMission::RetClass() const
     {
@@ -30,9 +30,9 @@ namespace AI
         return ms_pcCityGliderMissionClass->IsA(c);
     }
 
-    RWS::CAttributeHandler *cCityGliderMission::MakeNew(const RWS::CAttributePacket &packet, bool)
+    RWS::CAttributeHandler *cCityGliderMission::MakeNew(const RWS::CAttributePacket &, bool)
     {
-        return new cCityGliderMission();
+        return new cCityGliderMission;
     }
 }
 

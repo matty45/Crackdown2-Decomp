@@ -13,6 +13,26 @@
 
 namespace PHYSICS
 {
+    int cPickupProfile::m_aEffectID[28];
+    cPickupProfile::tPickupCollisionData cPickupProfile::ms_aPickupColData[28];
+
+    __forceinline cPickupProfile::cPickupProfile(const RWS::CAttributePacket &)
+    {
+        for (unsigned int i = 0; i < 28; ++i)
+            m_aEffectID[i] = -1;
+        for (unsigned char i = 0; i < 28; ++i)
+        {
+            ms_aPickupColData[i].fRadiusOnFoot = 1.0f;
+            ms_aPickupColData[i].fHeightOnFoot = 4.0f;
+            ms_aPickupColData[i].fRadiusInVehicle = 1.0f;
+        }
+    }
+
+    RWS::CAttributeHandler *cPickupProfile::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cPickupProfile(packet);
+    }
+
     const char *cPickupProfile::RetClassName() const
     {
         return "cPickupProfile";

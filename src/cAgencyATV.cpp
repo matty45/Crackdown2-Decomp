@@ -56,6 +56,13 @@ namespace unknown
         return "cAgencyATV";
     }
 
+    RWS::CAttributeHandler *cAgencyATV::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cAgencyATV;
+        return 0;
+    }
+
     const Fun_Runtime::cClass &cAgencyATV::RetClass() const
     {
         return *ms_pcAgencyATVClass;

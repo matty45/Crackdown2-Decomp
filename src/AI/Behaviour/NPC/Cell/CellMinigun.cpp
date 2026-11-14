@@ -46,6 +46,15 @@ namespace AI
         return new CellMinigun();
     }
 
+    void CellMinigun::ChangeMainState(eState state)
+    {
+        if (m_nMainState != state)
+        {
+            m_nMainState = state;
+            OnEnterState(state);
+        }
+    }
+
     static RWS::CClassFactory::CRegistrar CellMinigunRegistrar(
         "CellMinigun", CellMinigun::MakeNew, 0x100, false);
 

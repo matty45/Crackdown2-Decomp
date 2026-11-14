@@ -50,14 +50,14 @@ namespace AI
         // CD2: ScroungerSlinger's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
-        virtual void Slot72(); // 72: 0x824BE830
+        virtual void OnEnterReplicatedState(unsigned char); // 72: 0x824BE830
         virtual void Slot73(); // 73: 0x82580578
         virtual void OnEvent74(AI::NPCTarget *); // 74: 0x824BEF78
         virtual void OnEvent75(AI::NPCTarget *); // 75: 0x824BEF90
         virtual void Slot77(); // 77: 0x824BF038
         virtual void Slot80(unsigned char,unsigned char,unsigned char); // 80: 0x824BF5A8
         virtual void Slot82(); // 82: 0x824BEFC0
-        virtual void Slot89(); // 89: 0x824BE8C0
+        virtual unsigned char GetStateReplicationInfo() const; // 89: 0x824BE8C0
         virtual void GetState(int); // 100: 0x824BE908
         virtual void Slot101(); // 101: 0x824BE7C0
         virtual void V102(); // 102: 0x824BE808

@@ -65,6 +65,17 @@ namespace Vehicle
         return 0;
     }
 
+    cAgencySports::cAgencySports() : m_fCurretCombatCooldownTimer(0.0f)
+    {
+    }
+
+    // RuffKing's LeavePhysicalState (0x82B69AF0): remove the wedge, then the car's.
+    void cAgencySports::LeavePhysicalState()
+    {
+        m_Wedge.RemoveWedge();
+        cCar::LeavePhysicalState();
+    }
+
     const Fun_Runtime::cClass &cAgencySports::RetClass() const
     {
         return *ms_pcAgencySportsClass;

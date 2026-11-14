@@ -16,6 +16,8 @@
 #include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "cd2/memory.h"
+#include "VFX/cAfterlightRounded.h"
+#include "VFX/cGlobalLightManager.h"
 #include <new>
 
 namespace Vehicle
@@ -66,6 +68,46 @@ namespace Vehicle
         return *cLandVehicleClass;
     }
 
+    void cLandVehicle::AddVehicleLights()
+    {
+        if (VFX::cGlobalLightManager::ms_pSingleton)
+        {
+            cLandVehiclePrototype *pProto = static_cast<cLandVehiclePrototype *>(m_pPrototype);
+            AddVehicleLight(m_apHeadLightLargeVFX, m_aHeadLightLargeInfo, 6, pProto->m_nLightType[eVLT_Headlight_Large]);
+            AddVehicleLight(m_apHeadLightSmallVFX, m_aHeadLightSmallInfo, 4, pProto->m_nLightType[eVLT_Headlight_Small]);
+            AddVehicleLight(m_apTailLightVFX, m_aTailLightInfo, 4, pProto->m_nLightType[eVLT_TailLight]);
+            AddVehicleLight(m_apReverseLightVFX, m_aReverseLightInfo, 4, pProto->m_nLightType[eVLT_ReverseLight]);
+            AddVehicleLight(m_apBreakLightVFX, m_aBreakLightInfo, 4, pProto->m_nLightType[eVLT_BreakLight]);
+            AddVehicleLight(m_apPoliceLightRedVFX, m_aPoliceLightRedInfo, 4, pProto->m_nLightType[eVLT_PoliceLightRed]);
+            AddVehicleLight(m_apPoliceLightBlueVFX, m_aPoliceLightBlueInfo, 4, pProto->m_nLightType[eVLT_PoliceLightBlue]);
+            AddVehicleLight(m_apPoliceLightFrontVFX, m_PoliceHoodLightFrontInfo, 3, pProto->m_nLightType[eVLT_PoliceLightBlue]);
+            AddVehicleLight(m_apPoliceLightBackVFX, m_PoliceHoodLightBackInfo, 3, pProto->m_nLightType[eVLT_PoliceLightRed]);
+        }
+    }
+
+    bool cLandVehicle::IsFunctionallyDamaged()
+    {
+        if (!IsEngineActive() || m_bBlownUp || m_DamageEffect.IsAWheelDamaged())
+            return true;
+        return false;
+    }
+
+    bool cLandVehicle::CanTurnOnPoliceLights()
+    {
+        return RetPoliceLightsActivated() && (m_nNGBFlags & 2) && IsInViewFrustum();
+    }
+
+    bool cLandVehicle::CanTurnOnExhaustFumes()
+    {
+        return IsEngineActive() && (m_nNGBFlags & 2) && IsInViewFrustum() && RetPhysicsLOD() <= 2;
+    }
+
+    void cLandVehicle::FullySubmergedEvent()
+    {
+        if (static_cast<cVehiclePrototype *>(m_pPrototype)->m_eVehicleType != eVT_SUV)
+            StopEngine();
+    }
+
     bool cLandVehicle::IsReversing()
     {
         return m_pVehicleInstance ? bool(m_pVehicleInstance->IsReversing()) : false;
@@ -87,6 +129,13 @@ namespace Vehicle
             m_pVehicleInstance->m_DamageTorqueEfficiencyMultiplier = modifier;
     }
 
+    float cLandVehicle::RetEngineDamage()
+    {
+        if (m_pVehicleInstance)
+            return m_pVehicleInstance->m_DamageTorqueEfficiencyMultiplier;
+        return Fun_Runtime::g_GlobalConstants.CONST_FLOAT_1;
+    }
+
     void cLandVehicle::SetSteeringAngle(float angle)
     {
         if (m_pVehicleInstance)
@@ -98,6 +147,84 @@ namespace Vehicle
         return static_cast<cLandVehiclePrototype *>(m_pPrototype)->m_bIsPoliceVehicle;
     }
 
+    void cLandVehicle::TurnOffPoliceLights(bool bForce)
+    {
+        if (IsAPoliceVehicle() && (m_bPoliceLightsOn || bForce))
+        {
+            cVehicle::TurnOffVehicleLights(m_apPoliceLightRedVFX, m_aPoliceLightRedInfo, 4);
+            cVehicle::TurnOffVehicleLights(m_apPoliceLightBlueVFX, m_aPoliceLightBlueInfo, 4);
+            cVehicle::TurnOffVehicleLights(m_apPoliceLightFrontVFX, m_PoliceHoodLightFrontInfo, 3);
+            cVehicle::TurnOffVehicleLights(m_apPoliceLightBackVFX, m_PoliceHoodLightBackInfo, 3);
+            m_bPoliceLightsOn = false;
+        }
+    }
+
+    void cLandVehicle::ActivateVehicleLights(bool bActivate)
+    {
+        m_bVehicleLightsActivated = bActivate;
+        if (CanTurnOnVehicleLights())
+            TurnOnVehicleLights();
+        else
+            TurnOffVehicleLights(false);
+    }
+
+    void cLandVehicle::TurnOnVehicleLights()
+    {
+        if (!m_bLightsOn)
+        {
+            TurnOnVehicleLight(m_apHeadLightLargeVFX, m_aHeadLightLargeInfo, 6, eVLT_Headlight_Large);
+            TurnOnVehicleLight(m_apHeadLightSmallVFX, m_aHeadLightSmallInfo, 4, eVLT_Headlight_Small);
+            TurnOnVehicleLight(m_apTailLightVFX, m_aTailLightInfo, 4, eVLT_TailLight);
+            TurnOnAfterlights();
+            m_LastUpdateTimestamp = -1;
+            m_bLightsOn = true;
+        }
+    }
+
+    void cLandVehicle::TurnOffVehicleLights(bool bForce)
+    {
+        if (m_bLightsOn || bForce)
+        {
+            cVehicle::TurnOffVehicleLights(m_apHeadLightLargeVFX, m_aHeadLightLargeInfo, 6);
+            cVehicle::TurnOffVehicleLights(m_apHeadLightSmallVFX, m_aHeadLightSmallInfo, 4);
+            cVehicle::TurnOffVehicleLights(m_apTailLightVFX, m_aTailLightInfo, 4);
+            cVehicle::TurnOffVehicleLights(m_apReverseLightVFX, m_aReverseLightInfo, 4);
+            cVehicle::TurnOffVehicleLights(m_apBreakLightVFX, m_aBreakLightInfo, 4);
+            VFX::FreeALRounded(&m_pHeadlight[0]);
+            VFX::FreeALRounded(&m_pHeadlight[1]);
+            m_bLightsOn = false;
+        }
+    }
+
+    void cLandVehicle::ResetDamagedLights()
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            if (m_apHeadLightLargeVFX[i])
+                m_apHeadLightLargeVFX[i]->ResetDamage();
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            if (m_apHeadLightSmallVFX[i])
+                m_apHeadLightSmallVFX[i]->ResetDamage();
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            if (m_apTailLightVFX[i])
+                m_apTailLightVFX[i]->ResetDamage();
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            if (m_apReverseLightVFX[i])
+                m_apReverseLightVFX[i]->ResetDamage();
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            if (m_apBreakLightVFX[i])
+                m_apBreakLightVFX[i]->ResetDamage();
+        }
+    }
+
     void cLandVehicle::SetMustStop(bool mustStop)
     {
         m_bMustStop = mustStop;
@@ -106,5 +233,10 @@ namespace Vehicle
     Fun_Runtime::RetVal cLandVehicle::cLandVehiclePrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;
+    }
+
+    void cLandVehicle::CustomiseShape(hkShape **ppCollisionShape)
+    {
+        CustomiseShape(ppCollisionShape, m_pVehicleData);
     }
 }

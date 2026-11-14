@@ -53,9 +53,9 @@ namespace AI
         virtual void OnEnter(); // 68: 0x824B2A38
         virtual void OnExit(); // 69: 0x824B2C30
         virtual void Slot71(); // 71: 0x824B5330
-        virtual void Slot72(); // 72: 0x824B2CD8
+        virtual void OnEnterReplicatedState(unsigned char); // 72: 0x824B2CD8
         virtual void Slot80(unsigned char,unsigned char,unsigned char); // 80: 0x824B69F0
-        virtual void Slot89(); // 89: 0x824B2D68
+        virtual unsigned char GetStateReplicationInfo() const; // 89: 0x824B2D68
         virtual void Update(float); // 96: 0x824B2DB0
         virtual void SetState(int); // 99: 0x824B5518
         virtual void GetState(int); // 100: 0x824B4D38
@@ -70,7 +70,7 @@ namespace AI
 
     public:
         // CD2 table 0x82109970 differs from FreakBase at these inherited slots.
-        virtual void Slot85(); // slot 85: 0x824A8A90
+        virtual void SetReactResupplyPoint(const Fun_Runtime::Vec3 &, const Fun_Runtime::Vec3 &); // slot 85: 0x824A8A90
         virtual void vf120(); // slot 120: 0x824B3278
         virtual void vf121(); // slot 121: 0x824ADFA0
         virtual void vf125(); // slot 125: 0x824B3058

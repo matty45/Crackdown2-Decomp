@@ -25,12 +25,28 @@
 #include "fun_runtime/inheritance_registrar.h"
 #include "gom/proto_registrar.h"
 #include "cd2/memory.h"
+#include "editor/guid_event_handler.h"
 
 namespace AI
 {
+    const RWS::RWSGUID &AIBehaviour::AIBehaviourPrototype::RetPrimaryWeapon() const
+    {
+        return Editor::g_GUIDNull;
+    }
+
     const char *AIBehaviour::RetClassName() const
     {
         return "AIBehaviour";
+    }
+
+    RWS::CAttributeHandler *AIBehaviour::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        return new (memory) AIBehaviour;
+    }
+
+    const Fun_Runtime::cClass &AIBehaviour::RetClass() const
+    {
+        return *ms_pAIBehaviourClass;
     }
 
     const Fun_Runtime::cClass *AIBehaviour::ms_pAIBehaviourClass = &AIBehaviour::StaticCreateClass();

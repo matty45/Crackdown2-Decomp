@@ -26,6 +26,8 @@
 #include "rws/classfactory.h"
 #include "Equip/cRealNadeLauncher.h"
 #include "cd2/memory.h"
+#include "gom/manager.h"
+#include "rw/rwmem.h"
 #include <new>
 
 namespace Equip
@@ -56,6 +58,11 @@ namespace Equip
     static Fun_Runtime::cInheritanceRegistrar cRealNadeLaunchercCWHeavyWeaponInheritRegistrar(
         Equip::cRealNadeLauncher::StaticCreateClass(), Equip::cCWHeavyWeapon::StaticCreateClass());
 
+    RWS::CAttributeHandler *cRealNadeLauncher::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cRealNadeLauncherPrototype(packet);
+    }
+
     const char *cRealNadeLauncher::RetClassName() const
     {
         return "cRealNadeLauncher";
@@ -74,6 +81,37 @@ namespace Equip
     // CD2 0x82634BE8 has no derived cleanup beyond vtable restoration.
     cRealNadeLauncher::~cRealNadeLauncher()
     {
+    }
+
+    void cRealNadeLauncher::cRealNadeLauncherPrototype::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cCWHeavyWeaponPrototype::HandleAttributes(packet);
+        for (RWS::CAttributeCommandIterator it(packet, "cRealNadeLauncher"); !it.IsFinished(); ++it)
+        {
+            switch (it->GetCommandId())
+            {
+            case 0:
+                {
+                    const RWS::RWSGUID guid = it->GetAs_RWSGUID();
+                    m_pNadePrototype = GOM::FindPrototypeById(guid);
+                }
+                break;
+            case 1:
+                {
+                    float rotation = it->GetAs_float();
+                    RwMemNative32(&rotation, sizeof(rotation));
+                    m_fRandomLaunchRot = rotation;
+                }
+                break;
+            case 2:
+                {
+                    float power = it->GetAs_float();
+                    RwMemNative32(&power, sizeof(power));
+                    m_fLaunchPower = power;
+                }
+                break;
+            }
+        }
     }
 
     Fun_Runtime::RetVal cRealNadeLauncher::cRealNadeLauncherPrototype::Init(const RWS::CAttributePacket &)

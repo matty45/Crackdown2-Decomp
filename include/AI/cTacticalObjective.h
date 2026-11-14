@@ -25,6 +25,15 @@ namespace AI
     class cHeliCallZone;
     class cMissionActivationCylinder;
 
+    // RuffKing's squad respawn record (8 bytes) and its ordering predicate (CD2 0x824781B8).
+    struct cSquadRespawnData
+    {
+        float m_fNextRespawnTime;
+        unsigned char m_nSquadIdx;
+        unsigned char m_nNextRespawnCount;
+    };
+    bool squad_respawn_lt(const cSquadRespawnData &pA, const cSquadRespawnData &pB);
+
     class cTacticalObjective : public RWS::CEventHandler, public cMission
     {
     public:

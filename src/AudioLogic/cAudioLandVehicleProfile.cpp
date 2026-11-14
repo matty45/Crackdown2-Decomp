@@ -17,6 +17,9 @@
 #include "rws/classfactory.h"
 #include "AudioLogic/cAudioLandVehicleProfile.h"
 #include "cd2/memory.h"
+#include "AudioLogic/cAudioLandVehicleExtrasProfile.h"
+#include "rw/rwmem.h"
+#include <string.h>
 
 namespace AudioLogic
 {
@@ -58,6 +61,65 @@ namespace AudioLogic
     {
         m_bReset = false;
         return Ret_OK;
+    }
+
+    void cAudioLandVehicleProfile::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cAudioBaseProfile::HandleAttributes(packet);
+        for (RWS::CAttributeCommandIterator it(packet, "cAudioLandVehicleProfile"); !it.IsFinished(); ++it)
+        {
+            switch (it->GetCommandId())
+            {
+            case CMD_FAKEREV_PEAK_LIMIT:
+                {
+                    float value = it->GetAs_float();
+                    RwMemNative32(&value, sizeof(value));
+                    m_fFakeRevPeakRPM = value;
+                }
+                break;
+            case CMD_FAKEREV_RAMPUP_TIME:
+                {
+                    float value = it->GetAs_float();
+                    RwMemNative32(&value, sizeof(value));
+                    m_fFakeRevRampUp = value;
+                }
+                break;
+            case CMD_FAKEREV_RAMPDOWN_TIME:
+                {
+                    float value = it->GetAs_float();
+                    RwMemNative32(&value, sizeof(value));
+                    m_fFakeRevRampDown = value;
+                }
+                break;
+            case CMD_FAKEREV_DELAY_TIME:
+                {
+                    float value = it->GetAs_float();
+                    RwMemNative32(&value, sizeof(value));
+                    m_fFakeRevStartDelay = value;
+                }
+                break;
+            case CMD_AUDIO_RPM_MIN:
+                {
+                    float value = it->GetAs_float();
+                    RwMemNative32(&value, sizeof(value));
+                    m_fAudioRPMMin = value;
+                }
+                break;
+            case CMD_AUDIO_RPM_MAX:
+                {
+                    float value = it->GetAs_float();
+                    RwMemNative32(&value, sizeof(value));
+                    m_fAudioRPMMax = value;
+                }
+                break;
+            case CMD_MSG_GET_EXTRAS_PROFILE:
+                if (strlen(it->GetAs_char_ptr()))
+                    m_pExtrasProfile = static_cast<cAudioLandVehicleExtrasProfile *>(GetAudioProfile(it->GetAs_char_ptr()));
+                else
+                    m_pExtrasProfile = 0;
+                break;
+            }
+        }
     }
 
     static RWS::CClassFactory::CRegistrar cAudioLandVehicleProfileRegistrar(

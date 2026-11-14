@@ -46,6 +46,8 @@ namespace AI
             eBMS_Pending_Ready,
             eBMS_NumStates,
         };
+        // CD2's load/save table overrides Save with 0x82465088.
+        virtual void Save(SaveGame::cSaveStream *);
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pcBeaconMissionClass;
 
@@ -82,6 +84,11 @@ namespace AI
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
         virtual void TermReplication(); // cRegisteredClass 38: 0x82242398
+        // cLoadSaveObject table 0x821040B4 (at +0x260): slot 0. RuffKing declares the override.
+        virtual void Load(SaveGame::cLoadStream *pStream);
+        // RuffKing's names; CD2 0x82467D80 and 0x823BD500 (Load calls both).
+        void SetBeaconZones(int numDaysPassed);
+        void LinkToTrafficZones();
     protected:
         // RuffKing's first cBeaconMission fields (cBeaconMission.h) at CD2's offsets: NotifySquadDead (0x82467EF0) counts
         // 0x3CA. Size 0x2300 from CD2's registrar; RuffKing's class is smaller, so the rest is not modelled.
@@ -102,7 +109,15 @@ namespace AI
         // RuffKing's names; CD2's OnLeaveGlobalMissionState (0x82464E80) hides the call zone at 0x1B30 and stops the
         // containment zones of the vector at 0x224C.
         cHeliCallZone *m_pActivationZone;                               // 0x1B30
-        unsigned int m_unmodelled1B34[(0x224C - 0x1B34) / 4];
+        // RuffKing's next fields (0x1AE4.. there); CD2's Load (0x82464FB0) reads the five words and tests the two flags.
+        float m_fLastMissionPhase;                                      // 0x1B34
+        float m_fMissionCompletePhase;                                  // 0x1B38
+        int m_nNumDaysPassed;                                           // 0x1B3C
+        int m_nPhase2SpecialCaseSpawnSkip;                              // 0x1B40
+        int m_nPhase3SpecialCaseExtraDay;                               // 0x1B44
+        bool m_validLoadedData;                                         // 0x1B48
+        bool m_zonesInitialised;                                        // 0x1B49
+        unsigned char m_unmodelled1B4A[0x224C - 0x1B4A];
         Fun_Runtime::cVector<cMissionActivationCylinder *> m_vContainmentZones;    // 0x224C
         unsigned int m_unmodelled225C[(0x2300 - 0x225C) / 4];
         CD2_LAYOUT_CHECKS(cBeaconMission,
@@ -110,6 +125,8 @@ namespace AI
             CD2_OFFSET(cBeaconMission, m_nHeliID, 0x3D4)
             CD2_OFFSET(cBeaconMission, m_pSWGTTargetSpawnPoint, 0x3E4)
             CD2_OFFSET(cBeaconMission, m_pActivationZone, 0x1B30)
+            CD2_OFFSET(cBeaconMission, m_nNumDaysPassed, 0x1B3C)
+            CD2_OFFSET(cBeaconMission, m_zonesInitialised, 0x1B49)
             CD2_OFFSET(cBeaconMission, m_vContainmentZones, 0x224C)
             CD2_SIZE(cBeaconMission, 0x2300))
     };

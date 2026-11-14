@@ -16,12 +16,15 @@
 #include "PHYSICS/physicsconsts.h"
 #include "PHYSICS/physicsproject.h"
 #include "fun_runtime/retval.h"
+#include "fun_runtime/quat.h"
 #include "Equip/cGrenade.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "gom/proto_registrar.h"
 #include "rws/classfactory.h"
 #include "Equip/cSmokeGrenade.h"
 #include "cd2/memory.h"
+#include "rw/rwmem.h"
+#include "VFX/cParticleEffectManager.h"
 
 namespace Equip
 {
@@ -44,6 +47,11 @@ namespace Equip
     static Fun_Runtime::cInheritanceRegistrar cSmokeGrenadecGrenadeInheritRegistrar(
         Equip::cSmokeGrenade::StaticCreateClass(), Equip::cGrenade::StaticCreateClass());
 
+    RWS::CAttributeHandler *cSmokeGrenade::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cSmokeGrenadePrototype(packet);
+    }
+
     const char *cSmokeGrenade::RetClassName() const
     {
         return "cSmokeGrenade";
@@ -64,6 +72,27 @@ namespace Equip
         if (memory)
             return new (memory) cSmokeGrenade;
         return 0;
+    }
+
+    void cSmokeGrenade::cSmokeGrenadePrototype::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cGrenadePrototype::HandleAttributes(packet);
+        for (RWS::CAttributeCommandIterator it(packet, "cSmokeGrenade"); !it.IsFinished(); ++it)
+        {
+            switch (it->GetCommandId())
+            {
+            case 0:
+                {
+                    float duration = it->GetAs_float();
+                    RwMemNative32(&duration, sizeof(duration));
+                    m_nMaxSmokeTime_msec = static_cast<int>(duration * 1000.0f);
+                }
+                break;
+            case 1:
+                m_nSmokeEffectID = VFX::g_pParticleEffectManager->RetEffectId(it->GetAs_char_ptr());
+                break;
+            }
+        }
     }
 
     Fun_Runtime::RetVal cSmokeGrenade::cSmokeGrenadePrototype::Init(const RWS::CAttributePacket &)

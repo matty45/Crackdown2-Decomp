@@ -52,19 +52,19 @@ namespace AI
         virtual void OnEvent75(NPCTarget *t); // slot 75: 0x824C4440
         virtual void Slot79(); // slot 79: 0x824C4190
         virtual void Slot83(); // slot 83: 0x824C41E8
-        virtual void vf98(); // slot 98: 0x824C3F20
-        virtual void vf102(); // slot 102: 0x82580578
-        virtual void vf103(); // slot 103: 0x82580578
-        virtual void vf104(); // slot 104: 0x82580578
-        virtual void vf105(); // slot 105: 0x824C46F0
-        virtual void vf106(); // slot 106: 0x82580578
-        virtual void vf108(); // slot 108: 0x824C4A88
-        virtual void vf109(); // slot 109: 0x824C3C58
-        virtual void vf110(); // slot 110: 0x82580578
-        virtual void vf112(); // slot 112: 0x824C45D8
-        virtual void vf114(); // slot 114: 0x824C4498
-        virtual void vf117(); // slot 117: 0x824C4958
-        virtual void vf123(); // slot 123: 0x824C45A0
+        virtual void ChangeMainState(eState); // slot 98: 0x824C3F20
+        virtual void OnIdle(); // slot 102: 0x82580578
+        virtual void OnInvestigating(); // slot 103: 0x82580578
+        virtual void OnPatrolling(); // slot 104: 0x82580578
+        virtual void OnAttacking(); // slot 105: 0x824C46F0
+        virtual void OnCover(); // slot 106: 0x82580578
+        virtual void OnReactResupply(); // slot 108: 0x824C4A88
+        virtual void OnAmbient(); // slot 109: 0x824C3C58
+        virtual void OnDrive(); // slot 110: 0x82580578
+        virtual void EnterSubStateInvestigating(); // slot 112: 0x824C45D8
+        virtual void EnterSubStateAttacking(); // slot 114: 0x824C4498
+        virtual void EnterSubStateReactResupply(); // slot 117: 0x824C4958
+        virtual void ExitSubStateAttacking(); // slot 123: 0x824C45A0
     };
 }
 

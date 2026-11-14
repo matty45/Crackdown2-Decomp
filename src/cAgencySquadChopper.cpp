@@ -49,4 +49,26 @@ namespace unknown
     {
         return "cAgencySquadChopper";
     }
+
+    RWS::CAttributeHandler *cAgencySquadChopper::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cAgencySquadChopper;
+        return 0;
+    }
+
+    Vehicle::cPintleMount *cAgencySquadChopper::RetPintleMount(unsigned char nIdx)
+    {
+        return &m_aTurrets[nIdx];
+    }
+
+    void cAgencySquadChopper::UpdateCollisionLayer()
+    {
+        cVehicle::UpdateCollisionLayer();
+    }
+
+    bool cAgencySquadChopper::CheckForReplicationActivation(unsigned int *nRetCode)
+    {
+        return cVehicle::CheckForReplicationActivation(nRetCode);
+    }
 }

@@ -26,6 +26,13 @@ namespace Vehicle
         virtual const char *RetClassName() const;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
 
+        // CD2: cAgencyCar's own virtuals. Each slot below holds, in this class's CD2 vtable 0x8201C090 (and its derived
+        // classes'), an address its base's table does not hold there, so the class overrides it; names and signatures
+        // are the bases'. Its destructor slot holds cCar's: the class declares no destructor.
+        virtual void vf140();                                   // 140: 0x826EC4F0
+        virtual void vf296();                                   // 296: 0x826EC588
+        virtual void UpdateExhaustVFX(float);                   // 469: 0x826EC648
+
     private:
         unsigned char m_unmodelled3070[0x30B0 - 0x3070];
 

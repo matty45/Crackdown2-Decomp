@@ -26,7 +26,7 @@ namespace AI
     {
     public:
         // CD2 constructor 0x824A89C8 installs the 96-slot table 0x82108C08.
-        virtual void Slot72();
+        virtual void OnEnterReplicatedState(unsigned char);
         virtual void Slot73();
         virtual void OnEvent74(NPCTarget *t);
         virtual void OnEvent75(NPCTarget *t);
@@ -39,11 +39,11 @@ namespace AI
         virtual void Slot82();
         virtual void Slot83();
         virtual void Slot84();
-        virtual void Slot85();
+        virtual void SetReactResupplyPoint(const Fun_Runtime::Vec3 &, const Fun_Runtime::Vec3 &);
         virtual void Slot86();
         virtual void Slot87();
         virtual void Slot88();
-        virtual void Slot89();
+        virtual unsigned char GetStateReplicationInfo() const;
         virtual void Slot90();
         virtual void Slot91();
         virtual void Slot92();
@@ -67,6 +67,8 @@ namespace AI
         static const Fun_Runtime::cClass *ms_pNPCBehaviourClass;
 
         NPCBehaviour();
+        // Compiler-generated (RuffKing). CD2's table 0x82108C08 shares deleting
+        // wrapper 0x824A4C30 without any NPC vtable restoration.
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &packet, bool);
 
         virtual const Fun_Runtime::cClass &RetClass() const;

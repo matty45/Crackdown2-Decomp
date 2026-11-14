@@ -48,6 +48,11 @@ namespace Vehicle
     static GOM::cProtoRegistrar cAgencyBuggySpawningRegistrar(
         cAgencyBuggy::StaticCreateClass(), cAgencyBuggy::SpawnFromPrototype);
 
+    RWS::CAttributeHandler *cAgencyBuggy::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cAgencyBuggyPrototype(packet);
+    }
+
     const char *cAgencyBuggy::RetClassName() const
     {
         return "cAgencyBuggy";
@@ -63,5 +68,20 @@ namespace Vehicle
     Fun_Runtime::RetVal cAgencyBuggyPrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;
+    }
+
+    cAgencyBuggy::cAgencyBuggy() : m_bWeaponsInitialised(false), m_bMarkerAdded(false)
+    {
+    }
+
+    void cAgencyBuggy::ReplicateInitialFields()
+    {
+        UpdateBuggyWeapon();
+        cCar::ReplicateInitialFields();
+    }
+
+    void cAgencyBuggy::ReplicateFields()
+    {
+        cCar::ReplicateFields();
     }
 }

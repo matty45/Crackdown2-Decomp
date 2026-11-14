@@ -10,6 +10,10 @@
 #include "gom/game_base.h"
 #include "GDb/cDebugPageHandler.h"
 #include "PHYSICS/cCollisionListener.h"
+#include "Havok/hkMotion.h"
+#include "Havok/hkCollidableQualityType.h"
+
+class hkShape;
 
 namespace PHYSICS
 {
@@ -59,15 +63,15 @@ namespace PHYSICS
         // Primary slots 141..226: cBody's own virtuals. CD2's cBody table (0x8200C938, stored by the constructor
         // 0x82683400) has 227 slots. Names are not recovered yet; vfN is the slot index.
         virtual void vf141(); virtual void vf142(); virtual void vf143(); virtual void vf144(); virtual void vf145(); virtual void vf146();
-        virtual void vf147(); virtual void vf148(); virtual void vf149(); virtual void vf150(); virtual void vf151(); virtual void vf152();
-        virtual void vf153(); virtual void vf154(); virtual void vf155(); virtual void vf156(); virtual void vf157(); virtual void vf158();
+        virtual void vf147(); virtual void vf148(); virtual void vf149(); virtual void vf150(); virtual void CustomiseShape(hkShape **ppCollisionShape); virtual void vf152();
+        virtual void vf153(); virtual void vf154(); virtual void vf155(); virtual hkCollidableQualityType RetCollidableQuality(hkMotion::MotionType); virtual void vf157(); virtual void vf158();
         virtual void vf159(); virtual void vf160(); virtual void vf161(); virtual void vf162(); virtual void vf163(); virtual void vf164();
         virtual void vf165(); virtual void vf166(); virtual void vf167(); virtual void vf168(); virtual void vf169(); virtual void vf170();
         virtual void vf171(); virtual void vf172(); virtual void vf173(); virtual void vf174(); virtual void vf175(); virtual void vf176();
         virtual void vf177(); virtual void vf178(); virtual void vf179(); virtual void vf180(); virtual void vf181(); virtual void vf182();
         virtual void vf183(); virtual void vf184(); virtual void vf185(); virtual void vf186(); virtual void vf187(); virtual void vf188();
         virtual void vf189(); virtual void vf190(); virtual void vf191(); virtual void vf192(); virtual void vf193(); virtual void vf194();
-        virtual void vf195(); virtual void vf196(); virtual unsigned short RetCollisionSystemGroup(); virtual void vf198(); virtual void vf199(); virtual void vf200();
+        virtual void vf195(); virtual unsigned char RetCollisionLayer(); virtual unsigned short RetCollisionSystemGroup(); virtual void vf198(); virtual void vf199(); virtual void vf200();
         virtual void vf201(); virtual void vf202(); virtual void vf203(); virtual void vf204(); virtual void vf205(); virtual void vf206();
         virtual void vf207(); virtual void vf208(); virtual void vf209(); virtual void vf210(); virtual void vf211(); virtual void vf212();
         virtual void vf213(); virtual void vf214(); virtual void vf215(); virtual void vf216(); virtual void vf217(); virtual void vf218();
@@ -76,7 +80,7 @@ namespace PHYSICS
         // CD2 primary slot 221; reference name and access, overridden by cBeaconProp at 0x8245C5C8.
         virtual void PreAddToPhysicsWorld();
     public:
-        virtual void vf222(); virtual void vf223(); virtual void vf224();
+        virtual void vf222(); virtual void vf223(); virtual void FullySubmergedEvent();
         virtual void vf225(); virtual void vf226();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcBodyClass;
@@ -101,7 +105,7 @@ namespace PHYSICS
         virtual bool EnterPhysicalState(); // 7: 0x82683A48
         virtual void Slot13(); // 13: 0x826838B8
         virtual void UpdateRenderMatrix(); // 26: 0x82683DC0
-        virtual void Slot27(); // 27: 0x82683AF0
+        virtual void LeavePhysicalState(); // 27: 0x82683AF0
         virtual void Slot41(); // 41: 0x82684070
         virtual void Slot43(); // 43: 0x82683F70
         virtual void vf114(); // 114: 0x82683838

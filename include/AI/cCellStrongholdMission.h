@@ -16,10 +16,19 @@ namespace AI
     class cCellStrongholdMission : public AI::cMission
     {
     public:
+        // CD2 attribute-handler slot 1 differs from the mission base.
+        virtual void HandleAttributes(const RWS::CAttributePacket &); // 0x8224FC50
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pcCellStrongholdMissionClass;
 
-        cCellStrongholdMission();
+        // CD2's MakeNew (0x82474E80) inlines this constructor after cMission's (0x824592E8); RuffKing's initial values.
+        __forceinline cCellStrongholdMission()
+            : m_fCurrResetTime(0.0f), m_fResetTimer(4.0f), m_pSpawnGroup(0), m_pCollectionZone(0), m_pContainmentZone(0)
+        {
+            m_bUseSquadGroupTransitionManagement = true;
+        }
+        // CD2's deleting destructor (0x82475000) restores this class's vptrs, then calls cMission's destructor.
+        virtual ~cCellStrongholdMission() {}
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &packet, bool);
 
         virtual const Fun_Runtime::cClass &RetClass() const;
@@ -45,6 +54,8 @@ namespace AI
         virtual void InitReplication(); // cRegisteredClass 37: 0x82326A78
         virtual void TermReplication(); // cRegisteredClass 38: 0x823BA938
     protected:
+        // RuffKing's name; CD2 0x82475148 (TickUpdate calls it on the authority).
+        void Update();
         virtual void OnEnterMissionState(unsigned char); // cRegisteredClass 31: 0x82475390
         virtual void OnLeaveGlobalMissionState(AI::cMission::etGlobalMissionState); // cRegisteredClass 32: 0x82475360
         virtual void OnEnterGlobalMissionState(AI::cMission::etGlobalMissionState); // cRegisteredClass 33: 0x82475298

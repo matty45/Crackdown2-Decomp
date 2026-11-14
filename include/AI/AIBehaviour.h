@@ -14,6 +14,10 @@ namespace AI
     class AIBehaviour : public cNonGameBase
     {
     public:
+        // CD2 placement factory calls this out-of-line constructor at 0x824A4BC0.
+        AIBehaviour();
+        // Compiler-generated (RuffKing). CD2's deleting wrapper 0x824A4C30
+        // calls cNonGameBase directly; an explicit empty body adds vptr stores.
         // CD2 table 0x82107B90 has 72 entries. Slots 68..71 are shared by NPC behaviours.
         virtual void OnEnter();
         virtual void OnExit();
@@ -24,11 +28,11 @@ namespace AI
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         // CD2 MakeNew (0x824a4a10) allocates 0x70 bytes, calls GOM::cObjectPrototype's constructor (0x82654118) with the packet and
         // installs this prototype's vtables (at 0 and 0x18).
-        class AIBehaviourPrototype : public GOM::cObjectPrototype
+        class AIBehaviourPrototype : public cNonGameBase::cNonGameBasePrototype
         {
         public:
             // __forceinline: CD2 inlines this constructor into MakeNew (docs/matching-notes.md, "Inlining").
-            __forceinline AIBehaviourPrototype(const RWS::CAttributePacket &packet) : GOM::cObjectPrototype(packet) {}
+            __forceinline AIBehaviourPrototype(const RWS::CAttributePacket &packet) : cNonGameBasePrototype(packet) {}
             // CD2's table 0x82107B60 has twelve slots; RuffKing names the
             // prototype's sole additional virtual RetPrimaryWeapon.
             virtual const RWS::RWSGUID &RetPrimaryWeapon() const;
@@ -45,8 +49,8 @@ namespace AI
     public:
         virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x827FBD60
         virtual int RetUniqueID(); // CEventHandler 1: 0x82604E70
-        virtual Fun_Runtime::cClass const & RetClass() const; // cRegisteredClass 0: 0x824A8720
-        virtual bool IsA(Fun_Runtime::cClass const &) const; // cRegisteredClass 1: 0x824A8730
+        virtual Fun_Runtime::cClass const & RetClass() const; // cRegisteredClass 0: 0x824A4AA8
+        virtual bool IsA(Fun_Runtime::cClass const &) const; // cRegisteredClass 1: 0x824A4AB8
     };
 }
 

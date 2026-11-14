@@ -52,7 +52,7 @@ namespace AI
         // CD2: Scrounger's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
-        virtual void Slot85(); // 85: 0x824BAF98
+        virtual void SetReactResupplyPoint(const Fun_Runtime::Vec3 &, const Fun_Runtime::Vec3 &); // 85: 0x824BAF98
     private:
         CD2_LAYOUT_CHECKS(Scrounger,
             CD2_SIZE(Scrounger, 0x130)
@@ -63,8 +63,8 @@ namespace AI
         virtual void OnEnter(); // slot 68: 0x824BAC28
         virtual void OnExit(); // slot 69: 0x824BADC0
         virtual void Slot71(); // slot 71: 0x824BBD30
-        virtual void Slot72(); // slot 72: 0x824BAD08
-        virtual void Slot89(); // slot 89: 0x824BAD88
+        virtual void OnEnterReplicatedState(unsigned char); // slot 72: 0x824BAD08
+        virtual unsigned char GetStateReplicationInfo() const; // slot 89: 0x824BAD88
         virtual void GetState(int n); // slot 100: 0x824BAE98
         virtual void vf120(); // slot 120: 0x824BB288
         virtual void vf141(); // slot 141: 0x824BBF78

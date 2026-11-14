@@ -9,6 +9,8 @@
 
 namespace ORB
 {
+    cSkillPickupProfile *cSkillPickupProfile::ms_pSingleton;
+
     const char *cSkillPickupProfile::RetClassName() const
     {
         return "cSkillPickupProfile";
@@ -22,4 +24,5 @@ namespace ORB
     {
         return new cSkillPickupProfile;
     }
+
 }

@@ -12,8 +12,16 @@
 #include "SaveGame/cLoadStream.h"
 #include "SaveGame/cSaveStream.h"
 
+// The narrow-string assign instantiation belongs to another translation unit (CD2 0x82438A70): keep it external, so
+// that the LTCG model does not specialize its offset and count arguments away.
+extern template std::basic_string<char, std::char_traits<char>, Fun_Runtime::cAllocator<char> > &
+    std::basic_string<char, std::char_traits<char>, Fun_Runtime::cAllocator<char> >::assign(
+        const std::basic_string<char, std::char_traits<char>, Fun_Runtime::cAllocator<char> > &, size_t, size_t);
+
 namespace ZoneManager
 {
+    static const char *const pcVOAZoneClassID = "cVOAZone";
+
     RWS::CAttributeHandler *cVOAZone::MakeNew(const RWS::CAttributePacket &packet, bool)
     {
         return new cVOAZone(packet);
@@ -26,6 +34,22 @@ namespace ZoneManager
 
     cVOAZone::~cVOAZone()
     {
+    }
+
+    void cVOAZone::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cPlayerTriggerZone::HandleAttributes(packet);
+        for (RWS::CAttributeCommandIterator it(packet, pcVOAZoneClassID); !it.IsFinished(); ++it)
+        {
+            switch (it->GetCommandId())
+            {
+            case 0:
+                m_strName = it->GetAs_char_ptr();
+                break;
+            }
+        }
+        if (packet.IsInstanceCreationPacket())
+            InitTriggerZone();
     }
 
     void cVOAZone::Load(SaveGame::cLoadStream *stream)

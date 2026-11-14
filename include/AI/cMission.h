@@ -18,6 +18,11 @@ namespace AI
             eGMS_Invalid = 3
         };
         static Fun_Runtime::cClass &StaticCreateClass();
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
+        // RuffKing names these overrides; CD2 primary slots 0/1 read 0x8381C38C.
+        static const Fun_Runtime::cClass *ms_pcMissionClass;
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         cMission();
         virtual ~cMission();
         // Overrides named by the reference mission interface.
@@ -31,6 +36,11 @@ namespace AI
         virtual void ResetMission();
         // RuffKing's name and signature; CD2 0x82459BE0, called by cTacticalObjective::NotifyDeliveryStart.
         void SetMissionState(unsigned char nMissionState, bool bAllowAutoSave);
+        // RuffKing's name and signature; CD2 0x82459F08, which cCellStrongholdMission::TickUpdate (0x824750A0) calls
+        // first, as RuffKing's does.
+        void TickSquadSwitch(float dT);
+        // RuffKing name/signature; CD2 0x82459A60 updates the global state and invokes its callbacks.
+        void SetGlobalMissionState(etGlobalMissionState, bool bAutoSave);
         // RuffKing's name; CD2 0x8245A390 (outside the scaffolded files), called by cDocksMission's Activate/Deactivate.
         void SetAssociatedZonesEnabled(bool bEnabled);
         // CD2's cMission table (0x82102D28) holds its own Activate (0x82459568) and Deactivate (0x82459618) in slots 2

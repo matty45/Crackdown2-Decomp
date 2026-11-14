@@ -122,7 +122,7 @@ namespace AI
         // CD2: FreakBase's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
-        virtual void Slot89(); // 89: 0x824BAD88
+        virtual unsigned char GetStateReplicationInfo() const; // 89: 0x824BAD88
     private:
         CD2_LAYOUT_CHECKS(FreakBase, CD2_SIZE(FreakBase, 0x120))
 
@@ -136,7 +136,7 @@ namespace AI
         virtual void Slot79(); // slot 79: 0x824ADC70
         virtual void Slot80(unsigned char nEventType, unsigned char nEventSubType, unsigned char nEvent); // slot 80: 0x824AD948
         virtual void Slot83(); // slot 83: 0x824ADA20
-        virtual void Slot85(); // slot 85: 0x824AD910
+        virtual void SetReactResupplyPoint(const Fun_Runtime::Vec3 &, const Fun_Runtime::Vec3 &); // slot 85: 0x824AD910
         virtual void Slot86(); // slot 86: 0x824ABCA0
         virtual void Slot95(); // slot 95: 0x824ABC90
         virtual void GetState(int n); // slot 100: 0x824AC4B0

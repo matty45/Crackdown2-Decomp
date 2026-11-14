@@ -235,8 +235,8 @@ namespace Equip
         virtual void SetStatus(EQUIP_STATUS); // slot 316: 0x82609BF0
         virtual bool Activate(); // slot 318: 0x82609C58
         virtual unsigned int RetWeaponPriority() const; // slot 320: 0x82609F00
-        virtual bool HasMaxAmmo() const; // slot 333: 0x82607A80
-        virtual bool IsMarkedForDeletion(); // slot 334: 0x82378A28
+        virtual unsigned int RetTotalAmmo() const; // Slot 333: 0x82607A80, clip plus stored ammo.
+        virtual bool HasMaxAmmo() const; // Slot 334: 0x82378A28.
     };
 }
 #endif

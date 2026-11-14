@@ -17,11 +17,29 @@ namespace Equip
         // Inline: CD2's placement factory (0x82634A38) calls cCWHeavyWeapon's (0x8262FF78) constructor, then stores this class's vptrs.
         __forceinline cRealNadeLauncher() {}
         // RuffKing prototype name/base; CD2 Init is primary slot 5 (0x82635418).
-        // Interface only: instance fields and allocation size remain unrecovered.
+        // CD2 MakeNew allocates 0x420 and initializes the three reference-named fields below.
         class cRealNadeLauncherPrototype : public cCWHeavyWeapon::cCWHeavyWeaponPrototype
         {
         public:
+            // CD2 expands this derived construction into MakeNew over the out-of-line heavy-weapon base.
+            __forceinline cRealNadeLauncherPrototype(const RWS::CAttributePacket &packet)
+                : cCWHeavyWeaponPrototype(packet)
+            {
+                // CD2 initializes launch power before rotation, then the prototype pointer.
+                m_fLaunchPower = 10.0f;
+                m_fRandomLaunchRot = 1.0f;
+                m_pNadePrototype = 0;
+            }
             virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
+            virtual void HandleAttributes(const RWS::CAttributePacket &);
+            GOM::cObjectPrototype *m_pNadePrototype;
+            float m_fRandomLaunchRot;
+            float m_fLaunchPower;
+            CD2_LAYOUT_CHECKS(cRealNadeLauncherPrototype,
+                CD2_SIZE(cRealNadeLauncherPrototype, 0x420)
+                CD2_OFFSET(cRealNadeLauncherPrototype, m_pNadePrototype, 0x410)
+                CD2_OFFSET(cRealNadeLauncherPrototype, m_fRandomLaunchRot, 0x414)
+                CD2_OFFSET(cRealNadeLauncherPrototype, m_fLaunchPower, 0x418))
         };
 
         // CD2 0x82634928: registered-class virtual slot 0 reads this class descriptor.

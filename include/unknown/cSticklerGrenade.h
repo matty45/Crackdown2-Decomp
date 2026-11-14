@@ -40,7 +40,7 @@ namespace unknown
 
     public:
         // CD2 table 0x82125FA0 differs from cExplosiveGrenade at these inherited slots.
-        virtual void vf406(); // slot 406: 0x82623538
+        virtual void Launched(cGameBase *pAttacker); // slot 406: 0x82623538
         virtual void vf416(); // slot 416: 0x82623A38
         virtual void vf426(); // slot 426: 0x827E56A8
     };
