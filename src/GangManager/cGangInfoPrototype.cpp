@@ -7,22 +7,29 @@
 #include "CHARACTER/cRagdollProfile.h"
 #include "AI/aiconstants.h"
 #include "GangManager/cGangInfoPrototype.h"
+#include "GangManager/cGangInfo.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
 
 namespace GangManager
 {
-    const char *cGangInfoPrototype::RetClassName() const
-    {
-        return "cGangInfoPrototype";
-    }
-
-    static RWS::CClassFactory::CRegistrar cGangInfoPrototypeRegistrar(
-        "cGangInfoPrototype", cGangInfoPrototype::MakeNew, 0xD0, false);
-
     // CD2 0x82676D60: the class-factory constructor; the constructor stays out of line.
     RWS::CAttributeHandler *cGangInfoPrototype::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cGangInfoPrototype;
     }
+
+    const char *cGangInfoPrototype::RetClassName() const
+    {
+        return "cGangInfoPrototype";
+    }
+
+    const Fun_Runtime::cClass &cGangInfo::RetClass() const
+    {
+        return *ms_pcGangInfoClass;
+    }
+
+    static RWS::CClassFactory::CRegistrar cGangInfoPrototypeRegistrar(
+        "cGangInfoPrototype", cGangInfoPrototype::MakeNew, 0xD0, false);
+
 }

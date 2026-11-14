@@ -178,11 +178,11 @@ namespace Equip
         // First override owner: cEquipment retains 0x82604D68 and empty slots
         // 258..262, whereas this table installs the following CW weapon bodies.
         virtual Fun_Runtime::RetVal Term(); // slot 6: 0x82608200
-        virtual void vf258(); // slot 258: 0x82608838
-        virtual void vf259(); // slot 259: 0x82608850
-        virtual void vf260(); // slot 260: 0x82608868
-        virtual void vf261(); // slot 261: 0x82608880
-        virtual void vf262(); // slot 262: 0x826088D8
+        virtual void ImpactAudio(float fDeltaVelocity); // slot 258: 0x82608838
+        virtual void ScrapeAudio(float fRelativeVelocity); // slot 259: 0x82608850
+        virtual void PickUpAudio(); // slot 260: 0x82608868
+        virtual void WaterEntryAudio(float); // slot 261: 0x82608880
+        virtual void WaterExitAudio(float); // slot 262: 0x826088D8
         virtual void vf140(); // slot 140: 0x8234A320
         virtual void SetStatus(EQUIP_STATUS); // slot 316: 0x82237160
         virtual void vf366(); // slot 366: 0x82608300

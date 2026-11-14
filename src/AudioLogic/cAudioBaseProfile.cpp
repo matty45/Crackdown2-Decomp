@@ -49,6 +49,11 @@ namespace AudioLogic
         return ms_pcAudioBaseProfileClass->IsA(c);
     }
 
+    cAudioBaseProfile::cAudioBaseProfile()
+    {
+        m_bReset = false;
+    }
+
     Fun_Runtime::RetVal cAudioBaseProfile::Init(const RWS::CAttributePacket &)
     {
         m_bReset = false;

@@ -31,6 +31,7 @@
 #include "cd2/layout.h"
 
 namespace GOM { class cSpawner; }
+namespace Kaim { class CEntity; }
 
 class cNonGameBase : public RWS::CAttributeHandler, public RWS::CEventHandler, public Fun_Runtime::cScriptHost,
     public Network::cNetRoleObject
@@ -61,6 +62,8 @@ private:
 
 public:
         cNonGameBase *RetOwner() const { return m_pOwner; }
+        // RuffKing's; CD2 0x8227F388 (cVehicle's OnAttachSatchelCharge, 0x826CE5C8, tail-calls it on the satchel).
+        void SetOwner(cNonGameBase *pOwner);
         // CD2 0x82652EA0, registered as the script method "RetProtoTypeName"; RuffKing's body.
         const char *RetProtoTypeName() const;
         // CD2 0x82652EC8, registered as the script method "RetCentre" (the linker folded the characters' identical
@@ -159,7 +162,9 @@ public:
     virtual void Slot59();
     virtual void Slot60();
     virtual void Slot61();
-    virtual void Slot62();
+    // Slot 61: RuffKing's IsAIEntityOwner (cProp's and cVehicle's shared override 0x8272C3E8 compares the entity with
+    // the dynamic obstacle, as RuffKing's cVehicle::IsAIEntityOwner does).
+    virtual bool IsAIEntityOwner(Kaim::CEntity *pEntity);
     virtual void Slot63();
     virtual void Slot64();
     virtual void Slot65();

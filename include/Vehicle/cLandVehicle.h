@@ -12,6 +12,8 @@
 #include "gom/object_prototype.h"
 #include "Vehicle/cVehicle.h"
 #include "Vehicle/cLVDamageEffect.h"
+#include "Audio/cWheelGameObject.h"
+#include "fun_runtime/safedeletablepointer.h"
 
 namespace PHYSICS { class cCustomVehicleInstance; }
 class hkShape;
@@ -21,6 +23,30 @@ class hkTransform;
 namespace Vehicle
 {
     class cLandVehicleData;
+
+    // RuffKing's (Vehicle/cLandVehicle.h, 0x440 bytes there); CD2's is 0x410 bytes (cLandVehicle's at 0x1748, its
+    // damage effect at 0x1B58) and its destructor (0x826C1100) destroys five audio objects 0xA8 bytes apart, the last
+    // at +0x348. Its fields are not modelled yet.
+    class cLandVehicleAudioDetails
+    {
+    public:
+        ~cLandVehicleAudioDetails();
+    private:
+        unsigned char m_unmodelled0[0x410];
+        CD2_LAYOUT_CHECKS(cLandVehicleAudioDetails, CD2_SIZE(cLandVehicleAudioDetails, 0x410))
+    };
+
+    // RuffKing's per-wheel record (0x130 bytes, its audio object at +0x70, compiler-generated destructor). CD2's are
+    // 0x120 bytes apart with the audio object at +0x68: cLandVehicle's destructor (0x826C2458) destroys eight of them,
+    // the array ending at m_LastUpdateTimestamp (0x26E0) as in RuffKing. Only the audio object is modelled.
+    struct tWheelInfo
+    {
+        unsigned char m_unmodelled0[0x68];
+        Audio::cWheelGameObject m_WwiseGameObject;      // 0x68
+        CD2_LAYOUT_CHECKS(tWheelInfo,
+            CD2_SIZE(tWheelInfo, 0x120)
+            CD2_OFFSET(tWheelInfo, m_WwiseGameObject, 0x68))
+    };
 
     class cLandVehicle : public cVehicle
     {
@@ -112,7 +138,7 @@ namespace Vehicle
         virtual void vf238();                                   // 238: 0x826AB1E8
         virtual float RetFwdMPH();                                   // 240: 0x8236E908
         virtual void vf295();                                   // 295: 0x8229D758
-        virtual void vf296();                                   // 296: 0x826C59E0
+        virtual void ReleaseAttachedVFX(bool bReleaseNonCullable);                                   // 296: 0x826C59E0
         virtual void vf319();                                   // 319: 0x826AB280
         virtual void vf321();                                   // 321: 0x826AB2A8
         virtual void vf340();                                   // 340: 0x826C2E48
@@ -204,11 +230,13 @@ namespace Vehicle
     private:
         // RuffKing's name and type, its first member as here; CD2's CustomiseShape (0x826C79C8) passes it on.
         cLandVehicleData *m_pVehicleData;                               // 0x1740
-        unsigned char m_unmodelled1744[0x1B58 - 0x1744];
+        unsigned char m_unmodelled1744[0x1748 - 0x1744];
+        cLandVehicleAudioDetails m_LandVehicleAudioDetails;            // 0x1748 (RuffKing's name)
         cLVDamageEffect m_DamageEffect;                                 // 0x1B58 (RuffKing's name)
         unsigned char m_unmodelled1CF8[0x1DA4 - 0x1CF8];
         PHYSICS::cCustomVehicleInstance *m_pVehicleInstance;
-        unsigned char m_unmodelled1DA8[0x26E0 - 0x1DA8];
+        unsigned char m_unmodelled1DA8[0x1DE0 - 0x1DA8];
+        tWheelInfo m_WheelInfo[8];                                      // 0x1DE0 (RuffKing's name)
         // RuffKing's names and offsets from here to m_bMustStop; CD2's light virtuals (0x826C51E8..0x826C5308) use
         // them at the same offsets.
         int m_LastUpdateTimestamp;                                      // 0x26E0
@@ -242,11 +270,17 @@ namespace Vehicle
         bool m_bPoliceLightsActivated;                                  // 0x2868
         unsigned char m_unmodelled2869[0x2894 - 0x2869];
         bool m_bMustStop;
-        unsigned char m_unmodelled2895[0x28C0 - 0x2895];
+        unsigned char m_unmodelled2895[0x28A8 - 0x2895];
+        // RuffKing's name and type; the destructor (0x826C2458) destroys it first.
+        Fun_Runtime::cSafeDeletablePointer<cVehicle> m_pCarrierObj;    // 0x28A8
+        unsigned char m_unmodelled28B8[0x28C0 - 0x28B8];
 
         CD2_LAYOUT_CHECKS(cLandVehicle,
             CD2_SIZE(cLandVehicle, 0x28C0)
+            CD2_OFFSET(cLandVehicle, m_LandVehicleAudioDetails, 0x1748)
             CD2_OFFSET(cLandVehicle, m_DamageEffect, 0x1B58)
+            CD2_OFFSET(cLandVehicle, m_WheelInfo, 0x1DE0)
+            CD2_OFFSET(cLandVehicle, m_pCarrierObj, 0x28A8)
             CD2_OFFSET(cLandVehicle, m_LastUpdateTimestamp, 0x26E0)
             CD2_OFFSET(cLandVehicle, m_apHeadLightLargeVFX, 0x2730)
             CD2_OFFSET(cLandVehicle, m_apReverseLightVFX, 0x2778)

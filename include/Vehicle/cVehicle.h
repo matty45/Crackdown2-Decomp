@@ -31,10 +31,19 @@
 #include "fun_runtime/stringc.h"
 #include "Vehicle/cVehicleTurret.h"
 #include "PHYSICS/cBuoyancyAction.h"
+#include "PHYSICS/cVehicleControls.h"
+#include "Audio/cPhysicsBodyGameObject.h"
+#include "Damage/cVehicleDamageManager.h"
+#include "Damage/cCollisionDamageListener.h"
+#include "Vehicle/cVehicleSeat.h"
+#include "fun_runtime/safedeletablepointer.h"
+#include "rws/eventid.h"
+#include "rws/msg.h"
 
 namespace VFX { class cGlobalLight; }
 namespace PHYSICS { class cDynamicBodyInteractionData; }
-namespace Damage { class cVehicleDamageManager; }
+namespace VEHICLE_CONTROL { class cVehicleController; }
+namespace CHARACTER { class cCharacterInterface; }
 
 namespace Vehicle
 {
@@ -218,14 +227,30 @@ namespace Vehicle
         virtual void vf439(); virtual void vf440(); virtual void vf441();
 
     private:
-        unsigned char m_unmodelled7B4[0xCE9 - 0x7B4];
+        unsigned char m_unmodelled7B4[0x7D0 - 0x7B4];
+        // RuffKing's names and types; the destructor (0x826CE0E8) destroys each of them (RuffKing order, CD2 offsets).
+        Audio::cPhysicsBodyGameObject m_VehicleAudio;   // 0x7D0
+        unsigned char m_unmodelled898[0x8F4 - 0x898];
+        RWS::CEventId m_Msg_Data_Modified;              // 0x8F4
+        unsigned char m_unmodelled8FC[0xCCC - 0x8FC];
+        // RuffKing's name and type, after m_apComponentFrames[122] as there (8-byte frames from 0x8FC); HandleEvents
+        // (0x826CE3F0) copies the message's controls into it.
+        cVehicleControls m_VehicleControls;             // 0xCCC
+        unsigned char m_unmodelledCE4[0xCE9 - 0xCE4];
         // RuffKing names; CD2 offsets from StopEngine (0x826D2070), GetForceOpenMask (0x826DAA60), SetPhysicsLOD
         // (0x826DA0D8) and StartEngine (0x826D2028).
         bool m_bEngineShutdown;                         // 0xCE9
         unsigned char m_unmodelledCEA[0xCEC - 0xCEA];
         // RuffKing's name, three bytes after m_bEngineShutdown as there; RetCollidableQuality (0x826D93F0) tests it.
         bool m_bPlayerInteracting;                      // 0xCEC
-        unsigned char m_unmodelledCED[0x1110 - 0xCED];
+        unsigned char m_unmodelledCED[0xD08 - 0xCED];
+        Fun_Runtime::cSafeDeletablePointer<VEHICLE_CONTROL::cVehicleController> m_pVehicleController;   // 0xD08
+        unsigned char m_unmodelledD18[0xD54 - 0xD18];
+        Damage::cVehicleDamageManager m_VehicleDamageManager;                           // 0xD54
+        Fun_Runtime::cSafeDeletablePointer<cGameBase> m_pExplosionInstigator;           // 0x10E0
+        Fun_Runtime::cSafeDeletablePointer<CHARACTER::cCharacterInterface> m_pExplosionAttacker;  // 0x10F0
+        unsigned char m_unmodelled1100[0x1108 - 0x1100];
+        Damage::cCollisionDamageListener m_ColDamageListener;                           // 0x1108
     protected:
         // RuffKing's name; cLandVehicle's IsFunctionallyDamaged (0x826C25D8) tests it between the engine state and the
         // wheel damage, as RuffKing's does.
@@ -239,11 +264,15 @@ namespace Vehicle
         unsigned char m_nPhysicsLOD;                    // 0x111C
         etEngineStatus m_eEngineState;                  // 0x1120
         float m_fEngineStateTime;                       // 0x1124
-        unsigned char m_unmodelled1128[0x115C - 0x1128];
+        // RuffKing's name; HandleEvents (0x826CE3F0) compares the message's ID with it and the destructor (0x826CE0E8)
+        // unlinks and unregisters it.
+        RWS::CEventId m_Msg_Vehicle_Controls;           // 0x1128
+        unsigned char m_unmodelled1130[0x115C - 0x1130];
         float m_fEngineHazeTimer;                       // 0x115C
         unsigned char m_unmodelled1160[0x1180 - 0x1160];
         Fun_Runtime::cVectorip<cVehicleSeat *, 6> m_VehicleSeats;
-        unsigned char m_unmodelled11B0[0x1410 - 0x11B0];
+        cVehicleSeat m_VehicleSeatData[6];              // 0x11B0 (RuffKing's name)
+        unsigned char m_unmodelled13D8[0x1410 - 0x13D8];
         // RuffKing's name and type; CD2's RetVehicleTurret (0x826D5020).
         Fun_Runtime::cVectorip<cVehicleTurret, 3> m_VehicleTurrets;   // 0x1410
         unsigned char m_unmodelled15C0[0x15C4 - 0x15C0];
@@ -275,7 +304,7 @@ namespace Vehicle
         virtual Fun_Runtime::RetVal Reinitialise(GOM::cSpawner const *); // 38: 0x826CD740
         virtual Fun_Runtime::RetVal TermForReuse(); // 39: 0x82303020
         virtual void Slot61(); // 60: 0x826CD9F8
-        virtual void Slot62(); // 61: 0x8272C3E8
+        virtual bool IsAIEntityOwner(Kaim::CEntity *pEntity); // 61: 0x8272C3E8
         virtual void vf72(); // 72: 0x826D0C18
         virtual void vf76(); // 76: 0x823BA1C0
         virtual void vf86(); // 86: 0x826D02C0
@@ -308,11 +337,11 @@ namespace Vehicle
         virtual void vf242(); // 242: 0x826AB0E8
         virtual void vf243(); // 243: 0x822AEAA8
         virtual void vf254(); // 254: 0x826D4A40
-        virtual void vf258(); // 258: 0x823B0A90
-        virtual void vf259(); // 259: 0x821FF1F8
-        virtual void vf260(); // 260: 0x826DD358
-        virtual void vf261(); // 261: 0x826DD370
-        virtual void vf262(); // 262: 0x826DD3C8
+        virtual void ImpactAudio(float fDeltaVelocity); // 258: 0x823B0A90
+        virtual void ScrapeAudio(float fRelativeVelocity); // 259: 0x821FF1F8
+        virtual void PickUpAudio(); // 260: 0x826DD358
+        virtual void WaterEntryAudio(float); // 261: 0x826DD370
+        virtual void WaterExitAudio(float); // 262: 0x826DD3C8
         virtual void vf263(); // 263: 0x826D7EB8
         virtual void vf264(); // 264: 0x826D7FA0
         virtual void vf265(); // 265: 0x826D86A0
@@ -322,25 +351,28 @@ namespace Vehicle
         virtual void vf281(); // 281: 0x826DA678
         virtual void vf282(); // 282: 0x826AB170
         virtual void vf283(); // 283: 0x826DECE0
-        virtual void vf288(); // 288: 0x82311E28
+        virtual bool ShouldHaveObjectPathPhantom(); // 288: 0x82311E28
         virtual void vf290(); // 290: 0x826D9408
         virtual void vf295(); // 295: 0x826D2F68
-        virtual void vf296(); // 296: 0x826D2CF8
+        virtual void ReleaseAttachedVFX(bool bReleaseNonCullable); // 296: 0x826D2CF8
         virtual void vf298(); // 298: 0x8288FB78
         virtual void EndInterpolationOptional(); // 304: 0x826DAA40
         virtual void SetDeletingReason(char); // 309: 0x826AB150
         virtual char GetDeletingReason(); // 310: 0x826AB158
-        virtual void HandleEvents(RWS::CMsg &); // CEventHandler 5: 0x82245448
-        virtual void ActivateDynamicObstacle(); // cDynamicObstacleOwner 2: 0x82405AA8
+        virtual void HandleEvents(RWS::CMsg &); // CEventHandler 5: 0x826CE3F0
+        virtual bool IsA(Fun_Runtime::cClass const &) const; // cRegisteredClass 1: 0x8227B680
         virtual void SetNetRole(etNetRole); // cNetRoleObject 1: 0x826DDB08
         virtual void CalculateRelevancy(int); // cReplicatedClass 2: 0x826DC898
-        virtual void CalculateLOD(int); // cReplicatedClass 3: 0x826BD6C0
-        virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x82395FB0
-        virtual void ReplicateFields(); // cReplicatedClass 9: 0x826BD6C8
+        virtual void CalculateLOD(int); // cReplicatedClass 3: 0x826DC960
+        virtual bool IsSequential() const; // cReplicatedClass 6: 0x827E56A8
+        virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x826DB750
+        virtual void ReplicateFields(); // cReplicatedClass 9: 0x826DBAC0
         virtual void ReplicateHeaderData(); // cReplicatedClass 10: 0x826DB570
+        virtual bool IsOwnedLocally(); // cReplicatedClass 14: 0x82537F88
+        virtual unsigned int GetNumObjectIDBits() const; // cReplicatedClass 16: 0x82882258
         virtual void SetPingedFieldStatesForNode(unsigned char); // cReplicatedClass 20: 0x826CE5A0
         virtual SNetworkHeader::etNetworkDataType GetReplicatedObjectType() const; // cReplicatedClass 22: 0x8288F788
-        virtual unsigned int GetMaxReplicatedFields() const; // cReplicatedClass 23: 0x82889078
+        virtual unsigned int GetMaxReplicatedFields() const; // cReplicatedClass 23: 0x8288DF60
         virtual Fun_Runtime::cScriptTypeRegistration const * RetScriptTypeRegistration() const; // cSafeDeletable 1: 0x826AB0D8
     protected:
         virtual Fun_Runtime::Vec3 RetIgnitablePosition() const; // cIgnitable 4: 0x826D1A18
@@ -370,6 +402,10 @@ namespace Vehicle
         // cVehicle's and cHelicopter's IsOkToInteract and has no copy of them.
         bool IsUpRight();
         bool IsDoorAngleOk();
+        // RuffKing's; CD2's EventTriggerStartFire tail-calls 0x8231C688 with the effect ID, as RuffKing's does.
+        void SpawnEngineVFX(int nEffectId);
+        // RuffKing's (out of line there, 0x82B40978); CD2's HandleEvents inlines the copy.
+        void SetControls(cVehicleControls &VehicleControls) { m_VehicleControls = VehicleControls; }
     public:
         bool IsInFadeToDeleteFinalStage();
         bool IsSufficientlyInWater() { return IsInWater() && m_pBuoyancyAction && m_pBuoyancyAction->m_bInWater; }
@@ -390,6 +426,16 @@ namespace Vehicle
             CD2_OFFSET(cVehicle, m_VehicleSeats, 0x1180)
             CD2_OFFSET(cVehicle, m_VehicleTurrets, 0x1410)
             CD2_OFFSET(cVehicle, m_strName, 0x15C4)
+            CD2_OFFSET(cVehicle, m_VehicleAudio, 0x7D0)
+            CD2_OFFSET(cVehicle, m_Msg_Data_Modified, 0x8F4)
+            CD2_OFFSET(cVehicle, m_VehicleControls, 0xCCC)
+            CD2_OFFSET(cVehicle, m_pVehicleController, 0xD08)
+            CD2_OFFSET(cVehicle, m_VehicleDamageManager, 0xD54)
+            CD2_OFFSET(cVehicle, m_pExplosionInstigator, 0x10E0)
+            CD2_OFFSET(cVehicle, m_pExplosionAttacker, 0x10F0)
+            CD2_OFFSET(cVehicle, m_ColDamageListener, 0x1108)
+            CD2_OFFSET(cVehicle, m_VehicleSeatData, 0x11B0)
+            CD2_OFFSET(cVehicle, m_Msg_Vehicle_Controls, 0x1128)
             CD2_OFFSET(cVehicle, m_bEngineShutdown, 0xCE9)
             CD2_OFFSET(cVehicle, m_bPlayerInteracting, 0xCEC)
             CD2_OFFSET(cVehicle, m_bBlownUp, 0x1110)

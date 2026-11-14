@@ -55,16 +55,14 @@ namespace Equip
     public:
         // virtual Fun_Runtime::RetVal Term(); // 6: 0x82604D68
         // Reconstruction update: slot 6 inherits cEquipment::Term unchanged.
-        virtual void Slot13(); // 13: 0x82604F48
         // virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // 18: 0x8228C898
         // Reconstruction update: slot 18 inherits cDynamicBody::Init unchanged.
         virtual void Slot23(); // 23: 0x822D04B8
-        virtual void vf258(); // 258: 0x82580578
-        virtual void vf259(); // 259: 0x82580578
-        virtual void vf260(); // 260: 0x82580578
-        virtual void vf261(); // 261: 0x82580578
-        virtual void vf262(); // 262: 0x82580578
-        virtual void vf288(); // 288: 0x82686390
+        virtual void ImpactAudio(float fDeltaVelocity); // 258: 0x82580578
+        virtual void ScrapeAudio(float fRelativeVelocity); // 259: 0x82580578
+        virtual void PickUpAudio(); // 260: 0x82580578
+        virtual void WaterEntryAudio(float); // 261: 0x82580578
+        virtual void WaterExitAudio(float); // 262: 0x82580578
         virtual void SetStatus(Equip::cEquipment::EQUIP_STATUS); // 316: 0x82605128
         virtual bool Activate(); // 318: 0x827E56A8
         virtual unsigned int RetWeaponPriority() const; // 320: 0x827E56A8

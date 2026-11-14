@@ -26,6 +26,13 @@
 #include "AI/cDynamicObstacleOwner.h"
 #include "Equip/cSatchelChargeTarget.h"
 #include "gom/object_prototype.h"
+#include "Audio/cPhysicsBodyGameObject.h"
+#include "Prop/cPropDamageManager.h"
+#include "Prop/cPropCollisionManager.h"
+#include "AI/cCoverPoint.h"
+#include "fun_runtime/safedeletablepointer.h"
+
+namespace Vehicle { class cHelicopter; }
 
 namespace Prop
 {
@@ -76,7 +83,17 @@ namespace Prop
             // RuffKing's first own field; CD2's cSpinningProp::GoToInitialState (0x8273EC48) compares it with eMT_DYNAMIC.
             eMotionType m_nMotionType;                      // 0x280
         private:
-            unsigned char m_unmodelled284[0x4F0 - 0x284];
+            unsigned char m_unmodelled284[0x45A - 0x284];
+        public:
+            // RuffKing's name and offset; cProp's ShouldHaveObjectPathPhantom (0x8272AA00) tests it.
+            bool m_bHasPathPhantom;                         // 0x45A
+        private:
+            unsigned char m_unmodelled45B[0x47A - 0x45B];
+        public:
+            // RuffKing's name and offset; DoDynamicPropCoverInvalidation tests it.
+            bool m_bCanAffectCover;                         // 0x47A
+        private:
+            unsigned char m_unmodelled47B[0x4F0 - 0x47B];
 
         public:
             cPropPrototype(const RWS::CAttributePacket &);   // 0x8272D390
@@ -85,11 +102,29 @@ namespace Prop
 
             CD2_LAYOUT_CHECKS(cPropPrototype,
                 CD2_SIZE(cPropPrototype, 0x4F0)
-                CD2_OFFSET(cPropPrototype, m_nMotionType, 0x280))
+                CD2_OFFSET(cPropPrototype, m_nMotionType, 0x280)
+                CD2_OFFSET(cPropPrototype, m_bHasPathPhantom, 0x45A)
+                CD2_OFFSET(cPropPrototype, m_bCanAffectCover, 0x47A))
         };
+        // RuffKing's inline (its out-of-line copy 0x822E12E0).
+        cPropPrototype *RetPropPrototype() { return static_cast<cPropPrototype *>(m_pPrototype); }
+    protected:
+        // RuffKing's (out of line there); CD2 inlines it into the net-role overrides (0x827296A0).
+        void DoDynamicPropCoverInvalidation()
+        {
+            if (RetPropPrototype()->m_bCanAffectCover)
+                AI::cCoverPoint::SetPropCoverValidity(this, false);
+        }
+    public:
 
     private:
-        unsigned char m_unknown7B4[0xE30 - 0x7B4];
+        unsigned char m_unknown7B4[0x7B8 - 0x7B4];
+        // RuffKing's names and types, 0x28..0x70 below RuffKing's offsets; the destructor (0x82729538) destroys them.
+        Audio::cPhysicsBodyGameObject m_PropAudio;              // 0x7B8
+        cPropDamageManager m_PropDamageManager;                 // 0x880
+        cPropCollisionManager m_ColDamageListener;              // 0xA24
+        unsigned char m_unknownA2C[0xE20 - 0xA2C];
+        Fun_Runtime::cSafeDeletablePointer<Vehicle::cHelicopter> m_pCarrierObj;  // 0xE20
 
     protected:
         virtual void UpdateRenderMatrix();   // overrides cNonGameBase's slot 26; 0x826DA5B8 (folded with cVehicle's)
@@ -99,7 +134,7 @@ namespace Prop
     public:
         virtual bool EnterPhysicalState(); // 7: 0x8273B110
         virtual void LeavePhysicalState(); // 27: 0x8272A370
-        virtual void Slot62(); // 61: 0x8272C3E8
+        virtual bool IsAIEntityOwner(Kaim::CEntity *pEntity); // 61: 0x8272C3E8
         virtual void Slot63(); // 62: 0x823B8858
         virtual void vf68(); // 68: 0x8272BFA0
         virtual void vf72(); // 72: 0x826D0C18
@@ -118,11 +153,11 @@ namespace Prop
         virtual void vf179(); // 179: 0x82457A68
         virtual void vf226(); // 226: 0x82730450
         // CD2 cProp table 0x8200DFC8 overrides cNetDynamicBody's empty slots.
-        virtual void vf258(); // 258: 0x82730470
-        virtual void vf259(); // 259: 0x82730488
-        virtual void vf260(); // 260: 0x827304A0
-        virtual void vf261(); // 261: 0x82258750
-        virtual void vf262(); // 262: 0x827304B8
+        virtual void ImpactAudio(float fDeltaVelocity); // 258: 0x82730470
+        virtual void ScrapeAudio(float fRelativeVelocity); // 259: 0x82730488
+        virtual void PickUpAudio(); // 260: 0x827304A0
+        virtual void WaterEntryAudio(float); // 261: 0x82258750
+        virtual void WaterExitAudio(float); // 262: 0x827304B8
         virtual void EnterGhostState(); // 271: 0x8272AAC8
         virtual void vf283(); // 283: 0x823A22E0
         virtual void OnEnterNetRoleAuthority(etNetRole); // cNetRoleObject 2: 0x827296A0
@@ -153,12 +188,40 @@ namespace Prop
         virtual void ReplicateFields(); // cReplicatedClass 9: 0x8272F878
         virtual void ReplicateHeaderData(); // cReplicatedClass 10: 0x8272F1E0
         virtual unsigned int GetNumObjectIDBits() const; // cReplicatedClass 16: 0x82882258
+        // CD2 table 0x8200DFC8 and its secondaries also differ from cNetDynamicBody's (0x82131E80) at these slots
+        // (cNetDynamicBody leaves IsSequential and IsOwnedLocally pure).
+        virtual void Slot13(); // 13: 0x82729CA8
+        virtual void Slot14(); // 14: 0x8272C228
+        virtual void Slot23(); // 23: 0x822C2DF0
+        virtual void Slot24(); // 24: 0x8272A7F8
+        virtual void vf76(); // 76: 0x8237D638
+        virtual void vf217(); // 217: 0x82604F40
+        virtual void vf254(); // 254: 0x8272AB30
+        virtual void vf266(); // 266: 0x821D1C58
+        virtual void vf280(); // 280: 0x8272C370
+        virtual void vf281(); // 281: 0x8221A208
+        virtual void vf282(); // 282: 0x82457A88
+        virtual bool ShouldHaveObjectPathPhantom(); // 288: 0x8272AA00
+        virtual void vf295(); // 295: 0x82729D80
+        virtual void ReleaseAttachedVFX(bool bReleaseNonCullable); // 296: 0x82729DE0
+        virtual bool IsA(const Fun_Runtime::cClass &) const; // cRegisteredClass 1: 0x82729318
+        virtual bool IsSequential() const; // cReplicatedClass 6: 0x827E56A8
+        virtual bool IsOwnedLocally(); // cReplicatedClass 14: 0x82537F88
+        virtual SNetworkHeader::etNetworkDataType GetReplicatedObjectType() const; // cReplicatedClass 22: 0x82889A60
+        virtual unsigned int GetMaxReplicatedFields() const; // cReplicatedClass 23: 0x8288D5C0
+        virtual cGameBase *RetSatchelAttachObject(); // cSatchelChargeTarget 2: 0x826AB168
+        virtual void OnAttachSatchelCharge(Equip::cCWSatchelCharge *); // cSatchelChargeTarget 5: 0x826CE5C8
+        virtual void OnDetachSatchelCharge(Equip::cCWSatchelCharge *); // cSatchelChargeTarget 6: 0x8272AB60
     protected:
         virtual void EventTriggerStartFire(CHARACTER::cCharacter *); // cIgnitable 10: 0x8272B5E8
         virtual void EventTriggerEndFire(); // cIgnitable 12: 0x8272B858
     protected:
         CD2_LAYOUT_CHECKS(cProp,
-            CD2_SIZE(cProp, 0xE30))
+            CD2_SIZE(cProp, 0xE30)
+            CD2_OFFSET(cProp, m_PropAudio, 0x7B8)
+            CD2_OFFSET(cProp, m_PropDamageManager, 0x880)
+            CD2_OFFSET(cProp, m_ColDamageListener, 0xA24)
+            CD2_OFFSET(cProp, m_pCarrierObj, 0xE20))
 
     public:
         // CD2 table 0x8200DFC8 differs from cNetDynamicBody at these inherited slots.

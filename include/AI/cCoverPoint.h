@@ -6,12 +6,16 @@
 #include "fun_runtime/class.h"
 #include "rws/attributes.h"
 
+namespace Prop { class cProp; }
+
 namespace AI
 {
     class cCoverPoint
     {
     public:
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
+        // RuffKing's; CD2 0x82393D48 (cProp's net-role overrides, 0x827296A0, pass false).
+        static void SetPropCoverValidity(Prop::cProp *const pProp, bool const bValidity);
     };
 }
 

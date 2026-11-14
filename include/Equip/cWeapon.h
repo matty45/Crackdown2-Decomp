@@ -231,7 +231,7 @@ namespace Equip
         // CD2 table 0x8211F3C8 differs from cEquipment at these inherited slots.
         virtual void Slot13(); // slot 13: 0x823A7408
         virtual void Slot23(); // slot 23: 0x82609BA8
-        virtual void vf288(); // slot 288: 0x827E56A8
+        virtual bool ShouldHaveObjectPathPhantom(); // slot 288: 0x827E56A8
         virtual void SetStatus(EQUIP_STATUS); // slot 316: 0x82609BF0
         virtual bool Activate(); // slot 318: 0x82609C58
         virtual unsigned int RetWeaponPriority() const; // slot 320: 0x82609F00

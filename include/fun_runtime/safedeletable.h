@@ -40,7 +40,12 @@ namespace Fun_Runtime
     public:
         Fun_Runtime::cSafeDeletablePointerBase m_SafeDeletablePointerListHead;
 
-        cSafeDeletable();
+        // CD2 inlines the circular sentinel setup in both faction and audio profiles.
+        cSafeDeletable()
+        {
+            m_SafeDeletablePointerListHead.m_pNext = &m_SafeDeletablePointerListHead;
+            m_SafeDeletablePointerListHead.m_pPrev = &m_SafeDeletablePointerListHead;
+        }
         virtual ~cSafeDeletable();
 
         void NullifySafeDeletablePointers();

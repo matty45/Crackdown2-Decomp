@@ -19,6 +19,7 @@
 #include "CHARACTER/cCharacterController.h"
 #include "CHARACTER/cRagdollProfile.h"
 #include "AI/aiconstants.h"
+#include "AI/cGrenadeAppearedEvent.h"
 #include "Equip/cCWSatchelCharge.h"
 #include "fun_runtime/script_type_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
@@ -62,6 +63,19 @@ namespace Equip
         return 0;
     }
 
+}
+
+// The event getter's surviving COMDAT lies between the satchel factory and descriptor factory.
+namespace AI
+{
+    const Fun_Runtime::cScriptTypeRegistration *cGrenadeAppearedEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cGrenadeAppearedEvent;
+    }
+}
+
+namespace Equip
+{
     Fun_Runtime::cClass &cCWSatchelCharge::StaticCreateClass()
     {
         static Fun_Runtime::cClass *descriptor = new Fun_Runtime::cClass(0x3E97, "cCWSatchelCharge", 0xAE0);

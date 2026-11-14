@@ -27,8 +27,8 @@ namespace PHYSICS
         virtual ~cNetDynamicBody();
         virtual const Fun_Runtime::cClass &RetClass() const;
         virtual bool IsA(const Fun_Runtime::cClass &) const;
-        virtual bool IsSequential() const;
-        virtual bool IsOwnedLocally();
+        // CD2's replication table (0x82132408) keeps cReplicatedClass's pure IsSequential and IsOwnedLocally
+        // (_purecall at slots 6 and 14); cVehicle, cProp, cEquipment and cCharacter override both.
         virtual void SetPingedFieldStatesForNode(unsigned char);
         virtual SNetworkHeader::etNetworkDataType GetReplicatedObjectType() const;
         virtual unsigned int GetMaxReplicatedFields() const;

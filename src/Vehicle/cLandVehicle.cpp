@@ -18,6 +18,7 @@
 #include "cd2/memory.h"
 #include "VFX/cAfterlightRounded.h"
 #include "VFX/cGlobalLightManager.h"
+#include "Sim/cTimeOfDay.h"
 #include <new>
 
 namespace Vehicle
@@ -83,6 +84,12 @@ namespace Vehicle
             AddVehicleLight(m_apPoliceLightFrontVFX, m_PoliceHoodLightFrontInfo, 3, pProto->m_nLightType[eVLT_PoliceLightBlue]);
             AddVehicleLight(m_apPoliceLightBackVFX, m_PoliceHoodLightBackInfo, 3, pProto->m_nLightType[eVLT_PoliceLightRed]);
         }
+    }
+
+    cLandVehicle::~cLandVehicle()
+    {
+        UnLinkMsg(iMsgTODDusk);
+        UnLinkMsg(iMsgTODDawn);
     }
 
     bool cLandVehicle::IsFunctionallyDamaged()

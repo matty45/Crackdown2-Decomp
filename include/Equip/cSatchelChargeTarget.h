@@ -12,7 +12,10 @@ namespace Equip
     private:
         cCWSatchelCharge *m_pFirstSatchel;
     public:
-        virtual ~cSatchelChargeTarget();
+        // RuffKing's destructor is out of line; CD2's vehicle and prop destructors (0x826CE0E8, 0x82729538) inline it:
+        // the table store, then DetachAllSatchelCharges (0x82621968, RuffKing's name).
+        virtual ~cSatchelChargeTarget() { DetachAllSatchelCharges(); }
+        void DetachAllSatchelCharges();
         virtual bool CanHaveAttachedSatchelCharge(const Fun_Runtime::Vec3 &) const;
         virtual cGameBase *RetSatchelAttachObject();
         virtual Fun_Runtime::Mtx RetSCTransform(int);

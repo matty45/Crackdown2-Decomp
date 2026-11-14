@@ -23,6 +23,8 @@ namespace Vehicle
     class cVehicleSeat
     {
     public:
+        // RuffKing's; CD2 0x826DF8C0 (cVehicle's destructor calls it for each of its six seats).
+        ~cVehicleSeat();
         // RuffKing's; CD2 0x826DFBE8 (cVehicle's HandleTryToCloseAlterantiveDoorPermissionQuery calls it).
         eVehicleSeatStatus RetStatus();
         // Inlined by CD2 into cVehicle's occupancy queries.

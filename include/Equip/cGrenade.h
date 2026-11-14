@@ -86,11 +86,11 @@ namespace Equip
         virtual void vf140(); // 140: 0x8261C148
         virtual void vf158(); // 158: 0x82277CE8
         virtual void vf166(); // 166: 0x827E56A8
-        virtual void vf258(); // 258: 0x8261F348
-        virtual void vf259(); // 259: 0x8261F360
-        virtual void vf260(); // 260: 0x8261F378
-        virtual void vf261(); // 261: 0x8261F390
-        virtual void vf262(); // 262: 0x8261F3E8
+        virtual void ImpactAudio(float fDeltaVelocity); // 258: 0x8261F348
+        virtual void ScrapeAudio(float fRelativeVelocity); // 259: 0x8261F360
+        virtual void PickUpAudio(); // 260: 0x8261F378
+        virtual void WaterEntryAudio(float); // 261: 0x8261F390
+        virtual void WaterExitAudio(float); // 262: 0x8261F3E8
         virtual void vf275(); // 275: 0x8261F528
         virtual void vf284(); // 284: 0x8261F1A0
         virtual void vf300(); // 300: 0x8261F588

@@ -212,10 +212,7 @@ namespace Equip
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
         virtual Fun_Runtime::RetVal Term(); // 6: 0x82608200
-        virtual void Slot13(); // 13: 0x8261E5D8
-        virtual void Slot14(); // 14: 0x82685850
         virtual void Slot23(); // 23: 0x821D0F58
-        virtual void Slot24(); // 24: 0x822C9E98
         virtual void UpdateRenderMatrix(); // 26: 0x822DD5A0
         virtual void LeaveRenderableState(); // 32: 0x82605B40
         virtual void Slot63(); // 62: 0x82605FD0
@@ -236,27 +233,34 @@ namespace Equip
         virtual void vf245(); // 245: 0x827E56A8
         virtual void vf254(); // 254: 0x822C5A30
         virtual void vf257(); // 257: 0x822312B0
-        // virtual void vf258(); // 258: 0x82608838
-        // virtual void vf259(); // 259: 0x82608850
-        // virtual void vf260(); // 260: 0x82608868
-        // virtual void vf261(); // 261: 0x82608880
-        // virtual void vf262(); // 262: 0x826088D8
+        // virtual void ImpactAudio(float fDeltaVelocity); // 258: 0x82608838
+        // virtual void ScrapeAudio(float fRelativeVelocity); // 259: 0x82608850
+        // virtual void PickUpAudio(); // 260: 0x82608868
+        // virtual void WaterEntryAudio(float); // 261: 0x82608880
+        // virtual void WaterExitAudio(float); // 262: 0x826088D8
         // Reconstruction update: cEquipment table 0x82010000 slots 258..262
         // retain cDynamicBody's empty body 0x82580578. These former declarations
         // attributed later derived overrides to the equipment base.
-        virtual void vf266(); // 266: 0x82686C98
         virtual void vf272(); // 272: 0x827454F8
         virtual void vf280(); // 280: 0x827E56A8
         virtual void vf281(); // 281: 0x8288FB78
         virtual void vf282(); // 282: 0x827E56A8
         virtual void vf284(); // 284: 0x82605CF0
         virtual void vf285(); // 285: 0x82605D08
-        virtual void vf288(); // 288: 0x827E56A8
         virtual void vf295(); // 295: 0x82580578
-        virtual void vf296(); // 296: 0x82580578
+        virtual void ReleaseAttachedVFX(bool bReleaseNonCullable); // 296: 0x82580578
         virtual void EndInterpolationOptional(); // 304: 0x82580578
         virtual void SetDeletingReason(char); // 309: 0x82580578
         virtual char GetDeletingReason(); // 310: 0x827E56A8
+        // Constructor 0x82604AF8's tables also differ from cNetDynamicBody's at these slots.
+        virtual bool EnterPhysicalState(); // 7: 0x82605A38
+        virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // 18: 0x8228C898
+        virtual void LeavePhysicalState(); // 27: 0x821D0000
+        virtual void vf217(); // 217: 0x82604F40
+        virtual void EnterGhostState(); // 271: 0x82605B90
+        virtual const Fun_Runtime::cClass &RetClass() const; // cRegisteredClass 0: 0x826045E0
+        virtual bool IsA(const Fun_Runtime::cClass &) const; // cRegisteredClass 1: 0x826045F0
+        virtual void SetPingedFieldStatesForNode(unsigned char); // cReplicatedClass 20: 0x82606B50
         virtual void SetNetRole(etNetRole); // cNetRoleObject 1: 0x82606B80
         virtual void CalculateRelevancy(int); // cReplicatedClass 2: 0x825DEEE0
         virtual void CalculateLOD(int); // cReplicatedClass 3: 0x826066B0
@@ -264,6 +268,9 @@ namespace Equip
         virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x8260A298
         virtual void ReplicateFields(); // cReplicatedClass 9: 0x82205518
         virtual void ReplicateHeaderData(); // cReplicatedClass 10: 0x82605FE0
+        // Constructor 0x82604AF8's replication table (0x8211EE70) overrides the two slots cNetDynamicBody leaves pure.
+        virtual bool IsSequential() const; // cReplicatedClass 6: 0x827E56A8
+        virtual bool IsOwnedLocally(); // cReplicatedClass 14: 0x82537F88
         virtual unsigned int GetNumObjectIDBits() const; // cReplicatedClass 16: 0x8288E558
         virtual SNetworkHeader::etNetworkDataType GetReplicatedObjectType() const; // cReplicatedClass 22: 0x8288CA00
         virtual unsigned int GetMaxReplicatedFields() const; // cReplicatedClass 23: 0x8288E460

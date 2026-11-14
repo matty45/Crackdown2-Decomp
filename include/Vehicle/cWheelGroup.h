@@ -36,7 +36,7 @@ namespace Vehicle
         virtual Fun_Runtime::RetVal Init(const GOM::cSpawner *);    // 18: 0x8235BD58
         virtual void vf140();                                   // 140: 0x826E20E0
         virtual void vf167();                                   // 167: 0x826E2238
-        virtual void vf296();                                   // 296: 0x826E2178
+        virtual void ReleaseAttachedVFX(bool bReleaseNonCullable);                                   // 296: 0x826E2178
         virtual void vf342();                                   // 342: 0x826AB2D0
         virtual void ProcessControls(float);                    // 461: 0x822EC9E0
         virtual void UpdateWheelModels(const hkTransform &, float);    // 462: 0x822BE878

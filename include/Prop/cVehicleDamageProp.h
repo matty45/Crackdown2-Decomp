@@ -55,7 +55,7 @@ namespace Prop
         virtual hkCollidableQualityType RetCollidableQuality(hkMotion::MotionType); // 156: 0x8288F788
         virtual void EnterGhostState(); // 271: 0x82732200
         virtual void vf272(); // 272: 0x827322C0
-        virtual void vf288(); // 288: 0x82732A18
+        virtual bool ShouldHaveObjectPathPhantom(); // 288: 0x82732A18
         virtual void OnSpawnedAsFragment(cGameBase *pParent); // 317: 0x82731120
         virtual void vf327(); // 327: 0x82730BA0
         virtual void vf328(); // 328: 0x82730BA8

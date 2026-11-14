@@ -8,6 +8,9 @@ namespace AI
     class cDynamicObstacleOwner
     {
     public:
+        // RuffKing's non-virtual destructor; CD2's vehicle and prop destructors (0x826CE0E8, 0x82729538) inline it as
+        // the table store alone.
+        ~cDynamicObstacleOwner() {}
         virtual void CreateDynamicObstacle();
         virtual void DestroyDynamicObstacle();
         virtual void ActivateDynamicObstacle();

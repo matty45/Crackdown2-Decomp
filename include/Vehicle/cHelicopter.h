@@ -114,6 +114,10 @@ namespace Vehicle
         virtual void HandleTryToExitInteractPermisiionQuery(PHYSICS::cDynamicBodyInteractionData *pInteractionData, cNonGameBase *pNonGameBase, bool &bInteractionResult); // primary slot 427: 0x826BDDD8
         virtual void HandleTryToEnterInteractPermissionQuery(PHYSICS::cDynamicBodyInteractionData *pInteractionData, cNonGameBase *pNonGameBase, bool &bInteractionResult); // primary slot 428: 0x826BDDA0
         virtual void CalculateLOD(int); // replication slot 3: 0x826BD6C0
+        virtual void ReplicateInitialFields(); // replication slot 8: 0x82395FB0
+        virtual void ReplicateFields(); // replication slot 9: 0x826BD6C8
+        virtual unsigned int GetMaxReplicatedFields() const; // replication slot 23: 0x82889078
+        virtual void HandleEvents(RWS::CMsg &); // CEventHandler 5: 0x82245448
 
 
     private:

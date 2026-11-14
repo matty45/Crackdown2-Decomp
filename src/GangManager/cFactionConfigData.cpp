@@ -24,17 +24,6 @@
 #include "cd2/memory.h"
 #include "rw/rwmem.h"
 
-namespace Fun_Runtime
-{
-    // CD2's inlined sentinel initializes only its payload. The owning
-    // cSafeDeletable constructor supplies both circular links afterward.
-    inline cSafeDeletable::cSafeDeletable()
-    {
-        m_SafeDeletablePointerListHead.m_pNext = &m_SafeDeletablePointerListHead;
-        m_SafeDeletablePointerListHead.m_pPrev = &m_SafeDeletablePointerListHead;
-    }
-}
-
 namespace GangManager
 {
     class cGangManager

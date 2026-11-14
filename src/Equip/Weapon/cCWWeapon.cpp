@@ -19,6 +19,7 @@
 #include "CHARACTER/cCharacterController.h"
 #include "CHARACTER/cRagdollProfile.h"
 #include "AI/aiconstants.h"
+#include "AI/cLowAmmoEvent.h"
 #include "Equip/cWeapon.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "gom/proto_registrar.h"
@@ -88,6 +89,19 @@ namespace Equip
         return "cCWWeapon";
     }
 
+}
+
+// CD2 retains this event COMDAT between the weapon's name getter and placement factory.
+namespace AI
+{
+    const Fun_Runtime::cScriptTypeRegistration *cLowAmmoEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cLowAmmoEvent;
+    }
+}
+
+namespace Equip
+{
     RWS::CAttributeHandler *cCWWeapon::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
     {
         if (memory)

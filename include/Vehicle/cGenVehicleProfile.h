@@ -24,6 +24,9 @@ namespace Vehicle
         static const Fun_Runtime::cClass *ms_pcGenVehicleProfileClass;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
+        // RuffKing's accessor; CD2 inlines it (cVehicle::EventTriggerStartFire, 0x826D17E8, reads the array at
+        // 0x8377AC18, which the constructor and HandleAttributes fill).
+        static int RetVehicleVFXID(unsigned short nIndex) { return m_aVehicleVFX[nIndex]; }
 
     private:
         // RuffKing names; CD2 HandleAttributes cases 55..83 select 26 VFX entries.

@@ -26,6 +26,8 @@
 #include "gom/proto_registrar.h"
 #include "cd2/memory.h"
 #include <new>
+#include "Equip/cCWSatchelCharge.h"
+#include "AI/cDynamicObstacle.h"
 
 namespace Prop
 {
@@ -71,5 +73,71 @@ namespace Prop
     const Fun_Runtime::cClass &cProp::RetClass() const
     {
         return *ms_pcPropClass;
+    }
+
+    bool cProp::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcPropClass->IsA(c);
+    }
+
+    cProp::~cProp()
+    {
+    }
+
+    void cProp::OnEnterNetRoleAuthority(etNetRole)
+    {
+        DoDynamicPropCoverInvalidation();
+    }
+
+    void cProp::OnEnterNetRoleSimulated(etNetRole)
+    {
+        DoDynamicPropCoverInvalidation();
+    }
+
+    bool cProp::ShouldHaveObjectPathPhantom()
+    {
+        if (RetPropPrototype()->m_bHasPathPhantom)
+            return PHYSICS::cDynamicBody::ShouldHaveObjectPathPhantom();
+        return false;
+    }
+
+    void cProp::OnDetachSatchelCharge(Equip::cCWSatchelCharge *pSatchel)
+    {
+        pSatchel->SetOwner(0);
+    }
+
+    hkCollidableQualityType cProp::RetCollidableQuality(hkMotion::MotionType eMotionType)
+    {
+        if (eMotionType == hkMotion::MOTION_FIXED)
+            return HK_COLLIDABLE_QUALITY_FIXED;
+        return IsCritical() ? HK_COLLIDABLE_QUALITY_CRITICAL : HK_COLLIDABLE_QUALITY_MOVING;
+    }
+
+    bool cProp::IsAIEntityOwner(Kaim::CEntity *pEntity)
+    {
+        return pEntity == m_pDynamicObstacle;
+    }
+
+    void cProp::ImpactAudio(float fDeltaVelocity)
+    {
+        if (m_PropAudio.IsRegistered())
+            m_PropAudio.PostImpactEvent(fDeltaVelocity);
+    }
+
+    void cProp::ScrapeAudio(float fRelativeVelocity)
+    {
+        if (m_PropAudio.IsRegistered())
+            m_PropAudio.ContinueScrapeNextUpdate(fRelativeVelocity);
+    }
+
+    void cProp::PickUpAudio()
+    {
+        if (m_PropAudio.IsRegistered())
+            m_PropAudio.PostPickedUpEvent();
+    }
+
+    void cProp::SetPingedFieldStatesForNode(unsigned char nNodeID)
+    {
+        SetFieldStateForNode(nNodeID, sReplicatedField::WriteAlwaysOnce, 3);
     }
 }

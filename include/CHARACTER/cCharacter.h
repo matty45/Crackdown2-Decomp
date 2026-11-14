@@ -193,6 +193,9 @@ namespace CHARACTER
         virtual void vf449();
         virtual void vf450();
         virtual void vf451();
+        // Constructor 0x82543408's replication table (0x82113810) overrides the two slots cNetDynamicBody leaves pure.
+        virtual bool IsSequential() const; // cReplicatedClass 6: 0x827E56A8
+        virtual bool IsOwnedLocally(); // cReplicatedClass 14: 0x82537F88
 
         CD2_LAYOUT_CHECKS(cCharacter,
             CD2_SIZE(cCharacter, 0x2CC0)

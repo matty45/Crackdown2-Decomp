@@ -6539,7 +6539,7 @@ src/Prop/cProp.cpp
   init 0x82FF5208   # cProp class descriptor pointer initialization
   atexit 0x83041418   # script registrar for cProp; table 0x8213D898
   init 0x82FF5330   # script registrar for cProp; table 0x8213D898
-  text 0x82729308 0x827294A8   # extended to this class's descriptor/query functions; CD2 names and registered-class tables establish ownership
+  text 0x82729308 0x82730BA0   # extended to this class's descriptor/query functions; CD2 names and registered-class tables establish ownership; extended 2026-11-14 to the end of cProp.obj's text: cProp's CD2 table slots (include/Prop/cProp.h) and its secondary-table thunks (0x82730560..0x827305A8) lie in 0x827294A8..0x82730B9C, whose 98 functions are reached only from cProp's tables and code; the accessors from 0x82730BA0 read fields beyond cProp's 0xE30 bytes
   init 0x82FF5298
   atexit 0x830413F0
   init 0x82FF4EE8   # header static (physicsconsts.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers

@@ -6,18 +6,45 @@
 #include "cd2/layout.h"
 namespace Fun_Runtime
 {
+    // RuffKing's uninitialized_array<T,N>: storage for N elements that constructs and destroys none of them, aligned by
+    // a 16-byte member of its union (forceAlignStruct).
+    template <class T, unsigned int N>
+    class uninitialized_array
+    {
+    public:
+        T *begin() { return reinterpret_cast<T *>(buffer_); }
+        const T *begin() const { return reinterpret_cast<const T *>(buffer_); }
+    private:
+        struct __declspec(align(16)) forceAlignStruct { char aByte_; };
+        union
+        {
+            char buffer_[N * sizeof(T)];
+            forceAlignStruct dummy2_;
+        };
+    };
+
     // Object elements (RuffKing's cVectorip<Vehicle::cVehicleTurret,3>: last_ at 0, its uninitialized_array of the
     // elements at 0x10, 0x1B0 bytes). CD2's cVehicle::RetVehicleTurret (0x826D5020) divides the byte difference by the
-    // element size. Stand-in: the storage is declared as the element array.
+    // element size; cVehicle's destructor (0x826CE0E8) destroys the elements from the first to last_, as RuffKing's
+    // destructor's destroy(begin, last_) does.
     template <class T, unsigned int N>
     class cVectorip
     {
     public:
-        unsigned int size() const { return last_ - data_; }
-        T &operator[](unsigned int i) { return data_[i]; }
+        // CD2 expands the destructor's destroy loop in its owner's destructor (cVehicle's, 0x826CE0E8); with ordinary
+        // inline, /Ob1 keeps both calls.
+        __forceinline ~cVectorip() { destroy(begin(), last_); }
+        T *begin() { return data_.begin(); }
+        unsigned int size() const { return last_ - data_.begin(); }
+        T &operator[](unsigned int i) { return begin()[i]; }
+    protected:
+        __forceinline void destroy(T *first, T *last)
+        {
+            while (first != last) (first++)->~T();
+        }
     private:
         T *last_;
-        __declspec(align(16)) T data_[N];
+        uninitialized_array<T, N> data_;
         CD2_LAYOUT_CHECKS(cVectorip,
             CD2_SIZE(cVectorip, (16 + N * sizeof(T) + 15) & ~15)
             CD2_OFFSET(cVectorip, last_, 0)

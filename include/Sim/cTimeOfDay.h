@@ -15,6 +15,7 @@
 #ifndef SIM_CTIMEOFDAY_H
 #define SIM_CTIMEOFDAY_H
 
+#include "rws/eventid.h"
 #include "cd2/layout.h"
 #include "fun_runtime/class.h"
 #include "rws/attributes.h"
@@ -76,5 +77,11 @@ namespace Sim
 }
 
 extern Fun_Runtime::cScriptTypeRegistrar<Sim::cTimeOfDay> g_cTimeOfDay;
+
+// RuffKing's time-of-day messages, defined in cTimeOfDay.cpp (dawn, then dusk 8 bytes on). CD2's cLandVehicle and
+// cHelicopter destructors (0x826C2458, 0x826B9DE0) unlink 0x83851868 and then 0x83851860, as RuffKing's unlink dusk
+// and then dawn.
+extern RWS::CEventId iMsgTODDawn;
+extern RWS::CEventId iMsgTODDusk;
 
 #endif // SIM_CTIMEOFDAY_H

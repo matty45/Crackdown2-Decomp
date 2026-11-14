@@ -80,6 +80,12 @@ namespace Equip
         return 0;
     }
 
+    // CD2 keeps this forwarding override as a tail call to the satchel implementation.
+    void cProxMine::Reorient(const Fun_Runtime::Vec3 &up, const Fun_Runtime::Vec3 &position)
+    {
+        cCWSatchelCharge::Reorient(up, position);
+    }
+
     Fun_Runtime::RetVal cProxMine::cProxMinePrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;

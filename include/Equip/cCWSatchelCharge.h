@@ -1,12 +1,16 @@
 // STAND-IN: RuffKing cCWSatchelCharge derives from cExplosiveGrenade.
 // CD2 constructor 0x8261A2E0 calls 0x8261D2E0 before initializing its own
-// fields. Descriptor 0x8261A248 gives complete size 0xAE0; those fields remain opaque.
+// fields. CD2 adds the perception interface at +0x9D0 (descriptive name ours).
+// Descriptor 0x8261A248 gives complete size 0xAE0; remaining own fields stay opaque.
 #ifndef EQUIP_CCWSATCHELCHARGE_H
 #define EQUIP_CCWSATCHELCHARGE_H
 #include "Equip/cExplosiveGrenade.h"
+#include "AI/cPerceptionClient.h"
+namespace Fun_Runtime { class Mtx; }
 namespace Equip
 {
-    class cCWSatchelCharge : public cExplosiveGrenade
+    class cSatchelChargeTarget;
+    class cCWSatchelCharge : public cExplosiveGrenade, public AI::cPerceptionClient
     {
     public:
         // CD2 0x8261A220: placement factory.
@@ -35,7 +39,7 @@ namespace Equip
         virtual const Fun_Runtime::cClass &RetClass() const;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
     private:
-        unsigned char m_unmodelled9D0[0xAE0 - 0x9D0];
+        unsigned char m_unmodelled9D8[0xAE0 - 0x9D8];
         // CD2: cCWSatchelCharge's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
@@ -52,6 +56,9 @@ namespace Equip
         virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x82620970
         virtual void ReplicateFields(); // cReplicatedClass 9: 0x826209B0
         virtual unsigned int GetMaxReplicatedFields() const; // cReplicatedClass 23: 0x82882258
+        // CD2 0x8261B180 receives the perception subobject, checks line of sight,
+        // and can post an AI event to the observing character.
+        virtual bool TestObserver(AI::cCharacterEntityIF *, bool);
         virtual Fun_Runtime::cScriptTypeRegistration const * RetScriptTypeRegistration() const; // cSafeDeletable 1: 0x8260BAE8
     private:
         // CD2: cCWSatchelCharge's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
@@ -61,7 +68,9 @@ namespace Equip
         virtual bool CanForceNetTransform() const; // 347: 0x8261CA48
         virtual bool CanReleaseNetOwnershipOnAVExit() const; // 348: 0x827E56A8
     private:
-        CD2_LAYOUT_CHECKS(cCWSatchelCharge, CD2_SIZE(cCWSatchelCharge, 0xAE0))
+        CD2_LAYOUT_CHECKS(cCWSatchelCharge,
+            CD2_SIZE(cCWSatchelCharge, 0xAE0)
+            CD2_OFFSET(cCWSatchelCharge, m_pPerceptionRecord, 0x9D4))
 
     public:
         // CD2 table 0x821234F8 differs from cExplosiveGrenade at these inherited slots.
@@ -73,6 +82,15 @@ namespace Equip
         virtual void vf426(); // slot 426: 0x8260BB00
         virtual void vf429(); // slot 429: 0x8261C130
         virtual void vf430(); // slot 430: 0x8261C328
+        // CD2's table has six further primary slots. Names and signatures follow
+        // the reference satchel interface; target bodies/order establish these slots.
+        virtual void NowStuck(); // 432: 0x8261ACA0
+        virtual void Unstick(); // 433: 0x8261AF68
+        virtual void OnAttachedToObject(cSatchelChargeTarget *, const Fun_Runtime::Mtx &); // 434: 0x8261C248
+        virtual void OnDetachedFromObject(); // 435: 0x8260E8B0
+    protected:
+        virtual void Reorient(const Fun_Runtime::Vec3 &, const Fun_Runtime::Vec3 &); // 436: 0x8261AAB0
+        virtual bool CanAttachToBody(PHYSICS::cBody *) const; // 437: 0x8288FB78
     };
 }
 #endif

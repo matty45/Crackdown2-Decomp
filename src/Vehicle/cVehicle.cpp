@@ -23,6 +23,9 @@
 #include "PHYSICS/cDynamicBodyInteractionData.h"
 #include "Damage/cVehicleDamageManager.h"
 #include "PLAYER/cPlayer.h"
+#include "Vehicle/cGenVehicleProfile.h"
+#include "AI/cDynamicObstacle.h"
+#include "Equip/cCWSatchelCharge.h"
 #include <new>
 
 namespace Vehicle
@@ -82,14 +85,47 @@ namespace Vehicle
         static Fun_Runtime::cClass *descriptor = new Fun_Runtime::cClass(0x1, "cVehicle", 0x1740);
         return *descriptor;
     }
+    cVehicle::~cVehicle()
+    {
+        UnLinkMsg(m_Msg_Vehicle_Controls);
+        UnRegisterMsg(m_Msg_Vehicle_Controls);
+    }
+
+    void cVehicle::HandleEvents(RWS::CMsg &pMsg)
+    {
+        if (pMsg.Id == m_Msg_Vehicle_Controls)
+            SetControls(*static_cast<cVehicleControls *>(pMsg.pData));
+    }
+
     const char *cVehicle::RetName() const
     {
         return m_strName.c_str();
     }
 
+    unsigned char cVehicle::GetDynamicObstacleInput()
+    {
+        return m_pDynamicObstacle->GetInput(this);
+    }
+
+    void cVehicle::SetPingedFieldStatesForNode(unsigned char nNodeID)
+    {
+        // RuffKing's field 10; CD2's vehicle has two more replicated fields before it (+0xF0).
+        SetFieldStateForNode(nNodeID, sReplicatedField::WriteAlwaysOnce, 12);
+    }
+
+    void cVehicle::OnAttachSatchelCharge(Equip::cCWSatchelCharge *pSatchel)
+    {
+        pSatchel->SetOwner(this);
+    }
+
     bool cVehicle::CreateParts(const char **names, unsigned short count)
     {
         return LocateParts(names, count);
+    }
+
+    void cVehicle::EventTriggerStartFire(CHARACTER::cCharacter *)
+    {
+        SpawnEngineVFX(cGenVehicleProfile::RetVehicleVFXID(4));
     }
 
     float cVehicle::RetFireRadius() const
@@ -271,6 +307,12 @@ namespace Vehicle
     float cVehicle::RetNetworkDoorOpenCloseSpeed(unsigned char)
     {
         return 0.1f;
+    }
+
+    void cVehicle::PickUpAudio()
+    {
+        if (m_VehicleAudio.IsRegistered())
+            m_VehicleAudio.PostPickedUpEvent();
     }
 
     PHYSICS::cNetDynamicBody::eArbitrationResult cVehicle::ArbitrateOwnership(unsigned char nNodeID, unsigned int TimeStamp)

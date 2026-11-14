@@ -116,7 +116,7 @@ namespace AI
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
         virtual void Slot52(); // 51: 0x823F0300
-        virtual void Slot62(); // 61: 0x823F4828
+        virtual bool IsAIEntityOwner(Kaim::CEntity *pEntity); // 61: 0x823F4828
         virtual void vf75(); // 75: 0x8224C0C0
         virtual void vf76(); // 76: 0x82360140
         virtual void vf80(); // 80: 0x823EF740

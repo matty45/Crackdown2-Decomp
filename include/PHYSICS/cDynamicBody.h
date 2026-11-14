@@ -26,10 +26,16 @@ namespace PHYSICS
             cDynamicBodyPrototype(const RWS::CAttributePacket &);
 
         private:
-            unsigned char m_unmodelled1F0[0x280 - 0x1F0];
+            unsigned char m_unmodelled1F0[0x219 - 0x1F0];
+        public:
+            // RuffKing's name and offset; cProp's RetCollidableQuality (0x8272F1A0) reads it through IsCritical.
+            bool m_bIsCritical;                 // 0x219
+        private:
+            unsigned char m_unmodelled21A[0x280 - 0x21A];
 
             CD2_LAYOUT_CHECKS(cDynamicBodyPrototype,
-                CD2_SIZE(cDynamicBodyPrototype, 0x280))
+                CD2_SIZE(cDynamicBodyPrototype, 0x280)
+                CD2_OFFSET(cDynamicBodyPrototype, m_bIsCritical, 0x219))
         };
 
         // CD2 0x82684B50 builds the prototype above.
@@ -51,16 +57,21 @@ namespace PHYSICS
         virtual void vf239(); virtual float RetFwdMPH(); virtual void vf241(); virtual void vf242(); virtual void vf243(); virtual void vf244();
         virtual void vf245(); virtual void vf246(); virtual void vf247(); virtual void vf248(); virtual void vf249(); virtual void vf250();
         virtual void vf251(); virtual void vf252(); virtual void vf253(); virtual void vf254(); virtual void vf255(); virtual void vf256();
-        virtual void vf257(); virtual void vf258(); virtual void vf259(); virtual void vf260(); virtual void vf261(); virtual void vf262();
+        virtual void vf257(); virtual void ImpactAudio(float fDeltaVelocity); virtual void ScrapeAudio(float fRelativeVelocity); virtual void PickUpAudio(); virtual void WaterEntryAudio(float); virtual void WaterExitAudio(float);
         virtual void vf263(); virtual void vf264(); virtual void vf265(); virtual void vf266(); virtual void vf267(); virtual void vf268();
         virtual void vf269(); virtual void vf270(); virtual void EnterGhostState(); virtual void vf272(); virtual void vf273(); virtual void vf274();
         virtual void vf275(); virtual void vf276(); virtual void vf277(); virtual void vf278(); virtual void vf279(); virtual void vf280();
         virtual void vf281(); virtual void vf282(); virtual void vf283(); virtual void vf284(); virtual void vf285(); virtual void vf286();
-        virtual void vf287(); virtual void vf288(); virtual void vf289(); virtual void vf290(); virtual void vf291(); virtual bool IsInViewFrustum();
-        virtual void vf293(); virtual void vf294(); virtual void vf295(); virtual void vf296(); virtual void vf297(); virtual void vf298();
+        virtual void vf287(); virtual bool ShouldHaveObjectPathPhantom(); virtual void vf289(); virtual void vf290(); virtual void vf291(); virtual bool IsInViewFrustum();
+        virtual void vf293(); virtual void vf294(); virtual void vf295(); virtual void ReleaseAttachedVFX(bool bReleaseNonCullable); virtual void vf297(); virtual void vf298();
         virtual void vf299(); virtual void vf300(); virtual void vf301(); virtual void vf302(); virtual void vf303();
         // RuffKing's inline query; CD2 inlines it into cVehicle's IsOkToInteract (0x826D6FC8).
         bool IsInWater() { return m_bInWater; }
+        // RuffKing's inline (its out-of-line copy 0x8283F218); CD2's cProp::RetCollidableQuality inlines it.
+        bool IsCritical()
+        {
+            return m_pPrototype ? static_cast<cDynamicBodyPrototype *>(m_pPrototype)->m_bIsCritical : false;
+        }
     private:
         unsigned char m_unknown298[0x2DC - 0x298];
     protected:
@@ -85,7 +96,9 @@ namespace PHYSICS
         virtual void Slot24(); // 24: 0x8272A7F8
         virtual void LeavePhysicalState(); // 27: 0x821D0000
         virtual bool EnterRenderableState(eResourcesType); // 31: 0x822DC0B0
-        virtual void LeaveRenderableState(); // 32: 0x8272A488
+        // RuffKing's body (slot 296 is its ReleaseAttachedVFX); CD2's copy (0x8272A488) lies in cProp's object, as an
+        // inline function's would.
+        virtual void LeaveRenderableState() { cGameBase::LeaveRenderableState(); ReleaseAttachedVFX(false); } // 32
         virtual void Slot35(); // 35: 0x82686238
         virtual Fun_Runtime::RetVal Reinitialise(GOM::cSpawner const *); // 38: 0x82688148
         virtual Fun_Runtime::RetVal TermForReuse(); // 39: 0x82688198

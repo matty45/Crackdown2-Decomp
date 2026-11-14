@@ -5,6 +5,27 @@
 #include "Network/SNetworkHeader.h"
 namespace Fun_Runtime { class Vec3; }
 enum etGameMessageType { };
+// RuffKing's per-field replication state (NetReplicationCD2.h, 0x14 bytes, as CD2's: cProp::SetPingedFieldStatesForNode
+// (0x827303C0) reaches RuffKing's field 3 at +0x3C, and cVehicle's (0x826CE5A0) field 12 at +0xF0).
+struct sReplicatedField
+{
+    enum etReplicatedFieldState
+    {
+        Normal = (1 << 0),
+        WriteAlwaysOnce = (1 << 1),
+        WriteAlways = (1 << 2),
+        WriteSkipOnce = (1 << 3),
+        WriteSkip = (1 << 4),
+        WriteReliable = (1 << 5),
+        WriteFastOnChange = (1 << 6),
+    };
+    unsigned char m_iFieldState[16];                    // 0x0
+    unsigned short m_iRecentOffset;                     // 0x10
+    unsigned char m_iInitialFieldState;                 // 0x12
+    // RuffKing's inline (its out-of-line copy 0x829D1210); CD2 inlines it as one byte store.
+    void SetState(etReplicatedFieldState state, unsigned char nNodeID) { m_iFieldState[nNodeID] = (unsigned char)state; }
+    CD2_LAYOUT_CHECKS(sReplicatedField, CD2_SIZE(sReplicatedField, 0x14))
+};
 // CD2 cMissionBase places this base at +0x10 after a four-byte registered-class base.
 // The reference starts its first field at +0x10 and its bit stream at +0x20.
 __declspec(align(16)) class cReplicatedClass
@@ -35,7 +56,12 @@ public:
     virtual SNetworkHeader::etNetworkDataType GetReplicatedObjectType() const = 0;
     virtual unsigned int GetMaxReplicatedFields() const = 0;
 private:
-    unsigned char m_unknown4[0x38 - 4];
+    unsigned char m_unknown4[0x30 - 4];
+protected:
+    // RuffKing's names and offsets; SetFieldStateForNode reads both.
+    sReplicatedField *m_pReplicatedFields;              // 0x30
+private:
+    unsigned char m_unknown34[0x38 - 0x34];
 public:
     // RuffKing NetReplicationCD2.h names the object ID; CD2 SetReplicatedObjectID at 0x82C2BEA0 stores +0x38.
     unsigned int m_nObjectID;
@@ -49,7 +75,16 @@ public:
     void InitReplicatedClass(void *pData, bool bAddToHash);
     void TermReplicatedClass();
 private:
-    unsigned char m_unknown40[0x88 - 0x40];
+    unsigned char m_unknown40[0x87 - 0x40];
+protected:
+    unsigned char m_iHasBeenReplicated;                 // 0x87
+    // RuffKing's (out of line there, 0x829D22E8, where the else branch only asserts); CD2 inlines it into cVehicle's
+    // SetPingedFieldStatesForNode.
+    void SetFieldStateForNode(unsigned char nNodeID, sReplicatedField::etReplicatedFieldState state, int field)
+    {
+        if (m_iHasBeenReplicated & 6)
+            m_pReplicatedFields[field].SetState(state, nNodeID);
+    }
 public:
     unsigned char m_nUnk88;
 private:
@@ -60,6 +95,8 @@ public:
 private:
     unsigned char m_unknown225[0x230 - 0x225];
     CD2_LAYOUT_CHECKS(cReplicatedClass, CD2_SIZE(cReplicatedClass, 0x230)
+        CD2_OFFSET(cReplicatedClass, m_pReplicatedFields, 0x30)
+        CD2_OFFSET(cReplicatedClass, m_iHasBeenReplicated, 0x87)
         CD2_OFFSET(cReplicatedClass, m_nObjectID, 0x38)
         CD2_OFFSET(cReplicatedClass, m_nNodeID, 0x3C)
         CD2_OFFSET(cReplicatedClass, m_bRegisteredWithReplicationManager, 0x224))
