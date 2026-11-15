@@ -14,6 +14,9 @@ namespace AI
     {
     public:
         virtual const char *RetClassName() const;
+        // CD2 0x8248DA20 / 0x8248DA30: the registered-class pair, at the start of this object's code.
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcAmbientEventMissionClass;
         static Fun_Runtime::cClass &StaticCreateClass();

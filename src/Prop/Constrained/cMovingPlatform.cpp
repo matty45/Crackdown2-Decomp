@@ -24,6 +24,8 @@
 #include <new>
 #include "rws/classfactory.h"
 #include "Prop/cMovingPlatform.h"
+#include "rws/logic.h"
+#include "Havok/hkRigidBody.h"
 #include "cd2/memory.h"
 
 namespace Prop
@@ -34,9 +36,49 @@ namespace Prop
     {
     }
 
+    const Fun_Runtime::cClass &cMovingPlatform::RetClass() const
+    {
+        return *ms_pcMovingPlatformClass;
+    }
+
+    bool cMovingPlatform::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcMovingPlatformClass->IsA(c);
+    }
+
     const char *cMovingPlatform::RetClassName() const
     {
         return "cMovingPlatform";
+    }
+
+    Fun_Runtime::RetVal cMovingPlatform::Init(const GOM::cSpawner *spawner)
+    {
+        LinkMsg(RWS::iMsgRunningTick, 0, 0x8001);
+        return cProp::Init(spawner);
+    }
+
+    Fun_Runtime::RetVal cMovingPlatform::Term()
+    {
+        UnLinkMsg(RWS::iMsgRunningTick);
+        return cProp::Term();
+    }
+
+    void cMovingPlatform::TickUpdate(float fDeltaTime)
+    {
+        cProp::TickUpdate(fDeltaTime);
+    }
+
+    bool cMovingPlatform::EnterPhysicalState()
+    {
+        bool entered = cProp::EnterPhysicalState();
+        if (entered)
+            Ret_pRB()->setMotionType(hkMotion::MOTION_KEYFRAMED, 1, 0);
+        return entered;
+    }
+
+    void cMovingPlatform::LeavePhysicalState()
+    {
+        cProp::LeavePhysicalState();
     }
 
     Fun_Runtime::cClass &cMovingPlatform::StaticCreateClass()

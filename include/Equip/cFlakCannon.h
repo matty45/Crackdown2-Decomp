@@ -49,7 +49,7 @@ namespace Equip
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
         virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // 18: 0x8263ACD0
-        virtual void Slot23(); // 23: 0x8263A9E8
+        virtual void TickUpdate(float fDeltaTime); // 23: 0x8263A9E8
         virtual Fun_Runtime::cClass const & RetClass() const; // cBody 0: 0x8263B0B0
         virtual bool IsA(Fun_Runtime::cClass const &) const; // cBody 1: 0x8263B0B8
     private:

@@ -17,6 +17,16 @@
 
 namespace Activity
 {
+    const Fun_Runtime::cClass &cTurretVehicleSpawnPoint::RetClass() const
+    {
+        return *ms_pcTurretVehicleSpawnPointClass;
+    }
+
+    bool cTurretVehicleSpawnPoint::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcTurretVehicleSpawnPointClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cTurretVehicleSpawnPoint::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cTurretVehicleSpawnPointClass = new Fun_Runtime::cClass(0x5D200, "cTurretVehicleSpawnPoint", 0xB0);

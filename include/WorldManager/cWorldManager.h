@@ -25,6 +25,9 @@ namespace WorldManager
         static const Fun_Runtime::cClass *ms_pcWorldManagerClass;
         static Fun_Runtime::cClass &StaticCreateClass();
         virtual const char *RetClassName() const;
+        // CD2 0x82809A68 / 0x82809A78: the registered-class pair, at the start of this object's code.
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
     public:
         // Out of line: CD2 0x82278B80 (MakeNew calls it).
         cWorldManager();

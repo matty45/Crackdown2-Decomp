@@ -20,16 +20,10 @@
 #include "fun_runtime/quat.h"
 #include "Sim/cTimeOfDay.h"
 #include "rws/time.h"
+#include "VFX/cParticleEffectInstance.h"
 
 namespace VFX
 {
-    class cParticleEffectInstance
-    {
-    public:
-        unsigned char m_pad[0x74];
-        unsigned int m_Flags;  // bit 12: finished
-    };
-
     class cAmbientVFXPrototypeBase : public RWS::CAttributeHandler
     {
     public:
@@ -139,7 +133,7 @@ namespace VFX
         {
             // The finished bit goes through a bool local: that is what makes CD2 extract it (extrwi) instead of
             // testing it in place (rlwinm mask).
-            unsigned int flags = m_pVFXInstance->m_Flags;
+            unsigned int flags = m_pVFXInstance->GetStatusFlags();
             bool bFinishedBit = ((flags >> 12) & 1) != 0;
             unsigned char bFinished = bFinishedBit || (flags & 0x400B) == 0;
             return bFinished != 0;

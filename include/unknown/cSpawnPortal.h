@@ -53,7 +53,7 @@ namespace unknown
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
         virtual void Slot13(); // 13: 0x8273E528
-        virtual void Slot23(); // 23: 0x8273E3C0
+        virtual void TickUpdate(float fDeltaTime); // 23: 0x8273E3C0
     };
 }
 

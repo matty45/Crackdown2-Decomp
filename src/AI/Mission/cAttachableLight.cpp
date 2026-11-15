@@ -10,6 +10,16 @@
 
 namespace AI
 {
+    const Fun_Runtime::cClass &cAttachableLight::RetClass() const
+    {
+        return *ms_pcAttachableLightClass;
+    }
+
+    bool cAttachableLight::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcAttachableLightClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cAttachableLight::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cAttachableLightClass = new Fun_Runtime::cClass(0x5D1F8, "cAttachableLight", 0x160);

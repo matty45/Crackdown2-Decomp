@@ -23,6 +23,8 @@ namespace Equip
         public:
             __forceinline cUVTurretPrototype(const RWS::CAttributePacket &packet)
                 : cCWFirearm::cCWFirearmPrototype(packet) {}
+            // CD2 0x8263BDB8: slot 1 of this class's table 0x8212B988.
+            virtual void HandleAttributes(const RWS::CAttributePacket &);
             virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
 
             CD2_LAYOUT_CHECKS(cUVTurretPrototype,

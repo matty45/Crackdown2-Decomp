@@ -29,6 +29,16 @@ namespace unknown
 {
     const Fun_Runtime::cClass *cStickler::ms_pcSticklerClass = &cStickler::StaticCreateClass();
 
+    const Fun_Runtime::cClass &cStickler::RetClass() const
+    {
+        return *ms_pcSticklerClass;
+    }
+
+    bool cStickler::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcSticklerClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cStickler::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cSticklerClass = new Fun_Runtime::cClass(0x10142, "cStickler", 0xAE0);

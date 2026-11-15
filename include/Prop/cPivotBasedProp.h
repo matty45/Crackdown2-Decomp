@@ -79,7 +79,7 @@ namespace Prop
     public:
         // CD2 table 0x8213FEB8 differs from cProp at these inherited slots.
         virtual bool EnterPhysicalState(); // slot 7: 0x8273B110
-        virtual void Slot23(); // slot 23: 0x82325CF8
+        virtual void TickUpdate(float fDeltaTime); // slot 23: 0x82325CF8
     };
 }
 

@@ -72,4 +72,18 @@ namespace Equip
     {
         return *ms_pcExplosiveGrenadeClass;
     }
+
+    bool cExplosiveGrenade::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcExplosiveGrenadeClass->IsA(c);
+    }
+
+    cExplosiveGrenade::~cExplosiveGrenade()
+    {
+    }
+
+    Fun_Runtime::RetVal cExplosiveGrenade::cExplosiveGrenadePrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
 }

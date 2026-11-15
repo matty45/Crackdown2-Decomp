@@ -20,6 +20,9 @@ namespace unknown
         cAgencySquadChopper();
         // CD2 0x826EDB50: primary virtual slot 11 returns the registered class name.
         virtual const char *RetClassName() const;
+        // CD2 0x826ED9F0 / 0x826EDA00: the registered-class pair, at the start of this object's code.
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         // CD2 spawning initializer 0x82FEBDB8 names placement factory 0x826edb60.
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
@@ -33,7 +36,7 @@ namespace unknown
         virtual Fun_Runtime::RetVal Term(); // 6: 0x826F2870
         virtual void Slot13(); // 13: 0x826F2C30
         virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // 18: 0x826EFDF8
-        virtual void Slot23(); // 23: 0x826F33D8
+        virtual void TickUpdate(float fDeltaTime); // 23: 0x826F33D8
         virtual void Slot24(); // 24: 0x826F5E98
         virtual void LeaveRenderableState(); // 32: 0x826F5A98
         virtual Fun_Runtime::RetVal Slot37(); // 37: 0x826F2B48
@@ -57,7 +60,7 @@ namespace unknown
         virtual bool IsOnGround(); // 372: 0x826F7A68
         virtual bool CheckForReplicationActivation(unsigned int *nRetCode); // 377: 0x826F5C50
         virtual void vf380(); // 380: 0x826F0910
-        virtual void vf391(); // 391: 0x826F8060
+        virtual void HandleDeathDamage(cGameBase *, CHARACTER::cCharacterInterface *, unsigned char); // 391: 0x826F8060
         virtual void vf395(); // 395: 0x827E56A8
         virtual void vf413(); // 413: 0x826F0288
         virtual void vf414(); // 414: 0x8288FB78

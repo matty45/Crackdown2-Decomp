@@ -31,6 +31,16 @@
 
 namespace AI
 {
+    const Fun_Runtime::cClass &cMissionCriticalProp::RetClass() const
+    {
+        return *ms_pcMissionCriticalPropClass;
+    }
+
+    bool cMissionCriticalProp::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcMissionCriticalPropClass->IsA(c);
+    }
+
     RWS::CAttributeHandler *cMissionCriticalProp::MakeNew(const RWS::CAttributePacket &packet, bool)
     {
         return new cMissionCriticalPropPrototype(packet);

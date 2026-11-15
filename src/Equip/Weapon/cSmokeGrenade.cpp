@@ -20,6 +20,7 @@
 #include "Equip/cGrenade.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "gom/proto_registrar.h"
+#include "gom/manager.h"
 #include "rws/classfactory.h"
 #include "Equip/cSmokeGrenade.h"
 #include "cd2/memory.h"
@@ -74,6 +75,17 @@ namespace Equip
         return 0;
     }
 
+    cSmokeGrenade::~cSmokeGrenade()
+    {
+        if (m_pSmokeVFX)
+        {
+            m_pSmokeVFX->StopEmitters();
+            m_pSmokeVFX->SetAsOrphan();
+            m_pSmokeVFX->Release();
+            m_pSmokeVFX = 0;
+        }
+    }
+
     void cSmokeGrenade::cSmokeGrenadePrototype::HandleAttributes(const RWS::CAttributePacket &packet)
     {
         cGrenadePrototype::HandleAttributes(packet);
@@ -93,6 +105,19 @@ namespace Equip
                 break;
             }
         }
+    }
+
+    void cSmokeGrenade::vf421()
+    {
+        vf416(0);
+        m_bDeleteOnDetonationEnd = true;
+    }
+
+    void cSmokeGrenade::TickUpdate(float fDeltaTime)
+    {
+        cGrenade::TickUpdate(fDeltaTime);
+        if (m_bDeleteOnDetonationEnd)
+            GOM::DeleteGameObject(this);
     }
 
     Fun_Runtime::RetVal cSmokeGrenade::cSmokeGrenadePrototype::Init(const RWS::CAttributePacket &)

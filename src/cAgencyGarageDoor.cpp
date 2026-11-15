@@ -16,6 +16,16 @@
 
 namespace unknown
 {
+    const Fun_Runtime::cClass &cAgencyGarageDoor::RetClass() const
+    {
+        return *ms_pcAgencyGarageDoorClass;
+    }
+
+    bool cAgencyGarageDoor::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcAgencyGarageDoorClass->IsA(c);
+    }
+
     RWS::CAttributeHandler *cAgencyGarageDoor::MakeNew(const RWS::CAttributePacket &packet, bool)
     {
         return new cAgencyGarageDoorPrototype(packet);

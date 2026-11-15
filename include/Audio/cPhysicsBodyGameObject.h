@@ -21,6 +21,9 @@ namespace Audio
         void ContinueScrapeNextUpdate(float fRelativeVelocity);    // CD2 0x8222B258
         void PostImpactEvent(float fImpulseValue);                 // CD2 0x82833098
         void PostPickedUpEvent() const;                            // CD2 0x82833118
+        // RuffKing's name: CD2 0x82832F98 posts the stop events and unregisters when registered (cHWGrenadeProjectile's
+        // destructor 0x82629658 calls it on its member before destroying it).
+        void Term();
 
     private:
         unsigned char m_unmodelledC[0x90 - 0xC];

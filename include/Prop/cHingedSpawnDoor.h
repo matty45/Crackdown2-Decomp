@@ -20,6 +20,9 @@ namespace Prop
         static const Fun_Runtime::cClass *ms_pcHingedSpawnDoorClass;
         static Fun_Runtime::cClass &StaticCreateClass();
         virtual const char *RetClassName() const;
+        // CD2 0x82744978 / 0x82744988: the registered-class pair, at the start of this object's code.
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
     };
 }
 

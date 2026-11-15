@@ -80,6 +80,16 @@ namespace Prop
         }
     }
 
+    const Fun_Runtime::cClass &cGasCanister::RetClass() const
+    {
+        return *ms_pcGasCanisterClass;
+    }
+
+    bool cGasCanister::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcGasCanisterClass->IsA(c);
+    }
+
     cGasCanister::cGasCanister(GOM::cObjectPrototype *prototype)
         : cProp(prototype), m_fRocketTimer(0.0f)
     {
@@ -131,5 +141,12 @@ namespace Prop
         if (memory)
             return new (memory) cGasCanister(prototype);
         return 0;
+    }
+    void cGasCanister::ReplicateInitialFields()
+    {
+        cProp::ReplicateInitialFields();
+        _AllocateUInt32Bits(m_nCState, 16, 2,
+            static_cast<sReplicatedField::etReplicatedFieldState>(
+                sReplicatedField::WriteReliable | sReplicatedField::WriteFastOnChange));
     }
 }

@@ -26,6 +26,16 @@
 
 namespace ExplosionManager
 {
+    const Fun_Runtime::cClass &cExplosionManager::RetClass() const
+    {
+        return *ms_pcExplosionManagerClass;
+    }
+
+    bool cExplosionManager::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcExplosionManagerClass->IsA(c);
+    }
+
     const char *cExplosionManager::RetClassName() const
     {
         return "cExplosionManager";

@@ -19,6 +19,10 @@
 #include "Equip/cWeaponProjectile.h"
 #include "ExplosionManager/cExplosionCallback.h"
 #include "ExplosionManager/eDetonationType.h"
+#include "fun_runtime/safedeletablepointer.h"
+#include "gom/game_base.h"
+#include "VFX/cParticleEffectInstance.h"
+#include "Audio/cProjectileGameObject.h"
 
 namespace PHYSICS { class cCustomMaterial; }
 
@@ -41,6 +45,9 @@ namespace Equip
         cHWProjectile();
         virtual ~cHWProjectile();
         virtual const char *RetClassName() const;      // slot 11
+        // CD2 0x8262A708 / 0x8262A718: the registered-class pair, at the start of this object's code.
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         virtual void NotifyDetonation(cGameBase *, CHARACTER::cCharacterInterface *, unsigned char);
         // Slots 364 to 374 (RuffKing's names and order; the three-argument Launch is declared first because the
         // compiler gives overloads their slots in reverse).
@@ -59,7 +66,16 @@ namespace Equip
         virtual void ReleaseEffect();                                // 374
 
     private:
-        unsigned char m_unmodelled874[0x970 - 0x874];
+        unsigned char m_unmodelled874[0x880 - 0x874];
+        // RuffKing's members, 0x20 earlier in CD2 up to the effect pointer: the destructor (0x8262AAF8) calls
+        // ReleaseEffect, destroys the audio object at 0x8C8 and the three safe pointers (the two cGameBase ones share
+        // their typed table register, the character one has its own).
+        Fun_Runtime::cSafeDeletablePointer<cGameBase> m_pTarget;                        // 0x880
+        Fun_Runtime::cSafeDeletablePointer<cGameBase> m_pWeapon;                        // 0x890
+        Fun_Runtime::cSafeDeletablePointer<CHARACTER::cCharacter> m_pProjectileOwner;   // 0x8A0
+        VFX::cParticleEffectInstance *m_pEffectInstance;                                // 0x8B0
+        unsigned char m_unmodelled8B4[0x8C8 - 0x8B4];
+        Audio::cProjectileGameObject m_ProjectileAudio;                                 // 0x8C8
 
         // CD2: cHWProjectile's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
@@ -67,10 +83,10 @@ namespace Equip
         virtual Fun_Runtime::RetVal Term(); // 6: 0x8262AE08
         virtual bool EnterPhysicalState(); // 7: 0x8262C690
         virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // 18: 0x8262AD90
-        virtual void Slot23(); // 23: 0x82625800
+        virtual void TickUpdate(float fDeltaTime); // 23: 0x8262B470
         virtual void Slot24(); // 24: 0x8262BB08
         virtual void LeavePhysicalState(); // 27: 0x82580578
-        virtual bool EnterRenderableState(eResourcesType); // 31: 0x82625738
+        virtual bool EnterRenderableState(eResourcesType); // 31: 0x8262ACC0
         virtual void LeaveRenderableState(); // 32: 0x82580578
         virtual void vf76(); // 76: 0x8262CA98
         virtual void vf166(); // 166: 0x827E56A8
@@ -84,9 +100,11 @@ namespace Equip
         virtual bool CanReleaseNetOwnershipOnAVExit() const; // 348: 0x827E56A8
         virtual int RetNetworkLOD(CHARACTER::cCharacter *,int); // 350: 0x8262AEE8
         virtual Fun_Runtime::Vec3 RetReplicationVelocity(); // 351: 0x8262C138
-        virtual unsigned int GetMaxReplicatedFields() const; // cReplicatedClass 23: 0x82889810
+        virtual unsigned int GetMaxReplicatedFields() const; // cReplicatedClass 23: 0x82889198
     private:
-        CD2_LAYOUT_CHECKS(cHWProjectile, CD2_SIZE(cHWProjectile, 0x970))
+        CD2_LAYOUT_CHECKS(cHWProjectile, CD2_SIZE(cHWProjectile, 0x970)
+            CD2_OFFSET(cHWProjectile, m_pTarget, 0x880) CD2_OFFSET(cHWProjectile, m_pEffectInstance, 0x8B0)
+            CD2_OFFSET(cHWProjectile, m_ProjectileAudio, 0x8C8))
     };
 
     // ---- prototype side ----
@@ -128,6 +146,12 @@ namespace Equip
         virtual void ReleaseEffect();
         virtual void ReplicateInitialFields();
         virtual void ReplicateFields();
+        // CD2 table 0x82126830 (stored by the constructor 0x82625570) differs from cHWProjectile's 0x82127898 at these
+        // slots too; names and signatures are the bases'.
+        virtual void TickUpdate(float fDeltaTime);                                                  // 23: 0x82625800
+        virtual bool EnterRenderableState(eResourcesType);                                         // 31: 0x82625738
+        virtual void Launch(float fInitProjectileVel, const Fun_Runtime::Vec3 &vecTargetPoint, float fAccuracy); // 366: 0x82626488
+        virtual unsigned int GetMaxReplicatedFields() const;                                       // cReplicatedClass 23: 0x82889810
         void UpdateFlocketLight();
         void DestroyFlocketLight();
 

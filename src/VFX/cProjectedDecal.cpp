@@ -32,6 +32,16 @@
 
 namespace VFX
 {
+    const Fun_Runtime::cClass &cProjectedDecal::RetClass() const
+    {
+        return *ms_pcProjectedDecalClass;
+    }
+
+    bool cProjectedDecal::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcProjectedDecalClass->IsA(c);
+    }
+
     const char *cProjectedDecal::RetClassName() const
     {
         return "cProjectedDecal";

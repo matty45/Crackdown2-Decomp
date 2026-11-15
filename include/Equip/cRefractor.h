@@ -36,7 +36,7 @@ namespace Equip
         // CD2: cRefractor's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
-        virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // 18: 0x82608168
+        // Slot 18 holds cCWWeapon's Init (0x82608168): inherited, not declared here.
         virtual Fun_Runtime::cScriptTypeRegistration const * RetScriptTypeRegistration() const; // cSafeDeletable 1: 0x82607BD0
     private:
         CD2_LAYOUT_CHECKS(cRefractor,

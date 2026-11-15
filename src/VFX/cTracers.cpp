@@ -10,6 +10,16 @@
 
 namespace VFX
 {
+    const Fun_Runtime::cClass &cTracers::RetClass() const
+    {
+        return *ms_pcTracersClass;
+    }
+
+    bool cTracers::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcTracersClass->IsA(c);
+    }
+
     const char *cTracers::RetClassName() const
     {
         return "cTracers";

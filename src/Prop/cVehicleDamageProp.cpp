@@ -27,6 +27,16 @@
 
 namespace Prop
 {
+    const Fun_Runtime::cClass &cVehicleDamageProp::RetClass() const
+    {
+        return *ms_pcVehicleDamagePropClass;
+    }
+
+    bool cVehicleDamageProp::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcVehicleDamagePropClass->IsA(c);
+    }
+
     RWS::CAttributeHandler *cVehicleDamageProp::MakeNew(const RWS::CAttributePacket &packet, bool)
     {
         return new cVehicleDamagePropPrototype(packet);

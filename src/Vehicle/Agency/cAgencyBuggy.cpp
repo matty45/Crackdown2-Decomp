@@ -31,6 +31,16 @@ namespace Vehicle
 {
     const Fun_Runtime::cClass *cAgencyBuggy::ms_pcAgencyBuggyClass = &cAgencyBuggy::StaticCreateClass();
 
+    const Fun_Runtime::cClass &cAgencyBuggy::RetClass() const
+    {
+        return *ms_pcAgencyBuggyClass;
+    }
+
+    bool cAgencyBuggy::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcAgencyBuggyClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cAgencyBuggy::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cAgencyBuggyClass = new Fun_Runtime::cClass(0x12064, "cAgencyBuggy", 0x30C0);
@@ -74,6 +84,12 @@ namespace Vehicle
     {
     }
 
+    void cAgencyBuggy::TickUpdate(float fDeltaTime)
+    {
+        cCar::TickUpdate(fDeltaTime);
+        UpdateBuggyWeapon();
+    }
+
     void cAgencyBuggy::ReplicateInitialFields()
     {
         UpdateBuggyWeapon();
@@ -83,5 +99,19 @@ namespace Vehicle
     void cAgencyBuggy::ReplicateFields()
     {
         cCar::ReplicateFields();
+    }
+
+    Fun_Runtime::RetVal cAgencyBuggy::Init(const GOM::cSpawner *spawner)
+    {
+        cCar::Init(spawner);
+        m_bWeaponsInitialised = false;
+        return Ret_OK;
+    }
+
+    Fun_Runtime::RetVal cAgencyBuggy::Reinitialise(const GOM::cSpawner *spawner)
+    {
+        cCar::Reinitialise(spawner);
+        m_bWeaponsInitialised = false;
+        return Ret_OK;
     }
 }

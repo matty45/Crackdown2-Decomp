@@ -29,6 +29,16 @@ namespace GOM
     static Fun_Runtime::cInheritanceRegistrar cTargetingDebugPagecDebugPageHandlerInheritRegistrar(
         cTargetingDebugPage::StaticCreateClass(), GDb::cDebugPageHandler::StaticCreateClass());
 
+    const Fun_Runtime::cClass &cTargetDebugPage::RetClass() const
+    {
+        return *ms_pcTargetDebugPageClass;
+    }
+
+    bool cTargetDebugPage::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcTargetDebugPageClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cTargetDebugPage::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cTargetDebugPageClass = new Fun_Runtime::cClass(0x515, "cTargetDebugPage", 0x4);

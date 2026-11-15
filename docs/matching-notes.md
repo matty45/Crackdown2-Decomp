@@ -97,6 +97,14 @@ end, in one line, and is removed when the function matches. History belongs in g
   0x828D83F8, 0x82457958) need their `vfN` names in `config/symbol_aliases.txt`.
 
 ## Codegen idioms
+- **Recheck a member after virtual termination when deletion and clearing share a guard.** In `cWaterZone::Term`
+  (0x82708338), Term may change the phantom member. CD2 rechecks it and skips both delete and clearing when null.
+  A/B: `delete p; p = 0` after the virtual call gives 39/42 words; guarding both statements with `if (p)` gives
+  EXACT in plain and LTCG builds. Keep the explanatory comment so the second guard is not simplified away.
+- **Explicit success/failure branches can retain boolean normalization.** `cRenegadeOrb::EnterPhysicalState`
+  (0x82757468) calls `cNonGameBase::EnterPhysicalState`, returns false on failure, then true on success.
+  A/B: directly returning the base call produces one tail-branch instruction; the explicit failure branch
+  produces CD2's 44-byte call/normalization wrapper, EXACT in plain and LTCG builds.
 - **Shared inline constructors must be visible to every owner that expands them.** cAudioBaseProfile's constructor
   (0x82527860) called cSafeDeletable out of line while its circular-sentinel constructor body lived only in
   cFactionConfigData.cpp. Moving that same body into cSafeDeletable's header makes the audio constructor EXACT
@@ -347,6 +355,14 @@ end, in one line, and is removed when the function matches. History belongs in g
 - Signed versus unsigned compares follow the expression type exactly: `cmpwi` against a byte-swapped value needs
   `(int)rwSwap32(x) == 1`. `fctidz` + `stfiwx` (not `fctiwz`) is a float converted to an UNSIGNED int: declare the
   destination `unsigned int`.
+- An explicit float `if`/`else` can preserve a branch that a ternary removes. In the spinning prop's anticlockwise
+  motor entry (0x8273F7E8), `speed = input < 0 ? input : -input` becomes `fsel` after CreateConstraint
+  (29 instructions versus CD2's 35). Assigning `speed` in the two explicit arms emits CD2's branch before
+  CreateConstraint and is EXACT in both modes; initializing speed first and conditionally negating gives 33 instructions.
+- Safe-pointer conditions also distinguish source forms: in `cStaticEnvironment::ReCalculateResourceState`
+  (0x828093C0), `if (resource && ...)` gives CD2's `cmpwi`, whereas `if (resource != 0 && ...)`
+  selects the safe pointer's comparison operator and gives `cmplwi`. This A/B changes exactly four words;
+  the implicit pointer condition is EXACT in plain and LTCG builds.
 - A loop counter compared with a small constant and masked with `clrlwi rX, rY, 24` after the increment is an
   `unsigned char` (RuffKing declares such bounds `static const unsigned char`).
 - A handle that is tested and then passed as an argument (`m_h = Ext(globalPtr, m_h)`): the early `lwz r4` is the
@@ -384,6 +400,24 @@ end, in one line, and is removed when the function matches. History belongs in g
   overrides cBody's `CustomiseShape(hkShape **)` (slot 151) and adds `CustomiseShape(hkShape **, cLandVehicleData *)`
   (slot 460). With the override declared first, MSVC puts the new overload at the head of the class's new slots (442)
   and shifts the rest; declared after the overload, both land where CD2 has them (0x826C79C8 calls 0x730, slot 460).
+
+- **Particle-effect release in destructors (`VFX/cParticleEffectInstance.h`).** About a hundred CD2 functions expand
+  StopEmitters, SetAsOrphan and Release on an owned instance, then clear the pointer. A/B on cGrenade's destructor
+  (0x8261E460): `m_StatusFlags |= 0x10` before the spawn-rate store gives the flag store ahead of the constant load
+  (94.4%); the spawn-rate store first gives CD2's order. Linking the orphan through `if (m_pNextOrphan)` after the store
+  reuses the loaded root as CD2 does; testing `ms_pOrphanRoot` again reloads it. Release's `delete this` must call one
+  helper (CD2 0x8245C7F0, the scalar deleting destructor with the destructor expanded, kept in
+  cAgencyTowerSegmentMission's object): an inline destructor is called out of line and freed separately (96.6%), a
+  `__forceinline` one moves into `??_G`, which stays a call. Plain builds still pass the deleting flag (`li r4,1`) that
+  CD2's LTCG dropped, so such destructors are `"ltcg": true`. StopEmitters reads that object's g_GlobalConstants copy,
+  0x830B7F30, one of the relocation gate's shared copies.
+- **Script-method factories: single use inlines, shared use calls.** In every CD2 RegisterMethods the factory for a
+  member-function signature used once is expanded (allocate 0x10, store name, member pointer, then the descriptor
+  table), while a signature used several times calls the folded shared factory (0x8273D230 bool, 0x8260A840 int,
+  0x8260A8A0 float, ...). The per-file models do not reproduce the single-use expansion (an `inline` factory and an
+  /OPT:REF link were tried on cGrenade's 0x8261E148), so a RegisterMethods with a single-use signature stays open; its
+  source still makes the compiler emit the vcall thunks (`??_9<Class>@@$B<offset>@AA`) of the virtuals it registers,
+  which match on their own.
 
 ## Patterns by kind of function
 - **Header constants (the common initializer sequence).** About a thousand objects open their initializer run with
@@ -676,6 +710,14 @@ Middleware with published source lives in `src/middleware/<library>/` (each with
   the hierarchy that owns the slot (cCharacter's or cGrenade's `vf418` is another class's slot 418).
 
 ## Open functions
+- Shared prop-state BeginState (0x8273F8D8): SetMotion(eMT_DYNAMIC), followed by a typed owner conversion and physical-state flag test, gives all 33 instructions but branches for the second base conversion where CD2 masks it. Probe removed.
+- `cStaticEnvironment::SetInstancePriority` (0x828094D8): a direct `old >= new ? old : new` maximum gives 15 instructions against CD2's 30; CD2 instead subtracts, compares with zero, indexes a boolean-to-float table and uses `fsel`. The probe was removed.
+- Water-zone deleting wrapper (0x827082A0) and water-profile factory/deleting wrapper (0x82697560/0x826976B0): out-of-line destruction adds an absent derived cleanup call; forceinline destruction is not emitted without a visible constructor. The water-profile factory has five extra saved-this instructions because CD2 uses the base constructor's returned r3 (the same cross-module LTCG dependency as surface-profile factories). Probes removed.
+- Enum writers `cMovementTypeScriptRegistration::RegisterValues` (0x823EECB0) and `cAttackStateScriptRegistration::RegisterValues` (0x823EF120): direct Lua literal/float/settable sequences produce the correct operations, but plain builds miss CD2's saved constant-base register and official LTCG checks remain nonexact. Probes removed; investigate the original constant-pool context before retrying these shapes.
+- `cBody::GetLocalAABB` (0x82683EE8): direct component construction gives 25/26 instructions with different load/store order and folded prototype offsets. A reference-named Vec3TohkVector4 helper using mutable SIMD components emits a different sequence. Both probes removed; recover the original reference-taking conversion before retrying.
+- `cLandVehicle::RetSteeringMaxAngle` (0x826C4900): the typed steering query and CONST_FLOAT_1 fallback are byte-exact, but the function reaches a different g_GlobalConstants copy from RetEngineDamage and IsA in the same source file. Probe removed pending recovery of the original constant ownership.
+- `cAgencyTank::SetupTurret` (0x82700238): typed turret/prototype fields and a Vec3::Set temporary give all 28 instructions but 18/28 words (register numbering differs); standard search finds no improvement. Reference by-value SetCrosshairOffset introduces absent copy/frame work. Probe removed; checked layouts and exact Init/Reinitialise wrappers remain.
+- `cGodRaysAddRaysShader` deleting wrapper (0x82796B18): singleton-clearing inline/forceinline destruction is not emitted without its constructor; an out-of-line destructor emits a separate derived cleanup call instead of CD2's direct base call (5/26 words). Destructor probe removed.
 - `cGangInfo` constructor (0x826779A8): named reference fields and four population-block memsets give 63/65 words in plain and LTCG; only the saved-this move shifts one instruction early. Scalar initializer-list/body forms, the reference-named ClearPopData helper, data-block alignment and standard search do not change it. Constructor probe removed; its descriptor factory and RetClass getter are promoted independently. The deleting wrapper is EXACT with an inline empty destructor, but is not emitted without the constructor.
 - `cPulseRiflePrototype::HandleAttributes` (0x8260FFA8): typed profile, double tan and half-angle conversion give 321/323 LTCG words. The comparison uses plain switch offsets 0x8C..0xC8 even though the LTCG pool anchor shifts the table to 0x90..0xCC; the unchanged comparison API with those actual offsets gives 323/323. Official check remains nonexact, so the body and claim were removed pending a maintainer tooling fix.
 - `cPulseRiflePrototype` constructor (0x8260FEA8): whole-profile memset followed by typed defaults and one shared double-tan result gives 12/63 LTCG words; pool/register scheduling remains different. Probe removed; the CD2-evidenced profile layout stays.

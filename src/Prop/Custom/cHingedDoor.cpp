@@ -14,6 +14,16 @@
 
 namespace Prop
 {
+    const Fun_Runtime::cClass &cHingedDoor::RetClass() const
+    {
+        return *ms_pcHingedDoorClass;
+    }
+
+    bool cHingedDoor::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcHingedDoorClass->IsA(c);
+    }
+
     RWS::CAttributeHandler *cHingedDoor::MakeNew(const RWS::CAttributePacket &packet, bool)
     {
         return new cHingedDoorPrototype(packet);

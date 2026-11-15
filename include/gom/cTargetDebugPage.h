@@ -13,6 +13,9 @@ namespace GOM
     class cTargetDebugPage : public GDb::cDebugPageHandler
     {
     public:
+        // CD2 0x8277DA58 / 0x8277DA68: the registered-class pair, at the start of this object's code.
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pcTargetDebugPageClass;
     };

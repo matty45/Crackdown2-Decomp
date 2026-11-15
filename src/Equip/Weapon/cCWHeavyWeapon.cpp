@@ -88,4 +88,9 @@ namespace Equip
     {
         return &cCWHeavyWeaponScriptRegistrar;
     }
+
+    Fun_Runtime::RetVal cCWHeavyWeapon::cCWHeavyWeaponPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
 }

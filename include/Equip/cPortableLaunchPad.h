@@ -37,6 +37,9 @@ namespace Equip
         virtual void Launched(cGameBase *pAttacker); // CD2 primary slot 406: 0x8260E788.
         // CD2 0x8260DE40: primary virtual slot 11 returns the registered class name.
         virtual const char *RetClassName() const;
+        // CD2 0x8260DD60 / 0x8260DD70: the registered-class pair, at the start of this object's code.
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         // CD2 spawning initializer 0x82FCCEA0 names placement factory 0x8260de50.
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);

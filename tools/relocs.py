@@ -15,8 +15,8 @@ Rules (check_consistency):
   - names that embed an address (Ext_82954E48, sub_82954E48, fn_82954E48) must resolve to that address;
   - names with internal linkage (header statics, their initializers) are one name, one address per file, and within a
     file an address one of them resolves to has no other name. One exception, listed by name in LTCG_SHARED_COPIES
-    and checked by CONTENT (identical_copies): g_GlobalConstants may resolve to the file's own copy and to 0x830ACBD8,
-    the copy LTCG's inlined cClass::HasAncestor reads in every object, when both hold identical, not all-zero bytes;
+    and checked by CONTENT (identical_copies): g_GlobalConstants may resolve to the file's own copy and to 0x830ACBD8
+    and 0x830B7F30, the copies LTCG's inlined code reads in every object, when all hold identical, not all-zero bytes;
   - local (per-object) symbols ('$...', '.rdata' section symbols) are only checked for content where possible.
 Data (check_data, check_extents): the data a matched function references and our object defines (a vtable, an
 initialized global, a constant table) must equal CD2's at the resolved address, byte for byte outside its relocations;
@@ -525,21 +525,29 @@ def known_key(src, name, obj):
     return (src, name) if name in getattr(obj, 'internal', ()) else name
 
 
-# The one known case of identical_copies, by name: {internal data name: the CD2 copy LTCG's inlined code reads}.
-# Fun_Runtime::g_GlobalConstants (fun_runtime/class.h) is a static in a header, so every object has its own copy; LTCG
-# inlined cClass::HasAncestor from the one COMDAT the linker kept, so every IsA reads that object's copy at 0x830ACBD8,
-# while each file's own code (its header constants' initializers) reads its own copy. Add a name only with that
-# evidence: anything not listed here keeps the rule one name, one address per file.
-LTCG_SHARED_COPIES = {'g_GlobalConstants': 0x830ACBD8, '?g_GlobalConstants@Fun_Runtime@@3UtGlobalConstants@1@A': 0x830ACBD8}
+# The known cases of identical_copies, by name: {internal data name: the CD2 copies LTCG's inlined code reads}.
+# Fun_Runtime::g_GlobalConstants (fun_runtime/class.h) is a static in a header, so every object has its own copy, and
+# each file's own code (its header constants' initializers) reads its own copy. LTCG inlined a function reading it from
+# the one COMDAT the linker kept, so other objects read that object's copy: cClass::HasAncestor (every IsA) reads
+# 0x830ACBD8; VFX::cParticleEffectInstance::StopEmitters (+0x10, CONST_FLOAT_0, in about a hundred functions, most of
+# them destructors) reads 0x830B7F30, cAgencyTowerSegmentMission's own copy (its header constants' initializers read
+# it). Add a name or an address only with that evidence: anything not listed here keeps the rule one name, one address
+# per file.
+_GLOBAL_CONSTANTS_COPIES = (0x830ACBD8, 0x830B7F30)
+LTCG_SHARED_COPIES = {'g_GlobalConstants': _GLOBAL_CONSTANTS_COPIES,
+                      '?g_GlobalConstants@Fun_Runtime@@3UtGlobalConstants@1@A': _GLOBAL_CONSTANTS_COPIES}
 
 
 def identical_copies(obj, sym, addrs, read):
     """Whether the several CD2 addresses one file's internal name resolves to are the file's own copy of a datum
-    LTCG_SHARED_COPIES lists plus the copy LTCG's inlined code reads: exactly two addresses, one of them the listed
-    one, holding identical bytes, not all zero, over the datum's exact size. Any other name, a third address, another
-    shared address or a copy that differs is still a problem."""
+    LTCG_SHARED_COPIES lists plus the copies LTCG's inlined code reads: at least one of them a listed shared copy, at
+    most one address that is not, all holding identical bytes, not all zero, over the datum's exact size. Any other
+    name, a second unlisted address or a copy that differs is still a problem."""
     shared = LTCG_SHARED_COPIES.get(sym)
-    if shared is None or len(addrs) != 2 or shared not in addrs:
+    if shared is None or len(addrs) < 2:
+        return False
+    listed = [a for a in addrs if a in shared]
+    if not listed or len(addrs) - len(listed) > 1:
         return False
     if is_local(sym) or sym not in getattr(obj, 'internal', ()) or not hasattr(obj, 'data_symbol'):
         return False

@@ -43,6 +43,9 @@ namespace unknown
         virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         // CD2 0x8252CDC0: primary virtual slot 11 returns the registered class name.
         virtual const char *RetClassName() const;
+        // CD2 0x8252CD08 / 0x8252CD18: the registered-class pair, at the start of this object's code.
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcVirtualCameraClass;
         static Fun_Runtime::cClass &StaticCreateClass();

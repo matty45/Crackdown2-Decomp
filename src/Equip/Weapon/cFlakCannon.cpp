@@ -30,6 +30,16 @@ namespace Equip
 {
     const Fun_Runtime::cClass *cFlakCannon::ms_pcFlakCannonClass = &cFlakCannon::StaticCreateClass();
 
+    const Fun_Runtime::cClass &cFlakCannon::RetClass() const
+    {
+        return *ms_pcFlakCannonClass;
+    }
+
+    bool cFlakCannon::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcFlakCannonClass->IsA(c);
+    }
+
     RWS::CAttributeHandler *cFlakCannon::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
     {
         if (memory)

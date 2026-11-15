@@ -29,6 +29,16 @@ namespace unknown
 {
     const Fun_Runtime::cClass *cSucknBlowGun::ms_pcSucknBlowGunClass = &cSucknBlowGun::StaticCreateClass();
 
+    const Fun_Runtime::cClass &cSucknBlowGun::RetClass() const
+    {
+        return *ms_pcSucknBlowGunClass;
+    }
+
+    bool cSucknBlowGun::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcSucknBlowGunClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cSucknBlowGun::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cSucknBlowGunClass = new Fun_Runtime::cClass(0x27418, "cSucknBlowGun", 0xDF0);

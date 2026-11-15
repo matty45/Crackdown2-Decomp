@@ -13,10 +13,22 @@ namespace Vehicle
         virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
 
     private:
-        unsigned char m_unmodelled4C0[0x530 - 0x4C0];
+        unsigned char m_unmodelled4C0[0x510 - 0x4C0];
+    public:
+        // Reference names and offsets; CD2 SetupTurret reads these four consecutive floats.
+        float m_fTurretMaxPitch;
+        float m_fTurretMinPitch;
+        float m_fTurretPitchRate;
+        float m_fTurretYawRate;
+    private:
+        unsigned char m_unmodelled520[0x530 - 0x520];
 
         CD2_LAYOUT_CHECKS(cAgencyTankPrototype,
-            CD2_SIZE(cAgencyTankPrototype, 0x530))
+            CD2_SIZE(cAgencyTankPrototype, 0x530)
+            CD2_OFFSET(cAgencyTankPrototype, m_fTurretMaxPitch, 0x510)
+            CD2_OFFSET(cAgencyTankPrototype, m_fTurretMinPitch, 0x514)
+            CD2_OFFSET(cAgencyTankPrototype, m_fTurretPitchRate, 0x518)
+            CD2_OFFSET(cAgencyTankPrototype, m_fTurretYawRate, 0x51C))
     };
 }
 #endif

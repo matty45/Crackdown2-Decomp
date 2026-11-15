@@ -113,7 +113,7 @@ public:
     virtual void Slot20();
     virtual void Slot21();
     virtual void Slot22();
-    virtual void Slot23();
+    virtual void TickUpdate(float fDeltaTime);
     virtual void Slot24();
     virtual void Slot25();
     virtual void UpdateRenderMatrix();      // slot 26: a body copies its matrix into the render matrix (Prop/cProp.h)
@@ -129,7 +129,8 @@ public:
     virtual void Slot33();
     virtual void Slot34();
     virtual void Slot35();
-    virtual void Slot36();
+    // Reference name; CD2 static-environment slot 36 (0x82808980) returns its resource-state byte.
+    virtual unsigned char RetResourceState();
     // Slot 37 returns a result code: cNonGameBase's body (0x82653B00) returns Ret_OK, and cWeaponisedHelicopter's
     // (0x826E1D80) returns cHelicopter's. Name not recovered.
     virtual Fun_Runtime::RetVal Slot37();

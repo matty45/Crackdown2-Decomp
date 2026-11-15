@@ -31,6 +31,16 @@ namespace Equip
 {
     const Fun_Runtime::cClass *cPulseRifle::ms_pcPulseRifleClass = &cPulseRifle::StaticCreateClass();
 
+    const Fun_Runtime::cClass &cPulseRifle::RetClass() const
+    {
+        return *ms_pcPulseRifleClass;
+    }
+
+    bool cPulseRifle::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcPulseRifleClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cPulseRifle::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cPulseRifleClass = new Fun_Runtime::cClass(0x27413, "cPulseRifle", 0xA80);

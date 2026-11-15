@@ -10,6 +10,7 @@
 #include "CHARACTER/cRagdollProfile.h"
 #include "AI/aiconstants.h"
 #include "GangManager/cGangInfo.h"
+#include "GangManager/cGangManager.h"
 #include "cd2/memory.h"
 
 namespace GangManager
@@ -18,5 +19,11 @@ namespace GangManager
     {
         static Fun_Runtime::cClass *descriptor = new Fun_Runtime::cClass(0x40D, "cGangInfo", 0x1764);
         return *descriptor;
+    }
+
+    Fun_Runtime::cClass &cGangManager::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *gangManagerClass = new Fun_Runtime::cClass(0x40C, "cGangManager", 0x50);
+        return *gangManagerClass;
     }
 }

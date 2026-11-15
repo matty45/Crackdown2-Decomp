@@ -212,7 +212,7 @@ namespace Equip
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
         virtual Fun_Runtime::RetVal Term(); // 6: 0x82608200
-        virtual void Slot23(); // 23: 0x821D0F58
+        virtual void TickUpdate(float fDeltaTime); // 23: 0x822D04B8
         virtual void UpdateRenderMatrix(); // 26: 0x822DD5A0
         virtual void LeaveRenderableState(); // 32: 0x82605B40
         virtual void Slot63(); // 62: 0x82605FD0
@@ -265,15 +265,15 @@ namespace Equip
         virtual void CalculateRelevancy(int); // cReplicatedClass 2: 0x825DEEE0
         virtual void CalculateLOD(int); // cReplicatedClass 3: 0x826066B0
         virtual bool CanSendTermPacketOnNotRelevant() const; // cReplicatedClass 4: 0x8288FB78
-        virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x8260A298
-        virtual void ReplicateFields(); // cReplicatedClass 9: 0x82205518
+        virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x82606198
+        virtual void ReplicateFields(); // cReplicatedClass 9: 0x822F3468
         virtual void ReplicateHeaderData(); // cReplicatedClass 10: 0x82605FE0
         // Constructor 0x82604AF8's replication table (0x8211EE70) overrides the two slots cNetDynamicBody leaves pure.
         virtual bool IsSequential() const; // cReplicatedClass 6: 0x827E56A8
         virtual bool IsOwnedLocally(); // cReplicatedClass 14: 0x82537F88
         virtual unsigned int GetNumObjectIDBits() const; // cReplicatedClass 16: 0x8288E558
         virtual SNetworkHeader::etNetworkDataType GetReplicatedObjectType() const; // cReplicatedClass 22: 0x8288CA00
-        virtual unsigned int GetMaxReplicatedFields() const; // cReplicatedClass 23: 0x8288E460
+        virtual unsigned int GetMaxReplicatedFields() const; // cReplicatedClass 23: 0x8288E110
     protected:
         virtual void EventTriggerStartFire(CHARACTER::cCharacter *); // cIgnitable 10: 0x82580578
         virtual void EventTriggerEndFire(); // cIgnitable 12: 0x82580578

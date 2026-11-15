@@ -6,6 +6,7 @@
 #include "rws/systemcommands.h"
 namespace Fun_Runtime { class Mtx; }
 namespace GOM { class cPointOfInterest; }
+namespace CHARACTER { class cCharacter; }
 __declspec(align(16)) class cGameBase : public RWS::CSystemCommands, public cNonGameBase
 {
     public:
@@ -36,6 +37,10 @@ __declspec(align(16)) class cGameBase : public RWS::CSystemCommands, public cNon
 public:
     // RuffKing name; CD2 0x82651AB8 filters the +0x4C owner by runtime class.
     cGameBase *RetOwnerGameObject();
+    // Reference setter, inlined by the CD2 water-phantom callbacks.
+    void SetWaterZoneID(int id) { m_nWaterZoneID = id; }
+    // RuffKing name; CD2 0x82651B18 returns the +0x4C owner when it is a character, otherwise null.
+    const CHARACTER::cCharacter *RetOwnerCharacter() const;
     // CD2 script registration names the setter at 0x824C83F8; RuffKing names the member.
     void SetFullHealth(float);
     // RuffKing's three health members; CD2's script wrapper 0x8254E8E8 reads 0x110/0x114/0x118.
@@ -55,7 +60,8 @@ public:
     // Primary slots 68..140: cGameBase's own virtuals. CD2's cGameBase table (0x8212CA20, stored by the constructor
     // 0x82650610) has 141 slots. Names are not recovered yet; vfN is the slot index (the SlotN names cNonGameBase
     // uses drift by one from slot 32, so they are not reused here).
-    virtual void vf68(); virtual void vf69(); virtual void vf70(); virtual void vf71(); virtual void vf72(); virtual void vf73();
+    // Reference TermClump: CD2 slot 70 (0x82651180) releases the clump at +0xF4 and clears it.
+    virtual void vf68(); virtual void vf69(); virtual void TermClump(); virtual void vf71(); virtual void vf72(); virtual void vf73();
     virtual void vf74(); virtual void vf75(); virtual void vf76(); virtual void vf77(); virtual void vf78(); virtual void vf79();
     virtual void vf80(); virtual void vf81(); virtual void vf82(); virtual void vf83(); virtual void vf84(); virtual void vf85();
     virtual void vf86(); virtual void vf87(); virtual void vf88(); virtual void vf89(); virtual void vf90(); virtual void vf91();
@@ -69,11 +75,17 @@ public:
     virtual void vf110(); virtual void vf111(); virtual void vf112(); virtual void vf113(); virtual void vf114(); virtual void vf115();
     virtual void vf116(); virtual void vf117(); virtual void vf118(); virtual void vf119(); virtual void vf120(); virtual void vf121();
     virtual GOM::cPointOfInterest *RetPointOfInterest(int nPoint); virtual unsigned char RetNumPointsOfInterest(); virtual void vf124(); virtual void vf125(); virtual void vf126(); virtual void vf127();
-    virtual void vf128(); virtual void vf129(); virtual void vf130(); virtual void vf131(); virtual void vf132(); virtual void vf133();
+    virtual void vf128(); virtual void vf129(); virtual void vf130(); virtual void vf131();         virtual float vf132(); virtual void vf133();
     virtual void vf134(); virtual void vf135(); virtual void vf136(); virtual void vf137(); virtual void vf138(); virtual void vf139();
     virtual void vf140();
 private:
-    unsigned char m_unknown7C[0x110 - 0x7C];
+    unsigned char m_unknown7C[0x80 - 0x7C];
+    // Reference name; CD2 cWaterZonePhantom::OnGameObjectEnter stores the zone ID at +0x80.
+    int m_nWaterZoneID;
+    unsigned char m_unknown84[0x108 - 0x84];
+    // Descriptive name ours: CD2 TickUpdate (0x82808DC8) increments this word when m_nNGBFlags bit 0 is set.
+    unsigned int m_nTickCount;
+    unsigned char m_unknown10C[4];
     float m_fHealth;
     float m_fFullHealth;
     float m_fFullHealthMultiplier;
@@ -86,7 +98,7 @@ public:
     virtual void Slot14(); // 14: 0x8288FB78
     virtual void Slot15(); // 15: 0x82323C98
     virtual void Slot17(); // 17: 0x82650838
-    virtual void Slot23(); // 23: 0x82808DC8
+    virtual void TickUpdate(float fDeltaTime); // 23: 0x82808DC8
     virtual void Slot30(); // 30: 0x82651DB0
     virtual void LeaveRenderableState(); // 32: 0x822A12E0
     virtual void Slot40(); // 40: 0x82451458
@@ -105,6 +117,8 @@ public:
 private:
     CD2_LAYOUT_CHECKS(cGameBase,
         CD2_SIZE(cGameBase, 0x120)
+        CD2_OFFSET(cGameBase, m_nWaterZoneID, 0x80)
+        CD2_OFFSET(cGameBase, m_nTickCount, 0x108)
         CD2_OFFSET(cGameBase, m_fHealth, 0x110)
         CD2_OFFSET(cGameBase, m_fFullHealth, 0x114)
         CD2_OFFSET(cGameBase, m_fFullHealthMultiplier, 0x118))

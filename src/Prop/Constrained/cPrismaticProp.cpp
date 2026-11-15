@@ -25,6 +25,7 @@
 #include <new>
 #include "rws/classfactory.h"
 #include "Prop/cPrismaticProp.h"
+#include "Havok/hkPrismaticConstraintData.h"
 #include "cd2/memory.h"
 #include "fun_runtime/script_type_registrar.h"
 #include "fun_runtime/member_script_method.h"
@@ -32,6 +33,16 @@
 
 namespace Prop
 {
+    const Fun_Runtime::cClass &cPrismaticProp::RetClass() const
+    {
+        return *ms_pcPrismaticPropClass;
+    }
+
+    bool cPrismaticProp::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcPrismaticPropClass->IsA(c);
+    }
+
     RWS::CAttributeHandler *cPrismaticProp::MakeNew(const RWS::CAttributePacket &packet, bool)
     {
         return new cPrismaticPropPrototype(packet);
@@ -193,4 +204,63 @@ namespace Prop
     // CD2 script-type registration; constructor/table evidence identifies the child and parent.
     static Fun_Runtime::cScriptTypeRegistrar<cPrismaticProp> cPrismaticPropScriptRegistrar(
         "cPrismaticProp", "cProp");
+
+    void cPrismaticProp::Breakoff(bool)
+    {
+        if (RetPropPrototype()->m_nMotionType == eMT_FIXEDUNTILBROKEN)
+            GoToBrokenOffState();
+    }
+
+    void cPrismaticProp::EnterGhostState()
+    {
+        GoToBrokenOffState();
+        cProp::EnterGhostState();
+    }
+
+    void cPrismaticProp::OnSpawnedAsFragment(cGameBase *parent)
+    {
+        cProp::OnSpawnedAsFragment(parent);
+        GoToBrokenOffState();
+    }
+
+    void cPrismaticProp::SlideToMin()
+    {
+        if (IsInMaxState() || IsInSlidingToMaxState() || IsInSlidingFreeState())
+            GoToSlidingToMinState();
+    }
+
+    void cPrismaticProp::SlideFree()
+    {
+        if (IsInMaxState() || IsInMinState() || IsInSlidingToMaxState() || IsInSlidingToMinState())
+            GoToSlidingFreeState();
+    }
+
+    void cPrismaticProp::DestroyConstraintData()
+    {
+        if (m_pConstraintData)
+        {
+            m_pConstraintData->removeReference();
+            m_pConstraintData = 0;
+        }
+    }
+
+    void cPrismaticProp::DestroyMotor()
+    {
+        m_pConstraintData->setMotor(0);
+    }
+
+    Fun_Runtime::RetVal cPrismaticProp::cPrismaticPropPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
+
+    void cPrismaticProp::STATE_Min::EnterPhysicalState(Fun_Runtime::cStateMachine *machine)
+    {
+        static_cast<cPrismaticProp *>(machine)->ForceToMin();
+    }
+
+    void cPrismaticProp::STATE_Max::EnterPhysicalState(Fun_Runtime::cStateMachine *machine)
+    {
+        static_cast<cPrismaticProp *>(machine)->ForceToMax();
+    }
 }

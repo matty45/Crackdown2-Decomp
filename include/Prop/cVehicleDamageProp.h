@@ -45,7 +45,7 @@ namespace Prop
         virtual void Slot13(); // 13: 0x82732350
         virtual void Slot14(); // 14: 0x82732028
         virtual void Slot15(); // 15: 0x82730F50
-        virtual void Slot23(); // 23: 0x82732358
+        virtual void TickUpdate(float fDeltaTime); // 23: 0x82732358
         virtual void Slot24(); // 24: 0x82732458
         virtual void Slot64(); // 63: 0x82732148
         virtual void vf68(); // 68: 0x82732030

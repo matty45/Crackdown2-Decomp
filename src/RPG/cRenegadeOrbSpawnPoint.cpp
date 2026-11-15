@@ -18,6 +18,16 @@
 
 namespace RPG
 {
+    const Fun_Runtime::cClass &cRenegadeOrbSpawnPoint::RetClass() const
+    {
+        return *ms_pcRenegadeOrbSpawnPointClass;
+    }
+
+    bool cRenegadeOrbSpawnPoint::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcRenegadeOrbSpawnPointClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cRenegadeOrbSpawnPoint::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cRenegadeOrbSpawnPointClass = new Fun_Runtime::cClass(0x67C, "cRenegadeOrbSpawnPoint", 0x90);

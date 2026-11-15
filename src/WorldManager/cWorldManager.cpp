@@ -18,6 +18,16 @@ namespace WorldManager
 {
     cWorldManager *cWorldManager::ms_pInstance;
 
+    const Fun_Runtime::cClass &cWorldManager::RetClass() const
+    {
+        return *ms_pcWorldManagerClass;
+    }
+
+    bool cWorldManager::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcWorldManagerClass->IsA(c);
+    }
+
     const char *cWorldManager::RetClassName() const
     {
         return "cWorldManager";

@@ -32,7 +32,7 @@ namespace Vehicle
         // base's table does not hold there, so the class overrides it; names and signatures are the bases'. The
         // destructor slot holds cCar's folded copy: the class declares no destructor.
         virtual Fun_Runtime::RetVal Init(const GOM::cSpawner *);    // 18: 0x826EA150
-        virtual void Slot23();                                  // 23: 0x826EA020
+        virtual void TickUpdate(float fDeltaTime);                                  // 23: 0x826EA020
         virtual void Slot24();                                  // 24: 0x826EA098
         virtual Fun_Runtime::RetVal Slot37();                                  // 37: 0x826EA200
         virtual Fun_Runtime::RetVal Reinitialise(const GOM::cSpawner *);    // 38: 0x826EA1A8

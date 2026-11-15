@@ -31,6 +31,16 @@
 
 namespace CHARACTER
 {
+    const Fun_Runtime::cClass &cCharacter::RetClass() const
+    {
+        return *ms_pcCharacterClass;
+    }
+
+    bool cCharacter::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcCharacterClass->IsA(c);
+    }
+
     RWS::CAttributeHandler *cCharacter::MakeNew(const RWS::CAttributePacket &packet, bool)
     {
         return new cCharacterPrototype(packet);

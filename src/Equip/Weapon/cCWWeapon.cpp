@@ -62,6 +62,16 @@ namespace Equip
 
     const Fun_Runtime::cClass *cCWWeapon::ms_pcCWWeaponClass = &cCWWeapon::StaticCreateClass();
 
+    const Fun_Runtime::cClass &cCWWeapon::RetClass() const
+    {
+        return *ms_pcCWWeaponClass;
+    }
+
+    bool cCWWeapon::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcCWWeaponClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cCWWeapon::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cCWWeaponClass = new Fun_Runtime::cClass(0x3E82, "cCWWeapon", 0xA10);
@@ -116,6 +126,23 @@ namespace Equip
     const Fun_Runtime::cScriptTypeRegistration *cCWWeapon::RetScriptTypeRegistration() const
     {
         return &cCWWeaponScriptRegistrar;
+    }
+
+    // CD2 0x82256348 (order-list region). Its copy also expands Audio::cGameObject's out-of-line destructor for
+    // m_WeaponPhysicsAudio, which only cross-module LTCG inlining explains (Audio/cGameObject.h), so it is not claimed;
+    // defining it emits the class's table, deleting destructor and adjustor thunks.
+    cCWWeapon::~cCWWeapon()
+    {
+        for (int i = 0; i < 2; ++i)
+        {
+            if (m_pMuzzleEffect[i])
+            {
+                m_pMuzzleEffect[i]->StopEmitters();
+                m_pMuzzleEffect[i]->SetAsOrphan();
+                m_pMuzzleEffect[i]->Release();
+                m_pMuzzleEffect[i] = 0;
+            }
+        }
     }
 
     bool cCWWeapon::CanAttack()

@@ -92,7 +92,7 @@ namespace PHYSICS
         virtual void Slot14(); // 14: 0x8272C228
         virtual void Slot15(); // 15: 0x82608298
         virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // 18: 0x8263ACD0
-        virtual void Slot23(); // 23: 0x82325CF8
+        virtual void TickUpdate(float fDeltaTime); // 23: 0x82325CF8
         virtual void Slot24(); // 24: 0x8272A7F8
         virtual void LeavePhysicalState(); // 27: 0x821D0000
         virtual bool EnterRenderableState(eResourcesType); // 31: 0x822DC0B0

@@ -44,7 +44,7 @@ namespace unknown
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
         virtual void Slot13(); // 13: 0x82740E80
-        virtual void Slot23(); // 23: 0x82740BF8
+        virtual void TickUpdate(float fDeltaTime); // 23: 0x82740BF8
         virtual Fun_Runtime::cClass const & RetClass() const; // cBody 0: 0x82740F10
         virtual bool IsA(Fun_Runtime::cClass const &) const; // cBody 1: 0x82740F18
     };

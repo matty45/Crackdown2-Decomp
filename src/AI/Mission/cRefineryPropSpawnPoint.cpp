@@ -10,6 +10,16 @@
 
 namespace AI
 {
+    const Fun_Runtime::cClass &cRefineryPropSpawnPoint::RetClass() const
+    {
+        return *ms_pcRefineryPropSpawnPointClass;
+    }
+
+    bool cRefineryPropSpawnPoint::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcRefineryPropSpawnPointClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cRefineryPropSpawnPoint::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cRefineryPropSpawnPointClass = new Fun_Runtime::cClass(0x405, "cRefineryPropSpawnPoint", 0x2E0);

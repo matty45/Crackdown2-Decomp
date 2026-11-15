@@ -28,6 +28,16 @@ namespace unknown
 {
     const Fun_Runtime::cClass *cTeleporterDoor::ms_pcTeleporterDoorClass = &cTeleporterDoor::StaticCreateClass();
 
+    const Fun_Runtime::cClass &cTeleporterDoor::RetClass() const
+    {
+        return *ms_pcTeleporterDoorClass;
+    }
+
+    bool cTeleporterDoor::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcTeleporterDoorClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cTeleporterDoor::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cTeleporterDoorClass = new Fun_Runtime::cClass(0x1022, "cTeleporterDoor", 0xEF0);

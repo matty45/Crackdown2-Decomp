@@ -21,13 +21,31 @@
 #include "AI/aiconstants.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "gom/non_game_base.h"
+#include "gom/game_base.h"
 #include "rws/classfactory.h"
+#include "rws/logic.h"
 #include "PHYSICS/cWaterZone.h"
+#include "PHYSICS/cWaterZonePhantom.h"
 #include "cd2/memory.h"
 
 namespace PHYSICS
 {
     const Fun_Runtime::cClass *cWaterZone::ms_pcWaterZoneClass = &cWaterZone::StaticCreateClass();
+
+    const Fun_Runtime::cClass &cWaterZone::RetClass() const
+    {
+        return *ms_pcWaterZoneClass;
+    }
+
+    bool cWaterZone::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcWaterZoneClass->IsA(c);
+    }
+
+    RWS::CAttributeHandler *cWaterZone::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cWaterZone;
+    }
 
     Fun_Runtime::cClass &cWaterZone::StaticCreateClass()
     {
@@ -46,4 +64,34 @@ namespace PHYSICS
     {
         return "cWaterZone";
     }
+    Fun_Runtime::RetVal cWaterZone::Term()
+    {
+        UnLinkMsg(RWS::iMsgRunningTick);
+        if (m_pWaterPhantom)
+        {
+            m_pWaterPhantom->Term();
+            // Term is virtual; CD2 rechecks the member and clears it only when deletion runs.
+            if (m_pWaterPhantom)
+            {
+                delete m_pWaterPhantom;
+                m_pWaterPhantom = 0;
+            }
+        }
+        cNonGameBase::Term();
+        return Ret_OK;
+    }
+
+    void cWaterZone::TickUpdate(float)
+    {
+        m_pWaterPhantom->Update();
+    }
+
+    void cWaterZonePhantom::OnGameObjectEnter(cGameBase *object)
+    {
+        if (m_pParent->GetIsAntiWater())
+            object->SetWaterZoneID(-2);
+        else
+            object->SetWaterZoneID(m_pParent->m_nID);
+    }
+
 }

@@ -75,6 +75,16 @@ namespace Vehicle
         return Fun_Runtime::g_GlobalConstants.CONST_FLOAT_0;
     }
 
+    void cVehicle::Slot30()
+    {
+        cGameBase::Slot30();
+    }
+
+    float cVehicle::vf132()
+    {
+        return g_8373BB18;
+    }
+
     void cVehicle::SetIsBeingHiJackedByAI(bool bHiJacked)
     {
         m_bIsBeingHiJackedByAI = bHiJacked;

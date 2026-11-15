@@ -28,6 +28,16 @@
 
 namespace unknown
 {
+    const Fun_Runtime::cClass &cVirtualCamera::RetClass() const
+    {
+        return *ms_pcVirtualCameraClass;
+    }
+
+    bool cVirtualCamera::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcVirtualCameraClass->IsA(c);
+    }
+
     RWS::CAttributeHandler *cVirtualCamera::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cVirtualCamera;

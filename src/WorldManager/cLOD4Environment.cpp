@@ -19,11 +19,17 @@
 #include "gom/game_base.h"
 #include "rws/classfactory.h"
 #include "WorldManager/cLOD4Environment.h"
+#include "WorldManager/cStaticEnvironment.h"
 #include "cd2/memory.h"
 
 namespace WorldManager
 {
     const Fun_Runtime::cClass *cLOD4Environment::ms_pcLOD4EnvironmentClass = &cLOD4Environment::StaticCreateClass();
+
+    RWS::CAttributeHandler *cLOD4Environment::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cLOD4Environment;
+    }
 
     Fun_Runtime::cClass &cLOD4Environment::StaticCreateClass()
     {
@@ -46,5 +52,24 @@ namespace WorldManager
     const Fun_Runtime::cClass &cLOD4Environment::RetClass() const
     {
         return *ms_pcLOD4EnvironmentClass;
+    }
+
+    void cLOD4Environment::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cGameBase::HandleAttributes(packet);
+        if (packet.IsInstanceCreationPacket())
+            m_EventHandler.Register(this, packet.GetInstanceId());
+    }
+
+    bool cLOD4Environment::AnyLOD3Fading() const
+    {
+        for (const Fun_Runtime::cSafeDeletablePointer<cStaticEnvironment> *block = m_vpEnvBlocks.begin();
+             block != m_vpEnvBlocks.end(); ++block)
+        {
+            const cStaticEnvironment *environment = *block;
+            if (environment && (environment->RetFadeState() == eFS_FadeIn || environment->RetFadeState() == eFS_FadeOut))
+                return true;
+        }
+        return false;
     }
 }

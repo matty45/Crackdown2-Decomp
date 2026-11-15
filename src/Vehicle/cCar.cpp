@@ -66,6 +66,48 @@ namespace Vehicle
         return *cCarClass;
     }
 
+    void cCar::HandleDeathDamage(cGameBase *instigator, CHARACTER::cCharacterInterface *attacker,
+        unsigned char activationType)
+    {
+        TerminatePintleMounts(true);
+        cVehicle::HandleDeathDamage(instigator, attacker, activationType);
+    }
+
+    void cCar::vf365()
+    {
+        cLandVehicle::vf365();
+        TerminatePintleMounts(false);
+    }
+
+    Fun_Runtime::RetVal cCar::Term()
+    {
+        TerminatePintleMounts(false);
+        cLandVehicle::Term();
+        return Ret_OK;
+    }
+
+    Fun_Runtime::RetVal cCar::TermForReuse()
+    {
+        TerminatePintleMounts(false);
+        cLandVehicle::TermForReuse();
+        return Ret_OK;
+    }
+
+    void cCar::TerminatePintleMounts(bool spawnBlownUp)
+    {
+        for (int i = 0; i < 2; ++i)
+        {
+            cPintleMount &mount = m_aPintleMounts[i];
+            mount.TerminateWeapon(spawnBlownUp);
+            mount.TerminateFaceplate(spawnBlownUp);
+            mount.m_pAttachedWeapon = 0;
+            mount.m_pFacePlateProp = 0;
+            mount.m_pParent = 0;
+            mount.m_pReplicationHost = 0;
+            mount.Reset();
+        }
+    }
+
     Fun_Runtime::RetVal cCar::cCarPrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;

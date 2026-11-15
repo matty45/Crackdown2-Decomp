@@ -49,7 +49,7 @@ namespace Prop
     public:
         virtual bool EnterPhysicalState(); // 7: 0x8272A070
         virtual void Slot14(); // 14: 0x82745A90
-        virtual void Slot23(); // 23: 0x82745B98
+        virtual void TickUpdate(float fDeltaTime); // 23: 0x82745B98
         // CD2: cSearchLight's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:

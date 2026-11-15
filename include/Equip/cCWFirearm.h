@@ -2,6 +2,7 @@
 #include "Equip/cCWWeapon.h"
 #include "gom/object_prototype.h"
 #include "rws/attributes.h"
+#include "Equip/cUVLightAttachment.h"
 // Equip::cCWFirearm (Crackdown 2): STAND-IN: constructor-confirmed base; remaining instance fields are not modelled.
 // StaticCreateClass (0x82617DD0) builds cClass(0x3E81, "cCWFirearm", 0xAB0); 0xAB0 is the size its registrar gives.
 #ifndef EQUIP_CCWFIREARM_H
@@ -14,8 +15,12 @@ namespace Equip
     class cCWFirearm : public Equip::cCWWeapon
     {
     public:
-        // CD2 table 0x820140A8 extends the inherited interface at these slots.
-        virtual void vf410();
+        // CD2 table 0x820140A8 extends the inherited interface at these slots. Slot 410 is RuffKing's first new virtual
+        // here, RetBulletDamageOverride: CD2's default (0x828D8C58) returns a float constant, and cChainGun's override
+        // (0x82616E60) returns the damage for its barrel speed.
+    protected:
+        virtual float RetBulletDamageOverride();
+    public:
         virtual void vf411();
         virtual void vf412();
 
@@ -27,6 +32,9 @@ namespace Equip
         {
         public:
             cCWFirearmPrototype(const RWS::CAttributePacket &);
+            // Inline: CD2's deleting destructor 0x82616FD0 restores this class's tables and calls cCWWeaponPrototype's
+            // destructor; cChainGunPrototype's implicit one folds into it.
+            virtual ~cCWFirearmPrototype() {}
             // CD2 own table 0x820056B0 differs from cCWWeaponPrototype here.
             virtual void HandleAttributes(const RWS::CAttributePacket &); // 1: 0x823728F8
             virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &); // 5: 0x82618768
@@ -45,6 +53,10 @@ namespace Equip
         cCWFirearm();
         // CD2 0x82617DA8: primary virtual slot 11 returns the registered class name.
         virtual const char *RetClassName() const;
+        // CD2 0x82617CE0 / 0x82617CF0: the registered-class pair; the cBody (+0xF0) and cReplicatedClass (+0x4E0)
+        // tables reach them through this object's thunks 0x826187C8/0x82618778 and 0x826187A0/0x826187B0.
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         // CD2 spawning initializer 0x82FCEA40 names placement factory 0x82617db8.
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
@@ -52,8 +64,12 @@ namespace Equip
         static Fun_Runtime::cClass &StaticCreateClass();
 
     private:
-        // Own fields not recovered; 0xAB0 is the size its class-factory registrar gives (derived classes start there).
-        unsigned char m_unmodelledA10[0xAB0 - 0xA10];
+        // Own fields not recovered up to the light attachment; 0xAB0 is the size its class-factory registrar gives
+        // (derived classes start there).
+        unsigned char m_unmodelledA10[0xA40 - 0xA10];
+        // CD2 0x82617EB8 restores cLightAttachment's table (0x821227F0) at 0xA40 with the base tables; RuffKing's
+        // last member, 0x70 bytes, which ends the class at 0xAB0.
+        cUVLightAttachment m_UVLightAttachment;
 
         // CD2: cCWFirearm's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
@@ -61,7 +77,7 @@ namespace Equip
         virtual Fun_Runtime::RetVal Term(); // 6: 0x82617F58
         virtual void Slot13(); // 13: 0x82617FB0
         virtual void Slot14(); // 14: 0x82618008
-        virtual void Slot23(); // 23: 0x822DC738
+        virtual void TickUpdate(float fDeltaTime); // 23: 0x822DC738
         virtual void vf257(); // 257: 0x826181F8
         virtual void vf279(); // 279: 0x82399798
         virtual Fun_Runtime::cScriptTypeRegistration const * RetScriptTypeRegistration() const; // cSafeDeletable 1: 0x826164D0
@@ -74,7 +90,9 @@ namespace Equip
         virtual bool IsLightAttachmentActive() const; // 340: 0x826181A0
         virtual void NotifyTracked(Equip::cEquipment *); // 341: 0x826181C8
     private:
-        CD2_LAYOUT_CHECKS(cCWFirearm, CD2_SIZE(cCWFirearm, 0xAB0))
+        CD2_LAYOUT_CHECKS(cCWFirearm,
+            CD2_SIZE(cCWFirearm, 0xAB0)
+            CD2_OFFSET(cCWFirearm, m_UVLightAttachment, 0xA40))
 
     public:
         // CD2 table 0x820140A8 differs from cCWWeapon at these inherited slots.

@@ -61,6 +61,11 @@ namespace Vehicle
         return *cTruckClass;
     }
 
+    Fun_Runtime::RetVal cTruck::Init(const GOM::cSpawner *spawner)
+    {
+        return cCar::Init(spawner);
+    }
+
     void cTruck::RemoveWedge()
     {
         if (m_pWedgeRigidBody)

@@ -51,6 +51,16 @@
 
 namespace AI
 {
+    const Fun_Runtime::cClass &cCharacterEntityIF::RetClass() const
+    {
+        return *ms_pcCharacterEntityIFClass;
+    }
+
+    bool cCharacterEntityIF::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcCharacterEntityIFClass->IsA(c);
+    }
+
     bool cCharacterEntityIF::IsInViewCone(Fun_Runtime::cScriptHost *object)
     {
         return m_pAIEntity->IsInViewCone(object);
@@ -249,6 +259,93 @@ namespace AI
         if ((p->RetActionManager().RetCharacterStateInfo().m_flags[1] & 0x40) != 0)
             return 180.0f;
         return t->m_fViewingAngle;
+    }
+
+    float cCharacterEntityIF::RetHeight()
+    {
+        return m_pAIEntity->m_attrHeight->GetHeight();
+    }
+
+    float cCharacterEntityIF::RetRadius()
+    {
+        return m_pAIEntity->m_attrWidth->GetWidth() * 0.5f;
+    }
+
+    void cCharacterEntityIF::SetPerceptionOptions(unsigned int nPerceptionOptions)
+    {
+        m_nPerceptionOptions = nPerceptionOptions;
+    }
+
+    void cCharacterEntityIF::SetViewingDistance(float fViewingDistance)
+    {
+        m_pAIEntity->m_fViewingDistance = fViewingDistance;
+    }
+
+    void cCharacterEntityIF::SetPlayerViewingDistance(float fViewingDistance)
+    {
+        m_pAIEntity->m_fPlayerViewingDistance = fViewingDistance;
+    }
+
+    void cCharacterEntityIF::SetThreatObjectViewingDistance(float fViewingDistance)
+    {
+        m_pAIEntity->m_fThreatObjectViewingDistance = fViewingDistance;
+    }
+
+    void cCharacterEntityIF::SetHearingAcuteness(float fHearingAcuteness)
+    {
+        m_pAIEntity->m_fHearingAcuteness = fHearingAcuteness;
+    }
+
+    void cCharacterEntityIF::SetBreakTrafficLaws(unsigned char value)
+    {
+        m_bBreakTrafficLaws = value;
+    }
+
+    bool cCharacterEntityIF::ForceIntoVehicle(Vehicle::cVehicle *pVehicle, unsigned int nSeat)
+    {
+        m_pCharacterBrain->SetInVehicle(true);
+        return cCharacterInterface::ForceIntoVehicle(pVehicle, nSeat);
+    }
+
+    bool cCharacterEntityIF::ForceOutOfVehicle()
+    {
+        m_pCharacterBrain->SetInVehicle(false);
+        return RetCharacter()->RetActionManager().ForceOutOfVehicle();
+    }
+
+    void cCharacterEntityIF::DropImmediately()
+    {
+        m_pCharacterBrain->DropImmediately();
+    }
+
+    void cCharacterEntityIF::ExitVehicleImmediately()
+    {
+        m_pCharacterBrain->SetInVehicle(false);
+    }
+
+    void cCharacterEntityIF::CrouchImmediately()
+    {
+        m_pCharacterBrain->CrouchImmediately();
+    }
+
+    void cCharacterEntityIF::UncrouchImmediately()
+    {
+        m_pCharacterBrain->UncrouchImmediately();
+    }
+
+    bool cCharacterEntityIF::IsTryingToCrouch()
+    {
+        return m_pCharacterBrain->IsTryingToCrouch();
+    }
+
+    void cCharacterEntityIF::SetAiming(bool bAiming)
+    {
+        m_pCharacterBrain->SetAiming(bAiming);
+    }
+
+    bool cCharacterEntityIF::IsAIEntityOwner(Kaim::CEntity *pEntity)
+    {
+        return pEntity == m_pAIEntity;
     }
 
     cObjectInstigatorEvent::cObjectInstigatorEvent(Fun_Runtime::cScriptHost *source,

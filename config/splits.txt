@@ -76,7 +76,7 @@ src/Activity/LongDistanceProps/cLongDistancePropManager.cpp
 src/AI/cAiPlayer.cpp
   atexit 0x83039780   # script registrar for cAIPlayer; registration table 0x820FB0E8
   init 0x82F605D0   # script registrar for cAIPlayer; registration table 0x820FB0E8
-  text 0x823E77C8 0x823EB638   # auto: cAiPlayer; RuffKing cAiPlayer.obj; 20 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 1 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x823E77C8 0x823EBB50   # auto: cAiPlayer; RuffKing cAiPlayer.obj; 20 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 1 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x823EBB50): an object's thunks close its code, so the functions between belong to it too
   init 0x82F60538
   atexit 0x83039758
   init 0x82F604A8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -110,6 +110,7 @@ src/AI/cAiPlayer.cpp
   init 0x82F606B8   # enum object 0x83803474 installs table 0x820FB108
   atexit 0x830397C0   # enum object restores common table 0x82147468
   atexit 0x83039768   # at-exit destructor of cAiPlayerSpawningRegistrar, registered by its initializer 0x82F60588
+  hot 0x8222FC18   # cAiPlayer::IsA (order-list region): slot 1 of the registered-class table cAiPlayer's constructor installs, reading the class pointer its RetClass (0x823E7968) reads
 
 src/AI/cCharacterEntityIF.cpp
   init 0x82F60FD0   # attack-state enum object 0x83803600 installs table 0x820FBF4C
@@ -124,7 +125,7 @@ src/AI/cCharacterEntityIF.cpp
   atexit 0x83039878   # movement enum destructor restores common table 0x82147468
   atexit 0x83039868   # script registrar for cCharacterEntityIF; registration table 0x820FBF20
   init 0x82F60E58   # script registrar for cCharacterEntityIF; registration table 0x820FBF20
-  text 0x823EBE90 0x823F017C   # auto: cCharacterEntityIF; RuffKing cCharacterEntityIF.obj; 6 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x823EBE20 0x823FCC08   # auto: cCharacterEntityIF; RuffKing cCharacterEntityIF.obj; 6 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x823FCC08): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x823EBE20 (they read the class pointer this object's initializer sets)
   init 0x82F60DC0
   atexit 0x83039840
   init 0x82F60D30   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -204,7 +205,7 @@ src/AI/Navigation/cLogicalGraph.cpp
   atexit 0x83039FF0   # header static CHARACTER::gRandGen (characterconsts.h): its at-exit destructor, registered by the initializer
 
 src/AI/Animation/cAIAnimEventProfile.cpp
-  text 0x8243D1A8 0x8243D5C8   # auto: cAIAnimEventProfile; RuffKing cAIAnimEventProfile.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x8243D1A8 0x8243D5F0   # auto: cAIAnimEventProfile; RuffKing cAIAnimEventProfile.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x8243D5F0): an object's thunks close its code, so the functions between belong to it too
   init 0x82F769F0
   atexit 0x8303A0A8
   init 0x82F76960   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -443,7 +444,7 @@ src/AI/Targeting/cFactionTargetingProfile.cpp
 src/cStaticInterestingObject.cpp
   init 0x82F85E30   # CD2 script-type registrar names cStaticInterestingObject; table method 0x82455818 is in this file
   atexit 0x8303AE70 # destroys the same script-type registrar
-  text 0x824556F8 0x82455FF4   # auto: cStaticInterestingObject; not in RuffKing; 6 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x824556F8 0x82456070   # auto: cStaticInterestingObject; not in RuffKing; 6 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82456070): an object's thunks close its code, so the functions between belong to it too
   init 0x82F85F18
   atexit 0x8303AE80
   init 0x82F85E88   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -471,7 +472,7 @@ src/cStaticInterestingObject.cpp
   atexit 0x8303AE68   # header static CHARACTER::gRandGen (characterconsts.h): its at-exit destructor, registered by the initializer
 
 src/AI/Mission/cRefineryMission.cpp
-  text 0x82456A10 0x82457270   # auto: cRefineryMission; RuffKing cRefineryMission.obj; 12 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82456A10 0x82457800   # auto: cRefineryMission; RuffKing cRefineryMission.obj; 12 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82457800): an object's thunks close its code, so the functions between belong to it too
   hot 0x8237E1B8   # cRefineryMission::StaticCreateClass (order-list region), named by this object's class-pointer initializer
   init 0x82F863E8
   atexit 0x8303AEA8
@@ -500,7 +501,7 @@ src/AI/Mission/cRefineryMission.cpp
   init 0x82F862A8   # header static (cRagdollProfile.h): inside this object's initializer run, which reads one g_GlobalConstants copy (0x830B7914)
 
 src/AI/Mission/cSupplyValve.cpp
-  text 0x82457BA0 0x82458624   # auto: cSupplyValve; RuffKing cSupplyValve.obj; 11 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82457B30 0x82458678   # auto: cSupplyValve; RuffKing cSupplyValve.obj; 11 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82458678): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x82457B30 (they read the class pointer this object's initializer sets)
   init 0x82F86680
   atexit 0x8303AEC0
   init 0x82F865F0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -524,7 +525,7 @@ src/AI/Mission/cSupplyValve.cpp
 
 # RuffKing module 1316 (cMission.obj, Libraries/Shared/AI/Mission/cMission.cpp): this run (from 0x82F86A90), between cSupplyValveSpawnPoint.cpp's and cMissionCriticalProp.cpp's, has initializers that use strings only that object's initializers use
 src/AI/Mission/cMission.cpp
-  text 0x82458CC0 0x82459A34   # 17 function(s) between cSupplyValveSpawnPoint.cpp and cMissionCriticalProp.cpp: 2 reached only from this run's initializers; 5 using strings only cMission.obj's code uses
+  text 0x82458CC0 0x8245A5F0   # 17 function(s) between cSupplyValveSpawnPoint.cpp and cMissionCriticalProp.cpp: 2 reached only from this run's initializers; 5 using strings only cMission.obj's code uses; extended 2026-11-14 to its adjustor thunks (the last ends at 0x8245A5F0): an object's thunks close its code, so the functions between belong to it too
   init 0x82F86A90   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82F86AB8   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82F86AE0   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
@@ -548,7 +549,7 @@ src/AI/Mission/cMission.cpp
   atexit 0x8303AF10   # header static CHARACTER::gRandGen (characterconsts.h): its at-exit destructor, registered by the initializer
 
 src/AI/Mission/cMissionCriticalProp.cpp
-  text 0x8245AEC0 0x8245B5F4   # auto: cMissionCriticalProp; RuffKing cMissionCriticalProp.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended through RetInteractionAnimID at 0x8245B5E8: own primary table 0x82102F88 slot 335 and RuffKing declaration
+  text 0x8245AE50 0x8245B6C8   # auto: cMissionCriticalProp; RuffKing cMissionCriticalProp.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended through RetInteractionAnimID at 0x8245B5E8: own primary table 0x82102F88 slot 335 and RuffKing declaration; extended 2026-11-14 to its adjustor thunks (the last ends at 0x8245B6C8): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x8245AE50 (they read the class pointer this object's initializer sets)
   init 0x82F87350
   atexit 0x8303AF40
   init 0x82F872C0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -608,7 +609,7 @@ src/AI/cBeaconProp.cpp
   atexit 0x8303AFA8   # at-exit destructor of cBeaconPropSpawningRegistrar, registered by its initializer 0x82F87CA8
 
 src/AI/Mission/AU/cAgencyTowerSegmentMission.cpp
-  text 0x8245C6D8 0x8245D110   # auto: cAgencyTowerSegmentMission; RuffKing cAgencyTowerSegmentMission.obj; 10 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8245C6D8 0x8245D410   # auto: cAgencyTowerSegmentMission; RuffKing cAgencyTowerSegmentMission.obj; 10 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x8245D410): an object's thunks close its code, so the functions between belong to it too
   init 0x82F88090
   atexit 0x8303AFC8
   init 0x82F88000   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -636,7 +637,7 @@ src/AI/Mission/AU/cAgencyTowerSegmentMission.cpp
   init 0x82F87F50   # header static (cRagdollProfile.h): inside this object's initializer run, which reads one g_GlobalConstants copy (0x830B7F30)
 
 src/AI/Mission/AU/cAUMission.cpp
-  text 0x8245D490 0x8245F548   # auto: cAUMission; RuffKing cAUMission.obj; 20 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8245D490 0x8245F698   # auto: cAUMission; RuffKing cAUMission.obj; 20 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x8245F698): an object's thunks close its code, so the functions between belong to it too
   init 0x82F88480
   atexit 0x8303AFE0
   init 0x82F883F0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -717,7 +718,7 @@ src/AI/Mission/AU/cBeaconShock.cpp
   atexit 0x8303B020   # header static CHARACTER::gRandGen (characterconsts.h): its at-exit destructor, registered by the initializer
 
 src/AI/Mission/AU/cFinalMission.cpp
-  text 0x8246A7C0 0x8246E644   # auto: cFinalMission; RuffKing cFinalMission.obj; 14 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8246A7C0 0x8246E6E8   # auto: cFinalMission; RuffKing cFinalMission.obj; 14 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x8246E6E8): an object's thunks close its code, so the functions between belong to it too
   init 0x82F89398
   atexit 0x8303B038
   init 0x82F89308   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -745,7 +746,7 @@ src/AI/Mission/AU/cFinalMission.cpp
   init 0x82F89258   # header static (cRagdollProfile.h): inside this object's initializer run, which reads one g_GlobalConstants copy (0x830B837C)
 
 src/AI/cBreachHole.cpp
-  text 0x8246E6E8 0x82470274   # auto: cBreachHole; RuffKing cBreach.obj; 10 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8246E6E8 0x82470E18   # auto: cBreachHole; RuffKing cBreach.obj; 10 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82470E18): an object's thunks close its code, so the functions between belong to it too
   init 0x82F89720
   atexit 0x8303B050
   init 0x82F896F8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -772,7 +773,7 @@ src/AI/cBreachHole.cpp
   init 0x82F89648   # header static (cRagdollProfile.h): inside this object's initializer run, which reads one g_GlobalConstants copy (0x830B8444)
 
 src/AI/Mission/BreachHole/cBreachExplosion.cpp
-  text 0x82470E18 0x82471204   # auto: cBreachExplosion; RuffKing cBreachExplosion.obj; 7 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82470E18 0x82471300   # auto: cBreachExplosion; RuffKing cBreachExplosion.obj; 7 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82471300): an object's thunks close its code, so the functions between belong to it too
   init 0x82F89AB0
   atexit 0x8303B068
   init 0x82F89770   # header static (physicsconsts.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
@@ -795,7 +796,7 @@ src/AI/Mission/BreachHole/cBreachExplosion.cpp
   atexit 0x8303B060   # header static CHARACTER::gRandGen (characterconsts.h): its at-exit destructor, registered by the initializer
 
 src/AI/Mission/BreachHole/cBreachHoleMission.cpp
-  text 0x82471300 0x82473370   # auto: cBreachHoleMission; RuffKing cBreachHoleMission.obj; 15 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82471300 0x82473D58   # auto: cBreachHoleMission; RuffKing cBreachHoleMission.obj; 15 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82473D58): an object's thunks close its code, so the functions between belong to it too
   init 0x82F89EA0
   atexit 0x8303B080
   init 0x82F89E10   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -896,7 +897,7 @@ src/AI/Mission/cCellStrongholdMission.cpp
   init 0x82F8A798   # header static (cRagdollProfile.h): inside this object's initializer run, which reads one g_GlobalConstants copy (0x830B8810)
 
 src/AI/Mission/Delivery_Manager/cAgencyGarage.cpp
-  text 0x82479B10 0x8247A560   # auto: cAgencyGarage; RuffKing cAgencyGarage.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x82479B10 0x8247AFE8   # auto: cAgencyGarage; RuffKing cAgencyGarage.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x8247AFE8): an object's thunks close its code, so the functions between belong to it too
   init 0x82F8B1E8
   atexit 0x8303B100
   init 0x82F8AE20   # header static (physicsconsts.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
@@ -922,7 +923,7 @@ src/AI/Mission/Delivery_Manager/cAgencyGarage.cpp
   atexit 0x8303B0F8   # header static CHARACTER::gRandGen (characterconsts.h): its at-exit destructor, registered by the initializer
 
 src/AI/Mission/Training/cTrainingMission.cpp
-  text 0x8247EE78 0x82484EE4   # auto: cTrainingMission; RuffKing cTrainingMission.obj; 12 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 1 function(s) before and 4 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x8247EE78 0x82485588   # auto: cTrainingMission; RuffKing cTrainingMission.obj; 12 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 1 function(s) before and 4 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82485588): an object's thunks close its code, so the functions between belong to it too
   init 0x82F8BC88
   atexit 0x8303B148
   init 0x82F8B940   # header static (physicsproject.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
@@ -1003,7 +1004,7 @@ src/AI/Mission/Training/cTrainingVOARouteEvent.cpp
   init 0x82F8D2F0   # class pointer: cTrainingVOARouteEvent::ms_pcTrainingVOARouteEventClass = StaticCreateClass(), which CD2 inlines here (its descriptor "cTrainingVOARouteEvent")
 
 src/AI/cTRCamLookAtStop.cpp
-  text 0x824872C8 0x824877E4   # auto: cTRCamLookAtStop; RuffKing TCamCutEvents.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-07 to the end of cTRCamLookAtStop::StaticCreateClass (0x82487740), which its class-pointer initializer names
+  text 0x824872C8 0x824877F0   # auto: cTRCamLookAtStop; RuffKing TCamCutEvents.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-07 to the end of cTRCamLookAtStop::StaticCreateClass (0x82487740), which its class-pointer initializer names; extended 2026-11-14 to its adjustor thunks (the last ends at 0x824877F0): an object's thunks close its code, so the functions between belong to it too
   init 0x82F8D6E8
   atexit 0x8303B1C8
   init 0x82F8D480   # header static (physicsproject.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
@@ -1251,7 +1252,7 @@ src/AI/Mission/cPlayerRejectionZone.cpp
   atexit 0x8303B2F0   # header static CHARACTER::gRandGen (characterconsts.h): its at-exit destructor, registered by the initializer
 
 src/AI/Mission/cAmbientEventMission.cpp
-  text 0x8248DA90 0x8248DEE0   # auto: cAmbientEventMission; RuffKing cAmbientEventMission.obj; 6 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8248DA20 0x8248E2E8   # auto: cAmbientEventMission; RuffKing cAmbientEventMission.obj; 6 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x8248E2E8): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x8248DA20 (they read the class pointer this object's initializer sets)
   init 0x82F90148
   atexit 0x8303B310
   init 0x82F900B8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -1387,7 +1388,7 @@ src/AI/Behaviour/NPC/NPCBehaviour.cpp
   init 0x82F91580   # header static (cRagdollProfile.h): inside this object's initializer run, which reads one g_GlobalConstants copy (0x830BA120)
 
 src/AI/Behaviour/NPC/Civilian/Pedestrian.cpp
-  text 0x824A8CB0 0x824A90B0   # auto: Pedestrian; RuffKing Pedestrian.obj; 8 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x824A8CB0 0x824A90B8   # auto: Pedestrian; RuffKing Pedestrian.obj; 8 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x824A90B8): an object's thunks close its code, so the functions between belong to it too
   init 0x82F925E0
   atexit 0x8303B710
   init 0x82F92550   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -1508,7 +1509,7 @@ src/AI/Behaviour/NPC/Civilian/PedestrianInjured.cpp
   atexit 0x8303B7B8   # at-exit destructor of PedestrianInjuredSpawningRegistrar, registered by its initializer 0x82F932E8
 
 src/AI/Behaviour/NPC/Freak/FreakBase.cpp
-  text 0x824ABBA0 0x824B0B74   # auto: FreakBase; RuffKing FreakBase.obj; 12 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x824ABBA0 0x824B0CB8   # auto: FreakBase; RuffKing FreakBase.obj; 12 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x824B0CB8): an object's thunks close its code, so the functions between belong to it too
   init 0x82F936D0
   atexit 0x8303B7D8
   init 0x82F93640   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -1569,7 +1570,7 @@ src/AI/Behaviour/NPC/Freak/Goliath.cpp
   atexit 0x8303B828   # at-exit destructor of GoliathSpawningRegistrar, registered by its initializer 0x82F93B58
 
 src/AI/Behaviour/NPC/Freak/Reaper.cpp
-  text 0x824B2640 0x824B8300   # auto: Reaper; RuffKing Reaper.obj; 33 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x824B2640 0x824BAA18   # auto: Reaper; RuffKing Reaper.obj; 33 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x824BAA18): an object's thunks close its code, so the functions between belong to it too
   init 0x82F93F40
   atexit 0x8303B848
   init 0x82F93EB0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -1720,7 +1721,7 @@ src/AI/cReaperJumpEvent.cpp
   init 0x82F95218   # class pointer: cReaperJumpEvent::ms_pcReaperJumpEventClass = StaticCreateClass(), which CD2 inlines here (its descriptor "cReaperJumpEvent")
 
 src/AI/Behaviour/NPC/Cell/CellGuard.cpp
-  text 0x824C0B08 0x824C3154   # auto: CellGuard; RuffKing CellGuard.obj; 7 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x824C0B08 0x824C3170   # auto: CellGuard; RuffKing CellGuard.obj; 7 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x824C3170): an object's thunks close its code, so the functions between belong to it too
   hot 0x82250988   # CellGuard::StaticCreateClass (order-list region), named by this object's class-pointer initializer
   init 0x82F95B38
   atexit 0x8303B9B0
@@ -2017,7 +2018,7 @@ src/AI/Behaviour/NPC/Vehicle/AgressiveResponseBaseBehaviour.cpp
   atexit 0x8303BB88   # header static CHARACTER::gRandGen (characterconsts.h): its at-exit destructor, registered by the initializer
 
 src/AI/cAgressiveResponseChaseBehaviour.cpp
-  text 0x824C9210 0x824CC9A4   # auto: cAgressiveResponseChaseBehaviour; RuffKing AgressiveResponseChaseBehaviour.obj; 52 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x824C9210 0x824CC9F8   # auto: cAgressiveResponseChaseBehaviour; RuffKing AgressiveResponseChaseBehaviour.obj; 52 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x824CC9F8): an object's thunks close its code, so the functions between belong to it too
   init 0x82F994C8
   atexit 0x8303BBC0
   init 0x82F99438   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -2047,7 +2048,7 @@ src/AI/cAgressiveResponseChaseBehaviour.cpp
   atexit 0x8303BBD0   # at-exit destructor of cAgressiveResponseChaseBehaviourSpawningRegistrar, registered by its initializer 0x82F99518
 
 src/AI/cAmbientTrafficBehaviour.cpp
-  text 0x824CCAA8 0x824CD740   # auto: cAmbientTrafficBehaviour; RuffKing AmbientTrafficBehaviour.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x824CCAA8 0x824CDC40   # auto: cAmbientTrafficBehaviour; RuffKing AmbientTrafficBehaviour.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x824CDC40): an object's thunks close its code, so the functions between belong to it too
   init 0x82F99900
   atexit 0x8303BBF0
   init 0x82F99870   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -2077,7 +2078,7 @@ src/AI/cAmbientTrafficBehaviour.cpp
   atexit 0x8303BC00   # at-exit destructor of cAmbientTrafficBehaviourSpawningRegistrar, registered by its initializer 0x82F99950
 
 src/AI/cAmbientWanderAttackBehaviour.cpp
-  text 0x824CDCB0 0x824CE510   # auto: cAmbientWanderAttackBehaviour; RuffKing AmbientWanderAttackBehaviour.obj; 7 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x824CDCB0 0x824CE570   # auto: cAmbientWanderAttackBehaviour; RuffKing AmbientWanderAttackBehaviour.obj; 7 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x824CE570): an object's thunks close its code, so the functions between belong to it too
   init 0x82F99D38
   atexit 0x8303BC20
   init 0x82F99CA8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -2260,7 +2261,7 @@ src/AI/Behaviour/NPC/Vehicle/EquipmentDropBehaviour.cpp
   atexit 0x8303BD78   # at-exit destructor of EquipmentDropBehaviourSpawningRegistrar, registered by its initializer 0x82F9BA00
 
 src/AI/cPilotBase.cpp
-  text 0x824D31A0 0x824D3740   # auto: cPilotBase; RuffKing PilotBase.obj; 2 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x824D31A0 0x824D41A0   # auto: cPilotBase; RuffKing PilotBase.obj; 2 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x824D41A0): an object's thunks close its code, so the functions between belong to it too
   init 0x82F9BDE8
   atexit 0x8303BD98
   init 0x82F9BD58   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -2290,7 +2291,7 @@ src/AI/cPilotBase.cpp
   atexit 0x8303BDA8   # at-exit destructor of cPilotBaseSpawningRegistrar, registered by its initializer 0x82F9BE38
 
 src/AI/cPilotRespawn.cpp
-  text 0x824D4210 0x824D456C   # auto: cPilotRespawn; RuffKing PilotRespawn.obj; 6 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x824D4210 0x824D4B78   # auto: cPilotRespawn; RuffKing PilotRespawn.obj; 6 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x824D4B78): an object's thunks close its code, so the functions between belong to it too
   init 0x82F9C220
   atexit 0x8303BDC8
   init 0x82F9C190   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -2410,7 +2411,7 @@ src/AI/cVehicleCollectionBehaviour.cpp
   atexit 0x8303BE68   # at-exit destructor of cVehicleCollectionBehaviourSpawningRegistrar, registered by its initializer 0x82F9CF18
 
 src/AI/Squad/Squad.cpp
-  text 0x824D81A0 0x824D8B78   # auto: Squad; RuffKing Squad.obj; 6 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x824D81A0 0x824DB038   # auto: Squad; RuffKing Squad.obj; 6 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x824DB038): an object's thunks close its code, so the functions between belong to it too
   init 0x82F9D300
   atexit 0x8303BE88
   init 0x82F9D270   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -2515,7 +2516,7 @@ src/Anim/cAnimationProfile.cpp
   atexit 0x8303C348   # header static CHARACTER::gRandGen (characterconsts.h): its at-exit destructor, registered by the initializer
 
 src/Anim/cCharacterAnimSetManager.cpp
-  text 0x824E42C8 0x824E50EC   # auto: cCharacterAnimSetManager; RuffKing cCharacterAnimSetManager.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x824E42C8 0x824E5CA0   # auto: cCharacterAnimSetManager; RuffKing cCharacterAnimSetManager.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x824E5CA0): an object's thunks close its code, so the functions between belong to it too
   hot 0x823182A8   # cCharacterAnimSetManager::StaticCreateClass (order-list region), named by this object's class-pointer initializer
   init 0x82FA01E8
   atexit 0x8303C3A8
@@ -2544,7 +2545,7 @@ src/Anim/cCharacterAnimSetManager.cpp
   init 0x82FA0180   # inheritance registrar: cCharacterAnimSetManager under cNonGameBase (StaticCreateClass 0x82652FE0)
 
 src/Anim/cSkeletonProfile.cpp
-  text 0x824E67A0 0x824E6B40   # auto: cSkeletonProfile; RuffKing cSkeletonProfile.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x824E67A0 0x824E7958   # auto: cSkeletonProfile; RuffKing cSkeletonProfile.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x824E7958): an object's thunks close its code, so the functions between belong to it too
   init 0x82FA0998
   atexit 0x8303C440
   init 0x82FA0908   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -3753,7 +3754,7 @@ src/Anim/cCrowdAnimationProfile.cpp
   atexit 0x8303C8F8   # header static CHARACTER::gRandGen (characterconsts.h): its at-exit destructor, registered by the initializer
 
 src/AudioLogic/cAudioBaseProfile.cpp
-  text 0x82527700 0x82527B70   # auto: cAudioBaseProfile; RuffKing cAudioBaseProfile.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x82527700 0x82527C88   # auto: cAudioBaseProfile; RuffKing cAudioBaseProfile.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82527C88): an object's thunks close its code, so the functions between belong to it too
   init 0x82FA9F40
   atexit 0x8303C988
   init 0x82FA9EB0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -3776,7 +3777,7 @@ src/AudioLogic/cAudioLandVehicleProfile.cpp
 src/Cam/Camera_Manager/cCameraManager.cpp
   atexit 0x8303CBD8   # script registrar for CameraManager; registration table 0x82111A38
   init 0x82FAB118   # script registrar for CameraManager; registration table 0x82111A38
-  text 0x8252BF60 0x8252C498   # auto: cCameraManager; not in RuffKing; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x8252BF60 0x8252C9D8   # auto: cCameraManager; not in RuffKing; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x8252C9D8): an object's thunks close its code, so the functions between belong to it too
   init 0x82FAB0C8
   atexit 0x8303CBC8
   init 0x82FAB038   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -3806,7 +3807,7 @@ src/Cam/General/cCameraMarker.cpp
 src/cVirtualCamera.cpp
   atexit 0x8303CC20   # script registrar for cVirtualCamera; registration table 0x82112494
   init 0x82FAB7C8   # script registrar for cVirtualCamera; registration table 0x82112494
-  text 0x8252CD78 0x82536ACC   # auto: cVirtualCamera; not in RuffKing; 5 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8252CD08 0x82537B48   # auto: cVirtualCamera; not in RuffKing; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82537B48): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x8252CD08 (they read the class pointer this object's initializer sets)
   init 0x82FAB778
   atexit 0x8303CC10
   init 0x82FAB680   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -3835,7 +3836,7 @@ src/cVirtualCamera.cpp
   atexit 0x8303CC08   # header static CHARACTER::gRandGen (characterconsts.h): its at-exit destructor, registered by the initializer
 
 src/cCwTransCharacter.cpp
-  text 0x825380E8 0x825383A0   # auto: cCwTransCharacter; not in RuffKing; 3 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82538078 0x8253ECB0   # auto: cCwTransCharacter; not in RuffKing; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x8253ECB0): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x82538078 (they read the class pointer this object's initializer sets)
   init 0x82FABD30
   atexit 0x8303CDA8
   init 0x82FABCA0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -3865,7 +3866,7 @@ src/cCwTransCharacter.cpp
   atexit 0x8303CDB8   # at-exit destructor of cCwTransCharacterSpawningRegistrar, registered by its initializer 0x82FABD80
 
 src/cCwTransCharacterWrapper.cpp
-  text 0x8253ED68 0x8253EF20   # auto: cCwTransCharacterWrapper; not in RuffKing; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x8253ECF8 0x8253EF80   # auto: cCwTransCharacterWrapper; not in RuffKing; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x8253EF80): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x8253ECF8 (they read the class pointer this object's initializer sets)
   init 0x82FAC1A0
   atexit 0x8303CDE8
   init 0x82FAC110   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -3895,7 +3896,7 @@ src/cCwTransCharacterWrapper.cpp
   atexit 0x8303CDF8   # at-exit destructor of cCwTransCharacterWrapperSpawningRegistrar, registered by its initializer 0x82FAC1F0
 
 src/CHARACTER/cCwCharacter.cpp
-  text 0x8253F438 0x8253F570   # auto: cCwCharacter; RuffKing cCwCharacter.obj; 2 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-07 to the end of cCwCharacter::StaticCreateClass (0x8253F4D8), which its class-pointer initializer names
+  text 0x8253F3C8 0x8253F570   # auto: cCwCharacter; RuffKing cCwCharacter.obj; 2 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-07 to the end of cCwCharacter::StaticCreateClass (0x8253F4D8), which its class-pointer initializer names; extended 2026-11-14 back to its RetClass/IsA pair at 0x8253F3C8 (they read the class pointer this object's initializer sets)
   init 0x82FAC8E8
   atexit 0x8303CE20
   init 0x82FAC548   # header static (physicsconsts.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
@@ -3946,7 +3947,7 @@ src/CHARACTER/cCwCharacterStateProfile.cpp
   atexit 0x8303CE48   # header static CHARACTER::gRandGen (characterconsts.h): its at-exit destructor, registered by the initializer
 
 src/CHARACTER/cCwCharacterWrapper.cpp
-  text 0x82540AA0 0x82542050   # auto: cCwCharacterWrapper; RuffKing cCwCharacterWrapper.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82540A30 0x82542120   # auto: cCwCharacterWrapper; RuffKing cCwCharacterWrapper.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82542120): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x82540A30 (they read the class pointer this object's initializer sets)
   init 0x82FACEE8
   atexit 0x8303CE80
   init 0x82FACE58   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -3973,7 +3974,7 @@ src/CHARACTER/cCwCharacterWrapper.cpp
   atexit 0x8303CE90   # at-exit destructor of cCwCharacterWrapperSpawningRegistrar, registered by its initializer 0x82FACF38
 
 src/CHARACTER/cCwGoliathCharacterWrapper.cpp
-  text 0x82542198 0x82542EB4   # auto: cCwGoliathCharacterWrapper; RuffKing cCwGoliathCharacterWrapper.obj; 8 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82542128 0x82542F30   # auto: cCwGoliathCharacterWrapper; RuffKing cCwGoliathCharacterWrapper.obj; 8 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82542F30): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x82542128 (they read the class pointer this object's initializer sets)
   init 0x82FAD320
   atexit 0x8303CEB0
   init 0x82FAD290   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -4005,7 +4006,7 @@ src/CHARACTER/cCwGoliathCharacterWrapper.cpp
 src/CHARACTER/cCharacter.cpp
   atexit 0x8303CF08   # script registrar for cCharacter; registration table 0x821138F4
   init 0x82FAD7F0   # script registrar for cCharacter; registration table 0x821138F4
-  text 0x82542FE0 0x82544014   # auto: cCharacter; RuffKing cCharacter.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82542F70 0x82544014   # auto: cCharacter; RuffKing cCharacter.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 back to its RetClass/IsA pair at 0x82542F70 (they read the class pointer this object's initializer sets)
   init 0x82FAD758
   atexit 0x8303CEE0
   init 0x82FAD6C8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -4039,7 +4040,7 @@ src/CHARACTER/cCharacter.cpp
 src/CHARACTER/cCharacterInterface.cpp
   atexit 0x8303CF78   # script registrar for cCharacterInterface; registration table 0x82113E58
   init 0x82FADD18   # script registrar for cCharacterInterface; registration table 0x82113E58
-  text 0x8254E7A0 0x8254F16C   # auto: cCharacterInterface; RuffKing cCharacterInterface.obj; 7 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x8254E7A0 0x8254FEF0   # auto: cCharacterInterface; RuffKing cCharacterInterface.obj; 7 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x8254FEF0): an object's thunks close its code, so the functions between belong to it too
   init 0x82FADC80
   atexit 0x8303CF50
   init 0x82FADBF0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -4149,7 +4150,7 @@ src/CHARACTER/cGameDamageProfile.cpp
   atexit 0x8303D0C8
 
 src/CHARACTER/cGenCharProfile.cpp
-  text 0x82556318 0x82558640   # auto: cGenCharProfile; RuffKing cGenCharProfile.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x825562A8 0x82558778   # auto: cGenCharProfile; RuffKing cGenCharProfile.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82558778): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x825562A8 (they read the class pointer this object's initializer sets)
   init 0x82FAEF28
   atexit 0x8303D0E0
   init 0x82FAEE98   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -4183,7 +4184,7 @@ src/CHARACTER/cGlobalControlsProfile.cpp
   atexit 0x8303D100   # header static CHARACTER::gRandGen (characterconsts.h): its at-exit destructor, registered by the initializer
 
 src/CHARACTER/cStrengthSkillProfile.cpp
-  text 0x8255A5E8 0x8255DBC8   # auto: cStrengthSkillProfile; RuffKing cStrengthSkillProfile.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8255A5E8 0x8255DCB8   # auto: cStrengthSkillProfile; RuffKing cStrengthSkillProfile.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x8255DCB8): an object's thunks close its code, so the functions between belong to it too
   init 0x82FAF440
   atexit 0x8303D120
   init 0x82FAF1B8   # header static (physicsconsts.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
@@ -4246,7 +4247,7 @@ src/CHARACTER/cRagdollProfile.cpp
   init 0x82FB1C78   # header static (cRagdollProfile.h): inside this object's initializer run, which reads one g_GlobalConstants copy (0x830C3C68)
 
 src/cCrowdManager.cpp
-  text 0x825EC290 0x825ECA54   # auto: cCrowdManager; RuffKing CrowdManager.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x825EC290 0x825ECF18   # auto: cCrowdManager; RuffKing CrowdManager.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x825ECF18): an object's thunks close its code, so the functions between belong to it too
   init 0x82FC5D18
   atexit 0x8303ECE8
   init 0x82FC5A08   # header static (physicsconsts.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
@@ -4274,7 +4275,7 @@ src/cCrowdManager.cpp
 src/Equip/cEquipment.cpp
   atexit 0x8303F308   # script registrar for cEquipment; registration table 0x8211EED0
   init 0x82FCB448   # script registrar for cEquipment; registration table 0x8211EED0
-  text 0x82604650 0x82604CA8   # auto: cEquipment; RuffKing cEquipment.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x826045E0 0x82607A40   # auto: cEquipment; RuffKing cEquipment.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82607A40): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x826045E0 (they read the class pointer this object's initializer sets)
   init 0x82FCB250
   atexit 0x8303F2E0
   init 0x82FCB1C0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -4311,7 +4312,8 @@ src/Equip/Weapon/cCWWeapon.cpp
   folded 0x82639CE0   # identical prototype deleting wrappers: tables 0x8211F278, 0x82121F48, 0x82122730 and cSucknBlowGunPrototype's 0x8212A1A8 share this 80-byte body; the compiler-generated cCWWeaponPrototype wrapper matches it and calls the matched normal destructor 0x82608A48 and heap delete
   atexit 0x8303F348   # script registrar for cCWWeapon; registration table 0x8211F2E0
   init 0x82FCB8D8   # script registrar for cCWWeapon; registration table 0x8211F2E0
-  text 0x82607B50 0x82609270   # auto: cCWWeapon; RuffKing cCWWeapon.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended through the named own virtual getters: primary table 0x820133D0 slots 315 and 326..329 point at 0x82608550 and 0x826087A8..0x826087D8, reading this class's prototype. Intervening Term, CanAttack, reload and turret methods occur in the same reference object and occupy this class's own table slots. Extended through prototype Init: constructor 0x82608930 names table 0x8211F278, whose own HandleAttributes and Init are 0x82608AE0 and 0x82609260; destructor 0x82608A48 restores that table and destroys its string before the shared base.
+  hot 0x8225C750   # 2026-11-15: cCWWeapon::RetClass (order-list region): slot 0 of registered-class table 0x8211F1AC, which cCWWeapon's destructor 0x82256348 installs (0x8225639C); its thunks 0x826093D8/0x82609408 end this object
+  text 0x82607AF0 0x82609418   # 2026-11-15: extended back to cCWWeapon::IsA at 0x82607AF0 (slot 1 of the registered-class table 0x8211F1AC its destructor installs; its thunks 0x826093C0/0x826093E0 lie in this range); auto: cCWWeapon; RuffKing cCWWeapon.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended through the named own virtual getters: primary table 0x820133D0 slots 315 and 326..329 point at 0x82608550 and 0x826087A8..0x826087D8, reading this class's prototype. Intervening Term, CanAttack, reload and turret methods occur in the same reference object and occupy this class's own table slots. Extended through prototype Init: constructor 0x82608930 names table 0x8211F278, whose own HandleAttributes and Init are 0x82608AE0 and 0x82609260; destructor 0x82608A48 restores that table and destroys its string before the shared base.; extended 2026-11-14 to its adjustor thunks (the last ends at 0x82609418): an object's thunks close its code, so the functions between belong to it too
   init 0x82FCB840
   atexit 0x8303F320
   init 0x82FCB7B0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -4343,7 +4345,7 @@ src/Equip/Weapon/cCWWeapon.cpp
 src/cBoostPack.cpp
   atexit 0x8303F400   # script registrar for cBoostPack; registration table 0x82100494
   init 0x82FCC3B0   # script registrar for cBoostPack; registration table 0x82100494
-  text 0x8260ABB0 0x8260B110   # auto: cBoostPack; not in RuffKing; 12 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x8260ABB0 0x8260B178   # auto: cBoostPack; not in RuffKing; 12 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x8260B178): an object's thunks close its code, so the functions between belong to it too
   init 0x82FCC318
   atexit 0x8303F3D8
   init 0x82FCC288   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -4374,7 +4376,7 @@ src/Equip/Gadget/cCloakingDevice.cpp
   hot 0x822F33C8   # StaticCreateClass names cCloakingDevice; class ID 0x10140, size 0x9C0
   atexit 0x8303F440   # script registrar for cCloakingDevice; table 0x82100494
   init 0x82FCC7B8   # script registrar for cCloakingDevice; table 0x82100494
-  text 0x8260B178 0x8260BA90   # extended to this class's descriptor/query functions; CD2 names and registered-class tables establish ownership
+  text 0x8260B178 0x8260BAE8   # extended to this class's descriptor/query functions; CD2 names and registered-class tables establish ownership; extended 2026-11-14 to its adjustor thunks (the last ends at 0x8260BAE8): an object's thunks close its code, so the functions between belong to it too
   init 0x82FCC720
   atexit 0x8303F418
   init 0x82FCC770   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -4400,7 +4402,7 @@ src/Equip/Gadget/cCloakingDevice.cpp
   atexit 0x8303F428   # at-exit destructor of cCloakingDeviceSpawningRegistrar, registered by its initializer 0x82FCC770
 
 src/Equip/Weapon/cMag.cpp
-  text 0x8260BB80 0x8260DD18   # auto: cMag; RuffKing cMag.obj; 13 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 3 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x8260BB10 0x8260DD58   # auto: cMag; RuffKing cMag.obj; 13 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 3 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x8260DD58): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x8260BB10 (they read the class pointer this object's initializer sets)
   init 0x82FCCBB0
   atexit 0x8303F458
   init 0x82FCCB20   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -4430,7 +4432,7 @@ src/Equip/Weapon/cMag.cpp
   atexit 0x8303F468   # at-exit destructor of cMagSpawningRegistrar, registered by its initializer 0x82FCCC00
 
 src/Equip/Gadget/cPortableLaunchPad.cpp
-  text 0x8260DDD0 0x8260E8B0   # auto: cPortableLaunchPad; RuffKing cPortableLaunchPad.obj; 10 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8260DD60 0x8260EC70   # auto: cPortableLaunchPad; RuffKing cPortableLaunchPad.obj; 10 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x8260EC70): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x8260DD60 (they read the class pointer this object's initializer sets)
   init 0x82FCCE50
   atexit 0x8303F480
   init 0x82FCCDC0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -4449,7 +4451,7 @@ src/Equip/Gadget/cPortableLaunchPad.cpp
   atexit 0x8303F490   # at-exit destructor of cPortableLaunchPadSpawningRegistrar, registered by its initializer 0x82FCCEA0
 
 src/Equip/Gadget/cPulseRifle.cpp
-  text 0x8260ECE0 0x826104B4   # auto: cPulseRifle; RuffKing cPulseRifle.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x8260EC70 0x826105D8   # auto: cPulseRifle; RuffKing cPulseRifle.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x826105D8): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x8260EC70 (they read the class pointer this object's initializer sets)
   init 0x82FCD288
   atexit 0x8303F4B0
   init 0x82FCD1F8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -4509,7 +4511,7 @@ src/Equip/Gadget/Refractor/cRefractor.cpp
   atexit 0x8303F4F0   # at-exit destructor of cRefractorSpawningRegistrar, registered by its initializer 0x82FCD710
 
 src/Equip/Attachments/cLightAttachmentData.cpp
-  text 0x826159C0 0x82615D64   # auto: cLightAttachmentData; RuffKing cLightAttachmentData.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x826159C0 0x82615D90   # auto: cLightAttachmentData; RuffKing cLightAttachmentData.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82615D90): an object's thunks close its code, so the functions between belong to it too
   init 0x82FCDF78
   atexit 0x8303F538
   init 0x82FCDE00   # header static (physicsconsts.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
@@ -4547,7 +4549,7 @@ src/Equip/Attachments/cUVLightAttachmentData.cpp
   atexit 0x8303F548   # header static CHARACTER::gRandGen (characterconsts.h): its at-exit destructor, registered by the initializer
 
 src/Equip/DLCWeapons/cChainGun.cpp
-  text 0x82616550 0x82616FD0   # auto: cChainGun; RuffKing cChainGun.obj; 6 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x826164E0 0x82617CE0   # auto: cChainGun; RuffKing cChainGun.obj; 6 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 back to its RetClass/IsA (0x826164E0/0x826164F0) and on through its adjustor thunks (0x82617C88..0x82617CD8, which reach those two and its deleting destructor 0x82616730; cCWFirearm.cpp starts after them)
   init 0x82FCE5B8
   atexit 0x8303F568
   init 0x82FCE528   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -4576,7 +4578,7 @@ src/Equip/DLCWeapons/cChainGun.cpp
 src/Equip/Weapon/cCWFirearm.cpp
   atexit 0x8303F5C0   # script registrar for cCWFirearm; registration table 0x82100494
   init 0x82FCEA88   # script registrar for cCWFirearm; registration table 0x82100494
-  text 0x82617D50 0x82617EB8   # auto: cCWFirearm; RuffKing cCWFirearm.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82617CE0 0x826187D0   # auto: cCWFirearm; RuffKing cCWFirearm.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 back to its RetClass/IsA (0x82617CE0/0x82617CF0, after cChainGun's thunks; this object's thunks reach them) and on to cAcidBomblet::MakeNew: 0x82617F58..0x826182E8 fill slots of cCWFirearm's own table 0x820140A8 (6, 13, 14, 338..341, 257, 408), 0x82617EB8 is its destructor, and 0x82618780..0x826187C0 are adjustor thunks to its deleting destructor 0x82617E68
   init 0x82FCE9F0
   atexit 0x8303F598
   init 0x82FCE960   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -4636,7 +4638,7 @@ src/Equip/Weapon/cCWSatchelCharge.cpp
   init 0x82FCF588   # cCWSatchelCharge class descriptor pointer initialization
   atexit 0x8303F698   # script registrar for cCWSatchelCharge; table 0x82100494
   init 0x82FCF6B0   # script registrar for cCWSatchelCharge; table 0x82100494
-  text 0x8261A148 0x8261A2E0   # extended to this class's descriptor/query functions; CD2 names and registered-class tables establish ownership
+  text 0x8261A148 0x8261D018   # extended to this class's descriptor/query functions; CD2 names and registered-class tables establish ownership; extended 2026-11-14 to its adjustor thunks (the last ends at 0x8261D018): an object's thunks close its code, so the functions between belong to it too
   init 0x82FCF618
   atexit 0x8303F670
   init 0x82FCF2F8   # header static (physicsproject.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
@@ -4668,7 +4670,7 @@ src/Equip/Weapon/cExplosiveGrenade.cpp
   init 0x82FCFA18   # cExplosiveGrenade class descriptor pointer initialization
   atexit 0x8303F6D8   # script registrar for cExplosiveGrenade; table 0x82100494
   init 0x82FCFB40   # script registrar for cExplosiveGrenade; table 0x82100494
-  text 0x8261D148 0x8261D2E0   # extended to this class's descriptor/query functions; CD2 names and registered-class tables establish ownership
+  text 0x8261D148 0x8261DED0   # extended to this class's descriptor/query functions; CD2 names and registered-class tables establish ownership; extended 2026-11-14 to its adjustor thunks (the last ends at 0x8261DED0): an object's thunks close its code, so the functions between belong to it too
   init 0x82FCFAA8
   atexit 0x8303F6B0
   init 0x82FCF708   # header static (physicsconsts.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
@@ -4701,7 +4703,7 @@ src/Equip/Weapon/cGrenade.cpp
   hot 0x8225D5D8   # StaticCreateClass names cGrenade; class ID 0x3E8A, size 0x9C0
   atexit 0x8303F718   # script registrar for cGrenade; table 0x82123E98
   init 0x82FD0028   # script registrar for cGrenade; table 0x82123E98
-  text 0x8261DED0 0x8261E380   # extended to this class's descriptor/query functions; CD2 names and registered-class tables establish ownership
+  text 0x8261DED0 0x8261F870   # extended to this class's descriptor/query functions; CD2 names and registered-class tables establish ownership; extended 2026-11-14 to its adjustor thunks (the last ends at 0x8261F870): an object's thunks close its code, so the functions between belong to it too
   init 0x82FCFF38
   atexit 0x8303F6F0
   init 0x82FCFF88   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -4806,7 +4808,7 @@ src/Equip/Weapon/cSmokeGrenade.cpp
   atexit 0x8303F7B8   # at-exit destructor of cSmokeGrenadeSpawningRegistrar, registered by its initializer 0x82FD0C70
 
 src/cStickler.cpp
-  text 0x82622E58 0x82623128   # auto: cStickler; not in RuffKing; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x82622DE8 0x82623128   # auto: cStickler; not in RuffKing; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 back to its RetClass/IsA pair at 0x82622DE8 (they read the class pointer this object's initializer sets)
   init 0x82FD1058
   atexit 0x8303F7D8
   init 0x82FD0FC8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -4838,7 +4840,7 @@ src/cStickler.cpp
 src/cSticklerGrenade.cpp
   atexit 0x8303F830   # script registrar for cSticklerGrenade; registration table 0x82100494
   init 0x82FD1528   # script registrar for cSticklerGrenade; registration table 0x82100494
-  text 0x826231C0 0x82623BBC   # auto: cSticklerGrenade; not in RuffKing; 11 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82623150 0x82623E60   # auto: cSticklerGrenade; not in RuffKing; 11 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82623E60): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x82623150 (they read the class pointer this object's initializer sets)
   init 0x82FD1490
   atexit 0x8303F808
   init 0x82FD1400   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -4911,7 +4913,7 @@ src/Equip/DLCWeapons/cFlocket.cpp
   atexit 0x8303F868   # at-exit destructor of cFlocketSpawningRegistrar, registered by its initializer 0x82FD1AB0
 
 src/Equip/Weapon/cHarpoonBolt.cpp
-  text 0x82627168 0x82628288   # auto: cHarpoonBolt; RuffKing cHarpoonBolt.obj; 12 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x826270F8 0x82629278   # auto: cHarpoonBolt; RuffKing cHarpoonBolt.obj; 12 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82629278): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x826270F8 (they read the class pointer this object's initializer sets)
   init 0x82FD1E98
   atexit 0x8303F890
   init 0x82FD1E08   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -4943,7 +4945,7 @@ src/Equip/Weapon/cHarpoonBolt.cpp
 src/Equip/Weapon/cHWGrenadeProjectile.cpp
   atexit 0x8303F8E8   # script registrar for cHWGrenadeProjectile; registration table 0x82127878
   init 0x82FD2368   # script registrar for cHWGrenadeProjectile; registration table 0x82127878
-  text 0x826292F0 0x8262A668   # auto: cHWGrenadeProjectile; RuffKing cHWGrenadeProjectile.obj; 11 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 10 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x82629280 0x8262A688   # auto: cHWGrenadeProjectile; RuffKing cHWGrenadeProjectile.obj; 11 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 10 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x8262A688): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x82629280 (they read the class pointer this object's initializer sets)
   folded 0x827450B0   # slot-375 native vcall thunk: this registrar names HasExploded at 0x826294C4; cPrismaticProp registrar at 0x8273B89C and another registrar at 0x82744C04 use the identical thunk for their slot-375 methods
   folded 0x827E56A8   # primary table 0x82127130 slot 375 gives cHWGrenadeProjectile::HasExploded the shared false-returning body, also held by many unrelated false-query virtuals
   init 0x82FD22D0
@@ -4973,9 +4975,10 @@ src/Equip/Weapon/cHWGrenadeProjectile.cpp
   init 0x82FD2228   # header static (aiconstants.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
   atexit 0x8303F8B8   # header static CHARACTER::gRandGen (characterconsts.h): its at-exit destructor, registered by the initializer
   atexit 0x8303F8D0   # at-exit destructor of cHWGrenadeProjectileSpawningRegistrar, registered by its initializer 0x82FD2320
+  folded 0x8273D230   # its CreateScriptMethod<bool> specialization folds into the shared 96-byte member descriptor factory, which CD2 keeps inside cPrismaticProp.cpp's text (see cWeapon.cpp)
 
 src/Equip/Weapon/cHWProjectile.cpp
-  text 0x8262A778 0x8262BD30   # auto: cHWProjectile; RuffKing cHWProjectile.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8262A708 0x8262D8A8   # 2026-11-15: extended to its adjustor thunks (0x8262D850..0x8262D8A0 adjust by cHWProjectile's subobject offsets into its deleting destructor 0x8262AAA8 and RetClass/IsA 0x8262A708/0x8262A718): an object's thunks close its code; auto: cHWProjectile; RuffKing cHWProjectile.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 back to its RetClass/IsA pair at 0x8262A708 (they read the class pointer this object's initializer sets)
   init 0x82FD2760
   atexit 0x8303F900
   init 0x82FD26D0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -5006,7 +5009,7 @@ src/Equip/Weapon/cHWProjectile.cpp
 
 # RuffKing module 875 (cProjectileManager.obj, Libraries/Shared/Equipment/Weapon/cProjectileManager.cpp): CD2 runs initializers in the reverse of RuffKing's module order, and this run (from 0x82FD27F8) lies alone between cHWProjectile.cpp's and cCWHeavyWeapon.cpp's runs, at this module's place: RuffKing links no other object between those two
 src/Equip/Weapon/cProjectileManager.cpp
-  text 0x8262BD30 0x8262FBB0   # the unassigned text between cHWProjectile.cpp and cCWHeavyWeapon.cpp, which CD2 links on either side of this object (their initializer runs enclose this one) and RuffKing has as its neighbouring modules 876 and 874
+  text 0x8262D8A8 0x8262FBB0   # 2026-11-15: starts after cHWProjectile's last adjustor thunk (0x8262D8A0); the unassigned text between cHWProjectile.cpp and cCWHeavyWeapon.cpp, which CD2 links on either side of this object (their initializer runs enclose this one) and RuffKing has as its neighbouring modules 876 and 874
   init 0x82FD27F8   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82FD2820   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82FD2848   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
@@ -5033,7 +5036,7 @@ src/Equip/Weapon/cCWHeavyWeapon.cpp
   init 0x82FD2EC8   # cCWHeavyWeapon class descriptor pointer initialization
   atexit 0x8303F9C8   # script registrar for cCWHeavyWeapon; table 0x82100494
   init 0x82FD2FF0   # script registrar for cCWHeavyWeapon; table 0x82100494
-  text 0x8262FBB0 0x8262FF10   # extended to this class's descriptor/query functions; CD2 names and registered-class tables establish ownership
+  text 0x8262FBB0 0x82630CF0   # extended to this class's descriptor/query functions; CD2 names and registered-class tables establish ownership; extended 2026-11-14 to its adjustor thunks (the last ends at 0x82630CF0): an object's thunks close its code, so the functions between belong to it too
   init 0x82FD2F58
   atexit 0x8303F9A0
   init 0x82FD2FA8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -5147,7 +5150,7 @@ src/Equip/Gadget/cRealNadeLauncher.cpp
   atexit 0x8303FA78   # at-exit destructor of cRealNadeLauncherSpawningRegistrar, registered by its initializer 0x82FD3B80
 
 src/cSucknBlowGun.cpp
-  text 0x826354F0 0x82639CE0   # auto: cSucknBlowGun; not in RuffKing; 10 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 9 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x82635480 0x8263A6A0   # auto: cSucknBlowGun; not in RuffKing; 10 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 9 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x8263A6A0): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x82635480 (they read the class pointer this object's initializer sets)
   init 0x82FD3F68
   atexit 0x8303FA98
   init 0x82FD3ED8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -5177,7 +5180,7 @@ src/cSucknBlowGun.cpp
   atexit 0x8303FAA8   # at-exit destructor of cSucknBlowGunSpawningRegistrar, registered by its initializer 0x82FD3FB8
 
 src/Equip/Weapon/cFlakCannon.cpp
-  text 0x8263A718 0x8263ACCC   # auto: cFlakCannon; RuffKing cFlakCannon.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8263A6A8 0x8263B0F0   # auto: cFlakCannon; RuffKing cFlakCannon.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x8263B0F0): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x8263A6A8 (they read the class pointer this object's initializer sets)
   init 0x82FD4318
   atexit 0x8303FAC8
   init 0x82FD4288   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -5204,7 +5207,7 @@ src/Equip/Weapon/cFlakCannon.cpp
   atexit 0x8303FAD8   # at-exit destructor of cFlakCannonSpawningRegistrar, registered by its initializer 0x82FD4368
 
 src/Equip/Weapon/cMiniGun.cpp
-  text 0x8263B168 0x8263B4FC   # auto: cMiniGun; RuffKing cMiniGun.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8263B0F8 0x8263BA60   # auto: cMiniGun; RuffKing cMiniGun.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x8263BA60): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x8263B0F8 (they read the class pointer this object's initializer sets)
   init 0x82FD46C8
   atexit 0x8303FAF8
   init 0x82FD4638   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -5287,7 +5290,7 @@ src/ExplosionManager/cExplosionLevelInfo.cpp
   atexit 0x8303FB60   # header static CHARACTER::gRandGen (characterconsts.h): its at-exit destructor, registered by the initializer
 
 src/ExplosionManager/cExplosionManager.cpp
-  text 0x8263EB50 0x8263ECE8   # auto: cExplosionManager; RuffKing cExplosionManager.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x8263EAE0 0x8263F730   # auto: cExplosionManager; RuffKing cExplosionManager.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x8263F730): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x8263EAE0 (they read the class pointer this object's initializer sets)
   hot 0x821FE610   # cExplosionManager::StaticCreateClass (order-list region), named by this object's class-pointer initializer
   init 0x82FD5840
   atexit 0x8303FBD8
@@ -5316,7 +5319,7 @@ src/ExplosionManager/cExplosionManager.cpp
   init 0x82FD57D8   # inheritance registrar: cExplosionManager under cNonGameBase (StaticCreateClass 0x82652FE0)
 
 src/GameRenderer/cCD2Lighting.cpp
-  text 0x8265A1A8 0x8265A31C   # auto: cCD2Lighting; RuffKing cCD2Lighting.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x8265A1A8 0x8265A868   # auto: cCD2Lighting; RuffKing cCD2Lighting.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x8265A868): an object's thunks close its code, so the functions between belong to it too
   init 0x82FD8300
   atexit 0x8303FF70
   init 0x82FD7EE0   # header static (physicsconsts.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
@@ -5359,7 +5362,7 @@ src/GameRenderer/CNonEntity.cpp
   init 0x82FD8758   # header static (physicsproject.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
 
 src/GameRenderer/cScreenCapture.cpp
-  text 0x826657A0 0x82666C94   # auto: cScreenCapture; RuffKing cScreenCapture.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x826657A0 0x826677D8   # auto: cScreenCapture; RuffKing cScreenCapture.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x826677D8): an object's thunks close its code, so the functions between belong to it too
   init 0x82FD9EB8
   atexit 0x83040028
   init 0x82FD9BA8   # header static (physicsconsts.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
@@ -5428,7 +5431,7 @@ src/GangManager/cAgressiveResponseTurretVehicleSetup.cpp
 src/GangManager/cFactionConfigData.cpp
   data   0x831FCE50 0x831FCF28   # cd2.py datasplits: 5 located, g_GlobalConstants .. fPOINT_LOCK_RADIUS
   bss    0x838403F8 0x8384049C   # cd2.py datasplits: 20 located, fPhysicsSimulationTick .. the cFactionInfo class pointer (initialized by 0x82FDCB50, read by RetClass 0x82676288)
-  text 0x826761B0 0x826766E0   # contains F09-F12, tiny accessors of other classes (pool, globals): inline functions
+  text 0x826761B0 0x82676D60   # contains F09-F12, tiny accessors of other classes (pool, globals): inline functions; extended 2026-11-14 to its adjustor thunks (the last ends at 0x82676D60): an object's thunks close its code, so the functions between belong to it too
                                # emitted by this object (still unmatched). F09/F10 (0x82676288, 0x82676298) are
                                # cFactionInfo's RetClass and IsA: they read the class pointer 0x83840498, which this
                                # file's second initializer sets ("cFactionInfo", class ID 1038, size 544)
@@ -5555,7 +5558,7 @@ src/GangManager/cVehicleDataPrototype.cpp
 
 src/PHYSICS/cBody.cpp
   atexit 0x83040380   # script registrar for cBody; registration table 0x82131CDC
-  text 0x82683298 0x82683B64   # auto: cBody; RuffKing cBody.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82683228 0x82684AE0   # auto: cBody; RuffKing cBody.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82684AE0): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x82683228 (they read the class pointer this object's initializer sets)
   init 0x82FDF6E0
   atexit 0x83040358
   init 0x82FDF5E8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -5605,7 +5608,7 @@ src/PHYSICS/cBody.cpp
   atexit 0x83040368   # at-exit destructor of cBodySpawningRegistrar, registered by its initializer 0x82FDF730
 
 src/cPhantomBody.cpp
-  text 0x8268A2F8 0x8268AA7C   # auto: cPhantomBody; not in RuffKing; 6 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x8268A2F8 0x8268ADC0   # auto: cPhantomBody; not in RuffKing; 6 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x8268ADC0): an object's thunks close its code, so the functions between belong to it too
   init 0x82FE00C8
   atexit 0x830403E8
   init 0x82FE0038   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -5649,7 +5652,7 @@ src/PHYSICS/cStaticBody.cpp
   init 0x82FE02B8   # header static (physicsproject.h): this object's initializer run, from its first header constant to its own initializers
 
 src/PHYSICS/cPhysicsUniverse.cpp
-  text 0x8268DA30 0x82692554   # auto: cPhysicsUniverse; RuffKing cPhysicsUniverse.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x8268DA30 0x82692A00   # auto: cPhysicsUniverse; RuffKing cPhysicsUniverse.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82692A00): an object's thunks close its code, so the functions between belong to it too
   init 0x82FE13A8
   atexit 0x83040468
   init 0x82FE12B0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -5819,7 +5822,7 @@ src/Vehicle/cSixWheelerProfile.cpp
   init 0x82FE6710   # header static (physicsproject.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
 
 src/Vehicle/cCarDamageProfile.cpp
-  text 0x826A55F0 0x826A6528   # auto: cCarDamageProfile; RuffKing cCarDamageProfile.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x826A55F0 0x826A6550   # auto: cCarDamageProfile; RuffKing cCarDamageProfile.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x826A6550): an object's thunks close its code, so the functions between belong to it too
   init 0x82FE67B8
   atexit 0x830406E8
 
@@ -5847,7 +5850,7 @@ src/Vehicle/cGenericCarDamageProfile.cpp
   atexit 0x830406F8   # header static CHARACTER::gRandGen (characterconsts.h): its at-exit destructor, registered by the initializer
 
 src/cTransformingCar.cpp
-  text 0x826AB4C0 0x826B1AD0   # auto: cTransformingCar; not in RuffKing; 29 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x826AB450 0x826B1AD0   # auto: cTransformingCar; not in RuffKing; 29 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 back to its RetClass/IsA pair at 0x826AB450 (they read the class pointer this object's initializer sets)
   init 0x82FE71D0
   atexit 0x83040730
   init 0x82FE70D8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -5878,7 +5881,7 @@ src/cTransformingCar.cpp
   atexit 0x83040740   # at-exit destructor of cTransformingCarSpawningRegistrar, registered by its initializer 0x82FE7220
 
 src/cTransformingTruck.cpp
-  text 0x826B1B58 0x826B5C60   # auto: cTransformingTruck; not in RuffKing; 26 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x826B1AE8 0x826B5C88   # auto: cTransformingTruck; not in RuffKing; 26 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x826B5C88): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x826B1AE8 (they read the class pointer this object's initializer sets)
   init 0x82FE76A8
   atexit 0x83040778
   init 0x82FE75B0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -6028,7 +6031,7 @@ src/Vehicle/cTruck.cpp
 src/Vehicle/cVehicle.cpp
   atexit 0x83040948   # script registrar for cVehicle; table 0x82135538
   init 0x82FE9A70   # script registrar for cVehicle; table 0x82135538
-  text 0x826CC6F8 0x826DF8B8   # auto: cVehicle; RuffKing cVehicle.obj; 10 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-05 by 1 function(s) before and 142 after on CD2 evidence: cVehicle's own vtable slots (those that differ from cNetDynamicBody's table), the secondary tables only its constructor/destructor install, its factories and prototype, and the functions contiguous between them
+  text 0x826CC6F8 0x826DF8C0   # auto: cVehicle; RuffKing cVehicle.obj; 10 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-05 by 1 function(s) before and 142 after on CD2 evidence: cVehicle's own vtable slots (those that differ from cNetDynamicBody's table), the secondary tables only its constructor/destructor install, its factories and prototype, and the functions contiguous between them; extended 2026-11-14 to its adjustor thunks (the last ends at 0x826DF8C0): an object's thunks close its code, so the functions between belong to it too
   init 0x82FE99D8
   atexit 0x83040920
   init 0x82FE9948   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -6130,7 +6133,7 @@ src/cAgencyATV.cpp
   atexit 0x830409F0   # at-exit destructor of cAgencyATVSpawningRegistrar, registered by its initializer 0x82FEAD28
 
 src/Vehicle/Agency/cAgencyBuggy.cpp
-  text 0x826E98D0 0x826EC078   # auto: cAgencyBuggy; RuffKing cAgencyBuggy.obj; 9 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x826E9860 0x826EC078   # auto: cAgencyBuggy; RuffKing cAgencyBuggy.obj; 9 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 back to its RetClass/IsA pair at 0x826E9860 (they read the class pointer this object's initializer sets)
   init 0x82FEB148
   atexit 0x83040A20
   init 0x82FEB0B8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -6217,7 +6220,7 @@ src/Vehicle/Agency/cAgencySports.cpp
   atexit 0x83040A98   # at-exit destructor of cAgencySportsSpawningRegistrar, registered by its initializer 0x82FEB980
 
 src/cAgencySquadChopper.cpp
-  text 0x826EDA60 0x826F5FB8   # auto: cAgencySquadChopper; not in RuffKing; 21 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 5 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x826ED9F0 0x826FB958   # auto: cAgencySquadChopper; not in RuffKing; 21 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 5 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x826FB958): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x826ED9F0 (they read the class pointer this object's initializer sets)
   init 0x82FEBD68
   atexit 0x83040AB8
   init 0x82FEBCD8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -6247,7 +6250,7 @@ src/cAgencySquadChopper.cpp
   atexit 0x83040AC8   # at-exit destructor of cAgencySquadChopperSpawningRegistrar, registered by its initializer 0x82FEBDB8
 
 src/Vehicle/Agency/cAgencySUV.cpp
-  text 0x826FB9C8 0x826FC4E4   # auto: cAgencySUV; RuffKing cAgencySUV.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x826FB958 0x826FC4E4   # auto: cAgencySUV; RuffKing cAgencySUV.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 back to its RetClass/IsA pair at 0x826FB958 (they read the class pointer this object's initializer sets)
   init 0x82FEC1D8
   atexit 0x83040AF8
   init 0x82FEC148   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -6277,7 +6280,7 @@ src/Vehicle/Agency/cAgencySUV.cpp
   atexit 0x83040B08   # at-exit destructor of cAgencySUVSpawningRegistrar, registered by its initializer 0x82FEC228
 
 src/Vehicle/Agency/cAgencyTank.cpp
-  text 0x826FC6B0 0x82700768   # auto: cAgencyTank; RuffKing cAgencyTank.obj; 12 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 4 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x826FC640 0x827007A0   # auto: cAgencyTank; RuffKing cAgencyTank.obj; 12 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 4 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x827007A0): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x826FC640 (they read the class pointer this object's initializer sets)
   init 0x82FEC610
   atexit 0x83040B28
   init 0x82FEC580   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -6307,7 +6310,7 @@ src/Vehicle/Agency/cAgencyTank.cpp
   atexit 0x83040B38   # at-exit destructor of cAgencyTankSpawningRegistrar, registered by its initializer 0x82FEC660
 
 src/PHYSICS/cWaterZone.cpp
-  text 0x827081B0 0x827083F4   # auto: cWaterZone; RuffKing cWaterZone.obj; 5 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82708140 0x82708438   # auto: cWaterZone; RuffKing cWaterZone.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82708438): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x82708140 (they read the class pointer this object's initializer sets)
   init 0x82FEFB58
   atexit 0x83040C08
   init 0x82FEFBA8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -6335,7 +6338,7 @@ src/PHYSICS/cWaterZone.cpp
   atexit 0x83040C00   # header static CHARACTER::gRandGen (characterconsts.h): its at-exit destructor, registered by the initializer
 
 src/cAudioLog.cpp
-  text 0x8270EB50 0x8270FB38   # auto: cAudioLog; RuffKing cAudioLog.obj; 9 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x8270EB50 0x8270FC18   # auto: cAudioLog; RuffKing cAudioLog.obj; 9 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x8270FC18): an object's thunks close its code, so the functions between belong to it too
   init 0x82FF1078
   atexit 0x83040C90
   init 0x82FF10C8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -6473,7 +6476,7 @@ src/LaunchPad/LaunchPad/cLaunchPadTargetLocation.cpp
   init 0x82FF2930   # header static (physicsproject.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
 
 src/cDebugPlayer.cpp
-  text 0x82714668 0x82715968   # auto: cDebugPlayer; not in RuffKing; 8 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x82714668 0x82715EA8   # auto: cDebugPlayer; not in RuffKing; 8 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82715EA8): an object's thunks close its code, so the functions between belong to it too
   init 0x82FF2D40
   atexit 0x83040D40
   init 0x82FF2CB0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -6503,7 +6506,7 @@ src/cDebugPlayer.cpp
 src/PLAYER/cPlayer.cpp
   atexit 0x83041358   # script registrar for cPlayer; registration table 0x8213D544
   init 0x82FF3DC8   # script registrar for cPlayer; registration table 0x8213D544
-  text 0x8271F0A8 0x827257B4   # auto: cPlayer; RuffKing cPlayer.obj; 33 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8271F038 0x827263E0   # auto: cPlayer; RuffKing cPlayer.obj; 33 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x827263E0): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x8271F038 (they read the class pointer this object's initializer sets)
   init 0x82FF3D30
   atexit 0x83041330
   init 0x82FF3C38   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -6568,7 +6571,7 @@ src/Prop/cProp.cpp
   atexit 0x83041400   # destroys the spawning registrar for cProp, registered by its initializer
 
 src/cTransVehicleDamageProp.cpp
-  text 0x82730C38 0x82731C84   # auto: cTransVehicleDamageProp; not in RuffKing; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x82730BC8 0x82731D30   # auto: cTransVehicleDamageProp; not in RuffKing; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82731D30): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x82730BC8 (they read the class pointer this object's initializer sets)
   init 0x82FF5AE0
   atexit 0x83041450
   init 0x82FF5A50   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -6595,7 +6598,7 @@ src/cTransVehicleDamageProp.cpp
   atexit 0x83041460   # at-exit destructor of cTransVehicleDamagePropSpawningRegistrar, registered by its initializer 0x82FF5B30
 
 src/Prop/cVehicleDamageProp.cpp
-  text 0x82731DA0 0x82732028   # auto: cVehicleDamageProp; RuffKing cVehicleDamageProp.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82731D30 0x82732BD0   # auto: cVehicleDamageProp; RuffKing cVehicleDamageProp.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82732BD0): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x82731D30 (they read the class pointer this object's initializer sets)
   hot 0x8232A5E8   # cVehicleDamageProp::StaticCreateClass (order-list region), named by this object's class-pointer initializer
   init 0x82FF5E90
   atexit 0x83041480
@@ -6623,7 +6626,7 @@ src/Prop/cVehicleDamageProp.cpp
   atexit 0x83041490   # at-exit destructor of cVehicleDamagePropSpawningRegistrar, registered by its initializer 0x82FF5EE0
 
 src/cAgencyGarageDoor.cpp
-  text 0x82732DC0 0x827348D4   # auto: cAgencyGarageDoor; not in RuffKing; 10 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82732D50 0x827361C8   # auto: cAgencyGarageDoor; not in RuffKing; 10 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x827361C8): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x82732D50 (they read the class pointer this object's initializer sets)
   init 0x82FF6818
   atexit 0x830414F8
   init 0x82FF6788   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -6653,7 +6656,7 @@ src/cAgencyGarageDoor.cpp
   atexit 0x83041508   # at-exit destructor of cAgencyGarageDoorSpawningRegistrar, registered by its initializer 0x82FF6868
 
 src/cAgencyGaragePlatform.cpp
-  text 0x82736250 0x82736774   # auto: cAgencyGaragePlatform; not in RuffKing; 7 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 3 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x827361E0 0x82736D70   # auto: cAgencyGaragePlatform; not in RuffKing; 7 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 3 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82736D70): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x827361E0 (they read the class pointer this object's initializer sets)
   init 0x82FF6C50
   atexit 0x83041528
   init 0x82FF6BC0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -6685,7 +6688,7 @@ src/cAgencyGaragePlatform.cpp
 src/Prop/Constrained/cHingedProp.cpp
   atexit 0x83041580   # script registrar for cHingedProp; registration table 0x8213EF20
   init 0x82FF71D0   # script registrar for cHingedProp; registration table 0x8213EF20
-  text 0x82736DE8 0x82737698   # auto: cHingedProp; RuffKing cHingedProp.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82736D78 0x82738E28   # auto: cHingedProp; RuffKing cHingedProp.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82738E28): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x82736D78 (they read the class pointer this object's initializer sets)
   init 0x82FF7138
   atexit 0x83041558
   init 0x82FF70A8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -6745,7 +6748,7 @@ src/cLift.cpp
   atexit 0x830415A8   # at-exit destructor of cLiftSpawningRegistrar, registered by its initializer 0x82FF7828
 
 src/Prop/Constrained/cMovingPlatform.cpp
-  text 0x8273A760 0x8273ADB0   # auto: cMovingPlatform; RuffKing cMovingPlatform.obj; 8 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x8273A6F0 0x8273AE08   # auto: cMovingPlatform; RuffKing cMovingPlatform.obj; 8 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x8273AE08): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x8273A6F0 (they read the class pointer this object's initializer sets)
   init 0x82FF7AB8
   atexit 0x830415C8
   init 0x82FF7A28   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -6768,7 +6771,7 @@ src/Prop/Constrained/cMovingPlatform.cpp
   atexit 0x830415D8   # at-exit destructor of cMovingPlatformSpawningRegistrar, registered by its initializer 0x82FF7B08
 
 src/Prop/Constrained/cPivotBasedProp.cpp
-  text 0x8273AE80 0x8273B110   # auto: cPivotBasedProp; RuffKing cPivotBasedProp.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8273AE10 0x8273B4D8   # auto: cPivotBasedProp; RuffKing cPivotBasedProp.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x8273B4D8): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x8273AE10 (they read the class pointer this object's initializer sets)
   init 0x82FF7D98
   atexit 0x830415F8
   init 0x82FF7D08   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -6793,7 +6796,7 @@ src/Prop/Constrained/cPivotBasedProp.cpp
 src/Prop/Constrained/cPrismaticProp.cpp
   atexit 0x83041650   # script registrar for cPrismaticProp; registration table 0x82140D1C
   init 0x82FF82C0   # script registrar for cPrismaticProp; registration table 0x82140D1C
-  text 0x8273B548 0x8273BC98   # auto: cPrismaticProp; RuffKing cPrismaticProp.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8273B4D8 0x8273D318   # auto: cPrismaticProp; RuffKing cPrismaticProp.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x8273D318): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x8273B4D8 (they read the class pointer this object's initializer sets)
   init 0x82FF8228
   atexit 0x83041628
   init 0x82FF8198   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -6823,7 +6826,7 @@ src/Prop/Constrained/cPrismaticProp.cpp
   atexit 0x83041638   # at-exit destructor of cPrismaticPropSpawningRegistrar, registered by its initializer 0x82FF8278
 
 src/cPrismaticTrigger.cpp
-  text 0x8273D340 0x8273DDEC   # auto: cPrismaticTrigger; not in RuffKing; 8 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x8273D340 0x8273DF78   # auto: cPrismaticTrigger; not in RuffKing; 8 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x8273DF78): an object's thunks close its code, so the functions between belong to it too
   init 0x82FF8840
   atexit 0x83041668
   init 0x82FF87B0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -6882,7 +6885,7 @@ src/cSpawnPortal.cpp
 src/Prop/Constrained/cSpinningProp.cpp
   atexit 0x830416F0   # script registrar for cSpinningProp; registration table 0x82141F6C
   init 0x82FF8FF0   # script registrar for cSpinningProp; registration table 0x82141F6C
-  text 0x8273E618 0x8273FA68   # auto: cSpinningProp; RuffKing cSpinningProp.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8273E5A8 0x8273FA98   # auto: cSpinningProp; RuffKing cSpinningProp.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x8273FA98): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x8273E5A8 (they read the class pointer this object's initializer sets)
   # Extension: 367-slot primary table 0x82141860 and registrar 0x8273E738 identify this object's state getters/actions and three adjacent native query thunks through 0x8273FA68; no other source range overlaps.
   folded 0x82738E08   # shared slot-366 vcall thunk: spinning registrar uses it for IsInBrokenOffState; hinged registrar uses the same slot-specific body for its state query
   folded 0x826092F8   # shared 96-byte mutable void-member factory: spinning registrar calls it at 0x8273E770/0x8273E7A4/0x8273E7D4; CW weapon registrar also uses it for no-argument AI-accuracy actions
@@ -6942,7 +6945,7 @@ src/cSupplyEntryPoint.cpp
   atexit 0x83041718   # at-exit destructor of cSupplyEntryPointSpawningRegistrar, registered by its initializer 0x82FF9598
 
 src/cTeleporterDoor.cpp
-  text 0x827408F0 0x82740E90   # auto: cTeleporterDoor; not in RuffKing; 5 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82740880 0x82740F38   # auto: cTeleporterDoor; not in RuffKing; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82740F38): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x82740880 (they read the class pointer this object's initializer sets)
   init 0x82FF9980
   atexit 0x83041738
   init 0x82FF98F0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -7027,7 +7030,7 @@ src/Prop/Constrained/DebugCommands.cpp
   atexit 0x83041790   # header static CHARACTER::gRandGen (characterconsts.h): its at-exit destructor, registered by the initializer
 
 src/Prop/Custom/cBoomBox.cpp
-  text 0x82742D68 0x82742F64   # auto: cBoomBox; RuffKing cBoomBox.obj; 2 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-07 to the end of cBoomBox::StaticCreateClass (0x82742EC8), which its class-pointer initializer names
+  text 0x82742CF8 0x82742F64   # auto: cBoomBox; RuffKing cBoomBox.obj; 2 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-07 to the end of cBoomBox::StaticCreateClass (0x82742EC8), which its class-pointer initializer names; extended 2026-11-14 back to its RetClass/IsA pair at 0x82742CF8 (they read the class pointer this object's initializer sets)
   init 0x82FFA5E8
   atexit 0x83041910
   init 0x82FFA2D0   # header static (physicsconsts.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
@@ -7078,7 +7081,7 @@ src/Prop/Custom/cExplosiveBarrel.cpp
   atexit 0x83041950   # at-exit destructor of cExplosiveBarrelSpawningRegistrar, registered by its initializer 0x82FFA918
 
 src/Prop/Custom/cGasCanister.cpp
-  text 0x82743708 0x82744234   # auto: cGasCanister; RuffKing cGasCanister.obj; 6 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 4 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x82743698 0x82744270   # auto: cGasCanister; RuffKing cGasCanister.obj; 6 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 4 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82744270): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x82743698 (they read the class pointer this object's initializer sets)
   hot 0x822709A0   # cGasCanister::StaticCreateClass (order-list region), named by this object's class-pointer initializer
   init 0x82FFAC78
   atexit 0x83041970
@@ -7108,7 +7111,7 @@ src/Prop/Custom/cGasCanister.cpp
 src/Prop/Custom/cHingedDoor.cpp
   atexit 0x830419C8   # script registrar for cHingedDoor; registration table 0x82100494
   init 0x82FFAFF0   # script registrar for cHingedDoor; registration table 0x82100494
-  text 0x827442E0 0x82744784   # auto: cHingedDoor; RuffKing cHingedDoor.obj; 6 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82744270 0x82744978   # auto: cHingedDoor; RuffKing cHingedDoor.obj; 6 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82744978): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x82744270 (they read the class pointer this object's initializer sets)
   init 0x82FFAF58
   atexit 0x830419A0
   init 0x82FFAEC8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -7133,7 +7136,7 @@ src/Prop/Custom/cHingedDoor.cpp
 src/Prop/Custom/cHingedSpawnDoor.cpp
   atexit 0x83041A08   # script registrar for cHingedSpawnDoor; registration table 0x82144028
   init 0x82FFB3D8   # script registrar for cHingedSpawnDoor; registration table 0x82144028
-  text 0x827449E8 0x82744E4C   # auto: cHingedSpawnDoor; RuffKing cHingedSpawnDoor.obj; 7 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82744978 0x82745118   # auto: cHingedSpawnDoor; RuffKing cHingedSpawnDoor.obj; 7 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82745118): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x82744978 (they read the class pointer this object's initializer sets)
   init 0x82FFB340
   atexit 0x830419E0
   init 0x82FFB2B0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -7204,7 +7207,7 @@ src/Prop/Custom/cSearchLight.cpp
 src/Prop/Custom/cSlidingDoor.cpp
   atexit 0x83041AA8   # script registrar for cSlidingDoor; table 0x82100494
   init 0x82FFBD28   # script registrar for cSlidingDoor; table 0x82100494
-  text 0x827468E8 0x82746A24   # auto: cSlidingDoor; RuffKing cSlidingDoor.obj; 2 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-07 to the end of cSlidingDoor::StaticCreateClass (0x82746988), which its class-pointer initializer names
+  text 0x82746878 0x82746A24   # auto: cSlidingDoor; RuffKing cSlidingDoor.obj; 2 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-07 to the end of cSlidingDoor::StaticCreateClass (0x82746988), which its class-pointer initializer names; extended 2026-11-14 back to its RetClass/IsA pair at 0x82746878 (they read the class pointer this object's initializer sets)
   init 0x82FFBC90
   atexit 0x83041A80
   init 0x82FFBA48   # header static (physicsconsts.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
@@ -7227,7 +7230,7 @@ src/Prop/Custom/cSlidingDoor.cpp
   atexit 0x83041A90   # destroys the spawning registrar for cSlidingDoor, registered by its initializer
 
 src/Prop/Custom/cTODSlidingDoor.cpp
-  text 0x82746ED8 0x82747308   # auto: cTODSlidingDoor; RuffKing cTODSlidingDoor.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x82746ED8 0x82747350   # auto: cTODSlidingDoor; RuffKing cTODSlidingDoor.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82747350): an object's thunks close its code, so the functions between belong to it too
   init 0x82FFC078
   atexit 0x83041AC0
   init 0x82FFBFE8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -7304,7 +7307,7 @@ src/Prop/Custom/cTurretBase.cpp
   atexit 0x83041B30   # at-exit destructor of cTurretBaseSpawningRegistrar, registered by its initializer 0x82FFC7E0
 
 src/cExplosivesSkillProfile.cpp
-  text 0x82753060 0x827533F8   # auto: cExplosivesSkillProfile; RuffKing cExplosivesSkillProfile.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x82753060 0x82753430   # auto: cExplosivesSkillProfile; RuffKing cExplosivesSkillProfile.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82753430): an object's thunks close its code, so the functions between belong to it too
   hot 0x822128C8   # cExplosivesSkillProfile::StaticCreateClass (order-list region), named by this object's class-pointer initializer
   init 0x82FFD408
   atexit 0x83041D40
@@ -7400,7 +7403,7 @@ src/ORB/cSkillPickupProfile.cpp
   atexit 0x83041DB0   # header static CHARACTER::gRandGen (characterconsts.h): its at-exit destructor, registered by the initializer
 
 src/RPG/cRenegadeOrb.cpp
-  text 0x82756F60 0x827582A4   # auto: cRenegadeOrb; RuffKing cRenegadeOrb.obj; 10 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82756EF0 0x82758550   # auto: cRenegadeOrb; RuffKing cRenegadeOrb.obj; 10 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82758550): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x82756EF0 (they read the class pointer this object's initializer sets)
   init 0x82FFE578
   atexit 0x83041DD0
   init 0x82FFE4E8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -7432,7 +7435,7 @@ src/RPG/cRenegadeOrb.cpp
 src/cScriptManager.cpp
   atexit 0x83041F78   # script registrar for cScriptManager; registration table 0x821472FC
   init 0x83000EB8   # script registrar for cScriptManager; registration table 0x821472FC
-  text 0x827701B0 0x827706DC   # auto: cScriptManager; not in RuffKing; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x82770140 0x82771EB0   # auto: cScriptManager; not in RuffKing; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82771EB0): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x82770140 (they read the class pointer this object's initializer sets)
   init 0x83000E68
   atexit 0x83041F68
   init 0x83000DD8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -7462,7 +7465,7 @@ src/cScriptManager.cpp
 src/Sim/cTimeOfDay.cpp
   atexit 0x830420D0   # script registrar for cTimeOfDay; registration table 0x821479E8
   init 0x83002230   # script registrar for cTimeOfDay; registration table 0x821479E8
-  text 0x82773BA8 0x82774D98   # auto: cTimeOfDay; RuffKing cTimeOfDay.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x82773B38 0x82776BB8   # auto: cTimeOfDay; RuffKing cTimeOfDay.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82776BB8): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x82773B38 (they read the class pointer this object's initializer sets)
   init 0x83002188
   atexit 0x830420B0
   init 0x83002000   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -7574,7 +7577,7 @@ src/VEHICLE_CONTROL/cSplineController.cpp
   atexit 0x83042360   # header static CHARACTER::gRandGen (characterconsts.h): its at-exit destructor, registered by the initializer
 
 src/Vehicle/cVehicleController.cpp
-  text 0x827819F8 0x82781DD0   # auto: cVehicleController; RuffKing cVehicleController.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x827819F8 0x82781FA8   # auto: cVehicleController; RuffKing cVehicleController.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82781FA8): an object's thunks close its code, so the functions between belong to it too
   init 0x830052F0
   atexit 0x83042370
   init 0x83005260   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -7722,7 +7725,7 @@ src/cNoiseVolumesControl.cpp
   atexit 0x83042520
 
 src/VFX/cOutlines.cpp
-  text 0x827A0B98 0x827A146C   # auto: cOutlines; RuffKing cOutlines.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x827A0B28 0x827A3F90   # auto: cOutlines; RuffKing cOutlines.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x827A3F90): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x827A0B28 (they read the class pointer this object's initializer sets)
   init 0x83007888
   atexit 0x83042530
   init 0x830077F8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -7741,12 +7744,12 @@ src/VFX/cOvercast.cpp
   atexit 0x83042550
 
 src/VFX/cPostProcessEffectsControl.cpp
-  text 0x827A4E30 0x827A52E0   # auto: cPostProcessEffectsControl; RuffKing cPostProcessEffects.obj; 3 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x827A4E30 0x827A5538   # auto: cPostProcessEffectsControl; RuffKing cPostProcessEffects.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x827A5538): an object's thunks close its code, so the functions between belong to it too
   init 0x83007A08
   atexit 0x83042560
 
 src/VFX/cProjectedDecal.cpp
-  text 0x827A5640 0x827A75BC   # auto: cProjectedDecal; RuffKing cProjectedDecal.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x827A55D0 0x827A9AA8   # auto: cProjectedDecal; RuffKing cProjectedDecal.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x827A9AA8): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x827A55D0 (they read the class pointer this object's initializer sets)
   init 0x83007C60
   atexit 0x83042570
   init 0x83007BD0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -7798,7 +7801,7 @@ src/VFX/cScatterMeshResources.cpp
   atexit 0x830425F8   # header static CHARACTER::gRandGen (characterconsts.h): its at-exit destructor, registered by the initializer
 
 src/VFX/cSkidMarks.cpp
-  text 0x827B7A90 0x827B8150   # auto: cSkidMarks; RuffKing cSkidMarks.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x827B7A20 0x827B8978   # auto: cSkidMarks; RuffKing cSkidMarks.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x827B8978): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x827B7A20 (they read the class pointer this object's initializer sets)
   hot 0x821EA450   # cSkidMarks::StaticCreateClass (order-list region), named by this object's class-pointer initializer
   init 0x83008560
   atexit 0x830426A8
@@ -7806,12 +7809,12 @@ src/VFX/cSkidMarks.cpp
   init 0x830084F8   # inheritance registrar: cSkidMarks under cNonGameBase (StaticCreateClass 0x82652FE0)
 
 src/VFX/cSkyDome.cpp
-  text 0x827B8988 0x827B8D20   # auto: cSkyDome; RuffKing cSkyDome.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x827B8988 0x827B98B8   # auto: cSkyDome; RuffKing cSkyDome.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x827B98B8): an object's thunks close its code, so the functions between belong to it too
   init 0x830085E8
   atexit 0x830426C8
 
 src/VFX/cTracers.cpp
-  text 0x827B9928 0x827BA0F8   # auto: cTracers; RuffKing cTracers.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x827B98B8 0x827BC170   # auto: cTracers; RuffKing cTracers.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x827BC170): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x827B98B8 (they read the class pointer this object's initializer sets)
   init 0x83008870
   atexit 0x83042720
   init 0x830087E0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -7871,7 +7874,7 @@ src/VFX/cPostProcessControl.cpp
   atexit 0x83042890
 
 src/VFX/ParticleSystem/cParticleEffectManager.cpp
-  text 0x827DEDB0 0x827DEEA0   # auto: cParticleEffectManager; RuffKing cParticleEffectManager.obj; 2 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-07 to the end of cParticleEffectManager::StaticCreateClass (0x827DEE08), which its class-pointer initializer names
+  text 0x827DED40 0x827DEEA0   # auto: cParticleEffectManager; RuffKing cParticleEffectManager.obj; 2 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-07 to the end of cParticleEffectManager::StaticCreateClass (0x827DEE08), which its class-pointer initializer names; extended 2026-11-14 back to its RetClass/IsA pair at 0x827DED40 (they read the class pointer this object's initializer sets)
   init 0x83009850
   atexit 0x83042958
   init 0x830094B0   # header static (physicsconsts.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
@@ -7899,7 +7902,7 @@ src/VFX/ParticleSystem/cParticleEffectManager.cpp
   init 0x830097E8   # inheritance registrar: cParticleEffectManager under cNonGameBase (StaticCreateClass 0x82652FE0)
 
 src/VFX/cParticleEffectResourceHolder.cpp
-  text 0x827EDB18 0x827EEDC4   # auto: cParticleEffectResourceHolder; RuffKing cParticleEffectResource.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x827EDB18 0x827EF610   # auto: cParticleEffectResourceHolder; RuffKing cParticleEffectResource.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 0 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x827EF610): an object's thunks close its code, so the functions between belong to it too
   hot 0x82349300   # cParticleEffectResourceHolder::StaticCreateClass (order-list region), named by this object's class-pointer initializer
   init 0x830099C0
   atexit 0x83042970
@@ -7963,7 +7966,7 @@ src/VFX/cLinkedVFXPrototype.cpp
   atexit 0x83042F18   # header static CHARACTER::gRandGen (characterconsts.h): its at-exit destructor, registered by the initializer
 
 src/VFX/cGlobalLightManager.cpp
-  text 0x827FAFE0 0x827FBD60   # auto: cGlobalLightManager; RuffKing cGlobalLightManager.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x827FAFE0 0x82800708   # auto: cGlobalLightManager; RuffKing cGlobalLightManager.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82800708): an object's thunks close its code, so the functions between belong to it too
   init 0x8300B500
   atexit 0x83042F58
   init 0x8300B470   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -8044,7 +8047,7 @@ src/VFX/cRopes.cpp
   init 0x8300BF10   # header static (physicsconsts.h): inside this object's initializer run, which reads one g_GlobalConstants copy (0x8329DFC0)
 
 src/WorldManager/cLOD4Environment.cpp
-  text 0x828077A0 0x82807FC4   # auto: cLOD4Environment; RuffKing cLOD4Environment.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x828077A0 0x828088A8   # auto: cLOD4Environment; RuffKing cLOD4Environment.obj; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 2 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x828088A8): an object's thunks close its code, so the functions between belong to it too
   init 0x8300C938
   atexit 0x83043170
   init 0x8300C8A8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -8061,7 +8064,7 @@ src/WorldManager/cLOD4Environment.cpp
   init 0x8300C888   # header static (physicsproject.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
 
 src/WorldManager/cStaticEnvironment.cpp
-  text 0x82808918 0x828091BC   # auto: cStaticEnvironment; RuffKing cStaticEnvironment1.obj; 12 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x828088A8 0x82809A68   # auto: cStaticEnvironment; RuffKing cStaticEnvironment1.obj; 12 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82809A68): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x828088A8 (they read the class pointer this object's initializer sets)
   init 0x8300CB00
   atexit 0x83043180
   init 0x8300CB50   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -8080,7 +8083,7 @@ src/WorldManager/cStaticEnvironment.cpp
 src/WorldManager/cWorldManager.cpp
   atexit 0x830431B0   # script registrar for cWorldManager; registration table 0x82155904
   init 0x8300D0C8   # script registrar for cWorldManager; registration table 0x82155904
-  text 0x82809AD8 0x8280A070   # auto: cWorldManager; RuffKing cWorldManager.obj; 4 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x82809A68 0x8280B658   # auto: cWorldManager; RuffKing cWorldManager.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x8280B658): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x82809A68 (they read the class pointer this object's initializer sets)
   init 0x8300D078
   atexit 0x830431A0
   init 0x8300CF80   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -9201,7 +9204,7 @@ src/cKeysToTheCityGameModePrototype.cpp
   atexit 0x830440E0   # header static CHARACTER::gRandGen (characterconsts.h): its at-exit destructor, registered by the initializer
 
 src/cVehicleTagGameModePrototype.cpp
-  text 0x8286D898 0x8286E7EC   # auto: cVehicleTagGameModePrototype; not in RuffKing; 9 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs)
+  text 0x8286D898 0x82870710   # auto: cVehicleTagGameModePrototype; not in RuffKing; 9 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82870710): an object's thunks close its code, so the functions between belong to it too
   init 0x8301D640
   atexit 0x83044130
   init 0x8301D330   # header static (physicsconsts.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
@@ -9305,7 +9308,7 @@ src/cATVAssaultGameModePrototype.cpp
   atexit 0x83044230   # header static CHARACTER::gRandGen (characterconsts.h): its at-exit destructor, registered by the initializer
 
 src/cTeamATVAssaultGameModePrototype.cpp
-  text 0x8287E080 0x8287E15C   # auto: cTeamATVAssaultGameModePrototype; not in RuffKing; 3 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8287E080 0x8287E1E8   # auto: cTeamATVAssaultGameModePrototype; not in RuffKing; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x8287E1E8): an object's thunks close its code, so the functions between belong to it too
   init 0x8301F110
   atexit 0x830442E8
   init 0x8301EE00   # header static (physicsconsts.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
@@ -9331,7 +9334,7 @@ src/cTeamATVAssaultGameModePrototype.cpp
   atexit 0x830442E0   # header static CHARACTER::gRandGen (characterconsts.h): its at-exit destructor, registered by the initializer
 
 src/cHunterGathererGameModePrototype.cpp
-  text 0x8287E1E8 0x8287E9A4   # auto: cHunterGathererGameModePrototype; not in RuffKing; 5 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x8287E1E8 0x82880D48   # auto: cHunterGathererGameModePrototype; not in RuffKing; 5 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82880D48): an object's thunks close its code, so the functions between belong to it too
   init 0x8301F470
   atexit 0x83044300
   init 0x8301F160   # header static (physicsconsts.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
@@ -9433,7 +9436,7 @@ src/GameManagement/cGameModeTriggerZone.cpp
   init 0x83020548   # header static (aiconstants.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers; RuffKing module 305 (cGameModeTriggerZone.obj, Libraries/Shared/GameManagement/cGameModeTriggerZone.cpp): CD2 runs initializers in the reverse of RuffKing's module order, and this run (from 0x83020250) falls between two scaffolded files' runs at this module's place
 
 src/GameManagement/cGameModeStartZone.cpp
-  text 0x828821E0 0x828831B8   # auto: cGameModeStartZone; RuffKing cGameModeStartZone.obj; 12 markers (RetClassName, MakeNew, own vtable slots)
+  text 0x828821E0 0x82883AB8   # auto: cGameModeStartZone; RuffKing cGameModeStartZone.obj; 12 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82883AB8): an object's thunks close its code, so the functions between belong to it too
   init 0x83020200
   atexit 0x830443C0
   init 0x8301FEF0   # header static (physicsconsts.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
@@ -9745,7 +9748,7 @@ src/cInterestingObject.cpp
   atexit 0x8303AE40   # enum cleanup restores common table 0x82147468, registered by 0x82F85A80
 
 src/CHARACTER/cCharacterMotion.cpp
-  text 0x8254FF10 0x8254FF1C   # constructor/descriptor or registered-method evidence; contiguous cold code
+  text 0x8254FF10 0x82552158   # constructor/descriptor or registered-method evidence; contiguous cold code; extended 2026-11-14 to its adjustor thunks (the last ends at 0x82552158): an object's thunks close its code, so the functions between belong to it too
   init 0x82FAE0C8   # cCharacterMotion class descriptor pointer initialization
   hot 0x8229FDC8   # StaticCreateClass names cCharacterMotion; class ID 0x640, size 0x11F0
   init 0x82FAE158   # names cCharacterMotion under cNetDynamicBody; registrar table 0x82100494
@@ -10077,7 +10080,7 @@ src/PHYSICS/cTrajectoryAction.cpp
 
 # RuffKing module 889 (cAcidBomblet.obj, Libraries/Shared/Equipment/Weapon/cAcidBomblet.cpp): CD2 runs initializers in the reverse of RuffKing's module order, and this run (from 0x82FCEB18) falls between two scaffolded files' runs at this module's place; its own initializers register "cAcidBomblet"
 src/Equip/Weapon/cAcidBomblet.cpp
-  text 0x82617EB8 0x82619728   # the unassigned text between cCWFirearm.cpp and cClusterGrenade.cpp, which CD2 links on either side of this object (their initializer runs enclose this one) and RuffKing has as its neighbouring modules 890 and 888
+  text 0x826187D0 0x82619728   # from cAcidBomblet::MakeNew (its class-factory registrar; the code before it is cCWFirearm's, see that file): the unassigned text between cCWFirearm.cpp and cClusterGrenade.cpp, which CD2 links on either side of this object (their initializer runs enclose this one) and RuffKing has as its neighbouring modules 890 and 888
   hot 0x82200AE0   # cAcidBomblet::StaticCreateClass (order-list region), named by this object's class-pointer initializer
   init 0x82FCEB18   # header static (physicsconsts.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
   init 0x82FCEB40   # header static (physicsconsts.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
@@ -10107,7 +10110,7 @@ src/Equip/Weapon/cAcidBomblet.cpp
 # RuffKing cCampaignWeaponSpawnPoint.obj (Libraries/Shared/ActivityManager/SpawnPoint/cCampaignWeaponSpawnPoint.cpp): CD2's initializer run from 0x82F58820 carries the class registrars of cCampaignWeaponSpawnPoint at 0x82F58B30;
 # the text range runs from the first to the last function those registrars name (the class markers).
 src/Activity/SpawnPoint/cCampaignWeaponSpawnPoint.cpp
-  text 0x823D0270 0x823D0408   # class markers: cCampaignWeaponSpawnPoint::StaticCreateClass 0x823D0270, cCampaignWeaponSpawnPoint::MakeNew 0x823D0310
+  text 0x823D0200 0x823D0408   # class markers: cCampaignWeaponSpawnPoint::StaticCreateClass 0x823D0270, cCampaignWeaponSpawnPoint::MakeNew 0x823D0310; extended 2026-11-14 back to its RetClass/IsA pair at 0x823D0200 (they read the class pointer this object's initializer sets)
   init 0x82F58820   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82F58848   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82F58870   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
@@ -10160,7 +10163,7 @@ src/Activity/SpawnPoint/cGlobalLightPropSpawnPoint.cpp
 # RuffKing cReaperAerialSpawnPoint.obj (Libraries/Shared/ActivityManager/SpawnPoint/cReaperAerialSpawnPoint.cpp): CD2's initializer run (own initializers only) carries the class registrars of cReaperAerialSpawnPoint at 0x82F58EA8, cReaperAerialRespawnPoint at 0x82F58F88;
 # the text range runs from the first to the last function those registrars name (the class markers).
 src/Activity/SpawnPoint/cReaperAerialSpawnPoint.cpp
-  text 0x823D1888 0x823D1B68   # class markers: cReaperAerialSpawnPoint::StaticCreateClass 0x823D1888, cReaperAerialSpawnPoint::MakeNew 0x823D1928, cReaperAerialRespawnPoint::StaticCreateClass 0x823D1A60, cReaperAerialRespawnPoint::MakeNew 0x823D1B00
+  text 0x823D1818 0x823D1B68   # class markers: cReaperAerialSpawnPoint::StaticCreateClass 0x823D1888, cReaperAerialSpawnPoint::MakeNew 0x823D1928, cReaperAerialRespawnPoint::StaticCreateClass 0x823D1A60, cReaperAerialRespawnPoint::MakeNew 0x823D1B00; extended 2026-11-14 back to its RetClass/IsA pair at 0x823D1818 (they read the class pointer this object's initializer sets)
   init 0x82F58EA8   # class pointer: cReaperAerialSpawnPoint::ms_pcReaperAerialSpawnPointClass = StaticCreateClass() (0x823D1888)
   init 0x82F58ED0   # class-factory registrar for "cReaperAerialSpawnPoint" (MakeNew 0x823D1928, size 0xB0)
   atexit 0x83039560   # destroys the class-factory registrar for "cReaperAerialSpawnPoint", registered by its initializer
@@ -10260,7 +10263,7 @@ src/Activity/SpawnPoint/cTurretSpawnPoint.cpp
 # RuffKing cTurretVehicleSpawnPoint.obj (Libraries/Shared/ActivityManager/SpawnPoint/cTurretVehicleSpawnPoint.cpp): CD2's initializer run from 0x82F59B90 carries the class registrars of cTurretVehicleSpawnPoint at 0x82F59E18;
 # the text range runs from the first to the last function those registrars name (the class markers).
 src/Activity/SpawnPoint/cTurretVehicleSpawnPoint.cpp
-  text 0x823D4A88 0x823D4B90   # class markers: cTurretVehicleSpawnPoint::StaticCreateClass 0x823D4A88, cTurretVehicleSpawnPoint::MakeNew 0x823D4B28
+  text 0x823D4A18 0x823D4B90   # class markers: cTurretVehicleSpawnPoint::StaticCreateClass 0x823D4A88, cTurretVehicleSpawnPoint::MakeNew 0x823D4B28; extended 2026-11-14 back to its RetClass/IsA pair at 0x823D4A18 (they read the class pointer this object's initializer sets)
   init 0x82F59B90   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82F59BB8   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82F59BE0   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
@@ -10344,7 +10347,7 @@ src/Activity/SquadSpawnPoint/cAmbientEventSpawnPoint.cpp
 # RuffKing cChopperRespawnPoint.obj (Libraries/Shared/ActivityManager/SquadSpawnPoint/cChopperRespawnPoint.cpp): CD2's initializer run from 0x82F5CAF0 carries the class registrars of cChopperRespawnPoint at 0x82F5CD78;
 # the text range runs from the first to the last function those registrars name (the class markers).
 src/Activity/SquadSpawnPoint/cChopperRespawnPoint.cpp
-  text 0x823DB588 0x823DB690   # class markers: cChopperRespawnPoint::StaticCreateClass 0x823DB588, cChopperRespawnPoint::MakeNew 0x823DB628
+  text 0x823DB518 0x823DB690   # class markers: cChopperRespawnPoint::StaticCreateClass 0x823DB588, cChopperRespawnPoint::MakeNew 0x823DB628; extended 2026-11-14 back to its RetClass/IsA pair at 0x823DB518 (they read the class pointer this object's initializer sets)
   init 0x82F5CAF0   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82F5CB18   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82F5CB40   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
@@ -10371,7 +10374,7 @@ src/Activity/SquadSpawnPoint/cChopperRespawnPoint.cpp
 # RuffKing cChopperSpawnPoint.obj (Libraries/Shared/ActivityManager/SquadSpawnPoint/cChopperSpawnPoint.cpp): CD2's initializer run from 0x82F5CE58 carries the class registrars of cChopperSpawnPoint at 0x82F5D168;
 # the text range runs from the first to the last function those registrars name (the class markers).
 src/Activity/SquadSpawnPoint/cChopperSpawnPoint.cpp
-  text 0x823DB8A8 0x823DB9B0   # class markers: cChopperSpawnPoint::StaticCreateClass 0x823DB8A8, cChopperSpawnPoint::MakeNew 0x823DB948
+  text 0x823DB838 0x823DB9B0   # class markers: cChopperSpawnPoint::StaticCreateClass 0x823DB8A8, cChopperSpawnPoint::MakeNew 0x823DB948; extended 2026-11-14 back to its RetClass/IsA pair at 0x823DB838 (they read the class pointer this object's initializer sets)
   init 0x82F5CE58   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82F5CE80   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82F5CEA8   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
@@ -10432,7 +10435,7 @@ src/Activity/SquadSpawnPoint/cSquadMemberRespawnPoint.cpp
 # RuffKing cSquadMemberSpawnPoint.obj (Libraries/Shared/ActivityManager/SquadSpawnPoint/cSquadMemberSpawnPoint.cpp): CD2's initializer run from 0x82F5D638 carries the class registrars of cSquadMemberSpawnPoint at 0x82F5D948;
 # the text range runs from the first to the last function those registrars name (the class markers).
 src/Activity/SquadSpawnPoint/cSquadMemberSpawnPoint.cpp
-  text 0x823DC6B0 0x823DC7AC   # class markers: cSquadMemberSpawnPoint::StaticCreateClass 0x823DC6B0, cSquadMemberSpawnPoint::MakeNew 0x823DC750
+  text 0x823DC640 0x823DC7AC   # class markers: cSquadMemberSpawnPoint::StaticCreateClass 0x823DC6B0, cSquadMemberSpawnPoint::MakeNew 0x823DC750; extended 2026-11-14 back to its RetClass/IsA pair at 0x823DC640 (they read the class pointer this object's initializer sets)
   init 0x82F5D638   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82F5D660   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82F5D688   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
@@ -10490,7 +10493,7 @@ src/Activity/SquadSpawnPoint/cSquadMemberSpawnPointBase.cpp
 # RuffKing cSquadSpawnPoint.obj (Libraries/Shared/ActivityManager/SquadSpawnPoint/cSquadSpawnPoint.cpp): CD2's initializer run from 0x82F5DDC8 carries the class registrars of cSquadSpawnPoint at 0x82F5E0D8;
 # the text range runs from the first to the last function those registrars name (the class markers).
 src/Activity/SquadSpawnPoint/cSquadSpawnPoint.cpp
-  text 0x823DD810 0x823DD90C   # class markers: cSquadSpawnPoint::StaticCreateClass 0x823DD810, cSquadSpawnPoint::MakeNew 0x823DD8B0
+  text 0x823DD7A0 0x823DD90C   # class markers: cSquadSpawnPoint::StaticCreateClass 0x823DD810, cSquadSpawnPoint::MakeNew 0x823DD8B0; extended 2026-11-14 back to its RetClass/IsA pair at 0x823DD7A0 (they read the class pointer this object's initializer sets)
   init 0x82F5DDC8   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82F5DDF0   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82F5DE18   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
@@ -10520,7 +10523,7 @@ src/Activity/SquadSpawnPoint/cSquadSpawnPoint.cpp
 # RuffKing cTurretSquadMemberSpawnPoint.obj (Libraries/Shared/ActivityManager/SquadSpawnPoint/cTurretSquadMemberSpawnPoint.cpp): CD2's initializer run from 0x82F5E1B8 carries the class registrars of cTurretSquadMemberSpawnPoint at 0x82F5E4C8;
 # the text range runs from the first to the last function those registrars name (the class markers).
 src/Activity/SquadSpawnPoint/cTurretSquadMemberSpawnPoint.cpp
-  text 0x823DF088 0x823DF184   # class markers: cTurretSquadMemberSpawnPoint::StaticCreateClass 0x823DF088, cTurretSquadMemberSpawnPoint::MakeNew 0x823DF128
+  text 0x823DF018 0x823DF184   # class markers: cTurretSquadMemberSpawnPoint::StaticCreateClass 0x823DF088, cTurretSquadMemberSpawnPoint::MakeNew 0x823DF128; extended 2026-11-14 back to its RetClass/IsA pair at 0x823DF018 (they read the class pointer this object's initializer sets)
   init 0x82F5E1B8   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82F5E1E0   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82F5E208   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
@@ -10550,7 +10553,7 @@ src/Activity/SquadSpawnPoint/cTurretSquadMemberSpawnPoint.cpp
 # RuffKing cWeaponVehicleRespawnPoint.obj (Libraries/Shared/ActivityManager/SquadSpawnPoint/cWeaponVehicleRespawnPoint.cpp): CD2's initializer run (own initializers only) carries the class registrars of cWeaponVehicleRespawnPoint at 0x82F5E5A8;
 # the text range runs from the first to the last function those registrars name (the class markers).
 src/Activity/SquadSpawnPoint/cWeaponVehicleRespawnPoint.cpp
-  text 0x823DF670 0x823DF778   # class markers: cWeaponVehicleRespawnPoint::StaticCreateClass 0x823DF670, cWeaponVehicleRespawnPoint::MakeNew 0x823DF710
+  text 0x823DF600 0x823DF778   # class markers: cWeaponVehicleRespawnPoint::StaticCreateClass 0x823DF670, cWeaponVehicleRespawnPoint::MakeNew 0x823DF710; extended 2026-11-14 back to its RetClass/IsA pair at 0x823DF600 (they read the class pointer this object's initializer sets)
   init 0x82F5E5A8   # class pointer: cWeaponVehicleRespawnPoint::ms_pcWeaponVehicleRespawnPointClass = StaticCreateClass() (0x823DF670)
   init 0x82F5E5D0   # inheritance registrar: cWeaponVehicleRespawnPoint under cSquadMemberRespawnPoint (StaticCreateClass 0x821D1BB8)
   init 0x82F5E638   # class-factory registrar for "cWeaponVehicleRespawnPoint" (MakeNew 0x823DF710, size 0x90)
@@ -10559,7 +10562,7 @@ src/Activity/SquadSpawnPoint/cWeaponVehicleRespawnPoint.cpp
 # RuffKing cWeaponVehicleSpawnPoint.obj (Libraries/Shared/ActivityManager/SquadSpawnPoint/cWeaponVehicleSpawnPoint.cpp): CD2's initializer run from 0x82F5E688 carries the class registrars of cWeaponVehicleSpawnPoint at 0x82F5E910;
 # the text range runs from the first to the last function those registrars name (the class markers).
 src/Activity/SquadSpawnPoint/cWeaponVehicleSpawnPoint.cpp
-  text 0x823DF8F8 0x823DFA00   # class markers: cWeaponVehicleSpawnPoint::StaticCreateClass 0x823DF8F8, cWeaponVehicleSpawnPoint::MakeNew 0x823DF998
+  text 0x823DF888 0x823DFA00   # class markers: cWeaponVehicleSpawnPoint::StaticCreateClass 0x823DF8F8, cWeaponVehicleSpawnPoint::MakeNew 0x823DF998; extended 2026-11-14 back to its RetClass/IsA pair at 0x823DF888 (they read the class pointer this object's initializer sets)
   init 0x82F5E688   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82F5E6B0   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82F5E6D8   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
@@ -10670,7 +10673,7 @@ src/AI/Targeting/cAiTargetPositionInfo.cpp
 # RuffKing cAttachableLight.obj (Libraries/Shared/AI/Mission/cAttachableLight.cpp): CD2's initializer run (own initializers only) carries the class registrars of cAttachableLight at 0x82F85F68;
 # the text range runs from the first to the last function those registrars name (the class markers).
 src/AI/Mission/cAttachableLight.cpp
-  text 0x82456260 0x8245635C   # class markers: cAttachableLight::StaticCreateClass 0x82456260, cAttachableLight::MakeNew 0x82456300
+  text 0x824561F0 0x8245635C   # class markers: cAttachableLight::StaticCreateClass 0x82456260, cAttachableLight::MakeNew 0x82456300; extended 2026-11-14 back to its RetClass/IsA pair at 0x824561F0 (they read the class pointer this object's initializer sets)
   init 0x82F85F68   # class pointer: cAttachableLight::ms_pcAttachableLightClass = StaticCreateClass() (0x82456260)
   init 0x82F85F90   # inheritance registrar: cAttachableLight under cPlaceableLight (StaticCreateClass 0x82801D78)
   init 0x82F85FF8   # class-factory registrar for "cAttachableLight" (MakeNew 0x82456300, size 0x160)
@@ -10679,7 +10682,7 @@ src/AI/Mission/cAttachableLight.cpp
 # RuffKing cRefineryPropSpawnPoint.obj (Libraries/Shared/AI/Mission/cRefineryPropSpawnPoint.cpp): CD2's initializer run (own initializers only) carries the class registrars of cRefineryPropSpawnPoint at 0x82F86718;
 # the text range runs from the first to the last function those registrars name (the class markers).
 src/AI/Mission/cRefineryPropSpawnPoint.cpp
-  text 0x824586F8 0x824587EC   # class markers: cRefineryPropSpawnPoint::StaticCreateClass 0x824586F8, cRefineryPropSpawnPoint::MakeNew 0x82458790
+  text 0x82458688 0x824587EC   # class markers: cRefineryPropSpawnPoint::StaticCreateClass 0x824586F8, cRefineryPropSpawnPoint::MakeNew 0x82458790; extended 2026-11-14 back to its RetClass/IsA pair at 0x82458688 (they read the class pointer this object's initializer sets)
   init 0x82F86718   # class pointer: cRefineryPropSpawnPoint::ms_pcRefineryPropSpawnPointClass = StaticCreateClass() (0x824586F8)
   init 0x82F86740   # inheritance registrar: cRefineryPropSpawnPoint under cMissionCriticalPropSpawnPoint (StaticCreateClass 0x8245B740)
   init 0x82F867A8   # class-factory registrar for "cRefineryPropSpawnPoint" (MakeNew 0x82458790, size 0x2E0)
@@ -10688,7 +10691,7 @@ src/AI/Mission/cRefineryPropSpawnPoint.cpp
 # RuffKing cSupplyValveSpawnPoint.obj (Libraries/Shared/AI/Mission/cSupplyValveSpawnPoint.cpp): CD2's initializer run from 0x82F867F8 carries the class registrars of cSupplyValveSpawnPoint at 0x82F869B0;
 # the text range runs from the first to the last function those registrars name (the class markers).
 src/AI/Mission/cSupplyValveSpawnPoint.cpp
-  text 0x82458AF8 0x82458B88   # class markers: cSupplyValveSpawnPoint::MakeNew 0x82458AF8
+  text 0x82458A88 0x82458B88   # class markers: cSupplyValveSpawnPoint::MakeNew 0x82458AF8; extended 2026-11-14 back to its RetClass/IsA pair at 0x82458A88 (they read the class pointer this object's initializer sets)
   hot 0x82200B80   # cSupplyValveSpawnPoint::StaticCreateClass (order-list region), named by this object's class-pointer initializer
   init 0x82F867F8   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82F86820   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
@@ -10712,7 +10715,7 @@ src/AI/Mission/cSupplyValveSpawnPoint.cpp
 # RuffKing cMissionCriticalPropSpawnPoint.obj (Libraries/Shared/AI/Mission/cMissionCriticalPropSpawnPoint.cpp): CD2's initializer run from 0x82F873E8 carries the class registrars of cMissionCriticalPropSpawnPoint at 0x82F876F8;
 # the text range runs from the first to the last function those registrars name (the class markers).
 src/AI/Mission/cMissionCriticalPropSpawnPoint.cpp
-  text 0x8245B740 0x8245B834   # class markers: cMissionCriticalPropSpawnPoint::StaticCreateClass 0x8245B740, cMissionCriticalPropSpawnPoint::MakeNew 0x8245B7D8
+  text 0x8245B6D0 0x8245B834   # class markers: cMissionCriticalPropSpawnPoint::StaticCreateClass 0x8245B740, cMissionCriticalPropSpawnPoint::MakeNew 0x8245B7D8; extended 2026-11-14 back to its RetClass/IsA pair at 0x8245B6D0 (they read the class pointer this object's initializer sets)
   init 0x82F873E8   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82F87410   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82F87438   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
@@ -10779,7 +10782,7 @@ src/AI/Mission/AU/cBeaconDropPoint.cpp
 # RuffKing cTrainingAimTarget.obj (Libraries/Shared/AI/Mission/Training/cTrainingAimTarget.cpp): CD2's initializer run from 0x82F8B238 carries the class registrars of cTrainingAimTarget at 0x82F8B548;
 # the text range runs from the first to the last function those registrars name (the class markers).
 src/AI/Mission/Training/cTrainingAimTarget.cpp
-  text 0x8247E848 0x8247E9A0   # class markers: cTrainingAimTarget::StaticCreateClass 0x8247E848, cTrainingAimTarget::MakeNew 0x8247E938
+  text 0x8247E7D8 0x8247E9A0   # class markers: cTrainingAimTarget::StaticCreateClass 0x8247E848, cTrainingAimTarget::MakeNew 0x8247E938; extended 2026-11-14 back to its RetClass/IsA pair at 0x8247E7D8 (they read the class pointer this object's initializer sets)
   init 0x82F8B238   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82F8B260   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82F8B288   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
@@ -10809,7 +10812,7 @@ src/AI/Mission/Training/cTrainingAimTarget.cpp
 # RuffKing cTrainingDoorSpawnPoint.obj (Libraries/Shared/AI/Mission/Training/cTrainingDoorSpawnPoint.cpp): CD2's initializer run from 0x82F8B628 carries the class registrars of cTrainingDoorSpawnPoint at 0x82F8B7E0;
 # the text range runs from the first to the last function those registrars name (the class markers).
 src/AI/Mission/Training/cTrainingDoorSpawnPoint.cpp
-  text 0x8247EA50 0x8247EC98   # class markers: cTrainingDoorSpawnPoint::StaticCreateClass 0x8247EA50, cTrainingDoorSpawnPoint::MakeNew 0x8247EC38
+  text 0x8247E9E0 0x8247EC98   # class markers: cTrainingDoorSpawnPoint::StaticCreateClass 0x8247EA50, cTrainingDoorSpawnPoint::MakeNew 0x8247EC38; extended 2026-11-14 back to its RetClass/IsA pair at 0x8247E9E0 (they read the class pointer this object's initializer sets)
   init 0x82F8B628   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82F8B650   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82F8B678   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
@@ -11026,7 +11029,7 @@ src/GameRenderer/cVehicleColourPalette.cpp
 
 # RuffKing module 681 (cPickup.obj, Libraries/Shared/Physics/cPickup.cpp): this run (from 0x82FF0258), between cWaterZone.cpp's and cPickupProfile.cpp's, has initializers that use strings only that object's initializers use
 src/PHYSICS/cPickup.cpp
-  text 0x82709070 0x8270A708   # 29 function(s) between cWaterZone.cpp and cPickupProfile.cpp: 6 reached only from this run's initializers; 4 using strings only cPickup.obj's code uses
+  text 0x82709070 0x8270B320   # 29 function(s) between cWaterZone.cpp and cPickupProfile.cpp: 6 reached only from this run's initializers; 4 using strings only cPickup.obj's code uses; extended 2026-11-14 to its adjustor thunks (the last ends at 0x8270B320): an object's thunks close its code, so the functions between belong to it too
   init 0x82FF0258   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82FF0280   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82FF02A8   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
@@ -11069,7 +11072,7 @@ src/PHYSICS/cPickupProfile.cpp
 # RuffKing cUniqueStuntZone.obj (Libraries/Shared/Physics/cUniqueStuntZone.cpp): CD2's initializer run from 0x82FF1DE0 carries the class registrars of cStuntRing at 0x82FF20F0, cStunt at 0x82FF21D0;
 # the text range runs from the first to the last function those registrars name (the class markers).
 src/PHYSICS/cUniqueStuntZone.cpp
-  text 0x82711AD0 0x82712A78   # class markers: cStuntRing::MakeNew 0x82711AD0, cStuntRing::RetClassName 0x82711B18, cStunt::MakeNew 0x82711B38, cStunt::RetClassName 0x82711C18, cStuntRing::StaticCreateClass 0x82711C28, cStunt::StaticCreateClass 0x827129E0
+  text 0x82711A60 0x82713278   # class markers: cStuntRing::MakeNew 0x82711AD0, cStuntRing::RetClassName 0x82711B18, cStunt::MakeNew 0x82711B38, cStunt::RetClassName 0x82711C18, cStuntRing::StaticCreateClass 0x82711C28, cStunt::StaticCreateClass 0x827129E0; extended 2026-11-14 to its adjustor thunks (the last ends at 0x82713278): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x82711A60 (they read the class pointer this object's initializer sets)
   init 0x82FF1DE0   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82FF1E08   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82FF1E30   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
@@ -11131,7 +11134,7 @@ src/CHARACTER/cWingSuitUpdraftZone.cpp
 # RuffKing cSkillSet.obj (Libraries/Shared/RPG/cSkillSet.cpp): CD2's initializer run from 0x82FFD538 carries the class registrars of cSkillSet at 0x82FFD848;
 # the text range runs from the first to the last function those registrars name (the class markers).
 src/RPG/cSkillSet.cpp
-  text 0x827539D0 0x82753A68   # class markers: cSkillSet::StaticCreateClass 0x827539D0
+  text 0x82753960 0x82753A68   # class markers: cSkillSet::StaticCreateClass 0x827539D0; extended 2026-11-14 back to its RetClass/IsA pair at 0x82753960 (they read the class pointer this object's initializer sets)
   init 0x82FFD538   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82FFD560   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82FFD588   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
@@ -11159,7 +11162,7 @@ src/RPG/cSkillSet.cpp
 # RuffKing cRenegadeOrbSpawnPoint.obj (Libraries/Shared/RPG/cRenegadeOrbSpawnPoint.cpp): CD2's initializer run from 0x82FFE920 carries the class registrars of cRenegadeOrbSpawnPoint at 0x82FFEC30;
 # the text range runs from the first to the last function those registrars name (the class markers).
 src/RPG/cRenegadeOrbSpawnPoint.cpp
-  text 0x827588A8 0x82758A3C   # class markers: cRenegadeOrbSpawnPoint::StaticCreateClass 0x827588A8, cRenegadeOrbSpawnPoint::MakeNew 0x82758940
+  text 0x82758838 0x82758A3C   # class markers: cRenegadeOrbSpawnPoint::StaticCreateClass 0x827588A8, cRenegadeOrbSpawnPoint::MakeNew 0x82758940; extended 2026-11-14 back to its RetClass/IsA pair at 0x82758838 (they read the class pointer this object's initializer sets)
   init 0x82FFE920   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82FFE948   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82FFE970   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
@@ -11189,7 +11192,7 @@ src/RPG/cRenegadeOrbSpawnPoint.cpp
 # RuffKing cPlayerStatManager.obj (Libraries/Shared/Rpg/cPlayerStatManager.cpp): CD2's initializer run from 0x82FFED10 carries the class registrars of cPlayerStatManager at 0x82FFF020;
 # the text range runs from the first to the last function those registrars name (the class markers).
 src/RPG/cPlayerStatManager.cpp
-  text 0x82759848 0x827598E0   # class markers: cPlayerStatManager::StaticCreateClass 0x82759848
+  text 0x827597D8 0x827598E0   # class markers: cPlayerStatManager::StaticCreateClass 0x82759848; extended 2026-11-14 back to its RetClass/IsA pair at 0x827597D8 (they read the class pointer this object's initializer sets)
   init 0x82FFED10   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82FFED38   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x82FFED60   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
@@ -11272,7 +11275,7 @@ src/RPG/cAchievementTargets.cpp
 # RuffKing cTargetDebugManager.obj (Libraries/Shared/Targeting/cTargetDebugManager.cpp): CD2's initializer run from 0x83003810 carries the class registrars of cTargetingDebugPage at 0x83003B20, cTargetDebugPage at 0x83003BB0;
 # the text range runs from the first to the last function those registrars name (the class markers).
 src/gom/cTargetDebugManager.cpp
-  text 0x8277DAC8 0x8277DBF8   # class markers: cTargetingDebugPage::StaticCreateClass 0x8277DAC8, cTargetDebugPage::StaticCreateClass 0x8277DB60
+  text 0x8277DA58 0x8277DBF8   # class markers: cTargetingDebugPage::StaticCreateClass 0x8277DAC8, cTargetDebugPage::StaticCreateClass 0x8277DB60; extended 2026-11-14 back to its RetClass/IsA pair at 0x8277DA58 (they read the class pointer this object's initializer sets)
   init 0x83003810   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x83003838   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers
   init 0x83003860   # header static (physicsconsts.h): this object's initializer run, from its first header constant to its own initializers

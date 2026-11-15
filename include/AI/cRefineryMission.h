@@ -26,6 +26,9 @@ namespace AI
         // CD2: cRefineryMission's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
+        // CD2 attribute-handler table 0x821023F8 (installed only by this class's code, 0x82456B10) holds its own
+        // HandleAttributes in slot 1.
+        virtual void HandleAttributes(const RWS::CAttributePacket &); // CAttributeHandler 1: 0x822C8130
         virtual void Activate(); // cRegisteredClass 2: 0x8248A0C8 (folded with cPebbleDashMission's identical body)
         virtual void Deactivate(); // cRegisteredClass 3: 0x82456DA8
         virtual void TickUpdate(float); // cRegisteredClass 8: 0x82456F70

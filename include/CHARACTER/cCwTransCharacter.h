@@ -51,6 +51,9 @@ namespace CHARACTER
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *prototype, void *memory);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
+        // CD2 0x82538078 / 0x82538088: the registered-class pair, at the start of this object's code.
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         // CD2 primary slot 391; the embedded skill set owns the transformation flag.
         virtual bool IsTransformationRequired() const;
         virtual unsigned char RetAthleticLevel() const;

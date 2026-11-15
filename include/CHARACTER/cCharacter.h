@@ -62,6 +62,9 @@ namespace CHARACTER
 
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
+        // CD2 0x82542F70 / 0x82542F80: the registered-class pair, at the start of this object's code.
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         // CD2 cReplicatedClass slot 23 (0x825430D0).
         virtual unsigned int GetMaxReplicatedFields() const;
         bool IsInGodMode() const;

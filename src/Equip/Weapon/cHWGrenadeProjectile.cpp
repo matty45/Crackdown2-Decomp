@@ -32,6 +32,16 @@
 
 namespace Equip
 {
+    const Fun_Runtime::cClass &cHWGrenadeProjectile::RetClass() const
+    {
+        return *ms_pcHWGrenadeProjectileClass;
+    }
+
+    bool cHWGrenadeProjectile::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcHWGrenadeProjectileClass->IsA(c);
+    }
+
     const char *cHWGrenadeProjectile::RetClassName() const
     {
         return "cHWGrenadeProjectile";
@@ -70,6 +80,11 @@ namespace Equip
     const Fun_Runtime::cScriptTypeRegistration *cHWGrenadeProjectile::RetScriptTypeRegistration() const
     {
         return &cHWGrenadeProjectileScriptRegistrar;
+    }
+
+    cHWGrenadeProjectile::~cHWGrenadeProjectile()
+    {
+        m_GrenadePhysicsAudio.Term();
     }
 }
 

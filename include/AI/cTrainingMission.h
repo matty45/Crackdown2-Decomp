@@ -34,6 +34,8 @@ namespace AI
         virtual const char *RetClassName() const;
         // RWS::CEventHandler's pure virtual (RuffKing declares the override).
         virtual void HandleEvents(RWS::CMsg &);
+        // CD2 0x8247F448: slot 1 of the attribute-handler table (0x821048F0) the destructor installs.
+        virtual void HandleAttributes(const RWS::CAttributePacket &);
         // CD2 0x8247F038; the linker folded cFinalMission's and cBeaconMission's identical bodies into it.
         virtual void Destruct();
 

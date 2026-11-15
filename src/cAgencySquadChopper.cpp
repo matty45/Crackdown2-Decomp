@@ -28,6 +28,16 @@ namespace unknown
 {
     const Fun_Runtime::cClass *cAgencySquadChopper::ms_pcAgencySquadChopperClass = &cAgencySquadChopper::StaticCreateClass();
 
+    const Fun_Runtime::cClass &cAgencySquadChopper::RetClass() const
+    {
+        return *ms_pcAgencySquadChopperClass;
+    }
+
+    bool cAgencySquadChopper::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcAgencySquadChopperClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cAgencySquadChopper::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cAgencySquadChopperClass = new Fun_Runtime::cClass(0x12066, "cAgencySquadChopper", 0x2360);

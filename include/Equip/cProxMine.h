@@ -48,8 +48,12 @@ namespace Equip
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
         virtual Fun_Runtime::RetVal Term(); // 6: 0x82620F40
-        virtual void Slot23(); // 23: 0x8261FD88
+        virtual void TickUpdate(float fDeltaTime); // 23: 0x8261FD88
         virtual void UpdateRenderMatrix(); // 26: 0x826209F0
+        // CD2: cProxMine's replication table holds these where cCWSatchelCharge's has 0x8261C388, 0x8261C5A8, 0x8288A3E0.
+        virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x82620970
+        virtual void ReplicateFields(); // cReplicatedClass 9: 0x826209B0
+        virtual unsigned int GetMaxReplicatedFields() const; // cReplicatedClass 23: 0x82882258
 
     public:
         // CD2 table 0x82123EF0 differs from cCWSatchelCharge at these inherited slots.

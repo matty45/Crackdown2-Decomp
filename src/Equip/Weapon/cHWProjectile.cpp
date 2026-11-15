@@ -30,6 +30,16 @@
 
 namespace Equip
 {
+    const Fun_Runtime::cClass &cHWProjectile::RetClass() const
+    {
+        return *ms_pcHWProjectileClass;
+    }
+
+    bool cHWProjectile::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcHWProjectileClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cHWProjectile::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cHWProjectileClass = new Fun_Runtime::cClass(17002, "cHWProjectile", 0x970);
@@ -59,5 +69,12 @@ namespace Equip
         if (memory)
             return new (memory) cHWProjectile;
         return 0;
+    }
+
+    // CD2 0x8262AAF8. Not claimed: its copy expands the audio object's destructor, which is not modelled
+    // (Audio/cProjectileGameObject.h); defining it emits the class's table, deleting destructor and adjustor thunks.
+    cHWProjectile::~cHWProjectile()
+    {
+        ReleaseEffect();
     }
 }

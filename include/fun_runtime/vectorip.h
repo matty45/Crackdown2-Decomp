@@ -35,6 +35,9 @@ namespace Fun_Runtime
         // inline, /Ob1 keeps both calls.
         __forceinline ~cVectorip() { destroy(begin(), last_); }
         T *begin() { return data_.begin(); }
+        const T *begin() const { return data_.begin(); }
+        T *end() { return last_; }
+        const T *end() const { return last_; }
         unsigned int size() const { return last_ - data_.begin(); }
         T &operator[](unsigned int i) { return begin()[i]; }
     protected:

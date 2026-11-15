@@ -48,6 +48,16 @@ namespace Equip
     static GOM::cProtoRegistrar cCWFirearmSpawningRegistrar(
         cCWFirearm::StaticCreateClass(), cCWFirearm::SpawnFromPrototype);
 
+    const Fun_Runtime::cClass &cCWFirearm::RetClass() const
+    {
+        return *ms_pcCWFirearmClass;
+    }
+
+    bool cCWFirearm::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcCWFirearmClass->IsA(c);
+    }
+
     RWS::CAttributeHandler *cCWFirearm::MakeNew(const RWS::CAttributePacket &packet, bool)
     {
         return new cCWFirearmPrototype(packet);
@@ -72,5 +82,10 @@ namespace Equip
     // CD2 0x82617EB8: restores this class's vtables, then calls cCWWeapon's destructor.
     cCWFirearm::~cCWFirearm()
     {
+    }
+
+    Fun_Runtime::RetVal cCWFirearm::cCWFirearmPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
     }
 }

@@ -13,6 +13,9 @@ namespace AI
     class cAttachableLight : public VFX::cPlaceableLight
     {
     public:
+        // CD2 0x824561F0 / 0x82456200: the registered-class pair, at the start of this object's code.
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pcAttachableLightClass;

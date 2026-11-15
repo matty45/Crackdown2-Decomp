@@ -66,4 +66,9 @@ namespace unknown
             return new (memory) cPhantomBody;
         return 0;
     }
+
+    Fun_Runtime::RetVal cPhantomBody::cPhantomBodyPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
 }

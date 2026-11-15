@@ -120,7 +120,7 @@ namespace Vehicle
         virtual void Slot13();                                  // 13: 0x826C2970
         virtual void Slot14();                                  // 14: 0x8221AE60
         virtual Fun_Runtime::RetVal Init(const GOM::cSpawner *);    // 18: 0x826C1980
-        virtual void Slot23();                                  // 23: 0x822CB330
+        virtual void TickUpdate(float fDeltaTime);                                  // 23: 0x822CB330
         virtual void Slot24();                                  // 24: 0x822ECE28
         virtual Fun_Runtime::RetVal Slot37();                                  // 37: 0x826C1CF8
         virtual Fun_Runtime::RetVal Reinitialise(const GOM::cSpawner *);    // 38: 0x826C1B58

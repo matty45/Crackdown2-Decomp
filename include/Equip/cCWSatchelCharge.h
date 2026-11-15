@@ -46,16 +46,16 @@ namespace Equip
         virtual Fun_Runtime::RetVal Term(); // 6: 0x8261B0E8
         virtual bool EnterPhysicalState(); // 7: 0x8261C198
         virtual void Slot14(); // 14: 0x8261A610
-        virtual void Slot23(); // 23: 0x8261A7A0
+        virtual void TickUpdate(float fDeltaTime); // 23: 0x8261A7A0
         virtual void Slot24(); // 24: 0x8261A8A8
         virtual void UpdateRenderMatrix(); // 26: 0x8261A988
         virtual void LeavePhysicalState(); // 27: 0x8261C240
         virtual void vf158(); // 158: 0x8261BAB8
         virtual void vf168(); // 168: 0x8261A688
         virtual void SetStatus(Equip::cEquipment::EQUIP_STATUS); // 316: 0x8261AA20
-        virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x82620970
-        virtual void ReplicateFields(); // cReplicatedClass 9: 0x826209B0
-        virtual unsigned int GetMaxReplicatedFields() const; // cReplicatedClass 23: 0x82882258
+        virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x8261C388
+        virtual void ReplicateFields(); // cReplicatedClass 9: 0x8261C5A8
+        virtual unsigned int GetMaxReplicatedFields() const; // cReplicatedClass 23: 0x8288A3E0
         // CD2 0x8261B180 receives the perception subobject, checks line of sight,
         // and can post an AI event to the observing character.
         virtual bool TestObserver(AI::cCharacterEntityIF *, bool);
@@ -76,7 +76,7 @@ namespace Equip
         // CD2 table 0x821234F8 differs from cExplosiveGrenade at these inherited slots.
         virtual void vf412(); // slot 412: 0x8288FB78
         virtual void vf414(); // slot 414: 0x8288FB78
-        virtual void vf416(); // slot 416: 0x8261B028
+        virtual void vf416(int); // slot 416: 0x8261B028
         virtual void vf420(); // slot 420: 0x8261C2A0
         virtual void vf422(); // slot 422: 0x827E56A8
         virtual void vf426(); // slot 426: 0x8260BB00

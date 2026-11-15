@@ -7,9 +7,15 @@
 #include "CHARACTER/cRagdollProfile.h"
 #include "Anim/cPropCarryAnimationProfile.h"
 #include "rws/classfactory.h"
+#include "cd2/memory.h"
 
 namespace Anim
 {
+    RWS::CAttributeHandler *cPropCarryAnimationProfile::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cPropCarryAnimationProfile;
+    }
+
     void cPropCarryAnimationProfile::HandleAttributes(const RWS::CAttributePacket &packet)
     {
         cSpecificAnimationProfile::HandleAttributes(packet);

@@ -31,6 +31,7 @@ namespace Vehicle
         };
 
         cTruck();
+        virtual Fun_Runtime::RetVal Init(const GOM::cSpawner *); // CD2 primary slot 18, 0x826CB638
         void RemoveWedge();
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *memory);
         static Fun_Runtime::cClass &StaticCreateClass();

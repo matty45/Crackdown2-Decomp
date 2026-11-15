@@ -32,6 +32,9 @@ namespace CHARACTER
     public:
         // CD2 0x8253EDD8: primary virtual slot 11 returns the registered class name.
         virtual const char *RetClassName() const;
+        // CD2 0x8253ECF8 / 0x8253ED08: the registered-class pair, at the start of this object's code.
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         // CD2 spawning initializer 0x82FAC1F0 names placement factory 0x8253ede8.
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         // CD2 0x82267148: the placement factory (0x8253EDE8) calls it out of line with the prototype.

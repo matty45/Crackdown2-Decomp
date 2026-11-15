@@ -25,6 +25,16 @@
 
 namespace Prop
 {
+    const Fun_Runtime::cClass &cSlidingDoor::RetClass() const
+    {
+        return *ms_pcSlidingDoorClass;
+    }
+
+    bool cSlidingDoor::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcSlidingDoorClass->IsA(c);
+    }
+
     const char *cSlidingDoor::RetClassName() const
     {
         return "cSlidingDoor";

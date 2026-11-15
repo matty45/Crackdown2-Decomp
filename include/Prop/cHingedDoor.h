@@ -37,6 +37,9 @@ namespace Prop
                 CD2_SIZE(cHingedDoorPrototype, 0x530))
         };
         virtual const char *RetClassName() const;
+        // CD2 0x82744270 / 0x82744280: the registered-class pair, at the start of this object's code.
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
     };
 }
 

@@ -9,11 +9,7 @@
 #define EQUIP_CSMOKEGRENADE_H
 
 #include "fun_runtime/class.h"
-
-namespace VFX
-{
-    class cParticleEffectInstance;
-}
+#include "VFX/cParticleEffectInstance.h"
 
 namespace Equip
 {
@@ -65,10 +61,9 @@ namespace Equip
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
         virtual Fun_Runtime::RetVal Term(); // 6: 0x822F4390
-        virtual void Slot23(); // 23: 0x82622BB8
+        virtual void TickUpdate(float fDeltaTime); // 23: 0x82622BB8
         virtual void vf140(); // 140: 0x82622BF8
-        virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x8261F5F0
-        virtual void ReplicateFields(); // cReplicatedClass 9: 0x82396118
+        // Replication slots 8 and 9 hold cGrenade's overrides (0x8261F5F0, 0x82396118): inherited, not declared here.
         virtual Fun_Runtime::cScriptTypeRegistration const * RetScriptTypeRegistration() const; // cSafeDeletable 1: 0x8261DFC0
     protected:
         CD2_LAYOUT_CHECKS(cSmokeGrenade,

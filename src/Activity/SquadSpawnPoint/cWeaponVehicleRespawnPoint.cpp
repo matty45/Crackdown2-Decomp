@@ -10,6 +10,16 @@
 
 namespace Activity
 {
+    const Fun_Runtime::cClass &cWeaponVehicleRespawnPoint::RetClass() const
+    {
+        return *ms_pcWeaponVehicleRespawnPointClass;
+    }
+
+    bool cWeaponVehicleRespawnPoint::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcWeaponVehicleRespawnPointClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cWeaponVehicleRespawnPoint::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cWeaponVehicleRespawnPointClass = new Fun_Runtime::cClass(0x5D219, "cWeaponVehicleRespawnPoint", 0x90);

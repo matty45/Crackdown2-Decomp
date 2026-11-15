@@ -18,6 +18,16 @@
 
 namespace Activity
 {
+    const Fun_Runtime::cClass &cSquadMemberSpawnPoint::RetClass() const
+    {
+        return *ms_pcSquadMemberSpawnPointClass;
+    }
+
+    bool cSquadMemberSpawnPoint::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcSquadMemberSpawnPointClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cSquadMemberSpawnPoint::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cSquadMemberSpawnPointClass = new Fun_Runtime::cClass(0x5D21C, "cSquadMemberSpawnPoint", 0xA0);

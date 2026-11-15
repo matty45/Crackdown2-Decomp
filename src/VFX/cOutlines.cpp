@@ -19,6 +19,16 @@
 
 namespace VFX
 {
+    const Fun_Runtime::cClass &cOutlines::RetClass() const
+    {
+        return *ms_pcOutlinesClass;
+    }
+
+    bool cOutlines::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcOutlinesClass->IsA(c);
+    }
+
     const char *cOutlines::RetClassName() const
     {
         return "cOutlines";

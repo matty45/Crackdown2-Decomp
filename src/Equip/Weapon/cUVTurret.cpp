@@ -81,6 +81,14 @@ namespace Equip
     {
     }
 
+    void cUVTurret::cUVTurretPrototype::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cCWFirearmPrototype::HandleAttributes(packet);
+        for (RWS::CAttributeCommandIterator it(packet, "cUVTurret"); !it.IsFinished(); ++it)
+        {
+        }
+    }
+
     Fun_Runtime::RetVal cUVTurret::cUVTurretPrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;

@@ -16,8 +16,12 @@ namespace RPG
     public:
         // CD2 factory 0x82757000 forwards only this, without a prototype argument.
         cRenegadeOrb();
+        virtual bool EnterPhysicalState(); // CD2 table 0x8200CCC8, slot 7
         // CD2 0x82756FF0: primary virtual slot 11 returns the registered class name.
         virtual const char *RetClassName() const;
+        // CD2 0x82756EF0 / 0x82756F00: the registered-class pair, at the start of this object's code.
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         // CD2 spawning initializer 0x82FFE5C8 names placement factory 0x82757000.
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);

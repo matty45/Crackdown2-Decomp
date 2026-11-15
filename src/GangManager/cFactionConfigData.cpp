@@ -17,6 +17,7 @@
 #include "CHARACTER/cRagdollProfile.h"
 #include "AI/aiconstants.h"
 #include "GangManager/cFactionConfigData.h"
+#include "GangManager/cGangManager.h"
 #include "GangManager/cFactionInfo.h"
 #include "AI/cFactionTargetingProfile.h"
 #include "editor/guid_event_handler.h"
@@ -26,15 +27,6 @@
 
 namespace GangManager
 {
-    class cGangManager
-    {
-    public:
-        unsigned char pad[0x30];
-        cFactionInfo *m_apFactions[6];
-        static cGangManager *sm_pGangManager;
-        static cGangManager *RetGangManager() { return sm_pGangManager; }
-    };
-
     const char *const cFactionConfigData::pcFactionConfigDataClassID = "cFactionConfigData";
 
     cFactionConfigData::~cFactionConfigData()

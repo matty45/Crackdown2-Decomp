@@ -32,7 +32,7 @@ namespace Vehicle
         // CD2: cAgencySports's own virtuals. Each slot below holds, in this class's CD2 vtable 0x82136D00, an address its
         // base's table does not hold there, so the class overrides it; names and signatures are the bases'. RuffKing's
         // class overrides TickUpdate, PostTickUpdate, ActionUpdate and TermForReuse; Burn's UpdateWedge.
-        virtual void Slot23();                                  // 23: 0x826ED5D0
+        virtual void TickUpdate(float fDeltaTime);                                  // 23: 0x826ED5D0
         virtual void Slot24();                                  // 24: 0x826ED978
         virtual void LeavePhysicalState();                                  // 27: 0x826ED540 (RuffKing: LeavePhysicalState)
         virtual Fun_Runtime::RetVal TermForReuse();             // 39: 0x826ED578

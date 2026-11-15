@@ -17,6 +17,9 @@ namespace VFX
         static const Fun_Runtime::cClass *ms_pcSkidMarksClass;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
+        // CD2 0x827B7A20 / 0x827B7A30: the registered-class pair, at the start of this object's code.
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
     public:
         // Out of line: CD2 0x827B7BC8 (MakeNew calls it).
         cSkidMarks();

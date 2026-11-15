@@ -37,6 +37,16 @@ namespace unknown
 
     const Fun_Runtime::cClass *cScriptManager::ms_pcScriptManagerClass = &cScriptManager::StaticCreateClass();
 
+    const Fun_Runtime::cClass &cScriptManager::RetClass() const
+    {
+        return *ms_pcScriptManagerClass;
+    }
+
+    bool cScriptManager::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcScriptManagerClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cScriptManager::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cScriptManagerClass = new Fun_Runtime::cClass(0x60B, "cScriptManager", 0x430);

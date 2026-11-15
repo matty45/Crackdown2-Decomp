@@ -38,6 +38,9 @@ namespace AI
         static const Fun_Runtime::cClass *ms_pcSupplyValveClass;
         static Fun_Runtime::cClass &StaticCreateClass();
         virtual const char *RetClassName() const;
+        // CD2 0x82457B30 / 0x82457B40: the registered-class pair, at the start of this object's code.
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         // CD2 0x822C8900.
         virtual ~cSupplyValve();
         // CD2: cSupplyValve's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an

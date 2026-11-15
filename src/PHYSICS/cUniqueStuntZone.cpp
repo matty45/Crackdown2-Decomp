@@ -18,6 +18,36 @@
 
 namespace PHYSICS
 {
+    const Fun_Runtime::cClass &cStuntRing::RetClass() const
+    {
+        return *ms_pcStuntRingClass;
+    }
+
+    bool cStuntRing::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcStuntRingClass->IsA(c);
+    }
+
+    RWS::CAttributeHandler *cStuntRing::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cStuntRing;
+    }
+
+    const char *cStuntRing::RetClassName() const
+    {
+        return "cStuntRing";
+    }
+
+    const Fun_Runtime::cClass &cStunt::RetClass() const
+    {
+        return *ms_pcStuntClass;
+    }
+
+    const char *cStunt::RetClassName() const
+    {
+        return "cStunt";
+    }
+
     Fun_Runtime::cClass &cStuntRing::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cStuntRingClass = new Fun_Runtime::cClass(0x110, "cStuntRing", 0x1C0);

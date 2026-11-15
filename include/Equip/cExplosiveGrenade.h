@@ -32,6 +32,8 @@ namespace Equip
         {
         public:
             cExplosiveGrenadePrototype(const RWS::CAttributePacket &);
+            // Reference override; CD2 prototype slot 5 at 0x8261DE88 returns Ret_OK.
+            virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
 
         private:
             unsigned char m_unmodelled370[0x390 - 0x370];
@@ -45,6 +47,8 @@ namespace Equip
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pcExplosiveGrenadeClass;
         virtual const Fun_Runtime::cClass &RetClass() const;
+        // CD2 0x8261D158: slot 1 of the registered-class table 0x82123D40 the constructor installs.
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         virtual void NotifyDetonation(cGameBase *, CHARACTER::cCharacterInterface *, unsigned char);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
     private:
@@ -54,6 +58,8 @@ namespace Equip
     public:
         virtual void vf276(); // 276: 0x82380B90
         virtual void vf277(); // 277: 0x8261DA58
+        virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x821FE5B8
+        virtual void ReplicateFields(); // cReplicatedClass 9: 0x821FEA10
         virtual unsigned int GetMaxReplicatedFields() const; // cReplicatedClass 23: 0x8288E730
     private:
         CD2_LAYOUT_CHECKS(cExplosiveGrenade, CD2_SIZE(cExplosiveGrenade, 0x9D0))
@@ -64,8 +70,8 @@ namespace Equip
         virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // slot 18: 0x8261D5C0
         virtual void Launched(cGameBase *pAttacker); // slot 406: 0x8261D628
         virtual void vf408(); // slot 408: 0x8261D490
-        virtual void vf415(); // slot 415: 0x8261DAD0
-        virtual void vf416(); // slot 416: 0x8261D6A8
+        virtual float RetDamageRadius() const; // slot 415: 0x8261DAD0
+        virtual void vf416(int); // slot 416: 0x8261D6A8
         virtual void vf419(); // slot 419: 0x8261D740
         virtual void vf423(); // slot 423: 0x8261D6E8
         virtual void vf424(); // slot 424: 0x8261DBC8

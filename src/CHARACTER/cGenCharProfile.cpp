@@ -24,6 +24,16 @@
 
 namespace CHARACTER
 {
+    const Fun_Runtime::cClass &cGenCharProfile::RetClass() const
+    {
+        return *ms_pcGenCharProfileClass;
+    }
+
+    bool cGenCharProfile::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcGenCharProfileClass->IsA(c);
+    }
+
     const char *cGenCharProfile::RetClassName() const
     {
         return "cGenCharProfile";

@@ -91,6 +91,11 @@ namespace AI
         return *ms_pcAiPlayerClass;
     }
 
+    bool cAiPlayer::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcAiPlayerClass->IsA(c);
+    }
+
     const char *cAiPlayer::RetClassName() const
     {
         return "cAiPlayer";

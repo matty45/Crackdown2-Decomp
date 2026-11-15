@@ -15,6 +15,16 @@
 
 namespace AI
 {
+    const Fun_Runtime::cClass &cSupplyValveSpawnPoint::RetClass() const
+    {
+        return *ms_pcSupplyValveSpawnPointClass;
+    }
+
+    bool cSupplyValveSpawnPoint::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcSupplyValveSpawnPointClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cSupplyValveSpawnPoint::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cSupplyValveSpawnPointClass = new Fun_Runtime::cClass(0xDB7AE, "cSupplyValveSpawnPoint", 0x2E0);

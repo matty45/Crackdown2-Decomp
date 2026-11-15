@@ -14,6 +14,16 @@
 
 namespace unknown
 {
+    const Fun_Runtime::cClass &cTransVehicleDamageProp::RetClass() const
+    {
+        return *ms_pcTransVehicleDamagePropClass;
+    }
+
+    bool cTransVehicleDamageProp::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcTransVehicleDamagePropClass->IsA(c);
+    }
+
     RWS::CAttributeHandler *cTransVehicleDamageProp::MakeNew(const RWS::CAttributePacket &packet, bool)
     {
         return new cTransVehicleDamagePropPrototype(packet);

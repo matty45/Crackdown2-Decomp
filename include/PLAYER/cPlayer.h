@@ -97,6 +97,11 @@ namespace PLAYER
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *memory);
         virtual const char *RetName() const;
         virtual const char *RetClassName() const;
+        // CD2 0x82721A98: slot 5 of this class's event-handler table (0x8213D4B4).
+        virtual void HandleEvents(RWS::CMsg &);
+        // CD2 0x8271F038 / 0x8271F048: the registered-class pair, at the start of this object's code.
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         void SetAIActive(bool active);
         bool IsAIActive() const;
         bool IsAITargeting() const;
@@ -122,7 +127,7 @@ namespace PLAYER
         virtual void vf129();
         virtual void vf130();    // 0x82720AC0: clears m_fEC4
         virtual void vf131();    // 0x82720B88: as authority, debounces GA_CHARACTER_OBJECTDROP
-        virtual void vf132();
+        virtual float vf132();
         virtual void vf133();
         virtual void vf134();    // 0x82720D70: as authority, debounces GA_CHARACTER_OBJECTINTERACT
 
@@ -132,7 +137,7 @@ namespace PLAYER
         virtual Fun_Runtime::RetVal Term(); // 6: 0x8237D410
         virtual bool EnterPhysicalState(); // 7: 0x821EE6B8
         virtual void Slot22(); // 22: 0x82723D50
-        virtual void Slot23(); // 23: 0x82723E80
+        virtual void TickUpdate(float fDeltaTime); // 23: 0x82723E80
         virtual void Slot24(); // 24: 0x82723E38
         virtual void Slot51(); // 50: 0x82721230
         virtual void vf69(); // 69: 0x827240B8

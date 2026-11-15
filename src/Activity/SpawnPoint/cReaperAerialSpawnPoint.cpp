@@ -25,6 +25,16 @@ namespace Activity
     static Fun_Runtime::cInheritanceRegistrar cReaperAerialSpawnPointcSquadMemberSpawnPointInheritRegistrar(
         cReaperAerialSpawnPoint::StaticCreateClass(), cSquadMemberSpawnPoint::StaticCreateClass());
 
+    const Fun_Runtime::cClass &cReaperAerialRespawnPoint::RetClass() const
+    {
+        return *ms_pcReaperAerialRespawnPointClass;
+    }
+
+    bool cReaperAerialRespawnPoint::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcReaperAerialRespawnPointClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cReaperAerialRespawnPoint::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cReaperAerialRespawnPointClass = new Fun_Runtime::cClass(0x5D1FB, "cReaperAerialRespawnPoint", 0x90);

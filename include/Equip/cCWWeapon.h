@@ -9,6 +9,8 @@
 #include "Equip/cWeapon.h"
 #include "fun_runtime/stringc.h"
 #include "fun_runtime/randgen.h"
+#include "VFX/cParticleEffectInstance.h"
+#include "Audio/cPhysicsBodyGameObject.h"
 namespace Vehicle { class cPintleMount; }
 
 namespace Equip
@@ -51,7 +53,8 @@ namespace Equip
             // Reference names; CD2 primary slot 315 and slots 326..329 read
             // these members at the offsets checked below.
             int m_nNumHands;
-            unsigned char m_unmodelled378[4];
+            // Reference attack duration; the shared CD2 getter 0x8263B7E8 reads +0x378.
+            float m_fAttackDuration;
             // RevertAIAccuracyCone (0x82608788) reads this reference-named default.
             float m_fAIAccuracyCone;
             unsigned char m_unmodelled380[0x3AC - 0x380];
@@ -87,6 +90,7 @@ namespace Equip
                 CD2_SIZE(cCWWeaponPrototype, 0x3E0)
                 CD2_OFFSET(cCWWeaponPrototype, m_strWeaponAudioType, 0x350)
                 CD2_OFFSET(cCWWeaponPrototype, m_nNumHands, 0x374)
+                CD2_OFFSET(cCWWeaponPrototype, m_fAttackDuration, 0x378)
                 CD2_OFFSET(cCWWeaponPrototype, m_fAIAccuracyCone, 0x37C)
                 CD2_OFFSET(cCWWeaponPrototype, m_nUpperAimIndex, 0x3AC)
                 CD2_OFFSET(cCWWeaponPrototype, m_nUpperReloadIndex, 0x3B0)
@@ -125,6 +129,9 @@ namespace Equip
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcCWWeaponClass;
         static Fun_Runtime::cClass &StaticCreateClass();
+        // CD2 0x8225C750 / 0x82607AF0: the registered-class pair (table 0x8211F1AC, installed by the destructor).
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
     private:
         // CD2 constructor 0x82607FC8: reference hierarchy, descriptor size 0xA10.
         unsigned char m_unmodelled8C0[4];
@@ -135,18 +142,24 @@ namespace Equip
         unsigned int m_uiAINumberOfShotsToReachFullAccuracy;
         unsigned int m_uiShotCount;
     private:
-        unsigned char m_unmodelled8D8[0x8EC - 0x8D8];
+        // RuffKing's members, 0x20 earlier in CD2: the destructor (0x82256348) releases the two muzzle effects and
+        // destroys the physics audio object at 0x940.
+        VFX::cParticleEffectInstance *m_pMuzzleEffect[2];           // 0x8D8
+        unsigned char m_unmodelled8E0[0x8EC - 0x8E0];
         Vehicle::cPintleMount *m_pPintleMount;
     protected:
         Prop::cTurretBase *m_pTurret;   // RuffKing name; SetTurretMounted (0x826085F8) and RetTurretMounted use 0x8F0
     private:
-        unsigned char m_unmodelled8F4[0xA10 - 0x8F4];
+        unsigned char m_unmodelled8F4[0x940 - 0x8F4];
+        Audio::cPhysicsBodyGameObject m_WeaponPhysicsAudio;         // 0x940
+        unsigned char m_unmodelledA08[0xA10 - 0xA08];
         // CD2: cCWWeapon's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
+        virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // 18: 0x82608168 (table 0x820133D0, from the destructor)
         virtual void Slot13(); // 13: 0x82630028
         virtual void Slot14(); // 14: 0x826082A0
-        virtual void Slot23(); // 23: 0x822AD100
+        virtual void TickUpdate(float fDeltaTime); // 23: 0x822AD100
         virtual void Slot61(); // 60: 0x826086B8
         virtual void vf257(); // 257: 0x8226CA68
         virtual void vf278(); // 278: 0x823AF810
@@ -170,6 +183,8 @@ namespace Equip
             CD2_OFFSET(cCWWeapon, m_fAIInitialAccuracyCone, 0x8CC)
             CD2_OFFSET(cCWWeapon, m_uiAINumberOfShotsToReachFullAccuracy, 0x8D0)
             CD2_OFFSET(cCWWeapon, m_uiShotCount, 0x8D4)
+            CD2_OFFSET(cCWWeapon, m_pMuzzleEffect, 0x8D8)
+            CD2_OFFSET(cCWWeapon, m_WeaponPhysicsAudio, 0x940)
             CD2_OFFSET(cCWWeapon, m_pPintleMount, 0x8EC)
             CD2_OFFSET(cCWWeapon, m_pTurret, 0x8F0))
 

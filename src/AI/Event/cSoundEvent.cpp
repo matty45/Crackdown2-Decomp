@@ -10,6 +10,7 @@
 #include "CHARACTER/cRagdollProfile.h"
 #include "AI/aiconstants.h"
 #include "AI/cSoundEventSubscriptionTypeScriptRegistration.h"
+#include "AI/cSoundEvent.h"
 #include "lua/lua.h"
 
 namespace AI
@@ -17,6 +18,11 @@ namespace AI
     const char *cSoundEventSubscriptionTypeScriptRegistration::RetName() const
     {
         return "eSoundEventSubscriptionType";
+    }
+
+    float cSoundEvent::RetVolume()
+    {
+        return m_fVolume;
     }
 
     void cSoundEventSubscriptionTypeScriptRegistration::RegisterValues(lua_State *state)

@@ -20,6 +20,7 @@
 
 #include "CHARACTER/cCharacterInterface.h"
 #include "AI/cCharacterEntity.h"
+#include "AI/cCharacterBrain.h"
 
 namespace AI
 {
@@ -34,15 +35,16 @@ namespace AI
         int m_n4FC;                             // nothing names them
         int m_n500;
         cCharacterEntity *m_pAIEntity;          // 0x504
-        unsigned char m_pad508[0x50C - 0x508];
+        cCharacterBrain *m_pCharacterBrain;     // 0x508
         unsigned int m_nMovementType;
     private:
         unsigned char m_pad510[0x51C - 0x510];
     protected:
         unsigned int m_nMaxAiToAiVisibilityLevel;
     private:
-        unsigned char m_pad520[0x534 - 0x520];
+        unsigned char m_pad520[0x533 - 0x520];
     protected:
+        unsigned char m_nPerceptionOptions;     // 0x533
         unsigned char m_bCheckingTargetTooClose;
         unsigned char m_bCheckingTargetAreaClear;
         unsigned char m_bCheckingTargetPathClear;
@@ -51,8 +53,9 @@ namespace AI
         unsigned char m_pad538;
     protected:
         unsigned char m_bBulletSoundLODDeafnessEnabled;
+        unsigned char m_bBreakTrafficLaws;      // 0x53A
     private:
-        unsigned char m_pad53A[0x540 - 0x53A];
+        unsigned char m_pad53B[0x540 - 0x53B];
 
     public:
         static const Fun_Runtime::cClass *ms_pcCharacterEntityIFClass;
@@ -100,6 +103,8 @@ namespace AI
         // CD2 0x823EBF28: cScriptHost slot 1; descriptive method name is ours.
         virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         virtual const char *RetClassName() const;
+        // CD2 0x823EBE20 / 0x823EBE30: the registered-class pair, at the start of this object's code.
+        virtual const Fun_Runtime::cClass &RetClass() const;
         void *RetHeadDirection() const;
         void *RetEyePosition() const;
         float RetViewingDistance() const;
@@ -107,10 +112,26 @@ namespace AI
         float RetHearingAcuteness() const;
         unsigned char IsSpawnedByCrowdSystem() const;
         float RetViewingAngle() const;
+        float RetHeight();
+        void SetPerceptionOptions(unsigned int nPerceptionOptions);
+        void SetViewingDistance(float fViewingDistance);
+        void SetPlayerViewingDistance(float fViewingDistance);
+        void SetThreatObjectViewingDistance(float fViewingDistance);
+        void SetHearingAcuteness(float fHearingAcuteness);
+        void SetBreakTrafficLaws(unsigned char value);
+        void DropImmediately();
+        void ExitVehicleImmediately();
+        void CrouchImmediately();
+        void UncrouchImmediately();
+        bool IsTryingToCrouch();
+        void SetAiming(bool bAiming);
 
         // CD2's cAiPlayer adds slot 125 (0x823E92B8) after this interface's 115..124 slots.
         virtual void vf115(); virtual void vf116(); virtual void vf117(); virtual void vf118(); virtual void vf119();
-        virtual void vf120(); virtual void vf121(); virtual void vf122(); virtual void vf123(); virtual void vf124();
+        // 120, 122 and 123 are named by the script methods "IsTrafficClear", "RetRadius" and "IsVehicleOperable",
+        // whose registered addresses are this class's vcall thunks for those slots (0x823FCBC8, 0x823FCBF0, 0x823FCBB8).
+        virtual bool IsTrafficClear(); virtual void vf121(); virtual float RetRadius(); virtual bool IsVehicleOperable();
+        virtual void vf124();
 
         // CD2: cCharacterEntityIF's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
@@ -135,6 +156,9 @@ namespace AI
             CD2_OFFSET(cCharacterEntityIF, m_fullbodyAnimationParams, 0x4B0)
             CD2_OFFSET(cCharacterEntityIF, m_n4F8, 0x4F8)
             CD2_OFFSET(cCharacterEntityIF, m_pAIEntity, 0x504)
+            CD2_OFFSET(cCharacterEntityIF, m_pCharacterBrain, 0x508)
+            CD2_OFFSET(cCharacterEntityIF, m_nPerceptionOptions, 0x533)
+            CD2_OFFSET(cCharacterEntityIF, m_bBreakTrafficLaws, 0x53A)
             CD2_OFFSET(cCharacterEntityIF, m_nMovementType, 0x50C)
             CD2_OFFSET(cCharacterEntityIF, m_nMaxAiToAiVisibilityLevel, 0x51C)
             CD2_OFFSET(cCharacterEntityIF, m_bCheckingTargetTooClose, 0x534)

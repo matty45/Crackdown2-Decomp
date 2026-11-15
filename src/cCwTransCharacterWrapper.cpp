@@ -33,6 +33,16 @@ namespace CHARACTER
     static RWS::CClassFactory::CRegistrar cCwTransCharacterWrapperRegistrar(
         "cCwTransCharacterWrapper", cCwTransCharacterWrapper::MakeNew, 0x5B40, false);
 
+    const Fun_Runtime::cClass &cCwTransCharacterWrapper::RetClass() const
+    {
+        return *ms_pcCwTransCharacterWrapperClass;
+    }
+
+    bool cCwTransCharacterWrapper::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcCwTransCharacterWrapperClass->IsA(c);
+    }
+
     RWS::CAttributeHandler *cCwTransCharacterWrapper::SpawnFromPrototype(GOM::cObjectPrototype *pPrototype, void *pMem)
     {
         if (pMem)

@@ -28,6 +28,16 @@
 
 namespace Prop
 {
+    const Fun_Runtime::cClass &cBoomBox::RetClass() const
+    {
+        return *ms_pcBoomBoxClass;
+    }
+
+    bool cBoomBox::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcBoomBoxClass->IsA(c);
+    }
+
     RWS::CAttributeHandler *cBoomBox::MakeNew(const RWS::CAttributePacket &packet, bool)
     {
         return new cBoomBoxPrototype(packet);

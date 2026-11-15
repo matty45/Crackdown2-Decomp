@@ -53,8 +53,7 @@ namespace Equip
     public:
         virtual Fun_Runtime::RetVal Term(); // 6: 0x8260B460
         virtual bool ShouldBeForceStored(); // 317: 0x827E56A8
-        virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x8261F5F0
-        virtual void ReplicateFields(); // cReplicatedClass 9: 0x82396118
+        // Replication slots 8 and 9 hold cGrenade's overrides (0x8261F5F0, 0x82396118): inherited, not declared here.
     public:
         CD2_LAYOUT_CHECKS(cCloakingDevice, CD2_SIZE(cCloakingDevice, 0x9C0))
 

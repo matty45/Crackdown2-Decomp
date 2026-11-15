@@ -14,6 +14,7 @@
 #include "Havok/hkCollidableQualityType.h"
 
 class hkShape;
+class hkAabb;
 
 namespace PHYSICS
 {
@@ -67,8 +68,10 @@ namespace PHYSICS
         virtual void vf153(); virtual void vf154(); virtual void vf155(); virtual hkCollidableQualityType RetCollidableQuality(hkMotion::MotionType); virtual void vf157(); virtual void vf158();
         virtual void vf159(); virtual void vf160(); virtual void vf161(); virtual void vf162(); virtual void vf163(); virtual void vf164();
         virtual void vf165(); virtual void vf166(); virtual void vf167(); virtual void vf168(); virtual void vf169(); virtual void vf170();
-        virtual void vf171(); virtual void vf172(); virtual void vf173(); virtual void vf174(); virtual void vf175(); virtual void vf176();
-        virtual void vf177(); virtual void vf178(); virtual void vf179(); virtual void vf180(); virtual void vf181(); virtual void vf182();
+        // Ret_pRB is the reference name; CD2 slot 172 at 0x82457858 returns m_pRigidBody (+0x224).
+        virtual void vf171(); virtual hkRigidBody *Ret_pRB(); virtual void vf173(); virtual void GetLocalAABB(hkAabb *) const; virtual void GetWorldAABB(hkAabb *) const; virtual void vf176();
+        // Reference names; CD2 0x82683F50 forwards AI world bounds to primary slot 175.
+        virtual void GetAIWorldAABB(hkAabb *); virtual void vf178(); virtual void vf179(); virtual void vf180(); virtual void vf181(); virtual void vf182();
         virtual void vf183(); virtual void vf184(); virtual void vf185(); virtual void vf186(); virtual void vf187(); virtual void vf188();
         virtual void vf189(); virtual void vf190(); virtual void vf191(); virtual void vf192(); virtual void vf193(); virtual void vf194();
         virtual void vf195(); virtual unsigned char RetCollisionLayer(); virtual unsigned short RetCollisionSystemGroup(); virtual void vf198(); virtual void vf199(); virtual void vf200();

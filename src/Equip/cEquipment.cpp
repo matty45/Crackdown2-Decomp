@@ -31,6 +31,16 @@ namespace Equip
 {
     const Fun_Runtime::cClass *cEquipment::ms_pcEquipmentClass = &cEquipment::StaticCreateClass();
 
+    const Fun_Runtime::cClass &cEquipment::RetClass() const
+    {
+        return *ms_pcEquipmentClass;
+    }
+
+    bool cEquipment::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcEquipmentClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cEquipment::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cEquipmentClass = new Fun_Runtime::cClass(0x6, "cEquipment", 0x870);
@@ -74,6 +84,11 @@ namespace Equip
         return &cEquipmentScriptRegistrar;
     }
 
+    cEquipment::~cEquipment()
+    {
+        SetOwner(0);
+    }
+
     float cEquipment::cEquipmentPrototype::RetDroppedDeletionTime() const
     {
         return m_fDroppedDeletionTime;
@@ -107,5 +122,10 @@ namespace Equip
     bool cEquipment::cEquipmentPrototype::RetLoadedCmdSpawn() const
     {
         return m_bLoadedCmdSpawn;
+    }
+
+    Fun_Runtime::RetVal cEquipment::cEquipmentPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
     }
 }

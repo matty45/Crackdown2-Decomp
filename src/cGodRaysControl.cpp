@@ -5,6 +5,8 @@
 #include "VFX/cGodRaysAddRaysShader.h"
 #include "rws/classfactory.h"
 #include "unknown/cGodRaysControl.h"
+#include "VFX/godrays.h"
+#include <stdlib.h>
 
 namespace unknown
 {
@@ -19,6 +21,43 @@ namespace unknown
 
 namespace VFX
 {
+    float g_fGodRaysCloudBlockFactor = 2.0f;
+    float g_fGodRaysFalloffFactor = 1.2f;
+    float g_fGodRaysMagnificationFactor = 0.71f;
+    float g_fGodRaysSize = 350.0f;
+    int g_nGodRaysMode;
+    int g_nGodRaysTry;
+
+    void SetGodRaysCloudBlockFactor(void *, wchar_t *argument)
+    {
+        g_fGodRaysCloudBlockFactor = static_cast<float>(_wtof(argument));
+    }
+
+    void SetGodRaysFalloffFactor(void *, wchar_t *argument)
+    {
+        g_fGodRaysFalloffFactor = static_cast<float>(_wtof(argument));
+    }
+
+    void SetGodRaysMagnificationFactor(void *, wchar_t *argument)
+    {
+        g_fGodRaysMagnificationFactor = static_cast<float>(_wtof(argument));
+    }
+
+    void SetGodRaysSize(void *, wchar_t *argument)
+    {
+        g_fGodRaysSize = static_cast<float>(_wtof(argument));
+    }
+
+    void SetGodRaysMode(void *, wchar_t *argument)
+    {
+        g_nGodRaysMode = _wtoi(argument);
+    }
+
+    void SetGodRaysTry(void *, wchar_t *argument)
+    {
+        g_nGodRaysTry = _wtoi(argument);
+    }
+
     cGodRaysAddRaysShader *cGodRaysAddRaysShader::ms_pInstance;
 
     bool cGodRaysAddRaysShader::ReloadInstance(bool revert)

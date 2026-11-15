@@ -28,6 +28,16 @@
 
 namespace AI
 {
+    const Fun_Runtime::cClass &cSupplyValve::RetClass() const
+    {
+        return *ms_pcSupplyValveClass;
+    }
+
+    bool cSupplyValve::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcSupplyValveClass->IsA(c);
+    }
+
     RWS::CAttributeHandler *cSupplyValve::MakeNew(const RWS::CAttributePacket &packet, bool)
     {
         return new cSupplyValvePrototype(packet);

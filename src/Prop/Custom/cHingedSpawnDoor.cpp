@@ -27,6 +27,16 @@
 
 namespace Prop
 {
+    const Fun_Runtime::cClass &cHingedSpawnDoor::RetClass() const
+    {
+        return *ms_pcHingedSpawnDoorClass;
+    }
+
+    bool cHingedSpawnDoor::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcHingedSpawnDoorClass->IsA(c);
+    }
+
     const char *cHingedSpawnDoor::RetClassName() const
     {
         return "cHingedSpawnDoor";

@@ -49,6 +49,9 @@ namespace Prop
         static const Fun_Runtime::cClass *ms_pcPrismaticPropClass;
         static Fun_Runtime::cClass &StaticCreateClass();
         virtual const char *RetClassName() const;
+        // CD2 0x8273B4D8 / 0x8273B4E8: the registered-class pair, at the start of this object's code.
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
 
         // CD2 primary table 0x821405E8 has 376 slots: RuffKing's new virtuals in declaration order from slot 345
         // (non-const RetSTATE_* first: MSVC reverses overload slots, see cHingedProp.h).
@@ -57,6 +60,9 @@ namespace Prop
         virtual void DestroyMotor();                              // slot 346
         virtual void CreateConstraint();                          // slot 347
         virtual void DestroyConstraint();                         // slot 348
+        // Reference names; CD2's min/max state callbacks tail-call 0x8273CA70/0x8273CB20.
+        void ForceToMin();
+        void ForceToMax();
         virtual void OnFinishedSlidingToMin();                    // slot 349
         // RuffKing fields; CD2's constructor (0x8273BA68) initializes them at these offsets.
         Fun_Runtime::Mtx m_InitialTransform;

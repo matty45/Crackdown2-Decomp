@@ -9,6 +9,7 @@
 #include "fun_runtime/retval.h"
 #include "gom/object_prototype.h"
 #include "Vehicle/cWheelGroup.h"
+#include "Vehicle/cPintleMount.h"
 
 namespace Vehicle
 {
@@ -51,7 +52,7 @@ namespace Vehicle
         virtual bool EnterPhysicalState();                      // 7: 0x822963E0
         virtual void Slot13();                                  // 13: 0x826B6940
         virtual Fun_Runtime::RetVal Init(const GOM::cSpawner *);    // 18: 0x826B6038
-        virtual void Slot23();                                  // 23: 0x826B6F40
+        virtual void TickUpdate(float fDeltaTime);                                  // 23: 0x826B6F40
         virtual void Slot24();                                  // 24: 0x826B6FA0
         // 27: 0x826B7538 is a tail call to cVehicle's (0x826D2890); cAgencySports's override calls cVehicle's
         // directly, so this one is inline. RuffKing names the slot LeavePhysicalState.
@@ -72,10 +73,12 @@ namespace Vehicle
         virtual void vf340();                                   // 340: 0x826B7030
         virtual void vf341();                                   // 341: 0x826B1C48
         virtual void vf365();                                   // 365: 0x826B6848
+        // Reference name; CD2 0x826B6E70 forwards its boolean to both pintle cleanup calls.
+        void TerminatePintleMounts(bool);
         virtual float RetNetworkDoorOpenCloseSpeed(unsigned char nSeatIdx);   // 373: 0x822AAD78
         virtual void vf375();                                   // 375: 0x82271DA0
         virtual void vf387();                                   // 387: 0x826AB2E0
-        virtual void vf391();                                   // 391: 0x826B6808
+        virtual void HandleDeathDamage(cGameBase *, CHARACTER::cCharacterInterface *, unsigned char);                                   // 391: 0x826B6808
         virtual void OverrideProfileParams();                   // 447: 0x8230AF78
         virtual bool SpawnExhaustVFX();                         // 468: 0x826B7868
         virtual void vf484();                                   // 484: 0x8230AA48
@@ -91,10 +94,13 @@ namespace Vehicle
         virtual unsigned int GetMaxReplicatedFields() const;    // cReplicatedClass 23: 0x8288E2C0
 
     private:
-        unsigned char m_unmodelled2A30[0x3070 - 0x2A30];
+        // CD2 0x826B6E70 starts here and advances by cPintleMount's 0x150-byte stride twice.
+        cPintleMount m_aPintleMounts[2];
+        unsigned char m_unmodelled2CD0[0x3070 - 0x2CD0];
 
         CD2_LAYOUT_CHECKS(cCar,
-            CD2_SIZE(cCar, 0x3070))
+            CD2_SIZE(cCar, 0x3070)
+            CD2_OFFSET(cCar, m_aPintleMounts, 0x2A30))
     };
 }
 

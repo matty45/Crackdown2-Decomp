@@ -29,6 +29,16 @@ namespace unknown
 {
     const Fun_Runtime::cClass *cAgencyGaragePlatform::ms_pcAgencyGaragePlatformClass = &cAgencyGaragePlatform::StaticCreateClass();
 
+    const Fun_Runtime::cClass &cAgencyGaragePlatform::RetClass() const
+    {
+        return *ms_pcAgencyGaragePlatformClass;
+    }
+
+    bool cAgencyGaragePlatform::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcAgencyGaragePlatformClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cAgencyGaragePlatform::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cAgencyGaragePlatformClass = new Fun_Runtime::cClass(0x1024, "cAgencyGaragePlatform", 0xEE0);

@@ -26,9 +26,22 @@
 #include "fun_runtime/script_type_registrar.h"
 #include "fun_runtime/member_script_method.h"
 #include "fun_runtime/pointer_list_impl.h"
+#include "Havok/hkHingeConstraintData.h"
+#include "Havok/hkMotorAction.h"
+#include "Havok/hkWorld.h"
 
 namespace Prop
 {
+    const Fun_Runtime::cClass &cSpinningProp::RetClass() const
+    {
+        return *ms_pcSpinningPropClass;
+    }
+
+    bool cSpinningProp::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcSpinningPropClass->IsA(c);
+    }
+
     RWS::CAttributeHandler *cSpinningProp::MakeNew(const RWS::CAttributePacket &packet, bool)
     {
         return new cSpinningPropPrototype(packet);
@@ -191,6 +204,49 @@ namespace Prop
         GoToBrokenOffState();
     }
 
+
+    void cSpinningProp::DestroyConstraintData()
+    {
+        if (m_pConstraintData)
+        {
+            m_pConstraintData->removeReference();
+            m_pConstraintData = 0;
+        }
+    }
+
+    void cSpinningProp::DestroyMotor()
+    {
+        if (m_pMotorAction)
+        {
+            if (m_pMotorAction->getWorld())
+                m_pMotorAction->getWorld()->removeAction(m_pMotorAction);
+            m_pMotorAction->removeReference();
+            m_pMotorAction = 0;
+        }
+    }
+
+    void cSpinningProp::STATE_Spinning_ClockWise::EnterPhysicalState(Fun_Runtime::cStateMachine *machine)
+    {
+        cSpinningProp *prop = static_cast<cSpinningProp *>(machine);
+        const float spinSpeed = static_cast<cSpinningPropPrototype *>(prop->m_pPrototype)->m_fSpinSpeed;
+        const float speed = spinSpeed > 0.0f ? spinSpeed : -spinSpeed;
+        prop->CreateConstraint();
+        prop->CreateMotor(speed);
+    }
+
+    void cSpinningProp::STATE_Spinning_AntiClockWise::EnterPhysicalState(Fun_Runtime::cStateMachine *machine)
+    {
+        cSpinningProp *prop = static_cast<cSpinningProp *>(machine);
+        const float spinSpeed = static_cast<cSpinningPropPrototype *>(prop->m_pPrototype)->m_fSpinSpeed;
+        float speed;
+        // CD2 branches before creating the constraint; the ternary form becomes fsel after that call.
+        if (spinSpeed < 0.0f)
+            speed = spinSpeed;
+        else
+            speed = -spinSpeed;
+        prop->CreateConstraint();
+        prop->CreateMotor(speed);
+    }
 
     void cSpinningProp::STATE_Spinning_ClockWise::LeavePhysicalState(Fun_Runtime::cStateMachine *machine)
     {

@@ -8,6 +8,9 @@ namespace PHYSICS
     class cStaticBody : public cBody
     {
     public:
+        // CD2 MakeNew allocates 0x260 and invokes this no-argument constructor at 0x8268AEA0.
+        cStaticBody();
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static Fun_Runtime::cClass &StaticCreateClass();
     private:
         unsigned char m_unmodelled250[0x10];

@@ -20,6 +20,9 @@ namespace CHARACTER
         static Fun_Runtime::cClass &StaticCreateClass();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
+        // CD2 0x8253F3C8 / 0x8253F3D8: the registered-class pair, at the start of this object's code.
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         // Out of line: CD2 0x8253F570 (SpawnFromPrototype 0x8253F4A0 tail-calls it with the prototype).
         cCwCharacter(GOM::cObjectPrototype *pPrototype);
         // CD2 cReplicatedClass slot 23 (0x8253F4C0).

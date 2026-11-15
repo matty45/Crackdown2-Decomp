@@ -30,6 +30,16 @@ namespace RPG
 {
     const Fun_Runtime::cClass *cRenegadeOrb::ms_pcRenegadeOrbClass = &cRenegadeOrb::StaticCreateClass();
 
+    const Fun_Runtime::cClass &cRenegadeOrb::RetClass() const
+    {
+        return *ms_pcRenegadeOrbClass;
+    }
+
+    bool cRenegadeOrb::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcRenegadeOrbClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cRenegadeOrb::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cRenegadeOrbClass = new Fun_Runtime::cClass(0x67B, "cRenegadeOrb", 0x3B0);
@@ -57,5 +67,11 @@ namespace RPG
         if (memory)
             return new (memory) cRenegadeOrb;
         return 0;
+    }
+    bool cRenegadeOrb::EnterPhysicalState()
+    {
+        if (!cNonGameBase::EnterPhysicalState())
+            return false;
+        return true;
     }
 }

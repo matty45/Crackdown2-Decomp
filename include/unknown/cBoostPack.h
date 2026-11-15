@@ -48,8 +48,7 @@ namespace unknown
         virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // 18: 0x8260B430
         virtual Fun_Runtime::cClass const & RetClass() const; // cBody 0: 0x8260B138
         virtual bool IsA(Fun_Runtime::cClass const &) const; // cBody 1: 0x8260B140
-        virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x8261F5F0
-        virtual void ReplicateFields(); // cReplicatedClass 9: 0x82396118
+        // Replication slots 8 and 9 hold cGrenade's overrides (0x8261F5F0, 0x82396118): inherited, not declared here.
 
     public:
         // CD2 table 0x8211FD38 differs from cGrenade at these inherited slots.

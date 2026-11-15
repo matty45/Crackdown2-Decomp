@@ -36,7 +36,7 @@ namespace Prop
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
         virtual bool EnterPhysicalState(); // 7: 0x8272A070
-        virtual void Slot23(); // 23: 0x82743398
+        virtual void TickUpdate(float fDeltaTime); // 23: 0x82743398
         virtual void vf158(); // 158: 0x82743440
         virtual void vf244(); // 244: 0x82743530
         virtual void vf284(); // 284: 0x827433D0

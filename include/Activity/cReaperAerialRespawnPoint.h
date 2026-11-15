@@ -13,6 +13,9 @@ namespace Activity
     class cReaperAerialRespawnPoint : public cSquadMemberRespawnPoint
     {
     public:
+        // CD2 0x823D1818 / 0x823D1828: the registered-class pair, at the start of this object's code.
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pcReaperAerialRespawnPointClass;

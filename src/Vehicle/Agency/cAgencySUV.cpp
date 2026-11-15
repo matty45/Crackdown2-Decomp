@@ -31,6 +31,16 @@ namespace Vehicle
 {
     const Fun_Runtime::cClass *cAgencySUV::ms_pcAgencySUVClass = &cAgencySUV::StaticCreateClass();
 
+    const Fun_Runtime::cClass &cAgencySUV::RetClass() const
+    {
+        return *ms_pcAgencySUVClass;
+    }
+
+    bool cAgencySUV::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcAgencySUVClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cAgencySUV::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cAgencySUVClass = new Fun_Runtime::cClass(0x12060, "cAgencySUV", 0x30C0);
@@ -72,5 +82,18 @@ namespace Vehicle
 
     cAgencySUV::cAgencySUV() : m_fChargeTimer(0.0f), m_nASUVFlags(0)
     {
+    }
+
+    Fun_Runtime::RetVal cAgencySUV::TermForReuse()
+    {
+        m_nASUVFlags = 0;
+        m_fChargeTimer = 0.0f;
+        return cCar::TermForReuse();
+    }
+
+    void cAgencySUV::TickUpdate(float deltaTime)
+    {
+        cCar::TickUpdate(deltaTime);
+        HandleJump(deltaTime);
     }
 }

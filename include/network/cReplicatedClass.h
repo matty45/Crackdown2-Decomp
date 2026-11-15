@@ -5,6 +5,10 @@
 #include "Network/SNetworkHeader.h"
 namespace Fun_Runtime { class Vec3; }
 enum etGameMessageType { };
+class cReplicatedClass;
+// Descriptive name ours: CD2 0x82743618 passes this active object to _AllocateUInt32;
+// _AllocateUInt32Bits (0x8282B490) reads the same pointer internally.
+extern cReplicatedClass *g_pActiveReplicationClass;
 // RuffKing's per-field replication state (NetReplicationCD2.h, 0x14 bytes, as CD2's: cProp::SetPingedFieldStatesForNode
 // (0x827303C0) reaches RuffKing's field 3 at +0x3C, and cVehicle's (0x826CE5A0) field 12 at +0xF0).
 struct sReplicatedField
@@ -71,6 +75,14 @@ public:
     // them and compares the byte at 0x88 with 199.
     void ReadVec3(Fun_Runtime::Vec3 *out, int id);
     void ReadFloat(float *out, int id);
+    // CD2 0x8282BFA8 reads/writes a 32-bit field and returns whether it was processed.
+    // Reference name; CD2 omits the reference build's debug field-name parameter.
+    bool ReplicateUInt32(unsigned int *value, int field);
+    void _AllocateUInt32(unsigned int value, int field, sReplicatedField::etReplicatedFieldState state);
+    // CD2 0x8282B490 uses the active replication object at 0x838015D8, so has no explicit this.
+    // Reference method name; the static CD2 interface takes value, field, bit count and flags.
+    static void _AllocateUInt32Bits(unsigned int value, int field, unsigned int bits,
+        sReplicatedField::etReplicatedFieldState state);
     // RuffKing's names; CD2 0x82829E20 and 0x82814AB0, called by cTacticalObjective's Init/TermReplication.
     void InitReplicatedClass(void *pData, bool bAddToHash);
     void TermReplicatedClass();

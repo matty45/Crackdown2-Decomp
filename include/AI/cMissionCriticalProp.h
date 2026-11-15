@@ -57,7 +57,7 @@ namespace AI
     public:
         virtual bool EnterPhysicalState(); // 7: 0x8272A070
         virtual void Slot20(); // 20: 0x8245B2C8
-        virtual void Slot23(); // 23: 0x822C2DF0
+        virtual void TickUpdate(float fDeltaTime); // 23: 0x822C2DF0
         virtual void vf76(); // 76: 0x8245B338
         virtual void vf78(); // 78: 0x8288FB78
         virtual void vf79(); // 79: 0x8245B428

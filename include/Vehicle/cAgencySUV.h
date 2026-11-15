@@ -31,7 +31,7 @@ namespace Vehicle
         // CD2: cAgencySUV's own virtuals. Each slot below holds, in this class's CD2 vtable 0x82138178, an address its
         // base's table does not hold there, so the class overrides it; names and signatures are the bases'. The
         // destructor slot holds cCar's folded copy: the class declares no destructor.
-        virtual void Slot23();                                  // 23: 0x826FBF40
+        virtual void TickUpdate(float fDeltaTime);                                  // 23: 0x826FBF40
         virtual Fun_Runtime::RetVal TermForReuse();             // 39: 0x826FBDA8
         virtual void vf85();                                    // 85: 0x826FBDF0
         virtual void ReplicateInitialFields();                  // cReplicatedClass 8: 0x826FC570
@@ -39,6 +39,8 @@ namespace Vehicle
         virtual unsigned int GetMaxReplicatedFields() const;    // cReplicatedClass 23: 0x82889198
 
     private:
+        // RuffKing's helper name; CD2 TickUpdate forwards the same delta time to 0x826FBF88.
+        void HandleJump(float);
         // RuffKing's members (0x2FB0 and 0x2FB4 there).
         float m_fChargeTimer;                                   // 0x30B0
         unsigned char m_nASUVFlags;                             // 0x30B4

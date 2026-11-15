@@ -8,11 +8,17 @@
 //     "RetEyePosition" (0x823EBFA8: address of 0xB0). RuffKing has the same fields at 0x88, 0x90, 0xA0 and 0xB0.
 //   - m_pOwner (0xC8; RuffKing 0xC4, CD2 has one more word before it): the owning cCharacterEntityIF; RetViewingAngle
 //     reads its character pointer (+0x88).
+//   - "SetPlayerViewingDistance" (0x823F0608) stores 0x94, RuffKing's m_fPlayerViewingDistance there.
+//   - m_attrWidth (0x70) and m_attrHeight (0x74): RuffKing's names and offsets; "RetHeight" (0x823F03E8) returns the
+//     height attribute's value and RetRadius (0x823F03F8) half the width attribute's.
 #ifndef AI_CCHARACTERENTITY_H
 #define AI_CCHARACTERENTITY_H
 
 #include "fun_runtime/vec3.h"
 #include "cd2/layout.h"
+#include "Kaim/CEntity.h"
+#include "Kaim/CEntityWidth.h"
+#include "Kaim/CEntityHeight.h"
 
 namespace Fun_Runtime { class cScriptHost; }
 
@@ -20,7 +26,7 @@ namespace AI
 {
     class cCharacterEntityIF;
 
-    class cCharacterEntity
+    class cCharacterEntity : public Kaim::CEntity
     {
     private:
         unsigned char m_pad0[0x4];
@@ -30,16 +36,19 @@ namespace AI
         bool IsInViewCone(Fun_Runtime::cScriptHost *object);
         const char *m_name;                         // 0x4
     private:
-        unsigned char m_pad8[0x88 - 0x8];
+        unsigned char m_pad8[0x70 - 0x8];
+    public:
+        Kaim::CEntityWidth *m_attrWidth;            // 0x70
+        Kaim::CEntityHeight *m_attrHeight;          // 0x74
+    private:
+        unsigned char m_pad78[0x88 - 0x78];
     public:
         float m_fViewingAngle;                      // 0x88
     private:
         unsigned char m_pad8C[0x90 - 0x8C];
     public:
         float m_fViewingDistance;                   // 0x90
-    private:
-        unsigned char m_pad94[0x98 - 0x94];
-    public:
+        float m_fPlayerViewingDistance;             // 0x94
         float m_fThreatObjectViewingDistance;       // 0x98
         float m_fHearingAcuteness;                  // 0x9C
         Fun_Runtime::Vec3 m_vecHeadDirection;       // 0xA0
@@ -51,8 +60,11 @@ namespace AI
 
         CD2_LAYOUT_CHECKS(cCharacterEntity,
             CD2_OFFSET(cCharacterEntity, m_name, 0x4)
+            CD2_OFFSET(cCharacterEntity, m_attrWidth, 0x70)
+            CD2_OFFSET(cCharacterEntity, m_attrHeight, 0x74)
             CD2_OFFSET(cCharacterEntity, m_fViewingAngle, 0x88)
             CD2_OFFSET(cCharacterEntity, m_fViewingDistance, 0x90)
+            CD2_OFFSET(cCharacterEntity, m_fPlayerViewingDistance, 0x94)
             CD2_OFFSET(cCharacterEntity, m_fThreatObjectViewingDistance, 0x98)
             CD2_OFFSET(cCharacterEntity, m_fHearingAcuteness, 0x9C)
             CD2_OFFSET(cCharacterEntity, m_vecHeadDirection, 0xA0)

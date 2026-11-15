@@ -102,7 +102,7 @@ namespace Prop
     public:
         virtual Fun_Runtime::RetVal Term(); // 6: 0x82747740
         virtual bool EnterPhysicalState(); // 7: 0x8272A070
-        virtual void Slot23(); // 23: 0x822C2DF0
+        virtual void TickUpdate(float fDeltaTime); // 23: 0x822C2DF0
         virtual void LeaveRenderableState(); // 32: 0x827478A8
         virtual void vf326(); // 326: 0x82747C28
         virtual void vf338(); // 338: 0x82747C20

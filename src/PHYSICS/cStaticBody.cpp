@@ -5,3 +5,19 @@
 // object gets them through its other headers (docs/matching-notes.md, "Header constants"); included directly here.
 #include "PHYSICS/physicsconsts.h"
 #include "PHYSICS/physicsproject.h"
+#include "PHYSICS/cStaticBody.h"
+#include "cd2/memory.h"
+
+namespace PHYSICS
+{
+    RWS::CAttributeHandler *cStaticBody::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cStaticBody;
+    }
+
+    Fun_Runtime::cClass &cStaticBody::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *staticBodyClass = new Fun_Runtime::cClass(0x646, "cStaticBody", 0x260);
+        return *staticBodyClass;
+    }
+}

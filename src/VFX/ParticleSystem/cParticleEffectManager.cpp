@@ -26,6 +26,16 @@
 
 namespace VFX
 {
+    const Fun_Runtime::cClass &cParticleEffectManager::RetClass() const
+    {
+        return *ms_pcParticleEffectManagerClass;
+    }
+
+    bool cParticleEffectManager::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcParticleEffectManagerClass->IsA(c);
+    }
+
     const char *cParticleEffectManager::RetClassName() const
     {
         return "cParticleEffectManager";

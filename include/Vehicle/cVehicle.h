@@ -49,6 +49,8 @@ namespace Vehicle
 {
     class cVehicleSeat;
 
+    extern float g_8373BB18;
+
     // RuffKing's vehicle kinds (its PDB values); cLandVehicle's FullySubmergedEvent (0x826C30B0) keeps the engine of
     // eVT_SUV running.
     enum eVehicleType
@@ -206,7 +208,7 @@ namespace Vehicle
         virtual float RetNetworkDoorOpenCloseSpeed(unsigned char nSeatIdx); virtual void vf374(); virtual void vf375(); virtual void vf376(); virtual bool CheckForReplicationActivation(unsigned int *nRetCode); virtual void vf378();
         virtual unsigned char GetForceOpenMask(); virtual void vf380(); virtual void vf381(); virtual bool IsLightActive(VFX::cGlobalLight *pLight, unsigned char nLightType, unsigned char nIndex); virtual void vf383(); virtual void vf384();
         virtual void vf385(); virtual Damage::cVehicleDamageManager *RetVehicleDamageManager(); virtual void vf387(); virtual void vf388(); virtual PHYSICS::cNetDynamicBody::eArbitrationResult ArbitrateOwnership(unsigned char nNodeID, unsigned int TimeStamp); virtual void vf390();
-        virtual void vf391(); virtual void vf392(); virtual void vf393(); virtual void vf394(); virtual void vf395(); virtual void vf396();
+        virtual void HandleDeathDamage(cGameBase *, CHARACTER::cCharacterInterface *, unsigned char); virtual void vf392(); virtual void vf393(); virtual void vf394(); virtual void vf395(); virtual void vf396();
         virtual void vf397(); virtual void vf398(); virtual unsigned int RetNumberOfOccupants(); virtual unsigned int RetSeatsInUse(); virtual void vf401(); virtual void vf402();
         virtual void vf403(); virtual bool IsDrivenByAI(); virtual void vf405(); virtual bool IsTyreInflated(unsigned char nWheel); virtual bool AllTyresInflated(); virtual void ActivatePoliceLights(bool bActivate);
         virtual bool CanActivatePoliceLights(); virtual bool IsAPoliceVehicle(); virtual bool RetPoliceLightsActivated(); virtual void vf412(); virtual void vf413(); virtual void vf414();
@@ -295,7 +297,7 @@ namespace Vehicle
         virtual void Slot13(); // 13: 0x826CE428
         virtual void Slot14(); // 14: 0x826D1DB0
         virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // 18: 0x826CD290
-        virtual void Slot23(); // 23: 0x822D2598
+        virtual void TickUpdate(float fDeltaTime); // 23: 0x822D2598
         virtual void Slot24(); // 24: 0x822FAE98
         virtual void LeavePhysicalState(); // 27: 0x826D2890
         virtual void Slot30(); // 30: 0x826D2610
@@ -314,7 +316,7 @@ namespace Vehicle
         virtual void vf93(); // 93: 0x821D71C0
         virtual void vf96(); // 96: 0x826D1748
         virtual void vf114(); // 114: 0x822EFF00
-        virtual void vf132(); // 132: 0x826DAA30
+        virtual float vf132(); // 132: 0x826DAA30
         virtual void vf140(); // 140: 0x826D3098
         virtual void vf142(); // 142: 0x822849D0
         virtual void vf145(); // 145: 0x822849F8

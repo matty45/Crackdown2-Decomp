@@ -4,9 +4,11 @@
 #define HAVOK_HKWORLD_H
 #include "Havok/hkBool.h"
 class hkEntity;
+class hkAction;
 class hkWorld
 {
 public:
     hkBool removeEntity(hkEntity *);
+    void removeAction(hkAction *);
 };
 #endif

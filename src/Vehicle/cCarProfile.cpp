@@ -19,6 +19,19 @@ namespace Vehicle
         return "cCarProfile";
     }
 
+    Fun_Runtime::RetVal cCarProfile::Init(const RWS::CAttributePacket &packet)
+    {
+        cLandVehicleProfile::Init(packet, 4);
+        RegisterMsg(m_Msg_Data_Modified, "DataModified", "Char*");
+        return Ret_OK;
+    }
+
+    Fun_Runtime::RetVal cCarProfile::Term()
+    {
+        UnRegisterMsg(m_Msg_Data_Modified);
+        return Ret_OK;
+    }
+
     cCarProfile::~cCarProfile()
     {
         UnRegisterMsg(m_Msg_Data_Modified);

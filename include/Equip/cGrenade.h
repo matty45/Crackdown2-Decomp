@@ -5,6 +5,8 @@
 #define EQUIP_CGRENADE_H
 #include "Equip/cWeapon.h"
 #include "fun_runtime/safedeletablepointer.h"
+#include "VFX/cParticleEffectInstance.h"
+#include "Audio/cPhysicsBodyGameObject.h"
 namespace Equip
 {
     class cGrenade : public cWeapon
@@ -22,8 +24,10 @@ namespace Equip
         virtual void vf412(); // primary slot 412
         virtual void vf413(); // primary slot 413
         virtual void vf414(); // primary slot 414
-        virtual void vf415(); // primary slot 415
-        virtual void vf416(); // primary slot 416
+        // Slot 415: the script method "RetDamageRadius" is registered (0x8261E148) as this slot's vcall thunk 0x8261F838;
+        // cExplosiveGrenade's override (0x8261DAD0) returns a float.
+        virtual float RetDamageRadius() const; // primary slot 415 (RuffKing: const)
+        virtual void vf416(int); // primary slot 416
         virtual void vf417(); // primary slot 417
         virtual void vf418(); // primary slot 418
         virtual void vf419(); // primary slot 419
@@ -45,6 +49,8 @@ namespace Equip
         {
         public:
             cGrenadePrototype(const RWS::CAttributePacket &);
+            // Reference override; CD2 prototype slot 5 at 0x8261F7E8 returns Ret_OK.
+            virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
             // CD2 boost-pack handler 0x8260AF80 forwards to this method at 0x82296B10.
             virtual void HandleAttributes(const RWS::CAttributePacket &);
 
@@ -62,20 +68,26 @@ namespace Equip
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pcGrenadeClass;
         virtual const Fun_Runtime::cClass &RetClass() const;
+        // CD2 0x8261DEE0: slot 1 of the registered-class table the constructor (0x8261E238) installs.
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
     private:
         // RuffKing names; CD2 keeps RuffKing's order 0x20 bytes earlier (IsLive 0x8260AAB0 reads 0x8C4, HasDetonated
-        // 0x8260AAA8 reads 0x8C5).
+        // 0x8260AAA8 reads 0x8C5; the destructor 0x8261E460 releases the trail effect at 0x8CC and destroys the
+        // launcher pointer at 0x8E0 and the physics audio object at 0x8F0, in RuffKing's member order).
         float m_fLastGrenadeSoundTime;
         bool m_bLive;
         bool m_bDetonated;
-        unsigned char m_unmodelled8C6[0x8E0 - 0x8C6];
+        int m_nFuseTime_msec;                       // 0x8C8
+        VFX::cParticleEffectInstance *m_pTrailVFX;  // 0x8CC
+        unsigned char m_unmodelled8D0[0x8E0 - 0x8D0];
     protected:
         // Reference name/type; CD2 Launched (0x8260E788) reads the safe-pointer payload at +0x8EC.
         Fun_Runtime::cSafeDeletablePointer<CHARACTER::cCharacter> m_pCharacterLauncher;
     private:
-        unsigned char m_unmodelled8F0[0x9C0 - 0x8F0];
+        Audio::cPhysicsBodyGameObject m_GrenadePhysicsAudio;    // 0x8F0
+        unsigned char m_unmodelled9B8[0x9C0 - 0x9B8];
         // CD2: cGrenade's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
@@ -95,8 +107,8 @@ namespace Equip
         virtual void vf284(); // 284: 0x8261F1A0
         virtual void vf300(); // 300: 0x8261F588
         virtual void SetStatus(Equip::cEquipment::EQUIP_STATUS); // 316: 0x8261EEF8
-        virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x821FE5B8
-        virtual void ReplicateFields(); // cReplicatedClass 9: 0x821FEA10
+        virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x8261F5F0
+        virtual void ReplicateFields(); // cReplicatedClass 9: 0x82396118
         virtual unsigned int GetMaxReplicatedFields() const; // cReplicatedClass 23: 0x82889198
     private:
         // CD2: cGrenade's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
@@ -108,6 +120,7 @@ namespace Equip
         virtual bool CanReleaseNetOwnershipOnInitMsg() const; // 349: 0x8261F720
     private:
         CD2_LAYOUT_CHECKS(cGrenade, CD2_SIZE(cGrenade, 0x9C0) CD2_OFFSET(cGrenade, m_bLive, 0x8C4) CD2_OFFSET(cGrenade, m_bDetonated, 0x8C5)
+            CD2_OFFSET(cGrenade, m_pTrailVFX, 0x8CC) CD2_OFFSET(cGrenade, m_GrenadePhysicsAudio, 0x8F0)
             CD2_OFFSET(cGrenade, m_pCharacterLauncher, 0x8E0))
 
     public:
@@ -119,7 +132,7 @@ namespace Equip
     public:
         // CD2 table 0x82014DD0 differs from cWeapon at these inherited slots.
         virtual void Slot13(); // slot 13: 0x8261E5D8
-        virtual void Slot23(); // slot 23: 0x821D0F58
+        virtual void TickUpdate(float fDeltaTime); // slot 23: 0x821D0F58
     };
 }
 #endif

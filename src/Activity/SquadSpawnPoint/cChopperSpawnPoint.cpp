@@ -18,6 +18,16 @@
 
 namespace Activity
 {
+    const Fun_Runtime::cClass &cChopperSpawnPoint::RetClass() const
+    {
+        return *ms_pcChopperSpawnPointClass;
+    }
+
+    bool cChopperSpawnPoint::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcChopperSpawnPointClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cChopperSpawnPoint::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cChopperSpawnPointClass = new Fun_Runtime::cClass(0x5D227, "cChopperSpawnPoint", 0xB0);

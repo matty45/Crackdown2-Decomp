@@ -17,6 +17,9 @@ namespace VFX
         static const Fun_Runtime::cClass *ms_pcParticleEffectManagerClass;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
+        // CD2 0x827DED40 / 0x827DED50: the registered-class pair, at the start of this object's code.
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         int RetEffectId(const char *); // RuffKing name; CD2 0x827EB880
         // RuffKing names this resource operation. CD2 0x827EA810 takes only the
         // resource name and obtains its manager from the singleton internally.

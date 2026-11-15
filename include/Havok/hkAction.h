@@ -13,6 +13,8 @@ class hkAction : public hkReferencedObject
 {
 public:
     virtual ~hkAction();
+    // Reference inline accessor; CD2 motor cleanup reads the world pointer at +8.
+    hkWorld *getWorld() { return m_world; }
     virtual void applyAction(const hkStepInfo &) = 0;
     virtual void getEntities(hkArray<hkEntity *> &) = 0;
     virtual void getPhantoms(hkArray<hkPhantom *> &);

@@ -32,6 +32,16 @@ namespace PHYSICS
 {
     const Fun_Runtime::cClass *cBody::ms_pcBodyClass = &cBody::StaticCreateClass();
 
+    const Fun_Runtime::cClass &cBody::RetClass() const
+    {
+        return *ms_pcBodyClass;
+    }
+
+    bool cBody::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcBodyClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cBody::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cBodyClass = new Fun_Runtime::cClass(0x63C, "cBody", 0x250);
@@ -124,6 +134,20 @@ namespace PHYSICS
     void cBody::HandleAttributes(const RWS::CAttributePacket &attr)
     {
         cGameBase::HandleAttributes(attr);
+    }
+
+    void cBody::GetAIWorldAABB(hkAabb *bounds)
+    {
+        GetWorldAABB(bounds);
+    }
+
+    hkCollidableQualityType cBody::RetCollidableQuality(hkMotion::MotionType motionType)
+    {
+        if (motionType == hkMotion::MOTION_FIXED)
+            return HK_COLLIDABLE_QUALITY_FIXED;
+        if (motionType == hkMotion::MOTION_KEYFRAMED)
+            return HK_COLLIDABLE_QUALITY_KEYFRAMED;
+        return HK_COLLIDABLE_QUALITY_MOVING;
     }
 
     RWS::CAttributeHandler *cBody::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)

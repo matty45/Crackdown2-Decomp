@@ -29,6 +29,16 @@
 
 namespace CHARACTER
 {
+    const Fun_Runtime::cClass &cCwTransCharacter::RetClass() const
+    {
+        return *ms_pcCwTransCharacterClass;
+    }
+
+    bool cCwTransCharacter::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcCwTransCharacterClass->IsA(c);
+    }
+
     RWS::CAttributeHandler *cCwTransCharacter::MakeNew(const RWS::CAttributePacket &packet, bool)
     {
         return new cCwTransCharacterPrototype(packet);

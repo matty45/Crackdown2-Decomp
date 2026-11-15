@@ -153,6 +153,9 @@ namespace AI
 
     protected:
         virtual const Fun_Runtime::cClass &RetClass() const;
+        // CD2 0x8222FC18 (order-list region): slot 1 of this class's registered-class table, where
+        // cCharacterEntityIF's table holds its own IsA (0x823EBE30).
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         virtual const char *RetClassName() const;
     public:
         // CD2 0x823E7978: cScriptHost slot 1; descriptive method name is ours.

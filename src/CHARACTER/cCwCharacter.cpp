@@ -14,6 +14,16 @@
 
 namespace CHARACTER
 {
+    const Fun_Runtime::cClass &cCwCharacter::RetClass() const
+    {
+        return *ms_pcCwCharacterClass;
+    }
+
+    bool cCwCharacter::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcCwCharacterClass->IsA(c);
+    }
+
     const char *cCwCharacter::RetClassName() const
     {
         return "cCwCharacter";

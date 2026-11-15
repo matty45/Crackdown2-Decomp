@@ -60,6 +60,9 @@ namespace Prop
     protected:
         virtual void CreateConstraint(bool bMotorActive, float fTargetAngle);   // slot 345
         virtual void DestroyConstraint();                                       // slot 346
+        // Reference names; CD2's min/max state callbacks tail-call 0x82738378/0x82738540.
+        void ForceToMin();
+        void ForceToMax();
         // RuffKing fields; CD2's constructor (0x827374E0) initializes them at these offsets.
         Fun_Runtime::Mtx m_InitialTransform;
         Fun_Runtime::Vec3 m_PivotInWorldSpace;
@@ -149,7 +152,7 @@ namespace Prop
     public:
         virtual Fun_Runtime::RetVal Term(); // 6: 0x8273EE70
         virtual void Slot13(); // 13: 0x82738208
-        virtual void Slot23(); // 23: 0x8222F568
+        virtual void TickUpdate(float fDeltaTime); // 23: 0x8222F568
         virtual void vf167(); // 167: 0x82738708
         virtual void EnterGhostState(); // 271: 0x82737A00
         virtual void vf283(); // 283: 0x82737A80

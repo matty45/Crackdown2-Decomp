@@ -11,6 +11,7 @@ namespace AI
     {
     public:
         cSoundEvent(unsigned int eventType, Fun_Runtime::cScriptHost *source, float volume);
+        float RetVolume(); // CD2 script registration at 0x82440604
         virtual Fun_Runtime::Vec3 RetScriptPosition() const;
         virtual cCharacterEntityIF *RetInstigator();
         virtual bool CanHearThisSound(cCharacterEntityIF *);

@@ -19,6 +19,16 @@
 
 namespace VFX
 {
+    const Fun_Runtime::cClass &cSkidMarks::RetClass() const
+    {
+        return *ms_pcSkidMarksClass;
+    }
+
+    bool cSkidMarks::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcSkidMarksClass->IsA(c);
+    }
+
     const char *cSkidMarks::RetClassName() const
     {
         return "cSkidMarks";

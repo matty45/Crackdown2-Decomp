@@ -13,6 +13,9 @@ namespace RPG
     class cPlayerStatManager : public GDb::cDebugPageHandler
     {
     public:
+        // CD2 0x827597D8 / 0x827597E8: the registered-class pair, at the start of this object's code.
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pcPlayerStatManagerClass;
     };

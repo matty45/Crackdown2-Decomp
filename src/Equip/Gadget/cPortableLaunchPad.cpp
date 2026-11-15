@@ -28,6 +28,16 @@ namespace Equip
 {
     const Fun_Runtime::cClass *cPortableLaunchPad::ms_pcPortableLaunchPadClass = &cPortableLaunchPad::StaticCreateClass();
 
+    const Fun_Runtime::cClass &cPortableLaunchPad::RetClass() const
+    {
+        return *ms_pcPortableLaunchPadClass;
+    }
+
+    bool cPortableLaunchPad::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcPortableLaunchPadClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cPortableLaunchPad::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cPortableLaunchPadClass = new Fun_Runtime::cClass(0x27412, "cPortableLaunchPad", 0xCA0);

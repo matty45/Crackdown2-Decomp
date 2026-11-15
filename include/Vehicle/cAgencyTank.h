@@ -24,6 +24,7 @@ namespace Vehicle
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcAgencyTankClass;
         static Fun_Runtime::cClass &StaticCreateClass();
+        void SetupTurret(); // Reference name; CD2 0x82700238 configures m_Turret from the tank prototype.
 
         // Registered-class table 0x82139234: slot 0 (0x826FC640) and slot 1 (0x826FC650).
         virtual const Fun_Runtime::cClass &RetClass() const;
@@ -34,7 +35,7 @@ namespace Vehicle
         // destructor slot holds cCar's folded copy: the class declares no destructor.
         virtual void Slot14();                                  // 14: 0x826FD360
         virtual Fun_Runtime::RetVal Init(const GOM::cSpawner *);    // 18: 0x82700130
-        virtual void Slot23();                                  // 23: 0x826FCEA8
+        virtual void TickUpdate(float fDeltaTime);                                  // 23: 0x826FCEA8
         virtual void Slot24();                                  // 24: 0x826FCF10
         virtual Fun_Runtime::RetVal Slot37();                                  // 37: 0x827001E0
         virtual Fun_Runtime::RetVal Reinitialise(const GOM::cSpawner *);    // 38: 0x82700188

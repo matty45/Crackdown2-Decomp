@@ -20,6 +20,12 @@ namespace Fun_Runtime
     };
 
     extern const OldVec3 ZeroVec;
+    // RuffKing's constants.cpp defines the axes after ZeroVec, 16 bytes apart. CD2's initializers 0x82FD5C50,
+    // 0x82FD5C78 and 0x82FD5CA0 store (1,0,0), (0,1,0) and (0,0,1) as three floats at 0x8383A860/70/80, and
+    // cChainGunPrototype's constructor (0x82616EB0) reads XAxis's three floats into a Vec3 (w = 1).
+    extern const OldVec3 XAxis;
+    extern const OldVec3 YAxis;
+    extern const OldVec3 ZAxis;
 }
 
 #endif // FUN_RUNTIME_OLDVEC3_H

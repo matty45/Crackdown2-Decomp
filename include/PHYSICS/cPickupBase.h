@@ -17,6 +17,10 @@ namespace PHYSICS
     class cPickupBase : public RWS::CSystemCommands, public cNonGameBase
     {
     public:
+        // CD2 0x827093D8; its factory calls construction out of line.
+        cPickupBase();
+        static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
+        virtual const char *RetClassName() const;
         // CD2 0x82709638 (out of line: cAudioLog's destructor 0x8270EC18 calls it).
         virtual ~cPickupBase();
         static Fun_Runtime::cClass &StaticCreateClass();

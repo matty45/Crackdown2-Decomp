@@ -17,6 +17,9 @@ namespace CHARACTER
         static const Fun_Runtime::cClass *ms_pcGenCharProfileClass;
         static Fun_Runtime::cClass &StaticCreateClass();
         virtual const char *RetClassName() const;
+        // CD2 0x825562A8 / 0x825562B8: the registered-class pair, at the start of this object's code.
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
     public:
         // Out of line: CD2 0x82243C58 (MakeNew calls it).
         cGenCharProfile();

@@ -74,8 +74,40 @@ namespace Equip
         return *ms_pcGrenadeClass;
     }
 
+    bool cGrenade::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcGrenadeClass->IsA(c);
+    }
+
     const Fun_Runtime::cScriptTypeRegistration *cGrenade::RetScriptTypeRegistration() const
     {
         return &cGrenadeScriptRegistrar;
+    }
+
+    cGrenade::~cGrenade()
+    {
+        if (m_pTrailVFX)
+        {
+            m_pTrailVFX->StopEmitters();
+            m_pTrailVFX->SetAsOrphan();
+            m_pTrailVFX->Release();
+            m_pTrailVFX = 0;
+        }
+    }
+
+    Fun_Runtime::RetVal cGrenade::cGrenadePrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
+}
+
+namespace Fun_Runtime
+{
+    template <>
+    void cScriptTypeRegistrar<Equip::cGrenade>::RegisterMethods()
+    {
+        RegisterMethod(&Equip::cGrenade::IsLive, "IsLive");
+        RegisterMethod(&Equip::cGrenade::HasDetonated, "HasExploded");
+        RegisterMethod(&Equip::cGrenade::RetDamageRadius, "RetDamageRadius");
     }
 }

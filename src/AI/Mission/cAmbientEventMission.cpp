@@ -26,6 +26,16 @@
 
 namespace AI
 {
+    const Fun_Runtime::cClass &cAmbientEventMission::RetClass() const
+    {
+        return *ms_pcAmbientEventMissionClass;
+    }
+
+    bool cAmbientEventMission::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcAmbientEventMissionClass->IsA(c);
+    }
+
     const char *cAmbientEventMission::RetClassName() const
     {
         return "cAmbientEventMission";

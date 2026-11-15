@@ -12,6 +12,19 @@ namespace Vehicle
         return "cEightWheelerProfile";
     }
 
+    Fun_Runtime::RetVal cEightWheelerProfile::Init(const RWS::CAttributePacket &packet)
+    {
+        cLandVehicleProfile::Init(packet, 8);
+        RegisterMsg(m_Msg_Data_Modified, "DataModified", "Char*");
+        return Ret_OK;
+    }
+
+    Fun_Runtime::RetVal cEightWheelerProfile::Term()
+    {
+        UnRegisterMsg(m_Msg_Data_Modified);
+        return Ret_OK;
+    }
+
     cEightWheelerProfile::~cEightWheelerProfile()
     {
         UnRegisterMsg(m_Msg_Data_Modified);

@@ -44,7 +44,7 @@ namespace unknown
     public:
         virtual bool EnterPhysicalState(); // 7: 0x82739A00
         virtual void Slot13(); // 13: 0x8273A4C8
-        virtual void Slot23(); // 23: 0x82739B80
+        virtual void TickUpdate(float fDeltaTime); // 23: 0x82739B80
         virtual void LeavePhysicalState(); // 27: 0x82739638
         virtual bool EnterRenderableState(eResourcesType); // 31: 0x82739630
         virtual void vf76(); // 76: 0x82457958

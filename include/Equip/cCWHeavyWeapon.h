@@ -49,7 +49,7 @@ namespace Equip
         // CD2: cCWHeavyWeapon's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
-        virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // 18: 0x82608168
+        // Slot 18 holds cCWWeapon's Init (0x82608168): inherited, not declared here.
         virtual void vf276(); // 276: 0x82630658
         virtual void vf277(); // 277: 0x826306F0
         virtual void vf279(); // 279: 0x82630770

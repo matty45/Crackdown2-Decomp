@@ -108,6 +108,8 @@ namespace Prop
         };
         // RuffKing's inline (its out-of-line copy 0x822E12E0).
         cPropPrototype *RetPropPrototype() { return static_cast<cPropPrototype *>(m_pPrototype); }
+        // Reference name; CD2 broken-state callbacks call 0x8272AFE0 with eMT_DYNAMIC.
+        void SetMotion(eMotionType);
     protected:
         // RuffKing's (out of line there); CD2 inlines it into the net-role overrides (0x827296A0).
         void DoDynamicPropCoverInvalidation()
@@ -143,13 +145,13 @@ namespace Prop
         virtual void vf105(); // 105: 0x8272CD70
         virtual void vf106(); // 106: 0x8272D168
         virtual void vf129(); // 129: 0x8272C2F8
-        virtual void vf132(); // 132: 0x8272D2B0
+        virtual float vf132(); // 132: 0x8272D2B0
         virtual void vf140(); // 140: 0x82729F20
         virtual hkCollidableQualityType RetCollidableQuality(hkMotion::MotionType); // 156: 0x8272F1A0
-        virtual void vf174(); // 174: 0x8272CA50
-        virtual void vf175(); // 175: 0x8272CB28
+        virtual void GetLocalAABB(hkAabb *) const; // 174: 0x8272CA50
+        virtual void GetWorldAABB(hkAabb *) const; // 175: 0x8272CB28
         virtual void vf176(); // 176: 0x8272CE68
-        virtual void vf177(); // 177: 0x8272CF20
+        virtual void GetAIWorldAABB(hkAabb *); // 177: 0x8272CF20
         virtual void vf179(); // 179: 0x82457A68
         virtual void vf226(); // 226: 0x82730450
         // CD2 cProp table 0x8200DFC8 overrides cNetDynamicBody's empty slots.
@@ -192,7 +194,7 @@ namespace Prop
         // (cNetDynamicBody leaves IsSequential and IsOwnedLocally pure).
         virtual void Slot13(); // 13: 0x82729CA8
         virtual void Slot14(); // 14: 0x8272C228
-        virtual void Slot23(); // 23: 0x822C2DF0
+        virtual void TickUpdate(float fDeltaTime); // 23: 0x822C2DF0
         virtual void Slot24(); // 24: 0x8272A7F8
         virtual void vf76(); // 76: 0x8237D638
         virtual void vf217(); // 217: 0x82604F40

@@ -57,20 +57,17 @@ namespace Equip
         // Reconstruction update: slot 6 inherits cEquipment::Term unchanged.
         // virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // 18: 0x8228C898
         // Reconstruction update: slot 18 inherits cDynamicBody::Init unchanged.
-        virtual void Slot23(); // 23: 0x822D04B8
         virtual void ImpactAudio(float fDeltaVelocity); // 258: 0x82580578
         virtual void ScrapeAudio(float fRelativeVelocity); // 259: 0x82580578
         virtual void PickUpAudio(); // 260: 0x82580578
         virtual void WaterEntryAudio(float); // 261: 0x82580578
         virtual void WaterExitAudio(float); // 262: 0x82580578
-        virtual void SetStatus(Equip::cEquipment::EQUIP_STATUS); // 316: 0x82605128
         virtual bool Activate(); // 318: 0x827E56A8
         virtual unsigned int RetWeaponPriority() const; // 320: 0x827E56A8
         virtual Fun_Runtime::cClass const & RetClass() const; // cBody 0: 0x8260AA68
         virtual bool IsA(Fun_Runtime::cClass const &) const; // cBody 1: 0x8260AA98
-        virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x82606198
-        virtual void ReplicateFields(); // cReplicatedClass 9: 0x822F3468
-        virtual unsigned int GetMaxReplicatedFields() const; // cReplicatedClass 23: 0x8288E110
+        // Slots 23 and 316 and the replication slots 8, 9 and 23 hold cEquipment's overrides (0x822D04B8, 0x82605128,
+        // 0x82606198, 0x822F3468, 0x8288E110) in this class's tables 0x820105B0/0x8211FC50 too: inherited, not declared.
         // CD2: cWeaponProjectile's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:

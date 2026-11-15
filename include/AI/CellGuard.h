@@ -14,7 +14,7 @@ namespace AI
     {
     public:
         // CD2 table 0x8210A8E0 extends the inherited interface at these slots.
-        virtual void vf132();
+        virtual float vf132();
         virtual void vf133();
         virtual void vf134();
         virtual void vf135();

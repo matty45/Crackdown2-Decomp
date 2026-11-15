@@ -17,6 +17,16 @@
 
 namespace RPG
 {
+    const Fun_Runtime::cClass &cPlayerStatManager::RetClass() const
+    {
+        return *ms_pcPlayerStatManagerClass;
+    }
+
+    bool cPlayerStatManager::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcPlayerStatManagerClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cPlayerStatManager::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cPlayerStatManagerClass = new Fun_Runtime::cClass(0x516, "cPlayerStatManager", 0x15F0);

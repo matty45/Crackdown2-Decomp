@@ -18,6 +18,9 @@ namespace unknown
         cSucknBlowGun();
         // CD2 0x82635548: primary virtual slot 11 returns the registered class name.
         virtual const char *RetClassName() const;
+        // CD2 0x82635480 / 0x82635490: the registered-class pair, at the start of this object's code.
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         // CD2 slot 390 (0x82638858) tail-calls cWeapon::InitiateReload.
         virtual bool InitiateReload();
         // CD2 spawning initializer 0x82FD3FB8 names placement factory 0x82635558.

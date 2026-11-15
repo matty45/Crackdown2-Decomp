@@ -91,4 +91,8 @@ namespace Equip
     {
         return *ms_pcCWSatchelChargeClass;
     }
+
+    cCWSatchelCharge::~cCWSatchelCharge()
+    {
+    }
 }

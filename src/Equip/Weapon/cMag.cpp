@@ -31,6 +31,16 @@ namespace Equip
 {
     const Fun_Runtime::cClass *cMag::ms_pcMagClass = &cMag::StaticCreateClass();
 
+    const Fun_Runtime::cClass &cMag::RetClass() const
+    {
+        return *ms_pcMagClass;
+    }
+
+    bool cMag::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcMagClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cMag::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cMagClass = new Fun_Runtime::cClass(0x27411, "cMag", 0xB20);

@@ -31,6 +31,16 @@ namespace Vehicle
 {
     const Fun_Runtime::cClass *cAgencyTank::ms_pcAgencyTankClass = &cAgencyTank::StaticCreateClass();
 
+    const Fun_Runtime::cClass &cAgencyTank::RetClass() const
+    {
+        return *ms_pcAgencyTankClass;
+    }
+
+    bool cAgencyTank::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcAgencyTankClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cAgencyTank::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cAgencyTankClass = new Fun_Runtime::cClass(0x120AB, "cAgencyTank", 0x3150);
@@ -81,4 +91,19 @@ namespace Vehicle
         cCar::ReplicateFields();
         m_Turret.ReplicateFields(false);
     }
+
+    Fun_Runtime::RetVal cAgencyTank::Init(const GOM::cSpawner *spawner)
+    {
+        cCar::Init(spawner);
+        SetupTurret();
+        return Ret_OK;
+    }
+
+    Fun_Runtime::RetVal cAgencyTank::Reinitialise(const GOM::cSpawner *spawner)
+    {
+        cCar::Reinitialise(spawner);
+        SetupTurret();
+        return Ret_OK;
+    }
+
 }

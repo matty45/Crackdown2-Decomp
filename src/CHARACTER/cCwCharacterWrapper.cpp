@@ -28,6 +28,16 @@
 
 namespace CHARACTER
 {
+    const Fun_Runtime::cClass &cCwCharacterWrapper::RetClass() const
+    {
+        return *ms_pcCwCharacterWrapperClass;
+    }
+
+    bool cCwCharacterWrapper::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcCwCharacterWrapperClass->IsA(c);
+    }
+
     const char *cCwCharacterWrapper::RetClassName() const
     {
         return "cCwCharacterWrapper";

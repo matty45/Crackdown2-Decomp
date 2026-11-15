@@ -26,6 +26,16 @@
 
 namespace Prop
 {
+    const Fun_Runtime::cClass &cPivotBasedProp::RetClass() const
+    {
+        return *ms_pcPivotBasedPropClass;
+    }
+
+    bool cPivotBasedProp::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcPivotBasedPropClass->IsA(c);
+    }
+
     RWS::CAttributeHandler *cPivotBasedProp::MakeNew(const RWS::CAttributePacket &packet, bool)
     {
         return new cPivotBasedPropPrototype(packet);
@@ -86,4 +96,9 @@ namespace Prop
     // CD2 0x82FF7DE8: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cPivotBasedPropSpawningRegistrar(
         cPivotBasedProp::StaticCreateClass(), cPivotBasedProp::SpawnFromPrototype);
+
+    Fun_Runtime::RetVal cPivotBasedProp::cPivotBasedPropPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
 }

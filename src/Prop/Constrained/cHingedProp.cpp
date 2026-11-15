@@ -32,6 +32,16 @@
 
 namespace Prop
 {
+    const Fun_Runtime::cClass &cHingedProp::RetClass() const
+    {
+        return *ms_pcHingedPropClass;
+    }
+
+    bool cHingedProp::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcHingedPropClass->IsA(c);
+    }
+
     RWS::CAttributeHandler *cHingedProp::MakeNew(const RWS::CAttributePacket &packet, bool)
     {
         return new cHingedPropPrototype(packet);
@@ -198,5 +208,87 @@ namespace Prop
     const Fun_Runtime::cScriptTypeRegistration *cHingedProp::RetScriptTypeRegistration() const
     {
         return &cHingedPropScriptRegistrar;
+    }
+
+    void cHingedProp::RotToMax()
+    {
+        if (IsInMinState() || IsInRotatingToMinState() || IsInRotatingFreeState())
+            GoToRotatingToMaxState();
+    }
+
+    void cHingedProp::RotToMin()
+    {
+        if (IsInMaxState() || IsInRotatingToMaxState() || IsInRotatingFreeState())
+            GoToRotatingToMinState();
+    }
+
+    void cHingedProp::RotFree()
+    {
+        if (IsInMaxState() || IsInMinState() || IsInRotatingToMaxState() || IsInRotatingToMinState())
+            GoToRotatingFreeState();
+        m_bDoDingDong = false;
+    }
+
+    void cHingedProp::DingDong()
+    {
+        m_bDoDingDong = true;
+        RotToMax();
+    }
+
+    void cHingedProp::Breakoff(bool force)
+    {
+        if (force || RetPropPrototype()->m_nMotionType != eMT_FIXED)
+            GoToBrokenOffState();
+    }
+
+    void cHingedProp::EnterGhostState()
+    {
+        GoToBrokenOffState();
+        cProp::EnterGhostState();
+    }
+
+    void cHingedProp::OnSpawnedAsFragment(cGameBase *parent)
+    {
+        cProp::OnSpawnedAsFragment(parent);
+        GoToBrokenOffState();
+    }
+
+    Fun_Runtime::RetVal cHingedProp::cHingedPropPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
+
+    void cHingedProp::STATE_Min::EnterPhysicalState(Fun_Runtime::cStateMachine *machine)
+    {
+        static_cast<cHingedProp *>(machine)->ForceToMin();
+    }
+
+    void cHingedProp::STATE_Max::EnterPhysicalState(Fun_Runtime::cStateMachine *machine)
+    {
+        static_cast<cHingedProp *>(machine)->ForceToMax();
+    }
+
+    void cHingedProp::STATE_Rotating_To_Min::EnterPhysicalState(Fun_Runtime::cStateMachine *machine)
+    {
+        cHingedProp *prop = static_cast<cHingedProp *>(machine);
+        prop->CreateConstraint(true, static_cast<cHingedPropPrototype *>(prop->m_pPrototype)->m_fMinAngle);
+    }
+
+    void cHingedProp::STATE_Rotating_To_Max::EnterPhysicalState(Fun_Runtime::cStateMachine *machine)
+    {
+        cHingedProp *prop = static_cast<cHingedProp *>(machine);
+        prop->CreateConstraint(true, static_cast<cHingedPropPrototype *>(prop->m_pPrototype)->m_fMaxAngle);
+    }
+
+    void cHingedProp::STATE_Rotating_Free::LeavePhysicalState(Fun_Runtime::cStateMachine *machine)
+    {
+        static_cast<cHingedProp *>(machine)->DestroyConstraint();
+    }
+
+    void cHingedProp::STATE_Broken_Off::BeginState(Fun_Runtime::cStateMachine *machine)
+    {
+        cHingedProp *prop = static_cast<cHingedProp *>(machine);
+        prop->SetMotion(eMT_DYNAMIC);
+        prop->vf338();
     }
 }

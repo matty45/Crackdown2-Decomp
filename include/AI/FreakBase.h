@@ -59,7 +59,7 @@ namespace AI
         virtual void vf129(); // primary slot 129
         virtual void vf130(); // primary slot 130
         virtual void vf131(); // primary slot 131
-        virtual void vf132(); // primary slot 132
+        virtual void vf132(); // primary slot 132: shared empty callback, independent of cGameBase's slot 132
         virtual void vf133(); // primary slot 133
         virtual void vf134(); // primary slot 134
         virtual void vf135(); // primary slot 135

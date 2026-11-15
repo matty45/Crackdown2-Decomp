@@ -15,6 +15,16 @@
 
 namespace AI
 {
+    const Fun_Runtime::cClass &cTrainingDoorSpawnPoint::RetClass() const
+    {
+        return *ms_pcTrainingDoorSpawnPointClass;
+    }
+
+    bool cTrainingDoorSpawnPoint::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcTrainingDoorSpawnPointClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cTrainingDoorSpawnPoint::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cTrainingDoorSpawnPointClass = new Fun_Runtime::cClass(0x5D31B, "cTrainingDoorSpawnPoint", 0x90);

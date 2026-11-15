@@ -18,6 +18,16 @@
 
 namespace AI
 {
+    const Fun_Runtime::cClass &cMissionCriticalPropSpawnPoint::RetClass() const
+    {
+        return *ms_pcMissionCriticalPropSpawnPointClass;
+    }
+
+    bool cMissionCriticalPropSpawnPoint::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcMissionCriticalPropSpawnPointClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cMissionCriticalPropSpawnPoint::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cMissionCriticalPropSpawnPointClass = new Fun_Runtime::cClass(0x40A, "cMissionCriticalPropSpawnPoint", 0x2D0);

@@ -39,7 +39,7 @@ namespace Equip
         // CD2: cFlocketLauncher's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
-        virtual void Slot23(); // 23: 0x82631098
+        virtual void TickUpdate(float fDeltaTime); // 23: 0x82631098
     private:
         CD2_LAYOUT_CHECKS(cFlocketLauncher,
             CD2_SIZE(cFlocketLauncher, 0xA30)

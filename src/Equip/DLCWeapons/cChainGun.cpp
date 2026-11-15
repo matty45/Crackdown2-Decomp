@@ -24,10 +24,23 @@
 #include "rws/classfactory.h"
 #include "Equip/cChainGun.h"
 #include "cd2/memory.h"
+#include "CHARACTER/cCharacter.h"
+#include "RPG/eSkills.h"
+#include "fun_runtime/oldvec3.h"
 #include <new>
 
 namespace Equip
 {
+    const Fun_Runtime::cClass &cChainGun::RetClass() const
+    {
+        return *ms_pcChainGunClass;
+    }
+
+    bool cChainGun::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcChainGunClass->IsA(c);
+    }
+
     const Fun_Runtime::cClass *cChainGun::ms_pcChainGunClass = &cChainGun::StaticCreateClass();
 
     RWS::CAttributeHandler *cChainGun::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
@@ -67,5 +80,60 @@ namespace Equip
     // CD2 0x82616780 has no derived cleanup beyond vtable restoration.
     cChainGun::~cChainGun()
     {
+    }
+
+    void cChainGun::TickUpdate(float fDeltaTime)
+    {
+        cCWFirearm::TickUpdate(fDeltaTime);
+        Animate(fDeltaTime);
+    }
+
+    const cChainGun::tChainGunLevelData *cChainGun::RetLevelData() const
+    {
+        char nLevel = 0;
+        const CHARACTER::cCharacter *pOwner = RetOwnerCharacter();
+        if (pOwner)
+            nLevel = pOwner->RetSkill(RPG::eSk_FireArms) - 1;
+        return &RetChainGunPrototype()->m_aChainGunLevelData[nLevel];
+    }
+
+    float cChainGun::RetAttackDuration() const
+    {
+        const tChainGunLevelData *pLevelData = RetLevelData();
+        return pLevelData->m_fMaxDuration + (pLevelData->m_fMinDuration - pLevelData->m_fMaxDuration) *
+            RetChainGunPrototype()->m_fMaxAngVelRecip * m_fBarrelSpeed;
+    }
+
+    cChainGun::cChainGunPrototype::cChainGunPrototype(const RWS::CAttributePacket &attr)
+        : cCWFirearmPrototype(attr),
+          m_nCaseFrameID(0xFF),
+          m_nCaseExFrameID(0xFF),
+          m_nBarrelFrameID(0xFF),
+          m_fMaxAngVel(1200.0f),
+          m_fMaxAngVelRecip(1.0f / 1200.0f),
+          m_fFiringAcc(200.0f),
+          m_fIdleAcc(-200.0f),
+          m_fReloadAcc(-1200.0f),
+          m_fExtendFraction(0.75f),
+          m_fExtendSpeed(0.05f),
+          m_fMaxExtend(0.05f),
+          m_vecBarrelAxis(Fun_Runtime::XAxis),
+          m_bAnimate(true)
+    {
+        m_bScale = false;
+        for (tChainGunLevelData *pData = m_aChainGunLevelData; pData != m_aChainGunLevelData + 5; ++pData)
+        {
+            pData->m_fMinDamage = 1.0f;
+            pData->m_fMaxDamage = 50.0f;
+            pData->m_fMinDuration = 1.0f / 15.0f;
+            pData->m_fMaxDuration = 0.75f;
+        }
+    }
+
+    float cChainGun::RetBulletDamageOverride()
+    {
+        const tChainGunLevelData *pLevelData = RetLevelData();
+        return pLevelData->m_fMinDamage + (pLevelData->m_fMaxDamage - pLevelData->m_fMinDamage) *
+            RetChainGunPrototype()->m_fMaxAngVelRecip * m_fBarrelSpeed;
     }
 }

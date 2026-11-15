@@ -230,13 +230,17 @@ namespace Equip
     public:
         // CD2 table 0x8211F3C8 differs from cEquipment at these inherited slots.
         virtual void Slot13(); // slot 13: 0x823A7408
-        virtual void Slot23(); // slot 23: 0x82609BA8
+        virtual void TickUpdate(float fDeltaTime); // slot 23: 0x82609BA8
         virtual bool ShouldHaveObjectPathPhantom(); // slot 288: 0x827E56A8
         virtual void SetStatus(EQUIP_STATUS); // slot 316: 0x82609BF0
         virtual bool Activate(); // slot 318: 0x82609C58
         virtual unsigned int RetWeaponPriority() const; // slot 320: 0x82609F00
         virtual unsigned int RetTotalAmmo() const; // Slot 333: 0x82607A80, clip plus stored ammo.
         virtual bool HasMaxAmmo() const; // Slot 334: 0x82378A28.
+        // Replication table 0x8211FAC0 (stored by the destructor 0x8237A6A0) differs from cEquipment's 0x8211EE70 here.
+        virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x8260A298
+        virtual void ReplicateFields(); // cReplicatedClass 9: 0x82205518
+        virtual unsigned int GetMaxReplicatedFields() const; // cReplicatedClass 23: 0x8288E460
     };
 }
 #endif

@@ -10,6 +10,9 @@ namespace Anim
     class cPropCarryAnimationProfile : public cSpecificAnimationProfile, public cProfileDataPropCarry
     {
     public:
+        // CD2 inlines the derived construction into MakeNew, after the shared profile constructor.
+        __forceinline cPropCarryAnimationProfile()
+            : cProfileDataPropCarry(static_cast<cSpecificAnimationProfile &>(*this)) {}
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
         virtual void HandleAttributes(const RWS::CAttributePacket &);

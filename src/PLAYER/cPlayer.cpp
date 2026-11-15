@@ -27,6 +27,7 @@
 #include "AI/cCharacterEntityIF.h"
 #include "PLAYER/cPlayer.h"
 #include "PLAYER/cBreakoutInputScriptRegistration.h"
+#include "lua/lua.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
 #include <stddef.h>
@@ -72,6 +73,16 @@ namespace AI
 
 namespace PLAYER
 {
+    const Fun_Runtime::cClass &cPlayer::RetClass() const
+    {
+        return *ms_pcPlayerClass;
+    }
+
+    bool cPlayer::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcPlayerClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cPlayer::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cPlayerClass = new Fun_Runtime::cClass(4, "cPlayer", 0x1160);
@@ -103,6 +114,25 @@ namespace PLAYER
     const char *cPlayer::RetClassName() const
     {
         return "cPlayer";
+    }
+
+    void cBreakoutInputScriptRegistration::RegisterValues(lua_State *state)
+    {
+        lua_pushliteral(state, "nMovement");
+        lua_pushnumber(state, 1.0f);
+        lua_settable(state, -3);
+        lua_pushliteral(state, "nEnterVehicle");
+        lua_pushnumber(state, 2.0f);
+        lua_settable(state, -3);
+        lua_pushliteral(state, "nObjectInteract");
+        lua_pushnumber(state, 4.0f);
+        lua_settable(state, -3);
+        lua_pushliteral(state, "nNone");
+        lua_pushnumber(state, 0.0f);
+        lua_settable(state, -3);
+        lua_pushliteral(state, "nAll");
+        lua_pushnumber(state, 7.0f);
+        lua_settable(state, -3);
     }
 
     void cPlayer::SetAIActive(bool active)

@@ -29,6 +29,16 @@ namespace unknown
 {
     const Fun_Runtime::cClass *cSticklerGrenade::ms_pcSticklerGrenadeClass = &cSticklerGrenade::StaticCreateClass();
 
+    const Fun_Runtime::cClass &cSticklerGrenade::RetClass() const
+    {
+        return *ms_pcSticklerGrenadeClass;
+    }
+
+    bool cSticklerGrenade::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcSticklerGrenadeClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cSticklerGrenade::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cSticklerGrenadeClass = new Fun_Runtime::cClass(0x10144, "cSticklerGrenade", 0x9E0);

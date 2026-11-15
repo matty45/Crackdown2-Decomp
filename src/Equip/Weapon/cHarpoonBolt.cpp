@@ -29,6 +29,16 @@
 
 namespace Equip
 {
+    const Fun_Runtime::cClass &cHarpoonBolt::RetClass() const
+    {
+        return *ms_pcHarpoonBoltClass;
+    }
+
+    bool cHarpoonBolt::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcHarpoonBoltClass->IsA(c);
+    }
+
     RWS::CAttributeHandler *cHarpoonBolt::MakeNew(const RWS::CAttributePacket &packet, bool)
     {
         return new cHarpoonBoltPrototype(packet);
@@ -54,6 +64,10 @@ namespace Equip
         return 0;
     }
 
+    cHarpoonBolt::~cHarpoonBolt()
+    {
+    }
+
     static RWS::CClassFactory::CRegistrar cHarpoonBoltRegistrar(
         "cHarpoonBolt", cHarpoonBolt::MakeNew, 0x910, false);
 
@@ -64,4 +78,9 @@ namespace Equip
     // CD2 0x82FD1EE8: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cHarpoonBoltSpawningRegistrar(
         cHarpoonBolt::StaticCreateClass(), cHarpoonBolt::SpawnFromPrototype);
+
+    Fun_Runtime::RetVal cHarpoonBolt::cHarpoonBoltPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
 }

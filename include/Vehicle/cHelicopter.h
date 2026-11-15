@@ -72,7 +72,7 @@ namespace Vehicle
         virtual bool EnterPhysicalState(); // primary slot 7: 0x821D9BF0
         virtual void Slot13(); // primary slot 13: 0x8220A460
         virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // primary slot 18: 0x826BA050
-        virtual void Slot23(); // primary slot 23: 0x8236D6D8
+        virtual void TickUpdate(float fDeltaTime); // primary slot 23: 0x8236D6D8
         virtual void Slot24(); // primary slot 24: 0x8236FFA8
         virtual Fun_Runtime::RetVal Slot37(); // primary slot 37: 0x821FDD20
         virtual Fun_Runtime::RetVal Reinitialise(GOM::cSpawner const *); // primary slot 38: 0x826BBCE0
@@ -87,7 +87,7 @@ namespace Vehicle
         virtual void vf340(); // primary slot 340: 0x82387798
         virtual void vf341(); // primary slot 341: 0x826F7B10
         virtual void vf365(); // primary slot 365: 0x826BE4C8
-        virtual void vf391(); // primary slot 391: 0x826BE460
+        virtual void HandleDeathDamage(cGameBase *, CHARACTER::cCharacterInterface *, unsigned char); // primary slot 391: 0x826BE460
         virtual void vf414(); // primary slot 414: 0x8288FB78
         virtual void LeavePhysicalState(); // primary slot 27: 0x826BD9C0
         virtual void Slot57(); // primary slot 56: 0x826BDBF0

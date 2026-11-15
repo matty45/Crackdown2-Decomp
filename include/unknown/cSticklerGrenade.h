@@ -29,7 +29,7 @@ namespace unknown
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
         virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // 18: 0x826234C0
-        virtual void Slot23(); // 23: 0x82623758
+        virtual void TickUpdate(float fDeltaTime); // 23: 0x82623758
         virtual void Slot24(); // 24: 0x826237B8
         virtual void vf76(); // 76: 0x82623BC0
         virtual void vf158(); // 158: 0x82623810
@@ -41,7 +41,7 @@ namespace unknown
     public:
         // CD2 table 0x82125FA0 differs from cExplosiveGrenade at these inherited slots.
         virtual void Launched(cGameBase *pAttacker); // slot 406: 0x82623538
-        virtual void vf416(); // slot 416: 0x82623A38
+        virtual void vf416(int); // slot 416: 0x82623A38
         virtual void vf426(); // slot 426: 0x827E56A8
     };
 }

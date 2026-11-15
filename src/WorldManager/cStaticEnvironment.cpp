@@ -20,10 +20,26 @@
 #include "rws/classfactory.h"
 #include "WorldManager/cStaticEnvironment.h"
 #include "cd2/memory.h"
+#include "rws/CResource.h"
 
 namespace WorldManager
 {
     const Fun_Runtime::cClass *cStaticEnvironment::ms_pcStaticEnvironmentClass = &cStaticEnvironment::StaticCreateClass();
+
+    const Fun_Runtime::cClass &cStaticEnvironment::RetClass() const
+    {
+        return *ms_pcStaticEnvironmentClass;
+    }
+
+    bool cStaticEnvironment::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcStaticEnvironmentClass->IsA(c);
+    }
+
+    RWS::CAttributeHandler *cStaticEnvironment::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cStaticEnvironment(packet);
+    }
 
     Fun_Runtime::cClass &cStaticEnvironment::StaticCreateClass()
     {
@@ -41,5 +57,44 @@ namespace WorldManager
     const char *cStaticEnvironment::RetClassName() const
     {
         return "cStaticEnvironment";
+    }
+
+    unsigned char cStaticEnvironment::RetResourceState()
+    {
+        return m_nResourceState;
+    }
+
+    void cStaticEnvironment::TermClump()
+    {
+        cGameBase::TermClump();
+    }
+}
+
+// CD2 folds the shared base implementation into this translation unit.
+void cGameBase::TickUpdate(float)
+{
+    if (m_nNGBFlags & 1)
+        ++m_nTickCount;
+    vf138();
+}
+
+namespace WorldManager
+{
+    void cStaticEnvironment::ReCalculateResourceState()
+    {
+        m_nResourceState = 0x3F;
+        if (m_apResources[1] && static_cast<RWS::CResource *>(m_apResources[1])->RetLoadingStatus() != 0)
+            m_nResourceState &= ~2;
+        if (m_apResources[2] && static_cast<RWS::CResource *>(m_apResources[2])->RetLoadingStatus() != 0)
+            m_nResourceState &= ~4;
+        if (m_apResources[3] && static_cast<RWS::CResource *>(m_apResources[3])->RetLoadingStatus() != 0)
+            m_nResourceState &= ~8;
+        if (m_apResources[0] && static_cast<RWS::CResource *>(m_apResources[0])->RetLoadingStatus() != 0)
+            m_nResourceState &= ~1;
+    }
+
+    bool cStaticEnvironment::HasLoadedResources(eResourcesType resources)
+    {
+        return (m_nResourceState & resources) != 0;
     }
 }

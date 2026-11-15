@@ -107,4 +107,17 @@ namespace Prop
             return new (memory) cExplosiveBarrel(pPrototype);
         return 0;
     }
+    void cExplosiveBarrel::ReplicateInitialFields()
+    {
+        cProp::ReplicateInitialFields();
+        g_pActiveReplicationClass->_AllocateUInt32(m_nDeleteTime, 16,
+            static_cast<sReplicatedField::etReplicatedFieldState>(
+                sReplicatedField::WriteReliable | sReplicatedField::WriteFastOnChange));
+    }
+
+    void cExplosiveBarrel::ReplicateFields()
+    {
+        cProp::ReplicateFields();
+        ReplicateUInt32(&m_nDeleteTime, 16);
+    }
 }

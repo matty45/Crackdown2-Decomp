@@ -32,6 +32,8 @@ namespace unknown
         virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         // CD2 0x827701F8: primary virtual slot 11 returns the registered class name.
         virtual const char *RetClassName() const;
+        // CD2 0x82770E18: slot 5 of this class's event-handler table (0x821472A0).
+        virtual void HandleEvents(RWS::CMsg &);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcScriptManagerClass;
         static Fun_Runtime::cClass &StaticCreateClass();

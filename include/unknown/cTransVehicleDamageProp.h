@@ -42,6 +42,9 @@ namespace unknown
         static Fun_Runtime::cClass &StaticCreateClass();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
+        // CD2 0x82730BC8 / 0x82730BD8: the registered-class pair, at the start of this object's code.
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
 
     public:
         // CD2 table 0x8200EFD0 differs from cVehicleDamageProp at these inherited slots.

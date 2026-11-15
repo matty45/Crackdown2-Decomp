@@ -13,6 +13,9 @@ namespace RPG
     class cRenegadeOrbSpawnPoint : public Activity::cSpawnPointBase
     {
     public:
+        // CD2 0x82758838 / 0x82758848: the registered-class pair, at the start of this object's code.
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pcRenegadeOrbSpawnPointClass;

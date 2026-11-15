@@ -18,6 +18,16 @@
 
 namespace Activity
 {
+    const Fun_Runtime::cClass &cCampaignWeaponSpawnPoint::RetClass() const
+    {
+        return *ms_pcCampaignWeaponSpawnPointClass;
+    }
+
+    bool cCampaignWeaponSpawnPoint::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcCampaignWeaponSpawnPointClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cCampaignWeaponSpawnPoint::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cCampaignWeaponSpawnPointClass = new Fun_Runtime::cClass(0x5D220, "cCampaignWeaponSpawnPoint", 0xA0);

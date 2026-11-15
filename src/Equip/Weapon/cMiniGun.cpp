@@ -30,6 +30,16 @@ namespace Equip
 {
     const Fun_Runtime::cClass *cMiniGun::ms_pcMiniGunClass = &cMiniGun::StaticCreateClass();
 
+    const Fun_Runtime::cClass &cMiniGun::RetClass() const
+    {
+        return *ms_pcMiniGunClass;
+    }
+
+    bool cMiniGun::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcMiniGunClass->IsA(c);
+    }
+
     RWS::CAttributeHandler *cMiniGun::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
     {
         if (memory)
@@ -62,5 +72,17 @@ namespace Equip
     // CD2 0x8263B410 has no derived cleanup beyond vtable restoration.
     cMiniGun::~cMiniGun()
     {
+    }
+
+    void cMiniGun::TickUpdate(float deltaTime)
+    {
+        cCWFirearm::TickUpdate(deltaTime);
+        Animate(deltaTime);
+    }
+
+    // CD2 folds this inherited getter into the minigun object's text range.
+    float cCWWeapon::RetAttackDuration() const
+    {
+        return static_cast<cCWWeaponPrototype *>(m_pPrototype)->m_fAttackDuration;
     }
 }

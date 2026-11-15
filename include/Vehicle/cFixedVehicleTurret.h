@@ -11,6 +11,8 @@
 
 namespace PLAYER { class cPlayer; }
 namespace AI { class cAiPlayer; }
+class cReplicatedClass;
+class cGameBase;
 
 namespace Vehicle
 {
@@ -27,7 +29,7 @@ namespace Vehicle
         void ReplicateInitialFields();                                  // 0x826B7E18
         void ReplicateFields(bool bIgnoreReceived);
 
-    private:
+    public:
         float m_fTurretYaw;                                 // 0x10
         float m_fTurretPitch;
         float m_fYawRate;
@@ -44,13 +46,24 @@ namespace Vehicle
         bool m_bFiring;                                     // 0x41
         Fun_Runtime::Vec3 m_vCurrentTarget;                 // 0x50
         Fun_Runtime::Vec3 m_vCrosshairOffset;               // 0x60
-        unsigned char m_unmodelled70[0x90 - 0x70];
+        unsigned int m_nReplicationBaseField;               // 0x70
+    private:
+        unsigned char m_unmodelled74[8];
+    public:
+        // CD2 SetupTurret (0x82700238) stores its replicated-class and game-object bases here.
+        cReplicatedClass *m_pReplicationHost;                // 0x7C
+        cGameBase *m_pParent;                               // 0x80
+    private:
+        unsigned char m_unmodelled84[0x90 - 0x84];
 
         CD2_LAYOUT_CHECKS(cFixedVehicleTurret,
             CD2_SIZE(cFixedVehicleTurret, 0x90)
             CD2_OFFSET(cFixedVehicleTurret, m_fTurretYaw, 0x10)
             CD2_OFFSET(cFixedVehicleTurret, m_bFiring, 0x41)
-            CD2_OFFSET(cFixedVehicleTurret, m_vCrosshairOffset, 0x60))
+            CD2_OFFSET(cFixedVehicleTurret, m_vCrosshairOffset, 0x60)
+            CD2_OFFSET(cFixedVehicleTurret, m_nReplicationBaseField, 0x70)
+            CD2_OFFSET(cFixedVehicleTurret, m_pReplicationHost, 0x7C)
+            CD2_OFFSET(cFixedVehicleTurret, m_pParent, 0x80))
     };
 }
 

@@ -30,6 +30,16 @@ namespace unknown
 {
     const Fun_Runtime::cClass *cTransformingCar::ms_pcTransformingCarClass = &cTransformingCar::StaticCreateClass();
 
+    const Fun_Runtime::cClass &cTransformingCar::RetClass() const
+    {
+        return *ms_pcTransformingCarClass;
+    }
+
+    bool cTransformingCar::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcTransformingCarClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cTransformingCar::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cTransformingCarClass = new Fun_Runtime::cClass(0x14, "cTransformingCar", 0x67D0);

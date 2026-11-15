@@ -17,6 +17,16 @@
 
 namespace RPG
 {
+    const Fun_Runtime::cClass &cSkillSet::RetClass() const
+    {
+        return *ms_pcSkillSetClass;
+    }
+
+    bool cSkillSet::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcSkillSetClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cSkillSet::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cSkillSetClass = new Fun_Runtime::cClass(0x518, "cSkillSet", 0x64);

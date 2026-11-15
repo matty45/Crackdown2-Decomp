@@ -8,6 +8,7 @@
 #include "rws/attributes.h"
 
 namespace Fun_Runtime { class cClass; }
+class cNonGameBase;
 
 namespace GOM
 {
@@ -16,6 +17,9 @@ namespace GOM
     // CD2 0x82656808 takes only the name and class filter (r3/r4).
     // RuffKing names the later manager member FindPrototypeByName.
     cObjectPrototype *FindPrototypeByName(const char *, const Fun_Runtime::cClass *);
+    // CD2 0x82656550 handles activity deletion, then queues the object with the global manager.
+    // Reference manager-member name; like the lookups above, CD2 takes no explicit manager argument.
+    void DeleteGameObject(cNonGameBase *);
 }
 
 #endif

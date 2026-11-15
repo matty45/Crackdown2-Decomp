@@ -18,6 +18,16 @@
 
 namespace AI
 {
+    const Fun_Runtime::cClass &cTrainingAimTarget::RetClass() const
+    {
+        return *ms_pcTrainingAimTargetClass;
+    }
+
+    bool cTrainingAimTarget::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcTrainingAimTargetClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cTrainingAimTarget::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cTrainingAimTargetClass = new Fun_Runtime::cClass(0x5D1F9, "cTrainingAimTarget", 0x160);

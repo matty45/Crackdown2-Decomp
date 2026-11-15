@@ -16,6 +16,16 @@
 
 namespace CHARACTER
 {
+    const Fun_Runtime::cClass &cCwGoliathCharacterWrapper::RetClass() const
+    {
+        return *ms_pcCwGoliathCharacterWrapperClass;
+    }
+
+    bool cCwGoliathCharacterWrapper::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcCwGoliathCharacterWrapperClass->IsA(c);
+    }
+
     const char *cCwGoliathCharacterWrapper::RetClassName() const
     {
         return "cCwGoliathCharacterWrapper";

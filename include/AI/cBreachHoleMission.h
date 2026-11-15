@@ -47,6 +47,10 @@ namespace AI
         virtual const Fun_Runtime::cClass &RetClass() const;
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         virtual const char *RetClassName() const;
+        // CD2: this class's replication table differs from cMission's (0x8245A230, 0x8230E318, 0x82889A60) here.
+        virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x82471638
+        virtual void ReplicateFields(); // cReplicatedClass 9: 0x824716A0
+        virtual unsigned int GetMaxReplicatedFields() const; // cReplicatedClass 23: 0x8288AAD0
         // CD2: cBreachHoleMission's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:

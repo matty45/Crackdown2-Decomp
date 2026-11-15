@@ -15,6 +15,11 @@
 
 namespace VFX
 {
+    RWS::CAttributeHandler *cScatter::MakeNew(const RWS::CAttributePacket &, bool)
+    {
+        return new cScatter;
+    }
+
     const char *cScatter::RetClassName() const
     {
         return "cScatter";

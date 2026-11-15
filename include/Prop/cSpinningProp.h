@@ -127,7 +127,9 @@ namespace Prop
     private:
         CD2_LAYOUT_CHECKS(cSpinningProp,
             CD2_SIZE(cSpinningProp, 0xE50)
-            CD2_OFFSET(cSpinningProp, m_pConstraintData, 0xE40))
+            CD2_OFFSET(cSpinningProp, m_pConstraintData, 0xE40)
+            CD2_OFFSET(cSpinningProp, m_pMotorAction, 0xE44)
+            CD2_OFFSET(cSpinningProp, m_pConstraint, 0xE48))
         virtual Fun_Runtime::cScriptTypeRegistration const * RetScriptTypeRegistration() const; // cSafeDeletable 1: 0x82457AD8
 
     public:
