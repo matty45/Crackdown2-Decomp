@@ -1,5 +1,6 @@
 # Crackdown 2 decompilation
-(SLOP CODED SORRY, DONT HAVE TIME TO SPEND YEARS ON THIS)
+SLOP CODED SORRY, DONT HAVE TIME TO SPEND YEARS ON THIS.
+A human pass will be done at the end however. 
 
 A **matching decompilation** of Crackdown 2 (Xbox 360, title-update build): C++ source that, compiled with the
 original Xbox 360 XDK compiler and the game's flags, produces code byte-identical to the retail executable.
