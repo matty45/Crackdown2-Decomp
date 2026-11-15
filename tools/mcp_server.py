@@ -17,6 +17,9 @@ FILE = ('string', 'source file, repository-relative (e.g. src/AI/cChaseBehaviour
 
 # name: (description, input schema, required, argv builder)
 TOOLS_DEF = {
+    'cd2_progress': ('Regenerate docs/PROGRESS.md with total decompilation progress.', S(path=('string', 'destination path; default docs/PROGRESS.md'),
+                      stdout=('boolean', 'print the generated Markdown instead of writing')), [],
+                    lambda a: ['progress'] + ([a['path']] if a.get('path') else []) + (['--stdout'] if a.get('stdout') else [])),
     'cd2_status': ('Per source file: functions, matched, LTCG-only, in progress, claimed, open.', S(), [],
                    lambda a: ['status']),
     'cd2_tasks': ('Open functions of the scaffolded files, easiest first, with difficulty tier and features.',

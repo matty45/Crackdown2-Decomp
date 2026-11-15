@@ -1247,6 +1247,124 @@ def cmd_status(a):
                 note='matched counts are as recorded in config/matched_functions.json; `verify` recomputes them')
 
 
+def _fmt_bytes(n):
+    if n < 1024:
+        return '%d B' % n
+    if n < 1024 * 1024:
+        return '%.1f KB' % (n / 1024.0)
+    return '%.1f MB' % (n / (1024.0 * 1024.0))
+
+
+def cmd_progress(a):
+    need_setup()
+    splits, syms, man, cl = load_splits(SPLITS), jeff_symbols(), manifest(), claims()
+    st = cmd_status(argparse.Namespace())
+    census_rows = st['census']
+    data_rows = st['data']
+
+    agg = {}
+    for cat, funcs, b in census_rows:
+        if cat not in agg:
+            agg[cat] = [0, 0]
+        agg[cat][0] += funcs
+        agg[cat][1] += b
+
+    matched_funcs = agg.get('matched', [0, 0])[0]
+    matched_bytes = agg.get('matched', [0, 0])[1]
+    inprog_funcs = agg.get('in progress', [0, 0])[0]
+    inprog_bytes = agg.get('in progress', [0, 0])[1]
+    open_funcs = agg.get('open in a source file', [0, 0])[0]
+    open_bytes = agg.get('open in a source file', [0, 0])[1]
+
+    total_funcs = sum(f for _, f, _ in census_rows)
+    total_bytes = sum(b for _, _, b in census_rows)
+
+    ltcg = sum(1 for es in man['files'].values() for e in es
+                if e.get('matching', True) and e.get('ltcg'))
+    folded = sum(1 for es in man['files'].values() for e in es
+                 if e.get('matching', True) and e.get('folded'))
+    plain = matched_funcs - ltcg
+    plain_bytes = sum(e.get('size', 0) for es in man['files'].values() for e in es
+                      if e.get('matching', True) and not e.get('ltcg') and not e.get('folded'))
+    ltcg_bytes = sum(e.get('size', 0) for es in man['files'].values() for e in es
+                     if e.get('matching', True) and e.get('ltcg') and not e.get('folded'))
+
+    middleware = 0
+    for f, es in man['files'].items():
+        if not f.replace('\\\\', '/').startswith('src/middleware/'):
+            continue
+        middleware += sum(1 for e in es if e.get('matching', True))
+
+    located = data_rows[0][1] if data_rows else 0
+    total_data = data_rows[-1][1] if data_rows else 0
+
+    remaining_funcs = sum(f for cat, f, _ in census_rows
+                          if cat not in ('matched', 'in progress', 'open in a source file'))
+    remaining_bytes = sum(b for cat, _, b in census_rows
+                          if cat not in ('matched', 'in progress', 'open in a source file'))
+
+    matched_total_funcs = matched_funcs + folded
+
+    def pct(num, den):
+        return (100.0 * num / den) if den else 0.0
+
+    lines = []
+    lines.append('# Crackdown 2 decompilation progress')
+    lines.append('')
+    lines.append('Generated: %s' % datetime.date.today().isoformat())
+    lines.append('Command: `py -I tools\\cd2.py progress`')
+    lines.append('')
+    lines.append('## Functions / code')
+    lines.append('')
+    lines.append('Functions in game: %d (%s)' % (total_funcs, _fmt_bytes(total_bytes)))
+    lines.append('')
+    lines.append('| Category | Functions | Bytes | % of code |')
+    lines.append('|---|---:|---:|---:|')
+    lines.append('| Matched (plain build) | %d | %s | %.1f%% |' % (plain, _fmt_bytes(plain_bytes), pct(plain_bytes, total_bytes)))
+    lines.append('| Matched (LTCG only) | %d | %s | %.1f%% |' % (ltcg, _fmt_bytes(ltcg_bytes), pct(ltcg_bytes, total_bytes)))
+    lines.append('| Matched total | %d | %s | %.1f%% |' % (matched_total_funcs, _fmt_bytes(matched_bytes),
+                                                           pct(matched_bytes, total_bytes)))
+    lines.append('| In progress | %d | %s | %.1f%% |' % (inprog_funcs, _fmt_bytes(inprog_bytes),
+                                                         pct(inprog_bytes, total_bytes)))
+    lines.append('| Open in set-up source files | %d | %s | %.1f%% |' % (open_funcs, _fmt_bytes(open_bytes),
+                                                                         pct(open_bytes, total_bytes)))
+    lines.append('| Remaining (libraries + unassigned) | %d | %s | %.1f%% |' % (remaining_funcs, _fmt_bytes(remaining_bytes),
+                                                                                 pct(remaining_bytes, total_bytes)))
+    lines.append('')
+    lines.append('## Data')
+    lines.append('')
+    lines.append('CD2 .rdata and .data: %s' % _fmt_bytes(total_data))
+    lines.append('')
+    lines.append('| Category | Bytes | % of .rdata/.data |')
+    lines.append('|---|---:|---:|')
+    lines.append('| Located and checked | %s | %.1f%% |' % (_fmt_bytes(located), pct(located, total_data)))
+    lines.append('')
+    lines.append('Matched middleware functions: %d' % middleware)
+    lines.append('')
+
+    content = '\n'.join(lines)
+
+    path = getattr(a, 'path', None) or 'docs/PROGRESS.md'
+    if not os.path.isabs(path):
+        path = os.path.join(ROOT, path)
+
+    if getattr(a, 'stdout', False):
+        if not getattr(a, 'json', False):
+            print(content, end='')
+        return dict(ok=True, printed=True, bytes=len(content))
+
+    os.makedirs(os.path.dirname(path) or '.', exist_ok=True)
+    with open(path, 'w', encoding='utf-8') as fh:
+        fh.write(content)
+    return dict(ok=True, file=rel(path), bytes=len(content), totals=dict(
+        total_funcs=total_funcs, total_bytes=total_bytes, plain=plain, plain_bytes=plain_bytes, ltcg=ltcg,
+        ltcg_bytes=ltcg_bytes, matched=matched_funcs, matched_bytes=matched_bytes, folded=folded,
+        matched_total=matched_total_funcs, in_progress_funcs=inprog_funcs,
+        in_progress_bytes=inprog_bytes, open_funcs=open_funcs, open_bytes=open_bytes,
+        remaining_funcs=remaining_funcs, remaining_bytes=remaining_bytes,
+        located=located, total_data=total_data, middleware=middleware))
+
+
 def data_census(splits):
     """Where CD2's data stands, in bytes, from the recorded facts (config/target_facts.json: every datum the gates
     located and checked) and the files' data ranges (config/splits.txt): [(category, bytes)]."""
@@ -2571,6 +2689,11 @@ def show_text(cmd, res):
             print('  ' + line(c['name'] or c['id'], c['measures']))
     elif cmd == 'compile_commands':
         print('%s: %d source files (point clangd at this repository)' % (res['file'], res['files']))
+    elif cmd == 'progress':
+        if res.get('printed'):
+            pass
+        elif 'file' in res:
+            print('wrote %s (%d bytes)' % (res['file'], res['bytes']))
     elif cmd == 'datasplits':
         for f, rs in res['proposals'].items():
             print(f)
@@ -2707,6 +2830,7 @@ def main():
     s.add_argument('--bench-dir')
     sub.add_parser('doctor')
     sub.add_parser('status')
+    s = sub.add_parser('progress'); s.add_argument('path', nargs='?', default='docs/PROGRESS.md'); s.add_argument('--stdout', action='store_true')
     s = sub.add_parser('tasks'); s.add_argument('file', nargs='?'); s.add_argument('--tier', type=int)
     s = sub.add_parser('show'); s.add_argument('address')
     s = sub.add_parser('claim'); s.add_argument('address'); s.add_argument('symbol')
