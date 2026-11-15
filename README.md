@@ -97,7 +97,6 @@ exists to study and preserve their work.
   itself forked from encounter's [decomp-toolkit](https://github.com/encounter/decomp-toolkit).
 - [objdiff](https://github.com/encounter/objdiff) by encounter, whose instruction alignment drives `diff`, `search`
   and the objdiff report.
-- [resym](https://github.com/ergrelet/resym) by ergrelet, for browsing the types of the reference builds' PDBs.
 
 **Ideas.** Tracking data beside code, per-file data ranges and the objdiff project file follow the example of
 ChimpsAtSea's [Halo Reach decompilation](https://github.com/ChimpsAtSea/Reach) and the decomp-toolkit projects before
@@ -118,6 +117,6 @@ contributor works from their own legally obtained copy of the game.
 
 [GNU Affero General Public License v3.0 or later](LICENSE) (`AGPL-3.0-or-later`).
 
-The tools in `tools/external/` are git submodules of their own projects, under their own licenses (jeff, objdiff and
-resym are MIT or Apache-2.0). The patches to them in `tools/patches/` are offered under the same terms as the tool
+The tools in `tools/external/` are git submodules of their own projects, under their own licenses (jeff and objdiff are
+MIT or Apache-2.0). The patches to them in `tools/patches/` are offered under the same terms as the tool
 they modify.

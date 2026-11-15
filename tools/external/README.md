@@ -7,11 +7,9 @@ The repository stores no tool binaries. Each tool is a git submodule pinned to a
 |---|---|---|---|---|
 | jeff | `tools/external/jeff` (<https://github.com/rjkiv/jeff>) | v0.5.2, `6a023e5` | `jeff.exe` | Built with the patches in `tools/patches/jeff/` (below), applied in order to an exported copy, so the submodule stays unmodified. |
 | objdiff | `tools/external/objdiff` (<https://github.com/encounter/objdiff>) | v3.8.3, `9aeec9c` | `objdiff-cli.exe` | |
-| resym | `tools/external/resym` (<https://github.com/ergrelet/resym>) | `5be0938` (0.4.0+) | `resymc.exe` | Maintainers only (PDB dumps): a recursive clone does not check it out (`update = none`); `build_tools.ps1 resym` checks it out and builds it. Dumping a large class WITH dependencies can crash (it tried to allocate 128 GB for `VFX::cRopes`). Use `tools/headers/ref_dump.ps1 <type> -NoDeps` and dump the needed bases one by one. |
-
-```
-git submodule update --init
-powershell -File tools\build_tools.ps1          # jeff and objdiff; or name tools: jeff | objdiff | resym
+15: ```
+16: git submodule update --init
+17: powershell -File tools\build_tools.ps1          # jeff and objdiff
 ```
 
 jeff patches (`tools/patches/jeff/`):

@@ -25,12 +25,6 @@ $bin = Join-Path $root 'build\tools\bin'
 New-Item -ItemType Directory -Force $bin | Out-Null
 git -C $root submodule update --init
 if ($LASTEXITCODE) { throw 'git submodule update failed' }
-if ($Only -contains 'resym') {
-    # its test snapshots have long names: allow paths over 260 characters for this checkout
-    git -C $root -c core.longpaths=true submodule update --init --checkout tools/external/resym
-    if ($LASTEXITCODE) { throw 'git submodule update failed for resym' }
-}
-
 function Export-Source($name) {
     $dst = Join-Path $root "build\src\$name"
     if (Test-Path $dst) { Remove-Item -Recurse -Force $dst }
@@ -65,4 +59,5 @@ function Build-Cargo($name, $package, $exe) {
 
 if ($Only -contains 'jeff') { Build-Cargo 'jeff' $null 'jeff.exe' }
 if ($Only -contains 'objdiff') { Build-Cargo 'objdiff' 'objdiff-cli' 'objdiff-cli.exe' }
-if ($Only -contains 'resym') { Build-Cargo 'resym' 'resymc' 'resymc.exe' }
+
+
