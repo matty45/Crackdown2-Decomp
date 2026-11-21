@@ -97,6 +97,8 @@ namespace Prop
 
         public:
             cPropPrototype(const RWS::CAttributePacket &);   // 0x8272D390
+            // Reference override; CD2 prototype slot 5 at 0x8272F190 returns Ret_OK.
+            virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
             // CD2 0x8272D688, called by derived prototype attribute handlers.
             virtual void HandleAttributes(const RWS::CAttributePacket &);
 

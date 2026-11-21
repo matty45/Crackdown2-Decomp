@@ -23,6 +23,9 @@ namespace Equip
         {
         public:
             cCWSatchelChargePrototype(const RWS::CAttributePacket &);
+            // CD2 0x8261CBB8, slot 1 of this prototype's table 0x82123C80 (installed by its constructor at 0x8261CAB4):
+            // its own override; cJumpPadPrototype's handler 0x8260EC10 forwards to it.
+            virtual void HandleAttributes(const RWS::CAttributePacket &);
 
         private:
             unsigned char m_unmodelled390[0x430 - 0x390];

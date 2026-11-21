@@ -26,6 +26,12 @@ namespace AI
 {
     class cCharacterEntityIF : public CHARACTER::cCharacterInterface
     {
+    public:
+        // Reference overloads; CD2's script wrapper 0x823F0638 calls 0x822F14D8 with a local timestamp.
+        bool IsVisible(cGameBase *);
+        bool IsVisible(cGameBase *, float &visibilityDate);
+        // CD2 script name; forwards the reference character's profile-index setter.
+        void SetCharacterStateProfileFromID(unsigned int);
     private:
         unsigned char m_padC0[0x480 - 0xC0];
     protected:
@@ -42,7 +48,11 @@ namespace AI
     protected:
         unsigned int m_nMaxAiToAiVisibilityLevel;
     private:
-        unsigned char m_pad520[0x533 - 0x520];
+        unsigned char m_pad520[0x524 - 0x520];
+    protected:
+        void *m_pRooftopPoint;                  // 0x524: RetRooftopPoint (0x823F4E78)
+    private:
+        unsigned char m_pad528[0x533 - 0x528];
     protected:
         unsigned char m_nPerceptionOptions;     // 0x533
         unsigned char m_bCheckingTargetTooClose;
@@ -50,7 +60,7 @@ namespace AI
         unsigned char m_bCheckingTargetPathClear;
         unsigned char m_bCheckingTargetBlocked;
     private:
-        unsigned char m_pad538;
+        unsigned char m_bRooftopPointSet;      // 0x538: written by SetRooftopPoint/ClearRooftopPoint; name ours
     protected:
         unsigned char m_bBulletSoundLODDeafnessEnabled;
         unsigned char m_bBreakTrafficLaws;      // 0x53A
@@ -81,6 +91,8 @@ namespace AI
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         void *RetUpperbodyAnimationParams();
         void *RetFullbodyAnimationParams();
+        void *RetRooftopPoint();
+        void ClearRooftopPoint(bool bClear);
         // CD2 0x823EC030 forwards to the owning AI entity's cone test.
         bool IsInViewCone(Fun_Runtime::cScriptHost *object);
         unsigned char RetMovementType() const;
@@ -165,7 +177,8 @@ namespace AI
             CD2_OFFSET(cCharacterEntityIF, m_bCheckingTargetAreaClear, 0x535)
             CD2_OFFSET(cCharacterEntityIF, m_bCheckingTargetPathClear, 0x536)
             CD2_OFFSET(cCharacterEntityIF, m_bCheckingTargetBlocked, 0x537)
-            CD2_OFFSET(cCharacterEntityIF, m_bBulletSoundLODDeafnessEnabled, 0x539))
+            CD2_OFFSET(cCharacterEntityIF, m_bBulletSoundLODDeafnessEnabled, 0x539)
+            CD2_OFFSET(cCharacterEntityIF, m_pRooftopPoint, 0x524))
     };
 }
 

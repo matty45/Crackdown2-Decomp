@@ -157,4 +157,9 @@ namespace CHARACTER
     // CD2 0x82FADD70 registers enum object 0x83824204 with table 0x82113E60.
     static cLODLevelScriptRegistration g_cLODLevelScriptRegistration;
 
+    Fun_Runtime::RetVal cCharacterInterface::cCharacterInterfacePrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
+
 }

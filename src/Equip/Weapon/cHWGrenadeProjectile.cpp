@@ -100,6 +100,12 @@ namespace Fun_Runtime
 
 namespace Equip
 {
+    void cHWGrenadeProjectile::ImpactAudio(float fDeltaVelocity)
+    {
+        if (m_GrenadePhysicsAudio.IsRegistered())
+            m_GrenadePhysicsAudio.PostImpactEvent(fDeltaVelocity);
+    }
+
     // CD2 table 0x82127130 slot 375 uses the shared false-returning body;
     // grenade subclasses can override this default explosion query.
     bool cHWGrenadeProjectile::HasExploded()

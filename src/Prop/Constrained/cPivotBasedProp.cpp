@@ -97,6 +97,11 @@ namespace Prop
     static GOM::cProtoRegistrar cPivotBasedPropSpawningRegistrar(
         cPivotBasedProp::StaticCreateClass(), cPivotBasedProp::SpawnFromPrototype);
 
+    void cPivotBasedProp::cPivotBasedPropPrototype::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cPropPrototype::HandleAttributes(packet);
+    }
+
     Fun_Runtime::RetVal cPivotBasedProp::cPivotBasedPropPrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;

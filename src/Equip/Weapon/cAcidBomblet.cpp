@@ -12,10 +12,26 @@
 #include "gom/proto_registrar.h"
 #include "rws/classfactory.h"
 #include "Equip/cAcidBomblet.h"
+#include "Equip/cClusterGrenade.h"
 #include "cd2/memory.h"
 
 namespace Equip
 {
+    const Fun_Runtime::cScriptTypeRegistration *cExplosiveGrenade::RetScriptTypeRegistration() const
+    {
+        return &cExplosiveGrenadeScriptRegistrar;
+    }
+
+    const Fun_Runtime::cClass &cClusterGrenade::RetClass() const
+    {
+        return *ms_pcClusterGrenadeClass;
+    }
+
+    bool cClusterGrenade::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcClusterGrenadeClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cAcidBomblet::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cAcidBombletClass = new Fun_Runtime::cClass(0x13267, "cAcidBomblet", 0xB00);

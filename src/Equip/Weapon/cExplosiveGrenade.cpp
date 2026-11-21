@@ -47,7 +47,7 @@ namespace Equip
         cExplosiveGrenade::StaticCreateClass(), cExplosiveGrenade::SpawnFromPrototype);
 
     // CD2 script-type registration names this child and parent.
-    static Fun_Runtime::cScriptTypeRegistrar<cExplosiveGrenade> cExplosiveGrenadeScriptRegistrar(
+    Fun_Runtime::cScriptTypeRegistrar<cExplosiveGrenade> cExplosiveGrenadeScriptRegistrar(
         "cExplosiveGrenade", "cGrenade");
 
     RWS::CAttributeHandler *cExplosiveGrenade::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)

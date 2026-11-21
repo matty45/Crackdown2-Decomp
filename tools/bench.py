@@ -29,7 +29,7 @@ An agent with an unrestricted shell can still look elsewhere on the machine: run
 chat:<model>` is sandboxed by construction, tools/bench_chat.py; `claude:<model>` and `kilo:<provider/model>` confine
 those CLIs), and never with web access, since the solutions are public.
 """
-import collections, datetime, json, os, re, shutil, subprocess, sys, tempfile, time
+import collections, datetime, json, os, re, shutil, signal, subprocess, sys, tempfile, time
 
 TOOLS = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, TOOLS)
@@ -167,9 +167,11 @@ def file_sha(path):
 
 
 def agent_failed(res, ws_file=None):
-    """The agent exited with an error and did nothing: it ran no check and left the workspace's file as prepared.
-    Such a task says nothing about the model (a usage limit, a missing key, a crash) and is not scored. A timeout, or
-    an error exit after some work, is a genuine attempt."""
+    """The agent exited with an error and did nothing: it ran no check and left the workspace's file as prepared; or
+    the API's rate limit ended the task (rate_limited). Such a task says nothing about the model (a usage limit, a
+    missing key, a crash) and is not scored. A timeout, or an error exit after some work, is a genuine attempt."""
+    if res.get('rate_limited'):  # the API's rate limit ended it (tools/bench_chat.py), not the model
+        return True
     code = res.get('agent_exit')
     if isinstance(code, bool) or not isinstance(code, int) or code == 0 or res.get('attempts', 0):
         return False
@@ -184,7 +186,7 @@ def agent_failed(res, ws_file=None):
 def agent_log_tail(addr, model, n=600):
     """The end of the agent's output, without terminal colour codes."""
     p = os.path.join(workspace(addr, model), 'agent.log')
-    text = open(p, errors='replace').read() if os.path.exists(p) else ''
+    text = open(p, encoding='utf-8', errors='replace').read() if os.path.exists(p) else ''
     return re.sub(r'\x1b\[[0-9;]*m', '', text).strip()[-n:]
 
 
@@ -213,7 +215,7 @@ def needs_run(addr, model):
     if not os.path.exists(rp):
         return True
     res = json.load(open(rp))
-    if 'agent_exit' not in res or res.get('agent_error'):
+    if 'agent_exit' not in res or res.get('agent_error') or res.get('rate_limited'):
         return True
     return agent_failed(res, os.path.join(workspace(addr, model), res['file']))
 
@@ -278,6 +280,34 @@ def check(addr, model, read, known, aliases, count=True, policy=None):
     return res
 
 
+def run_tree(cmd, timeout, **kw):
+    """Run a shell command; returns its exit status, or 'timeout' once it has run `timeout` seconds. Then the whole
+    process tree is killed: killing only the shell (what subprocess.run does on Windows) would leave the agent it
+    started running, still working in the workspace and still spending the API's rate limit."""
+    p = subprocess.Popen(cmd, shell=True, start_new_session=os.name != 'nt', **kw)
+    try:
+        return p.wait(timeout=timeout)
+    except subprocess.TimeoutExpired:
+        kill_tree(p)
+        return 'timeout'
+
+
+def kill_tree(p):
+    """Kill a process and every process it started."""
+    if os.name == 'nt':
+        subprocess.run(['taskkill', '/T', '/F', '/PID', str(p.pid)], capture_output=True)
+    else:
+        try:
+            os.killpg(p.pid, signal.SIGKILL)
+        except ProcessLookupError:
+            pass
+    try:
+        p.wait(timeout=30)
+    except subprocess.TimeoutExpired:
+        p.kill()
+        p.wait()
+
+
 def run_agent(addr, model, agent, timeout, changes=None):
     """Run the agent command in the workspace. changes: environment variables to set for it (None: remove).
     Returns (exit code or 'timeout', seconds)."""
@@ -293,13 +323,8 @@ def run_agent(addr, model, agent, timeout, changes=None):
             env[k] = v
     cmd = agent.replace('{task}', '"%s"' % task).replace('{workspace}', '"%s"' % d)
     t0 = time.time()
-    try:
-        with open(task) as stdin, open(os.path.join(d, 'agent.log'), 'w') as log:
-            r = subprocess.run(cmd, shell=True, cwd=d, env=env, stdin=stdin, stdout=log, stderr=subprocess.STDOUT,
-                               timeout=timeout)
-        code = r.returncode
-    except subprocess.TimeoutExpired:
-        code = 'timeout'
+    with open(task) as stdin, open(os.path.join(d, 'agent.log'), 'w') as log:
+        code = run_tree(cmd, timeout, cwd=d, env=env, stdin=stdin, stdout=log, stderr=subprocess.STDOUT)
     secs = round(time.time() - t0, 1)
     res = json.load(open(rp))  # the agent may have run checks meanwhile
     res.update(agent=agent, agent_exit=code, agent_seconds=secs)
@@ -359,11 +384,14 @@ SELFTEST_AGENTS = {'oracle': oracle, 'cheat-emit': cheat_emit, 'cheat-include': 
                    'cheat-result': cheat_result}
 
 
-def mock_chat_server():
+def mock_chat_server(refuse_first=False):
     """A local OpenAI-compatible chat API standing in for a model (the self-test of tools/bench_chat.py). Its first
     reply tries to read the harness's result file outside the workspace; only when that is refused does it answer
-    with the repository's solution. Returns (server, base URL); stop it with server.shutdown()."""
+    with the repository's solution. A request that defines tools (bench_chat.py --tools) gets the same answers as
+    tool calls. refuse_first: the first request of each task gets HTTP 429 with Retry-After: 1, which the agent must
+    wait out. Returns (server, base URL); stop it with server.shutdown()."""
     import http.server, threading
+    refused, lock = set(), threading.Lock()
 
     class Handler(http.server.BaseHTTPRequestHandler):
         def log_message(self, *args):
@@ -374,19 +402,39 @@ def mock_chat_server():
             msgs = req['messages']
             first = msgs[1]['content']
             addr = re.search(r'Benchmark task (0x[0-9A-F]{8})', first).group(1)
+            with lock:
+                refuse = refuse_first and addr not in refused
+                refused.add(addr)
+            if refuse:
+                self.send_response(429)
+                self.send_header('Retry-After', '1')
+                self.send_header('Content-Length', '0')
+                self.end_headers()
+                return
             file = re.search(r'in `([^`]+\.cpp)` so that', first).group(1)
             symbol = next(t['symbol'] for t in load_suite()['tasks'] if t['address'] == addr)
+            escape = '../results/%s.json' % addr[2:]
             if len(msgs) == 2:
-                reply = 'READ ../results/%s.json' % addr[2:]
+                reply, call = 'READ ' + escape, ('read_file', dict(path=escape))
             elif 'refused' in msgs[-1]['content']:
                 orig = open(os.path.join(ROOT, file), newline='').read()
                 s, e = search.find_body(orig, symbol)
                 reply = 'Here is the body:\n```cpp\n%s\n```' % orig[s:e].strip('\n')
-            else:
-                reply = '```cpp\nreturn;\n```'  # the escape was not refused: answer wrongly, so the self-test fails
+                call = ('submit_body', dict(code=orig[s:e].strip('\n')))
+            else:  # the escape was not refused: answer wrongly, so the self-test fails
+                reply, call = '```cpp\nreturn;\n```', ('submit_body', dict(code='return;'))
+            message = dict(role='assistant', content=reply)
+            if req.get('tools'):  # answer as a model that acts only through tools: no content
+                calls = [call]
+                if call[0] == 'submit_body' and call[1]['code'] != 'return;':
+                    # the solution first, then two wrong bodies in the same reply (parallel calls): the agent must
+                    # stop at the exact one, not let the later ones overwrite it
+                    calls += [('submit_body', dict(code='return;'))] * 2
+                message = dict(role='assistant', content='', tool_calls=[dict(
+                    id='call_%d_%d' % (len(msgs), i), type='function',
+                    function=dict(name=n, arguments=json.dumps(a))) for i, (n, a) in enumerate(calls)])
             out = json.dumps(dict(id='mock', object='chat.completion', model=req['model'],
-                                  choices=[dict(index=0, message=dict(role='assistant', content=reply),
-                                                finish_reason='stop')],
+                                  choices=[dict(index=0, message=message, finish_reason='stop')],
                                   usage=dict(prompt_tokens=1, completion_tokens=1))).encode()
             self.send_response(200)
             self.send_header('Content-Type', 'application/json')
@@ -413,7 +461,7 @@ def report(model=None):
                 if t.endswith('.json'):
                     rows.append(json.load(open(os.path.join(rdir, t))))
     table = collections.defaultdict(lambda: dict(tasks=0, exact=0, attempts=0, seconds=0.0, same_as_repository=0,
-                                                 agent_errors=0, not_run=0))
+                                                 agent_errors=0, not_run=0, requests=0, waited_seconds=0.0))
     for r in rows:
         failed = r['agent_error'] if 'agent_error' in r else agent_failed(
             r, os.path.join(workspace(int(r['address'], 16), r.get('model')), r['file']))
@@ -430,6 +478,8 @@ def report(model=None):
             table[k]['attempts'] += r['attempts']
             table[k]['seconds'] += r.get('agent_seconds', 0.0)
             table[k]['same_as_repository'] += bool(r.get('same_as_repository'))
+            table[k]['requests'] += (r.get('usage') or {}).get('requests', 0)  # chat agents record their API use
+            table[k]['waited_seconds'] += (r.get('usage') or {}).get('waited_seconds', 0.0)
     return rows, dict(table)
 
 

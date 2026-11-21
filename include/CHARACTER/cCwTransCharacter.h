@@ -60,6 +60,7 @@ namespace CHARACTER
         virtual unsigned char RetExplosivesLevel() const;
         virtual unsigned char RetStrengthLevel() const;
         virtual unsigned char RetFirearmsLevel() const;
+        virtual char RetActualSkill(unsigned int skill) const;
         virtual bool IsSkillAndBonusMaxed(unsigned int skill) const;
         virtual bool IsSkillMaxed(unsigned int skill) const;
         virtual bool IsPowerUpActive(ePowerUp powerUp);

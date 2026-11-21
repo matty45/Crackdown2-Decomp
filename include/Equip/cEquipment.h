@@ -1,4 +1,5 @@
 #include "gom/object_prototype.h"
+#include "gom/cPointOfInterest.h"
 #include "rws/attributes.h"
 // Equip::cEquipment (Crackdown 2): STAND-IN: shared bases recovered; unmodelled instance fields remain opaque.
 // StaticCreateClass (0x82604750) builds cClass(0x6, "cEquipment", 0x870); 0x870 is the size its registrar gives.
@@ -80,6 +81,9 @@ namespace Equip
         // non-const first: the compiler gives overloads their slots in reverse.
         virtual void PostAnimUpdate(float);                     // 324
         virtual bool GetVisibility();
+        // CD2 script names at 0x826050B0/0x826050C0; reference const signatures.
+        unsigned int GetID() const;
+        eEquipmentType RetEquipmentType() const;
         virtual int RetUpperAimIndex() const;
         virtual int RetUpperReloadIndex() const;
         virtual int RetUpperFireIndex() const;
@@ -145,6 +149,9 @@ namespace Equip
             virtual unsigned int RetHeadShotKillPoints() const; // 23
             virtual unsigned int RetArmKillPoints() const;      // 24
             virtual unsigned int RetLegKillPoints() const;      // 25
+            // CD2 inlines these reference accessors into the instance's script getters.
+            unsigned int GetID() const { return m_nID; }
+            eEquipmentType RetEquipmentType() const { return m_EquipmentType; }
 
         protected:
             float m_fDroppedDeletionTime;   // 0x280
@@ -169,8 +176,11 @@ namespace Equip
             int m_nNotInInvPickupId;        // 0x2C8
             eEquipmentType m_EquipmentType; // CD2 constructor 0x826071F8: +0x2CC, initially eEquipT_None
 
+            // Reference field follows m_EquipmentType; CD2 GetID (0x826050B0) reads +0x2D0.
+            unsigned int m_nID;
+
         private:
-            unsigned char m_unmodelled2D0[0x2F0 - 0x2D0];
+            unsigned char m_unmodelled2D4[0x2F0 - 0x2D4];
 
             // CD2: cEquipmentPrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
             // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
@@ -186,7 +196,8 @@ namespace Equip
                 CD2_OFFSET(cEquipmentPrototype, m_EquipmentCategory, 0x29C)
                 CD2_OFFSET(cEquipmentPrototype, m_nInInvPickupId, 0x2C4)
                 CD2_OFFSET(cEquipmentPrototype, m_nNotInInvPickupId, 0x2C8)
-                CD2_OFFSET(cEquipmentPrototype, m_EquipmentType, 0x2CC))
+                CD2_OFFSET(cEquipmentPrototype, m_EquipmentType, 0x2CC)
+                CD2_OFFSET(cEquipmentPrototype, m_nID, 0x2D0))
         };
 
         // CD2 placement factory forwards only this; later reference builds add a prototype argument.
@@ -198,16 +209,23 @@ namespace Equip
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcEquipmentClass;
         static Fun_Runtime::cClass &StaticCreateClass();
-    private:
-        // CD2 constructor 0x82604AF8: reference hierarchy, descriptor size 0x870.
-        unsigned char m_unmodelled7A4[0x7E4 - 0x7A4];
     protected:
+        // Reference member order; CD2 RetPointOfInterest (0x82605008) returns the aligned member at +0x7B0,
+        // followed by the status at +0x7E0 (initialized by constructor 0x82604AF8).
+        GOM::cPointOfInterest m_POI;
+        EQUIP_STATUS m_EquipmentStatus;
         // RuffKing m_fTimer follows equipment status. CD2 constructor 0x82604AF8
         // initializes it at +0x7E4; cWeapon::BeginAttack and both reload completions
         // write this same timer, independently of cWeapon's own attack timer.
         float m_fTimer;
     private:
-        unsigned char m_unmodelled7E8[0x870 - 0x7E8];
+        unsigned char m_unmodelled7E8[0x809 - 0x7E8];
+    protected:
+        // RuffKing member order: 0x20 earlier in CD2. Constructor 0x82604AF8 clears +0x809;
+        // primary slot 347 (0x826066A8) returns this byte.
+        bool m_bNetSleeping;
+    private:
+        unsigned char m_unmodelled80A[0x870 - 0x80A];
         // CD2: cEquipment's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
@@ -280,7 +298,10 @@ namespace Equip
     private:
         CD2_LAYOUT_CHECKS(cEquipment,
             CD2_SIZE(cEquipment, 0x870)
-            CD2_OFFSET(cEquipment, m_fTimer, 0x7E4))
+            CD2_OFFSET(cEquipment, m_POI, 0x7B0)
+            CD2_OFFSET(cEquipment, m_EquipmentStatus, 0x7E0)
+            CD2_OFFSET(cEquipment, m_fTimer, 0x7E4)
+            CD2_OFFSET(cEquipment, m_bNetSleeping, 0x809))
     };
 }
 

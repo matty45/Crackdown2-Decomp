@@ -28,6 +28,7 @@
 #include <new>
 #include "Equip/cCWSatchelCharge.h"
 #include "AI/cDynamicObstacle.h"
+#include "AI/cPropSoundEvent.h"
 
 namespace Prop
 {
@@ -59,6 +60,18 @@ namespace Prop
         return 0;
     }
 
+}
+
+namespace AI
+{
+    const Fun_Runtime::cScriptTypeRegistration *cPropSoundEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cPropSoundEvent;
+    }
+}
+
+namespace Prop
+{
     Fun_Runtime::cClass &cProp::StaticCreateClass()
     {
         static Fun_Runtime::cClass *descriptor = new Fun_Runtime::cClass(0x2, "cProp", 0xE30);
@@ -104,6 +117,11 @@ namespace Prop
     void cProp::OnDetachSatchelCharge(Equip::cCWSatchelCharge *pSatchel)
     {
         pSatchel->SetOwner(0);
+    }
+
+    Fun_Runtime::RetVal cProp::cPropPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
     }
 
     hkCollidableQualityType cProp::RetCollidableQuality(hkMotion::MotionType eMotionType)

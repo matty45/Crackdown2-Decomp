@@ -24,9 +24,19 @@
 #include "fun_runtime/inheritance_registrar.h"
 #include "cd2/memory.h"
 #include "Equip/cGrenade.h"
+#include "AI/cGrenadeSoundEvent.h"
+#include "CHARACTER/cCharacter.h"
 #include "gom/proto_registrar.h"
 #include "fun_runtime/script_type_registrar.h"
 #include "rws/classfactory.h"
+
+namespace AI
+{
+    const Fun_Runtime::cScriptTypeRegistration *cGrenadeSoundEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cGrenadeSoundEvent;
+    }
+}
 
 namespace Equip
 {
@@ -93,6 +103,34 @@ namespace Equip
             m_pTrailVFX->Release();
             m_pTrailVFX = 0;
         }
+    }
+
+    CHARACTER::cCharacter *cGrenade::RetCharacterLauncher()
+    {
+        return m_pCharacterLauncher;
+    }
+
+    void cGrenade::ImpactAudio(float fDeltaVelocity)
+    {
+        if (m_GrenadePhysicsAudio.IsRegistered())
+            m_GrenadePhysicsAudio.PostImpactEvent(fDeltaVelocity);
+    }
+
+    void cGrenade::ScrapeAudio(float fRelativeVelocity)
+    {
+        if (m_GrenadePhysicsAudio.IsRegistered())
+            m_GrenadePhysicsAudio.ContinueScrapeNextUpdate(fRelativeVelocity);
+    }
+
+    void cGrenade::PickUpAudio()
+    {
+        if (m_GrenadePhysicsAudio.IsRegistered())
+            m_GrenadePhysicsAudio.PostPickedUpEvent();
+    }
+
+    void cGrenade::BeginFuseDelay()
+    {
+        m_bStartTimer = true;
     }
 
     Fun_Runtime::RetVal cGrenade::cGrenadePrototype::Init(const RWS::CAttributePacket &)

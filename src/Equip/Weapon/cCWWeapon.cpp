@@ -221,6 +221,24 @@ namespace Equip
         return static_cast<const cCWWeaponPrototype *>(m_pPrototype)->m_nUpperEquipIndex;
     }
 
+    void cCWWeapon::ImpactAudio(float fDeltaVelocity)
+    {
+        if (m_WeaponPhysicsAudio.IsRegistered())
+            m_WeaponPhysicsAudio.PostImpactEvent(fDeltaVelocity);
+    }
+
+    void cCWWeapon::ScrapeAudio(float fRelativeVelocity)
+    {
+        if (m_WeaponPhysicsAudio.IsRegistered())
+            m_WeaponPhysicsAudio.ContinueScrapeNextUpdate(fRelativeVelocity);
+    }
+
+    void cCWWeapon::PickUpAudio()
+    {
+        if (m_WeaponPhysicsAudio.IsRegistered())
+            m_WeaponPhysicsAudio.PostPickedUpEvent();
+    }
+
     cCWWeapon::cCWWeaponPrototype::~cCWWeaponPrototype()
     {
     }

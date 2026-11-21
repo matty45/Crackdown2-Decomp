@@ -38,6 +38,9 @@ namespace Sim
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcTimeOfDayClass;
         static Fun_Runtime::cClass &StaticCreateClass();
+        // CD2 registered-class table 0x82147948 at +0x30 supplies these reference signatures.
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         virtual const char *RetClassName() const;
         virtual void Destruct();
         virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
@@ -49,7 +52,11 @@ namespace Sim
         virtual SNetworkHeader::etNetworkDataType GetReplicatedObjectType() const;
         virtual unsigned int GetMaxReplicatedFields() const;
         float m_fPhase;                         // 0x278
-        unsigned char m_unmodelled27C[0x284 - 0x27C];
+    private:
+        // RuffKing name; CD2 Pause (0x82775600) saves the current phase at +0x27C.
+        float m_fOldPhase;
+        unsigned char m_unmodelled280[0x284 - 0x280];
+    public:
         // RetPeriod's folded CD2 copy (0x825EC2E8); RuffKing names this field at phase +0xC too.
         float m_fPeriod;
     private:
@@ -62,13 +69,17 @@ namespace Sim
 
         float RetPhase();
         float RetPeriod();
+        void Pause(bool); // CD2 script method 0x82775600; reference signature
+        void UnPause(); // CD2 script method 0x82775620; sets the reference m_bActive flag
         void SetForceUpdatePhaseStep(bool force) { m_bForceUpdatePhaseStep = force; }
         bool RetForceUpdatePhaseStep() { return m_bForceUpdatePhaseStep; }
 
         CD2_LAYOUT_CHECKS(cTimeOfDay,
             CD2_SIZE(cTimeOfDay, 0x2B0)
             CD2_OFFSET(cTimeOfDay, m_fPhase, 0x278)
+            CD2_OFFSET(cTimeOfDay, m_fOldPhase, 0x27C)
             CD2_OFFSET(cTimeOfDay, m_fPeriod, 0x284)
+            CD2_OFFSET(cTimeOfDay, m_bActive, 0x288)
             CD2_OFFSET(cTimeOfDay, m_bForceUpdatePhaseStep, 0x289))
     };
 

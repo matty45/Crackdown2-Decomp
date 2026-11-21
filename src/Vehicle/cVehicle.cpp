@@ -25,8 +25,29 @@
 #include "PLAYER/cPlayer.h"
 #include "Vehicle/cGenVehicleProfile.h"
 #include "AI/cDynamicObstacle.h"
+#include "AI/cVehiclePickedUpEvent.h"
+#include "AI/cVehicleDroppedEvent.h"
+#include "AI/cHornSoundEvent.h"
 #include "Equip/cCWSatchelCharge.h"
 #include <new>
+
+namespace AI
+{
+    const Fun_Runtime::cScriptTypeRegistration *cVehiclePickedUpEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cVehiclePickedUpEvent;
+    }
+
+    const Fun_Runtime::cScriptTypeRegistration *cVehicleDroppedEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cVehicleDroppedEvent;
+    }
+
+    const Fun_Runtime::cScriptTypeRegistration *cHornSoundEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cHornSoundEvent;
+    }
+}
 
 namespace Vehicle
 {

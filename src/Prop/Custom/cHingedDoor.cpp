@@ -68,4 +68,9 @@ namespace Prop
     {
         return &cHingedDoorScriptRegistrar;
     }
+
+    Fun_Runtime::RetVal cHingedDoor::cHingedDoorPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
 }

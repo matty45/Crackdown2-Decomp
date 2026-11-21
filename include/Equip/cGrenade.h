@@ -35,9 +35,11 @@ namespace Equip
         virtual void vf421(); // primary slot 421
         virtual void vf422(); // primary slot 422
         virtual void vf423(); // primary slot 423
-        virtual void vf424(); // primary slot 424
+        // Reference order: BeginFuseDelay follows SetupForDetonation, at CD2 primary slot 424.
+        virtual void BeginFuseDelay();
         virtual void vf425(); // primary slot 425
         virtual void vf426(); // primary slot 426
+        CHARACTER::cCharacter *RetCharacterLauncher(); // CD2 0x8261EBA8; reference name/signature
 
         // CD2 0x8261DFC0: cScriptHost slot 1; descriptive method name is ours.
         virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
@@ -81,7 +83,12 @@ namespace Equip
         bool m_bDetonated;
         int m_nFuseTime_msec;                       // 0x8C8
         VFX::cParticleEffectInstance *m_pTrailVFX;  // 0x8CC
-        unsigned char m_unmodelled8D0[0x8E0 - 0x8D0];
+        // Reference names/order, 0x20 bytes earlier in CD2. BeginFuseDelay (0x8261F440)
+        // sets m_bStartTimer at +0x8DC; the constructor initializes the preceding trail fields.
+        bool m_bTrailFadeOut;                      // 0x8D0
+        float m_fTrailFadeTime;                    // 0x8D4
+        float m_fTrailTimer;                       // 0x8D8
+        bool m_bStartTimer;                        // 0x8DC
     protected:
         // Reference name/type; CD2 Launched (0x8260E788) reads the safe-pointer payload at +0x8EC.
         Fun_Runtime::cSafeDeletablePointer<CHARACTER::cCharacter> m_pCharacterLauncher;
@@ -121,7 +128,11 @@ namespace Equip
     private:
         CD2_LAYOUT_CHECKS(cGrenade, CD2_SIZE(cGrenade, 0x9C0) CD2_OFFSET(cGrenade, m_bLive, 0x8C4) CD2_OFFSET(cGrenade, m_bDetonated, 0x8C5)
             CD2_OFFSET(cGrenade, m_pTrailVFX, 0x8CC) CD2_OFFSET(cGrenade, m_GrenadePhysicsAudio, 0x8F0)
-            CD2_OFFSET(cGrenade, m_pCharacterLauncher, 0x8E0))
+            CD2_OFFSET(cGrenade, m_pCharacterLauncher, 0x8E0)
+            CD2_OFFSET(cGrenade, m_bTrailFadeOut, 0x8D0)
+            CD2_OFFSET(cGrenade, m_fTrailFadeTime, 0x8D4)
+            CD2_OFFSET(cGrenade, m_fTrailTimer, 0x8D8)
+            CD2_OFFSET(cGrenade, m_bStartTimer, 0x8DC))
 
     public:
         // CD2 table 0x82014DD0 differs from cWeapon at these inherited slots.

@@ -61,4 +61,9 @@ namespace unknown
     // CD2 0x82FF6868: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cAgencyGarageDoorSpawningRegistrar(
         cAgencyGarageDoor::StaticCreateClass(), cAgencyGarageDoor::SpawnFromPrototype);
+
+    Fun_Runtime::RetVal cAgencyGarageDoor::cAgencyGarageDoorPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
 }

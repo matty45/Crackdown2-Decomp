@@ -41,6 +41,11 @@ namespace Equip
         return ms_pcEquipmentClass->IsA(c);
     }
 
+    int cEquipment::RetUpperAimIndex() const
+    {
+        return -1;
+    }
+
     Fun_Runtime::cClass &cEquipment::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cEquipmentClass = new Fun_Runtime::cClass(0x6, "cEquipment", 0x870);
@@ -122,6 +127,38 @@ namespace Equip
     bool cEquipment::cEquipmentPrototype::RetLoadedCmdSpawn() const
     {
         return m_bLoadedCmdSpawn;
+    }
+
+}
+
+// CD2 folds the shared event-handler getter into this translation unit. cEquipment's script registrar (0x82604A94)
+// registers this address as "RetOwner", so the surviving copy is probably the inline cNonGameBase::RetOwner (the same
+// +0x4C load); it can take that name once the registrar is written.
+int cNonGameBase::RetUniqueID()
+{
+    return m_nUniqueID;
+}
+
+namespace Equip
+{
+    GOM::cPointOfInterest *cEquipment::RetPointOfInterest(int)
+    {
+        return &m_POI;
+    }
+
+    unsigned int cEquipment::GetID() const
+    {
+        return static_cast<const cEquipmentPrototype *>(m_pPrototype)->GetID();
+    }
+
+    eEquipmentType cEquipment::RetEquipmentType() const
+    {
+        return static_cast<const cEquipmentPrototype *>(m_pPrototype)->RetEquipmentType();
+    }
+
+    bool cEquipment::CanForceNetTransform() const
+    {
+        return m_bNetSleeping;
     }
 
     Fun_Runtime::RetVal cEquipment::cEquipmentPrototype::Init(const RWS::CAttributePacket &)

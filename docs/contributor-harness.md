@@ -120,7 +120,10 @@ py -I tools\cd2.py bench report [--model NAME]           # tasks solved, attempt
 models, cheap and local ones included: every model gets the same scaffold, and it is sandboxed by construction. The
 model never touches a file or a shell. It asks for files from the workspace (`READ <path>`; anything outside is
 refused) and answers with a function body, which the agent splices in and checks, sending the result back. It stops at
-EXACT, after `--rounds` replies (12) or when the model gives up. Set the endpoint and the key in the environment:
+EXACT, after `--rounds` replies (12) or when the model gives up. A model trained to act only through tools (it
+ends its turns with empty replies, or writes tool calls in its own markup) gets the same protocol as native function
+calls with `chat:<model> --tools`: `read_file`, `grep` (the task directory's files only), `submit_body` and `stop`; there
+is no shell. Set the endpoint and the key in the environment:
 
 | Provider | `CD2_LLM_BASE_URL` | Example `chat:` model |
 |---|---|---|
@@ -128,17 +131,38 @@ EXACT, after `--rounds` replies (12) or when the model gives up. Set the endpoin
 | Anthropic | `https://api.anthropic.com/v1/` | `chat:claude-haiku-5-5` |
 | Google Gemini | `https://generativelanguage.googleapis.com/v1beta/openai/` | `chat:gemini-2.5-flash` |
 | OpenRouter (many models, one key) | `https://openrouter.ai/api/v1` | `chat:deepseek/deepseek-chat` |
+| Kilo gateway (free models, 200 requests an hour per IP) | `https://api.kilo.ai/api/gateway` | `chat:stealth/glyph-cluster` |
 | DeepSeek | `https://api.deepseek.com/v1` | `chat:deepseek-chat` |
 | Ollama (local, free) | `http://localhost:11434/v1` | `chat:qwen2.5-coder:32b` |
 | LM Studio (local, free) | `http://localhost:1234/v1` | the loaded model's name |
 
 `CD2_LLM_API_KEY` holds the key (local servers need none). `CD2_LLM_OPTIONS` is a JSON object merged into every
-request, for example `{"temperature": 0}`. Token use is recorded with each result. The model names are examples;
-use the names your provider lists.
+request, for example `{"temperature": 0}`. Requests, tokens, the time spent waiting for rate limits and any cost the API
+reports are recorded with each result. The model names are examples; use the names your provider lists.
+
+**Rate limits.** `CD2_LLM_RATE_PER_HOUR` caps the requests in any 60 minutes across every agent process: each request
+is logged in `<bench dir>\llm_requests.jsonl` (or `CD2_LLM_RATE_LOG`), and one that would pass the cap waits until the
+oldest leaves the window. Set it a little under the provider's limit (190 for Kilo's 200). An HTTP 429 is waited out:
+`Retry-After` or `X-RateLimit-Reset` when the API sends one, otherwise 1, 2, 5, 10, 15, 30 and then 60 minutes, and
+each 429 is logged with its rate-limit headers. A task that has waited `CD2_LLM_MAX_WAIT` seconds (default 900) gives up
+and is marked `rate_limited`: it is not scored. The runner sets it aside: that model cools down for 30 minutes while
+the workers go on with the other models' tasks, and the task runs again at the end of the queue (3 times at most;
+`--resume` takes it up in a later run). Free models' providers rate-limit some models on their own, apart from the
+gateway's limit per IP. Waiting is not working, so give such runs a long `--timeout`.
 
 ```
 $env:CD2_LLM_BASE_URL = "http://localhost:11434/v1"            # PowerShell; cmd: set CD2_LLM_BASE_URL=...
 py -I tools\cd2.py bench run --model qwen-coder-32b --agent chat:qwen2.5-coder:32b
+```
+
+**Several models at once: `--matrix FILE`.** The file lists one model per line, `NAME AGENT` (`#` starts a comment
+line). The runner works task by task across the models, `--jobs N` tasks at a time (default 2), so wherever the run
+stops (a shared rate limit, a reboot) every model has done the same tasks; `--resume` continues it. A model whose tasks
+fail 3 in a row without any work is skipped for the rest of the run.
+
+```
+glyph-chat      chat:stealth/glyph-cluster
+nemotron-chat   chat:nvidia/nemotron-3.5-super-vl:free
 ```
 
 **`claude:<model>`: Claude Code as an agent** (`tools/bench_claude.py`), sandboxed by its own permission system. It may
@@ -148,11 +172,15 @@ refuses to run.
 
 **`kilo:<provider/model>`: Kilo Code's CLI as an agent** (`tools/bench_kilo.py`), for example
 `kilo:openrouter/deepseek/deepseek-chat`. Its permission rules come through `KILO_CONFIG_CONTENT`, which overrides the
-global and project configuration: everything denied, then reading and editing the workspace allowed, and of the shell
-only the task's check; no paths outside the workspace, no web, no subagents. `kilo run` without `--auto` refuses
-whatever it would have to ask for. It refuses to run while your global Kilo configuration sets permissions of its own.
-Set up Kilo's credentials once as its documentation describes. This preset follows Kilo's documentation but was not run
-against Kilo here: try one task first (`--limit 1`) and read `agent.log` in the workspace.
+project configuration: everything denied, then reading and editing the workspace allowed, and of the shell only the
+task's check; no paths outside the workspace, no web, no subagents. `kilo run` without `--auto` refuses whatever it
+would have to ask for. Your global Kilo configuration is not loaded at all (`XDG_CONFIG_HOME` points to an empty
+directory in the bench directory), so none of its MCP servers, agents or permissions reach the agent: an IDA or
+DeepWiki server there would hand it CD2's database or the public solutions. Before each task the preset reads the
+configuration Kilo resolves (`kilo debug config`) and refuses to run unless it has no enabled MCP server, exactly the
+benchmark's rules and the requested model. Credentials are in Kilo's data directory and still apply; set them up once
+as its documentation describes. Every agent step is a request, about 30 per task, so on rate-limited free models the
+`chat:` agent (about one request per attempt) gets much further.
 
 **Any other agent: its command.** Codex, Aider, Gemini CLI, OpenHands, a script of your own: anything that can run
 unattended. The runner starts the command in the task's workspace:
@@ -194,9 +222,10 @@ What the harness guarantees for every kind of agent:
 **When the agent itself fails.** A task where the agent exits with an error without doing anything (it ran no check
 and left the file as prepared) is an **agent error**: a usage limit, a missing key, a crash. It says nothing about the
 model, so it is not scored; `bench report` counts it separately, and the run prints the end of the agent's output. After
-3 agent errors in a row the run stops. Fix the cause, then repeat the same command with `--resume`: it re-runs only the
-tasks without a genuine result (agent errors, and tasks never run or interrupted) and keeps the rest. A timeout, or an
-error exit after some work, is a genuine attempt and is scored.
+3 agent errors in a row the run skips that model. Fix the cause, then repeat the same command with `--resume`: it re-runs
+only the tasks without a genuine result (agent errors, rate-limited tasks, and tasks never run or interrupted) and
+keeps the rest. A timeout, or an error exit after some work, is a genuine attempt and is scored. A timeout kills the
+agent's whole process tree, so nothing it started keeps working or spending a rate limit.
 
 The suite's solutions are public once the repository is, so a model trained after that may have seen them. Compare
 models with that in mind, and refresh the suite (`bench suite --make`, maintainers) as new functions are solved.
@@ -206,7 +235,8 @@ By hand, one task at a time: `bench prepare <address> --model NAME`, work in the
 
 `cd2.py bench selftest` proves the harness, and `verify` runs it. On every suite task, an oracle agent that pastes the
 known solution must reach EXACT, and so must the chat agent driven by a stand-in model (a local mock API, which also
-tries to read outside its workspace and must be refused). A do-nothing agent must reach EXACT on none. On one task per
+tries to read outside its workspace and must be refused, and answers each task's first request with a 429 that the
+agent must wait out). A do-nothing agent must reach EXACT on none. On one task per
 tier, three cheating agents must fail: one emits CD2's instruction words, one includes the repository's file, one
 forges its result.
 

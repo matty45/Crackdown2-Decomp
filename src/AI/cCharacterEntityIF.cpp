@@ -296,6 +296,17 @@ namespace AI
         m_pAIEntity->m_fHearingAcuteness = fHearingAcuteness;
     }
 
+    bool cCharacterEntityIF::IsVisible(cGameBase *object)
+    {
+        float visibilityDate;
+        return IsVisible(object, visibilityDate);
+    }
+
+    void cCharacterEntityIF::SetCharacterStateProfileFromID(unsigned int profile)
+    {
+        RetCharacter()->SetCharacterStateProfileFromIndex(profile);
+    }
+
     void cCharacterEntityIF::SetBreakTrafficLaws(unsigned char value)
     {
         m_bBreakTrafficLaws = value;
@@ -346,6 +357,18 @@ namespace AI
     bool cCharacterEntityIF::IsAIEntityOwner(Kaim::CEntity *pEntity)
     {
         return pEntity == m_pAIEntity;
+    }
+
+    void cCharacterEntityIF::ClearRooftopPoint(bool bClear)
+    {
+        m_bRooftopPointSet = false;
+        if (bClear)
+            m_pRooftopPoint = 0;
+    }
+
+    void *cCharacterEntityIF::RetRooftopPoint()
+    {
+        return m_pRooftopPoint;
     }
 
     cObjectInstigatorEvent::cObjectInstigatorEvent(Fun_Runtime::cScriptHost *source,

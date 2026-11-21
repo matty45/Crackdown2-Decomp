@@ -24,6 +24,8 @@ namespace RPG
         virtual const Fun_Runtime::cClass &RetClass() const;
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         bool IsTransformRequired() const { return m_bTransformRequired; }
+        // Reference name/signature; CD2 0x82539078 reads this array at skill-set +8.
+        char RetActualSkill(int skill) const { return m_aPostTransfromSkills[skill]; }
         bool IsSkillAndBonusMaxed(int skill) const; // CD2 0x82753BA8
         bool IsSkillMaxed(int skill) const; // CD2 0x82365580
 

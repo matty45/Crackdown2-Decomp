@@ -20,6 +20,11 @@
 
 namespace Sim
 {
+    const Fun_Runtime::cClass &cTimeOfDay::RetClass() const
+    {
+        return *ms_pcTimeOfDayClass;
+    }
+
     RWS::CAttributeHandler *cTimeOfDay::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cTimeOfDay;
@@ -75,6 +80,17 @@ namespace Sim
         cTimeOfDay *timeOfDay = cTimeOfDay::ms_pInstance;
         if (timeOfDay && timeOfDay->RetNetRole() == eNR_Authority)
             timeOfDay->SetForceUpdatePhaseStep(!timeOfDay->RetForceUpdatePhaseStep());
+    }
+
+    void cTimeOfDay::Pause(bool pause)
+    {
+        m_fOldPhase = m_fPhase;
+        m_bActive = !pause;
+    }
+
+    void cTimeOfDay::UnPause()
+    {
+        m_bActive = true;
     }
 
     const Fun_Runtime::cClass *cTODNotification::ms_pcTODNotificationClass = &cTODNotification::StaticCreateClass();

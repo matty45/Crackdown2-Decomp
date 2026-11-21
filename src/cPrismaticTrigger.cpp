@@ -58,4 +58,9 @@ namespace unknown
     {
         return *ms_pcPrismaticTriggerClass;
     }
+
+    Fun_Runtime::RetVal cPrismaticTrigger::cPrismaticTriggerPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
 }

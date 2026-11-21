@@ -11,6 +11,9 @@
 #include "AI/aiconstants.h"
 #include "AI/cSoundEventSubscriptionTypeScriptRegistration.h"
 #include "AI/cSoundEvent.h"
+#include "AI/cWeaponSoundEvent.h"
+#include "AI/cBulletSoundEvent.h"
+#include "AI/cGrenadeSoundEvent.h"
 #include "lua/lua.h"
 
 namespace AI
@@ -23,6 +26,26 @@ namespace AI
     float cSoundEvent::RetVolume()
     {
         return m_fVolume;
+    }
+
+    const Fun_Runtime::cScriptTypeRegistration *cWeaponSoundEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cWeaponSoundEvent;
+    }
+
+    bool cWeaponSoundEvent::IsValid()
+    {
+        return m_pSource != 0 && RetInstigator() != 0;
+    }
+
+    const Fun_Runtime::cScriptTypeRegistration *cBulletSoundEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cBulletSoundEvent;
+    }
+
+    cCharacterEntityIF *cGrenadeSoundEvent::RetInstigator()
+    {
+        return m_pActivator;
     }
 
     void cSoundEventSubscriptionTypeScriptRegistration::RegisterValues(lua_State *state)

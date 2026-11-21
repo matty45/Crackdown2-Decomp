@@ -60,10 +60,10 @@ LTCG model either. Functions in `.c` files are named by their exact C name (`lua
 |---|---|
 | `mismatch.py [--self-test]` | The mismatch classifier behind `cd2.py diff` and `check --explain`: turns an instruction diff into findings with hints. |
 | `search.py [--self-test]` | The automatic source search behind `cd2.py search` (`cd2.py search-test` proves it restores broken functions). |
-| `bench.py` | The benchmark behind `cd2.py bench` (`suite`, `run --agent`, `report`, `selftest`): agents re-solve solved functions in isolated workspaces; the suite is `config/bench_suite.json`. |
-| `bench_chat.py` | The built-in benchmark agent (`--agent chat:<model>`): any model behind an OpenAI-compatible API, sandboxed by construction. |
+| `bench.py` | The benchmark behind `cd2.py bench` (`suite`, `run --agent` or `--matrix`, `report`, `selftest`): agents re-solve solved functions in isolated workspaces; the suite is `config/bench_suite.json`. |
+| `bench_chat.py` | The built-in benchmark agent (`--agent chat:<model>`): any model behind an OpenAI-compatible API, sandboxed by construction; paces its requests under a shared per-hour limit and waits out HTTP 429. |
 | `bench_claude.py` | Claude Code as a sandboxed benchmark agent (`--agent claude:<model>`). |
-| `bench_kilo.py` | Kilo Code's CLI as a sandboxed benchmark agent (`--agent kilo:<provider/model>`). |
+| `bench_kilo.py` | Kilo Code's CLI as a sandboxed benchmark agent (`--agent kilo:<provider/model>`): no global Kilo configuration, and `kilo debug config` must show the sandbox before it runs. |
 | `facts.py record <default.exe>` / `verify` / `--self-test` | Target facts: confirm matches without the game file (`cd2.py verify --facts`). |
 | `mcp_server.py` | The `cd2.py` commands as MCP tools, for any agent that speaks the Model Context Protocol. |
 | `check_tu.py <packet> <file.cpp> [--diff Fnn] [--ltcg]` | The measurement batches' harness, superseded by `cd2.py check`/`diff` for contributors (it needs packets built with IDA): compares a work-in-progress source with every target of a packet built by `packets/build_cd2.py`. A byte-exact function whose references point elsewhere than CD2's is reported as `WRONGTGT`, not exact (needs `CD2_EXE`). |

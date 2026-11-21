@@ -64,6 +64,26 @@ namespace Equip
         return 0;
     }
 
+    void cHarpoonBolt::SetDeletingReason(char reason)
+    {
+        m_eDeleteReason = reason;
+    }
+
+    char cHarpoonBolt::GetDeletingReason()
+    {
+        return m_eDeleteReason;
+    }
+
+    cGameBase *cHarpoonBolt::RetAttachedObject()
+    {
+        return m_pAttatchedObject;
+    }
+
+    CHARACTER::cCharacter *cHarpoonBolt::RetAttachedCharacter()
+    {
+        return m_pHarpoonedCharacter;
+    }
+
     cHarpoonBolt::~cHarpoonBolt()
     {
     }
@@ -78,6 +98,11 @@ namespace Equip
     // CD2 0x82FD1EE8: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cHarpoonBoltSpawningRegistrar(
         cHarpoonBolt::StaticCreateClass(), cHarpoonBolt::SpawnFromPrototype);
+
+    void cHarpoonBolt::cHarpoonBoltPrototype::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cWeaponProjectilePrototype::HandleAttributes(packet);
+    }
 
     Fun_Runtime::RetVal cHarpoonBolt::cHarpoonBoltPrototype::Init(const RWS::CAttributePacket &)
     {

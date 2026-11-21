@@ -117,12 +117,15 @@ namespace CHARACTER
         virtual void vf372();
         virtual void vf373();
         virtual void vf374();
-        virtual void vf375();
+        // Reference sequence after RetCharacterState (371): animation-profile hooks, then this index setter.
+        // CD2 script wrapper 0x823F3370 calls primary slot 375.
+        virtual void SetCharacterStateProfileFromIndex(unsigned int);
         virtual void vf376();
         virtual void vf377();
         virtual void vf378();
         virtual void vf379();
-        virtual void vf380();
+        // Burn's RetActualSkill immediately precedes RetSkill; CD2 player override is 0x82539078.
+        virtual char RetActualSkill(unsigned int skill) const;
         virtual char RetSkill(unsigned int skill) const;
         virtual bool IsSkillAndBonusMaxed(unsigned int skill) const;
         virtual bool IsSkillMaxed(unsigned int skill) const;

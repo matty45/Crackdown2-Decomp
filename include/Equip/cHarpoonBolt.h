@@ -8,6 +8,7 @@
 #include "fun_runtime/class.h"
 #include "fun_runtime/safedeletablepointer.h"
 #include "gom/game_base.h"
+#include "CHARACTER/cCharacter.h"
 #include "gom/object_prototype.h"
 #include "cd2/layout.h"
 
@@ -70,19 +71,38 @@ namespace Equip
         virtual SNetworkHeader::etNetworkDataType GetReplicatedObjectType() const; // cReplicatedClass 22: 0x825ECFA8
         virtual unsigned int GetMaxReplicatedFields() const;        // cReplicatedClass 23: 0x8288B098
 
+        // New slots after cWeaponProjectile's PickUpRequested: Burn's names/order; CD2 getters are 365/366.
+        virtual bool CheckForReplicationActivation(); // primary slot 364
+        virtual cGameBase *RetAttachedObject(); // primary slot 365, CD2 0x82627210
+        virtual CHARACTER::cCharacter *RetAttachedCharacter(); // primary slot 366, CD2 0x82627228
+
     private:
         // RuffKing's members, 0x20 earlier in CD2 (descriptor size 0x910 = RuffKing's 0x930 - 0x20). CD2's destructor
-        // installs one typed safe-pointer table (0x82155680) for both pointers from one register, so they share a
-        // pointee type; RuffKing's first one, cGameBase, is used for both.
+        // installs the same folded safe-pointer table (0x82155680) for both pointers from one register. That folding
+        // does not determine the pointee types: both Burn and RuffKing type the second pointer as cCharacter.
         Fun_Runtime::cSafeDeletablePointer<cGameBase> m_pAttatchedObject;      // 0x870
-        unsigned char m_unmodelled880[0x8F8 - 0x880];
-        Fun_Runtime::cSafeDeletablePointer<cGameBase> m_pHarpoonedCharacter;   // 0x8F8
-        unsigned char m_unmodelled908[0x910 - 0x908];
+        unsigned char m_unmodelled880[0x8E8 - 0x880];
+        // Reference names/order; CD2 0x82628228 tests the character/body IDs and processed flag.
+        int m_CharacterID; // 0x8E8
+        int m_BodyType; // 0x8EC
+        int m_BodyID; // 0x8F0
+        bool m_bAllowFixup; // 0x8F4
+        bool m_bFixUpProcessed; // 0x8F5
+        Fun_Runtime::cSafeDeletablePointer<CHARACTER::cCharacter> m_pHarpoonedCharacter; // 0x8F8
+        // RuffKing name/type; CD2 slot 309 writes +0x908 and slot 310 reads it.
+        char m_eDeleteReason;
+        unsigned char m_unmodelled909[0x910 - 0x909];
 
         CD2_LAYOUT_CHECKS(cHarpoonBolt,
             CD2_SIZE(cHarpoonBolt, 0x910)
             CD2_OFFSET(cHarpoonBolt, m_pAttatchedObject, 0x870)
-            CD2_OFFSET(cHarpoonBolt, m_pHarpoonedCharacter, 0x8F8))
+            CD2_OFFSET(cHarpoonBolt, m_CharacterID, 0x8E8)
+            CD2_OFFSET(cHarpoonBolt, m_BodyType, 0x8EC)
+            CD2_OFFSET(cHarpoonBolt, m_BodyID, 0x8F0)
+            CD2_OFFSET(cHarpoonBolt, m_bAllowFixup, 0x8F4)
+            CD2_OFFSET(cHarpoonBolt, m_bFixUpProcessed, 0x8F5)
+            CD2_OFFSET(cHarpoonBolt, m_pHarpoonedCharacter, 0x8F8)
+            CD2_OFFSET(cHarpoonBolt, m_eDeleteReason, 0x908))
     };
 }
 

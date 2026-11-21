@@ -84,4 +84,9 @@ namespace Equip
     {
         return Ret_OK;
     }
+
+    void cPortableLaunchPad::cJumpPadPrototype::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cCWSatchelChargePrototype::HandleAttributes(packet);
+    }
 }

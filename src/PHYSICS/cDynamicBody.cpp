@@ -3,11 +3,31 @@
 
 #include "PHYSICS/cDynamicBody.h"
 #include "PHYSICS/cNetDynamicBody.h"
+#include "AI/cObjectLockedEvent.h"
+#include "AI/cCollisionEvent.h"
 #include "fun_runtime/script_type_registrar.h"
 #include "rws/classfactory.h"
 #include "gom/proto_registrar.h"
 #include "cd2/memory.h"
 #include <new>
+
+namespace AI
+{
+    const Fun_Runtime::cScriptTypeRegistration *cObjectLockedEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cObjectLockedEvent;
+    }
+
+    const Fun_Runtime::cScriptTypeRegistration *cCollisionEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cCollisionEvent;
+    }
+
+    int cCollisionEvent::vf8()
+    {
+        return 400;
+    }
+}
 
 namespace PHYSICS
 {

@@ -5,6 +5,7 @@
 #define EQUIP_CEXPLOSIVEGRENADE_H
 #include "Equip/cGrenade.h"
 #include "ExplosionManager/cExplosionCallback.h"
+#include "fun_runtime/script_type_registrar.h"
 namespace Equip
 {
     class cExplosiveGrenade : public cGrenade, public ExplosionManager::cExplosionCallback
@@ -74,8 +75,10 @@ namespace Equip
         virtual void vf416(int); // slot 416: 0x8261D6A8
         virtual void vf419(); // slot 419: 0x8261D740
         virtual void vf423(); // slot 423: 0x8261D6E8
-        virtual void vf424(); // slot 424: 0x8261DBC8
+        virtual void BeginFuseDelay(); // slot 424: 0x8261DBC8
         virtual void vf425(); // slot 425: 0x8261DC90
     };
+    // CD2 0x83839530, constructed by 0x82FCFB40; shared by derived grenade script-host tables.
+    extern Fun_Runtime::cScriptTypeRegistrar<cExplosiveGrenade> cExplosiveGrenadeScriptRegistrar;
 }
 #endif

@@ -125,6 +125,11 @@ namespace CHARACTER
         return *cCwTransCharacterClass;
     }
 
+    char cCwTransCharacter::RetActualSkill(unsigned int skill) const
+    {
+        return m_SkillSet.RetActualSkill(skill);
+    }
+
     const Fun_Runtime::cClass *cCwTransCharacter::ms_pcCwTransCharacterClass = &cCwTransCharacter::StaticCreateClass();
 
     // CD2 0x82FABCC8: runtime class inheritance registration.

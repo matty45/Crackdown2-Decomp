@@ -23,7 +23,34 @@
 #include "Prop/cPrismaticProp.h"
 #include "rws/classfactory.h"
 #include "unknown/cLift.h"
+#include "AI/cLiftInTransitUpEvent.h"
+#include "AI/cLiftStoppedDownEvent.h"
+#include "AI/cLiftStoppedUpEvent.h"
+#include "AI/cLiftInTransitDownEvent.h"
 #include "cd2/memory.h"
+
+namespace AI
+{
+    const Fun_Runtime::cScriptTypeRegistration *cLiftInTransitUpEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cLiftInTransitUpEvent;
+    }
+
+    const Fun_Runtime::cScriptTypeRegistration *cLiftInTransitDownEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cLiftInTransitDownEvent;
+    }
+
+    const Fun_Runtime::cScriptTypeRegistration *cLiftStoppedUpEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cLiftStoppedUpEvent;
+    }
+
+    const Fun_Runtime::cScriptTypeRegistration *cLiftStoppedDownEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cLiftStoppedDownEvent;
+    }
+}
 
 namespace unknown
 {

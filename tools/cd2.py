@@ -25,15 +25,17 @@ usage: py -I tools/cd2.py <command> [arguments] [--json]
                                  keep those that bring the function closer to CD2 (tools/search.py)
   search-test [--limit N]        break solved functions with one transformation each; the search must restore them
   bench list|suite|prepare|check|score|run|report|selftest [address] [--model M] [--agent A] [--tier N] [--limit N]
-        [--resume]
+        [--resume] [--matrix FILE] [--jobs N]
                                  the benchmark: re-solve solved functions in isolated workspaces (tools/bench.py).
                                  `bench run --model NAME --agent A` runs an agent over the suite; A is
                                  chat:<model> (any model behind an OpenAI-compatible API, tools/bench_chat.py),
                                  claude:<model> or kilo:<provider/model> (those CLIs, sandboxed), or the command of
-                                 any other agent. IDE agents: `bench prepare --model NAME` (the whole suite), work
-                                 through the workspaces, then `bench score --model NAME`. An agent that exits with an
-                                 error without working is an agent error, not scored; 3 in a row stop the run, and
-                                 --resume re-runs only the tasks without a genuine result
+                                 any other agent. `bench run --matrix FILE` runs several (one `NAME AGENT` per line)
+                                 task by task, --jobs N at a time (default 2). IDE agents: `bench prepare --model
+                                 NAME` (the whole suite), work through the workspaces, then `bench score --model
+                                 NAME`. An agent that exits with an error without working is an agent error, not
+                                 scored; after 3 in a row its model is skipped, and --resume re-runs only the tasks
+                                 without a genuine result
   lint [file.cpp ...]            the source policy on the preprocessed source (default: every file in src/)
   verify [--facts]               every gate; exit status 0 only if all pass. --facts needs no game file: the facts
                                  recorded in config/target_facts.json stand in for it
@@ -58,6 +60,7 @@ extracted copy of the game, with the pinned compiler (config/toolchain.txt) and 
 """
 import argparse, bisect, collections, concurrent.futures, datetime, hashlib, json, os, re, shutil, struct, subprocess, sys
 import tempfile
+import threading
 import time
 
 TOOLS = os.path.dirname(os.path.abspath(__file__))
@@ -2032,6 +2035,105 @@ def bench_suite_tasks(a):
     return tasks[:a.limit] if a.limit else tasks
 
 
+def bench_matrix(path):
+    """[(agent command, model name)] of a matrix file: one `<model name> <agent>` per line; blank lines and lines
+    starting with # are skipped."""
+    runs = []
+    for n, line in enumerate(open(path, encoding='utf-8'), 1):
+        if not line.strip() or line.lstrip().startswith('#'):
+            continue
+        parts = line.split(None, 1)
+        if len(parts) != 2:
+            raise Fail('%s:%d: expected "<model name> <agent>"' % (path, n))
+        runs.append((bench_agent(parts[1].strip()), parts[0]))
+    names = [bench.model_dir(m) for _, m in runs]
+    if not runs or len(set(names)) != len(names):
+        raise Fail('%s must list models with different names' % path)
+    return runs
+
+
+def task_major(jobs, tasks):
+    """Benchmark jobs (task, model, ...) ordered task by task across the models, in the suite's order: wherever a run
+    stops (a shared rate limit, a reboot), every model has done the same tasks. Within a task the models keep their
+    order."""
+    order = {t['address']: i for i, t in enumerate(tasks)}
+    return sorted(jobs, key=lambda job: order[job[0]['address']])
+
+
+def run_bench_jobs(jobs, one, workers, cooldown=1800):
+    """Run `bench run` jobs (task, model, ...) in order, `workers` at a time. one(job) -> (row, failed without doing
+    anything) or None (kept from an earlier run). A model whose tasks failed 3 in a row is skipped from then on. A task
+    that ended rate limited (its model's provider kept refusing; row['rate_limited']) is set aside: the model cools down
+    for `cooldown` seconds while the workers go on with the other models' tasks, and the task goes to the end of the
+    queue, 3 times at most. Returns (rows, skipped models)."""
+    queue, rows, failures, skipped, deferred = list(jobs), {}, collections.Counter(), [], collections.Counter()
+    cool, lock, stop, told = {}, threading.Lock(), threading.Event(), []
+
+    def take():
+        """(the next job whose model is neither skipped nor cooling down, or None; seconds to wait first)."""
+        with lock:
+            queue[:] = [j for j in queue if j[1] not in skipped]
+            if not queue or stop.is_set():
+                return None, 0
+            t = time.time()
+            for i, j in enumerate(queue):
+                if cool.get(j[1], 0) <= t:
+                    told.clear()
+                    return queue.pop(i), 0
+            wait = min(cool[j[1]] for j in queue) - t  # every job left belongs to a model cooling down
+            if not told:  # say so once, or a long wait looks like a hang
+                told.append(True)
+                print('waiting %d min for %s to cool down (Ctrl+C stops; --resume continues another time)' % (
+                    wait // 60 + 1, ', '.join(sorted({j[1] for j in queue}))), file=sys.stderr, flush=True)
+            return None, wait
+
+    def worker():
+        while True:
+            job, wait = take()
+            if job is None:
+                if wait <= 0:
+                    return
+                time.sleep(min(wait, 5))
+                continue
+            got = one(job)
+            if got is None:
+                continue
+            row, failed = got
+            m = job[1]
+            with lock:
+                if row.get('rate_limited') and deferred[(m, row['address'])] < 3:
+                    deferred[(m, row['address'])] += 1
+                    cool[m] = time.time() + cooldown
+                    queue.append(job)
+                    print('%-22s %s set aside: rate limited by its provider; the model cools down for %d s' % (
+                        m, row['address'], cooldown), file=sys.stderr, flush=True)
+                    continue
+                rows[(m, row['address'])] = row
+                failures[m] = failures[m] + 1 if failed else 0
+                if failures[m] >= 3 and m not in skipped:
+                    skipped.append(m)
+                    print('%-22s skipped from now on: 3 tasks in a row failed without doing anything' % m,
+                          file=sys.stderr, flush=True)
+    threads = [threading.Thread(target=worker, daemon=True) for _ in range(max(1, workers))]
+    for t in threads:
+        t.start()
+    try:
+        while any(t.is_alive() for t in threads):
+            for t in threads:
+                t.join(timeout=0.5)
+    except KeyboardInterrupt:  # Ctrl+C stops the agents too (one console); the tasks under way end as agent errors
+        stop.set()
+        try:
+            while any(t.is_alive() for t in threads):
+                for t in threads:
+                    t.join(timeout=0.5)
+        except KeyboardInterrupt:  # a second Ctrl+C: do not wait for them (the workers are daemon threads)
+            pass
+        raise Fail('interrupted: the tasks under way were stopped and are not scored; continue with the same command '
+                   'plus --resume')
+    return list(rows.values()), skipped
+
+
 def bench_policy(src, workspace):
     """The source policy for a benchmark workspace: only the workspace and the XDK are allowed origins."""
     return policy(src, roots=[workspace], include=[os.path.join(workspace, 'include')])[0]
@@ -2040,11 +2142,11 @@ def bench_policy(src, workspace):
 def bench_agent(agent):
     """`chat:<model>` is the built-in agent for any model behind an OpenAI-compatible API (tools/bench_chat.py);
     `claude:<model>` and `kilo:<provider/model>` run those CLIs sandboxed (tools/bench_claude.py, tools/bench_kilo.py);
-    anything else is the command of any agent."""
-    m = re.match(r'^(chat|claude|kilo):(\S+)$', agent or '')
+    options after the model go to the script (`chat:<model> --tools`); anything else is the command of any agent."""
+    m = re.match(r'^(chat|claude|kilo):(\S+)((?:\s+--?[\w-]+(?:\s+\d+)?)*)\s*$', agent or '')
     if m:
         script = dict(chat='bench_chat.py', claude='bench_claude.py', kilo='bench_kilo.py')[m.group(1)]
-        return '"%s" -I "%s" %s' % (sys.executable, os.path.join(TOOLS, script), m.group(2))
+        return '"%s" -I "%s" %s%s' % (sys.executable, os.path.join(TOOLS, script), m.group(2), m.group(3))
     return agent
 
 
@@ -2053,7 +2155,7 @@ def selftest_expected(r):
     source policy (emit, include) or not exact (forged result), the do-nothing agent not exact, the agent that fails
     without working flagged as an agent error."""
     m = r['kind']
-    if m in ('oracle', 'chat'):
+    if m in ('oracle', 'chat', 'chat-tools'):
         return r['exact']
     if m in ('cheat-emit', 'cheat-include'):
         return r['status'] == 'rejected by the source policy'
@@ -2083,10 +2185,13 @@ def cmd_bench(a):
         tasks = bench_suite_tasks(a)
         selftest = '"%s" -I "%s" ' % (sys.executable, os.path.join(TOOLS, 'bench.py'))
         if a.action == 'run':
-            if not a.agent:
+            if a.matrix:
+                runs = bench_matrix(a.matrix)
+            elif not a.agent:
                 raise Fail('bench run needs --agent "<command>" (TASK.md on stdin; {task} and {workspace} are '
-                           'replaced) or --agent claude:<model>')
-            runs = [(bench_agent(a.agent), model)]
+                           'replaced) or --agent claude:<model>, or --matrix <file>')
+            else:
+                runs = [(bench_agent(a.agent), model)]
         else:
             # only the oracle may reach EXACT: doing nothing, emitting CD2's words, compiling the repository's own
             # file and forging the result must all fail
@@ -2095,20 +2200,30 @@ def cmd_bench(a):
             runs = [(selftest + 'oracle', own + 'oracle'), ('echo nothing', own + 'null')] + [
                 (selftest + c, own + c) for c in ('cheat-emit', 'cheat-include', 'cheat-result')] + [
                 (bench_agent('chat:mock-model') + ' --rounds 3', own + 'chat'),
+                (bench_agent('chat:mock-model --tools --rounds 3'), own + 'chat-tools'),  # native function calls
                 ('"%s" -I -c "import sys; sys.exit(3)"' % sys.executable, own + 'error')]  # fails without working
         aliases = relocs.load_aliases(ALIASES)
         out, stopped, jobs, servers, briefs = [], None, [], [], {}
         for agent, m in runs:
             kind = m.split('-', 1)[1] if a.action == 'selftest' else None
             changes = {}
-            if kind == 'chat':  # the built-in chat agent against a local stand-in model: no API, no key
-                server, url = bench.mock_chat_server()
+            if kind in ('chat', 'chat-tools'):  # the built-in chat agent against a local stand-in model: no API, no key
+                server, url = bench.mock_chat_server(refuse_first=True)  # a 429 per task, to be waited out
                 servers.append(server)
-                changes = dict(CD2_LLM_API_KEY=None, CD2_LLM_OPTIONS=None, CD2_LLM_BASE_URL=url)
+                changes = dict(CD2_LLM_API_KEY=None, CD2_LLM_OPTIONS=None, CD2_LLM_BASE_URL=url,
+                               CD2_LLM_RATE_PER_HOUR=None, CD2_LLM_MAX_WAIT=None,  # its own request log, no limit
+                               CD2_LLM_RATE_LOG=os.path.join(bench.BENCH, bench.model_dir(m), 'llm_requests.jsonl'))
             todo = tasks
             if kind and (kind.startswith('cheat') or kind == 'error'):  # one task per tier shows these
                 todo = [t for i, t in enumerate(tasks) if t['tier'] not in [x['tier'] for x in tasks[:i]]]
             jobs += [(t, m, agent, kind, changes) for t in todo]
+        if a.action == 'run':
+            jobs = task_major(jobs, tasks)
+        hits = {int(e['address'], 16): (f, e) for f, e in bench.candidates(man)}
+        for t in tasks:  # the briefs once, before any worker starts (a task no longer a candidate fails in prepare)
+            addr = int(t['address'], 16)
+            if addr in hits:
+                briefs[addr] = hits[addr] + (cmd_show(argparse.Namespace(address=t['address'])),)
 
         def one(job):
             """One task: prepare, run the agent, score. Returns (row, agent failed), or None if kept."""
@@ -2131,14 +2246,15 @@ def cmd_bench(a):
                 res = dict(res, **{k: v for k, v in bench.mark_scored(addr, m).items() if k == 'agent_error'})
             row = dict(model=m, kind=kind, address=t['address'], tier=t['tier'], status=res['status'],
                        exact=res['exact'], attempts=res['attempts'], agent_exit=code, seconds=secs,
-                       same_as_repository=res.get('same_as_repository'), detail=res.get('detail', ''))
+                       same_as_repository=res.get('same_as_repository'), detail=res.get('detail', ''),
+                       usage=res.get('usage'), rate_limited=bool(res.get('rate_limited')))
             if a.action == 'selftest' and not selftest_expected(row):  # keep the evidence of a failure
                 log = os.path.join(bench.workspace(addr, m), 'agent.log')
-                row['agent_log_tail'] = open(log, errors='replace').read()[-1500:] if os.path.exists(log) else ''
+                row['agent_log_tail'] = (open(log, encoding='utf-8', errors='replace').read()[-1500:]
+                                         if os.path.exists(log) else '')
             print('%-22s %s tier %d  %-14s %3d attempt(s) %6.1f s' % (
                 m, t['address'], t['tier'], res['status'], res['attempts'], secs), file=sys.stderr, flush=True)
             return row, failed
-        failures_in_a_row = 0
         try:
             if a.action == 'selftest':
                 # every task of every self-test agent is independent (a workspace and a result file each, the
@@ -2146,19 +2262,17 @@ def cmd_bench(a):
                 # a real agent's tasks run one after another
                 # (the chat agent's tasks, which run checks of their own, start first: they take longest)
                 pool = concurrent.futures.ThreadPoolExecutor(max_workers=verify_ltcg.WORKERS)
-                out = [row for row, _ in pool.map(one, sorted(jobs, key=lambda job: job[3] != 'chat'))]
+                chat_first = sorted(jobs, key=lambda job: job[3] not in ('chat', 'chat-tools'))
+                out = [row for row, _ in pool.map(one, chat_first)]
                 pool.shutdown()
-            for job in (jobs if a.action == 'run' else []):
-                got = one(job)
-                if got is None:
-                    continue
-                out.append(got[0])
-                failures_in_a_row = failures_in_a_row + 1 if got[1] else 0
-                if failures_in_a_row >= 3:
-                    stopped = ('stopped: the agent failed %d tasks in a row without doing anything (a usage limit, a '
-                               'missing key, a crash; its output is above and in agent.log). Fix it, then continue '
-                               'with the same command plus --resume.' % failures_in_a_row)
-                    break
+            else:
+                # a real agent's tasks run one after another unless --jobs says otherwise (overlapping the models'
+                # latency; a shared rate limit is the agents' business, e.g. CD2_LLM_RATE_PER_HOUR)
+                out, skipped = run_bench_jobs(jobs, one, a.jobs or (2 if a.matrix else 1))
+                if skipped:
+                    stopped = ('stopped: %s failed 3 tasks in a row without doing anything (a usage limit, a missing '
+                               'key, a crash; the output is above and in agent.log). Fix it, then continue with the '
+                               'same command plus --resume.' % ', '.join(skipped))
         finally:
             for server in servers:
                 server.shutdown()
@@ -2172,12 +2286,16 @@ def cmd_bench(a):
                 emit_rejected=all(r['status'] == 'rejected by the source policy' for r in runs_of('cheat-emit')),
                 include_rejected=all(r['status'] == 'rejected by the source policy' for r in runs_of('cheat-include')),
                 forged_result_ignored=not any(r['exact'] for r in runs_of('cheat-result')),
-                agent_error_flagged=all(r['status'] == 'agent error' for r in runs_of('error')))
+                agent_error_flagged=all(r['status'] == 'agent error' for r in runs_of('error')),
+                tools_agent_all_exact=all(r['exact'] for r in runs_of('chat-tools')),
+                chat_rate_limit_waited=all((r['usage'] or {}).get('waited_seconds', 0) >= 1
+                                           for r in runs_of('chat') + runs_of('chat-tools')))
             for m in {r['model'] for r in out}:
                 shutil.rmtree(os.path.join(bench.BENCH, bench.model_dir(m)), ignore_errors=True)
             return dict(ok=all(checks.values()), runs=out, unexpected=[r for r in out if not selftest_expected(r)],
                         **checks)
-        return dict(ok=not stopped, runs=out, summary=bench.report(model)[1], stopped=stopped)
+        summary = {k: v for _, m in runs for k, v in bench.report(m)[1].items()}
+        return dict(ok=not stopped, runs=out, summary=summary, stopped=stopped)
     if a.action == 'score':  # the final verdict of every prepared task (after working through them in an IDE agent)
         need_setup()
         rdir = os.path.dirname(bench.result_path(0, model))
@@ -2715,7 +2833,9 @@ def show_text(cmd, res):
                      ('emit_rejected', '__emit of CD2\'s words rejected'),
                      ('include_rejected', '#include of the repository\'s file rejected'),
                      ('forged_result_ignored', 'forged result ignored'),
-                     ('agent_error_flagged', 'an agent that fails without working is flagged, not scored')]
+                     ('agent_error_flagged', 'an agent that fails without working is flagged, not scored'),
+                     ('tools_agent_all_exact', 'chat agent with native tool calls (mock model) EXACT on every task'),
+                     ('chat_rate_limit_waited', 'the chat agent waits out an HTTP 429')]
             for k, what in names:
                 print('  %-4s %s' % ('ok' if res.get(k) else 'FAIL', what))
             for r in res.get('unexpected', []):
@@ -2727,8 +2847,10 @@ def show_text(cmd, res):
             print('benchmark self-test: %s' % ('all %d checks hold' % len(names) if res['ok'] else 'FAILED'))
         elif 'runs' in res:
             for k, v in sorted(res['summary'].items()):
-                print('%-30s %3d of %3d exact, %d attempts, %.0f s%s%s%s' % (
+                print('%-30s %3d of %3d exact, %d attempts, %.0f s%s%s%s%s' % (
                     k, v['exact'], v['tasks'], v['attempts'], v['seconds'],
+                    ', %d API requests (%.0f s waiting for rate limits)' % (v['requests'], v.get('waited_seconds', 0))
+                    if v.get('requests') else '',
                     ', %d identical to the repository' % v['same_as_repository'] if v.get('same_as_repository') else '',
                     ', %d agent error(s), not scored' % v['agent_errors'] if v.get('agent_errors') else '',
                     ', %d not run' % v['not_run'] if v.get('not_run') else ''))
@@ -2740,8 +2862,10 @@ def show_text(cmd, res):
             print('%d benchmark tasks' % len(res['tasks']))
         elif 'by_model_and_tier' in res:
             for k, v in sorted(res['by_model_and_tier'].items()):
-                print('%-30s %3d of %3d exact, %d attempts, %.0f s%s%s%s' % (
+                print('%-30s %3d of %3d exact, %d attempts, %.0f s%s%s%s%s' % (
                     k, v['exact'], v['tasks'], v['attempts'], v['seconds'],
+                    ', %d API requests (%.0f s waiting for rate limits)' % (v['requests'], v.get('waited_seconds', 0))
+                    if v.get('requests') else '',
                     ', %d identical to the repository' % v['same_as_repository'] if v.get('same_as_repository') else '',
                     ', %d agent error(s), not scored' % v['agent_errors'] if v.get('agent_errors') else '',
                     ', %d not run' % v['not_run'] if v.get('not_run') else ''))
@@ -2847,6 +2971,7 @@ def main():
     s.add_argument('address', nargs='?'); s.add_argument('--tier', type=int); s.add_argument('--model')
     s.add_argument('--agent'); s.add_argument('--limit', type=int); s.add_argument('--timeout', type=int, default=1800)
     s.add_argument('--make', action='store_true'); s.add_argument('--resume', action='store_true')
+    s.add_argument('--matrix'); s.add_argument('--jobs', type=int)
     s = sub.add_parser('lint'); s.add_argument('files', nargs='*'); s.add_argument('--self-test', action='store_true')
     s = sub.add_parser('verify'); s.add_argument('--exe'); s.add_argument('--facts', action='store_true')
     s = sub.add_parser('review'); s.add_argument('ref'); s.add_argument('--record-facts', action='store_true')

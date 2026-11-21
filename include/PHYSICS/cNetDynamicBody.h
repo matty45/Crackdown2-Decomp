@@ -60,10 +60,16 @@ namespace PHYSICS
         // (0x826DAA40) clears it.
         bool m_bNetworkInterpolationActive;     // 0x770
     private:
-        unsigned char m_unknown771[0x7A0 - 0x771];
+        unsigned char m_unknown771[0x790 - 0x771];
+    protected:
+        // RuffKing name (+0x7B0 there); harpoon replication gate 0x82628228 reads/clears CD2 +0x790.
+        bool m_bFlagForOwnershipChange;
+    private:
+        unsigned char m_unknown791[0x7A0 - 0x791];
         CD2_LAYOUT_CHECKS(cNetDynamicBody,
             CD2_SIZE(cNetDynamicBody, 0x7A0)
-            CD2_OFFSET(cNetDynamicBody, m_bNetworkInterpolationActive, 0x770))
+            CD2_OFFSET(cNetDynamicBody, m_bNetworkInterpolationActive, 0x770)
+            CD2_OFFSET(cNetDynamicBody, m_bFlagForOwnershipChange, 0x790))
     };
 }
 #endif
