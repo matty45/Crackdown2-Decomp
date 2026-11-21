@@ -28,6 +28,9 @@ namespace RPG
         char RetActualSkill(int skill) const { return m_aPostTransfromSkills[skill]; }
         bool IsSkillAndBonusMaxed(int skill) const; // CD2 0x82753BA8
         bool IsSkillMaxed(int skill) const; // CD2 0x82365580
+        // Descriptive name is ours. CD2 0x827540F8 compares the clamped
+        // post-transform skill plus its normalized skill bonus with six.
+        bool IsSkillAtLevelSix(int skill) const;
 
     private:
         CHARACTER::cCwTransCharacter *m_pOwner;

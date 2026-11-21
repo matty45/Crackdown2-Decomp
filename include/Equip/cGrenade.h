@@ -16,7 +16,9 @@ namespace Equip
         // Burn/RuffKing name; CD2 slot 406 is overridden by the launch pad's launcher fallback.
         virtual void Launched(cGameBase *pAttacker); // primary slot 406
         virtual void vf407(); // primary slot 407
-        virtual void vf408(); // primary slot 408
+        // Reference signature; CD2 0x8261EE48 forwards to InitiateDetonation (0x8261EDC0).
+        virtual void InitiateOrdinalDetonation(unsigned char); // primary slot 408
+        void InitiateDetonation();
         virtual bool CanItemUseAmmo() const; // Primary slot 409; reference name, CD2 cloak override reads its prototype flag.
         virtual void vf410(); // primary slot 410
         // Slot 411 (CD2 0x8260AAA8) returns m_bDetonated, as RuffKing's inline HasDetonated does.
@@ -111,7 +113,7 @@ namespace Equip
         virtual void WaterEntryAudio(float); // 261: 0x8261F390
         virtual void WaterExitAudio(float); // 262: 0x8261F3E8
         virtual void vf275(); // 275: 0x8261F528
-        virtual void vf284(); // 284: 0x8261F1A0
+        virtual void TriggerEnterWater(float fWaterLevel); // 284: 0x8261F1A0
         virtual void vf300(); // 300: 0x8261F588
         virtual void SetStatus(Equip::cEquipment::EQUIP_STATUS); // 316: 0x8261EEF8
         virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x8261F5F0

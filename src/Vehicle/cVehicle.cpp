@@ -177,6 +177,11 @@ namespace Vehicle
         m_bEngineShutdown = true;
     }
 
+    cFrame cVehicle::RetStartFrame(GameRenderer::cLODClump &pClump)
+    {
+        return FindPartialNamedFrame("BODY", &pClump);
+    }
+
     CHARACTER::cCharacter *cVehicle::RetPtrPassenger(int nSeat)
     {
         if (RetNumberofVehicleSeats() <= nSeat)
@@ -344,6 +349,18 @@ namespace Vehicle
     {
         if (m_VehicleAudio.IsRegistered())
             m_VehicleAudio.PostPickedUpEvent();
+    }
+
+    void cVehicle::WaterEntryAudio(float fImpulseValue)
+    {
+        if (m_VehicleAudio.IsRegistered())
+            m_VehicleAudio.PostWaterEntryEvent(fImpulseValue);
+    }
+
+    void cVehicle::WaterExitAudio(float fImpulseValue)
+    {
+        if (m_VehicleAudio.IsRegistered())
+            m_VehicleAudio.PostWaterExitEvent(fImpulseValue);
     }
 
     PHYSICS::cNetDynamicBody::eArbitrationResult cVehicle::ArbitrateOwnership(unsigned char nNodeID, unsigned int TimeStamp)

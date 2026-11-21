@@ -22,6 +22,9 @@ namespace Vehicle
         {
         public:
             cCarPrototype(const RWS::CAttributePacket &);       // CD2 0x826B7BE0
+            // Reference override; CD2 constructor installs table 0x82003900,
+            // whose attribute slot is 0x82309988 rather than cLandVehiclePrototype's.
+            virtual void HandleAttributes(const RWS::CAttributePacket &);
             virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);   // CD2 0x826B7CF8
 
         private:

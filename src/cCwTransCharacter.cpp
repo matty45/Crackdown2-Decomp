@@ -24,6 +24,9 @@
 #include "CHARACTER/cCharacter.h"
 #include "CHARACTER/cCwTransCharacter.h"
 #include "rws/classfactory.h"
+#include "rws/eventid.h"
+#include "rws/msg.h"
+#include "fun_runtime/retval.h"
 #include "cd2/memory.h"
 #include <new>
 
@@ -94,6 +97,11 @@ namespace CHARACTER
         return m_SkillSet.IsSkillMaxed(skill);
     }
 
+    bool cCwTransCharacter::vf384(unsigned int skill) const
+    {
+        return m_SkillSet.IsSkillAtLevelSix(skill);
+    }
+
     bool cCwTransCharacter::IsPowerUpActive(ePowerUp powerUp)
     {
         return (m_nPowerUpStatus & (1 << powerUp)) != 0;
@@ -107,6 +115,16 @@ namespace CHARACTER
     bool cCwTransCharacter::IsInDeathLimbo() const
     {
         return m_bInDeathLimbo;
+    }
+
+    unsigned char cCwTransCharacter::vf406() const
+    {
+        return m_byte2DA6;
+    }
+
+    void cCwTransCharacter::vf407(unsigned char value)
+    {
+        m_byte2DA6 = value;
     }
 
     void cCwTransCharacter::SetKilledByFriendly(bool friendly)
@@ -125,9 +143,105 @@ namespace CHARACTER
         return *cCwTransCharacterClass;
     }
 
+    void cCwTransCharacter::TriggerEnterWater(float fWaterLevel)
+    {
+        cCharacter::TriggerEnterWater(fWaterLevel);
+    }
+
+    void cCwTransCharacter::TriggerExitWater(float fWaterLevel)
+    {
+        cCharacter::TriggerExitWater(fWaterLevel);
+    }
+
+    void cCwTransCharacter::TermClump()
+    {
+        cCharacter::TermClump();
+    }
+
     char cCwTransCharacter::RetActualSkill(unsigned int skill) const
     {
         return m_SkillSet.RetActualSkill(skill);
+    }
+
+    Fun_Runtime::RetVal cCwTransCharacter::cCwTransCharacterPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
+
+    void cCwTransCharacter::cCwTransCharacterPrototype::SetCharacterProfile(unsigned char nLevel, const char *szProfileName)
+    {
+        RWS::CEventId id;
+        RWS::CEventHandler::RegisterMsg(id, szProfileName, "return cCharacterProfile*");
+        RWS::CMsg message(id, 0);
+        RWS::SendMsg(message);
+        m_pProfileArray[nLevel] = static_cast<cCharacterProfile *>(message.pData);
+        RWS::CEventHandler::UnRegisterMsg(id);
+    }
+
+    void cCwTransCharacter::cCwTransCharacterPrototype::SetExplosivesProfile(unsigned char nLevel, const char *szProfileName)
+    {
+        RWS::CEventId id;
+        RWS::CEventHandler::RegisterMsg(id, szProfileName, "return cExplosivesSkillProfile*");
+        RWS::CMsg message(id, 0);
+        RWS::SendMsg(message);
+        m_pExplosivesArray[nLevel] = static_cast<RPG::cExplosivesSkillProfile *>(message.pData);
+        RWS::CEventHandler::UnRegisterMsg(id);
+    }
+
+    void cCwTransCharacter::cCwTransCharacterPrototype::SetStrengthProfile(unsigned char nLevel, const char *szProfileName)
+    {
+        RWS::CEventId id;
+        RWS::CEventHandler::RegisterMsg(id, szProfileName, "return cStrengthSkillProfile*");
+        RWS::CMsg message(id, 0);
+        RWS::SendMsg(message);
+        m_pStrengthArray[nLevel] = static_cast<cStrengthSkillProfile *>(message.pData);
+        RWS::CEventHandler::UnRegisterMsg(id);
+    }
+
+    const Anim::cAnimationProfile *cCwTransCharacter::cCwTransCharacterPrototype::RetAnimationProfile(unsigned char nLevel) const
+    {
+        return m_pAnimationProfileArray[nLevel];
+    }
+
+    const cCharacterProfile *cCwTransCharacter::cCwTransCharacterPrototype::RetPtrProfile(unsigned char nLevel) const
+    {
+        return m_pProfileArray[nLevel];
+    }
+
+    const RPG::cExplosivesSkillProfile *cCwTransCharacter::cCwTransCharacterPrototype::RetPtrExplosives(unsigned char nLevel) const
+    {
+        return m_pExplosivesArray[nLevel];
+    }
+
+    const cStrengthSkillProfile *cCwTransCharacter::cCwTransCharacterPrototype::RetPtrStrength(unsigned char nLevel) const
+    {
+        return m_pStrengthArray[nLevel];
+    }
+
+    unsigned int cCwTransCharacter::cCwTransCharacterPrototype::RetSkeletonID(unsigned char nLevel) const
+    {
+        return m_eSkeletonTypeIndex[nLevel];
+    }
+
+    float cCwTransCharacter::cCwTransCharacterPrototype::RetInitMinScale(unsigned char nLevel) const
+    {
+        return m_fInitMinScales[nLevel];
+    }
+
+    float cCwTransCharacter::cCwTransCharacterPrototype::RetInitMaxScale(unsigned char nLevel) const
+    {
+        return m_fInitMaxScales[nLevel];
+    }
+
+    float cCwTransCharacter::vf132()
+    {
+        return g_8373BB20;
+    }
+
+    void cCwTransCharacter::SetLastVehicleHitID(unsigned int nVehicleID)
+    {
+        m_nLastVehicleHitID = nVehicleID;
+        m_fLastVehicleHitTimer = 0.4f;
     }
 
     const Fun_Runtime::cClass *cCwTransCharacter::ms_pcCwTransCharacterClass = &cCwTransCharacter::StaticCreateClass();

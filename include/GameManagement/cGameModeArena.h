@@ -99,12 +99,6 @@ namespace GameManagement
     cEntityManager *RetEntityManager(int);
 
 
-    // Message stand-ins (names ours; the real one is RWS::CMsg). Event IDs are RWS::CEventId, registered through
-    // RWS::CEventHandler.
-    struct cMsg { void **m_ppTarget; void *m_pData; unsigned char m_abPad[0x10]; cMsg(const RWS::CEventId &, int); };
-    extern void **g_ppMsgNull;
-    void DispatchMsg(cMsg &);
-    inline void SendMsg(cMsg &m) { if (m.m_ppTarget != g_ppMsgNull && *m.m_ppTarget != 0) DispatchMsg(m); }
 
     // MSVC 2008 std::string layout: allocator slot, 16 byte buffer or heap pointer, size, reserve. Destructor inline.
     // Historical narrow-string stand-in replaced by shared Fun_Runtime::cString/cStringc.

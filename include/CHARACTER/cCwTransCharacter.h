@@ -15,6 +15,10 @@
 
 namespace CHARACTER
 {
+    // Descriptive identity remains unrecovered: CD2 0x8253BC08 loads this
+    // shared float from 0x8373BB20 for primary virtual slot 132.
+    extern float g_8373BB20;
+
     class cCwTransCharacter : public cCharacter
     {
     private:
@@ -28,7 +32,9 @@ namespace CHARACTER
         unsigned char m_byte2DA6;
         unsigned char m_pad2DA7[0x2DD0 - 0x2DA7];
         unsigned int m_nLastVehicleHitID;
-        unsigned char m_pad2DD4[0x2E00 - 0x2DD4];
+        // Burn's member follows the ID; CD2 SetLastVehicleHitID writes 0.4f here.
+        float m_fLastVehicleHitTimer;
+        unsigned char m_pad2DD8[0x2E00 - 0x2DD8];
 
     public:
         static const Fun_Runtime::cClass *ms_pcCwTransCharacterClass;
@@ -38,12 +44,46 @@ namespace CHARACTER
         class cCwTransCharacterPrototype : public cCharacter::cCharacterPrototype
         {
         private:
-            unsigned char m_unmodelled330[0x460 - 0x330];
+            // Burn's player prototype names/order. CD2 constructor 0x82312E00
+            // fills five four-resource body/head rows at +0x330/+0x380 and clears
+            // the five profile/skeleton arrays. Getters 0x825399A0..0x82539A30
+            // establish each remaining array's offset and element type.
+            RWS::CResource *m_apTransBodyLODs[5][4];
+            RWS::CResource *m_apTransHeadLODs[5][4];
+            Anim::cAnimationProfile *m_pAnimationProfileArray[5];
+            cCharacterProfile *m_pProfileArray[5];
+            RPG::cExplosivesSkillProfile *m_pExplosivesArray[5];
+            cStrengthSkillProfile *m_pStrengthArray[5];
+            unsigned int m_eSkeletonTypeIndex[5];
+            float m_fInitMinScales[5];
+            float m_fInitMaxScales[5];
         public:
             cCwTransCharacterPrototype(const RWS::CAttributePacket &);
+            // CD2 table 0x82005568 slot 5 returns the file's Ret_OK object.
+            virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
+            virtual void SetCharacterProfile(unsigned char nLevel, const char *szProfileName);
+            virtual void SetExplosivesProfile(unsigned char nLevel, const char *szProfileName);
+            virtual void SetStrengthProfile(unsigned char nLevel, const char *szProfileName);
+            virtual void SetAnimationProfile(unsigned char nLevel, const char *szProfileName);
+            virtual const Anim::cAnimationProfile *RetAnimationProfile(unsigned char nLevel) const;
+            virtual const cCharacterProfile *RetPtrProfile(unsigned char nLevel) const;
+            virtual const RPG::cExplosivesSkillProfile *RetPtrExplosives(unsigned char nLevel) const;
+            virtual const cStrengthSkillProfile *RetPtrStrength(unsigned char nLevel) const;
+            virtual unsigned int RetSkeletonID(unsigned char nLevel) const;
+            virtual float RetInitMinScale(unsigned char nLevel) const;
+            virtual float RetInitMaxScale(unsigned char nLevel) const;
 
             CD2_LAYOUT_CHECKS(cCwTransCharacterPrototype,
-                CD2_SIZE(cCwTransCharacterPrototype, 0x460))
+                CD2_SIZE(cCwTransCharacterPrototype, 0x460)
+                CD2_OFFSET(cCwTransCharacterPrototype, m_apTransBodyLODs, 0x330)
+                CD2_OFFSET(cCwTransCharacterPrototype, m_apTransHeadLODs, 0x380)
+                CD2_OFFSET(cCwTransCharacterPrototype, m_pAnimationProfileArray, 0x3D0)
+                CD2_OFFSET(cCwTransCharacterPrototype, m_pProfileArray, 0x3E4)
+                CD2_OFFSET(cCwTransCharacterPrototype, m_pExplosivesArray, 0x3F8)
+                CD2_OFFSET(cCwTransCharacterPrototype, m_pStrengthArray, 0x40C)
+                CD2_OFFSET(cCwTransCharacterPrototype, m_eSkeletonTypeIndex, 0x420)
+                CD2_OFFSET(cCwTransCharacterPrototype, m_fInitMinScales, 0x434)
+                CD2_OFFSET(cCwTransCharacterPrototype, m_fInitMaxScales, 0x448))
         };
 
         // CD2 0x82538150 forwards the prototype to constructor 0x82231358.
@@ -63,11 +103,19 @@ namespace CHARACTER
         virtual char RetActualSkill(unsigned int skill) const;
         virtual bool IsSkillAndBonusMaxed(unsigned int skill) const;
         virtual bool IsSkillMaxed(unsigned int skill) const;
+        virtual bool vf384(unsigned int skill) const; // 0x825381E8; semantic virtual name remains unrecovered.
         virtual bool IsPowerUpActive(ePowerUp powerUp);
         virtual unsigned int GetMaxReplicatedFields() const;
         virtual bool IsInDeathLimbo() const;
+        virtual unsigned char vf406() const; // 0x82538220: reads m_byte2DA6.
+        virtual void vf407(unsigned char value); // 0x82538228: stores m_byte2DA6.
         virtual void SetKilledByFriendly(bool friendly);
         virtual unsigned int RetLastVehicleHitID() const;
+        virtual void SetLastVehicleHitID(unsigned int nVehicleID);
+        virtual void TermClump(); // 0x82538EE8: qualified character-base forwarding.
+        virtual void TriggerEnterWater(float fWaterLevel); // 0x82538880
+        virtual void TriggerExitWater(float fWaterLevel); // 0x82538888
+        virtual float vf132(); // CD2 0x8253BC08; inherited slot's purpose remains unrecovered.
 
         CD2_LAYOUT_CHECKS(cCwTransCharacter,
             CD2_SIZE(cCwTransCharacter, 0x2E00)
@@ -77,7 +125,8 @@ namespace CHARACTER
             CD2_OFFSET(cCwTransCharacter, m_bInDeathLimbo, 0x2DA4)
             CD2_OFFSET(cCwTransCharacter, m_bKilledByFriendly, 0x2DA5)
             CD2_OFFSET(cCwTransCharacter, m_byte2DA6, 0x2DA6)
-            CD2_OFFSET(cCwTransCharacter, m_nLastVehicleHitID, 0x2DD0))
+            CD2_OFFSET(cCwTransCharacter, m_nLastVehicleHitID, 0x2DD0)
+            CD2_OFFSET(cCwTransCharacter, m_fLastVehicleHitTimer, 0x2DD4))
     };
 }
 

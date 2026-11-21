@@ -82,6 +82,11 @@ namespace Vehicle
         return bResult;
     }
 
+    void cHelicopter::CalculateLOD(int nNodeID)
+    {
+        cVehicle::CalculateLOD(nNodeID);
+    }
+
     bool cHelicopter::IsOnGround()
     {
         if (!m_pCarriedObj)

@@ -39,7 +39,7 @@ namespace Prop
         virtual void TickUpdate(float fDeltaTime); // 23: 0x82743398
         virtual void vf158(); // 158: 0x82743440
         virtual void vf244(); // 244: 0x82743530
-        virtual void vf284(); // 284: 0x827433D0
+        virtual void TriggerEnterWater(float fWaterLevel); // 284: 0x827433D0
         virtual void vf330(); // 330: 0x8288FB78
         virtual void vf331(); // 331: 0x8288FB78
         virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x827435F0

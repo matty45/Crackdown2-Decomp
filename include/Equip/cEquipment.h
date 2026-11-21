@@ -263,8 +263,18 @@ namespace Equip
         virtual void vf280(); // 280: 0x827E56A8
         virtual void vf281(); // 281: 0x8288FB78
         virtual void vf282(); // 282: 0x827E56A8
-        virtual void vf284(); // 284: 0x82605CF0
-        virtual void vf285(); // 285: 0x82605D08
+        // CD2 expands this free-status guard into cGrenade::TriggerEnterWater
+        // (0x8261F1A0), while retaining these out-of-line virtual entries.
+        virtual void TriggerEnterWater(float fWaterLevel) // 284: 0x82605CF0
+        {
+            if (m_EquipmentStatus == STATUS_FREE)
+                PHYSICS::cNetDynamicBody::TriggerEnterWater(fWaterLevel);
+        }
+        virtual void TriggerExitWater(float fWaterLevel) // 285: 0x82605D08
+        {
+            if (m_EquipmentStatus == STATUS_FREE)
+                PHYSICS::cNetDynamicBody::TriggerExitWater(fWaterLevel);
+        }
         virtual void vf295(); // 295: 0x82580578
         virtual void ReleaseAttachedVFX(bool bReleaseNonCullable); // 296: 0x82580578
         virtual void EndInterpolationOptional(); // 304: 0x82580578

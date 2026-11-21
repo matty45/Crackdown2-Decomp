@@ -95,4 +95,9 @@ namespace Equip
     cCWSatchelCharge::~cCWSatchelCharge()
     {
     }
+
+    void cCWSatchelCharge::LeavePhysicalState()
+    {
+        cExplosiveGrenade::LeavePhysicalState();
+    }
 }

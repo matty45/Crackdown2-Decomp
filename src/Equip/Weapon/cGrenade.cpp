@@ -110,6 +110,18 @@ namespace Equip
         return m_pCharacterLauncher;
     }
 
+    void cGrenade::InitiateOrdinalDetonation(unsigned char)
+    {
+        InitiateDetonation();
+    }
+
+    void cGrenade::TriggerEnterWater(float fWaterLevel)
+    {
+        cWeapon::TriggerEnterWater(fWaterLevel);
+        BeginFuseDelay();
+        m_bTrailFadeOut = true;
+    }
+
     void cGrenade::ImpactAudio(float fDeltaVelocity)
     {
         if (m_GrenadePhysicsAudio.IsRegistered())
@@ -126,6 +138,18 @@ namespace Equip
     {
         if (m_GrenadePhysicsAudio.IsRegistered())
             m_GrenadePhysicsAudio.PostPickedUpEvent();
+    }
+
+    void cGrenade::WaterEntryAudio(float fImpulseValue)
+    {
+        if (m_GrenadePhysicsAudio.IsRegistered())
+            m_GrenadePhysicsAudio.PostWaterEntryEvent(fImpulseValue);
+    }
+
+    void cGrenade::WaterExitAudio(float fImpulseValue)
+    {
+        if (m_GrenadePhysicsAudio.IsRegistered())
+            m_GrenadePhysicsAudio.PostWaterExitEvent(fImpulseValue);
     }
 
     void cGrenade::BeginFuseDelay()

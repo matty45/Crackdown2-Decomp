@@ -63,4 +63,9 @@ namespace AI
             return new (memory) cAmbientTrafficBehaviour;
         return 0;
     }
+
+    void cAmbientTrafficBehaviour::OnExit()
+    {
+        UnregisterEvents();
+    }
 }

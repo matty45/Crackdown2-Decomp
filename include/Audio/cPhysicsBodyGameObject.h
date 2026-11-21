@@ -21,6 +21,24 @@ namespace Audio
         void ContinueScrapeNextUpdate(float fRelativeVelocity);    // CD2 0x8222B258
         void PostImpactEvent(float fImpulseValue);                 // CD2 0x82833098
         void PostPickedUpEvent() const;                            // CD2 0x82833118
+        // Reference names. CD2's grenade water-audio virtuals inline the registration
+        // guard and these two calls, with the incoming impulse left in f1.
+        void PostWaterEntryEvent(float fImpulseValue)
+        {
+            if (IsRegistered())
+            {
+                SetRTPC(eRTPC_ImpulseValue, fImpulseValue);
+                OneShot(eOSE_ObjectWaterIn);
+            }
+        }
+        void PostWaterExitEvent(float fImpulseValue)
+        {
+            if (IsRegistered())
+            {
+                SetRTPC(eRTPC_ImpulseValue, fImpulseValue);
+                OneShot(eOSE_ObjectWaterOut);
+            }
+        }
         // RuffKing's name: CD2 0x82832F98 posts the stop events and unregisters when registered (cHWGrenadeProjectile's
         // destructor 0x82629658 calls it on its member before destroying it).
         void Term();

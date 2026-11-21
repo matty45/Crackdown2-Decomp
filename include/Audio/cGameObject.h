@@ -14,6 +14,19 @@
 
 namespace Audio
 {
+    // CD2's RTPC descriptor 0x832A95A0 names entry 16 eRTPC_ImpulseValue.
+    enum eRTPC
+    {
+        eRTPC_ImpulseValue = 16,
+    };
+
+    // CD2's one-shot table 0x820E50A0 supplies these names and indices.
+    enum eOneShotEvent
+    {
+        eOSE_ObjectWaterIn = 64,
+        eOSE_ObjectWaterOut = 65,
+    };
+
     // RuffKing's values (its PDB); CD2's base RetType returns 6.
     enum eGameObjectType
     {
@@ -51,6 +64,9 @@ namespace Audio
         virtual void vf4();
         // RuffKing's (out of line there); CD2 inlines the ID test into the props' and vehicles' audio virtuals.
         bool IsRegistered() const { return m_id != (unsigned int)-1; }
+        // CD2 0x822B3898 caches a typed RTPC value; 0x822C12E0 posts a table-indexed one-shot.
+        void SetRTPC(eRTPC eParameter, float fValue);
+        void OneShot(eOneShotEvent eEvent) const;
 
     private:
         unsigned char m_unmodelled4[4];

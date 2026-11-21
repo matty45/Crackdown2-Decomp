@@ -76,6 +76,11 @@ namespace Vehicle
         }
     }
 
+    void cTruck::cTruckPrototype::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cCarPrototype::HandleAttributes(packet);
+    }
+
     Fun_Runtime::RetVal cTruck::cTruckPrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;

@@ -1325,6 +1325,8 @@ def cmd_progress(a):
     lines.append('|---|---:|---:|---:|')
     lines.append('| Matched (plain build) | %d | %s | %.1f%% |' % (plain, _fmt_bytes(plain_bytes), pct(plain_bytes, total_bytes)))
     lines.append('| Matched (LTCG only) | %d | %s | %.1f%% |' % (ltcg, _fmt_bytes(ltcg_bytes), pct(ltcg_bytes, total_bytes)))
+    # a folded entry's code is the surviving copy's, whose bytes the census counts at its own address
+    lines.append('| Matched (linker-folded copy) | %d | %s | %.1f%% |' % (folded, _fmt_bytes(0), 0.0))
     lines.append('| Matched total | %d | %s | %.1f%% |' % (matched_total_funcs, _fmt_bytes(matched_bytes),
                                                            pct(matched_bytes, total_bytes)))
     lines.append('| In progress | %d | %s | %.1f%% |' % (inprog_funcs, _fmt_bytes(inprog_bytes),

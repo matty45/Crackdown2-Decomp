@@ -181,8 +181,8 @@ namespace Prop
         virtual unsigned char RetNumPointsOfInterest(); // 123: 0x8288FB78
         // CD2 table 0x8200DFC8 overrides these cNetDynamicBody/cDynamicBody slots.
         virtual void vf158(); // 158: 0x8272ADB0
-        virtual void vf284(); // 284: 0x8272C400
-        virtual void vf285(); // 285: 0x8272C448
+        virtual void TriggerEnterWater(float fWaterLevel); // 284: 0x8272C400
+        virtual void TriggerExitWater(float fWaterLevel); // 285: 0x8272C448
         virtual void vf127(); // 127: 0x8272BC10
         virtual void vf153(); // 153: 0x8272ABE0
         virtual void vf154(); // 154: 0x8272AC18
@@ -201,7 +201,7 @@ namespace Prop
         virtual void vf76(); // 76: 0x8237D638
         virtual void vf217(); // 217: 0x82604F40
         virtual void vf254(); // 254: 0x8272AB30
-        virtual void vf266(); // 266: 0x821D1C58
+        virtual cFrame RetStartFrame(GameRenderer::cLODClump &pClump); // 266: 0x821D1C58
         virtual void vf280(); // 280: 0x8272C370
         virtual void vf281(); // 281: 0x8221A208
         virtual void vf282(); // 282: 0x82457A88

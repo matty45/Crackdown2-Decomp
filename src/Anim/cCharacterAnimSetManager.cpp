@@ -23,6 +23,9 @@
 #include "Anim/cCharacterAnimSetManager.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "cd2/memory.h"
+#include "rws/eventid.h"
+#include "rws/eventhandler.h"
+#include "rws/msg.h"
 
 namespace Anim
 {
@@ -53,5 +56,18 @@ namespace Anim
     RWS::CAttributeHandler *cCharacterAnimSetManager::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cCharacterAnimSetManager;
+    }
+
+    // CD2's LTCG entry drops the unused manager argument; retain the reference
+    // member signature rather than changing this request into a static function.
+    cAnimationProfile *cCharacterAnimSetManager::RetrieveAnimProfile(const char *szProfileName)
+    {
+        RWS::CEventId id;
+        RWS::CEventHandler::RegisterMsg(id, szProfileName, "return cAnimationProfile*");
+        RWS::CMsg message(id, 0);
+        RWS::SendMsg(message);
+        cAnimationProfile *profile = static_cast<cAnimationProfile *>(message.pData);
+        RWS::CEventHandler::UnRegisterMsg(id);
+        return profile;
     }
 }

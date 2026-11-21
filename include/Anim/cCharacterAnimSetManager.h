@@ -9,6 +9,7 @@
 
 namespace Anim
 {
+    class cAnimationProfile;
     class cCharacterAnimSetManager : public cNonGameBase
     {
     public:
@@ -20,6 +21,8 @@ namespace Anim
         static const Fun_Runtime::cClass *ms_pcCharacterAnimSetManagerClass;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
+        // Reference name/signature; CD2 lookup body is 0x824E5510.
+        cAnimationProfile *RetrieveAnimProfile(const char *szProfileName);
 
     private:
         // Descriptor and factory allocation agree on the complete size; own fields remain unrecovered.

@@ -16,6 +16,7 @@
 #include "GameManagement/cNetGamePickupSpawnPoint.h"
 #include "editor/guid_event_handler.h"
 #include "rws/classfactory.h"
+#include "rws/msg.h"
 #include "rw/rwmem.h"
 
 namespace GameManagement
@@ -157,9 +158,9 @@ namespace GameManagement
     {
         RWS::CEventId id;
         RWS::CEventHandler::RegisterMsg(id, name.c_strc().c_str(), "cGameModeArena*");
-        cMsg msg(id, 0);
-        SendMsg(msg);
-        void *pData = msg.m_pData;
+        RWS::CMsg msg(id, 0);
+        RWS::SendMsg(msg);
+        void *pData = msg.pData;
         RWS::CEventHandler::UnRegisterMsg(id);
         return (cGameModeArena *)pData;
     }

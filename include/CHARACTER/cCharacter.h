@@ -20,9 +20,13 @@
 #include "TGT/cTargeting.h"
 #include "CHARACTER/cActionManager.h"
 #include "cd2/layout.h"
+namespace Anim { class cAnimationProfile; }
+namespace RPG { class cExplosivesSkillProfile; }
 
 namespace CHARACTER
 {
+    class cCharacterProfile;
+    class cStrengthSkillProfile;
     class cCharacter : public cCharacterMotion, public Equip::cSatchelChargeTarget
     {
     public:
@@ -55,6 +59,19 @@ namespace CHARACTER
             unsigned char m_unmodelled280[0x330 - 0x280];
         public:
             cCharacterPrototype(const RWS::CAttributePacket &);
+            // Reference order; CD2 player prototype table 0x82005568 retains
+            // these eleven character-prototype slots at 14..24.
+            virtual void SetCharacterProfile(unsigned char nLevel, const char *szProfileName);
+            virtual void SetExplosivesProfile(unsigned char nLevel, const char *szProfileName);
+            virtual void SetStrengthProfile(unsigned char nLevel, const char *szProfileName);
+            virtual void SetAnimationProfile(unsigned char nLevel, const char *szProfileName);
+            virtual const Anim::cAnimationProfile *RetAnimationProfile(unsigned char nLevel) const;
+            virtual const cCharacterProfile *RetPtrProfile(unsigned char nLevel) const;
+            virtual const RPG::cExplosivesSkillProfile *RetPtrExplosives(unsigned char nLevel) const;
+            virtual const cStrengthSkillProfile *RetPtrStrength(unsigned char nLevel) const;
+            virtual unsigned int RetSkeletonID(unsigned char nLevel) const;
+            virtual float RetInitMinScale(unsigned char nLevel) const;
+            virtual float RetInitMaxScale(unsigned char nLevel) const;
 
             CD2_LAYOUT_CHECKS(cCharacterPrototype,
                 CD2_SIZE(cCharacterPrototype, 0x330))
@@ -62,6 +79,11 @@ namespace CHARACTER
 
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         virtual const char *RetClassName() const;
+        // Reference override; CD2 primary slot 70 uses 0x825442F8.
+        virtual void TermClump();
+        // Reference overrides; CD2 primary slots 284/285 use these character-specific implementations.
+        virtual void TriggerEnterWater(float fWaterLevel); // 0x825473F0
+        virtual void TriggerExitWater(float fWaterLevel); // 0x822E36E0
         // CD2 0x82542F70 / 0x82542F80: the registered-class pair, at the start of this object's code.
         virtual const Fun_Runtime::cClass &RetClass() const;
         virtual bool IsA(const Fun_Runtime::cClass &) const;
@@ -129,7 +151,8 @@ namespace CHARACTER
         virtual char RetSkill(unsigned int skill) const;
         virtual bool IsSkillAndBonusMaxed(unsigned int skill) const;
         virtual bool IsSkillMaxed(unsigned int skill) const;
-        virtual void vf384();
+        // CD2 player override 0x825381E8 forwards this unsigned skill query to its skill set.
+        virtual bool vf384(unsigned int skill) const;
         virtual void vf385();
         virtual void vf386();
         virtual void vf387();
@@ -151,8 +174,10 @@ namespace CHARACTER
         virtual void vf403();
         virtual bool IsInDeathLimbo() const;
         virtual void vf405();
-        virtual void vf406();
-        virtual void vf407();
+        // CD2 player overrides 0x82538220/0x82538228 load/store one unsigned
+        // byte. The slot names and the byte's semantic meaning remain unrecovered.
+        virtual unsigned char vf406() const;
+        virtual void vf407(unsigned char value);
         virtual void vf408();
         virtual void SetKilledByFriendly(bool);
         virtual void vf410();
@@ -191,7 +216,8 @@ namespace CHARACTER
         virtual unsigned char RetReplicatedBehaviourState() const;
         virtual void ForceReplicatedBehaviourState(unsigned char nState);
         virtual void vf443();
-        virtual void vf444();
+        // Reference name/signature; CD2 player override 0x8253E1A0 stores the ID and resets its timer.
+        virtual void SetLastVehicleHitID(unsigned int nVehicleID);
         virtual unsigned int RetLastVehicleHitID() const;
         virtual void vf446();
         virtual void vf447();

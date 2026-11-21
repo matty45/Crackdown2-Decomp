@@ -34,6 +34,8 @@ namespace Equip
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcMagClass;
         static Fun_Runtime::cClass &StaticCreateClass();
+        // RuffKing override; CD2 primary slot 406 forwards to cExplosiveGrenade::Launched.
+        virtual void Launched(cGameBase *pAttacker); // 0x8260D1A8
     };
 }
 

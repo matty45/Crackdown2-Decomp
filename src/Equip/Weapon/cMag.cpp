@@ -74,4 +74,9 @@ namespace Equip
     {
         return Ret_OK;
     }
+
+    void cMag::Launched(cGameBase *pAttacker)
+    {
+        cExplosiveGrenade::Launched(pAttacker);
+    }
 }

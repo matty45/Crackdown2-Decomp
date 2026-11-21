@@ -58,10 +58,17 @@ namespace PHYSICS
         virtual void vf245(); virtual void vf246(); virtual void vf247(); virtual void vf248(); virtual void vf249(); virtual void vf250();
         virtual void vf251(); virtual void vf252(); virtual void vf253(); virtual void vf254(); virtual void vf255(); virtual void vf256();
         virtual void vf257(); virtual void ImpactAudio(float fDeltaVelocity); virtual void ScrapeAudio(float fRelativeVelocity); virtual void PickUpAudio(); virtual void WaterEntryAudio(float); virtual void WaterExitAudio(float);
-        virtual void vf263(); virtual void vf264(); virtual void vf265(); virtual void vf266(); virtual void vf267(); virtual void vf268();
+        virtual void vf263(); virtual void vf264(); virtual void vf265();
+        // Reference name/signature; CD2 vehicle slot 266 searches the BODY part in this clump.
+        virtual cFrame RetStartFrame(GameRenderer::cLODClump &pClump);
+        virtual void vf267(); virtual void vf268();
         virtual void vf269(); virtual void vf270(); virtual void EnterGhostState(); virtual void vf272(); virtual void vf273(); virtual void vf274();
         virtual void vf275(); virtual void vf276(); virtual void vf277(); virtual void vf278(); virtual void vf279(); virtual void vf280();
-        virtual void vf281(); virtual void vf282(); virtual void vf283(); virtual void vf284(); virtual void vf285(); virtual void vf286();
+        virtual void vf281(); virtual void vf282(); virtual void vf283();
+        // Reference names/signatures; CD2 character overrides consume the incoming water height in f1.
+        virtual void TriggerEnterWater(float fWaterLevel);
+        virtual void TriggerExitWater(float fWaterLevel);
+        virtual void vf286();
         virtual void vf287(); virtual bool ShouldHaveObjectPathPhantom(); virtual void vf289(); virtual void vf290(); virtual void vf291(); virtual bool IsInViewFrustum();
         virtual void vf293(); virtual void vf294(); virtual void vf295(); virtual void ReleaseAttachedVFX(bool bReleaseNonCullable); virtual void vf297(); virtual void vf298();
         virtual void vf299(); virtual void vf300(); virtual void vf301(); virtual void vf302(); virtual void vf303();

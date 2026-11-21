@@ -347,7 +347,7 @@ namespace Vehicle
         virtual void vf263(); // 263: 0x826D7EB8
         virtual void vf264(); // 264: 0x826D7FA0
         virtual void vf265(); // 265: 0x826D86A0
-        virtual void vf266(); // 266: 0x826D20E8
+        virtual cFrame RetStartFrame(GameRenderer::cLODClump &pClump); // 266: 0x826D20E8
         virtual void EnterGhostState(); // 271: 0x826D4990
         virtual void vf280(); // 280: 0x826DA608
         virtual void vf281(); // 281: 0x826DA678

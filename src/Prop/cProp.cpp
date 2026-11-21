@@ -154,6 +154,12 @@ namespace Prop
             m_PropAudio.PostPickedUpEvent();
     }
 
+    void cProp::WaterExitAudio(float fImpulseValue)
+    {
+        if (m_PropAudio.IsRegistered())
+            m_PropAudio.PostWaterExitEvent(fImpulseValue);
+    }
+
     void cProp::SetPingedFieldStatesForNode(unsigned char nNodeID)
     {
         SetFieldStateForNode(nNodeID, sReplicatedField::WriteAlwaysOnce, 3);

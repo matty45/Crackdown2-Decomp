@@ -239,6 +239,18 @@ namespace Equip
             m_WeaponPhysicsAudio.PostPickedUpEvent();
     }
 
+    void cCWWeapon::WaterEntryAudio(float fImpulseValue)
+    {
+        if (m_WeaponPhysicsAudio.IsRegistered())
+            m_WeaponPhysicsAudio.PostWaterEntryEvent(fImpulseValue);
+    }
+
+    void cCWWeapon::WaterExitAudio(float fImpulseValue)
+    {
+        if (m_WeaponPhysicsAudio.IsRegistered())
+            m_WeaponPhysicsAudio.PostWaterExitEvent(fImpulseValue);
+    }
+
     cCWWeapon::cCWWeaponPrototype::~cCWWeaponPrototype()
     {
     }

@@ -70,7 +70,7 @@ namespace Equip
         virtual Fun_Runtime::RetVal Term(); // slot 6: 0x8229DF90
         virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // slot 18: 0x8261D5C0
         virtual void Launched(cGameBase *pAttacker); // slot 406: 0x8261D628
-        virtual void vf408(); // slot 408: 0x8261D490
+        virtual void InitiateOrdinalDetonation(unsigned char); // slot 408: 0x8261D490
         virtual float RetDamageRadius() const; // slot 415: 0x8261DAD0
         virtual void vf416(int); // slot 416: 0x8261D6A8
         virtual void vf419(); // slot 419: 0x8261D740

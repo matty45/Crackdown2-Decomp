@@ -161,6 +161,11 @@ namespace Equip
         return m_bNetSleeping;
     }
 
+    void cEquipment::SetNetRole(etNetRole role)
+    {
+        Network::cNetRoleObject::SetNetRole(role);
+    }
+
     Fun_Runtime::RetVal cEquipment::cEquipmentPrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;

@@ -106,6 +106,11 @@ namespace Equip
             m_GrenadePhysicsAudio.PostImpactEvent(fDeltaVelocity);
     }
 
+    int cHWGrenadeProjectile::RetNetworkLOD(CHARACTER::cCharacter *pRelevantPlayer, int nNodeID)
+    {
+        return cEquipment::RetNetworkLOD(pRelevantPlayer, nNodeID);
+    }
+
     // CD2 table 0x82127130 slot 375 uses the shared false-returning body;
     // grenade subclasses can override this default explosion query.
     bool cHWGrenadeProjectile::HasExploded()

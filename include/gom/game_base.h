@@ -4,6 +4,7 @@
 #define CD2_GOM_GAME_BASE_H
 #include "gom/non_game_base.h"
 #include "rws/systemcommands.h"
+#include "GameRenderer/cFrame.h"
 namespace Fun_Runtime { class Mtx; }
 namespace GOM { class cPointOfInterest; }
 namespace CHARACTER { class cCharacter; }
@@ -35,6 +36,8 @@ __declspec(align(16)) class cGameBase : public RWS::CSystemCommands, public cNon
         virtual const Fun_Runtime::cClass &RetClass() const;
 
 public:
+    // Reference name/signature; CD2 0x823C04A0 searches the supplied clump (or this object's clump).
+    cFrame FindPartialNamedFrame(const char *sFrameName, GameRenderer::cLODClump *pClump);
     // RuffKing name; CD2 0x82651AB8 filters the +0x4C owner by runtime class.
     cGameBase *RetOwnerGameObject();
     // Reference setter, inlined by the CD2 water-phantom callbacks.

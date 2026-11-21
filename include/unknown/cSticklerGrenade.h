@@ -34,7 +34,7 @@ namespace unknown
         virtual void vf76(); // 76: 0x82623BC0
         virtual void vf158(); // 158: 0x82623810
         virtual void vf199(); // 199: 0x82623B40
-        virtual void vf284(); // 284: 0x82623B60
+        virtual void TriggerEnterWater(float fWaterLevel); // 284: 0x82623B60
         virtual Fun_Runtime::cClass const & RetClass() const; // cBody 0: 0x82623E38
         virtual bool IsA(Fun_Runtime::cClass const &) const; // cBody 1: 0x82623E40
 

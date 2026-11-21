@@ -83,6 +83,11 @@ namespace Equip
     {
     }
 
+    void cRealNadeLauncher::TickUpdate(float fDeltaTime)
+    {
+        cCWWeapon::TickUpdate(fDeltaTime);
+    }
+
     void cRealNadeLauncher::cRealNadeLauncherPrototype::HandleAttributes(const RWS::CAttributePacket &packet)
     {
         cCWHeavyWeaponPrototype::HandleAttributes(packet);
