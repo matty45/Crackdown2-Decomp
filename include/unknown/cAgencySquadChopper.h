@@ -10,6 +10,8 @@
 #include "cd2/layout.h"
 #include "Vehicle/cVehicle.h"
 #include "Vehicle/cPintleMount.h"
+#include "gom/cPointOfInterest.h"
+#include "PHYSICS/cDynamicBodyInteractionData.h"
 
 namespace unknown
 {
@@ -80,13 +82,22 @@ namespace unknown
         virtual void vf444();                                                   // 444: 0x826EF750
 
     private:
-        unsigned char m_unmodelled1740[0x1DD0 - 0x1740];
-        // Name and count as cHelicopter's (RuffKing); RetPintleMount (0x826EDBB0) steps 0x150 bytes.
-        Vehicle::cPintleMount m_aTurrets[2];                                    // 0x1DD0
-        unsigned char m_unmodelled2070[0x2360 - 0x2070];
+        unsigned char m_unmodelled1740[0x17E8 - 0x1740];
+        // Names and array count as cHelicopter's (RuffKing): CD2's RetPointOfInterest (0x826F7B20) bounds the index by
+        // the byte at 0x17E8 and steps 0x30-byte points from 0x17F0, as cHelicopter's does (its count is at 0x17EA).
+        unsigned char m_nPoiCount;                                              // 0x17E8
+        unsigned char m_unmodelled17E9[0x17F0 - 0x17E9];
+        GOM::cPointOfInterest m_POI[7];                                         // 0x17F0
+        unsigned char m_unmodelled1940[0x1DD0 - 0x1940];
+        // Name as cHelicopter's (RuffKing); RetPintleMount (0x826EDBB0) steps 0x150 bytes. Three: slot 322 (0x826EDB78)
+        // tests the first word of each of three, and the destructor (0x826EFB58) frees a string in each of three.
+        Vehicle::cPintleMount m_aTurrets[3];                                    // 0x1DD0
+        unsigned char m_unmodelled21C0[0x2360 - 0x21C0];
 
         CD2_LAYOUT_CHECKS(cAgencySquadChopper,
             CD2_SIZE(cAgencySquadChopper, 0x2360)
+            CD2_OFFSET(cAgencySquadChopper, m_nPoiCount, 0x17E8)
+            CD2_OFFSET(cAgencySquadChopper, m_POI, 0x17F0)
             CD2_OFFSET(cAgencySquadChopper, m_aTurrets, 0x1DD0))
     };
 }

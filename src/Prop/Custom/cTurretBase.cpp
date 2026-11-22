@@ -29,6 +29,7 @@
 #include "cd2/memory.h"
 #include "CHARACTER/cCharacter.h"
 #include "Trigger/cTriggerManager.h"
+#include "Vehicle/cVehicle.h"
 
 namespace Prop
 {
@@ -70,6 +71,31 @@ namespace Prop
     cTurretBase::~cTurretBase()
     {
         RemoveObjectTypeRegistration(0x19, this);
+    }
+
+    Fun_Runtime::RetVal cTurretBase::Term()
+    {
+        SetCharacterInteracting(0);
+        m_bIsProcessingTerm = true;
+        SetMountedWeapon(0, false);
+        m_bIsProcessingTerm = false;
+        return cProp::Term();
+    }
+
+    unsigned char cTurretBase::RetCollisionLayer()
+    {
+        unsigned char nLayer = PHYSICS::cBody::RetCollisionLayer();
+        if (m_pVehicle)
+            return m_pVehicle->RetCollisionLayer();
+        return nLayer;
+    }
+
+    unsigned short cTurretBase::RetCollisionSystemGroup()
+    {
+        unsigned short nGroup = 0;
+        if (m_pVehicle)
+            nGroup = m_pVehicle->RetCollisionSystemGroup();
+        return nGroup;
     }
 
     void cTurretBase::vf226()

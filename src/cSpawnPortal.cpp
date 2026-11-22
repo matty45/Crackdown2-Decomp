@@ -71,6 +71,11 @@ namespace unknown
     {
     }
 
+    void cSpawnPortal::cSpawnPortalPrototype::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        Prop::cHingedProp::cHingedPropPrototype::HandleAttributes(packet);
+    }
+
     Fun_Runtime::RetVal cSpawnPortal::cSpawnPortalPrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;

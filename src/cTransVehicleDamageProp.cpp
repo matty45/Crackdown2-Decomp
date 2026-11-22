@@ -11,6 +11,7 @@
 #include "unknown/cTransVehicleDamageProp.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
+#include "fun_runtime/retval.h"
 
 namespace unknown
 {
@@ -44,6 +45,11 @@ namespace unknown
     // CD2 0x82730E98 has no derived cleanup beyond vtable restoration.
     cTransVehicleDamageProp::~cTransVehicleDamageProp()
     {
+    }
+
+    Fun_Runtime::RetVal cTransVehicleDamageProp::cTransVehicleDamagePropPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
     }
 
     static RWS::CClassFactory::CRegistrar cTransVehicleDamagePropRegistrar(

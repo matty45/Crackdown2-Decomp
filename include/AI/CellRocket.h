@@ -6,6 +6,7 @@
 #include "fun_runtime/class.h"
 #include "rws/attributes.h"
 #include "AI/NPCArmedBehaviour.h"
+#include "AI/cAIEventManager.h"
 #include "cd2/layout.h"
 #include "fun_runtime/vec3.h"
 
@@ -21,7 +22,7 @@ namespace AI
 
         // __forceinline: CD2 inlines this constructor into SpawnFromPrototype (0x824C3DE8), which calls
         // NPCArmedBehaviour's constructor (0x824A8070) out of line and then initialises the fields below (names ours).
-        __forceinline CellRocket() : m_nUnknownF0(0), m_nUnknownF4(0), m_vUnknown100(Fun_Runtime::ZeroVec) {}
+        __forceinline CellRocket() : m_nReloadSub(0), m_pUnknownSubF4(0), m_vUnknown100(Fun_Runtime::ZeroVec) {}
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &packet, bool);
 
         virtual const Fun_Runtime::cClass &RetClass() const;
@@ -29,8 +30,10 @@ namespace AI
         virtual const char *RetClassName() const;
 
     private:
-        unsigned int m_nUnknownF0;       // 0xF0
-        unsigned int m_nUnknownF4;       // 0xF4
+        // AI event subscriptions: OnExit (0x824C4118) and slot 79 (0x824C4190) unsubscribe both through the event manager.
+        // The first is RuffKing's m_nReloadSub (its +0x130); RuffKing has no second.
+        cAIEventSubscription *m_nReloadSub;     // 0xF0
+        cAIEventSubscription *m_pUnknownSubF4;  // 0xF4
         Fun_Runtime::Vec3 m_vUnknown100; // 0x100 (aligned 16)
         // 0x110: the size CellRocket's class registrar gives.
         // CD2: CellRocket's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
@@ -40,7 +43,7 @@ namespace AI
     private:
         CD2_LAYOUT_CHECKS(CellRocket,
             CD2_SIZE(CellRocket, 0x110)
-            CD2_OFFSET(CellRocket, m_nUnknownF0, 0xF0)
+            CD2_OFFSET(CellRocket, m_nReloadSub, 0xF0)
             CD2_OFFSET(CellRocket, m_vUnknown100, 0x100))
 
     public:

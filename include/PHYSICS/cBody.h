@@ -38,6 +38,8 @@ namespace PHYSICS
             virtual void SetCollisionDataFrom(cBodyPrototype *pSource);  // 11
             virtual class cColData *RetCollisionData();                  // 12
             virtual bool IsValidCollisionData();                         // 13
+            // CD2 table 0x82131CA4 (installed by the constructor) slot 1: 0x82684698.
+            virtual void HandleAttributes(const RWS::CAttributePacket &);
 
         private:
             unsigned char m_unmodelledE0[0x1F0 - 0xE0];

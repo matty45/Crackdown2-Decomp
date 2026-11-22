@@ -16,6 +16,11 @@ namespace GameManagement
         return "cTrainingModePrototype";
     }
 
+    int cTrainingModePrototype::RetStringID() const
+    {
+        return 0xFF198698;
+    }
+
     static RWS::CClassFactory::CRegistrar cTrainingModePrototypeRegistrar(
         "cTrainingModePrototype", cTrainingModePrototype::MakeNew, 0x110, false);
 }

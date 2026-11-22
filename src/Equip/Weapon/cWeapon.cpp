@@ -23,6 +23,7 @@
 #include "rw/rwmem.h"
 #include "fun_runtime/const_script_method.h"
 #include "fun_runtime/pointer_list_impl.h"
+#include "unknown/cBoostPack.h"
 
 namespace Equip
 {
@@ -59,6 +60,11 @@ namespace Equip
     const Fun_Runtime::cClass &cWeapon::RetClass() const
     {
         return *ms_pcWeaponClass;
+    }
+
+    bool cWeapon::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcWeaponClass->IsA(c);
     }
 
     const char *cWeapon::RetClassName() const
@@ -187,6 +193,11 @@ namespace Equip
         return *ms_pcWeaponProjectileClass;
     }
 
+    bool cWeaponProjectile::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcWeaponProjectileClass->IsA(c);
+    }
+
     RWS::CAttributeHandler *cWeaponProjectile::MakeNew(const RWS::CAttributePacket &packet, bool)
     {
         return new cWeaponProjectilePrototype(packet);
@@ -271,6 +282,19 @@ namespace Equip
     bool cWeapon::Activate()
     {
         return InitiateAttack();
+    }
+
+    void cWeapon::TickUpdate(float fDeltaTime)
+    {
+        cEquipment::TickUpdate(fDeltaTime);
+        m_fAttackTimer += fDeltaTime;
+    }
+
+    void cWeapon::SetStatus(EQUIP_STATUS eStatus)
+    {
+        cEquipment::SetStatus(eStatus);
+        if (eStatus != STATUS_EQUIPPED && eStatus != STATUS_MOUNTED)
+            GoTo_State(RetSTATE_Idle());
     }
 
     bool cWeapon::Deactivate()
@@ -504,5 +528,19 @@ namespace Equip
     bool cGrenade::IsLive()
     {
         return m_bLive;
+    }
+}
+
+// CD2 places this boost-pack metadata getter in the weapon split.
+namespace unknown
+{
+    const Fun_Runtime::cClass &cBoostPack::RetClass() const
+    {
+        return *ms_pcBoostPackClass;
+    }
+
+    bool cBoostPack::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcBoostPackClass->IsA(c);
     }
 }

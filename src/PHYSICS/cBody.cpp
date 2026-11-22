@@ -150,6 +150,11 @@ namespace PHYSICS
         return HK_COLLIDABLE_QUALITY_MOVING;
     }
 
+    void cBody::cBodyPrototype::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cGameBase::cGameBasePrototype::HandleAttributes(packet);
+    }
+
     RWS::CAttributeHandler *cBody::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
     {
         if (memory)

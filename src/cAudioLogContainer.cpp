@@ -25,6 +25,16 @@
 
 namespace unknown
 {
+    const Fun_Runtime::cClass &cAudioLogContainer::RetClass() const
+    {
+        return *ms_pcAudioLogContainerClass;
+    }
+
+    const char *cAudioLogContainer::RetClassName() const
+    {
+        return "cAudioLogContainer";
+    }
+
     static RWS::CClassFactory::CRegistrar cAudioLogContainerRegistrar(
         "cAudioLogContainer", cAudioLogContainer::MakeNew, 0xC4, false);
 }

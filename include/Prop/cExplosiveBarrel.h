@@ -37,6 +37,8 @@ namespace Prop
     public:
         virtual bool EnterPhysicalState(); // 7: 0x8272A070
         virtual void TickUpdate(float fDeltaTime); // 23: 0x82743398
+        // RuffKing's; TickUpdate calls CD2 0x82253CD0 (order-list region) after the prop's update.
+        void UpdateBarrelFade();
         virtual void vf158(); // 158: 0x82743440
         virtual void vf244(); // 244: 0x82743530
         virtual void TriggerEnterWater(float fWaterLevel); // 284: 0x827433D0

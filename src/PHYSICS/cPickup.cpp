@@ -12,6 +12,7 @@
 #include "PHYSICS/cPickupBase.h"
 #include "PHYSICS/cPickup.h"
 #include "cd2/memory.h"
+#include "PHYSICS/cDynamicPickup.h"
 
 namespace PHYSICS
 {
@@ -43,6 +44,11 @@ namespace PHYSICS
         return "cPickup";
     }
 
+    const Fun_Runtime::cClass &cDynamicPickup::RetClass() const
+    {
+        return *ms_pcDynamicPickupClass;
+    }
+
     Fun_Runtime::cClass &cPickupBase::StaticCreateClass()
     {
         static Fun_Runtime::cClass *pickupBaseClass = new Fun_Runtime::cClass(0x113, "cPickupBase", 0x150);
@@ -53,5 +59,11 @@ namespace PHYSICS
     {
         static Fun_Runtime::cClass *pickupClass = new Fun_Runtime::cClass(0x114, "cPickup", 0x150);
         return *pickupClass;
+    }
+
+    Fun_Runtime::cClass &cDynamicPickup::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *dynamicPickupClass = new Fun_Runtime::cClass(0x118, "cDynamicPickup", 0x3B0);
+        return *dynamicPickupClass;
     }
 }

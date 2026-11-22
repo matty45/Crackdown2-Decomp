@@ -101,6 +101,10 @@ end, in one line, and is removed when the function matches. History belongs in g
   0x828D83F8, 0x82457958) need their `vfN` names in `config/symbol_aliases.txt`.
 
 ## Codegen idioms
+- **Parallel-array store order chooses the induction base.** Turret setup MakeNew (0x82672A40)
+  gives 60/62 plain words when its reset loop clears turret/weapon/gunner entries: XDK uses
+  object+0x48 as the loop pointer. Gunner/turret/weapon order selects object+0x3C and matches
+  CD2. The reference member order and offsets stay the same; the loop comment records this constraint.
 - **Recheck a member after virtual termination when deletion and clearing share a guard.** In `cWaterZone::Term`
   (0x82708338), Term may change the phantom member. CD2 rechecks it and skips both delete and clearing when null.
   A/B: `delete p; p = 0` after the virtual call gives 39/42 words; guarding both statements with `if (p)` gives
@@ -776,7 +780,6 @@ One line each: what is ruled out. Remove the line when the function matches.
 - `Equip::cWeapon::ProcessReloading` (0x8221BF38): the typed timer decrement and idle transition have the right structure, but CD2 keeps this in r3 across its delta-time call (0x827671D0), where the current plain/LTCG model uses r31 and restores r3. The callee is unmatched and therefore correctly remains opaque to LTCG; reconstruct and match it before retrying. Probe removed.
 - `Equip::cWeapon` constructor (0x82609AA8): typed own fields and the shared Mtx default identity constructor give 20/63 words in plain and LTCG. CD2 retains a matrix-address calculation, reverses the live zero/one constant registers, and schedules its timer literal later. Constructor probe removed; its placement factory and both destructor forms are EXACT independently.
 - cTODNotification constructor (0x82773E90): typed fields/event ID and a body assignment for days-passed give 19/28 words in plain and LTCG; initializing days-passed in the member list gives 17/28. Early this/vptr scheduling differs, standard search finds no improvement, and removing the registered-class base changes no code. Constructor probe removed.
-- cCharacterInterface::IsA (0x8254E7B0) is byte-exact in both builds, but it reads the 0x830ACBD8 global-constant copy while this file's constructor/constants use 0x830C0E04; the per-file global identity conflicts. Probe removed rather than promoting a WRONG TARGET dependency.
 - Enum value registration at 0x823EECB0: direct Lua pushlstring/pushnumber/settable calls have the right call sequence, but CD2's split float anchors and preserved-register frame differ under plain and LTCG checks; search did not resolve them. Probe removed.
 - `AI::Pedestrian` deleting destructor (0x824A8E68): shared by cPedestrianBase, Pedestrian and PedestrianGuard (slot 0 of 0x8200B1F8, 0x82108DB0, 0x8200AE78); its callee 0x824A8EB8 is the implicit `~cPedestrianBase` (Pedestrian.obj's COMDAT copy, now matched). With implicit destructors `??_GPedestrian` is plain EXACT, but the single-file LTCG model inlines `~cPedestrianBase` into it (5/20 words) where CD2's whole-program build kept the call; left out until the model sees its other callers.
 - `PHYSICS::cSurfaceProfile::MakeNew` (0x82695F98), `VFX::cVFXSurfaceProfile::MakeNew` (0x827CCBD0), `unknown::cOutlines2::MakeNew` (0x827A4000): recovered cNonGameBase hierarchy gives EXACT deleting wrappers and IsA methods, but factories retain this in r31 instead of using the base constructor's return in r3 under plain and standard LTCG builds (same cross-module constructor-return issue as the crowd/streaming factories).
@@ -844,9 +847,9 @@ One line each: what is ruled out. Remove the line when the function matches.
   and enum-name getters; it does not establish ownership or return type by itself.
 - IsA batch: cCrowdZoneDataHolder (0x8244A810) is EXACT in plain and LTCG builds. The former
   cFactionConfigData attribution at 0x82676298 was removed: IDA identifies cFactionInfo instead. cRefractor (0x826105F0) and the existing FreakBase body (0x824ABBB0) are plain EXACT but 21/23 under
-  LTCG without a live vtable; do not promote them. cCharacterInterface (0x8254E7B0) has EXACT instructions in both
-  builds but conflicts with its constructor's distinct g_GlobalConstants target (0x830ACBD8 versus 0x830C0E04).
-  The new cRefractor/cCharacterInterface probes were reverted; FreakBase's pre-existing body is unchanged.
+  LTCG without a live vtable; do not promote them. cCharacterInterface (0x8254E7B0) reads the shared
+  g_GlobalConstants copy 0x830ACBD8 beside its file's 0x830C0E04; the relocation gate accepts that shared copy, and it
+  is matched. The cRefractor probe was reverted; FreakBase's pre-existing body is unchanged.
 - Placement-factory batch: 26 guarded 24-byte factories are EXACT in both builds using placement new and the
   CD2 constructor ABI that takes only this. Later reference constructors take a prototype argument, but the CD2
   factory does not forward one. Constructor chain evidence restored the shared AI and equipment bases; the
@@ -1228,3 +1231,4 @@ Base/member initialization yields 24/24 in both plain and LTCG checks.
 - `tAttachedEffect::Release` (0x8272C5F8): natural StopEmitters/SetAsOrphan/Release, pointer clear, then handle OnReleased is 53/53 LTCG words. Global verification rejects its header-constant ownership: `g_GlobalConstants` is 0x830B7F30 here but 0x832037C0 in this file's initializers. Body and manifest entry were removed; do not split or alias the constant to hide that conflict.
 - `cMissionCriticalProp::vf226` (0x8245B5F8, reference OnApproachedByLocalPlayer): interactable guard, inline prop callback, typed spawner and mission notification reach 29/30 words in both modes. The remaining difference is CD2's signed null test of the spawn-point pointer versus the compiler's unsigned test. Nested/early-return forms and official search do not resolve it; the probe and claim were removed. The spawner member and complete spawn-point base layout remain supported by CD2.
 - `cMissionCriticalPropSpawnPoint::IsA` (0x8245B6E0): existing body is plain EXACT but 21/23 LTCG words without a live vtable. The constructor (0x8245B838) falls outside scaffolded ranges; do not add it to this source merely to retain the query's unused this argument. Claim removed.
+- `cAgressiveResponseTurretVehicleSetup::HandleAttributes` (0x82672BB0): reference SDK APIs are RWSGUIDList::Num/GetGUID; registration inlines AddEntityToMap (0x82886228), calling GUID-map Insert (0x82886380) before copying m_GUID. The reference map is cHashTable<RWSGUID,void*,10,21000,CRWGUIDHashFunctor,std::equal_to<RWSGUID>>; CD2 global 0x8392FAB0 uses the matching pool/list/count/mask offsets 0/0xCD160/0xD2160/0xD2164. Recover the canonical container/member implementation for local LTCG argument elision rather than inventing a static adapter. No handler body was added.

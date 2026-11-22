@@ -67,6 +67,11 @@ namespace CHARACTER
         return *ms_pcCharacterInterfaceClass;
     }
 
+    bool cCharacterInterface::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcCharacterInterfaceClass->IsA(c);
+    }
+
     RWS::CAttributeHandler *cCharacterInterface::MakeNew(const RWS::CAttributePacket &packet, bool)
     {
         return new cCharacterInterfacePrototype(packet);

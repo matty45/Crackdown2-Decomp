@@ -27,7 +27,7 @@ __declspec(align(16)) class cGameBase : public RWS::CSystemCommands, public cNon
             // CD2: cGameBasePrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
             // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
         public:
-            virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x8273DDF0
+            virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x822844C8 (table 0x8212CCA4)
         };
 
         // CD2 0x82650268 creates the named runtime descriptor.

@@ -21,9 +21,20 @@
 #include "PHYSICS/physicsproject.h"
 #include "rws/classfactory.h"
 #include "GangManager/cAgressiveResponseTurretVehicleSetup.h"
+#include "cd2/memory.h"
 
 namespace GangManager
 {
+    RWS::CAttributeHandler *cAgressiveResponseTurretVehicleSetup::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cAgressiveResponseTurretVehicleSetup(packet);
+    }
+
+    const char *cAgressiveResponseTurretVehicleSetup::RetClassName() const
+    {
+        return "cAgressiveResponseTurretVehicleSetup";
+    }
+
     static RWS::CClassFactory::CRegistrar cAgressiveResponseTurretVehicleSetupRegistrar(
         "cAgressiveResponseTurretVehicleSetup", cAgressiveResponseTurretVehicleSetup::MakeNew, 0x68, false);
 }

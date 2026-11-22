@@ -24,6 +24,7 @@
 #include <new>
 #include "fun_runtime/inheritance_registrar.h"
 #include "cd2/memory.h"
+#include "fun_runtime/retval.h"
 
 namespace Prop
 {
@@ -66,6 +67,11 @@ namespace Prop
         if (memory)
             return new (memory) cVehicleDamageProp(prototype);
         return 0;
+    }
+
+    Fun_Runtime::RetVal cVehicleDamageProp::cVehicleDamagePropPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
     }
 
     // CD2 0x82FF5EE0: register the class descriptor and placement factory.

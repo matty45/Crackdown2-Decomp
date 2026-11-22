@@ -14,7 +14,8 @@ namespace AI
     {
     public:
         // CD2 constructor 0x824D32E0 installs 115-slot table 0x8200B3B8. Names/signatures of these slots remain unrecovered.
-        virtual void vf96(); // primary slot 96
+        // RuffKing's first own virtual (its 19 slots from OnEnterCold are CD2's 96..114); OnEnter calls it.
+        virtual void OnEnterCold(); // primary slot 96
         virtual void vf97(); // primary slot 97
         virtual void vf98(); // primary slot 98
         virtual void vf99(); // primary slot 99
@@ -47,19 +48,32 @@ namespace AI
         virtual const char *RetClassName() const;
 
     private:
-        // Own fields not recovered; 0x140 is the size its registrar and descriptor give (derived pilots start there).
-        unsigned char m_unmodelledC0[0x140 - 0xC0];
+    protected:
+        // RuffKing's names and order (its +0x100/+0x101): GetStateReplicationInfo (0x824D42A8) returns the first,
+        // OnEnter (0x824D3410) sets the second. 0x140 is the size its registrar and descriptor give.
+        unsigned char m_nState;                 // 0xC0
+        unsigned char m_nMigratedState;         // 0xC1
+    private:
+        unsigned char m_unmodelledC2[0x140 - 0xC2];
 
         // CD2: cPilotBase's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
         virtual void Slot2(); // cSafeDeletable 2: 0x824D3DE0
     private:
-        CD2_LAYOUT_CHECKS(cPilotBase, CD2_SIZE(cPilotBase, 0x140))
+        CD2_LAYOUT_CHECKS(cPilotBase,
+            CD2_SIZE(cPilotBase, 0x140)
+            CD2_OFFSET(cPilotBase, m_nState, 0xC0)
+            CD2_OFFSET(cPilotBase, m_nMigratedState, 0xC1))
 
     public:
         // CD2 table 0x8200B3B8 differs from NPCBehaviour at these inherited slots.
-        virtual void OnEnter(); // slot 68: 0x824D3410
+        // Slot 68 (0x824D3410). Inline: cTrainingHeliPilot's OnEnter (0x824D5508) expands it.
+        virtual void OnEnter()
+        {
+            OnEnterCold();
+            m_nMigratedState = 1;
+        }
         virtual void OnExit(); // slot 69: 0x824D3590
         virtual void Update(float fDeltaTime); // slot 71: 0x822026C8
         virtual void OnEnterReplicatedState(unsigned char); // slot 72: 0x824A7E70

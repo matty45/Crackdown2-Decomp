@@ -161,6 +161,9 @@ namespace AI
         // CD2 0x823E7978: cScriptHost slot 1; descriptive method name is ours.
         virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         virtual const char *RetName() const;
+        // CD2 script method "ClearEnemy" (0x823E9738, 23 callers): clears m_pUnknown5E8 and m_bUnknown61B. The NPC
+        // behaviours call it before clearing the target cache.
+        void ClearEnemy();
         // CD2 forwards these primary slots to the attached character; names remain unknown.
         // Keep the shared base's provisional identifiers: Slot54/Slot60 compile to physical slots 53/59.
         virtual void Slot20(); // 0x823EB5A8, guarded forwarding

@@ -61,6 +61,9 @@ namespace CHARACTER
             cCwTransCharacterPrototype(const RWS::CAttributePacket &);
             // CD2 table 0x82005568 slot 5 returns the file's Ret_OK object.
             virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
+            // CD2 table 0x82005568 slot 1 (0x82539220); the derived prototypes' tables (0x82162A20, cFrontEndAgent's)
+            // keep it.
+            virtual void HandleAttributes(const RWS::CAttributePacket &);
             virtual void SetCharacterProfile(unsigned char nLevel, const char *szProfileName);
             virtual void SetExplosivesProfile(unsigned char nLevel, const char *szProfileName);
             virtual void SetStrengthProfile(unsigned char nLevel, const char *szProfileName);

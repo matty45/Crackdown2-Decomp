@@ -21,6 +21,7 @@
 #include "cd2/memory.h"
 #include "AI/NPCBehaviourPrototype.h"
 #include "editor/guid_event_handler.h"
+#include "AI/cAiPlayer.h"
 
 namespace AI
 {

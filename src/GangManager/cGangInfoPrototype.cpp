@@ -29,6 +29,11 @@ namespace GangManager
         return *ms_pcGangInfoClass;
     }
 
+    bool cGangInfo::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcGangInfoClass->IsA(c);
+    }
+
     static RWS::CClassFactory::CRegistrar cGangInfoPrototypeRegistrar(
         "cGangInfoPrototype", cGangInfoPrototype::MakeNew, 0xD0, false);
 

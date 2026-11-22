@@ -15,23 +15,26 @@ namespace unknown
     {
     public:
         // Prototype name ours. CD2's MakeNew (0x8268A368) allocates 0xF0, calls cGameBasePrototype's constructor
-        // (0x82652850), stores this class's vptrs and zero at 0xE0: the constructor is inline. The word's name is ours.
+        // (0x82652850), stores this class's vptrs and zero at 0xE0: the constructor is inline. HandleAttributes (0x8273DDF0,
+        // folded with the other of cPhantomBodyPrototype/cPrismaticTriggerPrototype) stores there the packet's first
+        // "rwID_COLLISION" resource; the member's name is ours.
         class cPhantomBodyPrototype : public cGameBase::cGameBasePrototype
         {
         public:
             __forceinline cPhantomBodyPrototype(const RWS::CAttributePacket &packet)
-                : cGameBase::cGameBasePrototype(packet), m_nE0(0) {}
+                : cGameBase::cGameBasePrototype(packet), m_pCollisionResource(0) {}
 
-            unsigned int m_nE0;
+            const void *m_pCollisionResource;
 
             // CD2: cPhantomBodyPrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
             // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
         public:
+            virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x8273DDF0
             virtual Fun_Runtime::RetVal Init(RWS::CAttributePacket const &); // 5: 0x8268AD98
         public:
             CD2_LAYOUT_CHECKS(cPhantomBodyPrototype,
                 CD2_SIZE(cPhantomBodyPrototype, 0xF0)
-                CD2_OFFSET(cPhantomBodyPrototype, m_nE0, 0xE0))
+                CD2_OFFSET(cPhantomBodyPrototype, m_pCollisionResource, 0xE0))
         };
 
         // CD2 factory 0x8268A3F0 forwards only this, without a prototype argument.

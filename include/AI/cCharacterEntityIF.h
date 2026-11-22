@@ -21,6 +21,7 @@
 #include "CHARACTER/cCharacterInterface.h"
 #include "AI/cCharacterEntity.h"
 #include "AI/cCharacterBrain.h"
+#include "AI/cAiTargetCache.h"
 
 namespace AI
 {
@@ -36,7 +37,14 @@ namespace AI
         unsigned char m_padC0[0x480 - 0xC0];
     protected:
         unsigned char m_upperbodyAnimationParams[0x4B0 - 0x480];
-        unsigned char m_fullbodyAnimationParams[0x4F8 - 0x4B0];
+        unsigned char m_fullbodyAnimationParams[0x4E0 - 0x4B0];
+    public:
+        // RuffKing's member (its +0xF0, after the interface base): the NPC behaviours test their host's target info at
+        // +0x4E4 and pass +0x4E0 to the cache's ClearTarget (0x8244D038) and SetTarget (0x8225CE90).
+        cAiTargetCache m_TargetCache;           // 0x4E0
+    private:
+        unsigned char m_pad4E8[0x4F8 - 0x4E8];
+    protected:
         int m_n4F8;                             // 0x4F8..0x500: written by cAiPlayer's slot 125 (0x823E92B8);
         int m_n4FC;                             // nothing names them
         int m_n500;
@@ -166,6 +174,7 @@ namespace AI
             CD2_SIZE(cCharacterEntityIF, 0x540)
             CD2_OFFSET(cCharacterEntityIF, m_upperbodyAnimationParams, 0x480)
             CD2_OFFSET(cCharacterEntityIF, m_fullbodyAnimationParams, 0x4B0)
+            CD2_OFFSET(cCharacterEntityIF, m_TargetCache, 0x4E0)
             CD2_OFFSET(cCharacterEntityIF, m_n4F8, 0x4F8)
             CD2_OFFSET(cCharacterEntityIF, m_pAIEntity, 0x504)
             CD2_OFFSET(cCharacterEntityIF, m_pCharacterBrain, 0x508)

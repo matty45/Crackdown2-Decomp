@@ -76,9 +76,26 @@ namespace Vehicle
         cCar::LeavePhysicalState();
     }
 
+    Fun_Runtime::RetVal cAgencySports::TermForReuse()
+    {
+        m_Wedge.RemoveWedge();
+        m_fCurretCombatCooldownTimer = 0.0f;
+        return cCar::TermForReuse();
+    }
+
+    void cAgencySports::ActionUpdate(float fDeltaTime)
+    {
+        m_Wedge.Update(this, fDeltaTime);
+    }
+
     const Fun_Runtime::cClass &cAgencySports::RetClass() const
     {
         return *ms_pcAgencySportsClass;
+    }
+
+    bool cAgencySports::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcAgencySportsClass->IsA(c);
     }
 
     Fun_Runtime::RetVal cAgencySportsPrototype::Init(const RWS::CAttributePacket &)

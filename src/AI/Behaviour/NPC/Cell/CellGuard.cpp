@@ -55,4 +55,28 @@ namespace AI
     {
         return *ms_pCellGuardClass;
     }
+
+    unsigned char CellGuard::GetStateReplicationInfo() const
+    {
+        if (m_NextState == eNULL)
+            return m_CurrentState;
+        return m_NextState;
+    }
+
+    void CellGuard::OnReplicatedEnter(unsigned char nState)
+    {
+        if (nState == eDEAD)
+        {
+            m_CurrentState = eDEAD;
+            m_NextState = eDEAD;
+        }
+        else
+        {
+            OnEnter();
+            m_CurrentState = eSetupState;
+            m_StatePosition = eEnter;
+            UpdateState(0.0f);
+            m_NextState = static_cast<eStates>(nState);
+        }
+    }
 }

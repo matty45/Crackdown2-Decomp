@@ -27,6 +27,7 @@
 #include "gom/non_game_base.h"
 #include "cd2/memory.h"
 #include "rws/classfactory.h"
+#include "fun_runtime/retval.h"
 
 namespace VEHICLE_CONTROL
 {
@@ -70,5 +71,10 @@ namespace VEHICLE_CONTROL
         if (memory)
             return new (memory) cVehicleController;
         return 0;
+    }
+
+    Fun_Runtime::RetVal cVehicleController::cVehicleControllerPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
     }
 }

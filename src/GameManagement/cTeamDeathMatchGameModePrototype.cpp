@@ -26,6 +26,16 @@
 
 namespace GameManagement
 {
+    const char *cTeamDeathMatchGameModePrototype::RetClassName() const
+    {
+        return "cTeamDeathMatchGameModePrototype";
+    }
+
+    int cTeamDeathMatchGameModePrototype::RetStringID() const
+    {
+        return 0xF99B8095;
+    }
+
     static RWS::CClassFactory::CRegistrar cTeamDeathMatchGameModePrototypeRegistrar(
         "cTeamDeathMatchGameModePrototype", cTeamDeathMatchGameModePrototype::MakeNew, 0x190, false);
 }

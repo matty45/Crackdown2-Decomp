@@ -205,6 +205,11 @@
         "address": "0x82676D58",
         "size": 8,
         "symbol": "??_EcFactionConfigData@GangManager@@WBI@"
+      },
+      {
+        "address": "0x82676318",
+        "size": 12,
+        "symbol": "?RetScriptTypeRegistration@cGangEnforcerLevelChangedEvent@AI@@"
       }
     ],
     "src/VFX/cAmbientVFXSpawner.cpp": [
@@ -1804,6 +1809,11 @@
         "address": "0x83041B00",
         "size": 20,
         "symbol": "??__FcTrafficLightSpawningRegistrar@Prop@@"
+      },
+      {
+        "address": "0x827478A8",
+        "size": 76,
+        "symbol": "?LeaveRenderableState@cTrafficLight@Prop@@"
       }
     ],
     "src/PLAYER/cPlayer.cpp": [
@@ -2962,6 +2972,11 @@
         "address": "0x823EBB48",
         "size": 8,
         "symbol": "??_EcAiPlayer@AI@@WBM@"
+      },
+      {
+        "address": "0x8222FC18",
+        "size": 92,
+        "symbol": "?IsA@cAiPlayer@AI@@"
       }
     ],
     "src/AI/cCharacterEntityIF.cpp": [
@@ -3547,6 +3562,11 @@
         "address": "0x823F3370",
         "size": 36,
         "symbol": "?SetCharacterStateProfileFromID@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F5050",
+        "size": 16,
+        "symbol": "?Init@cCharacterEntityIFPrototype@cCharacterEntityIF@AI@@"
       }
     ],
     "src/cAgencyGarageDoor.cpp": [
@@ -6261,6 +6281,11 @@
         "address": "0x82731D20",
         "size": 8,
         "symbol": "?IsA@cTransVehicleDamageProp@unknown@@WPA@"
+      },
+      {
+        "address": "0x82731CC0",
+        "size": 16,
+        "symbol": "?Init@cTransVehicleDamagePropPrototype@cTransVehicleDamageProp@unknown@@"
       }
     ],
     "src/cVehicleTagGameModePrototype.cpp": [
@@ -7286,6 +7311,16 @@
         "size": 40,
         "symbol": "??__EnPART_PERCENT_WEIGHT@@",
         "ltcg": true
+      },
+      {
+        "address": "0x824746F0",
+        "size": 76,
+        "symbol": "?InitReplication@cDocksMission@AI@@"
+      },
+      {
+        "address": "0x82474740",
+        "size": 76,
+        "symbol": "?TermReplication@cDocksMission@AI@@"
       }
     ],
     "src/AI/Behaviour/NPC/Cell/CellGuard.cpp": [
@@ -7455,6 +7490,16 @@
         "address": "0x8303B9C0",
         "size": 20,
         "symbol": "??__FCellGuardSpawningRegistrar@AI@@"
+      },
+      {
+        "address": "0x824C0EA0",
+        "size": 24,
+        "symbol": "?GetStateReplicationInfo@CellGuard@AI@@"
+      },
+      {
+        "address": "0x824C0EB8",
+        "size": 144,
+        "symbol": "?OnReplicatedEnter@CellGuard@AI@@"
       }
     ],
     "src/AI/Targeting/cFactionTargetingProfile.cpp": [
@@ -16707,6 +16752,11 @@
         "size": 40,
         "symbol": "??__EfPhysicsSimulationTick@@",
         "ltcg": true
+      },
+      {
+        "address": "0x82615AE0",
+        "size": 100,
+        "symbol": "??1cLightAttachmentData@Equip@@"
       }
     ],
     "src/Equip/Attachments/cUVLightAttachmentData.cpp": [
@@ -17012,6 +17062,11 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x82857650",
+        "size": 12,
+        "symbol": "?RetStringID@cCampaignGameModePrototype@GameManagement@@"
       }
     ],
     "src/GameManagement/cCampaignPlayerSpawnGroup.cpp": [
@@ -18087,6 +18142,11 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x8284FAC8",
+        "size": 12,
+        "symbol": "?RetStringID@cDeathMatchGameModePrototype@GameManagement@@"
       }
     ],
     "src/GameManagement/cFinalMissionBarrier.cpp": [
@@ -19586,6 +19646,11 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x82858458",
+        "size": 12,
+        "symbol": "?RetStringID@cTrainingModePrototype@GameManagement@@"
       }
     ],
     "src/GameManagement/cTrainingRespawnPoint.cpp": [
@@ -20432,6 +20497,11 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x82676DC8",
+        "size": 92,
+        "symbol": "?IsA@cGangInfo@GangManager@@"
       }
     ],
     "src/GangManager/cPedestrainDataPrototype.cpp": [
@@ -22879,6 +22949,11 @@
         "address": "0x826BD6C0",
         "size": 4,
         "symbol": "?CalculateLOD@cHelicopter@Vehicle@@"
+      },
+      {
+        "address": "0x826BD9C0",
+        "size": 72,
+        "symbol": "?LeavePhysicalState@cHelicopter@Vehicle@@"
       }
     ],
     "src/Vehicle/cHelicopterDamageProfile.cpp": [
@@ -23235,6 +23310,11 @@
         "address": "0x826C8B08",
         "size": 8,
         "symbol": "??_EcLandVehicle@Vehicle@@WBI@"
+      },
+      {
+        "address": "0x826C0D58",
+        "size": 92,
+        "symbol": "?IsA@cLandVehicle@Vehicle@@"
       }
     ],
     "src/Vehicle/cLandVehicleProfile.cpp": [
@@ -25706,6 +25786,11 @@
         "address": "0x8303BD20",
         "size": 20,
         "symbol": "??__FBreachPilotSpawningRegistrar@AI@@"
+      },
+      {
+        "address": "0x824D1968",
+        "size": 64,
+        "symbol": "?OnExit@BreachPilot@AI@@"
       }
     ],
     "src/AI/Mission/AU/cAgencyTowerSegmentMission.cpp": [
@@ -26236,11 +26321,6 @@
         "address": "0x824CAE10",
         "size": 20,
         "symbol": "?EnterIdleOccluded@cAgressiveResponseChaseBehaviour@AI@@UAAXXZ"
-      },
-      {
-        "address": "0x824CAE60",
-        "size": 72,
-        "symbol": "?EnterIdleGuard@cAgressiveResponseChaseBehaviour@AI@@UAAXXZ"
       },
       {
         "address": "0x82F99128",
@@ -28095,6 +28175,26 @@
         "address": "0x8303B9F0",
         "size": 20,
         "symbol": "??__FCellMinigunSpawningRegistrar@AI@@"
+      },
+      {
+        "address": "0x824C3B18",
+        "size": 76,
+        "symbol": "?OnIdle@CellMinigun@AI@@"
+      },
+      {
+        "address": "0x824C3B68",
+        "size": 76,
+        "symbol": "?OnPatrolling@CellMinigun@AI@@"
+      },
+      {
+        "address": "0x824C3BB8",
+        "size": 156,
+        "symbol": "?OnAttacking@CellMinigun@AI@@"
+      },
+      {
+        "address": "0x824C3D30",
+        "size": 80,
+        "symbol": "?SetReactResupplyPoint@CellMinigun@AI@@"
       }
     ],
     "src/AI/Behaviour/NPC/Cell/CellRocket.cpp": [
@@ -28274,6 +28374,16 @@
         "address": "0x8303BA20",
         "size": 20,
         "symbol": "??__FCellRocketSpawningRegistrar@AI@@"
+      },
+      {
+        "address": "0x824C4118",
+        "size": 120,
+        "symbol": "?OnExit@CellRocket@AI@@"
+      },
+      {
+        "address": "0x824C4190",
+        "size": 84,
+        "symbol": "?Slot79@CellRocket@AI@@"
       }
     ],
     "src/AI/Behaviour/NPC/Cell/CellTurret.cpp": [
@@ -28453,6 +28563,16 @@
         "address": "0x8303BA50",
         "size": 20,
         "symbol": "??__FCellTurretSpawningRegistrar@AI@@"
+      },
+      {
+        "address": "0x824C5648",
+        "size": 112,
+        "symbol": "?OnExit@CellTurret@AI@@"
+      },
+      {
+        "address": "0x824C55F0",
+        "size": 88,
+        "symbol": "?OnEnter@CellTurret@AI@@"
       }
     ],
     "src/AI/Mission/AU/cFinalMission.cpp": [
@@ -28817,6 +28937,11 @@
         "address": "0x82F89F58",
         "size": 24,
         "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82474288",
+        "size": 76,
+        "symbol": "?ExitState@cGoliathBreachHole@AI@@"
       }
     ],
     "src/AI/Behaviour/NPC/Freak/cGoliathPatrolRouteEvent.cpp": [
@@ -29239,6 +29364,11 @@
         "address": "0x8303BDA8",
         "size": 20,
         "symbol": "??__FcPilotBaseSpawningRegistrar@AI@@"
+      },
+      {
+        "address": "0x824D3410",
+        "size": 64,
+        "symbol": "?OnEnter@cPilotBase@AI@@"
       }
     ],
     "src/AI/cPilotRespawn.cpp": [
@@ -30002,6 +30132,16 @@
         "address": "0x8303BE38",
         "size": 20,
         "symbol": "??__FcTrainingHeliPilotSpawningRegistrar@AI@@"
+      },
+      {
+        "address": "0x824D5578",
+        "size": 80,
+        "symbol": "?OnExit@cTrainingHeliPilot@AI@@"
+      },
+      {
+        "address": "0x824D5508",
+        "size": 112,
+        "symbol": "?OnEnter@cTrainingHeliPilot@AI@@"
       }
     ],
     "src/AI/Mission/Training/cTrainingMission.cpp": [
@@ -31269,6 +31409,11 @@
         "address": "0x824A7DE8",
         "size": 8,
         "symbol": "?RetCorpseFadeOutTimeMillis@NPCBehaviour@AI@@"
+      },
+      {
+        "address": "0x824A8278",
+        "size": 80,
+        "symbol": "?OnExit@NPCArmedBehaviour@AI@@"
       }
     ],
     "src/AI/Behaviour/NPC/Peacekeeper/Peacekeeper.cpp": [
@@ -34114,6 +34259,11 @@
         "address": "0x8254F970",
         "size": 16,
         "symbol": "?Init@cCharacterInterfacePrototype@cCharacterInterface@CHARACTER@@"
+      },
+      {
+        "address": "0x8254E7B0",
+        "size": 92,
+        "symbol": "?IsA@cCharacterInterface@CHARACTER@@"
       }
     ],
     "src/Prop/cProp.cpp": [
@@ -34448,6 +34598,11 @@
         "address": "0x8272AB30",
         "size": 48,
         "symbol": "?SetCarriedByCharacter@cProp@Prop@@"
+      },
+      {
+        "address": "0x8272AAC8",
+        "size": 104,
+        "symbol": "?EnterGhostState@cProp@Prop@@"
       }
     ],
     "src/cCwTransCharacterWrapper.cpp": [
@@ -34622,6 +34777,11 @@
         "address": "0x8253ECF8",
         "size": 12,
         "symbol": "?RetClass@cCwTransCharacterWrapper@CHARACTER@@"
+      },
+      {
+        "address": "0x8253EF08",
+        "size": 4,
+        "symbol": "?HandleAttributes@cCwTransCharacterWrapperPrototype@CHARACTER@@"
       }
     ],
     "src/CHARACTER/cCharacter.cpp": [
@@ -39091,6 +39251,11 @@
         "address": "0x82731D30",
         "size": 12,
         "symbol": "?RetClass@cVehicleDamageProp@Prop@@"
+      },
+      {
+        "address": "0x82732A08",
+        "size": 16,
+        "symbol": "?Init@cVehicleDamagePropPrototype@cVehicleDamageProp@Prop@@"
       }
     ],
     "src/Prop/Constrained/cHingedProp.cpp": [
@@ -39505,6 +39670,11 @@
         "address": "0x82737040",
         "size": 12,
         "symbol": "?RetScriptTypeRegistration@cHingedPropRotatedToMaxEvent@AI@@"
+      },
+      {
+        "address": "0x82737780",
+        "size": 44,
+        "symbol": "?GoToInitialState@cHingedProp@Prop@@"
       }
     ],
     "src/Prop/Constrained/cMovingPlatform.cpp": [
@@ -40397,6 +40567,11 @@
         "address": "0x827435F0",
         "size": 68,
         "symbol": "?ReplicateInitialFields@cExplosiveBarrel@Prop@@"
+      },
+      {
+        "address": "0x82743398",
+        "size": 52,
+        "symbol": "?TickUpdate@cExplosiveBarrel@Prop@@"
       }
     ],
     "src/Prop/Custom/cGasCanister.cpp": [
@@ -41475,6 +41650,21 @@
         "address": "0x8274BB58",
         "size": 112,
         "symbol": "?vf226@cTurretBase@Prop@@"
+      },
+      {
+        "address": "0x82748990",
+        "size": 44,
+        "symbol": "?RetCollisionSystemGroup@cTurretBase@Prop@@"
+      },
+      {
+        "address": "0x82748940",
+        "size": 76,
+        "symbol": "?RetCollisionLayer@cTurretBase@Prop@@"
+      },
+      {
+        "address": "0x827488D0",
+        "size": 112,
+        "symbol": "?Term@cTurretBase@Prop@@"
       }
     ],
     "src/RPG/cSkillProfile.cpp": [
@@ -42114,6 +42304,11 @@
         "address": "0x827FB518",
         "size": 128,
         "symbol": "?SetOccluded@cGlobalLight@VFX@@"
+      },
+      {
+        "address": "0x827FBD60",
+        "size": 4,
+        "symbol": "?HandleAttributes@cGlobalLightManager@VFX@@"
       }
     ],
     "src/Audio/cVOAScheduler.cpp": [
@@ -44065,6 +44260,31 @@
         "address": "0x8260B170",
         "size": 8,
         "symbol": "??_EcBoostPack@unknown@@WCFA@"
+      },
+      {
+        "address": "0x8260B138",
+        "size": 8,
+        "symbol": "?RetClass@cBoostPack@unknown@@WPA@"
+      },
+      {
+        "address": "0x8260B110",
+        "size": 16,
+        "symbol": "?Init@cBoostPackPrototype@unknown@@"
+      },
+      {
+        "address": "0x8260B120",
+        "size": 8,
+        "symbol": "?IsA@cBoostPack@unknown@@WEOA@"
+      },
+      {
+        "address": "0x8260B140",
+        "size": 8,
+        "symbol": "?IsA@cBoostPack@unknown@@WPA@"
+      },
+      {
+        "address": "0x8260B168",
+        "size": 8,
+        "symbol": "?RetClass@cBoostPack@unknown@@WEOA@"
       }
     ],
     "src/Equip/Weapon/cMag.cpp": [
@@ -48135,6 +48355,11 @@
         "address": "0x82684470",
         "size": 36,
         "symbol": "?RetCollidableQuality@cBody@PHYSICS@@"
+      },
+      {
+        "address": "0x82684698",
+        "size": 4,
+        "symbol": "?HandleAttributes@cBodyPrototype@cBody@PHYSICS@@"
       }
     ],
     "src/cPhantomBody.cpp": [
@@ -49526,6 +49751,21 @@
         "address": "0x83040A98",
         "size": 20,
         "symbol": "??__FcAgencySportsSpawningRegistrar@Vehicle@@"
+      },
+      {
+        "address": "0x826ECED8",
+        "size": 92,
+        "symbol": "?IsA@cAgencySports@Vehicle@@"
+      },
+      {
+        "address": "0x826ED578",
+        "size": 88,
+        "symbol": "?TermForReuse@cAgencySports@Vehicle@@"
+      },
+      {
+        "address": "0x826ED980",
+        "size": 12,
+        "symbol": "?ActionUpdate@cAgencySports@Vehicle@@"
       }
     ],
     "src/cAgencySquadChopper.cpp": [
@@ -49705,6 +49945,26 @@
         "address": "0x826ED9F0",
         "size": 12,
         "symbol": "?RetClass@cAgencySquadChopper@unknown@@"
+      },
+      {
+        "address": "0x826F7A68",
+        "size": 4,
+        "symbol": "?IsOnGround@cAgencySquadChopper@unknown@@"
+      },
+      {
+        "address": "0x826F7B18",
+        "size": 8,
+        "symbol": "?RetNumPointsOfInterest@cAgencySquadChopper@unknown@@"
+      },
+      {
+        "address": "0x826F7B20",
+        "size": 44,
+        "symbol": "?RetPointOfInterest@cAgencySquadChopper@unknown@@"
+      },
+      {
+        "address": "0x826F7B80",
+        "size": 4,
+        "symbol": "?HandleTryToExitInteractPermisiionQuery@cAgencySquadChopper@unknown@@"
       }
     ],
     "src/Vehicle/Agency/cAgencySUV.cpp": [
@@ -51285,6 +51545,11 @@
         "address": "0x8273DE40",
         "size": 16,
         "symbol": "?Init@cPrismaticTriggerPrototype@cPrismaticTrigger@unknown@@"
+      },
+      {
+        "address": "0x8273DDF0",
+        "size": 76,
+        "symbol": "?HandleAttributes@cPrismaticTriggerPrototype@cPrismaticTrigger@unknown@@"
       }
     ],
     "src/cSpawnPortal.cpp": [
@@ -51529,6 +51794,11 @@
         "address": "0x830416A8",
         "size": 20,
         "symbol": "??__FcSpawnPortalSpawningRegistrar@unknown@@"
+      },
+      {
+        "address": "0x8273E530",
+        "size": 4,
+        "symbol": "?HandleAttributes@cSpawnPortalPrototype@cSpawnPortal@unknown@@"
       }
     ],
     "src/cSupplyEntryPoint.cpp": [
@@ -51932,6 +52202,11 @@
         "address": "0x82740F18",
         "size": 8,
         "symbol": "?IsA@cTeleporterDoor@unknown@@WPA@"
+      },
+      {
+        "address": "0x82740EC8",
+        "size": 16,
+        "symbol": "?Init@cTeleporterDoorPrototype@cTeleporterDoor@unknown@@"
       }
     ],
     "src/cWeaponCabinetDoor.cpp": [
@@ -54797,6 +55072,11 @@
         "address": "0x83042380",
         "size": 20,
         "symbol": "??__FcVehicleControllerSpawningRegistrar@VEHICLE_CONTROL@@"
+      },
+      {
+        "address": "0x82781F80",
+        "size": 16,
+        "symbol": "?Init@cVehicleControllerPrototype@cVehicleController@VEHICLE_CONTROL@@"
       }
     ],
     "src/Equip/Gadget/cCloakingDevice.cpp": [
@@ -56496,6 +56776,21 @@
         "size": 40,
         "symbol": "??__EfPhysicsSimulationTick@@",
         "ltcg": true
+      },
+      {
+        "address": "0x82672B38",
+        "size": 12,
+        "symbol": "?RetClassName@cAgressiveResponseTurretVehicleSetup@GangManager@@"
+      },
+      {
+        "address": "0x82672A40",
+        "size": 248,
+        "symbol": "?MakeNew@cAgressiveResponseTurretVehicleSetup@GangManager@@"
+      },
+      {
+        "address": "0x82672B48",
+        "size": 104,
+        "symbol": "??_GcAgressiveResponseTurretVehicleSetup@GangManager@@"
       }
     ],
     "src/Vehicle/cCar.cpp": [
@@ -56861,14 +57156,20 @@
     ],
     "src/cAudioLogContainer.cpp": [
       {
-        "address": "0x82FF1518",
-        "size": 76,
-        "symbol": "??__EcAudioLogContainerRegistrar@unknown@@"
+        "address": "0x8270FC18",
+        "size": 12,
+        "symbol": "?RetClass@cAudioLogContainer@unknown@@"
       },
       {
-        "address": "0x83040CA8",
+        "address": "0x8270FD68",
         "size": 12,
-        "symbol": "??__FcAudioLogContainerRegistrar@unknown@@"
+        "symbol": "?RetClassName@cAudioLogContainer@unknown@@"
+      },
+      {
+        "address": "0x82FF1158",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
       },
       {
         "address": "0x82FF1180",
@@ -56931,22 +57232,6 @@
         "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
       },
       {
-        "address": "0x82FF1450",
-        "size": 24,
-        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
-      },
-      {
-        "address": "0x82FF1158",
-        "size": 40,
-        "symbol": "??__EfPhysicsSimulationTick@@",
-        "ltcg": true
-      },
-      {
-        "address": "0x83040CA0",
-        "size": 4,
-        "symbol": "??__FgRandGen@CHARACTER@@"
-      },
-      {
         "address": "0x82FF1310",
         "size": 56,
         "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
@@ -56981,6 +57266,26 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x82FF1450",
+        "size": 24,
+        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x82FF1518",
+        "size": 76,
+        "symbol": "??__EcAudioLogContainerRegistrar@unknown@@"
+      },
+      {
+        "address": "0x83040CA0",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x83040CA8",
+        "size": 12,
+        "symbol": "??__FcAudioLogContainerRegistrar@unknown@@"
       }
     ],
     "src/cExplosivesSkillProfile.cpp": [
@@ -57339,6 +57644,16 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x828519E0",
+        "size": 12,
+        "symbol": "?RetClassName@cTeamDeathMatchGameModePrototype@GameManagement@@"
+      },
+      {
+        "address": "0x82851A08",
+        "size": 12,
+        "symbol": "?RetStringID@cTeamDeathMatchGameModePrototype@GameManagement@@"
       }
     ],
     "src/cGrappler.cpp": [
@@ -58003,6 +58318,16 @@
         "address": "0x82FAE0F0",
         "size": 104,
         "symbol": "??__EcCharacterMotioncNetDynamicBodyInheritRegistrar@CHARACTER@@"
+      },
+      {
+        "address": "0x825520F8",
+        "size": 4,
+        "symbol": "?HandleAttributes@cCharacterMotionPrototype@cCharacterMotion@CHARACTER@@"
+      },
+      {
+        "address": "0x82552100",
+        "size": 16,
+        "symbol": "?Init@cCharacterMotionPrototype@cCharacterMotion@CHARACTER@@"
       }
     ],
     "src/Equip/Weapon/cWeapon.cpp": [
@@ -58656,6 +58981,36 @@
         "address": "0x8260AAB0",
         "size": 8,
         "symbol": "?IsLive@cGrenade@Equip@@"
+      },
+      {
+        "address": "0x8260AB40",
+        "size": 12,
+        "symbol": "?RetClass@cBoostPack@unknown@@UBA"
+      },
+      {
+        "address": "0x82609BA8",
+        "size": 68,
+        "symbol": "?TickUpdate@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x82609BF0",
+        "size": 104,
+        "symbol": "?SetStatus@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x82609418",
+        "size": 92,
+        "symbol": "?IsA@cWeapon@Equip@@"
+      },
+      {
+        "address": "0x82609518",
+        "size": 92,
+        "symbol": "?IsA@cWeaponProjectile@Equip@@"
+      },
+      {
+        "address": "0x8260AB50",
+        "size": 92,
+        "symbol": "?IsA@cBoostPack@unknown@@"
       }
     ],
     "src/gom/cGameBase.cpp": [
@@ -59657,6 +60012,16 @@
         "address": "0x82883C28",
         "size": 320,
         "symbol": "?HandleAttributes@cGameModeTriggerZone@GameManagement@@"
+      },
+      {
+        "address": "0x82883E80",
+        "size": 108,
+        "symbol": "?RetMinimumAgilityLevel@cGameModeTriggerZone@GameManagement@@"
+      },
+      {
+        "address": "0x82883EF0",
+        "size": 108,
+        "symbol": "?RetMinNumParticipants@cGameModeTriggerZone@GameManagement@@"
       }
     ],
     "src/AI/Mission/cTacticalObjective.cpp": [
@@ -72680,6 +73045,11 @@
         "size": 40,
         "symbol": "??__EnPART_PERCENT_WEIGHT@@",
         "ltcg": true
+      },
+      {
+        "address": "0x825012F8",
+        "size": 12,
+        "symbol": "?ResetData@cActionDataLedge@CHARACTER@@"
       }
     ],
     "src/Anim/cAnimHandlerPropInteraction.cpp": [
@@ -75642,6 +76012,16 @@
         "address": "0x8270A4D8",
         "size": 152,
         "symbol": "?StaticCreateClass@cPickup@PHYSICS@@"
+      },
+      {
+        "address": "0x82709278",
+        "size": 12,
+        "symbol": "?RetClass@cDynamicPickup@PHYSICS@@UBA"
+      },
+      {
+        "address": "0x8270A670",
+        "size": 152,
+        "symbol": "?StaticCreateClass@cDynamicPickup@PHYSICS@@"
       }
     ],
     "src/AI/Streaming/cCrowdZoneHandler.cpp": [

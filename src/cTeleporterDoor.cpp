@@ -23,6 +23,7 @@
 #include "rws/classfactory.h"
 #include "unknown/cTeleporterDoor.h"
 #include "cd2/memory.h"
+#include "fun_runtime/retval.h"
 
 namespace unknown
 {
@@ -68,5 +69,10 @@ namespace unknown
     // CD2 0x82740B40 has no derived cleanup beyond vtable restoration.
     cTeleporterDoor::~cTeleporterDoor()
     {
+    }
+
+    Fun_Runtime::RetVal cTeleporterDoor::cTeleporterDoorPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
     }
 }

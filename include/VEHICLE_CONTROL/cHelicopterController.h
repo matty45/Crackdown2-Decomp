@@ -164,6 +164,8 @@ namespace VEHICLE_CONTROL
             __forceinline cHelicopterControllerPrototype(const RWS::CAttributePacket &packet) : cVehicleControllerPrototype(packet) {}
             virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);   // slot 5 of its vtable (0x8214C1A8)
         };
+        // RuffKing's; CD2 0x82782568, called by cHelicopter::LeavePhysicalState (0x826BD9C0).
+        void HandleLeavePhysicalState();
 
         enum etHelicopterFullSimMode { HFSM_0, HFSM_1, HFSM_2, HFSM_3, HFSM_4 };
 

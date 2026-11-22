@@ -17,6 +17,9 @@ namespace VFX
         static const Fun_Runtime::cClass *ms_pcGlobalLightManagerClass;
         static Fun_Runtime::cClass &StaticCreateClass();
         virtual const char *RetClassName() const;
+        // CD2 0x827FBD60 (slot 1 of the table at 0x82155060): forwards to the base's handler; the linker folded
+        // the identical overrides of many classes into this copy.
+        virtual void HandleAttributes(const RWS::CAttributePacket &packet);
     public:
         // Out of line: CD2 0x827FB998 (MakeNew calls it).
         cGlobalLightManager();

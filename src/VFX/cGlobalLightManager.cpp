@@ -41,6 +41,11 @@ namespace VFX
         return *cGlobalLightManagerClass;
     }
 
+    void cGlobalLightManager::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cNonGameBase::HandleAttributes(packet);
+    }
+
     const Fun_Runtime::cClass *cGlobalLightManager::ms_pcGlobalLightManagerClass = &cGlobalLightManager::StaticCreateClass();
 
     static RWS::CClassFactory::CRegistrar cGlobalLightManagerRegistrar(

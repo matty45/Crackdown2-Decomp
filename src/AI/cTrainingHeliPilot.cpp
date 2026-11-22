@@ -14,6 +14,8 @@
 #include "cd2/memory.h"
 #include "AI/BehaviourClassID.h"
 #include <new>
+#include "AI/cAIEventManager.h"
+#include "AI/cAiPlayer.h"
 
 namespace AI
 {
@@ -53,6 +55,22 @@ namespace AI
     {
         static Fun_Runtime::cClass *cTrainingHeliPilotClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "cTrainingHeliPilot", 0x150);
         return *cTrainingHeliPilotClass;
+    }
+
+    void cTrainingHeliPilot::OnEnter()
+    {
+        m_pPatrolEventHandle = SubscribeImmediate(4, m_pHost, Fun_Runtime::g_GlobalConstants.CONST_INT_0);
+        cPilotBase::OnEnter();
+    }
+
+    void cTrainingHeliPilot::OnExit()
+    {
+        if (m_pPatrolEventHandle)
+        {
+            cAIEventManager::ms_pEventManager->Unsubscribe(m_pPatrolEventHandle);
+            m_pPatrolEventHandle = 0;
+        }
+        cPilotBase::OnExit();
     }
 
     // CD2 0x82F9CA28: runtime class inheritance registration.

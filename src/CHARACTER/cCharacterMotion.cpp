@@ -13,6 +13,7 @@
 #include "fun_runtime/script_type_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "cd2/memory.h"
+#include "fun_runtime/retval.h"
 
 namespace CHARACTER
 {
@@ -33,5 +34,15 @@ namespace CHARACTER
     const Fun_Runtime::cClass &cCharacterMotion::RetClass() const
     {
         return *ms_pcCharacterMotionClass;
+    }
+
+    void cCharacterMotion::cCharacterMotionPrototype::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        PHYSICS::cDynamicBody::cDynamicBodyPrototype::HandleAttributes(packet);
+    }
+
+    Fun_Runtime::RetVal cCharacterMotion::cCharacterMotionPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
     }
 }

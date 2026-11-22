@@ -60,6 +60,12 @@ namespace Prop
         return cProp::EnterRenderableState(eResources);
     }
 
+    void cTrafficLight::LeaveRenderableState()
+    {
+        RemoveAllLights();
+        cProp::LeaveRenderableState();
+    }
+
     void cTrafficLight::UpdateRenderMatrix()
     {
         cProp::UpdateRenderMatrix();

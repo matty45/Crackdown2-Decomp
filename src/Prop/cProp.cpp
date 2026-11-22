@@ -117,6 +117,13 @@ namespace Prop
         return false;
     }
 
+    void cProp::EnterGhostState()
+    {
+        if (m_nMotionType == eMT_FIXEDUNTILBROKEN)
+            Breakoff(false);
+        cDynamicBody::EnterGhostState();
+    }
+
     void cProp::SetCarriedByCharacter(CHARACTER::cCharacter *pCarrying)
     {
         if (pCarrying == PLAYER::cPlayer::RetLocalPlayerCharacter())

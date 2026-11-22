@@ -8,6 +8,7 @@
 #include "fun_runtime/retval.h"
 
 namespace Equip { class cWeapon; }
+namespace Vehicle { class cVehicle; }
 namespace CHARACTER { class cCharacter; }
 
 // Descriptive name: CD2 0x82887D38 removes the object's entry from both per-type registries,
@@ -55,12 +56,22 @@ namespace Prop
         // RuffKing names; CD2 0x827485B0 destroys these safe pointers at 0xE40 then 0xE30.
         Fun_Runtime::cSafeDeletablePointer<Equip::cWeapon> m_pWeapon;
         Fun_Runtime::cSafeDeletablePointer<CHARACTER::cCharacter> m_pUsingCharacter;
-        unsigned char m_unknownE50[0x1080 - 0xE50];
+        // RuffKing's name and type (its +0xEC0, 0x70 below as m_pWeapon is): RetCollisionSystemGroup (0x82748990)
+        // forwards to it.
+        Vehicle::cVehicle *m_pVehicle;                                          // 0xE50
+        unsigned char m_unknownE54[0x1073 - 0xE54];
+        // RuffKing's name (its +0x10E3): Term (0x827488D0) sets it around SetMountedWeapon.
+        bool m_bIsProcessingTerm;                                               // 0x1073
+        unsigned char m_unknown1074[0x1080 - 0x1074];
 
         // CD2: cTurretBase's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
         virtual Fun_Runtime::RetVal Term(); // 6: 0x827488D0
+        // RuffKing's names. CD2 passes SetCharacterInteracting (0x8274AB40, 11 callers) the character only; its body
+        // keeps no second argument. SetMountedWeapon is CD2 0x82748CC0.
+        void SetCharacterInteracting(CHARACTER::cCharacter *pChar);
+        void SetMountedWeapon(Equip::cWeapon *pWeapon, bool bForceDelete);
         virtual bool EnterPhysicalState(); // 7: 0x82748A08
         virtual void Slot14(); // 14: 0x827489C0
         virtual void TickUpdate(float fDeltaTime); // 23: 0x8274B008
@@ -86,7 +97,9 @@ namespace Prop
         CD2_LAYOUT_CHECKS(cTurretBase,
             CD2_SIZE(cTurretBase, 0x1080)
             CD2_OFFSET(cTurretBase, m_pWeapon, 0xE30)
-            CD2_OFFSET(cTurretBase, m_pUsingCharacter, 0xE40))
+            CD2_OFFSET(cTurretBase, m_pUsingCharacter, 0xE40)
+            CD2_OFFSET(cTurretBase, m_pVehicle, 0xE50)
+            CD2_OFFSET(cTurretBase, m_bIsProcessingTerm, 0x1073))
 
     public:
         // CD2 table 0x82144C88 differs from cProp at these inherited slots.

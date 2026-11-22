@@ -13,6 +13,8 @@
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
 #include "AI/BehaviourClassID.h"
+#include "AI/cAiPlayer.h"
+#include "AI/cAiTargetInfo.h"
 
 namespace AI
 {
@@ -53,6 +55,42 @@ namespace AI
             m_nMainState = state;
             OnEnterState(state);
         }
+    }
+
+    void CellMinigun::OnIdle()
+    {
+        if (RetDefaultPatrolRoute())
+            ChangeMainState(eMAIN_Patrol);
+    }
+
+    void CellMinigun::OnPatrolling()
+    {
+        if (!RetDefaultPatrolRoute())
+            ChangeMainState(eMAIN_Idle);
+    }
+
+    void CellMinigun::OnAttacking()
+    {
+        cAiTargetInfo *pTargetInfo = m_pHost->m_TargetCache.RetTargetInfo();
+        if (pTargetInfo && !pTargetInfo->IsTargetDeleted())
+        {
+            if (!pTargetInfo->IsTargetAlive())
+            {
+                m_pHost->ClearEnemy();
+                m_pHost->m_TargetCache.ClearTarget();
+                ChangeMainState(eMAIN_Idle);
+            }
+            else if (!pTargetInfo->CanPrimaryFire(RetCellMinigunPrototype().m_fSuppressDuration))
+                ChangeMainState(eMAIN_Investigate);
+        }
+        else
+            ChangeMainState(eMAIN_Idle);
+    }
+
+    void CellMinigun::SetReactResupplyPoint(const Fun_Runtime::Vec3 &vMoveTo, const Fun_Runtime::Vec3 &)
+    {
+        m_pHost->m_TargetCache.SetTarget(vMoveTo, 0);
+        ChangeMainState(eMAIN_Investigate);
     }
 
     static RWS::CClassFactory::CRegistrar CellMinigunRegistrar(

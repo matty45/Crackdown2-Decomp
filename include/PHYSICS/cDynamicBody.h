@@ -25,6 +25,8 @@ namespace PHYSICS
         {
         public:
             cDynamicBodyPrototype(const RWS::CAttributePacket &);
+            // CD2 table 0x82131E40 (installed by the constructor 0x82686DD8) slot 1: 0x82686F98.
+            virtual void HandleAttributes(const RWS::CAttributePacket &);
 
         private:
             unsigned char m_unmodelled1F0[0x219 - 0x1F0];

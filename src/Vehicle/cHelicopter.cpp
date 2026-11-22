@@ -15,6 +15,7 @@
 #include "fun_runtime/inheritance_registrar.h"
 #include "cd2/memory.h"
 #include <new>
+#include "VEHICLE_CONTROL/cHelicopterController.h"
 
 namespace Vehicle
 {
@@ -85,6 +86,13 @@ namespace Vehicle
     void cHelicopter::CalculateLOD(int nNodeID)
     {
         cVehicle::CalculateLOD(nNodeID);
+    }
+
+    void cHelicopter::LeavePhysicalState()
+    {
+        if (RetPtrHeliController())
+            RetPtrHeliController()->HandleLeavePhysicalState();
+        cVehicle::LeavePhysicalState();
     }
 
     bool cHelicopter::IsOnGround()

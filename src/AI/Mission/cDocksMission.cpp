@@ -10,6 +10,7 @@
 #include "AI/cDocksMission.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
+#include "AI/cMissionCriticalPropSpawnPoint.h"
 
 namespace AI
 {
@@ -60,6 +61,20 @@ namespace AI
     {
         SetAssociatedZonesEnabled(false);
         cMission::Deactivate();
+    }
+
+    void cDocksMission::InitReplication()
+    {
+        cMission::InitReplication();
+        if (m_pCollectionObject)
+            m_pCollectionObject->InitReplication();
+    }
+
+    void cDocksMission::TermReplication()
+    {
+        cMission::TermReplication();
+        if (m_pCollectionObject)
+            m_pCollectionObject->TermReplication();
     }
 
     void cDocksMission::TickUpdate(float)

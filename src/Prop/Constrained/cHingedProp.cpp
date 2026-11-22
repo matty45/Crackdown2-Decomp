@@ -230,6 +230,14 @@ namespace Prop
         return &cHingedPropScriptRegistrar;
     }
 
+    void cHingedProp::GoToInitialState()
+    {
+        if (static_cast<cPropPrototype *>(m_pPrototype)->m_nMotionType == eMT_DYNAMIC)
+            GoToBrokenOffState();
+        else
+            GoToMinState();
+    }
+
     void cHingedProp::RotToMax()
     {
         if (IsInMinState() || IsInRotatingToMinState() || IsInRotatingFreeState())

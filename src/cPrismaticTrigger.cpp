@@ -22,6 +22,7 @@
 #include "rws/classfactory.h"
 #include "unknown/cPrismaticTrigger.h"
 #include "cd2/memory.h"
+#include "rws/systemcommands.h"
 
 namespace unknown
 {
@@ -57,6 +58,12 @@ namespace unknown
     const Fun_Runtime::cClass &cPrismaticTrigger::RetClass() const
     {
         return *ms_pcPrismaticTriggerClass;
+    }
+
+    void cPrismaticTrigger::cPrismaticTriggerPrototype::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cGameBase::cGameBasePrototype::HandleAttributes(packet);
+        m_pCollisionResource = RWS::CSystemCommands::FindFirstResourceOfType(packet, "rwID_COLLISION");
     }
 
     Fun_Runtime::RetVal cPrismaticTrigger::cPrismaticTriggerPrototype::Init(const RWS::CAttributePacket &)

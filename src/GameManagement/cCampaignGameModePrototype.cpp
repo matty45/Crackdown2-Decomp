@@ -25,4 +25,9 @@ namespace GameManagement
     {
         return new cCampaignGameModePrototype;
     }
+
+    int cCampaignGameModePrototype::RetStringID() const
+    {
+        return 0xDD2FD37C;
+    }
 }

@@ -19,13 +19,12 @@
 #include "fun_runtime/inheritance_registrar.h"
 #include "AI/NPCBehaviour.h"
 #include "AI/cChaseBehaviour.h"
+#include "AI/cAIEventManager.h"
 #include "CHARACTER/cCharacter.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
 #include <new>
 
-void *g_pBehaviourTable;     // global pointer variable at 0x83800988
-unsigned int Ext_8243F860(void *, unsigned int);
 void Ext_824A8848(void *proto, AI::NPCHost *host);
 void Ext_823E97B8(AI::NPCHost *host, int id);
 void Ext_823F1610(AI::NPCHost *host, int handle, int flag);
@@ -34,7 +33,7 @@ void Ext_823E9640(AI::NPCHost *, AI::NPCTarget *, int);
 void Ext_823F16E8(AI::NPCHost *, void *);
 void Ext_823E9738(AI::NPCHost *);
 void Ext_8244D038(AI::NPCRegistry *);
-unsigned int Ext_8276F1B8(Fun_Runtime::cSafeDeletable *, int, AI::XSub *, void *);
+AI::cAIEventSubscription *Ext_8276F1B8(Fun_Runtime::cSafeDeletable *, int, AI::XSub *, void *);
 
 namespace AI
 {
@@ -69,7 +68,7 @@ namespace AI
     void cChaseBehaviour::OnExit()
     {
         if (m_hD0)
-            m_hD0 = Ext_8243F860(g_pBehaviourTable, m_hD0);
+            m_hD0 = cAIEventManager::ms_pEventManager->Unsubscribe(m_hD0);
     }
 
     void cChaseBehaviour::V106()
@@ -201,7 +200,7 @@ namespace AI
             }
         }
         else if (m_hD0 != 0)
-            m_hD0 = Ext_8243F860(g_pBehaviourTable, m_hD0);
+            m_hD0 = cAIEventManager::ms_pEventManager->Unsubscribe(m_hD0);
     }
 
     void cChaseBehaviour::PreUpdateAllStates(float dt)

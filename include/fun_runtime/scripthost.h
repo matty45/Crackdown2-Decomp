@@ -12,6 +12,7 @@
 #define FUN_RUNTIME_SCRIPTHOST_H
 #include "fun_runtime/safedeletable.h"
 #include "fun_runtime/class.h"
+namespace AI { class cAIEventSubscription; }
 namespace Fun_Runtime {
 class cScriptTypeRegistration;
 class cScriptHost : public cSafeDeletable, public cRegisteredClass {
@@ -32,6 +33,10 @@ public:
     virtual void Slot5();
     virtual const cClass &RetClass() const;
     virtual bool IsA(const cClass &) const;
+    // CD2 script method "SubscribeImmediate" (0x8276F1B8, 51 callers): the behaviours pass their script host, the
+    // event ID, the source's script host and a user word, and keep the subscription it returns, as RuffKing's
+    // cAIEventHandler::SubscribeImmediate(nEventId, pSourceFilter, nUserData) does.
+    AI::cAIEventSubscription *SubscribeImmediate(int nEventId, cScriptHost *pSourceFilter, unsigned int nUserData);
 private:
     bool m_bFlag;
 public:

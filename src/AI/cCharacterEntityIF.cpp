@@ -45,6 +45,7 @@
 #include "AI/cAttackStateScriptRegistration.h"
 #include "AI/cFaceTargetScriptRegistration.h"
 #include "rws/classfactory.h"
+#include "fun_runtime/retval.h"
 #include "cd2/memory.h"
 #include "lua/lua.h"
 #include <new>
@@ -369,6 +370,11 @@ namespace AI
     void *cCharacterEntityIF::RetRooftopPoint()
     {
         return m_pRooftopPoint;
+    }
+
+    Fun_Runtime::RetVal cCharacterEntityIF::cCharacterEntityIFPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
     }
 
     cObjectInstigatorEvent::cObjectInstigatorEvent(Fun_Runtime::cScriptHost *source,

@@ -24,6 +24,7 @@
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
 #include "rw/rwmem.h"
+#include "AI/cGangEnforcerLevelChangedEvent.h"
 
 namespace GangManager
 {
@@ -49,6 +50,18 @@ namespace GangManager
         return m_sName.c_str();
     }
 
+}
+
+namespace AI
+{
+    const Fun_Runtime::cScriptTypeRegistration *cGangEnforcerLevelChangedEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cGangEnforcerLevelChangedEvent;
+    }
+}
+
+namespace GangManager
+{
     void cFactionConfigData::HandleAttributes(const RWS::CAttributePacket &packet)
     {
         for (RWS::CAttributeCommandIterator it(packet, pcFactionConfigDataClassID); !it.IsFinished(); ++it)

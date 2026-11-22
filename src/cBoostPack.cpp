@@ -26,6 +26,7 @@
 #include "fun_runtime/script_type_registrar.h"
 #include <new>
 #include "rw/rwmem.h"
+#include "fun_runtime/retval.h"
 
 namespace unknown
 {
@@ -143,6 +144,11 @@ namespace unknown
                 break;
             }
         }
+    }
+
+    Fun_Runtime::RetVal cBoostPackPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
     }
 
     // CD2 script-type registration; constructor/table evidence identifies the child and parent.

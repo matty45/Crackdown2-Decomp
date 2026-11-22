@@ -4,6 +4,7 @@
 #ifndef AI_NPCARMEDBEHAVIOUR_H
 #define AI_NPCARMEDBEHAVIOUR_H
 #include "AI/NPCBehaviour.h"
+#include "AI/cAiPlayer.h"
 namespace AI
 {
     class NPCArmedBehaviour : public NPCBehaviour
@@ -98,7 +99,13 @@ namespace AI
     public:
         // CD2 table 0x821089B0: overrides relative to NPCBehaviour.
         virtual void OnEnter(); // slot 68: 0x824A81A8
-        virtual void OnExit(); // slot 69: 0x824A8278
+        // Slot 69 (0x824A8278). Inline: CellTurret's and CellRocket's OnExit (0x824C5648/0x824C4118) expand it.
+        virtual void OnExit()
+        {
+            ChangeMainState(eMAIN_Null);
+            m_pHost->ClearEnemy();
+            m_pHost->m_TargetCache.ClearTarget();
+        }
         virtual void Update(float fDeltaTime); // slot 71: 0x824A8330, main-state dispatcher; original name unresolved
     };
 }

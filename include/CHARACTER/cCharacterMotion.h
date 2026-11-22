@@ -17,6 +17,10 @@ namespace CHARACTER
         {
         public:
             cCharacterMotionPrototype(const RWS::CAttributePacket &);
+            // CD2 table 0x82113F98 (its deleting destructor 0x823BC538 and the derived prototype's destructor
+            // 0x822EEB60 store it) slots 1 and 5: 0x825520F8, 0x82552100.
+            virtual void HandleAttributes(const RWS::CAttributePacket &);
+            virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
             // CD2: cCharacterMotionPrototype's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
             // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
         public:

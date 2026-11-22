@@ -81,4 +81,27 @@ namespace unknown
     {
         return cVehicle::CheckForReplicationActivation(nRetCode);
     }
+
+    bool cAgencySquadChopper::IsOnGround()
+    {
+        return cVehicle::IsOnGround();
+    }
+
+    unsigned char cAgencySquadChopper::RetNumPointsOfInterest()
+    {
+        return m_nPoiCount;
+    }
+
+    GOM::cPointOfInterest *cAgencySquadChopper::RetPointOfInterest(int nPoint)
+    {
+        if (nPoint < m_nPoiCount)
+            return &m_POI[nPoint];
+        return 0;
+    }
+
+    void cAgencySquadChopper::HandleTryToExitInteractPermisiionQuery(
+        PHYSICS::cDynamicBodyInteractionData *pInteractionData, cNonGameBase *pNonGameBase, bool &bInteractionResult)
+    {
+        cVehicle::HandleTryToExitInteractPermisiionQuery(pInteractionData, pNonGameBase, bInteractionResult);
+    }
 }

@@ -8,3 +8,13 @@
 #include "PHYSICS/physicsproject.h"
 #include "CHARACTER/cCharacterController.h"
 #include "CHARACTER/cRagdollProfile.h"
+#include "CHARACTER/cActionDataLedge.h"
+
+namespace CHARACTER
+{
+    void cActionDataLedge::ResetData()
+    {
+        m_eTriggers = eLedgeT_None;
+        cBaseActionData::ResetData();
+    }
+}

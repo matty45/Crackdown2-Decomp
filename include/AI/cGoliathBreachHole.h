@@ -17,6 +17,8 @@ namespace AI
         virtual void TryKillAllSpawned(); // 0x82474190
         virtual void ExitState(eBreachHoleState); // 0x82474288
         virtual void EnterState(eBreachHoleState); // 0x824742D8
+        // RuffKing's (cGoliathBreach.h); ExitState calls CD2 0x824741F0 when the hole has opened.
+        void DisableAllSquads();
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pcGoliathBreachHoleClass;
 

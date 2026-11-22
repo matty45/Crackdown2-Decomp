@@ -40,6 +40,22 @@ namespace AI
         return new CellTurret();
     }
 
+    void CellTurret::OnEnter()
+    {
+        NPCArmedBehaviour::OnEnter();
+        m_nTargetDiedSub = SubscribeImmediate(0x3A, m_pHost, Fun_Runtime::g_GlobalConstants.CONST_INT_0);
+    }
+
+    void CellTurret::OnExit()
+    {
+        NPCArmedBehaviour::OnExit();
+        if (m_nTargetDiedSub)
+        {
+            cAIEventManager::ms_pEventManager->Unsubscribe(m_nTargetDiedSub);
+            m_nTargetDiedSub = 0;
+        }
+    }
+
     static RWS::CClassFactory::CRegistrar CellTurretRegistrar(
         "CellTurret", CellTurret::MakeNew, 0x100, false);
 

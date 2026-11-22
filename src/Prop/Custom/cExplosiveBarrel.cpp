@@ -107,6 +107,12 @@ namespace Prop
             return new (memory) cExplosiveBarrel(pPrototype);
         return 0;
     }
+    void cExplosiveBarrel::TickUpdate(float fDeltaTime)
+    {
+        cProp::TickUpdate(fDeltaTime);
+        UpdateBarrelFade();
+    }
+
     void cExplosiveBarrel::ReplicateInitialFields()
     {
         cProp::ReplicateInitialFields();

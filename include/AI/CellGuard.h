@@ -13,6 +13,49 @@ namespace AI
     class CellGuard : public AI::NPCArmedBehaviour, public cNPCArmourySetup
     {
     public:
+        // RuffKing's enums; CD2's OnReplicatedEnter (0x824C0EB8) tests eDEAD as 0x20 and enters eSetupState (1).
+        enum eFSM
+        {
+            eEnter = 0,
+            eUpdate,
+            eExit,
+        };
+        enum eStates
+        {
+            eNULL = 0,
+            eSetupState,
+            eIdle,
+            eMovingToIdle,
+            ePatrol,
+            eReadyIdle,
+            eIdleWander,
+            eAmbientEvent,
+            ePKEncourageAgent,
+            eFiringFlare,
+            eInvestigate,
+            eInvestigate_Lookat,
+            eInvestigate_StandDown_Timer,
+            eInvestigate_StandDown_Animate,
+            eInvestigate_Wander,
+            eAdvanceToAttackRange,
+            eAttackAdvance,
+            eValidatePosition,
+            eAttackStatic,
+            eAttackRetreat,
+            eMoveToCover,
+            eCoveredEngage,
+            eRespawning,
+            eRespawn_Wander,
+            eMovingToVehicle,
+            eVehicleDriver,
+            eVehiclePassenger,
+            eVehicleStopping,
+            eVehicleExitting,
+            eRappelling,
+            ePostRappelling,
+            eReacting,
+            eDEAD,
+        };
         // CD2 table 0x8210A8E0 extends the inherited interface at these slots.
         virtual float vf132();
         virtual void vf133();
@@ -21,7 +64,8 @@ namespace AI
         virtual void vf136();
         virtual void vf137();
         virtual void vf138();
-        virtual void vf139();
+        // RuffKing's last own virtual; CD2's OnReplicatedEnter calls slot 139 with 0.0f after entering eSetupState.
+        virtual void UpdateState(float fDeltaTime);
 
         virtual const Fun_Runtime::cClass &RetClass() const;
         // CD2 descriptor pointer 0x8381f1c0; its initializer names CellGuard.
@@ -61,6 +105,21 @@ namespace AI
         virtual void SetAmbientTarget(Activity::cSquadMemberSpawnPoint *pTarget); // slot 87: 0x824C2D90
         virtual unsigned char GetStateReplicationInfo() const; // slot 89: 0x824C0EA0
         virtual void OnReplicatedEnter(unsigned char); // slot 97: 0x824C0EB8
+
+    private:
+        // RuffKing's names, types and order (its +0x14C..+0x154); GetStateReplicationInfo (0x824C0EA0) returns the
+        // next state, or the current one when there is none.
+        unsigned char m_unmodelledF1[0x114 - 0xF1];
+        eStates m_CurrentState;                 // 0x114
+        eStates m_NextState;                    // 0x118
+        eFSM m_StatePosition;                   // 0x11C
+        unsigned char m_unmodelled120[0x1A0 - 0x120];
+
+        CD2_LAYOUT_CHECKS(CellGuard,
+            CD2_SIZE(CellGuard, 0x1A0)
+            CD2_OFFSET(CellGuard, m_CurrentState, 0x114)
+            CD2_OFFSET(CellGuard, m_NextState, 0x118)
+            CD2_OFFSET(CellGuard, m_StatePosition, 0x11C))
     };
 }
 

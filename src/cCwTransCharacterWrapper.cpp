@@ -76,6 +76,11 @@ namespace CHARACTER
         return "cCwTransCharacterWrapper";
     }
 
+    void cCwTransCharacterWrapperPrototype::HandleAttributes(const RWS::CAttributePacket &packet)
+    {
+        cCwTransCharacter::cCwTransCharacterPrototype::HandleAttributes(packet);
+    }
+
     Fun_Runtime::RetVal cCwTransCharacterWrapperPrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;

@@ -53,6 +53,36 @@ namespace AI
         ChangeSubState(1);
     }
 
+    void CellRocket::OnExit()
+    {
+        NPCArmedBehaviour::OnExit();
+        if (m_nReloadSub)
+        {
+            cAIEventManager::ms_pEventManager->Unsubscribe(m_nReloadSub);
+            m_nReloadSub = 0;
+        }
+        if (m_pUnknownSubF4)
+        {
+            cAIEventManager::ms_pEventManager->Unsubscribe(m_pUnknownSubF4);
+            m_pUnknownSubF4 = 0;
+        }
+    }
+
+    void CellRocket::Slot79()
+    {
+        NPCArmedBehaviour::Slot79();
+        if (m_nReloadSub)
+        {
+            cAIEventManager::ms_pEventManager->Unsubscribe(m_nReloadSub);
+            m_nReloadSub = 0;
+        }
+        if (m_pUnknownSubF4)
+        {
+            cAIEventManager::ms_pEventManager->Unsubscribe(m_pUnknownSubF4);
+            m_pUnknownSubF4 = 0;
+        }
+    }
+
     static RWS::CClassFactory::CRegistrar CellRocketRegistrar(
         "CellRocket", CellRocket::MakeNew, 0x110, false);
 

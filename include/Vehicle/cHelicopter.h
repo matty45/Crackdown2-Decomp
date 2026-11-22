@@ -12,6 +12,8 @@
 #include "gom/cPointOfInterest.h"
 #include "PHYSICS/cDynamicBodyInteractionData.h"
 
+namespace VEHICLE_CONTROL { class cHelicopterController; }
+
 namespace Vehicle
 {
     class cHelicopter : public cVehicle
@@ -90,6 +92,9 @@ namespace Vehicle
         virtual void HandleDeathDamage(cGameBase *, CHARACTER::cCharacterInterface *, unsigned char); // primary slot 391: 0x826BE460
         virtual void vf414(); // primary slot 414: 0x8288FB78
         virtual void LeavePhysicalState(); // primary slot 27: 0x826BD9C0
+        // RuffKing's (inline there, with an out-of-line copy); CD2 0x826B8B28, called out of line: the controller
+        // safe pointer's object when it IsA cHelicopterController.
+        VEHICLE_CONTROL::cHelicopterController *RetPtrHeliController();
         virtual void Slot57(); // primary slot 56: 0x826BDBF0
         virtual void Slot58(); // primary slot 57: 0x826BDC60
         virtual void Slot59(); // primary slot 58: 0x826BDC28

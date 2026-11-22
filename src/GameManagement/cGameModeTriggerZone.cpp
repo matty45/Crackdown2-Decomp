@@ -75,4 +75,14 @@ namespace GameManagement
             return arena->RetStartZone();
         return 0;
     }
+
+    unsigned char cGameModeTriggerZone::RetMinimumAgilityLevel() const
+    {
+        return RetStartZone() ? RetStartZone()->RetMinimumAgilityLevel() : 1;
+    }
+
+    unsigned char cGameModeTriggerZone::RetMinNumParticipants() const
+    {
+        return RetStartZone() ? RetStartZone()->RetMinNumParticipants() : 1;
+    }
 }

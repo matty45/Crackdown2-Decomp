@@ -43,6 +43,13 @@ namespace AI
         return *cGoliathBreachHoleClass;
     }
 
+    void cGoliathBreachHole::ExitState(eBreachHoleState eBHSNewState)
+    {
+        if (eBHSNewState == eBHS_Open)
+            DisableAllSquads();
+        cBreachHole::ExitState(eBHSNewState);
+    }
+
     // CD2 0x82F8A090: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cGoliathBreachHolecBreachHoleInheritRegistrar(
         AI::cGoliathBreachHole::StaticCreateClass(), AI::cBreachHole::StaticCreateClass());

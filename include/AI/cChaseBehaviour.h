@@ -225,6 +225,7 @@ namespace AI
     // one of the two layouts is wrong there. Only the bytes from 0xC0 are this class's own. FreakBase and, through
     // cChaseBehaviour, cAgressiveResponseBase derive from it, so the fix moves all of them.
     class IBehaviourState;
+    class cAIEventSubscription;
 
     class NPCBehaviourSM : public cNonGameBase
     {
@@ -301,7 +302,7 @@ namespace AI
                 CD2_SIZE(cChaseBehaviourPrototype, 0x90))
         };
 
-        unsigned int m_hD0;               // 0xD0 handle (zero when none)
+        cAIEventSubscription *m_hD0;      // 0xD0 AI event subscription (zero when none)
         float m_fD4;              // 0xD4 timer
         unsigned char padD8[0xE0 - 0xD8];
         struct Vec3 { float x, y, z; Vec3() : x(0.0f), y(0.0f), z(0.0f) {} } m_vTarget;       // 0xE0

@@ -25,6 +25,13 @@ namespace AI
         unsigned char m_pad21[0x2E - 0x21];
     protected:
         bool m_bVisible;                        // 0x2E
+    private:
+        unsigned char m_pad2F[0x37 - 0x2F];
+    protected:
+        // RuffKing's names and order (its +0x1E/+0x1F). CellMinigun::OnAttacking (0x824C3BB8) tests 0x38 before 0x37,
+        // as RuffKing's tests m_bIsDeleted before m_bIsAlive.
+        bool m_bIsAlive;                        // 0x37
+        bool m_bIsDeleted;                      // 0x38
 
     public:
         // CD2 0x8244DCD8 builds the cClass "cAiTargetInfo"; cAiTargetPositionInfo's inheritance registrar
@@ -33,11 +40,18 @@ namespace AI
         bool IsPrimaryFireInRange() const;
         bool IsPrimaryFireBlocked() const;
         bool IsTargetVisible() const;
+        // RuffKing's; CD2 0x82450418 (CellMinigun's OnAttacking/OnInvestigating pass the suppress duration).
+        bool CanPrimaryFire(float fSuppressingFireTime) const;
+        // RuffKing's accessors; CD2's behaviours read the bytes in place.
+        bool IsTargetAlive() const { return m_bIsAlive; }
+        bool IsTargetDeleted() const { return m_bIsDeleted; }
 
         CD2_LAYOUT_CHECKS(cAiTargetInfo,
             CD2_OFFSET(cAiTargetInfo, m_bPrimaryFireInRange, 0x1C)
             CD2_OFFSET(cAiTargetInfo, m_bPrimaryFireBlocked, 0x20)
-            CD2_OFFSET(cAiTargetInfo, m_bVisible, 0x2E))
+            CD2_OFFSET(cAiTargetInfo, m_bVisible, 0x2E)
+            CD2_OFFSET(cAiTargetInfo, m_bIsAlive, 0x37)
+            CD2_OFFSET(cAiTargetInfo, m_bIsDeleted, 0x38))
     };
 }
 

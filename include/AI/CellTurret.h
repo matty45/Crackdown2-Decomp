@@ -6,6 +6,7 @@
 #include "fun_runtime/class.h"
 #include "rws/attributes.h"
 #include "AI/NPCArmedBehaviour.h"
+#include "AI/cAIEventManager.h"
 
 namespace AI
 {
@@ -46,6 +47,15 @@ namespace AI
         virtual void OnAmbient(); // slot 109: 0x82580578
         virtual void OnDrive(); // slot 110: 0x82580578
         virtual void EnterSubStateInvestigating(); // slot 112: 0x824C54B8
+
+    private:
+        // RuffKing's member (its +0x130): OnExit (0x824C5648) unsubscribes it through the event manager.
+        cAIEventSubscription *m_nTargetDiedSub; // 0xF0
+        unsigned char m_unmodelledF4[0x100 - 0xF4];
+
+        CD2_LAYOUT_CHECKS(CellTurret,
+            CD2_SIZE(CellTurret, 0x100)
+            CD2_OFFSET(CellTurret, m_nTargetDiedSub, 0xF0))
     };
 }
 

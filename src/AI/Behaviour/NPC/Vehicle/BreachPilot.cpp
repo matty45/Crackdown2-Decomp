@@ -13,6 +13,7 @@
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
 #include "AI/BehaviourClassID.h"
+#include "AI/cAiPlayer.h"
 
 namespace AI
 {
@@ -47,6 +48,13 @@ namespace AI
     {
         static Fun_Runtime::cClass *BreachPilotClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "BreachPilot", 0x160);
         return *BreachPilotClass;
+    }
+
+    void BreachPilot::OnExit()
+    {
+        cPilotBase::OnExit();
+        m_pHost->ClearEnemy();
+        m_pHost->m_TargetCache.ClearTarget();
     }
 
     // CD2 0x82F9B1E8: runtime class inheritance registration.

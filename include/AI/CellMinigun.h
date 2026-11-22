@@ -6,10 +6,13 @@
 #include "fun_runtime/class.h"
 #include "rws/attributes.h"
 #include "AI/NPCArmedBehaviour.h"
+#include "AI/CellMinigunPrototype.h"
 #include "cd2/layout.h"
 
 namespace AI
 {
+    class cPatrolRoute;
+
     class CellMinigun : public NPCArmedBehaviour
     {
     public:
@@ -62,6 +65,12 @@ namespace AI
     protected:
         // Reference method; CD2 ChangeMainState tail-calls 0x824C3888 with the new state.
         void OnEnterState(eState);
+        // RuffKing's inline accessor.
+        CellMinigunPrototype &RetCellMinigunPrototype() { return *static_cast<CellMinigunPrototype *>(m_pPrototype); }
+    private:
+        // RuffKing's private helper; OnIdle/OnPatrolling call it at 0x824C7E90, where the linker kept the identical
+        // body of TrainingAmbient's (TrainingAmbient.cpp's range).
+        const cPatrolRoute *RetDefaultPatrolRoute();
     };
 }
 
