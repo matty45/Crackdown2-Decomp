@@ -26,6 +26,11 @@
 #include "Equip/cEquipment.h"
 #include "cd2/memory.h"
 #include "fun_runtime/script_type_registrar.h"
+#include "Activity/cActivityManager.h"
+#include "rws/time.h"
+#include "CHARACTER/cPlayerNetManager.h"
+#include "PHYSICS/cPhysicsWorld.h"
+#include "Havok/hkRigidBody.h"
 
 namespace Equip
 {
@@ -46,10 +51,135 @@ namespace Equip
         return -1;
     }
 
+    bool cEquipment::IsMarkedForDeletion()
+    {
+        return m_bMarkedForDeletion;
+    }
+
     Fun_Runtime::cClass &cEquipment::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cEquipmentClass = new Fun_Runtime::cClass(0x6, "cEquipment", 0x870);
         return *cEquipmentClass;
+    }
+
+    void cEquipment::STATE_Deactivated::BeginState(Fun_Runtime::cStateMachine *)
+    {
+    }
+
+    void cEquipment::STATE_Deactivated::Process(Fun_Runtime::cStateMachine *)
+    {
+    }
+
+    void cEquipment::STATE_Deactivated::EndState(Fun_Runtime::cStateMachine *)
+    {
+    }
+
+    inline Fun_Runtime::State *cEquipment::StaticRetSTATE_Deactivated()
+    {
+        static STATE_Deactivated s_State;
+        return &s_State;
+    }
+
+    Fun_Runtime::State *cEquipment::RetSTATE_Deactivated() const
+    {
+        return StaticRetSTATE_Deactivated();
+    }
+
+    Fun_Runtime::State *cEquipment::RetSTATE_Deactivated()
+    {
+        return StaticRetSTATE_Deactivated();
+    }
+
+    void cEquipment::STATE_Idle::BeginState(Fun_Runtime::cStateMachine *)
+    {
+    }
+
+    void cEquipment::STATE_Idle::Process(Fun_Runtime::cStateMachine *)
+    {
+    }
+
+    void cEquipment::STATE_Idle::EndState(Fun_Runtime::cStateMachine *)
+    {
+    }
+
+    inline Fun_Runtime::State *cEquipment::StaticRetSTATE_Idle()
+    {
+        static STATE_Idle s_State;
+        return &s_State;
+    }
+
+    Fun_Runtime::State *cEquipment::RetSTATE_Idle() const
+    {
+        return StaticRetSTATE_Idle();
+    }
+
+    Fun_Runtime::State *cEquipment::RetSTATE_Idle()
+    {
+        return StaticRetSTATE_Idle();
+    }
+
+    void cEquipment::STATE_Active::BeginState(Fun_Runtime::cStateMachine *)
+    {
+    }
+
+    void cEquipment::STATE_Active::Process(Fun_Runtime::cStateMachine *pSM)
+    {
+        cEquipment *pEquipment = static_cast<cEquipment *>(pSM);
+        pEquipment->m_fTimer -= RWS::Time::RetDeltaTimeSecs();
+        if (pEquipment->m_fTimer < 0.0001f)
+            pEquipment->GoTo_State(pEquipment->RetSTATE_Idle());
+    }
+
+    void cEquipment::STATE_Active::EndState(Fun_Runtime::cStateMachine *)
+    {
+    }
+
+    inline Fun_Runtime::State *cEquipment::StaticRetSTATE_Active()
+    {
+        static STATE_Active s_State;
+        return &s_State;
+    }
+
+    Fun_Runtime::State *cEquipment::RetSTATE_Active() const
+    {
+        return StaticRetSTATE_Active();
+    }
+
+    Fun_Runtime::State *cEquipment::RetSTATE_Active()
+    {
+        return StaticRetSTATE_Active();
+    }
+
+    void cEquipment::STATE_Paused::BeginState(Fun_Runtime::cStateMachine *)
+    {
+    }
+
+    void cEquipment::STATE_Paused::Process(Fun_Runtime::cStateMachine *pSM)
+    {
+        cEquipment *pEquipment = static_cast<cEquipment *>(pSM);
+        pEquipment->m_fTimer -= RWS::Time::RetDeltaTimeSecs();
+        if (pEquipment->m_fTimer < 0.0001f)
+            pEquipment->GoTo_State(pEquipment->RetSTATE_Idle());
+    }
+
+    void cEquipment::STATE_Paused::EndState(Fun_Runtime::cStateMachine *)
+    {
+    }
+
+    inline Fun_Runtime::State *cEquipment::StaticRetSTATE_Paused()
+    {
+        static STATE_Paused s_State;
+        return &s_State;
+    }
+
+    Fun_Runtime::State *cEquipment::RetSTATE_Paused() const
+    {
+        return StaticRetSTATE_Paused();
+    }
+
+    Fun_Runtime::State *cEquipment::RetSTATE_Paused()
+    {
+        return StaticRetSTATE_Paused();
     }
 
     static RWS::CClassFactory::CRegistrar cEquipmentRegistrar(
@@ -141,6 +271,23 @@ int cNonGameBase::RetUniqueID()
 
 namespace Equip
 {
+    void cEquipment::CreateHavokPhysics()
+    {
+        CreateBodyPhysics();
+    }
+
+    void cEquipment::DeleteHavokPhysics()
+    {
+        if (m_pRigidBody)
+            DeleteBodyPhysics();
+    }
+
+    void cEquipment::ResetHavokPhysics()
+    {
+        DeleteHavokPhysics();
+        CreateHavokPhysics();
+    }
+
     GOM::cPointOfInterest *cEquipment::RetPointOfInterest(int)
     {
         return &m_POI;
@@ -156,9 +303,71 @@ namespace Equip
         return static_cast<const cEquipmentPrototype *>(m_pPrototype)->RetEquipmentType();
     }
 
-    bool cEquipment::CanForceNetTransform() const
+    Fun_Runtime::Mtx *cEquipment::GetMatrix(Fun_Runtime::Mtx &Mat)
     {
-        return m_bNetSleeping;
+        cGameBase *pOwner = RetOwnerGameObject();
+        if (pOwner)
+            pOwner->GetAimMatrix(Mat);
+        return &Mat;
+    }
+
+    void cEquipment::LeaveRenderableState()
+    {
+        if (!m_bMultiplayerPickup)
+            PHYSICS::cDynamicBody::LeaveRenderableState();
+    }
+
+    void cEquipment::EnterGhostState()
+    {
+        if (!m_bGhostState)
+        {
+            PHYSICS::cDynamicBody::EnterGhostState();
+            if (m_pRigidBody)
+            {
+                m_pRigidBody->addReference();
+                if (m_pRigidBody->m_world)
+                    m_pMyWorld->removeEntity(m_pRigidBody);
+            }
+        }
+    }
+
+    bool cEquipment::PickUpRequested(cGameBase *pOwnerTest)
+    {
+        return !IsMarkedForDeletion() && (GetStatus() == STATUS_FREE || GetStatus() == STATUS_MOUNTED) && !IsLive()
+            && (RetOwner() == pOwnerTest || !RetOwner());
+    }
+
+    bool cEquipment::CanBeEquipped()
+    {
+        return !IsMarkedForDeletion();
+    }
+
+    bool cEquipment::IsManagedByActivityManager()
+    {
+        return !m_bMultiplayerPickup;
+    }
+
+    void cEquipment::CalculateLOD(int nNodeID)
+    {
+        m_LOD[nNodeID] = RetNetworkLOD(CHARACTER::cPlayerNetManager::RetNetCharacter(nNodeID), nNodeID);
+    }
+
+    bool cEquipment::CanDoOwnershipTransition()
+    {
+        if (GetStatus() != STATUS_FREE || IsDetonating() || m_bMultiplayerPickup)
+            return false;
+        return true;
+    }
+
+    void cEquipment::OnFailedOwnershipTransition()
+    {
+        Activity::cActivityManager::RetActivityManager().RequestDelete(this);
+    }
+
+    void cEquipment::SetPingedFieldStatesForNode(unsigned char nNodeID)
+    {
+        if (!m_bMultiplayerPickup)
+            SetFieldStateForNode(nNodeID, sReplicatedField::WriteAlwaysOnce, 0);
     }
 
     void cEquipment::SetNetRole(etNetRole role)

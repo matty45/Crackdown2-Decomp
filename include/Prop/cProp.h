@@ -139,7 +139,7 @@ namespace Prop
         virtual bool EnterPhysicalState(); // 7: 0x8273B110
         virtual void LeavePhysicalState(); // 27: 0x8272A370
         virtual bool IsAIEntityOwner(Kaim::CEntity *pEntity); // 61: 0x8272C3E8
-        virtual void Slot63(); // 62: 0x823B8858
+        virtual bool IsManagedByActivityManager(); // 62: 0x823B8858
         virtual void vf68(); // 68: 0x8272BFA0
         virtual void vf72(); // 72: 0x826D0C18
         virtual void vf103(); // 103: 0x8272CCD8
@@ -184,8 +184,8 @@ namespace Prop
         virtual void TriggerEnterWater(float fWaterLevel); // 284: 0x8272C400
         virtual void TriggerExitWater(float fWaterLevel); // 285: 0x8272C448
         virtual void vf127(); // 127: 0x8272BC10
-        virtual void vf153(); // 153: 0x8272ABE0
-        virtual void vf154(); // 154: 0x8272AC18
+        virtual void CreateHavokPhysics(); // 153: 0x8272ABE0
+        virtual void DeleteHavokPhysics(); // 154: 0x8272AC18
         virtual void CalculateRelevancy(int); // cReplicatedClass 2: 0x827302C0
         virtual void CalculateLOD(int); // cReplicatedClass 3: 0x822D76B0
         virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x8272F450

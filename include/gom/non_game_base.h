@@ -166,7 +166,9 @@ public:
     // Slot 61: RuffKing's IsAIEntityOwner (cProp's and cVehicle's shared override 0x8272C3E8 compares the entity with
     // the dynamic obstacle, as RuffKing's cVehicle::IsAIEntityOwner does).
     virtual bool IsAIEntityOwner(Kaim::CEntity *pEntity);
-    virtual void Slot63();
+    // Slot 62: RuffKing's IsManagedByActivityManager (a cGameBase virtual there). cEquipment's override (0x82605FD0)
+    // returns !m_bMultiplayerPickup as RuffKing's does; the default (0x8288FB78) returns true.
+    virtual bool IsManagedByActivityManager();
     virtual void Slot64();
     virtual void Slot65();
     virtual void Slot66();

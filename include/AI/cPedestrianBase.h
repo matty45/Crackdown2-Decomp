@@ -110,7 +110,7 @@ namespace AI
         // CD2 table 0x8200B1F8 differs from NPCBehaviour at these inherited slots.
         virtual void OnEnter(); // slot 68: 0x824A9350
         virtual void OnExit(); // slot 69: 0x824A9588
-        virtual void Slot71(); // slot 71: 0x824A9E18
+        virtual void Update(float fDeltaTime); // slot 71: 0x824A9E18
         virtual void OnEnterReplicatedState(unsigned char); // slot 72: 0x824A8CA0
         virtual void Slot73(); // slot 73: 0x824A9888
         virtual void OnEvent74(NPCTarget *t); // slot 74: 0x824A9728
@@ -121,7 +121,7 @@ namespace AI
         virtual void Slot82(); // slot 82: 0x824A9B98
         virtual void Slot83(); // slot 83: 0x824AABF8
         virtual void Slot84(); // slot 84: 0x824A96B0
-        virtual void Slot88(); // slot 88: 0x82370840
+        virtual void NotifySquadMemberDead(); // slot 88: 0x82370840
         virtual unsigned char GetStateReplicationInfo() const; // slot 89: 0x824D42A8
     };
 }

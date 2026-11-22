@@ -22,6 +22,8 @@
 #include "CHARACTER/cRagdollProfile.h"
 #include "AI/aiconstants.h"
 #include "cd2/memory.h"
+#include "ExplosionManager/cExplosionManager.h"
+#include "ExplosionManager/cExplosionLevelInfo.h"
 #include "gom/proto_registrar.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "Equip/cFlocket.h"
@@ -76,5 +78,24 @@ namespace Equip
     cHWProjectile::~cHWProjectile()
     {
         ReleaseEffect();
+    }
+
+    void cHWProjectile::SetExplosiveSkillLevel(unsigned char nLevel)
+    {
+        if (m_pExplosive)
+            m_pExplosive->SetLevel(nLevel);
+    }
+
+    float cHWProjectile::RetDamageRadius() const
+    {
+        if (m_pExplosive)
+        {
+            unsigned char nLevel = m_pExplosive->RetLevel();
+            ExplosionManager::cExplosionLevelInfo *pInfo =
+                ExplosionManager::cExplosionManager::RetExplosionManager()->RetLevelInfo(nLevel);
+            if (pInfo)
+                return pInfo->RetDamageRadius();
+        }
+        return Fun_Runtime::g_GlobalConstants.CONST_FLOAT_0;
     }
 }

@@ -58,7 +58,7 @@ namespace AI
         virtual void Slot80(unsigned char,unsigned char,unsigned char); // 80: 0x824BF5A8
         virtual void Slot82(); // 82: 0x824BEFC0
         virtual unsigned char GetStateReplicationInfo() const; // 89: 0x824BE8C0
-        virtual void GetState(int); // 100: 0x824BE908
+        virtual IBehaviourState *GetState(unsigned char); // 100: 0x824BE908
         virtual void Slot101(); // 101: 0x824BE7C0
         virtual void V102(); // 102: 0x824BE808
     private:

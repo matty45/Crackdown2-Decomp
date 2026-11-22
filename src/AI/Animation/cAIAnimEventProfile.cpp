@@ -27,6 +27,12 @@
 #include "gom/non_game_base.h"
 #include "cd2/memory.h"
 
+// CD2 calls the shared wide-string assign at 0x82438418 with offset/count arguments.
+// Keep this external instantiation opaque, as in the audio and ambience profiles.
+extern template std::basic_string<wchar_t, std::char_traits<wchar_t>, Fun_Runtime::cAllocator<wchar_t> > &
+    std::basic_string<wchar_t, std::char_traits<wchar_t>, Fun_Runtime::cAllocator<wchar_t> >::assign(
+        const std::basic_string<wchar_t, std::char_traits<wchar_t>, Fun_Runtime::cAllocator<wchar_t> > &, size_t, size_t);
+
 namespace AI
 {
     static Fun_Runtime::cInheritanceRegistrar cAIAnimEventProfilecNonGameBaseInheritRegistrar(

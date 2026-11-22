@@ -19,6 +19,7 @@
 // Globals cChaseBehaviour.cpp uses; their real owners and names are not known (the names are ours).
 extern void *g_p830BBDB4;                                   // 0x830BBDB4
 
+namespace Activity { class cSquadMemberSpawnPoint; }
 namespace AI
 {
     struct TargetInfo { unsigned int v[4]; };
@@ -223,6 +224,8 @@ namespace AI
     // m_pHost, m_fInActivityTimer, m_pAmbientTarget), and m_nState (0xA8) falls inside its m_vRespawnHeading (0xA0), so
     // one of the two layouts is wrong there. Only the bytes from 0xC0 are this class's own. FreakBase and, through
     // cChaseBehaviour, cAgressiveResponseBase derive from it, so the fix moves all of them.
+    class IBehaviourState;
+
     class NPCBehaviourSM : public cNonGameBase
     {
     public:
@@ -233,7 +236,7 @@ namespace AI
         virtual void OnEnter();
         virtual void OnExit();
         virtual void Slot70();
-        virtual void Slot71();
+        virtual void Update(float fDeltaTime);
         virtual void OnEnterReplicatedState(unsigned char);
         virtual void Slot73();
         virtual void OnEvent74(NPCTarget *t);
@@ -248,21 +251,26 @@ namespace AI
         virtual void Slot83();
         virtual void Slot84();
         virtual void SetReactResupplyPoint(const Fun_Runtime::Vec3 &, const Fun_Runtime::Vec3 &);
-        virtual void Slot86();
-        virtual void Slot87();
-        virtual void Slot88();
+        // 86..95: RuffKing's names and order (its slots 55..64; CD2 has no StartSequence after them). The defaults in
+        // CD2's table 0x82108C08 agree: 87 stores m_pAmbientTarget (0x824A7DE0), 91 returns the zero vector, 93
+        // returns 1000 (Goliath's 0x824B12F0: 3500), 94 and 95 return true.
+        virtual void SetSpawnAction(unsigned char);
+        virtual void SetAmbientTarget(Activity::cSquadMemberSpawnPoint *pTarget);
+        virtual void NotifySquadMemberDead();
         virtual unsigned char GetStateReplicationInfo() const;
-        virtual void Slot90();
-        virtual void Slot91();
-        virtual void Slot92();
-        virtual void Slot93();
-        virtual void Slot94();
-        virtual void Slot95();
-        virtual void Update(float dt);
-        virtual void Slot97();
-        virtual void V98();
-        virtual void SetState(int n);
-        virtual void GetState(int n);
+        virtual bool HasControlsVelocityOverride() const;
+        virtual const Fun_Runtime::Vec3 &GetControlsVelocityOverride() const;
+        virtual void SetControlsVelocityOverride(const Fun_Runtime::Vec3 &);
+        virtual unsigned int RetCorpseFadeOutTimeMillis() const;
+        virtual bool ShouldLockVehicleOwnership() const;
+        virtual bool CanBeAttackedByNPC() const;
+        // 96..100: RuffKing's NPCBehaviourSM virtuals in its order. Update (0x824ABAA8) calls 96 before the current
+        // state's update and 97 after it, both with the time step.
+        virtual void PreUpdateAllStates(float fDeltaTime);
+        virtual void PostUpdateAllStates(float fDeltaTime);
+        virtual void OnReachedDestination(bool bSuccess);
+        virtual void ChangeState(unsigned char nState);
+        virtual IBehaviourState *GetState(unsigned char nState);
         NPCHost *m_pHost;         // 0x7C
         unsigned char pad80[0xA8 - 0x80];
         int m_nState;             // 0xA8
@@ -336,8 +344,8 @@ namespace AI
         virtual void OnEvent75(NPCTarget *t);
         void SetTarget(NPCTarget *t);
         bool TryBindTarget();
-        virtual void Update(float dt);
-        virtual void GetState(int n);
+        virtual void PreUpdateAllStates(float dt);
+        virtual IBehaviourState *GetState(unsigned char nState);
         virtual const Fun_Runtime::cClass &RetClass() const;
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         virtual void Slot2();     // cSafeDeletable slot 2: cChaseBehaviour's own (0x824CE808, not yet matched)
@@ -349,13 +357,13 @@ namespace AI
         // CD2: cChaseBehaviour's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
-        virtual void Slot71(); // 71: 0x824ABAA8
+        virtual void Update(float fDeltaTime); // 71: 0x824ABAA8
         virtual void OnEnterReplicatedState(unsigned char); // 72: 0x8221B7C8
         virtual void Slot79(); // 79: 0x82580578
         virtual void Slot80(unsigned char,unsigned char,unsigned char); // 80: 0x82580578
         virtual void Slot83(); // 83: 0x82580578
-        virtual void Slot86(); // 86: 0x82580578
-        virtual void Slot95(); // 95: 0x8288FB78
+        virtual void SetSpawnAction(unsigned char); // 86: 0x82580578
+        virtual bool CanBeAttackedByNPC() const; // 95: 0x8288FB78
     public:
         CD2_LAYOUT_CHECKS(cChaseBehaviour,
             CD2_SIZE(cChaseBehaviour, 0x100)

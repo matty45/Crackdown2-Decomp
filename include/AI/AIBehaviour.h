@@ -22,7 +22,9 @@ namespace AI
         virtual void OnEnter();
         virtual void OnExit();
         virtual void Slot70();
-        virtual void Slot71();
+        // Slot 71: RuffKing's Update. cVehicleAttackedRockingBehaviour's (0x824CF9C0) counts its timer down by the float
+        // argument, and NPCBehaviourSM's (0x824ABAA8) passes it to the current state.
+        virtual void Update(float fDeltaTime);
 
         static const Fun_Runtime::cClass *ms_pAIBehaviourClass;
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);

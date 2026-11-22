@@ -65,7 +65,10 @@ namespace PHYSICS
         // 0x82683400) has 227 slots. Names are not recovered yet; vfN is the slot index.
         virtual void vf141(); virtual void vf142(); virtual void vf143(); virtual void vf144(); virtual void vf145(); virtual void vf146();
         virtual void vf147(); virtual void vf148(); virtual void vf149(); virtual void vf150(); virtual void CustomiseShape(hkShape **ppCollisionShape); virtual void vf152();
-        virtual void vf153(); virtual void vf154(); virtual void vf155(); virtual hkCollidableQualityType RetCollidableQuality(hkMotion::MotionType); virtual void vf157(); virtual void vf158();
+        // 153/154 are RuffKing's CreateHavokPhysics/DeleteHavokPhysics: cEquipment's (0x82604F98, 0x82604FA0) create
+        // the body physics, and delete it only when there is a rigid body, as RuffKing's do; its ResetHavokPhysics
+        // (0x82604FB8) calls 154 then 153.
+        virtual void CreateHavokPhysics(); virtual void DeleteHavokPhysics(); virtual void vf155(); virtual hkCollidableQualityType RetCollidableQuality(hkMotion::MotionType); virtual void vf157(); virtual void vf158();
         virtual void vf159(); virtual void vf160(); virtual void vf161(); virtual void vf162(); virtual void vf163(); virtual void vf164();
         virtual void vf165(); virtual void vf166(); virtual void vf167(); virtual void vf168(); virtual void vf169(); virtual void vf170();
         // Ret_pRB is the reference name; CD2 slot 172 at 0x82457858 returns m_pRigidBody (+0x224).
@@ -73,10 +76,13 @@ namespace PHYSICS
         // Reference names; CD2 0x82683F50 forwards AI world bounds to primary slot 175.
         virtual void GetAIWorldAABB(hkAabb *); virtual void vf178(); virtual void vf179(); virtual void vf180(); virtual void vf181(); virtual void vf182();
         virtual void vf183(); virtual void vf184(); virtual void vf185(); virtual void vf186(); virtual void vf187(); virtual void vf188();
-        virtual void vf189(); virtual void vf190(); virtual void vf191(); virtual void vf192(); virtual void vf193(); virtual void vf194();
+        // 189/190 are RuffKing's RetSpeed/RetLastSpeed (inline there): CD2's cBody table holds 0x82562A78 and the
+        // next function, which return m_fSpeed and m_fLastSpeed; cGrenade::PickUpRequested (0x8261EE50) calls 189 where
+        // RuffKing's calls RetSpeed.
+        virtual float RetSpeed(); virtual float RetLastSpeed(); virtual void vf191(); virtual void vf192(); virtual void vf193(); virtual void vf194();
         virtual void vf195(); virtual unsigned char RetCollisionLayer(); virtual unsigned short RetCollisionSystemGroup(); virtual void vf198(); virtual void vf199(); virtual void vf200();
         virtual void vf201(); virtual void vf202(); virtual void vf203(); virtual void vf204(); virtual void vf205(); virtual void vf206();
-        virtual void vf207(); virtual void vf208(); virtual void vf209(); virtual void vf210(); virtual void vf211(); virtual void vf212();
+        virtual void vf207(); virtual void vf208(); virtual void vf209(); virtual void vf210(); virtual void SetRecentlyAffectedByExplosion(bool); virtual void vf212();
         virtual void vf213(); virtual void vf214(); virtual void vf215(); virtual void vf216(); virtual void vf217(); virtual void vf218();
         virtual void vf219(); virtual void vf220();
     protected:

@@ -29,7 +29,7 @@ namespace AI
         // CD2 table 0x8200B758 differs from NPCBehaviour at these inherited slots.
         virtual void OnEnter(); // slot 68: 0x8222D910
         virtual void OnExit(); // slot 69: 0x824CD380
-        virtual void Slot71(); // slot 71: 0x82370AD0
+        virtual void Update(float fDeltaTime); // slot 71: 0x82370AD0
         virtual void Slot79(); // slot 79: 0x824CD338
     private:
         // Descriptive name is ours: CD2 0x824CD248 releases seven event

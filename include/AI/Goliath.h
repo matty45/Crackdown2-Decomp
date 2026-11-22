@@ -44,7 +44,7 @@ namespace AI
             : m_nUnknownE0(0), m_nUnknownE4(-1), m_nUnknownE8(0), m_nUnknownEC(0), m_nUnknownF0(0), m_fUnknownF4(0.0f) {}
 
     private:
-        Fun_Runtime::Vec3 m_vUnknownD0; // 0xD0
+        Fun_Runtime::Vec3 m_vVelocityOverride; // 0xD0 (RuffKing's name: Set/GetControlsVelocityOverride store and return it)
         unsigned int m_nUnknownE0;      // 0xE0
         short m_nUnknownE4;             // 0xE4
         unsigned int m_nUnknownE8;      // 0xE8
@@ -56,7 +56,7 @@ namespace AI
         // 0x100: the size Goliath's class registrar gives.
         CD2_LAYOUT_CHECKS(Goliath,
             CD2_SIZE(Goliath, 0x100)
-            CD2_OFFSET(Goliath, m_vUnknownD0, 0xD0)
+            CD2_OFFSET(Goliath, m_vVelocityOverride, 0xD0)
             CD2_OFFSET(Goliath, m_nUnknownE4, 0xE4)
             CD2_OFFSET(Goliath, m_fUnknownF4, 0xF4))
 
@@ -64,15 +64,15 @@ namespace AI
         // CD2 table 0x821096A0 differs from NPCBehaviourSM at these inherited slots.
         virtual void OnEnter(); // slot 68: 0x824B10E8
         virtual void OnExit(); // slot 69: 0x824B12F8
-        virtual void Slot71(); // slot 71: 0x824B1790
+        virtual void Update(float fDeltaTime); // slot 71: 0x824B1790
         virtual void OnEnterReplicatedState(unsigned char); // slot 72: 0x824B1190
         virtual void Slot80(unsigned char nEventType, unsigned char nEventSubType, unsigned char nEvent); // slot 80: 0x824B1E00
         virtual unsigned char GetStateReplicationInfo() const; // slot 89: 0x824B12C0
-        virtual void Slot90(); // slot 90: 0x824B0FF0
-        virtual void Slot91(); // slot 91: 0x82564710
-        virtual void Slot92(); // slot 92: 0x824B1030
-        virtual void Slot93(); // slot 93: 0x824B12F0
-        virtual void GetState(int n); // slot 100: 0x824B1348
+        virtual bool HasControlsVelocityOverride() const; // slot 90: 0x824B0FF0
+        virtual const Fun_Runtime::Vec3 &GetControlsVelocityOverride() const; // slot 91: 0x82564710
+        virtual void SetControlsVelocityOverride(const Fun_Runtime::Vec3 &); // slot 92: 0x824B1030
+        virtual unsigned int RetCorpseFadeOutTimeMillis() const; // slot 93: 0x824B12F0
+        virtual IBehaviourState *GetState(unsigned char nState); // slot 100: 0x824B1348
     };
 }
 

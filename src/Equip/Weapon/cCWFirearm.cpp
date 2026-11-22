@@ -84,6 +84,42 @@ namespace Equip
     {
     }
 
+    Fun_Runtime::RetVal cCWFirearm::Term()
+    {
+        m_UVLightAttachment.Term();
+        return cCWWeapon::Term();
+    }
+
+    void cCWFirearm::ToggleLightAttachment()
+    {
+        if (HasUVLightAttachment())
+        {
+            if (!m_UVLightAttachment.IsActive())
+                m_UVLightAttachment.Activate();
+            else
+                m_UVLightAttachment.Deactivate();
+        }
+    }
+
+    void cCWFirearm::ActivateLightAttachment()
+    {
+        if (HasUVLightAttachment())
+            m_UVLightAttachment.Activate();
+    }
+
+    void cCWFirearm::DeactivateLightAttachment()
+    {
+        if (HasUVLightAttachment())
+            m_UVLightAttachment.Deactivate();
+    }
+
+    bool cCWFirearm::IsLightAttachmentActive() const
+    {
+        if (HasUVLightAttachment())
+            return m_UVLightAttachment.IsActive();
+        return false;
+    }
+
     Fun_Runtime::RetVal cCWFirearm::cCWFirearmPrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;

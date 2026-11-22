@@ -52,13 +52,13 @@ namespace AI
     public:
         virtual void OnEnter(); // 68: 0x824B2A38
         virtual void OnExit(); // 69: 0x824B2C30
-        virtual void Slot71(); // 71: 0x824B5330
+        virtual void Update(float fDeltaTime); // 71: 0x824B5330
         virtual void OnEnterReplicatedState(unsigned char); // 72: 0x824B2CD8
         virtual void Slot80(unsigned char,unsigned char,unsigned char); // 80: 0x824B69F0
         virtual unsigned char GetStateReplicationInfo() const; // 89: 0x824B2D68
-        virtual void Update(float); // 96: 0x824B2DB0
-        virtual void SetState(int); // 99: 0x824B5518
-        virtual void GetState(int); // 100: 0x824B4D38
+        virtual void PreUpdateAllStates(float); // 96: 0x824B2DB0
+        virtual void ChangeState(unsigned char); // 99: 0x824B5518
+        virtual IBehaviourState *GetState(unsigned char); // 100: 0x824B4D38
         virtual void Slot101(); // 101: 0x824B2B08
         virtual void V104(); // 104: 0x824B3150
         virtual void V108(); // 108: 0x824B31F0

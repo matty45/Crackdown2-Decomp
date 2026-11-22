@@ -363,6 +363,13 @@ end, in one line, and is removed when the function matches. History belongs in g
   (0x828093C0), `if (resource && ...)` gives CD2's `cmpwi`, whereas `if (resource != 0 && ...)`
   selects the safe pointer's comparison operator and gives `cmplwi`. This A/B changes exactly four words;
   the implicit pointer condition is EXACT in plain and LTCG builds.
+- **A pointer from an inline accessor tests signed; a member read tests unsigned.** The null test of a pointer an
+  inline function returns compiles to `cmpwi`, the same pointer read as a member to `cmplwi`, with every other word
+  equal. A/B on cEquipment::PickUpRequested (0x82605C10): `!m_pOwner` gives `cmplwi` (97.6%), `!RetOwner()` gives
+  CD2's `cmpwi` (EXACT, plain and LTCG). On cEquipment::EnterGhostState (0x82605B90) CD2 has `cmplwi`: an accessor
+  returning the rigid body's `m_world` gives `cmpwi` whether in-class, out-of-class inline or `__forceinline`, tested
+  implicitly or with `!= 0` (96.8%), and the member read gives EXACT. So a `cmpwi` against 0 on a loaded pointer
+  points to an accessor in the original, a `cmplwi` to a field access.
 - A loop counter compared with a small constant and masked with `clrlwi rX, rY, 24` after the increment is an
   `unsigned char` (RuffKing declares such bounds `static const unsigned char`).
 - A handle that is tested and then passed as an argument (`m_h = Ext(globalPtr, m_h)`): the early `lwz r4` is the

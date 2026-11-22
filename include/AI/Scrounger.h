@@ -62,10 +62,10 @@ namespace AI
         // CD2 table 0x82109CC8 differs from FreakBase at these inherited slots.
         virtual void OnEnter(); // slot 68: 0x824BAC28
         virtual void OnExit(); // slot 69: 0x824BADC0
-        virtual void Slot71(); // slot 71: 0x824BBD30
+        virtual void Update(float fDeltaTime); // slot 71: 0x824BBD30
         virtual void OnEnterReplicatedState(unsigned char); // slot 72: 0x824BAD08
         virtual unsigned char GetStateReplicationInfo() const; // slot 89: 0x824BAD88
-        virtual void GetState(int n); // slot 100: 0x824BAE98
+        virtual IBehaviourState *GetState(unsigned char nState); // slot 100: 0x824BAE98
         virtual void vf120(); // slot 120: 0x824BB288
         virtual void vf141(); // slot 141: 0x824BBF78
         virtual void vf148(); // slot 148: 0x824BBCD8

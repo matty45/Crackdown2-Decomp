@@ -62,7 +62,7 @@ namespace PHYSICS
         // Reference name/signature; CD2 vehicle slot 266 searches the BODY part in this clump.
         virtual cFrame RetStartFrame(GameRenderer::cLODClump &pClump);
         virtual void vf267(); virtual void vf268();
-        virtual void vf269(); virtual void vf270(); virtual void EnterGhostState(); virtual void vf272(); virtual void vf273(); virtual void vf274();
+        virtual void vf269(); virtual void vf270(); virtual void EnterGhostState() { m_bGhostState = true; SetRecentlyAffectedByExplosion(false); } virtual void vf272(); virtual void vf273(); virtual void vf274();
         virtual void vf275(); virtual void vf276(); virtual void vf277(); virtual void vf278(); virtual void vf279(); virtual void vf280();
         virtual void vf281(); virtual void vf282(); virtual void vf283();
         // Reference names/signatures; CD2 character overrides consume the incoming water height in f1.
@@ -89,7 +89,12 @@ namespace PHYSICS
     protected:
         bool m_bInWater;                        // 0x2F4
     private:
-        unsigned char m_unknown2F5[0x420 - 0x2F5];
+        unsigned char m_unknown2F5[0x2FE - 0x2F5];
+    protected:
+        // RuffKing's name; CD2's EnterGhostState (0x826862F8, inline: cEquipment's 0x82605B90 expands it) sets it.
+        bool m_bGhostState;                     // 0x2FE
+    private:
+        unsigned char m_unknown2FF[0x420 - 0x2FF];
         // CD2: cDynamicBody's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
@@ -140,15 +145,22 @@ namespace PHYSICS
         virtual void vf208(); // 208: 0x82457A10
         virtual void vf209(); // 209: 0x82457A18
         virtual void vf210(); // 210: 0x82457A30
-        virtual void vf211(); // 211: 0x822C5AB8
+        // RuffKing's name; its cDynamicBody::EnterGhostState sets the ghost flag and calls this with false, as CD2's
+        // (0x826862F8) calls slot 211.
+        virtual void SetRecentlyAffectedByExplosion(bool); // 211: 0x822C5AB8
         virtual void vf216(); // 216: 0x82685D20
         virtual void vf217(); // 217: 0x82604F40
     protected:
+        // RuffKing's names and signatures; CD2 0x82685DC0 / 0x82686090 (outside the scaffolded files), which
+        // cEquipment's CreateHavokPhysics/DeleteHavokPhysics call as RuffKing's do.
+        void CreateBodyPhysics();
+        void DeleteBodyPhysics();
     private:
         CD2_LAYOUT_CHECKS(cDynamicBody,
             CD2_SIZE(cDynamicBody, 0x420)
             CD2_OFFSET(cDynamicBody, m_pBuoyancyAction, 0x2DC)
-            CD2_OFFSET(cDynamicBody, m_bInWater, 0x2F4))
+            CD2_OFFSET(cDynamicBody, m_bInWater, 0x2F4)
+            CD2_OFFSET(cDynamicBody, m_bGhostState, 0x2FE))
     };
 }
 #endif

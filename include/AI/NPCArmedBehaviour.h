@@ -99,7 +99,7 @@ namespace AI
         // CD2 table 0x821089B0: overrides relative to NPCBehaviour.
         virtual void OnEnter(); // slot 68: 0x824A81A8
         virtual void OnExit(); // slot 69: 0x824A8278
-        virtual void Slot71(); // slot 71: 0x824A8330, main-state dispatcher; original name unresolved
+        virtual void Update(float fDeltaTime); // slot 71: 0x824A8330, main-state dispatcher; original name unresolved
     };
 }
 #endif

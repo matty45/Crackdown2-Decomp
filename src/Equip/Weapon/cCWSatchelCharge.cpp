@@ -96,8 +96,22 @@ namespace Equip
     {
     }
 
+    unsigned short cCWSatchelCharge::RetExplosionSurfaceID() const
+    {
+        if (m_bStuck)
+            return m_nStuckMaterialId;
+        return cExplosiveGrenade::RetExplosionSurfaceID();
+    }
+
     void cCWSatchelCharge::LeavePhysicalState()
     {
         cExplosiveGrenade::LeavePhysicalState();
+    }
+
+    bool cCWSatchelCharge::CanForceNetTransform() const
+    {
+        if (m_pAttachObject)
+            return false;
+        return m_bStuck || cEquipment::CanForceNetTransform();
     }
 }

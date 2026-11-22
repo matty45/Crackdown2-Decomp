@@ -7,9 +7,15 @@
 #include "AI/cChaseBehaviour.h"
 #include "gom/object_prototype.h"
 #include "cd2/layout.h"
+#include "fun_runtime/safedeletablepointer.h"
+#include "fun_runtime/vec3.h"
+
+namespace CHARACTER { class cCharacterInterface; }
+namespace VFX { class cParticleEffectInstance; }
 
 namespace AI
 {
+    class cAIEventSubscription;
     // RuffKing: AI::FreakPrototype : NPCBehaviourPrototype, 176 bytes. CD2's FreakBase::MakeNew (0x824ABC10) allocates
     // 0xB0 and calls this constructor (0x824B0B78), which calls NPCBehaviourPrototype's (0x824A8608).
     class FreakPrototype : public NPCBehaviourPrototype
@@ -116,30 +122,50 @@ namespace AI
         static Fun_Runtime::cClass &StaticCreateClass();
         virtual const char *RetClassName() const;
 
-    private:
-        unsigned char m_unmodelledD0[0x120 - 0xD0];
+    protected:
+        // RuffKing's members, 0x40 lower in CD2 (its base is that much larger, and it adds a debug buffer at the end):
+        // SetSpawnAction (0x824ABCA0) stores +0x115 and CanBeAttackedByNPC (0x824ABC90) tests +0x118, RuffKing's 0x155
+        // and 0x158; the class ends at 0x120 as CD2's registrar gives.
+        unsigned int m_CheckTargetPeriodic[2];                  // 0xD0, RuffKing: cPeriodic; not modelled
+        unsigned int m_CheckAttackPeriodic[2];                  // 0xD8, RuffKing: cPeriodic; not modelled
+        Fun_Runtime::cSafeDeletablePointer<CHARACTER::cCharacterInterface> m_pAcidSackAttacker;    // 0xE0
+        cAIEventSubscription *m_pOnTookDamageSub;               // 0xF0
+        VFX::cParticleEffectInstance *m_pAcidSackHandle;        // 0xF4
+        float m_fTargetChangeCountDown;                         // 0xF8
+        unsigned short m_nNextRouteNode;                        // 0xFC
+        Fun_Runtime::Vec3 m_vLastPosition;                      // 0x100
+        unsigned int m_nStuckTimeout;                           // 0x110
+        unsigned char m_nStateToEnterOnceFacing;                // 0x114
+        unsigned char m_nSpawnAction;                           // 0x115
+        bool m_bHadTargetLastTick;                              // 0x116
+        bool m_bIsTargetFromSquad;                              // 0x117
+        bool m_bIsCaged;                                        // 0x118
+        bool m_bTriggerAcidSackDetonation;                      // 0x119
+        bool m_bMigratedAndEnteredWithoutSpawnPoint;            // 0x11A
 
         // CD2: FreakBase's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
         virtual unsigned char GetStateReplicationInfo() const; // 89: 0x824BAD88
     private:
-        CD2_LAYOUT_CHECKS(FreakBase, CD2_SIZE(FreakBase, 0x120))
+        CD2_LAYOUT_CHECKS(FreakBase, CD2_SIZE(FreakBase, 0x120)
+            CD2_OFFSET(FreakBase, m_pAcidSackAttacker, 0xE0) CD2_OFFSET(FreakBase, m_vLastPosition, 0x100)
+            CD2_OFFSET(FreakBase, m_nSpawnAction, 0x115) CD2_OFFSET(FreakBase, m_bIsCaged, 0x118))
 
     public:
         // CD2 table 0x82109378 differs from NPCBehaviourSM at these inherited slots.
         virtual void OnEnter(); // slot 68: 0x824ABED0
         virtual void OnExit(); // slot 69: 0x824AC120
-        virtual void Slot71(); // slot 71: 0x824AD168
+        virtual void Update(float fDeltaTime); // slot 71: 0x824AD168
         virtual void OnEvent74(NPCTarget *t); // slot 74: 0x824ADAA0
         virtual void OnEvent75(NPCTarget *t); // slot 75: 0x824ADBF0
         virtual void Slot79(); // slot 79: 0x824ADC70
         virtual void Slot80(unsigned char nEventType, unsigned char nEventSubType, unsigned char nEvent); // slot 80: 0x824AD948
         virtual void Slot83(); // slot 83: 0x824ADA20
         virtual void SetReactResupplyPoint(const Fun_Runtime::Vec3 &, const Fun_Runtime::Vec3 &); // slot 85: 0x824AD910
-        virtual void Slot86(); // slot 86: 0x824ABCA0
-        virtual void Slot95(); // slot 95: 0x824ABC90
-        virtual void GetState(int n); // slot 100: 0x824AC4B0
+        virtual void SetSpawnAction(unsigned char); // slot 86: 0x824ABCA0
+        virtual bool CanBeAttackedByNPC() const; // slot 95: 0x824ABC90
+        virtual IBehaviourState *GetState(unsigned char nState); // slot 100: 0x824AC4B0
     };
 }
 

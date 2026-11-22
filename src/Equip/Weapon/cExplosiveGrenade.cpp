@@ -24,6 +24,8 @@
 #include "fun_runtime/inheritance_registrar.h"
 #include "gom/proto_registrar.h"
 #include "cd2/memory.h"
+#include "ExplosionManager/cExplosionManager.h"
+#include "ExplosionManager/cExplosionLevelInfo.h"
 #include <new>
 #include "rws/classfactory.h"
 
@@ -80,6 +82,34 @@ namespace Equip
 
     cExplosiveGrenade::~cExplosiveGrenade()
     {
+    }
+
+    void cExplosiveGrenade::InitiateOrdinalDetonation(unsigned char nOrdinal)
+    {
+        m_nOrdinal = nOrdinal;
+        InitiateDetonation();
+    }
+
+    void cExplosiveGrenade::Launched(cGameBase *pAttacker)
+    {
+        cGrenade::Launched(pAttacker);
+        SetExplosiveLevel(RetExplosiveLevelForOwner(pAttacker));
+    }
+
+    void cExplosiveGrenade::SetExplosiveLevel(unsigned int nLevel)
+    {
+        if (m_pExplosive)
+            m_pExplosive->SetLevel(nLevel);
+    }
+
+    float cExplosiveGrenade::RetDamageRadius() const
+    {
+        unsigned char nLevel = RetExplosiveLevel();
+        ExplosionManager::cExplosionLevelInfo *pInfo =
+            ExplosionManager::cExplosionManager::RetExplosionManager()->RetLevelInfo(nLevel);
+        if (pInfo)
+            return pInfo->RetDamageRadius();
+        return Fun_Runtime::g_GlobalConstants.CONST_FLOAT_0;
     }
 
     Fun_Runtime::RetVal cExplosiveGrenade::cExplosiveGrenadePrototype::Init(const RWS::CAttributePacket &)

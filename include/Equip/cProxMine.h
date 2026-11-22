@@ -62,8 +62,8 @@ namespace Equip
 
     public:
         // CD2 table 0x82123EF0 differs from cCWSatchelCharge at these inherited slots.
-        virtual void vf427(); // slot 427: 0x8261FC88
-        virtual void vf428(); // slot 428: 0x8261FBF0
+        virtual unsigned char RetExplosiveLevelForOwner(const cNonGameBase *pOwner) const; // slot 427: 0x8261FC88
+        virtual void SetExplosiveLevel(unsigned int nLevel); // slot 428: 0x8261FBF0
         // CD2's table overrides the corresponding satchel methods; reference names.
     private:
         virtual void NowStuck(); // 432: 0x82620B58

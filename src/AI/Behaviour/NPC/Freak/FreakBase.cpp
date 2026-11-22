@@ -65,6 +65,16 @@ namespace AI
         return 0;
     }
 
+    bool FreakBase::CanBeAttackedByNPC() const
+    {
+        return !m_bIsCaged;
+    }
+
+    void FreakBase::SetSpawnAction(unsigned char nAction)
+    {
+        m_nSpawnAction = nAction;
+    }
+
     static RWS::CClassFactory::CRegistrar FreakBaseRegistrar(
         "FreakBase", FreakBase::MakeNew, 0x120, false);
 

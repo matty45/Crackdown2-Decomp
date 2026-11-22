@@ -40,8 +40,8 @@ namespace AI
         virtual void Slot77(); // 77: 0x824CB530
         virtual void Slot79(); // 79: 0x824C9770
         virtual void Slot82(); // 82: 0x824CAFA8
-        virtual void Update(float); // 96: 0x824C97E0
-        virtual void GetState(int); // 100: 0x824CBF08
+        virtual void PreUpdateAllStates(float); // 96: 0x824C97E0
+        virtual IBehaviourState *GetState(unsigned char); // 100: 0x824CBF08
         virtual void V102(); // 102: 0x824C9A70
         virtual void Slot109(); // 109: 0x824CAA60
         virtual void Slot112(); // 112: 0x824CAC70

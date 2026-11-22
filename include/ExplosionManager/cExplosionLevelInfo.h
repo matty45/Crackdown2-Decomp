@@ -33,10 +33,13 @@ namespace ExplosionManager
         virtual bool HandleDataInNewDesignBuild();
 
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
+        // RuffKing's accessor; CD2's cExplosiveGrenade::RetDamageRadius (0x8261DAD0) reads +0x3C.
+        float RetDamageRadius() const { return m_fDamageRadius; }
 
         CD2_LAYOUT_CHECKS(cExplosionLevelInfo,
             CD2_SIZE(cExplosionLevelInfo, 0x80)
             CD2_OFFSET(cExplosionLevelInfo, m_nLevel, 0x18)
+            CD2_OFFSET(cExplosionLevelInfo, m_fDamageRadius, 0x3C)
             CD2_OFFSET(cExplosionLevelInfo, m_vDirectionOffset, 0x50)
             CD2_OFFSET(cExplosionLevelInfo, m_fExplosionSoundVolume, 0x60)
             CD2_OFFSET(cExplosionLevelInfo, m_fCameraShakeAmount, 0x74))

@@ -12,6 +12,7 @@
 #include "AI/cVehicleAttackedRockingBehaviour.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
+#include "fun_runtime/randgen.h"
 #include "AI/BehaviourClassID.h"
 
 namespace AI
@@ -53,6 +54,50 @@ namespace AI
     {
         static Fun_Runtime::cClass *cVehicleAttackedRockingBehaviourClass = new Fun_Runtime::cClass(g_nBehaviourClassID++, "cVehicleAttackedRockingBehaviour", 0xD0);
         return *cVehicleAttackedRockingBehaviourClass;
+    }
+
+    void cVehicleAttackedRockingBehaviour::OnEnter()
+    {
+        m_fCurrentTimer = 0.0f;
+    }
+
+    void cVehicleAttackedRockingBehaviour::ChangeState(eSubState eState)
+    {
+        if (m_eState != eState)
+        {
+            ExitState();
+            EnterState(eState);
+        }
+    }
+
+    void cVehicleAttackedRockingBehaviour::EnterState(eSubState eState)
+    {
+        m_eState = eState;
+    }
+
+    // __forceinline: CD2 expands it into Update; with ordinary inline /Ob1 keeps the call.
+    __forceinline void cVehicleAttackedRockingBehaviour::OnUpdateRocking(float fDeltaTime)
+    {
+        m_fCurrentTimer -= fDeltaTime;
+        if (m_fCurrentTimer <= 0.0f)
+        {
+            RockDrivenVehicle();
+            m_fCurrentTimer = Fun_Runtime::g_RandGen.FRand(RetRockingPrototype()->m_fMinRockInterval,
+                                                           RetRockingPrototype()->m_fMaxRockInterval);
+        }
+    }
+
+    void cVehicleAttackedRockingBehaviour::Update(float fDeltaTime)
+    {
+        switch (m_eState)
+        {
+        case eSubIdle:
+            ChangeState(eSubRocking);
+            break;
+        case eSubRocking:
+            OnUpdateRocking(fDeltaTime);
+            break;
+        }
     }
 
     // CD2 0x82F9A540: runtime class inheritance registration.

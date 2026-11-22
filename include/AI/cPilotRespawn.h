@@ -29,7 +29,7 @@ namespace AI
         // CD2 table 0x8200A568 differs from NPCBehaviour at these inherited slots.
         virtual void OnEnter(); // slot 68: 0x824D43E0
         virtual void OnExit(); // slot 69: 0x824D3590
-        virtual void Slot71(); // slot 71: 0x824D4550
+        virtual void Update(float fDeltaTime); // slot 71: 0x824D4550
         virtual void OnEnterReplicatedState(unsigned char); // slot 72: 0x824A8CA0
         virtual void Slot79(); // slot 79: 0x824D4510
         virtual unsigned char GetStateReplicationInfo() const; // slot 89: 0x824D42A8

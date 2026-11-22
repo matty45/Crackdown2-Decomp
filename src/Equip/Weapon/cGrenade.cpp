@@ -115,6 +115,13 @@ namespace Equip
         InitiateDetonation();
     }
 
+    bool cGrenade::PickUpRequested(cGameBase *pOwnerTest)
+    {
+        if (IsLive() || IsDetonating() || RetSpeed() > 1.0f)
+            return false;
+        return cEquipment::PickUpRequested(pOwnerTest);
+    }
+
     void cGrenade::TriggerEnterWater(float fWaterLevel)
     {
         cWeapon::TriggerEnterWater(fWaterLevel);
@@ -155,6 +162,11 @@ namespace Equip
     void cGrenade::BeginFuseDelay()
     {
         m_bStartTimer = true;
+    }
+
+    bool cGrenade::CanReleaseNetOwnershipOnInitMsg() const
+    {
+        return !const_cast<cGrenade *>(this)->IsDetonating();
     }
 
     Fun_Runtime::RetVal cGrenade::cGrenadePrototype::Init(const RWS::CAttributePacket &)

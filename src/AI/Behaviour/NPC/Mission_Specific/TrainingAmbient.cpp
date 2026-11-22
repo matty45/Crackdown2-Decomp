@@ -57,6 +57,12 @@ namespace AI
         return *TrainingAmbientClass;
     }
 
+    void TrainingAmbient::SetAmbientTarget(Activity::cSquadMemberSpawnPoint *pTargetSP)
+    {
+        m_pTargetSP = pTargetSP;
+        m_pAmbientTarget = pTargetSP;
+    }
+
     // CD2 0x82F98380: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar TrainingAmbientNPCBehaviourInheritRegistrar(
         AI::TrainingAmbient::StaticCreateClass(), AI::NPCBehaviour::StaticCreateClass());

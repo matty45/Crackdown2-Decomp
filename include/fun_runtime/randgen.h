@@ -27,7 +27,12 @@ namespace Fun_Runtime
             return (m_nNext >> 16) & 0x7FFF;
         }
         unsigned int Rand(unsigned int max) { return Rand() % max; }
+        // RuffKing's (out of line there); CD2 expands it, as in cVehicleAttackedRockingBehaviour::Update (0x824CF9C0).
+        float FRand(float fInMin, float fInMax) { return (float)Rand() * (fInMax - fInMin) * (1.0f / 32767.0f) + fInMin; }
     };
+
+    // RuffKing's shared generator; CD2's is at 0x83803398 (the rocking behaviour's interval draw steps it).
+    extern cRandGen g_RandGen;
 }
 
 #endif // FUN_RUNTIME_RANDGEN_H

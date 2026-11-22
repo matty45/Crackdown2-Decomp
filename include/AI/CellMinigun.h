@@ -44,7 +44,7 @@ namespace AI
         // CD2 table 0x8200BED0 differs from NPCArmedBehaviour at these inherited slots.
         virtual void OnEnter(); // slot 68: 0x824C33D8
         virtual void OnExit(); // slot 69: 0x824C5648
-        virtual void Slot71(); // slot 71: 0x824C3A48
+        virtual void Update(float fDeltaTime); // slot 71: 0x824C3A48
         virtual void Slot73(); // slot 73: 0x824C35F8
         virtual void OnEvent74(NPCTarget *t); // slot 74: 0x824C3510
         virtual void OnEvent75(NPCTarget *t); // slot 75: 0x824C3728

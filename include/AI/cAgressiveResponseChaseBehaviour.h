@@ -94,7 +94,7 @@ namespace AI
 
         // Overrides of base slots (under the base stand-in's slot names).
         virtual void Slot80(unsigned char nEventType, unsigned char nEventSubType, unsigned char nEvent); // OnCharacterEvent
-        virtual void Slot97();
+        virtual void PostUpdateAllStates(float fDeltaTime);
         virtual int GetTargetId();      // 116: RuffKing RetTargetingFlags
         virtual void V117();            // 117: RuffKing OnTargetLost
 

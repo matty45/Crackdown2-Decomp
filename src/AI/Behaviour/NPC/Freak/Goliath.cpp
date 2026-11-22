@@ -65,6 +65,16 @@ namespace AI
         return ms_pGoliathClass->IsA(c);
     }
 
+    void Goliath::SetControlsVelocityOverride(const Fun_Runtime::Vec3 &vel)
+    {
+        m_vVelocityOverride = vel;
+    }
+
+    unsigned int Goliath::RetCorpseFadeOutTimeMillis() const
+    {
+        return 3500;
+    }
+
     static RWS::CClassFactory::CRegistrar GoliathRegistrar(
         "Goliath", Goliath::MakeNew, 0x100, false);
 

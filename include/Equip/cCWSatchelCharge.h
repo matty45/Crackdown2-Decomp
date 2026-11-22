@@ -7,6 +7,7 @@
 #include "Equip/cExplosiveGrenade.h"
 #include "AI/cPerceptionClient.h"
 namespace Fun_Runtime { class Mtx; }
+namespace VFX { class cGlobalLight; }
 namespace Equip
 {
     class cSatchelChargeTarget;
@@ -41,8 +42,26 @@ namespace Equip
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         virtual const Fun_Runtime::cClass &RetClass() const;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
+    protected:
+        // RuffKing's members after the perception base, 0x90 lower in CD2 (the 16-byte alignment of the first matrix puts
+        // it at 0x9E0): RetExplosionSurfaceID (0x8261C130) returns the material at +0xAC8 when the stuck flag at +0xACC
+        // is set, and CanForceNetTransform (0x8261CA48) first tests the attach object at +0xAC4.
+        Fun_Runtime::Mtx m_StuckTransform;                  // 0x9E0
+        Fun_Runtime::Mtx m_ExplosionTransform;              // 0xA20
+        Fun_Runtime::Mtx m_matAttachOffset;                 // 0xA60
+        unsigned int m_nBoneID;                             // 0xAA0
+        VFX::cGlobalLight *m_apLight[2];                    // 0xAA4
+        unsigned int m_LightFrame[2][2];                    // 0xAAC, RuffKing: cFrame m_LightFrame[2]; not modelled
+        cCWSatchelCharge *m_pNextAttached;                  // 0xABC
+        cCWSatchelCharge *m_pPrevAttached;                  // 0xAC0
+        cSatchelChargeTarget *m_pAttachObject;              // 0xAC4
+        unsigned short m_nStuckMaterialId;                  // 0xAC8
+        bool m_bHasPostedDetonateEvent;                     // 0xACA
+        bool m_bSticky;                                     // 0xACB
+        bool m_bStuck;                                      // 0xACC
+        unsigned int m_nAttachObjectID;                     // 0xAD0
+        unsigned int m_nAttachObjectType;                   // 0xAD4
     private:
-        unsigned char m_unmodelled9D8[0xAE0 - 0x9D8];
         // CD2: cCWSatchelCharge's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
@@ -67,13 +86,17 @@ namespace Equip
         // CD2: cCWSatchelCharge's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
-        virtual bool IsMarkedForDeletion(); // CD2 table 0x821234F8 slot 332: 0x8260BAF8; slot 333 inherits RetTotalAmmo.
+        virtual bool IsStuck(); // CD2 table 0x821234F8 slot 332: 0x8260BAF8; slot 333 inherits RetTotalAmmo.
         virtual bool CanForceNetTransform() const; // 347: 0x8261CA48
         virtual bool CanReleaseNetOwnershipOnAVExit() const; // 348: 0x827E56A8
     private:
         CD2_LAYOUT_CHECKS(cCWSatchelCharge,
             CD2_SIZE(cCWSatchelCharge, 0xAE0)
-            CD2_OFFSET(cCWSatchelCharge, m_pPerceptionRecord, 0x9D4))
+            CD2_OFFSET(cCWSatchelCharge, m_pPerceptionRecord, 0x9D4)
+            CD2_OFFSET(cCWSatchelCharge, m_StuckTransform, 0x9E0)
+            CD2_OFFSET(cCWSatchelCharge, m_pAttachObject, 0xAC4)
+            CD2_OFFSET(cCWSatchelCharge, m_bStuck, 0xACC)
+            CD2_OFFSET(cCWSatchelCharge, m_nAttachObjectType, 0xAD4))
 
     public:
         // CD2 table 0x821234F8 differs from cExplosiveGrenade at these inherited slots.
@@ -83,14 +106,20 @@ namespace Equip
         virtual void vf420(); // slot 420: 0x8261C2A0
         virtual void vf422(); // slot 422: 0x827E56A8
         virtual void vf426(); // slot 426: 0x8260BB00
-        virtual void vf429(); // slot 429: 0x8261C130
-        virtual void vf430(); // slot 430: 0x8261C328
+        virtual unsigned short RetExplosionSurfaceID() const; // slot 429: 0x8261C130
+        virtual Fun_Runtime::Mtx RetExplosiveOrientation() const; // slot 430: 0x8261C328
         // CD2's table has six further primary slots. Names and signatures follow
         // the reference satchel interface; target bodies/order establish these slots.
         virtual void NowStuck(); // 432: 0x8261ACA0
         virtual void Unstick(); // 433: 0x8261AF68
         virtual void OnAttachedToObject(cSatchelChargeTarget *, const Fun_Runtime::Mtx &); // 434: 0x8261C248
-        virtual void OnDetachedFromObject(); // 435: 0x8260E8B0
+        // Inline: CD2's only copy (0x8260E8B0) lies in cPortableLaunchPad's object, as an inline function's would.
+        virtual void OnDetachedFromObject() // 435
+        {
+            m_pAttachObject = 0;
+            if (IsAuthority())
+                Unstick();
+        }
     protected:
         virtual void Reorient(const Fun_Runtime::Vec3 &, const Fun_Runtime::Vec3 &); // 436: 0x8261AAB0
         virtual bool CanAttachToBody(PHYSICS::cBody *) const; // 437: 0x8288FB78

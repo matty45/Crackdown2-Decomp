@@ -37,7 +37,7 @@ namespace AI
     public:
         // CD2 table 0x8210B358 differs from NPCBehaviour at these inherited slots.
         virtual void OnEnter(); // slot 68: 0x824C8F58
-        virtual void Slot71(); // slot 71: 0x824C8F68
+        virtual void Update(float fDeltaTime); // slot 71: 0x824C8F68
     };
 }
 

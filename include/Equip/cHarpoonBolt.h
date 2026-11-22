@@ -59,7 +59,7 @@ namespace Equip
         virtual void Slot64();                                      // 63: 0x82627878
         virtual void SetDeletingReason(char);                       // 309: 0x82627200
         virtual char GetDeletingReason();                           // 310: 0x82627208
-        virtual Fun_Runtime::cString GetNetDebugString();           // 346: 0x827E56A8
+        virtual bool CanSpawnPickupVFX();                          // 346: 0x827E56A8
         // Replication table 0x82127040 differs from cWeaponProjectile's 0x8211FC50 here.
         virtual void CalculateRelevancy(int);                       // cReplicatedClass 2: 0x82580578
         virtual void CalculateLOD(int);                             // cReplicatedClass 3: 0x82628F18

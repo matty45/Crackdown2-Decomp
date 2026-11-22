@@ -40,16 +40,19 @@ namespace AI
         virtual void Slot83();
         virtual void Slot84();
         virtual void SetReactResupplyPoint(const Fun_Runtime::Vec3 &, const Fun_Runtime::Vec3 &);
-        virtual void Slot86();
-        virtual void Slot87();
-        virtual void Slot88();
+        // 86..95: RuffKing's names and order (its slots 55..64; CD2 has no StartSequence after them). The defaults in
+        // CD2's table 0x82108C08 agree: 87 stores m_pAmbientTarget (0x824A7DE0), 91 returns the zero vector, 93
+        // returns 1000 (Goliath's 0x824B12F0: 3500), 94 and 95 return true.
+        virtual void SetSpawnAction(unsigned char);
+        virtual void SetAmbientTarget(Activity::cSquadMemberSpawnPoint *pTarget);
+        virtual void NotifySquadMemberDead();
         virtual unsigned char GetStateReplicationInfo() const;
-        virtual void Slot90();
-        virtual void Slot91();
-        virtual void Slot92();
-        virtual void Slot93();
-        virtual void Slot94();
-        virtual void Slot95();
+        virtual bool HasControlsVelocityOverride() const;
+        virtual const Fun_Runtime::Vec3 &GetControlsVelocityOverride() const;
+        virtual void SetControlsVelocityOverride(const Fun_Runtime::Vec3 &);
+        virtual unsigned int RetCorpseFadeOutTimeMillis() const;
+        virtual bool ShouldLockVehicleOwnership() const;
+        virtual bool CanBeAttackedByNPC() const;
 
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         // CD2 0x824A87A0 creates the named runtime descriptor.

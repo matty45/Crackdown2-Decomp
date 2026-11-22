@@ -125,7 +125,7 @@ namespace Equip
     public:
         virtual bool IsLive(); // 330: 0x8260AAB0
         virtual bool IsDetonating(); // 331: 0x8260AAF8
-        virtual bool CanBeEquipped(); // 336: 0x8261EE50
+        virtual bool PickUpRequested(cGameBase *pOwnerTest); // 336: 0x8261EE50
         virtual bool CanReleaseNetOwnershipOnInitMsg() const; // 349: 0x8261F720
     private:
         CD2_LAYOUT_CHECKS(cGrenade, CD2_SIZE(cGrenade, 0x9C0) CD2_OFFSET(cGrenade, m_bLive, 0x8C4) CD2_OFFSET(cGrenade, m_bDetonated, 0x8C5)

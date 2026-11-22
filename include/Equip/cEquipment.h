@@ -10,10 +10,14 @@
 #include "PHYSICS/cNetDynamicBody.h"
 #include "fun_runtime/cStateMachine.h"
 #include "fun_runtime/State.h"
+#include "fun_runtime/mtx.h"
 
 namespace Prop { class cTurretBase; }
 namespace Fun_Runtime { class State; class Mtx; class cString; class Vec3; }
 namespace CHARACTER { class cCharacter; }
+namespace VFX { class cParticleEffectInstance; }
+namespace GameManagement { class cWeaponPickupSpawnPoint; }
+namespace Activity { class cCampaignWeaponSpawnPoint; }
 
 namespace Equip
 {
@@ -29,6 +33,18 @@ namespace Equip
     class cEquipment : public PHYSICS::cNetDynamicBody, public Fun_Runtime::cStateMachine
     {
     protected:
+        // RuffKing's four states, each with its own Begin/End/Process. In CD2 only Process of STATE_Active and
+        // STATE_Paused does anything (0x82605950, both: the timer countdown back to idle), so the linker folded
+        // Deactivated's and Idle's tables (0x8211EF40) and Active's and Paused's (0x8211EF4C), which the getters
+        // 0x826047E8..0x826048D8 install.
+        class STATE_Deactivated : public Fun_Runtime::State
+        {
+        public:
+            virtual void BeginState(Fun_Runtime::cStateMachine *);
+            virtual void EndState(Fun_Runtime::cStateMachine *);
+            virtual void Process(Fun_Runtime::cStateMachine *);
+            CD2_LAYOUT_CHECKS(STATE_Deactivated, CD2_SIZE(STATE_Deactivated, 8))
+        };
         // Shared reference base of cWeapon::STATE_Idle. These states have no
         // members beyond State's name pointer; CD2's derived state table has three slots.
         class STATE_Idle : public Fun_Runtime::State
@@ -48,6 +64,18 @@ namespace Equip
             virtual void Process(Fun_Runtime::cStateMachine *);
             CD2_LAYOUT_CHECKS(STATE_Active, CD2_SIZE(STATE_Active, 8))
         };
+        class STATE_Paused : public Fun_Runtime::State
+        {
+        public:
+            virtual void BeginState(Fun_Runtime::cStateMachine *);
+            virtual void EndState(Fun_Runtime::cStateMachine *);
+            virtual void Process(Fun_Runtime::cStateMachine *);
+            CD2_LAYOUT_CHECKS(STATE_Paused, CD2_SIZE(STATE_Paused, 8))
+        };
+        static Fun_Runtime::State *StaticRetSTATE_Deactivated();
+        static Fun_Runtime::State *StaticRetSTATE_Idle();
+        static Fun_Runtime::State *StaticRetSTATE_Active();
+        static Fun_Runtime::State *StaticRetSTATE_Paused();
     public:
         // CD2 0x826046D0: cScriptHost slot 1; descriptive method name is ours.
         virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
@@ -90,25 +118,35 @@ namespace Equip
         virtual int RetUpperEquipIndex() const;
         virtual bool IsLive();                                  // 330
         virtual bool IsDetonating();
+        // Burn's IsStuck, which RuffKing lacks: cCWSatchelCharge's table (0x821234F8) returns its stuck flag here.
         // CD2's weapon tables (cWeapon 0x8211F3C8, cCWWeapon 0x8211FD38, cGrenade 0x82014DD0) hold the false stub at
         // 332, the clip-plus-stored sum (0x82607A80, RetTotalAmmo) at 333 and the stored-ammo test (0x82378A28,
         // HasMaxAmmo) at 334.
-        virtual bool IsMarkedForDeletion();                     // 332
+        virtual bool IsStuck();                                 // 332
         virtual unsigned int RetTotalAmmo() const;
         virtual bool HasMaxAmmo() const;
-        virtual bool PickUpRequested(cGameBase *pOwnerTest);    // 335
+        // 335 returns m_bMarkedForDeletion (0x82604748); CanBeEquipped (337, 0x82605CB8) and CanSpawnPickupVFX (346,
+        // 0x822DC5D0) call slot 335 first, as RuffKing's call IsMarkedForDeletion; cGrenade's 336 forwards its owner
+        // argument to cEquipment's (0x82605C10), RuffKing's PickUpRequested.
+        virtual bool IsMarkedForDeletion();                     // 335
+        virtual bool PickUpRequested(cGameBase *pOwnerTest);
         virtual bool CanBeEquipped();
+        // cCWFirearm's 338..341 (0x82618118..0x826181C8) toggle, activate and deactivate its UV light and return
+        // whether it is on, in RuffKing's order.
         virtual void ToggleLightAttachment();
         virtual void ActivateLightAttachment();
-        virtual void DeactivateLightAttachment();
-        virtual bool IsLightAttachmentActive() const;           // 340
+        virtual void DeactivateLightAttachment();               // 340
+        virtual bool IsLightAttachmentActive() const;
         virtual void NotifyTracked(cEquipment *);
         virtual Fun_Runtime::Mtx *GetMatrix(Fun_Runtime::Mtx &Mat);
         virtual void CreateDynamicObstacle();
-        virtual void DestroyDynamicObstacle();
-        virtual bool CanSpawnPickupVFX();                       // 345
-        virtual Fun_Runtime::cString GetNetDebugString();
-        virtual bool CanForceNetTransform() const;
+        virtual void DestroyDynamicObstacle();                  // 345
+        // CD2 has no GetNetDebugString (RuffKing's and Burn's slot after CanSpawnPickupVFX): slot 347 returns
+        // m_bNetSleeping as RuffKing's CanForceNetTransform does, and 349 returns true (CanReleaseNetOwnershipOnInitMsg).
+        virtual bool CanSpawnPickupVFX();
+        // Inline here: CD2 expands it into cCWSatchelCharge::CanForceNetTransform (0x8261CA48), while keeping the
+        // out-of-line copy (0x826066A8) for the tables.
+        virtual bool CanForceNetTransform() const { return m_bNetSleeping; }
         virtual bool CanReleaseNetOwnershipOnAVExit() const;
         virtual bool CanReleaseNetOwnershipOnInitMsg() const;
         virtual int RetNetworkLOD(CHARACTER::cCharacter *pRelevantPlayer, int nNodeID);   // 350
@@ -207,6 +245,9 @@ namespace Equip
         // CD2 spawning initializer 0x82FCB2A0 names placement factory 0x826046b8.
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
+        // RuffKing's (out of line there); CD2's PickUpRequested (0x82605C10) and CanDoOwnershipTransition (0x82606A98)
+        // read the status field directly.
+        EQUIP_STATUS GetStatus() const { return m_EquipmentStatus; }
         static const Fun_Runtime::cClass *ms_pcEquipmentClass;
         static Fun_Runtime::cClass &StaticCreateClass();
     protected:
@@ -218,14 +259,35 @@ namespace Equip
         // initializes it at +0x7E4; cWeapon::BeginAttack and both reload completions
         // write this same timer, independently of cWeapon's own attack timer.
         float m_fTimer;
-    private:
-        unsigned char m_unmodelled7E8[0x809 - 0x7E8];
-    protected:
-        // RuffKing member order: 0x20 earlier in CD2. Constructor 0x82604AF8 clears +0x809;
-        // primary slot 347 (0x826066A8) returns this byte.
-        bool m_bNetSleeping;
-    private:
-        unsigned char m_unmodelled80A[0x870 - 0x80A];
+        // RuffKing's fields from here to the end, in its order and 0x20 earlier in CD2 (its class is 0x890 bytes, CD2's
+        // 0x870): slot 335 (0x82604748) returns +0x7F0, CanSpawnPickupVFX (0x822DC5D0) tests +0x85D/+0x85E and
+        // LeaveRenderableState (0x82605B40) +0x854, as RuffKing's do at 0x810, 0x87D/0x87E and 0x874.
+        enum etDeletionType
+        {
+            eDT_Dropped = 1,
+            eDT_Pickup = 2,
+        };
+        VFX::cParticleEffectInstance *m_pPickupVFX;                         // 0x7E8
+        int m_nPickupVFXID;                                                 // 0x7EC
+        bool m_bMarkedForDeletion;                                          // 0x7F0
+        float m_fDeletionTimer;                                             // 0x7F4
+        etDeletionType m_eDeletionType;                                     // 0x7F8
+        unsigned int m_nMarkedForDeletionTime;                              // 0x7FC
+        float m_fPickupVFXFadeTimer;                                        // 0x800
+        float m_bRenderPickUpVFX;                                           // 0x804
+        bool m_bAvailableToPlayer;                                          // 0x808
+        // Constructor 0x82604AF8 clears +0x809; primary slot 347 (0x826066A8) returns this byte.
+        bool m_bNetSleeping;                                                // 0x809
+        Fun_Runtime::Mtx m_SleepTransform;                                  // 0x810
+        GameManagement::cWeaponPickupSpawnPoint *m_pWeaponSpawnPoint;       // 0x850
+        bool m_bMultiplayerPickup;                                          // 0x854
+        Activity::cCampaignWeaponSpawnPoint *m_pCampaignWeaponSpawnPoint;   // 0x858
+        bool m_bCampaignPickup;                                             // 0x85C
+        bool m_bDeliverablePickup;                                          // 0x85D
+        bool m_bAttachedToVehicle;                                          // 0x85E
+        bool m_bSpawnedPickupVFX;                                           // 0x85F
+        bool m_bInfiniteAmmo;                                               // 0x860
+        bool m_bDropping;                                                   // 0x861
         // CD2: cEquipment's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
@@ -233,7 +295,7 @@ namespace Equip
         virtual void TickUpdate(float fDeltaTime); // 23: 0x822D04B8
         virtual void UpdateRenderMatrix(); // 26: 0x822DD5A0
         virtual void LeaveRenderableState(); // 32: 0x82605B40
-        virtual void Slot63(); // 62: 0x82605FD0
+        virtual bool IsManagedByActivityManager(); // 62: 0x82605FD0
         virtual void Slot64(); // 63: 0x82605D20
         virtual void vf76(); // 76: 0x822E88B0
         virtual void vf86(); // 86: 0x826057A8
@@ -243,8 +305,8 @@ namespace Equip
         virtual GOM::cPointOfInterest *RetPointOfInterest(int nPoint); // 122: 0x82605008
         virtual unsigned char RetNumPointsOfInterest(); // 123: 0x8288FB78, unlike cNetDynamicBody's zero return.
         virtual void vf127(); // 127: 0x82605010
-        virtual void vf153(); // 153: 0x82604F98
-        virtual void vf154(); // 154: 0x82604FA0
+        virtual void CreateHavokPhysics(); // 153: 0x82604F98
+        virtual void DeleteHavokPhysics(); // 154: 0x82604FA0
         virtual void vf158(); // 158: 0x82689BF0
         virtual void vf168(); // 168: 0x822CDDC0
         virtual void vf244(); // 244: 0x8288FB78
@@ -311,7 +373,12 @@ namespace Equip
             CD2_OFFSET(cEquipment, m_POI, 0x7B0)
             CD2_OFFSET(cEquipment, m_EquipmentStatus, 0x7E0)
             CD2_OFFSET(cEquipment, m_fTimer, 0x7E4)
-            CD2_OFFSET(cEquipment, m_bNetSleeping, 0x809))
+            CD2_OFFSET(cEquipment, m_bMarkedForDeletion, 0x7F0)
+            CD2_OFFSET(cEquipment, m_bNetSleeping, 0x809)
+            CD2_OFFSET(cEquipment, m_SleepTransform, 0x810)
+            CD2_OFFSET(cEquipment, m_bMultiplayerPickup, 0x854)
+            CD2_OFFSET(cEquipment, m_bDeliverablePickup, 0x85D)
+            CD2_OFFSET(cEquipment, m_bDropping, 0x861))
     };
 }
 

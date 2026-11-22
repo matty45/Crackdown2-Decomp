@@ -48,7 +48,7 @@ namespace AI
         // CD2 table 0x8210A8E0: overrides relative to NPCArmedBehaviour.
         virtual void OnEnter(); // slot 68: 0x824C1880
         virtual void OnExit(); // slot 69: 0x824C1BF0
-        virtual void Slot71(); // slot 71: 0x82250650
+        virtual void Update(float fDeltaTime); // slot 71: 0x82250650
         virtual void Slot73(); // slot 73: 0x824C1F48
         virtual void OnEvent74(NPCTarget *t); // slot 74: 0x824C1CC8
         virtual void OnEvent75(NPCTarget *t); // slot 75: 0x824C2078
@@ -58,7 +58,7 @@ namespace AI
         virtual void Slot82(); // slot 82: 0x824C1FF8
         virtual void Slot83(); // slot 83: 0x824C2A50
         virtual void SetReactResupplyPoint(const Fun_Runtime::Vec3 &, const Fun_Runtime::Vec3 &); // slot 85: 0x824C14C0
-        virtual void Slot87(); // slot 87: 0x824C2D90
+        virtual void SetAmbientTarget(Activity::cSquadMemberSpawnPoint *pTarget); // slot 87: 0x824C2D90
         virtual unsigned char GetStateReplicationInfo() const; // slot 89: 0x824C0EA0
         virtual void OnReplicatedEnter(unsigned char); // slot 97: 0x824C0EB8
     };

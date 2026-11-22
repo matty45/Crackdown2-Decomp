@@ -51,9 +51,9 @@ namespace AI
         cPedestrianBase::OnExit();
     }
 
-    void Pedestrian::Slot71()
+    void Pedestrian::Update(float fDeltaTime)
     {
-        cPedestrianBase::Slot71();
+        cPedestrianBase::Update(fDeltaTime);
     }
 
     void Pedestrian::vf98()

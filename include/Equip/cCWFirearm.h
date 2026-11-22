@@ -12,6 +12,9 @@
 
 namespace Equip
 {
+    class cBulletData;
+    class cUVLightAttachmentData;
+
     class cCWFirearm : public Equip::cCWWeapon
     {
     public:
@@ -43,10 +46,16 @@ namespace Equip
             virtual unsigned int RetLegKillPoints() const; // 25: 0x826164C8
 
         private:
-            unsigned char m_unmodelled3E0[0x6E0 - 0x3E0];
+            // RuffKing's first two own fields, 0x30 higher in CD2 (its prototype is 0x6B0 bytes, CD2's 0x6E0):
+            // cCWFirearm's light-attachment slots (0x82618118..0x826181C8) test +0x3E4 as RuffKing's test +0x3B4.
+            friend class cCWFirearm;
+            cBulletData *m_pBulletData;                         // 0x3E0
+            cUVLightAttachmentData *m_pUVAttachmentData;        // 0x3E4
+            unsigned char m_unmodelled3E8[0x6E0 - 0x3E8];
 
             CD2_LAYOUT_CHECKS(cCWFirearmPrototype,
-                CD2_SIZE(cCWFirearmPrototype, 0x6E0))
+                CD2_SIZE(cCWFirearmPrototype, 0x6E0)
+                CD2_OFFSET(cCWFirearmPrototype, m_pUVAttachmentData, 0x3E4))
         };
 
         // CD2 factory 0x82617DB8 forwards only this, without a prototype argument.
@@ -85,10 +94,17 @@ namespace Equip
         // CD2: cCWFirearm's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
-        virtual void ActivateLightAttachment(); // 338: 0x82618118
-        virtual void DeactivateLightAttachment(); // 339: 0x82618178
-        virtual bool IsLightAttachmentActive() const; // 340: 0x826181A0
-        virtual void NotifyTracked(Equip::cEquipment *); // 341: 0x826181C8
+        virtual void ToggleLightAttachment(); // 338: 0x82618118
+        virtual void ActivateLightAttachment(); // 339: 0x82618178
+        virtual void DeactivateLightAttachment(); // 340: 0x826181A0
+        virtual bool IsLightAttachmentActive() const; // 341: 0x826181C8
+    protected:
+        // RuffKing's (out of line there, 0x826EA060); CD2's light-attachment slots test the prototype's data inline.
+        bool HasUVLightAttachment() const
+        {
+            return static_cast<const cCWFirearmPrototype *>(m_pPrototype)->m_pUVAttachmentData != 0;
+        }
+    public:
     private:
         CD2_LAYOUT_CHECKS(cCWFirearm,
             CD2_SIZE(cCWFirearm, 0xAB0)

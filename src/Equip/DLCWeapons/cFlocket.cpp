@@ -164,7 +164,7 @@ namespace Equip
         ReadVec3(&v, 24);
         ReadFloat(&m_fVertAcc, 25);
         ReadFloat(&m_fHorizAcc, 26);
-        if (m_nUnk88 == 199)
+        if (m_iReadWrite == 199)
         {
             pHint->x = v.x;
             pHint->y = v.y;

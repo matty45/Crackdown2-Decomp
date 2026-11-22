@@ -19,6 +19,7 @@
 #include "Equip/cWeaponProjectile.h"
 #include "ExplosionManager/cExplosionCallback.h"
 #include "ExplosionManager/eDetonationType.h"
+#include "ExplosionManager/cExplosive.h"
 #include "fun_runtime/safedeletablepointer.h"
 #include "gom/game_base.h"
 #include "VFX/cParticleEffectInstance.h"
@@ -28,6 +29,8 @@ namespace PHYSICS { class cCustomMaterial; }
 
 namespace Equip
 {
+    class cAntiGravAction;
+
     class cHWProjectile : public cWeaponProjectile, public ExplosionManager::cExplosionCallback
     {
     public:
@@ -65,16 +68,26 @@ namespace Equip
         virtual void UpdateAttachedEffect();                         // 373
         virtual void ReleaseEffect();                                // 374
 
-    private:
-        unsigned char m_unmodelled874[0x880 - 0x874];
-        // RuffKing's members, 0x20 earlier in CD2 up to the effect pointer: the destructor (0x8262AAF8) calls
+    protected:
+        // RuffKing's members, 0x20 earlier in CD2 up to the effect pointer: SetExplosiveSkillLevel (0x8262B250) stores
+        // the level through +0x874, UpdateExplosionTimer (0x8262B268) counts the delay at +0x8B4 down; the destructor (0x8262AAF8) calls
         // ReleaseEffect, destroys the audio object at 0x8C8 and the three safe pointers (the two cGameBase ones share
         // their typed table register, the character one has its own).
+        ExplosionManager::cExplosive *m_pExplosive;                                     // 0x874
+        cAntiGravAction *m_pAntiGravAction;                                             // 0x878
+        float m_fMaxVelocity;                                                           // 0x87C
         Fun_Runtime::cSafeDeletablePointer<cGameBase> m_pTarget;                        // 0x880
         Fun_Runtime::cSafeDeletablePointer<cGameBase> m_pWeapon;                        // 0x890
         Fun_Runtime::cSafeDeletablePointer<CHARACTER::cCharacter> m_pProjectileOwner;   // 0x8A0
         VFX::cParticleEffectInstance *m_pEffectInstance;                                // 0x8B0
-        unsigned char m_unmodelled8B4[0x8C8 - 0x8B4];
+        float m_fDetonationDelay;                                                       // 0x8B4
+        unsigned int m_nTargetObjectID;                                                 // 0x8B8
+        unsigned int m_nTargetObjectType;                                               // 0x8BC
+        unsigned int m_nEquipmentID;                                                    // 0x8C0
+    private:
+        // RuffKing's audio object is 16-byte aligned (its game object holds a Vec3 and a 64-bit loop mask); CD2's is
+        // at 0x8C8, the alignment of these four bytes not recovered.
+        unsigned char m_unmodelled8C4[0x8C8 - 0x8C4];
         Audio::cProjectileGameObject m_ProjectileAudio;                                 // 0x8C8
 
         // CD2: cHWProjectile's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
@@ -103,6 +116,7 @@ namespace Equip
         virtual unsigned int GetMaxReplicatedFields() const; // cReplicatedClass 23: 0x82889198
     private:
         CD2_LAYOUT_CHECKS(cHWProjectile, CD2_SIZE(cHWProjectile, 0x970)
+            CD2_OFFSET(cHWProjectile, m_pExplosive, 0x874) CD2_OFFSET(cHWProjectile, m_fDetonationDelay, 0x8B4)
             CD2_OFFSET(cHWProjectile, m_pTarget, 0x880) CD2_OFFSET(cHWProjectile, m_pEffectInstance, 0x8B0)
             CD2_OFFSET(cHWProjectile, m_ProjectileAudio, 0x8C8))
     };

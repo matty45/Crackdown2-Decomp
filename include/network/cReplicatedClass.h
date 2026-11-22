@@ -98,9 +98,22 @@ protected:
             m_pReplicatedFields[field].SetState(state, nNodeID);
     }
 public:
-    unsigned char m_nUnk88;
-private:
-    unsigned char m_unknown89[0x224 - 0x89];
+    // RuffKing's names, types and offsets from here to m_bRegisteredWithReplicationManager (the same in CD2: the
+    // equipment's CalculateLOD, 0x826066B0, stores its node's LOD at +0x154 + 4 * node).
+    unsigned char m_iReadWrite;                         // 0x88
+    unsigned char m_iSymetrical;
+    unsigned char m_InitOrUpdate;
+    unsigned char m_bFieldMode;
+    unsigned char m_ReplicateMode;                      // 0x8C
+    unsigned char m_nNextFieldID;
+    unsigned int m_ForceReliableThisFrame;              // 0x90
+    cReplicatedClass *m_pNextLODItem[16];               // 0x94
+    cReplicatedClass *m_pPrevLODItem[16];               // 0xD4
+    int m_Relevancy[16];                                // 0x114
+    int m_LOD[16];                                      // 0x154
+    bool m_bInitPacketSent[16];                         // 0x194
+    unsigned int m_LastSendTimeStamp[16];               // 0x1A4
+    unsigned int m_LastForcedSendTimeStamp[16];         // 0x1E4
 public:
     // RuffKing's name and offset; cTacticalObjective::TermReplication tests it before TermReplicatedClass.
     bool m_bRegisteredWithReplicationManager;           // 0x224
@@ -111,6 +124,8 @@ private:
         CD2_OFFSET(cReplicatedClass, m_iHasBeenReplicated, 0x87)
         CD2_OFFSET(cReplicatedClass, m_nObjectID, 0x38)
         CD2_OFFSET(cReplicatedClass, m_nNodeID, 0x3C)
+        CD2_OFFSET(cReplicatedClass, m_LOD, 0x154)
+        CD2_OFFSET(cReplicatedClass, m_LastForcedSendTimeStamp, 0x1E4)
         CD2_OFFSET(cReplicatedClass, m_bRegisteredWithReplicationManager, 0x224))
 };
 #endif

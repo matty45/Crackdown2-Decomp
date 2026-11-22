@@ -48,6 +48,11 @@ namespace AI
 
     static RWS::CClassFactory::CRegistrar TrainingDummyRegistrar(
         "TrainingDummy", TrainingDummy::MakeNew, 0xD0, false);
+
+    void TrainingDummy::SetSpawnAction(unsigned char nAction)
+    {
+        m_nSpawnAction = nAction;
+    }
 }
 
 // cGameBase's setter is folded into this split; TrainingDummy itself is only 0xD0 bytes.

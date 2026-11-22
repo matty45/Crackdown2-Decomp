@@ -5,18 +5,28 @@
 #define EQUIP_CEXPLOSIVEGRENADE_H
 #include "Equip/cGrenade.h"
 #include "ExplosionManager/cExplosionCallback.h"
+#include "ExplosionManager/eDetonationType.h"
+#include "ExplosionManager/cExplosive.h"
+#include "fun_runtime/mtx.h"
 #include "fun_runtime/script_type_registrar.h"
 namespace Equip
 {
     class cExplosiveGrenade : public cGrenade, public ExplosionManager::cExplosionCallback
     {
     public:
-        // CD2 table 0x82015480 extends the inherited interface at these slots.
-        virtual void vf427();
-        virtual void vf428();
-        virtual void vf429();
-        virtual void vf430();
-        virtual void vf431();
+        // CD2 table 0x82015480 extends the inherited interface at these slots: RuffKing's five, in its order and
+        // signatures. Launched (0x8261D628) passes the attacker to 427 and its byte result to 428; 428 (0x8261D690)
+        // stores the level into the explosive at +0x9C4; cCWSatchelCharge's 429 returns a halfword, and 431
+        // (0x8261DB80) returns a detonation type.
+        virtual unsigned char RetExplosiveLevelForOwner(const cNonGameBase *pOwner) const;
+        virtual void SetExplosiveLevel(unsigned int nLevel);
+        virtual unsigned short RetExplosionSurfaceID() const;
+        virtual Fun_Runtime::Mtx RetExplosiveOrientation() const;
+        virtual ExplosionManager::eDetonationType RetDetonationType() const;
+    protected:
+        // RuffKing's (out of line there); CD2's RetDamageRadius (0x8261DAD0) asks slot 427 for the owner's level.
+        unsigned char RetExplosiveLevel() const { return RetExplosiveLevelForOwner(RetOwner()); }
+    public:
 
         // CD2's cluster and shrapnel script-host tables share 0x82619670;
         // cGrenade's corresponding slot holds 0x8261DFC0.
@@ -52,8 +62,13 @@ namespace Equip
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         virtual void NotifyDetonation(cGameBase *, CHARACTER::cCharacterInterface *, unsigned char);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
+    protected:
+        // RuffKing's members after the callback base, 0xA0 lower in CD2: SetExplosiveLevel (0x8261D690) stores the
+        // level through +0x9C4, InitiateOrdinalDetonation (0x8261D490) the ordinal at +0x9CC.
+        ExplosionManager::cExplosive *m_pExplosive;         // 0x9C4
+        VFX::cParticleEffectInstance *m_pFuseDelayVFX;      // 0x9C8
+        unsigned char m_nOrdinal;                           // 0x9CC
     private:
-        unsigned char m_unmodelled9C4[0x9D0 - 0x9C4];
         // CD2: cExplosiveGrenade's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
@@ -63,7 +78,8 @@ namespace Equip
         virtual void ReplicateFields(); // cReplicatedClass 9: 0x821FEA10
         virtual unsigned int GetMaxReplicatedFields() const; // cReplicatedClass 23: 0x8288E730
     private:
-        CD2_LAYOUT_CHECKS(cExplosiveGrenade, CD2_SIZE(cExplosiveGrenade, 0x9D0))
+        CD2_LAYOUT_CHECKS(cExplosiveGrenade, CD2_SIZE(cExplosiveGrenade, 0x9D0)
+            CD2_OFFSET(cExplosiveGrenade, m_pExplosive, 0x9C4) CD2_OFFSET(cExplosiveGrenade, m_nOrdinal, 0x9CC))
 
     public:
         // CD2 table 0x82015480 differs from cGrenade at these inherited slots.

@@ -59,7 +59,7 @@ namespace AI
         // CD2 table 0x8210CC48 differs from cPilotBase at these inherited slots.
         virtual void OnEnter(); // slot 68: 0x824D5508
         virtual void OnExit(); // slot 69: 0x824D5578
-        virtual void Slot71(); // slot 71: 0x824D5818
+        virtual void Update(float fDeltaTime); // slot 71: 0x824D5818
         virtual void vf100(); // slot 100: 0x824D62E8
         virtual void vf106(); // slot 106: 0x824D5938
         virtual void vf110(); // slot 110: 0x824D04B8

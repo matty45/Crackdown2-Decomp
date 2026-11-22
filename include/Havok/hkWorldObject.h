@@ -13,10 +13,16 @@ class hkWorldObject : public hkReferencedObject
 public:
     virtual hkWorldOperation::Result setShape(hkShape *);
     const hkCollidable *getCollidable() const { return &m_collidable; }
+    // RuffKing's (Havok's) name; CD2 0x82BD22E0 (30 callers), called by cEquipment::EnterGhostState as RuffKing's.
+    void addReference();
     hkCollidable *getCollidableRw() { return &m_collidable; }
 protected:
     virtual hkMotionState *getMotionState() = 0;
+public:
+    // Read directly by game code: cEquipment::EnterGhostState (0x82605B90) tests its rigid body's world with an
+    // unsigned compare of the loaded word, where an inline accessor's result compares signed (cmpwi).
     hkWorld *m_world;
+protected:
     void *m_userData;
     const char *m_name;
     hkLinkedCollidable m_collidable;

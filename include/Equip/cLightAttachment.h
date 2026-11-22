@@ -9,9 +9,9 @@
 #include "cd2/layout.h"
 #include "fun_runtime/mtx.h"
 #include "GameRenderer/cFrame.h"
+#include "VFX/cGlobalLight.h"
 
 class cGameBase;
-namespace VFX { class cGlobalLight; }
 
 namespace Equip
 {
@@ -28,6 +28,9 @@ namespace Equip
         virtual bool Activate();
         virtual bool Deactivate();
         virtual void TickUpdate(float dT);
+        // RuffKing's (out of line there, 0x82AFB868); CD2's cCWFirearm::ToggleLightAttachment and
+        // IsLightAttachmentActive (0x82618118, 0x826181C8) expand it.
+        bool IsActive() const { return m_pGlobalLight ? m_pGlobalLight->IsOn() : false; }
 
     protected:
         VFX::cGlobalLight *m_pGlobalLight;

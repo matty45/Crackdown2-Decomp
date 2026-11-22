@@ -29,6 +29,16 @@ namespace AI
         return "NPCBehaviour";
     }
 
+    void NPCBehaviour::SetAmbientTarget(Activity::cSquadMemberSpawnPoint *pTarget)
+    {
+        m_pAmbientTarget = pTarget;
+    }
+
+    unsigned int NPCBehaviour::RetCorpseFadeOutTimeMillis() const
+    {
+        return 1000;
+    }
+
     // CD2 0x824A7DF0 / 0x824A7E00: slots 0 and 1 of NPCArmedBehaviour's registered-class table (0x82108BD8, which its
     // constructor 0x824A8070 installs); they read the descriptor pointer that 0x82F91630 sets from 0x824A7E80.
     const Fun_Runtime::cClass &NPCArmedBehaviour::RetClass() const
@@ -83,7 +93,7 @@ namespace AI
         ChangeMainState(static_cast<eState>(state));
     }
 
-    void NPCArmedBehaviour::Slot71()
+    void NPCArmedBehaviour::Update(float)
     {
         switch (m_nMainState)
         {

@@ -45,9 +45,9 @@ namespace AI
     public:
         // CD2 table 0x8200A3E8 differs from NPCBehaviour at these inherited slots.
         virtual void OnEnter(); // slot 68: 0x824C7E18
-        virtual void Slot71(); // slot 71: 0x824C7F68
+        virtual void Update(float fDeltaTime); // slot 71: 0x824C7F68
         virtual void Slot83(); // slot 83: 0x824C8180
-        virtual void Slot87(); // slot 87: 0x824C8170
+        virtual void SetAmbientTarget(Activity::cSquadMemberSpawnPoint *pTarget); // slot 87: 0x824C8170
     };
 }
 

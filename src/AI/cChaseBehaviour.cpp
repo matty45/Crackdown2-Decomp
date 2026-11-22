@@ -63,7 +63,7 @@ namespace AI
         m_pHost->m_nMode = 0x41;
         Ext_823E97B8(m_pHost, 0xBF);
         m_hD0 = 0;
-        SetState(1);
+        ChangeState(1);
     }
 
     void cChaseBehaviour::OnExit()
@@ -82,7 +82,7 @@ namespace AI
     {
         m_fD4 += dt;
         if (m_fD4 > 5.0f)
-            SetState(6);
+            ChangeState(6);
     }
 
     void cChaseBehaviour::OnEvent74(NPCTarget *t)
@@ -119,15 +119,15 @@ namespace AI
 
     void cChaseBehaviour::V117()
     {
-        SetState(6);
+        ChangeState(6);
     }
 
     void cChaseBehaviour::V118()
     {
         if (m_bF4)
-            SetState(3);
+            ChangeState(3);
         else
-            SetState(2);
+            ChangeState(2);
     }
 
     Fun_Runtime::cClass &cChaseBehaviour::StaticCreateClass()
@@ -204,11 +204,11 @@ namespace AI
             m_hD0 = Ext_8243F860(g_pBehaviourTable, m_hD0);
     }
 
-    void cChaseBehaviour::Update(float dt)
+    void cChaseBehaviour::PreUpdateAllStates(float dt)
     {
         V107();
         if (m_bC4 && !m_pHost->IsAliveLike())
-            SetState(0);
+            ChangeState(0);
         if (m_fTimer > 0.0001f)
         {
             float t = m_fTimer - dt;
@@ -255,7 +255,7 @@ namespace AI
             YSub *ys = x2->m_pY;
             Y *y = ys ? static_cast<Y *>(ys) : 0;
             if (y)
-                SetState(6);
+                ChangeState(6);
         }
     }
 

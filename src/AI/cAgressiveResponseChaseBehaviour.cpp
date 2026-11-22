@@ -66,10 +66,10 @@ namespace AI
         return 0x4006;
     }
 
-    void cAgressiveResponseChaseBehaviour::Slot97()
+    void cAgressiveResponseChaseBehaviour::PostUpdateAllStates(float)
     {
         if (m_bC4 && LookForCover())
-            SetState(eState_MoveToCover);
+            ChangeState(eState_MoveToCover);
     }
 
     void cAgressiveResponseChaseBehaviour::ExitGettingOut()
@@ -109,9 +109,9 @@ namespace AI
     void cAgressiveResponseChaseBehaviour::V117()
     {
         if (m_bC4 < eState_ARCBFirstState)
-            SetState(6);
+            ChangeState(6);
         else
-            SetState(eState_IdleGuard);
+            ChangeState(eState_IdleGuard);
     }
 
     // CD2 0x82F99460: runtime class inheritance registration.

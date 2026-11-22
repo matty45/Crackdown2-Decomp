@@ -320,8 +320,8 @@ namespace Vehicle
         virtual void vf140(); // 140: 0x826D3098
         virtual void vf142(); // 142: 0x822849D0
         virtual void vf145(); // 145: 0x822849F8
-        virtual void vf153(); // 153: 0x821D0CD0
-        virtual void vf154(); // 154: 0x826AB0F0
+        virtual void CreateHavokPhysics(); // 153: 0x821D0CD0
+        virtual void DeleteHavokPhysics(); // 154: 0x826AB0F0
         virtual hkCollidableQualityType RetCollidableQuality(hkMotion::MotionType); // 156: 0x826D93F0
         virtual void vf157(); // 157: 0x826D4948
         virtual void vf163(); // 163: 0x822F2B50
@@ -329,7 +329,7 @@ namespace Vehicle
         virtual void vf167(); // 167: 0x826D9308
         virtual void vf183(); // 183: 0x8228E650
         virtual unsigned char RetCollisionLayer(); // 196: 0x826D4DB0
-        virtual void vf211(); // 211: 0x822B2E88
+        virtual void SetRecentlyAffectedByExplosion(bool); // 211: 0x822B2E88
         virtual void vf212(); // 212: 0x8229C2B8
         virtual void vf213(); // 213: 0x826DA4B0
         virtual void vf215(); // 215: 0x826DA108

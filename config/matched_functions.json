@@ -2341,7 +2341,7 @@
       {
         "address": "0x824A8FE8",
         "size": 4,
-        "symbol": "?Slot71@Pedestrian@AI@@"
+        "symbol": "?Update@Pedestrian@AI@@"
       },
       {
         "address": "0x82F92240",
@@ -25885,6 +25885,11 @@
         "address": "0x8245D408",
         "size": 8,
         "symbol": "?RetClass@cAgencyTowerSegmentMission@AI@@WBA@"
+      },
+      {
+        "address": "0x8245D3E8",
+        "size": 8,
+        "symbol": "??_EcAgencyTowerSegmentMission@AI@@WBA@"
       }
     ],
     "src/AI/cAgentPickup.cpp": [
@@ -26210,7 +26215,7 @@
       {
         "address": "0x824C9A08",
         "size": 104,
-        "symbol": "?Slot97@cAgressiveResponseChaseBehaviour@AI@@"
+        "symbol": "?PostUpdateAllStates@cAgressiveResponseChaseBehaviour@AI@@"
       },
       {
         "address": "0x824C9B68",
@@ -26283,6 +26288,16 @@
         "address": "0x824CC9F0",
         "size": 8,
         "symbol": "??_EcAgressiveResponseChaseBehaviour@AI@@WBM@"
+      },
+      {
+        "address": "0x824CAF68",
+        "size": 60,
+        "symbol": "?Slot80@cAgressiveResponseChaseBehaviour@AI@@"
+      },
+      {
+        "address": "0x824CB910",
+        "size": 40,
+        "symbol": "?V117@cAgressiveResponseChaseBehaviour@AI@@"
       }
     ],
     "src/AI/cAmbientTrafficBehaviour.cpp": [
@@ -26790,6 +26805,11 @@
         "address": "0x8245F688",
         "size": 8,
         "symbol": "?IsA@cAUMission@AI@@WBA@"
+      },
+      {
+        "address": "0x8245F690",
+        "size": 8,
+        "symbol": "??_EcAUMission@AI@@WBA@"
       }
     ],
     "src/AI/Mission/AchievementMissions/cBaseJumperMission.cpp": [
@@ -27568,6 +27588,11 @@
         "address": "0x82473D50",
         "size": 8,
         "symbol": "?RetClass@cBreachHoleMission@AI@@WBA@"
+      },
+      {
+        "address": "0x82473D40",
+        "size": 8,
+        "symbol": "??_EcBreachHoleMission@AI@@WCA@"
       }
     ],
     "src/AI/Mission/cCellStrongholdMission.cpp": [
@@ -28627,6 +28652,11 @@
         "address": "0x8246E6D0",
         "size": 8,
         "symbol": "?IsA@cFinalMission@AI@@WBA@"
+      },
+      {
+        "address": "0x8246E6C8",
+        "size": 8,
+        "symbol": "??_EcFinalMission@AI@@WBA@"
       }
     ],
     "src/AI/cFreakSniperEvent.cpp": [
@@ -30607,6 +30637,21 @@
         "address": "0x8303BC90",
         "size": 20,
         "symbol": "??__FcVehicleAttackedRockingBehaviourSpawningRegistrar@AI@@"
+      },
+      {
+        "address": "0x824CF940",
+        "size": 16,
+        "symbol": "?OnEnter@cVehicleAttackedRockingBehaviour@AI@@"
+      },
+      {
+        "address": "0x824CF950",
+        "size": 104,
+        "symbol": "?ChangeState@cVehicleAttackedRockingBehaviour@AI@@"
+      },
+      {
+        "address": "0x824CF9B8",
+        "size": 8,
+        "symbol": "?EnterState@cVehicleAttackedRockingBehaviour@AI@@"
       }
     ],
     "src/AI/cVehicleCollectionBehaviour.cpp": [
@@ -30991,7 +31036,7 @@
       {
         "address": "0x824A8330",
         "size": 204,
-        "symbol": "?Slot71@NPCArmedBehaviour@AI@@"
+        "symbol": "?Update@NPCArmedBehaviour@AI@@"
       },
       {
         "address": "0x824A8400",
@@ -31214,6 +31259,16 @@
         "size": 40,
         "symbol": "??__EnPART_PERCENT_WEIGHT@@",
         "ltcg": true
+      },
+      {
+        "address": "0x824A7DE0",
+        "size": 8,
+        "symbol": "?SetAmbientTarget@NPCBehaviour@AI@@"
+      },
+      {
+        "address": "0x824A7DE8",
+        "size": 8,
+        "symbol": "?RetCorpseFadeOutTimeMillis@NPCBehaviour@AI@@"
       }
     ],
     "src/AI/Behaviour/NPC/Peacekeeper/Peacekeeper.cpp": [
@@ -32211,6 +32266,11 @@
         "address": "0x8303BB10",
         "size": 20,
         "symbol": "??__FTrainingAmbientSpawningRegistrar@AI@@"
+      },
+      {
+        "address": "0x824C8170",
+        "size": 12,
+        "symbol": "?SetAmbientTarget@TrainingAmbient@AI@@"
       }
     ],
     "src/AI/Behaviour/NPC/Mission_Specific/TrainingDummy.cpp": [
@@ -32385,6 +32445,11 @@
         "address": "0x8303BB40",
         "size": 20,
         "symbol": "??__FTrainingDummySpawningRegistrar@AI@@"
+      },
+      {
+        "address": "0x824C83F0",
+        "size": 8,
+        "symbol": "?SetSpawnAction@TrainingDummy@AI@@"
       }
     ],
     "src/AI/Behaviour/NPC/Mission_Specific/TrainingPilot.cpp": [
@@ -35323,6 +35388,11 @@
         "address": "0x8243D5E8",
         "size": 8,
         "symbol": "??_EcAIAnimEventProfile@AI@@WBI@"
+      },
+      {
+        "address": "0x8243D460",
+        "size": 360,
+        "symbol": "?HandleAttributes@cAIAnimEventProfile@AI@@"
       }
     ],
     "src/Prop/Constrained/cPivotBasedProp.cpp": [
@@ -36984,6 +37054,16 @@
         "address": "0x8303B7E8",
         "size": 20,
         "symbol": "??__FFreakBaseSpawningRegistrar@AI@@"
+      },
+      {
+        "address": "0x824ABC90",
+        "size": 16,
+        "symbol": "?CanBeAttackedByNPC@FreakBase@AI@@"
+      },
+      {
+        "address": "0x824ABCA0",
+        "size": 8,
+        "symbol": "?SetSpawnAction@FreakBase@AI@@"
       }
     ],
     "src/AI/Behaviour/NPC/Freak/Goliath.cpp": [
@@ -37158,6 +37238,16 @@
         "address": "0x8303B828",
         "size": 20,
         "symbol": "??__FGoliathSpawningRegistrar@AI@@"
+      },
+      {
+        "address": "0x824B1030",
+        "size": 16,
+        "symbol": "?SetControlsVelocityOverride@Goliath@AI@@"
+      },
+      {
+        "address": "0x824B12F0",
+        "size": 8,
+        "symbol": "?RetCorpseFadeOutTimeMillis@Goliath@AI@@"
       }
     ],
     "src/Anim/cCharacterAnimSetManager.cpp": [
@@ -43127,6 +43217,111 @@
         "address": "0x82605D08",
         "size": 20,
         "symbol": "?TriggerExitWater@cEquipment@Equip@@"
+      },
+      {
+        "address": "0x826079D8",
+        "size": 8,
+        "symbol": "?IsA@cEquipment@Equip@@WEOA@"
+      },
+      {
+        "address": "0x826079F8",
+        "size": 8,
+        "symbol": "?IsA@cEquipment@Equip@@WPA@"
+      },
+      {
+        "address": "0x82604748",
+        "size": 8,
+        "symbol": "?IsMarkedForDeletion@cEquipment@Equip@@"
+      },
+      {
+        "address": "0x82604F98",
+        "size": 4,
+        "symbol": "?CreateHavokPhysics@cEquipment@Equip@@"
+      },
+      {
+        "address": "0x82604FA0",
+        "size": 20,
+        "symbol": "?DeleteHavokPhysics@cEquipment@Equip@@"
+      },
+      {
+        "address": "0x82604FB8",
+        "size": 76,
+        "symbol": "?ResetHavokPhysics@cEquipment@Equip@@"
+      },
+      {
+        "address": "0x826059C8",
+        "size": 76,
+        "symbol": "?GetMatrix@cEquipment@Equip@@"
+      },
+      {
+        "address": "0x82605B40",
+        "size": 80,
+        "symbol": "?LeaveRenderableState@cEquipment@Equip@@"
+      },
+      {
+        "address": "0x82605C10",
+        "size": 168,
+        "symbol": "?PickUpRequested@cEquipment@Equip@@"
+      },
+      {
+        "address": "0x82605CB8",
+        "size": 56,
+        "symbol": "?CanBeEquipped@cEquipment@Equip@@"
+      },
+      {
+        "address": "0x82606A98",
+        "size": 100,
+        "symbol": "?CanDoOwnershipTransition@cEquipment@Equip@@"
+      },
+      {
+        "address": "0x82606B00",
+        "size": 80,
+        "symbol": "?OnFailedOwnershipTransition@cEquipment@Equip@@"
+      },
+      {
+        "address": "0x82606B50",
+        "size": 48,
+        "symbol": "?SetPingedFieldStatesForNode@cEquipment@Equip@@"
+      },
+      {
+        "address": "0x826047E8",
+        "size": 80,
+        "symbol": "?RetSTATE_Deactivated@cEquipment@Equip@@UBAPAVState@Fun_Runtime@@"
+      },
+      {
+        "address": "0x82604838",
+        "size": 80,
+        "symbol": "?RetSTATE_Idle@cEquipment@Equip@@UBAPAVState@Fun_Runtime@@"
+      },
+      {
+        "address": "0x82604888",
+        "size": 80,
+        "symbol": "?RetSTATE_Active@cEquipment@Equip@@UBAPAVState@Fun_Runtime@@"
+      },
+      {
+        "address": "0x826048D8",
+        "size": 80,
+        "symbol": "?RetSTATE_Paused@cEquipment@Equip@@UBAPAVState@Fun_Runtime@@"
+      },
+      {
+        "address": "0x82605950",
+        "size": 116,
+        "symbol": "?Process@STATE_Active@cEquipment@Equip@@"
+      },
+      {
+        "address": "0x82605B90",
+        "size": 124,
+        "symbol": "?EnterGhostState@cEquipment@Equip@@"
+      },
+      {
+        "address": "0x82605FD0",
+        "size": 16,
+        "symbol": "?IsManagedByActivityManager@cEquipment@Equip@@"
+      },
+      {
+        "address": "0x826066B0",
+        "size": 120,
+        "symbol": "?CalculateLOD@cEquipment@Equip@@"
       }
     ],
     "src/Equip/Weapon/cCWWeapon.cpp": [
@@ -45006,6 +45201,31 @@
         "address": "0x82618768",
         "size": 16,
         "symbol": "?Init@cCWFirearmPrototype@cCWFirearm@Equip@@"
+      },
+      {
+        "address": "0x82617F58",
+        "size": 88,
+        "symbol": "?Term@cCWFirearm@Equip@@"
+      },
+      {
+        "address": "0x82618118",
+        "size": 92,
+        "symbol": "?ToggleLightAttachment@cCWFirearm@Equip@@"
+      },
+      {
+        "address": "0x82618178",
+        "size": 40,
+        "symbol": "?ActivateLightAttachment@cCWFirearm@Equip@@"
+      },
+      {
+        "address": "0x826181A0",
+        "size": 40,
+        "symbol": "?DeactivateLightAttachment@cCWFirearm@Equip@@"
+      },
+      {
+        "address": "0x826181C8",
+        "size": 48,
+        "symbol": "?IsLightAttachmentActive@cCWFirearm@Equip@@"
       }
     ],
     "src/Equip/Weapon/cClusterGrenade.cpp": [
@@ -53889,6 +54109,16 @@
         "address": "0x8262A718",
         "size": 92,
         "symbol": "?IsA@cHWProjectile@Equip@@UBA"
+      },
+      {
+        "address": "0x8262B250",
+        "size": 24,
+        "symbol": "?SetExplosiveSkillLevel@cHWProjectile@Equip@@"
+      },
+      {
+        "address": "0x8262D470",
+        "size": 72,
+        "symbol": "?RetDamageRadius@cHWProjectile@Equip@@"
       }
     ],
     "src/Vehicle/cVehicle.cpp": [
@@ -55083,6 +55313,21 @@
         "address": "0x8261F3E8",
         "size": 88,
         "symbol": "?WaterExitAudio@cGrenade@Equip@@"
+      },
+      {
+        "address": "0x8261EE50",
+        "size": 168,
+        "symbol": "?PickUpRequested@cGrenade@Equip@@"
+      },
+      {
+        "address": "0x8261F1A0",
+        "size": 84,
+        "symbol": "?TriggerEnterWater@cGrenade@Equip@@"
+      },
+      {
+        "address": "0x8261F720",
+        "size": 56,
+        "symbol": "?CanReleaseNetOwnershipOnInitMsg@cGrenade@Equip@@"
       }
     ],
     "src/Equip/Weapon/cCWHeavyWeapon.cpp": [
@@ -55586,6 +55831,16 @@
         "address": "0x8261C240",
         "size": 4,
         "symbol": "?LeavePhysicalState@cCWSatchelCharge@Equip@@"
+      },
+      {
+        "address": "0x8261C130",
+        "size": 24,
+        "symbol": "?RetExplosionSurfaceID@cCWSatchelCharge@Equip@@"
+      },
+      {
+        "address": "0x8261CA48",
+        "size": 60,
+        "symbol": "?CanForceNetTransform@cCWSatchelCharge@Equip@@"
       }
     ],
     "src/Equip/Weapon/cExplosiveGrenade.cpp": [
@@ -55820,6 +56075,26 @@
         "address": "0x8261DE88",
         "size": 16,
         "symbol": "?Init@cExplosiveGrenadePrototype@cExplosiveGrenade@Equip@@"
+      },
+      {
+        "address": "0x8261D490",
+        "size": 8,
+        "symbol": "?InitiateOrdinalDetonation@cExplosiveGrenade@Equip@@"
+      },
+      {
+        "address": "0x8261D628",
+        "size": 100,
+        "symbol": "?Launched@cExplosiveGrenade@Equip@@"
+      },
+      {
+        "address": "0x8261D690",
+        "size": 20,
+        "symbol": "?SetExplosiveLevel@cExplosiveGrenade@Equip@@"
+      },
+      {
+        "address": "0x8261DAD0",
+        "size": 112,
+        "symbol": "?RetDamageRadius@cExplosiveGrenade@Equip@@"
       }
     ],
     "src/AI/Mission/Delivery_Manager/cAgencyGarage.cpp": [
@@ -75075,6 +75350,11 @@
         "size": 40,
         "symbol": "??__EnPART_PERCENT_WEIGHT@@",
         "ltcg": true
+      },
+      {
+        "address": "0x824E04A0",
+        "size": 80,
+        "symbol": "??_GcAnimationProfile@Anim@@"
       }
     ],
     "src/PHYSICS/cStaticBody.cpp": [
