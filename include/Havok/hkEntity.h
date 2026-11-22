@@ -7,10 +7,16 @@
 #include "Havok/hkWorldObject.h"
 class hkEntityListener;
 class hkMotion;
+class hkCollisionListener;
 class hkEntity : public hkWorldObject
 {
 public:
     void addEntityListener(hkEntityListener *);
+    // Descriptive API names: CD2 0x82BD18F8 inserts a listener into the
+    // entity's +0x94 pointer array; 0x82BD1588 removes it. cProp passes its
+    // hkCollisionListener subobject to these two operations.
+    void addCollisionListener(hkCollisionListener *);
+    void removeCollisionListener(hkCollisionListener *);
     virtual hkMotionState *getMotionState();
     virtual void deallocateInternalArrays();
 protected:

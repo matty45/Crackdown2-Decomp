@@ -32,6 +32,7 @@
 
 namespace GOM { class cSpawner; }
 namespace Kaim { class CEntity; }
+namespace Activity { class cSpawnPointBase; }
 
 class cNonGameBase : public RWS::CAttributeHandler, public RWS::CEventHandler, public Fun_Runtime::cScriptHost,
     public Network::cNetRoleObject
@@ -48,7 +49,12 @@ private:
 protected:
     char *m_p50;
 private:
-    unsigned char m_pad54[0x64 - 0x54];
+    unsigned char m_pad54[0x5C - 0x54];
+protected:
+    // RuffKing's name/type; CD2 0x8245B634 reads the mission prop's spawn point here.
+    Activity::cSpawnPointBase *m_pSpawner;
+private:
+    unsigned char m_unknown60[0x64 - 0x60];
 protected:
     int m_nUniqueID;                        // 0x64
 private:
@@ -183,6 +189,7 @@ public:
     CD2_LAYOUT_CHECKS(cNonGameBase,
         CD2_SIZE(cNonGameBase, 0x7C)
         CD2_OFFSET(cNonGameBase, m_pPrototype, 0x44)
+        CD2_OFFSET(cNonGameBase, m_pSpawner, 0x5C)
         CD2_OFFSET(cNonGameBase, m_pOwner, 0x4C)
         CD2_OFFSET(cNonGameBase, m_p50, 0x50)
         CD2_OFFSET(cNonGameBase, m_nUniqueID, 0x64)

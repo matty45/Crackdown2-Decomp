@@ -6,6 +6,10 @@ codegen change) that will help with other functions. What you tried on one funct
 end, in one line, and is removed when the function matches. History belongs in git, not here.
 
 ## Shared bases
+- **The prop approach callback is inline in derived callbacks.** CD2 0x8274BB58 includes the
+  explosive-pointer test and trigger notification from cProp's slot 226. An out-of-line base
+  definition leaves a call and matches only 2/28 LTCG words; placing the small virtual in its
+  header gives 28/28 words in both modes, while cProp's own 0x82730450 remains 8/8 words exact.
 - **Weapon event metadata belongs to the constructed event, not the weapon.** Table 0x82123CE8 is installed
   after cAIEvent construction in the satchel observer test and returns the AIE_GRENADE_APPEARED descriptor.
   The low-ammo path installs 0x8211F2E8 after constructing a 0x44-byte cAIEvent with type 0x23; that table
@@ -303,6 +307,12 @@ end, in one line, and is removed when the function matches. History belongs in g
   adds a register copy (`clrrwi rX, rY, 0`) before the `-0x1C`; converting the safe pointer itself
   (`return g_pLocalPlayer->m_pCharacter;`, its `operator T *`) does not. A/B on cBreachHoleMission::IsLocalPlayerNearby
   (0x82473330): 29.4% through RetCharacter, EXACT through the conversion operator.
+  RuffKing declares both the static `cPlayer::RetLocalPlayerCharacter` and namespace
+  `PLAYER::RetLocalPlayerCharacter`. The static accessor directly converts the safe pointer;
+  the namespace wrapper guards the singleton. This distinction gives cProp's carry hook
+  (0x8272AB30) 12/12 words in both modes, while all four guarded mission/zone callers remain exact.
+  Equipment inherits the net-body carry method at 0x822C5A30; its reference interface has no
+  override. Removing the redundant declaration resolves the equipment/net-body relocation-name conflict.
 - **Subobject pointer null test:** `&p->m_member` followed by `if (ptr)` gives the single `addic. r11,r9,0x18; beq`. A
   derived-to-base pointer conversion adds a second null test.
 - **`Fun_Runtime::g_GlobalConstants` is per object file**: a `static` object defined in `fun_runtime/class.h`, as in RuffKing
@@ -1214,3 +1224,7 @@ Base/member initialization yields 24/24 in both plain and LTCG checks.
 - Shared carrier-event deleting destructor (0x826CC7C0): an inline empty `cVehiclePickedUpEvent` destructor is not emitted; an out-of-line empty destructor gives 5/36 words in both builds. Both probes were removed.
 - `cWaterProfile::MakeNew` (0x82697560): construction sets shared max height to 50.0f and ground level to `CONST_FLOAT_0`. An inline constructor stays out of line; `__forceinline` expands the right body but adds five instructions preserving `this` across the external `cNonGameBase` constructor. Factory and constructor probes were removed; recover the base constructor before retrying.
 - `cCwTransCharacterPrototype::SetAnimationProfile` (0x82539950): reference source `RetAnimMgr()->RetrieveAnimProfile(name)` gives 5/19 words under the local LTCG model; CD2 omits the unused manager argument. The lookup itself (0x824E5510) is LTCG EXACT with its reference member signature. The caller probe was removed; it needs cross-file optimization evidence, not a static replacement signature.
+- `cProp::UnAttachEffects` (0x8272C5A0): scans six typed 0x70-byte effect records at +0xB00. A short-circuit loop emits 16 instructions against CD2's 22; a stored boolean with a separate find/release phase gives 9.1% plain, 0/22 LTCG words. Defining the scan also changes both water callbacks under local LTCG, even with `noinline`. All scan probes and that attribute were removed; the typed records remain.
+- `tAttachedEffect::Release` (0x8272C5F8): natural StopEmitters/SetAsOrphan/Release, pointer clear, then handle OnReleased is 53/53 LTCG words. Global verification rejects its header-constant ownership: `g_GlobalConstants` is 0x830B7F30 here but 0x832037C0 in this file's initializers. Body and manifest entry were removed; do not split or alias the constant to hide that conflict.
+- `cMissionCriticalProp::vf226` (0x8245B5F8, reference OnApproachedByLocalPlayer): interactable guard, inline prop callback, typed spawner and mission notification reach 29/30 words in both modes. The remaining difference is CD2's signed null test of the spawn-point pointer versus the compiler's unsigned test. Nested/early-return forms and official search do not resolve it; the probe and claim were removed. The spawner member and complete spawn-point base layout remain supported by CD2.
+- `cMissionCriticalPropSpawnPoint::IsA` (0x8245B6E0): existing body is plain EXACT but 21/23 LTCG words without a live vtable. The constructor (0x8245B838) falls outside scaffolded ranges; do not add it to this source merely to retain the query's unused this argument. Claim removed.

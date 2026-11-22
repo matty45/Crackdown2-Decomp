@@ -29,6 +29,8 @@
 #include "fun_runtime/script_type_registrar.h"
 #include "fun_runtime/member_script_method.h"
 #include "fun_runtime/pointer_list_impl.h"
+#include "AI/cHingedPropRotatedToMinEvent.h"
+#include "AI/cHingedPropRotatedToMaxEvent.h"
 
 namespace Prop
 {
@@ -57,6 +59,24 @@ namespace Prop
     {
     }
 
+}
+
+// These AI event getters lie between the prop's methods in CD2's split.
+namespace AI
+{
+    const Fun_Runtime::cScriptTypeRegistration *cHingedPropRotatedToMinEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cHingedPropRotatedToMinEvent;
+    }
+
+    const Fun_Runtime::cScriptTypeRegistration *cHingedPropRotatedToMaxEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cHingedPropRotatedToMaxEvent;
+    }
+}
+
+namespace Prop
+{
     Fun_Runtime::cClass &cHingedProp::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cHingedPropClass = new Fun_Runtime::cClass(0x101D, "cHingedProp", 0xEB0);

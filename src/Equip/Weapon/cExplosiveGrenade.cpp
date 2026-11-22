@@ -28,6 +28,7 @@
 #include "ExplosionManager/cExplosionLevelInfo.h"
 #include <new>
 #include "rws/classfactory.h"
+#include "AI/cAcidGrenadeExplodeEvent.h"
 
 namespace Equip
 {
@@ -59,6 +60,18 @@ namespace Equip
         return 0;
     }
 
+}
+
+namespace AI
+{
+    const Fun_Runtime::cScriptTypeRegistration *cAcidGrenadeExplodeEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cAcidGrenadeExplodeEvent;
+    }
+}
+
+namespace Equip
+{
     Fun_Runtime::cClass &cExplosiveGrenade::StaticCreateClass()
     {
         static Fun_Runtime::cClass *descriptor = new Fun_Runtime::cClass(0x3E8B, "cExplosiveGrenade", 0x9D0);

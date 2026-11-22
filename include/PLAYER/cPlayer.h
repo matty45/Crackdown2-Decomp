@@ -88,9 +88,9 @@ namespace PLAYER
         // adds a register copy.
         static CHARACTER::cCharacter *RetLocalPlayerCharacter()
         {
-            if (g_pLocalPlayer)
-                return g_pLocalPlayer->m_pCharacter;
-            return 0;
+            // The prop carry hook (0x8272AB30) assumes a live local player.
+            // The separate namespace accessor below supplies the singleton guard.
+            return g_pLocalPlayer->m_pCharacter;
         }
         static Fun_Runtime::cClass &StaticCreateClass();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
@@ -175,6 +175,14 @@ namespace PLAYER
         virtual void vf116(); // slot 116: 0x821F5B18
         virtual void vf117(); // slot 117: 0x82724990
     };
+    // RuffKing declares both this namespace function and the static member.
+    // Mission/zone callers test the singleton before converting its safe pointer.
+    inline CHARACTER::cCharacter *RetLocalPlayerCharacter()
+    {
+        if (cPlayer::g_pLocalPlayer)
+            return cPlayer::RetLocalPlayerCharacter();
+        return 0;
+    }
 }
 
 #endif // PLAYER_CPLAYER_H

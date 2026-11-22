@@ -34408,6 +34408,46 @@
         "address": "0x827304B8",
         "size": 88,
         "symbol": "?WaterExitAudio@cProp@Prop@@"
+      },
+      {
+        "address": "0x8272C400",
+        "size": 68,
+        "symbol": "?TriggerEnterWater@cProp@Prop@@"
+      },
+      {
+        "address": "0x8272C448",
+        "size": 72,
+        "symbol": "?TriggerExitWater@cProp@Prop@@"
+      },
+      {
+        "address": "0x8272D2B0",
+        "size": 12,
+        "symbol": "?vf132@cProp@Prop@@"
+      },
+      {
+        "address": "0x8272C6D0",
+        "size": 12,
+        "symbol": "?OnReleased@tAttachedVFXPoint@Prop@@"
+      },
+      {
+        "address": "0x82730450",
+        "size": 32,
+        "symbol": "?vf226@cProp@Prop@@"
+      },
+      {
+        "address": "0x8272ABE0",
+        "size": 56,
+        "symbol": "?CreateHavokPhysics@cProp@Prop@@"
+      },
+      {
+        "address": "0x8272AC18",
+        "size": 68,
+        "symbol": "?DeleteHavokPhysics@cProp@Prop@@"
+      },
+      {
+        "address": "0x8272AB30",
+        "size": 48,
+        "symbol": "?SetCarriedByCharacter@cProp@Prop@@"
       }
     ],
     "src/cCwTransCharacterWrapper.cpp": [
@@ -39455,6 +39495,16 @@
         "address": "0x827389A8",
         "size": 16,
         "symbol": "?Init@cHingedPropPrototype@cHingedProp@Prop@@"
+      },
+      {
+        "address": "0x82737030",
+        "size": 12,
+        "symbol": "?RetScriptTypeRegistration@cHingedPropRotatedToMinEvent@AI@@"
+      },
+      {
+        "address": "0x82737040",
+        "size": 12,
+        "symbol": "?RetScriptTypeRegistration@cHingedPropRotatedToMaxEvent@AI@@"
       }
     ],
     "src/Prop/Constrained/cMovingPlatform.cpp": [
@@ -40017,6 +40067,16 @@
         "address": "0x8273CE10",
         "size": 16,
         "symbol": "?Init@cPrismaticPropPrototype@cPrismaticProp@Prop@@"
+      },
+      {
+        "address": "0x8273B5D0",
+        "size": 12,
+        "symbol": "?RetScriptTypeRegistration@cSlidingPropSlidToMinEvent@AI@@"
+      },
+      {
+        "address": "0x8273B5E0",
+        "size": 12,
+        "symbol": "?RetScriptTypeRegistration@cSlidingPropSlidToMaxEvent@AI@@"
       }
     ],
     "src/Prop/Custom/cBoomBox.cpp": [
@@ -41410,6 +41470,11 @@
         "address": "0x83041B30",
         "size": 20,
         "symbol": "??__FcTurretBaseSpawningRegistrar@Prop@@"
+      },
+      {
+        "address": "0x8274BB58",
+        "size": 112,
+        "symbol": "?vf226@cTurretBase@Prop@@"
       }
     ],
     "src/RPG/cSkillProfile.cpp": [
@@ -56095,6 +56160,11 @@
         "address": "0x8261DAD0",
         "size": 112,
         "symbol": "?RetDamageRadius@cExplosiveGrenade@Equip@@"
+      },
+      {
+        "address": "0x8261D238",
+        "size": 12,
+        "symbol": "?RetScriptTypeRegistration@cAcidGrenadeExplodeEvent@AI@@"
       }
     ],
     "src/AI/Mission/Delivery_Manager/cAgencyGarage.cpp": [
@@ -63382,6 +63452,11 @@
         "address": "0x8245B6D0",
         "size": 12,
         "symbol": "?RetClass@cMissionCriticalPropSpawnPoint@AI@@"
+      },
+      {
+        "address": "0x8245B7D8",
+        "size": 92,
+        "symbol": "?MakeNew@cMissionCriticalPropSpawnPoint@AI@@"
       }
     ],
     "src/AI/Mission/cMissionPropSpawnPoint.cpp": [

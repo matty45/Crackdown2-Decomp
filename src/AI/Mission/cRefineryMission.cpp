@@ -51,7 +51,7 @@ namespace AI
     {
         if (m_pContainmentZone)
         {
-            const CHARACTER::cCharacter *pCharacter = PLAYER::cPlayer::RetLocalPlayerCharacter();
+            const CHARACTER::cCharacter *pCharacter = PLAYER::RetLocalPlayerCharacter();
             if (pCharacter)
                 return m_pContainmentZone->IsInTriggerZone(pCharacter);
         }

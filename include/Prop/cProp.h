@@ -20,6 +20,8 @@
 
 #include "fun_runtime/class.h"
 #include "rws/attributes.h"
+#include "Prop/tAttachedEffect.h"
+#include "Prop/tAttachedVFXPoint.h"
 #include "cd2/layout.h"
 #include "PHYSICS/cNetDynamicBody.h"
 #include "ExplosionManager/cExplosionCallback.h"
@@ -31,11 +33,16 @@
 #include "Prop/cPropCollisionManager.h"
 #include "AI/cCoverPoint.h"
 #include "fun_runtime/safedeletablepointer.h"
+#include "Trigger/cTriggerManager.h"
 
 namespace Vehicle { class cHelicopter; }
+namespace ExplosionManager { class cExplosive; }
 
 namespace Prop
 {
+    // Identity remains unrecovered: CD2 primary-slot-132 getter 0x8272D2B0
+    // loads this shared float from 0x8373BB1C.
+    extern float g_8373BB1C;
     // RuffKing's prop motion types (cProp.h).
     enum eMotionType
     {
@@ -127,7 +134,25 @@ namespace Prop
         Audio::cPhysicsBodyGameObject m_PropAudio;              // 0x7B8
         cPropDamageManager m_PropDamageManager;                 // 0x880
         cPropCollisionManager m_ColDamageListener;              // 0xA24
-        unsigned char m_unknownA2C[0xE20 - 0xA2C];
+        // RuffKing's order; CD2 0x82730450 tests the explosive pointer at +0xA30.
+        eMotionType m_nMotionType;
+        ExplosionManager::cExplosive *m_pExplosive;
+        unsigned char m_unknownA34[0xB00 - 0xA34];
+        // Reference array, 0x70 bytes below RuffKing's +0xB70 in CD2.
+        tAttachedEffect m_vAttachedEffects[6];
+        // Reference order; CD2 constructor 0x82337808 initializes these pointer,
+        // handle and frame members and the two point interfaces at +0xDC8/+0xDE8.
+        VFX::cParticleEffectInstance *m_pBreakOffVFX;
+        VFX::cParticleEffectInstance *m_pDestroyedVFX;
+        tAttachedVFXHandle m_FireVFXHandle;
+        tAttachedVFXHandle m_RocketTrailVFXHandle;
+        tAttachedVFXHandle m_H2HVFXHandle;
+        cFrame m_H2HPointFrame;
+        tAttachedVFXPoint m_aVFXPointHandle[2];
+        // Reference name/type; CD2 water callbacks 0x8272C400/0x8272C448
+        // set/clear bit 1 here, 0x70 bytes below RuffKing's +0xE78.
+        unsigned char m_nTurnOffVFXFlags;
+        unsigned char m_unknownE09[0xE20 - 0xE09];
         Fun_Runtime::cSafeDeletablePointer<Vehicle::cHelicopter> m_pCarrierObj;  // 0xE20
 
     protected:
@@ -155,7 +180,13 @@ namespace Prop
         virtual void vf176(); // 176: 0x8272CE68
         virtual void GetAIWorldAABB(hkAabb *); // 177: 0x8272CF20
         virtual void vf179(); // 179: 0x82457A68
-        virtual void vf226(); // 226: 0x82730450
+        // Reference name: OnApproachedByLocalPlayer; inherited placeholder retained.
+        // Inline in CD2's turret callback (0x8274BB58).
+        virtual void vf226() // 226: 0x82730450
+        {
+            if (m_pExplosive)
+                Trigger::cTriggerManager::Instance().NotifyEvent(Trigger::eTriggerEvent_PlayerApproachedExplosiveObject);
+        }
         // CD2 cProp table 0x8200DFC8 overrides cNetDynamicBody's empty slots.
         virtual void ImpactAudio(float fDeltaVelocity); // 258: 0x82730470
         virtual void ScrapeAudio(float fRelativeVelocity); // 259: 0x82730488
@@ -183,6 +214,9 @@ namespace Prop
         virtual void vf158(); // 158: 0x8272ADB0
         virtual void TriggerEnterWater(float fWaterLevel); // 284: 0x8272C400
         virtual void TriggerExitWater(float fWaterLevel); // 285: 0x8272C448
+        // Reference name/signature; CD2 0x8272C5A0 releases attached effects
+        // whose turn-off flags overlap this mask.
+        void UnAttachEffects(unsigned char nTurnOffFlags);
         virtual void vf127(); // 127: 0x8272BC10
         virtual void CreateHavokPhysics(); // 153: 0x8272ABE0
         virtual void DeleteHavokPhysics(); // 154: 0x8272AC18
@@ -200,7 +234,7 @@ namespace Prop
         virtual void Slot24(); // 24: 0x8272A7F8
         virtual void vf76(); // 76: 0x8237D638
         virtual void vf217(); // 217: 0x82604F40
-        virtual void vf254(); // 254: 0x8272AB30
+        virtual void SetCarriedByCharacter(CHARACTER::cCharacter *pCarrying); // 254: 0x8272AB30
         virtual cFrame RetStartFrame(GameRenderer::cLODClump &pClump); // 266: 0x821D1C58
         virtual void vf280(); // 280: 0x8272C370
         virtual void vf281(); // 281: 0x8221A208
@@ -225,6 +259,17 @@ namespace Prop
             CD2_OFFSET(cProp, m_PropAudio, 0x7B8)
             CD2_OFFSET(cProp, m_PropDamageManager, 0x880)
             CD2_OFFSET(cProp, m_ColDamageListener, 0xA24)
+            CD2_OFFSET(cProp, m_nMotionType, 0xA2C)
+            CD2_OFFSET(cProp, m_pExplosive, 0xA30)
+            CD2_OFFSET(cProp, m_vAttachedEffects, 0xB00)
+            CD2_OFFSET(cProp, m_pBreakOffVFX, 0xDA0)
+            CD2_OFFSET(cProp, m_pDestroyedVFX, 0xDA4)
+            CD2_OFFSET(cProp, m_FireVFXHandle, 0xDA8)
+            CD2_OFFSET(cProp, m_RocketTrailVFXHandle, 0xDB0)
+            CD2_OFFSET(cProp, m_H2HVFXHandle, 0xDB8)
+            CD2_OFFSET(cProp, m_H2HPointFrame, 0xDC0)
+            CD2_OFFSET(cProp, m_aVFXPointHandle, 0xDC8)
+            CD2_OFFSET(cProp, m_nTurnOffVFXFlags, 0xE08)
             CD2_OFFSET(cProp, m_pCarrierObj, 0xE20))
 
     public:

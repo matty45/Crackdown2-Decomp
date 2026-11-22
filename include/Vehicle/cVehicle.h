@@ -338,7 +338,7 @@ namespace Vehicle
         virtual void vf241(); // 241: 0x826AB178
         virtual void vf242(); // 242: 0x826AB0E8
         virtual void vf243(); // 243: 0x822AEAA8
-        virtual void vf254(); // 254: 0x826D4A40
+        virtual void SetCarriedByCharacter(CHARACTER::cCharacter *pCarrying); // 254: 0x826D4A40
         virtual void ImpactAudio(float fDeltaVelocity); // 258: 0x823B0A90
         virtual void ScrapeAudio(float fRelativeVelocity); // 259: 0x821FF1F8
         virtual void PickUpAudio(); // 260: 0x826DD358

@@ -27,6 +27,8 @@
 #include <new>
 #include "rw/rwmem.h"
 #include "cd2/memory.h"
+#include "CHARACTER/cCharacter.h"
+#include "Trigger/cTriggerManager.h"
 
 namespace Prop
 {
@@ -68,6 +70,13 @@ namespace Prop
     cTurretBase::~cTurretBase()
     {
         RemoveObjectTypeRegistration(0x19, this);
+    }
+
+    void cTurretBase::vf226()
+    {
+        if (!static_cast<CHARACTER::cCharacter *>(m_pUsingCharacter))
+            Trigger::cTriggerManager::Instance().NotifyEvent(Trigger::eTriggerEvent_UseGunTurretReminder);
+        cProp::vf226();
     }
 
     const char *cTurretBase::RetClassName() const

@@ -29,6 +29,9 @@
 #include "Equip/cCWSatchelCharge.h"
 #include "AI/cDynamicObstacle.h"
 #include "AI/cPropSoundEvent.h"
+#include "Trigger/cTriggerManager.h"
+#include "Havok/hkRigidBody.h"
+#include "PLAYER/cPlayer.h"
 
 namespace Prop
 {
@@ -114,9 +117,31 @@ namespace Prop
         return false;
     }
 
+    void cProp::SetCarriedByCharacter(CHARACTER::cCharacter *pCarrying)
+    {
+        if (pCarrying == PLAYER::cPlayer::RetLocalPlayerCharacter())
+            m_bFlagForOwnershipChange = true;
+        PHYSICS::cNetDynamicBody::SetCarriedByCharacter(pCarrying);
+    }
+
     void cProp::OnDetachSatchelCharge(Equip::cCWSatchelCharge *pSatchel)
     {
         pSatchel->SetOwner(0);
+    }
+
+    void cProp::CreateHavokPhysics()
+    {
+        CreateBodyPhysics();
+        m_pRigidBody->addCollisionListener(&m_ColDamageListener);
+    }
+
+    void cProp::DeleteHavokPhysics()
+    {
+        if (m_pRigidBody)
+        {
+            m_pRigidBody->removeCollisionListener(&m_ColDamageListener);
+            DeleteBodyPhysics();
+        }
     }
 
     Fun_Runtime::RetVal cProp::cPropPrototype::Init(const RWS::CAttributePacket &)
@@ -134,6 +159,31 @@ namespace Prop
     bool cProp::IsAIEntityOwner(Kaim::CEntity *pEntity)
     {
         return pEntity == m_pDynamicObstacle;
+    }
+
+    void cProp::TriggerEnterWater(float fWaterLevel)
+    {
+        PHYSICS::cNetDynamicBody::TriggerEnterWater(fWaterLevel);
+        UnAttachEffects(2);
+        m_nTurnOffVFXFlags |= 2;
+    }
+
+    void cProp::TriggerExitWater(float fWaterLevel)
+    {
+        PHYSICS::cNetDynamicBody::TriggerExitWater(fWaterLevel);
+        UnAttachEffects(2);
+        m_nTurnOffVFXFlags &= ~2;
+    }
+
+    void tAttachedVFXPoint::OnReleased()
+    {
+        m_pAttachedEffect = 0;
+        CalcRandRespawnTime();
+    }
+
+    float cProp::vf132()
+    {
+        return g_8373BB1C;
     }
 
     void cProp::ImpactAudio(float fDeltaVelocity)

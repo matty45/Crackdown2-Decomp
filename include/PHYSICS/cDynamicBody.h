@@ -5,6 +5,7 @@
 #include "PHYSICS/cBody.h"
 #include "PHYSICS/cIgnitable.h"
 #include "Havok/hkEntityActivationListener.h"
+namespace CHARACTER { class cCharacter; }
 namespace PHYSICS
 {
     class cBuoyancyAction;
@@ -56,7 +57,9 @@ namespace PHYSICS
         virtual void vf233(); virtual void vf234(); virtual void vf235(); virtual void vf236(); virtual void vf237(); virtual void vf238();
         virtual void vf239(); virtual float RetFwdMPH(); virtual void vf241(); virtual void vf242(); virtual void vf243(); virtual void vf244();
         virtual void vf245(); virtual void vf246(); virtual void vf247(); virtual void vf248(); virtual void vf249(); virtual void vf250();
-        virtual void vf251(); virtual void vf252(); virtual void vf253(); virtual void vf254(); virtual void vf255(); virtual void vf256();
+        // Reference SetCarriedByCharacter signature; cProp's 0x8272AB30 and
+        // cVehicle's 0x826D4A40 compare its character argument with the local player.
+        virtual void vf251(); virtual void vf252(); virtual void vf253(); virtual void SetCarriedByCharacter(CHARACTER::cCharacter *pCarrying); virtual void vf255(); virtual void vf256();
         virtual void vf257(); virtual void ImpactAudio(float fDeltaVelocity); virtual void ScrapeAudio(float fRelativeVelocity); virtual void PickUpAudio(); virtual void WaterEntryAudio(float); virtual void WaterExitAudio(float);
         virtual void vf263(); virtual void vf264(); virtual void vf265();
         // Reference name/signature; CD2 vehicle slot 266 searches the BODY part in this clump.

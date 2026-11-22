@@ -111,7 +111,7 @@ namespace AI
     {
         if (m_pActivationZone)
         {
-            CHARACTER::cCharacter *pCharacter = PLAYER::cPlayer::RetLocalPlayerCharacter();
+            CHARACTER::cCharacter *pCharacter = PLAYER::RetLocalPlayerCharacter();
             if (pCharacter)
                 return m_pActivationZone->IsWithin(pCharacter);
         }

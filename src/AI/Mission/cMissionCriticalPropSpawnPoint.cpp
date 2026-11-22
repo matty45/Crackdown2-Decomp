@@ -34,6 +34,13 @@ namespace AI
         return *cMissionCriticalPropSpawnPointClass;
     }
 
+    RWS::CAttributeHandler *cMissionCriticalPropSpawnPoint::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        cMissionCriticalPropSpawnPoint *point = new cMissionCriticalPropSpawnPoint;
+        point->HandleAttributes(packet);
+        return 0;
+    }
+
     const Fun_Runtime::cClass *cMissionCriticalPropSpawnPoint::ms_pcMissionCriticalPropSpawnPointClass = &cMissionCriticalPropSpawnPoint::StaticCreateClass();
 
     static Fun_Runtime::cInheritanceRegistrar cMissionCriticalPropSpawnPointcSpawnPointInheritRegistrar(

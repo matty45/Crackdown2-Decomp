@@ -61,7 +61,7 @@ namespace AI
         TickSquadSwitch(dT);
         if (IsAuthority())
             Update();
-        const CHARACTER::cCharacter *pCharacter = PLAYER::cPlayer::RetLocalPlayerCharacter();
+        const CHARACTER::cCharacter *pCharacter = PLAYER::RetLocalPlayerCharacter();
         if (m_eMissionState < eCSMS_Complete && m_pContainmentZone && m_pContainmentZone->IsInTriggerZone(pCharacter)
             && cGameDirectionManager::ms_pGameDirectionManager)
             cGameDirectionManager::ms_pGameDirectionManager->SetCurrentCSMission(this);
@@ -80,7 +80,7 @@ namespace AI
     {
         if (m_pContainmentZone)
         {
-            const CHARACTER::cCharacter *pCharacter = PLAYER::cPlayer::RetLocalPlayerCharacter();
+            const CHARACTER::cCharacter *pCharacter = PLAYER::RetLocalPlayerCharacter();
             if (pCharacter)
                 return m_pContainmentZone->IsInTriggerZone(pCharacter);
         }

@@ -36,7 +36,7 @@ namespace ZoneManager
 
     void cReverbZone::OnPlayerLeave(CHARACTER::cCharacter *pCharacter)
     {
-        if (pCharacter == PLAYER::cPlayer::RetLocalPlayerCharacter())
+        if (pCharacter == PLAYER::RetLocalPlayerCharacter())
         {
             Audio::cReverbControl::Exit(m_nLayerType);
             m_bPreviouslyLeft = true;

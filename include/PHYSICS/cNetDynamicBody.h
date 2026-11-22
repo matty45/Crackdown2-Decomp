@@ -44,7 +44,7 @@ namespace PHYSICS
         virtual void vf76();                                                   // 76: 0x822D0950
         virtual void vf134();                                                  // 134: 0x82457A38
         virtual void vf158();                                                  // 158: 0x82689BF0
-        virtual void vf254();                                                  // 254: 0x822C5A30
+        virtual void SetCarriedByCharacter(CHARACTER::cCharacter *pCarrying);                                                  // 254: 0x822C5A30
         virtual void vf299();                                                  // 299: 0x822CA060
         virtual void vf301();                                                  // 301: 0x822C9FF0
         // Primary slots 304..313: cNetDynamicBody's own virtuals. CD2's cNetDynamicBody table (0x82131E80, stored by

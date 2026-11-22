@@ -311,7 +311,8 @@ namespace Equip
         virtual void vf168(); // 168: 0x822CDDC0
         virtual void vf244(); // 244: 0x8288FB78
         virtual void vf245(); // 245: 0x827E56A8
-        virtual void vf254(); // 254: 0x822C5A30
+        // Slot 254 inherits cNetDynamicBody::SetCarriedByCharacter (0x822C5A30),
+        // matching the reference equipment interface, which declares no override.
         virtual void vf257(); // 257: 0x822312B0
         // virtual void ImpactAudio(float fDeltaVelocity); // 258: 0x82608838
         // virtual void ScrapeAudio(float fRelativeVelocity); // 259: 0x82608850
