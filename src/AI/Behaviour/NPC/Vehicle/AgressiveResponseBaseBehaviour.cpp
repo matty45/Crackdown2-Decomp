@@ -9,3 +9,35 @@
 #include "CHARACTER/cCharacterController.h"
 #include "CHARACTER/cRagdollProfile.h"
 #include "AI/aiconstants.h"
+#include "AI/cAgressiveResponseBase.h"
+#include "cd2/memory.h"
+
+namespace AI
+{
+    const char *cAgressiveResponseBase::RetClassName() const
+    {
+        return "cAgressiveResponseBase";
+    }
+
+    const Fun_Runtime::cClass &cAgressiveResponseBase::RetClass() const
+    {
+        return *ms_pcAgressiveResponseBaseClass;
+    }
+
+    Fun_Runtime::cClass &cAgressiveResponseBase::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *cAgressiveResponseBaseClass =
+            new Fun_Runtime::cClass(g_nBehaviourClassID++, "cAgressiveResponseBase", 0x100);
+        return *cAgressiveResponseBaseClass;
+    }
+
+    cAgressiveResponseBase::cAgressiveResponseBase()
+    {
+    }
+
+    void cAgressiveResponseBase::vf119()
+    {
+        m_bF6 = true;
+        ChangeState(2);
+    }
+}

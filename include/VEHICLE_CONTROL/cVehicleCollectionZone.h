@@ -5,7 +5,7 @@
 #include "fun_runtime/class.h"
 #include "rws/attributes.h"
 #include "cd2/memory.h"
-
+namespace Vehicle { class cLandVehicle; }
 namespace VEHICLE_CONTROL
 {
     // RuffKing's base. CD2's table (0x820083B8) holds this class's RetClass, IsA and RetClassName in slots 18 to 20,
@@ -28,6 +28,12 @@ namespace VEHICLE_CONTROL
         virtual const Fun_Runtime::cClass &RetClass() const;
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         virtual const char *RetClassName() const;
+        // RuffKing's names; CD2 0x82787828 tests the pointer returned by 0x827871D0.
+        Vehicle::cLandVehicle *LocateFirstCollectableVehicle();
+        virtual void TickUpdate(); // 22: 0x82787850
+        virtual void RegisterCalled(); // 25: 0x827875D0
+        virtual void Reset(); // 26: 0x827877C0
+        virtual bool CanCollectVehicle(); // new primary slot 27
         // CD2: cVehicleCollectionZone's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:

@@ -14,6 +14,8 @@ namespace AI
     public:
         virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         virtual cCharacterEntityIF *RetInstigator();
+        // CD2 0x8261E0F0 overrides cAIEvent slot 8 with 800; its purpose remains unknown.
+        virtual int vf8();
         virtual bool Concerns(cNonGameBase *);
     protected:
         Fun_Runtime::cSafeDeletablePointer<cCharacterEntityIF> m_pActivator;

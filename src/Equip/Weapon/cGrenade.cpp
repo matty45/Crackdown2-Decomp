@@ -36,6 +36,11 @@ namespace AI
     {
         return &g_cGrenadeSoundEvent;
     }
+
+    int cGrenadeSoundEvent::vf8()
+    {
+        return 800;
+    }
 }
 
 namespace Equip

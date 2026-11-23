@@ -68,6 +68,8 @@ private:
 
 public:
         cNonGameBase *RetOwner() const { return m_pOwner; }
+        // RuffKing's accessor; CD2 mission-prop callbacks read the spawn point at +0x5C.
+        Activity::cSpawnPointBase *RetSpawner() const { return m_pSpawner; }
         // RuffKing's; CD2 0x8227F388 (cVehicle's OnAttachSatchelCharge, 0x826CE5C8, tail-calls it on the satchel).
         void SetOwner(cNonGameBase *pOwner);
         // CD2 0x82652EA0, registered as the script method "RetProtoTypeName"; RuffKing's body.

@@ -3,6 +3,7 @@
 #include "PHYSICS/physicsconsts.h"
 #include "PHYSICS/physicsproject.h"
 #include "AI/cTRCamLookAtStop.h"
+#include "AI/cTRCamLookAtStart.h"
 #include "rws/classfactory.h"
 #include "AI/BehaviourClassID.h"
 #include "fun_runtime/inheritance_registrar.h"
@@ -10,8 +11,6 @@
 
 namespace AI
 {
-    cTRCamLookAtStop::cTRCamLookAtStop() {}
-
     const Fun_Runtime::cClass &cTRCamLookAtStop::RetClass() const
     {
         return *ms_pcTRCamLookAtStopClass;
@@ -30,6 +29,13 @@ namespace AI
     RWS::CAttributeHandler *cTRCamLookAtStop::MakeNew(const RWS::CAttributePacket &packet, bool)
     {
         return new cTRCamLookAtStop();
+    }
+
+    Fun_Runtime::cClass &cTRCamLookAtStart::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *descriptor = new Fun_Runtime::cClass(
+            g_nBehaviourClassID++, "cTRCamLookAtStart", 0xC0);
+        return *descriptor;
     }
 
     Fun_Runtime::cClass &cTRCamLookAtStop::StaticCreateClass()

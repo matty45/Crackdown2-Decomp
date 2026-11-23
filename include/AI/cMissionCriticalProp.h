@@ -7,6 +7,7 @@
 #include "gom/object_prototype.h"
 #include "rws/attributes.h"
 #include "Prop/cProp.h"
+#include "AI/cMissionCriticalPropSpawnPoint.h"
 
 namespace AI
 {
@@ -64,6 +65,11 @@ namespace AI
         virtual void vf83(); // 83: 0x8245B570
         virtual void vf226(); // 226: 0x8245B5F8
         virtual unsigned int RetInteractionAnimID() const; // 335: 0x8245B5E8
+        // RuffKing's helper name; CD2 0x8245B638 tests its pointer result signed.
+        cMissionCriticalPropSpawnPoint *RetMCPSpawner() const
+        {
+            return static_cast<cMissionCriticalPropSpawnPoint *>(RetSpawner());
+        }
         virtual void vf340(); // 340: 0x8245B3A8
     private:
         // CD2: cMissionCriticalProp's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an

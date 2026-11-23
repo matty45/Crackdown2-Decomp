@@ -5627,6 +5627,11 @@
     ],
     "src/cRenegadesGameModePrototype.cpp": [
       {
+        "address": "0x828759E0",
+        "size": 12,
+        "symbol": "?RetStringID@cRenegadesGameModePrototype@unknown@@"
+      },
+      {
         "address": "0x82875370",
         "size": 12,
         "symbol": "?RetClassName@cRenegadesGameModePrototype@unknown@@"
@@ -6409,6 +6414,21 @@
       }
     ],
     "src/cVehicleTagGameModePrototype.cpp": [
+      {
+        "address": "0x8286D980",
+        "size": 8,
+        "symbol": "?RetFlag22C@cVehicleTagGameModePrototype@unknown@@"
+      },
+      {
+        "address": "0x8286D988",
+        "size": 8,
+        "symbol": "?RetFloat230@cVehicleTagGameModePrototype@unknown@@"
+      },
+      {
+        "address": "0x8286DA48",
+        "size": 12,
+        "symbol": "?RetStringID@cVehicleTagGameModePrototype@unknown@@"
+      },
       {
         "address": "0x8286D970",
         "size": 12,
@@ -9091,6 +9111,11 @@
       }
     ],
     "src/AI/Squad/Squad.cpp": [
+      {
+        "address": "0x824D82C0",
+        "size": 12,
+        "symbol": "?RetScriptTypeRegistration@cSquadTargetEvent@AI@@"
+      },
       {
         "address": "0x824D8210",
         "size": 12,
@@ -16841,6 +16866,11 @@
       }
     ],
     "src/Equip/Attachments/cLightAttachmentData.cpp": [
+      {
+        "address": "0x82615A90",
+        "size": 80,
+        "symbol": "??_GcLightAttachmentData@Equip@@"
+      },
       {
         "address": "0x82615A80",
         "size": 12,
@@ -26363,6 +26393,13 @@
     ],
     "src/AI/cAgressiveResponseChaseBehaviour.cpp": [
       {
+        "address": "0x824CAE60",
+        "size": 72,
+        "symbol": "?EnterIdleGuard@cAgressiveResponseChaseBehaviour@AI@@",
+        "matching": false,
+        "note": "Bytes EXACT, but it calls cAiPlayer::ClearEnemy (0x823E9738) and cAiTargetCache::ClearTarget (0x8244D038) as Ext_823E9738/Ext_8244D038 through cChaseBehaviour.h's NPCHost/NPCRegistry stand-ins; BreachPilot::OnExit calls both by their real names, so the relocation check sees two names per callee. Waits for cChaseBehaviour's move onto NPCBehaviour (cChaseBehaviour.h, \"Known wrong\"), where m_pHost gets its real type."
+      },
+      {
         "address": "0x824C9390",
         "size": 92,
         "symbol": "?IsA@cAgressiveResponseChaseBehaviour@AI@@"
@@ -30746,6 +30783,18 @@
     ],
     "src/AI/cTRCamLookAtStop.cpp": [
       {
+        "address": "0x824873B0",
+        "size": 164,
+        "symbol": "?StaticCreateClass@cTRCamLookAtStart@AI@@"
+      },
+      {
+        "address": "0x82487338",
+        "size": 100,
+        "symbol": "?MakeNew@cTRCamLookAtStop@AI@@",
+        "matching": false,
+        "note": "Correct event-type-2 constructor expanded over inline cTrainingRouteEvent. Plain diff: 25 target versus 30 compiled instructions (saved this in r31); LTCG check 6.7%. CD2 uses cBasePatrolRouteEvent constructor's returned pointer directly. Base 0x824BFA80 is unscaffolded and cannot be a matched LTCG dependency."
+      },
+      {
         "address": "0x824872D8",
         "size": 92,
         "symbol": "?IsA@cTRCamLookAtStop@AI@@"
@@ -33431,6 +33480,16 @@
       }
     ],
     "src/VEHICLE_CONTROL/cVehicleCollectionZone.cpp": [
+      {
+        "address": "0x82787050",
+        "size": 24,
+        "symbol": "?InitTriggerZone@cHeliCallZone@AI@@"
+      },
+      {
+        "address": "0x82787828",
+        "size": 40,
+        "symbol": "?CanCollectVehicle@cVehicleCollectionZone@VEHICLE_CONTROL@@"
+      },
       {
         "address": "0x827867D0",
         "size": 92,
@@ -36830,6 +36889,11 @@
         "symbol": "?RetInteractionAnimID@cMissionCriticalProp@AI@@"
       },
       {
+        "address": "0x8245B5F8",
+        "size": 120,
+        "symbol": "?vf226@cMissionCriticalProp@AI@@"
+      },
+      {
         "address": "0x8303AF50",
         "size": 20,
         "symbol": "??__FcMissionCriticalPropSpawningRegistrar@AI@@"
@@ -38326,6 +38390,11 @@
     ],
     "src/Equip/Weapon/cHarpoonBolt.cpp": [
       {
+        "address": "0x82627778",
+        "size": 256,
+        "symbol": "??1cHarpoonBolt@Equip@@"
+      },
+      {
         "address": "0x826271D8",
         "size": 12,
         "symbol": "?RetClassName@cHarpoonBolt@Equip@@"
@@ -39530,6 +39599,11 @@
     ],
     "src/Prop/Constrained/cHingedProp.cpp": [
       {
+        "address": "0x82737698",
+        "size": 180,
+        "symbol": "??1cHingedProp@Prop@@"
+      },
+      {
         "address": "0x82736E40",
         "size": 12,
         "symbol": "?RetClassName@cHingedProp@Prop@@"
@@ -40171,6 +40245,11 @@
       }
     ],
     "src/Prop/Constrained/cPrismaticProp.cpp": [
+      {
+        "address": "0x8273BC98",
+        "size": 180,
+        "symbol": "??1cPrismaticProp@Prop@@"
+      },
       {
         "address": "0x8273B5A0",
         "size": 12,
@@ -43246,6 +43325,11 @@
       }
     ],
     "src/cVirtualCamera.cpp": [
+      {
+        "address": "0x8252CE78",
+        "size": 12,
+        "symbol": "?RetScriptTypeRegistration@cCameraAnimationEvent@AI@@"
+      },
       {
         "address": "0x8252CE88",
         "size": 152,
@@ -47569,6 +47653,11 @@
       }
     ],
     "src/cSucknBlowGun.cpp": [
+      {
+        "address": "0x82635580",
+        "size": 8,
+        "symbol": "?RetAttackDuration@cSucknBlowGun@unknown@@"
+      },
       {
         "address": "0x82638858",
         "size": 4,
@@ -55742,6 +55831,11 @@
     ],
     "src/Equip/Weapon/cGrenade.cpp": [
       {
+        "address": "0x8261E0F0",
+        "size": 8,
+        "symbol": "?vf8@cGrenadeSoundEvent@AI@@"
+      },
+      {
         "address": "0x82FCFF88",
         "size": 72,
         "symbol": "??__EcGrenadeSpawningRegistrar@Equip@@"
@@ -58585,6 +58679,11 @@
       }
     ],
     "src/CHARACTER/cCharacterMotion.cpp": [
+      {
+        "address": "0x8254FF20",
+        "size": 12,
+        "symbol": "?RetScriptTypeRegistration@cCharacterMotion@CHARACTER@@"
+      },
       {
         "address": "0x82FAE158",
         "size": 88,
@@ -64789,6 +64888,16 @@
       }
     ],
     "src/AI/Behaviour/NPC/Vehicle/ChaseAndAttackPilotBehaviour.cpp": [
+      {
+        "address": "0x824D2970",
+        "size": 12,
+        "symbol": "?RetClass@cChaseAndAttackPilotBehaviour@AI@@"
+      },
+      {
+        "address": "0x824D29E0",
+        "size": 164,
+        "symbol": "?StaticCreateClass@cChaseAndAttackPilotBehaviour@AI@@"
+      },
       {
         "address": "0x82F9B2E8",
         "size": 40,
@@ -73150,6 +73259,31 @@
     ],
     "src/AI/Behaviour/NPC/Vehicle/AgressiveResponseBaseBehaviour.cpp": [
       {
+        "address": "0x824C9180",
+        "size": 108,
+        "symbol": "??0cAgressiveResponseBase@AI@@"
+      },
+      {
+        "address": "0x824C90B8",
+        "size": 12,
+        "symbol": "?RetClassName@cAgressiveResponseBase@AI@@"
+      },
+      {
+        "address": "0x824C90C8",
+        "size": 12,
+        "symbol": "?RetClass@cAgressiveResponseBase@AI@@"
+      },
+      {
+        "address": "0x824C90D8",
+        "size": 164,
+        "symbol": "?StaticCreateClass@cAgressiveResponseBase@AI@@"
+      },
+      {
+        "address": "0x824C91F0",
+        "size": 28,
+        "symbol": "?vf119@cAgressiveResponseBase@AI@@"
+      },
+      {
         "address": "0x82F98CF0",
         "size": 40,
         "symbol": "??__EfPhysicsSimulationTick@@",
@@ -75674,6 +75808,11 @@
         "symbol": "?RetVolume@cSoundEvent@AI@@"
       },
       {
+        "address": "0x824404E0",
+        "size": 8,
+        "symbol": "?RetTarget@cWeaponSoundEvent@AI@@"
+      },
+      {
         "address": "0x824404D0",
         "size": 12,
         "symbol": "?RetScriptTypeRegistration@cWeaponSoundEvent@AI@@"
@@ -75923,6 +76062,11 @@
       }
     ],
     "src/AI/Mission/cMission.cpp": [
+      {
+        "address": "0x82459EB8",
+        "size": 76,
+        "symbol": "?OnSquadGroupBlockedMessage@cMission@AI@@"
+      },
       {
         "address": "0x82458CC0",
         "size": 196,

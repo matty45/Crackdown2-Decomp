@@ -30,6 +30,8 @@ namespace AI
         // RuffKing's name; CD2 0x8248AA58 (outside the scaffolded files), called by cTacticalObjective's
         // OnLeaveGlobalMissionState (0x82476228) as RuffKing's is.
         void Hide();
+        // Reference name; CD2 0x8248AAA8 sets the deactivated state and removes active VFX.
+        void Deactivate();
 
         cHeliCallZone();
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &packet, bool);
@@ -38,6 +40,13 @@ namespace AI
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         virtual const char *RetClassName() const;
         virtual void Destruct();
+        // CD2 adds virtual TickUpdate at slot 22 (nonvirtual in RuffKing),
+        // followed by the reference-named call/reset methods.
+        virtual void TickUpdate(); // 22: 0x8248A630
+        virtual bool CanLocalPlayerCall(); // 23: 0x8288FB78, returns true
+        virtual void SetCalled(); // 24: 0x8248AD00
+        virtual void RegisterCalled(); // 25: 0x822AC010
+        virtual void Reset(); // 26: 0x8248A488
         // cPlayerTriggerBase's pure virtuals.
         virtual void OnPlayerEnter(CHARACTER::cCharacter *);
         virtual void OnPlayerLeave(CHARACTER::cCharacter *);

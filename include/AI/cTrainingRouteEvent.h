@@ -15,7 +15,9 @@ namespace AI
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pcTrainingRouteEventClass;
 
-        cTrainingRouteEvent();
+        // CD2 camera-event construction calls cBasePatrolRouteEvent directly
+        // (0x82487338 and 0x82487458), expanding this fieldless intermediate base.
+        cTrainingRouteEvent() {}
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &packet, bool);
 
         virtual const Fun_Runtime::cClass &RetClass() const;

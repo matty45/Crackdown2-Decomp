@@ -33,6 +33,11 @@ namespace AI
         return &g_cWeaponSoundEvent;
     }
 
+    Fun_Runtime::cScriptHost *cWeaponSoundEvent::RetTarget() const
+    {
+        return m_pTarget;
+    }
+
     bool cWeaponSoundEvent::IsValid()
     {
         return m_pSource != 0 && RetInstigator() != 0;

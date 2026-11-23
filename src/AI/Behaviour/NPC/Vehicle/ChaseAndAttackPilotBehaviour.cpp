@@ -23,6 +23,18 @@ namespace AI
         return "cChaseAndAttackPilotBehaviour";
     }
 
+    const Fun_Runtime::cClass &cChaseAndAttackPilotBehaviour::RetClass() const
+    {
+        return *ms_pcChaseAndAttackPilotBehaviourClass;
+    }
+
+    Fun_Runtime::cClass &cChaseAndAttackPilotBehaviour::StaticCreateClass()
+    {
+        static Fun_Runtime::cClass *descriptor = new Fun_Runtime::cClass(
+            g_nBehaviourClassID++, "cChaseAndAttackPilotBehaviour", 0x170);
+        return *descriptor;
+    }
+
     static Fun_Runtime::cInheritanceRegistrar cChaseAndAttackPilotBehaviourcAgressiveResponsePilotBehaviourInheritRegistrar(
         cChaseAndAttackPilotBehaviour::StaticCreateClass(), cAgressiveResponsePilotBehaviour::StaticCreateClass());
 

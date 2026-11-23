@@ -25,6 +25,7 @@
 #include "Prop/cProp.h"
 #include "rws/classfactory.h"
 #include "AI/cMissionCriticalProp.h"
+#include "AI/cMission.h"
 #include "cd2/memory.h"
 #include "rw/rwmem.h"
 #include <new>
@@ -101,6 +102,21 @@ namespace AI
     unsigned int cMissionCriticalProp::RetInteractionAnimID() const
     {
         return static_cast<cMissionCriticalPropPrototype *>(m_pPrototype)->m_nInteractionAnimID;
+    }
+
+    void cMissionCriticalProp::vf226()
+    {
+        if (m_bInteractable)
+        {
+            Prop::cProp::vf226();
+            if (RetMCPSpawner())
+            {
+                cMissionCriticalPropSpawnPoint *spawner = RetMCPSpawner();
+                cMission *mission = spawner->RetMission();
+                if (mission)
+                    mission->OnMissionCriticalPropApproachedByLocalPlayer(spawner);
+            }
+        }
     }
 
     const Fun_Runtime::cClass *cMissionCriticalProp::ms_pcMissionCriticalPropClass = &cMissionCriticalProp::StaticCreateClass();

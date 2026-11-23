@@ -11,6 +11,8 @@ namespace CHARACTER
     public:
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pcCharacterMotionClass;
+        // cScriptHost slot 1, table 0x82113EB0; descriptor named by 0x82FAE158.
+        virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         virtual const Fun_Runtime::cClass &RetClass() const;
         // RuffKing names this fieldless prototype base; CD2's character prototype base occupies 0x280 bytes.
         class cCharacterMotionPrototype : public PHYSICS::cDynamicBody::cDynamicBodyPrototype

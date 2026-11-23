@@ -11,6 +11,8 @@ namespace AI
     class cWeaponSoundEvent : public cSoundEvent
     {
     public:
+        // CD2 registers this accessor as RetTarget at 0x82440744.
+        Fun_Runtime::cScriptHost *RetTarget() const;
         virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         virtual bool IsValid();
         virtual bool CanHearThisSound(cCharacterEntityIF *);

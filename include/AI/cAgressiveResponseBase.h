@@ -26,27 +26,22 @@ namespace AI
         };
 
         cAgressiveResponseBase();
+        // Reference names; CD2 0x824C90B8 returns the class name and
+        // 0x824C90C8 loads this class pointer from 0x8381FABC.
+        virtual const char *RetClassName() const;
+        virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
+        static const Fun_Runtime::cClass *ms_pcAgressiveResponseBaseClass;
         static Fun_Runtime::cClass &StaticCreateClass();
         virtual void vf119();
         // CD2: cAgressiveResponseBase's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
-        virtual void OnEnter(); // 68: 0x824C9530
-        virtual void OnExit(); // 69: 0x824C96F0
-        virtual void OnEnterReplicatedState(unsigned char); // 72: 0x824C9638
-        virtual void OnEvent74(AI::NPCTarget *); // 74: 0x824CB058
-        virtual void OnEvent75(AI::NPCTarget *); // 75: 0x824CB118
-        virtual void Slot76(); // 76: 0x824CB610
-        virtual void Slot77(); // 77: 0x824CB530
-        virtual void Slot79(); // 79: 0x824C9770
-        virtual void Slot82(); // 82: 0x824CAFA8
-        virtual void PreUpdateAllStates(float); // 96: 0x824C97E0
-        virtual IBehaviourState *GetState(unsigned char); // 100: 0x824CBF08
-        virtual void V102(); // 102: 0x824C9A70
-        virtual void Slot109(); // 109: 0x824CAA60
-        virtual void Slot112(); // 112: 0x824CAC70
-        virtual void V118(); // 118: 0x824CB938
-        virtual void Slot2(); // cSafeDeletable 2: 0x824CBAA0
+        // Correction: comparing CD2 tables 0x8210B510 and 0x8210BCA8 shows
+        // that only RetClassName differs in primary slots 0..118; slot 119
+        // is new here. Both constructors install the same event-handler,
+        // script-host and net-role tables. The former declarations in this
+        // block described cAgressiveResponseChaseBehaviour's overrides.
     public:
         CD2_LAYOUT_CHECKS(cAgressiveResponseBase, CD2_SIZE(cAgressiveResponseBase, 0x100))
     };

@@ -11,6 +11,7 @@
 #include "gom/non_game_base.h"
 #include "AI/Squad.h"
 #include "AI/SquadPrototype.h"
+#include "AI/cSquadTargetEvent.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
 
@@ -28,6 +29,11 @@ namespace AI
 
     static RWS::CClassFactory::CRegistrar SquadRegistrar(
         "Squad", Squad::MakeNew, 0x390, false);
+
+    const Fun_Runtime::cScriptTypeRegistration *cSquadTargetEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cSquadTargetEvent;
+    }
 
     Fun_Runtime::cClass &Squad::StaticCreateClass()
     {

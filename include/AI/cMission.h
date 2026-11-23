@@ -32,7 +32,7 @@ namespace AI
         virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x8245A230
         virtual void ReplicateFields();
         // Reference override; CD2 primary slot 16 updates the blocked-node bit mask.
-        virtual void OnSquadGroupBlockedMessage(bool bGroupBlocked, unsigned char nNodeID); // cReplicatedClass 9: 0x8230E318
+        virtual void OnSquadGroupBlockedMessage(bool bGroupBlocked, unsigned char nNodeID); // cReplicatedClass 9: CD2 0x82459EB8
         virtual unsigned int GetNumObjectIDBits() const; // cReplicatedClass 16: 0x8288AD98
         virtual void TickUpdate(float);
         virtual void ResetMission();

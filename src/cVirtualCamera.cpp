@@ -25,6 +25,15 @@
 #include "cd2/memory.h"
 #include "fun_runtime/script_type_registrar.h"
 #include "GDb/console.h"
+#include "AI/cCameraAnimationEvent.h"
+
+namespace AI
+{
+    const Fun_Runtime::cScriptTypeRegistration *cCameraAnimationEvent::RetScriptTypeRegistration() const
+    {
+        return &g_cCameraAnimationEvent;
+    }
+}
 
 namespace unknown
 {

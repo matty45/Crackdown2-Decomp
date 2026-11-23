@@ -34,6 +34,21 @@ namespace VEHICLE_CONTROL
     {
         return new cVehicleCollectionZone();
     }
+
+    bool cVehicleCollectionZone::CanCollectVehicle()
+    {
+        return LocateFirstCollectableVehicle() != 0;
+    }
+}
+
+namespace AI
+{
+    void cHeliCallZone::InitTriggerZone()
+    {
+        ZoneManager::cPlayerTriggerBase::InitTriggerZone();
+        m_fCurrentTime = 0.0f;
+        Deactivate();
+    }
 }
 
 static RWS::CClassFactory::CRegistrar cVehicleCollectionZoneRegistrar(

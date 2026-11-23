@@ -35,6 +35,14 @@ matches. Reusable mechanisms (a source shape and the code it produces, shown wit
   load and 12 instructions instead of CD2's 18; the second safe-pointer conversion needs original helper evidence. Probe
   reverted.
 
+## src/AI/cTRCamLookAtStop.cpp
+
+- cTRCamLookAtStart constructor (0x82487458): recovered tTCamCutParams at +0x90 with a vector, typed cGameBase safe
+  pointer and FOV. Default member construction followed by event type 1, vector Zero(), null safe-pointer assignment
+  and FOV 60 reproduces the operations, but retains this in r31 across cBasePatrolRouteEvent's call; plain diff has
+  68 instructions against CD2's 61, and the local LTCG check reaches 7.4%. CD2 uses the base constructor's returned
+  pointer directly (0x824BFA80, unscaffolded). Probe removed; the reference-named typed layout remains.
+
 ## src/AI/cBreachHole.cpp
 
 - cBreachHole::ChangeState (0x8246FB40): the natural ExitState(old)/assign/EnterState(new) body is plain EXACT. Local
@@ -70,22 +78,9 @@ matches. Reusable mechanisms (a source shape and the code it produces, shown wit
   RWS::Time::RetDeltaTimeSecs (0x827671D0): whole-program LTCG knows the callee leaves them alone; the single-file
   models reload them (30.6% plain and LTCG). Body removed; the declaration stays for TickUpdate.
 
-## src/AI/Mission/cMissionCriticalProp.cpp
-
-- `cMissionCriticalProp::vf226` (0x8245B5F8, reference OnApproachedByLocalPlayer): interactable guard, inline prop
-  callback, typed spawner and mission notification reach 29/30 words in both modes. The remaining difference is CD2's
-  signed null test of the spawn-point pointer versus the compiler's unsigned test. Nested/early-return forms and
-  official search do not resolve it; the probe and claim were removed. The spawner member and complete spawn-point base
-  layout remain supported by CD2.
-
 ## src/AI/Mission/cTacticalObjective.cpp
 
 - cCellStrongholdMission's five thunks (0x82475600..0x82475620) lie in cTacticalObjective.cpp's split range.
-
-## src/AI/Squad/Squad.cpp
-
-- Script-type getter 0x824D82C0 (in Squad.cpp's range): cScriptHost slot 1 of AIE_SQUAD_TARGET, not of Squad. 0x82772828
-  registers both game-class and AI-event descriptors; a getter's owner is the registered child name.
 
 ## src/Anim/cAnimationProfile.cpp
 

@@ -23,6 +23,8 @@ namespace unknown
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         // CD2 slot 390 (0x82638858) tail-calls cWeapon::InitiateReload.
         virtual bool InitiateReload();
+        // CD2 slot 383 returns cWeapon's attack timer at +0x8B8.
+        virtual float RetAttackDuration() const;
         // CD2 spawning initializer 0x82FD3FB8 names placement factory 0x82635558.
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);

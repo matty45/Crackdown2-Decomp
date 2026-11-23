@@ -18,4 +18,19 @@ namespace unknown
 
     static RWS::CClassFactory::CRegistrar cVehicleTagGameModePrototypeRegistrar(
         "cVehicleTagGameModePrototype", cVehicleTagGameModePrototype::MakeNew, 0x238, false);
+
+    bool cVehicleTagGameModePrototype::RetFlag22C() const
+    {
+        return m_bParameter22C;
+    }
+
+    float cVehicleTagGameModePrototype::RetFloat230() const
+    {
+        return m_fParameter230;
+    }
+
+    int cVehicleTagGameModePrototype::RetStringID() const
+    {
+        return static_cast<int>(0xE09F0077u);
+    }
 }

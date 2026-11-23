@@ -16,7 +16,8 @@ namespace AI
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pcTRCamLookAtStopClass;
 
-        cTRCamLookAtStop();
+        // CD2 factory 0x82487338 expands this constructor and stores event type 2.
+        cTRCamLookAtStop() { m_EventType = 2; }
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &packet, bool);
 
         virtual const Fun_Runtime::cClass &RetClass() const;

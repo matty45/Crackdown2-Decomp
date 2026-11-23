@@ -25,4 +25,9 @@ namespace unknown
     {
         return new cRenegadesGameModePrototype;
     }
+
+    int cRenegadesGameModePrototype::RetStringID() const
+    {
+        return static_cast<int>(0x98A5A3CAu);
+    }
 }

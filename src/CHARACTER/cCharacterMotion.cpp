@@ -36,6 +36,11 @@ namespace CHARACTER
         return *ms_pcCharacterMotionClass;
     }
 
+    const Fun_Runtime::cScriptTypeRegistration *cCharacterMotion::RetScriptTypeRegistration() const
+    {
+        return &cCharacterMotionScriptRegistrar;
+    }
+
     void cCharacterMotion::cCharacterMotionPrototype::HandleAttributes(const RWS::CAttributePacket &packet)
     {
         PHYSICS::cDynamicBody::cDynamicBodyPrototype::HandleAttributes(packet);

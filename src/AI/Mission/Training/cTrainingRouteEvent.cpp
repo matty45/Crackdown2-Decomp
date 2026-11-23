@@ -13,8 +13,6 @@
 
 namespace AI
 {
-    cTrainingRouteEvent::cTrainingRouteEvent() {}
-
     const Fun_Runtime::cClass &cTrainingRouteEvent::RetClass() const
     {
         return *ms_pcTrainingRouteEventClass;

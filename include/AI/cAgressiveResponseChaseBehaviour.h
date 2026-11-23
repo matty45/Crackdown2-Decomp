@@ -135,6 +135,25 @@ namespace AI
         virtual void StartReaction(NPCTarget *pInstigator, const cChaseBehaviour::Vec3 &vReactionPos, char nReaction,
                                    unsigned int nReactionFlags); // 153
 
+        // CD2 table 0x8210B748 overrides these inherited slots; the base's
+        // own table 0x8210B510 retains cChaseBehaviour's implementations.
+        virtual void OnEnter(); // 68: 0x824C9530
+        virtual void OnExit(); // 69: 0x824C96F0
+        virtual void OnEnterReplicatedState(unsigned char); // 72: 0x824C9638
+        virtual void OnEvent74(AI::NPCTarget *); // 74: 0x824CB058
+        virtual void OnEvent75(AI::NPCTarget *); // 75: 0x824CB118
+        virtual void Slot76(); // 76: 0x824CB610
+        virtual void Slot77(); // 77: 0x824CB530
+        virtual void Slot79(); // 79: 0x824C9770
+        virtual void Slot82(); // 82: 0x824CAFA8
+        virtual void PreUpdateAllStates(float); // 96: 0x824C97E0
+        virtual IBehaviourState *GetState(unsigned char); // 100: 0x824CBF08
+        virtual void V102(); // 102: 0x824C9A70
+        virtual void Slot109(); // 109: 0x824CAA60
+        virtual void Slot112(); // 112: 0x824CAC70
+        virtual void V118(); // 118: 0x824CB938
+        virtual void Slot2(); // cSafeDeletable 2: 0x824CBAA0
+
         unsigned int m_nUnknown100;                     // 0x100
         unsigned int m_nUnknown104;                     // 0x104
         unsigned int m_nUnknown108;                     // 0x108

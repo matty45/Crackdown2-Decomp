@@ -39,6 +39,11 @@ namespace unknown
         return ms_pcSucknBlowGunClass->IsA(c);
     }
 
+    float cSucknBlowGun::RetAttackDuration() const
+    {
+        return m_fAttackTimer;
+    }
+
     Fun_Runtime::cClass &cSucknBlowGun::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cSucknBlowGunClass = new Fun_Runtime::cClass(0x27418, "cSucknBlowGun", 0xDF0);
