@@ -9,3 +9,13 @@
 #include "CHARACTER/cCharacterController.h"
 #include "CHARACTER/cRagdollProfile.h"
 #include "AI/aiconstants.h"
+
+#include "Audio/cWorldGameObject.h"
+
+namespace Audio
+{
+    const Fun_Runtime::cClass &cWorldGameObject::RetClass() const
+    {
+        return *ms_pcWorldGameObjectClass;
+    }
+}

@@ -55,6 +55,29 @@ namespace AI
     static Fun_Runtime::cInheritanceRegistrar cFinalMissioncMissionInheritRegistrar(
         AI::cFinalMission::StaticCreateClass(), AI::cMission::StaticCreateClass());
 
+    unsigned int cFinalMission::GetMaxReplicatedFields() const
+    {
+        return eRF_BreachHoleStatesN + m_nNumBreachStateFields;
+    }
+
+    void cFinalMission::ReplicateInitialFields()
+    {
+        cMission::ReplicateInitialFields();
+        int nLastField = m_nNumBreachStateFields - 1;
+        int nLastFieldCount = m_vReplicationList.size() - nLastField * 10;
+        for (int i = 0; i < nLastField; ++i)
+        {
+            if (m_nBreachHoleStates[i] == 0)
+                SetFieldStateForCurrentNode(sReplicatedField::WriteSkipOnce, i + eRF_BreachHoleStatesN);
+            _AllocateUInt32Bits(m_nBreachHoleStates[i], i + eRF_BreachHoleStatesN, 30,
+                sReplicatedField::WriteReliable);
+        }
+        if (m_nBreachHoleStates[nLastField] == 0)
+            SetFieldStateForCurrentNode(sReplicatedField::WriteSkipOnce, nLastField + eRF_BreachHoleStatesN);
+        _AllocateUInt32Bits(m_nBreachHoleStates[nLastField], nLastField + eRF_BreachHoleStatesN,
+            nLastFieldCount * 3, sReplicatedField::WriteReliable);
+    }
+
     void cFinalMission::OnEnterGlobalMissionState(etGlobalMissionState nState)
     {
         switch (nState)

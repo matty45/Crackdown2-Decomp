@@ -57,6 +57,14 @@ still compile identically in a plain build. Where LTCG gathered a function's flo
 (`addi rX, anchor`, then `lfs f, d(rX)`), only `--ltcg` can produce it: `show` and the findings say so when CD2's
 code has that shape.
 
+`check --ltcg` builds one file with a model of the rest of the program (its matched callees' files, stubs for the
+rest). `verify` also builds the whole program (`py -I tools/verify_ltcg.py <exe> --whole`, about half a minute, its
+link cached): every `/GL` game source in one `/LTCG` link, where each file sees the bodies of all the others. Every
+matched function must be exact in both; the per-file gate also checks the references and data of the functions exact
+only under LTCG. Both models link with the inlining threshold CD2's decisions fit (`docs/matching-notes.md`, "LTCG's
+inlining threshold depends on the size of the program"). `--facts` replays the whole-program check from the recorded
+hashes.
+
 **When a function is exact,** add it to `config/matched_functions.json` in your pull request (address, size, mangled
 symbol prefix), and run `cd2.py facts record` to record its target facts (below). Before merging, a maintainer recomputes every entry (`cd2.py review`, below); an entry that is not
 exact is not merged.
@@ -296,7 +304,9 @@ Every command accepts `--json` and exits with 0 only on success. The fields that
 
 - `tasks`: `tasks[]` with `address`, `size`, `file`, `tier`, `features` (instructions, calls, float_ops, vmx,
   jump_table, loops), `status`, and `symbol`.
-- `show`: `assembly`, `hints[]`, `neighbours[]`, `status` and `symbol`.
+- `show`: `assembly`, `hints[]`, `neighbours[]`, `status` and `symbol`; `wip_note`, the manifest note of a
+  work-in-progress function; and `open_notes[]`, the `docs/open-functions.md` entries that name the address (alone or
+  in a range), which record what was tried on functions whose attempts were removed.
 - `check`:
   - `functions[]`, with `status`, `plain` (percent), `name` (the compiled symbol) and `tracked`;
   - `relocation_problems[]`, `policy_errors[]` and `policy_warnings[]`;
@@ -329,11 +339,12 @@ py -I tools\cd2.py review pr-123 [--record-facts]
 ```
 
 `review` needs a clean checkout of main. It applies only the pull request's own changes to `src/`, `include/`,
-`config/matched_functions.json` and `docs/matching-notes.md` (those it added, changed or deleted since it branched),
-runs every gate with this checkout's tools and config, and restores the checkout. A pull request therefore cannot
-change the gates that judge it. Its changes anywhere else (tools, config, tests, `.github/`) are listed separately and
-fail the review: they need reading by hand, and merging only if intended. With `--record-facts` it records the target
-facts for the new manifest entries first (below); commit `config/target_facts.json` with the merge.
+`config/matched_functions.json`, `docs/matching-notes.md` and `docs/open-functions.md` (those it added, changed or
+deleted since it branched), runs every gate with this checkout's tools and config, and restores the checkout. A pull
+request therefore cannot change the gates that judge it. Its changes anywhere else (tools, config, tests, `.github/`)
+are listed separately and fail the review: they need reading by hand, and merging only if intended. With
+`--record-facts` it records the target facts for the new manifest entries first (below); commit
+`config/target_facts.json` with the merge.
 
 ## Verifying without the game
 

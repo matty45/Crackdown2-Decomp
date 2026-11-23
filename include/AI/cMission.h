@@ -30,7 +30,9 @@ namespace AI
         virtual SNetworkHeader::etNetworkDataType GetReplicatedObjectType() const;
         virtual unsigned int GetMaxReplicatedFields() const;
         virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x8245A230
-        virtual void ReplicateFields(); // cReplicatedClass 9: 0x8230E318
+        virtual void ReplicateFields();
+        // Reference override; CD2 primary slot 16 updates the blocked-node bit mask.
+        virtual void OnSquadGroupBlockedMessage(bool bGroupBlocked, unsigned char nNodeID); // cReplicatedClass 9: 0x8230E318
         virtual unsigned int GetNumObjectIDBits() const; // cReplicatedClass 16: 0x8288AD98
         virtual void TickUpdate(float);
         virtual void ResetMission();
@@ -43,6 +45,11 @@ namespace AI
         void SetGlobalMissionState(etGlobalMissionState, bool bAutoSave);
         // RuffKing's name; CD2 0x8245A390 (outside the scaffolded files), called by cDocksMission's Activate/Deactivate.
         void SetAssociatedZonesEnabled(bool bEnabled);
+        // Descriptive names ours. CD2 0x8248CF1C sets the completion flag after
+        // completing a tactical objective; 0x8248CFFC sets the reset flag after
+        // ResetMission. A true flag propagates to parents and clears the other.
+        void SetCompletionFlag(bool value);
+        void SetResetFlag(bool value);
         // CD2's cMission table (0x82102D28) holds its own Activate (0x82459568) and Deactivate (0x82459618) in slots 2
         // and 3; the missions' overrides call them.
         virtual void Activate();
@@ -99,12 +106,16 @@ namespace AI
         unsigned int m_nNumAssociatedARZones;
         unsigned int m_nLocNameID;
         void *m_pSecondaryObjectivesInfo;          // RuffKing: cSecondaryObjectivesInfo *
+        bool m_bCompletionFlag; // Name ours; CD2 0x8245A4E8 stores this at +0x3B4.
+        bool m_bResetFlag; // Name ours; CD2 0x8245A520 stores this at +0x3B5.
         CD2_LAYOUT_CHECKS(cMission,
             CD2_OFFSET(cMission, m_eGlobalMissionState, 0x350)
             CD2_OFFSET(cMission, m_pParentMission, 0x36C)
             CD2_OFFSET(cMission, m_eMissionState, 0x380)
             CD2_OFFSET(cMission, m_EventHandler, 0x388)
             CD2_OFFSET(cMission, m_pSecondaryObjectivesInfo, 0x3B0)
+            CD2_OFFSET(cMission, m_bCompletionFlag, 0x3B4)
+            CD2_OFFSET(cMission, m_bResetFlag, 0x3B5)
             CD2_SIZE(cMission, 0x3C0))
     };
 }

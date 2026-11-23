@@ -15,6 +15,7 @@
 #include "gom/non_game_base.h"
 #include "rws/classfactory.h"
 #include "VFX/cGlobalLightManager.h"
+#include "VFX/cGlobalLightManagerShader.h"
 #include "cd2/memory.h"
 
 namespace VFX
@@ -33,6 +34,11 @@ namespace VFX
     const char *cGlobalLightManager::RetClassName() const
     {
         return "cGlobalLightManager";
+    }
+
+    cShader::ReloadCallback cGlobalLightManagerShader::GetReloadCallback() const
+    {
+        return ReloadInstance;
     }
 
     Fun_Runtime::cClass &cGlobalLightManager::StaticCreateClass()

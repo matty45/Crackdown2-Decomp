@@ -23,7 +23,6 @@
 #include "rw/rwmem.h"
 #include "fun_runtime/const_script_method.h"
 #include "fun_runtime/pointer_list_impl.h"
-#include "unknown/cBoostPack.h"
 
 namespace Equip
 {
@@ -518,29 +517,4 @@ namespace Equip
     static GOM::cProtoRegistrar cWeaponProjectileSpawningRegistrar(
         cWeaponProjectile::StaticCreateClass(), cWeaponProjectile::SpawnFromPrototype);
 
-    // cGrenade's inline getters (RuffKing cGrenade.h): CD2 keeps their one copy in this object's text, after its
-    // adjustor thunks (0x8260AAA8, 0x8260AAB0).
-    bool cGrenade::HasDetonated()
-    {
-        return m_bDetonated;
-    }
-
-    bool cGrenade::IsLive()
-    {
-        return m_bLive;
-    }
-}
-
-// CD2 places this boost-pack metadata getter in the weapon split.
-namespace unknown
-{
-    const Fun_Runtime::cClass &cBoostPack::RetClass() const
-    {
-        return *ms_pcBoostPackClass;
-    }
-
-    bool cBoostPack::IsA(const Fun_Runtime::cClass &c) const
-    {
-        return ms_pcBoostPackClass->IsA(c);
-    }
 }

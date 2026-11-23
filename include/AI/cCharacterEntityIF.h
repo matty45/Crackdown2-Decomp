@@ -145,6 +145,25 @@ namespace AI
         void UncrouchImmediately();
         bool IsTryingToCrouch();
         void SetAiming(bool bAiming);
+        // RuffKing's; CD2 0x823F4758 (97 callers) expands the brain's SetActiveAgent.
+        void SetActiveAgent(cAgent *pState);
+        // CD2 script methods: each makes the brain's agent of one type active (CreateAgent instances in this object).
+        void Idle();
+        void Reload(float fTolerance);
+        void PrimaryFire(float fTolerance);
+        void SecondaryFire(float fTolerance);
+        void Throw(float fTolerance);
+        void UpperBodyAnimateAndFace();
+        void StoreItem();
+        void PickUpItem();
+        void PickUp();
+        void Drop();
+        void Crouch();
+        void Uncrouch();
+        void ExitVehicle();
+        void Face(float fTolerance);
+        void ChaseAndReload();
+        void Intercept();
 
         // CD2's cAiPlayer adds slot 125 (0x823E92B8) after this interface's 115..124 slots.
         virtual void vf115(); virtual void vf116(); virtual void vf117(); virtual void vf118(); virtual void vf119();

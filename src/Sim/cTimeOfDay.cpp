@@ -25,6 +25,11 @@ namespace Sim
         return *ms_pcTimeOfDayClass;
     }
 
+    bool cTimeOfDay::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcTimeOfDayClass->IsA(c);
+    }
+
     RWS::CAttributeHandler *cTimeOfDay::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cTimeOfDay;

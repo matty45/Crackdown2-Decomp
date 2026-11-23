@@ -87,6 +87,7 @@ OBJDIFF = os.path.join(ROOT, 'build', 'tools', 'bin', 'objdiff-cli.exe')
 MANIFEST = os.path.join(ROOT, 'config', 'matched_functions.json')
 SPLITS = os.path.join(ROOT, 'config', 'splits.txt')
 ALIASES = os.path.join(ROOT, 'config', 'symbol_aliases.txt')
+OPEN_NOTES = os.path.join(ROOT, 'docs', 'open-functions.md')
 CLAIMS = os.path.join(WORK, 'claims.json')
 ATTEMPTS = os.path.join(WORK, 'attempts.jsonl')
 JEFF_SECTIONS = [('.rdata', 'rodata'), ('.pdata', 'rodata'), ('.text', 'code'), ('PSFD00', 'code'), ('.data', 'data'),
@@ -1507,6 +1508,21 @@ def unit_of(addr, file, splits):
     return file if e['text'] and e['text'][0] <= addr < e['text'][1] else '%s_%08X%s' % (base, addr, ext)
 
 
+def open_notes(addr, path=OPEN_NOTES):
+    """The docs/open-functions.md entries (a `- ` line and its indented continuation) that name addr, alone or inside
+    a range written 0xA..0xB, each joined into one line."""
+    if not os.path.exists(path):
+        return []
+    with open(path, encoding='utf-8') as f:
+        text = f.read()
+    out = []
+    for entry in re.findall(r'^- .*(?:\n  .*)*', text, re.M):
+        if any(int(lo, 16) <= addr <= int(hi or lo, 16)
+               for lo, hi in re.findall(r'0x([0-9A-Fa-f]{8})(?:\.\.0x([0-9A-Fa-f]{8}))?', entry)):
+            out.append(' '.join(entry[2:].split()))
+    return out
+
+
 def cmd_show(a):
     need_setup()
     addr = int(a.address, 16)
@@ -1549,7 +1565,8 @@ def cmd_show(a):
     return dict(ok=True, address='0x%08X' % start, size=size, file=f, unit=unit_of(start, f, splits) if f else None,
                 status=status, symbol=(entry or c or {}).get('symbol'), tier=tier(ft), features=ft, hints=hints,
                 evidence=evidence, neighbours=neighbours, notes='docs/matching-notes.md',
-                assembly=target_asm(unit_of(start, f, splits), start) if f else None)
+                wip_note=entry.get('note') if entry and not entry.get('matching', True) else None,
+                open_notes=open_notes(start), assembly=target_asm(unit_of(start, f, splits), start) if f else None)
 
 
 def cmd_claim(a):
@@ -1903,7 +1920,7 @@ def cmd_datasplits(a):
 
 
 # what a contribution may change; everything else (tools, config, tests, ...) is the maintainers' and needs their review
-CONTRIBUTION = ('src', 'include', 'config/matched_functions.json', 'docs/matching-notes.md')
+CONTRIBUTION = ('src', 'include', 'config/matched_functions.json', 'docs/matching-notes.md', 'docs/open-functions.md')
 
 
 def git(*args):
@@ -2612,6 +2629,10 @@ def cmd_verify(a):
                  r'matched functions are exact|relocation targets|^data: '),
                 ('LTCG build + LTCG relocation targets', py + [os.path.join(TOOLS, 'verify_ltcg.py'), exe],
                  r'exact under LTCG|LTCG relocation targets'),
+                ('whole-program LTCG build', py + [os.path.join(TOOLS, 'verify_ltcg.py'), exe, '--whole'],
+                 r'exact in the whole-program model|whole-program link'),
+                ('self-test: whole-program LTCG', py + [os.path.join(TOOLS, 'verify_ltcg.py'), exe, '--whole', '--self-test'],
+                 r'self-test'),
                 ('round trip: middleware objects', relink, r'^substituted|whole image|^RESULT'),
                 ('self-test: relocation check', py + [os.path.join(TOOLS, 'verify_src.py'), exe, '--self-test'], r'self-test'),
                 ('self-test: LTCG relocation check', py + [os.path.join(TOOLS, 'verify_ltcg.py'), exe, '--self-test'], r'self-test'),
@@ -2746,6 +2767,10 @@ def show_text(cmd, res):
             print('callers    %d direct call(s)' % ev.get('callers', 0))
         for n in res['neighbours']:
             print('neighbour  %s %-12s %s' % (n['address'], n['status'], n['symbol'] or ''))
+        if res.get('wip_note'):
+            print('wip note   ' + res['wip_note'])
+        for n in res.get('open_notes', []):
+            print('tried      ' + n + '  (docs/open-functions.md)')
         print('notes      ' + res['notes'])
         print('\n' + (res['assembly'] or '(no assembly: run setup)'))
     elif cmd == 'check':

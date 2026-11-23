@@ -7,10 +7,16 @@
 #include "CHARACTER/cRagdollProfile.h"
 #include "AI/cBreachExplosion.h"
 #include "rws/classfactory.h"
+#include "rws/logic.h"
 #include "cd2/memory.h"
 
 namespace AI
 {
+    const Fun_Runtime::cClass &cBreachExplosion::RetClass() const
+    {
+        return *ms_pcBreachExplosionClass;
+    }
+
     const char *cBreachExplosion::RetClassName() const
     {
         return "cBreachExplosion";
@@ -23,5 +29,10 @@ namespace AI
     RWS::CAttributeHandler *cBreachExplosion::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cBreachExplosion;
+    }
+
+    cBreachExplosion::~cBreachExplosion()
+    {
+        UnLinkMsg(RWS::iMsgRunningTick);
     }
 }

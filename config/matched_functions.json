@@ -707,7 +707,7 @@
         "size": 220,
         "symbol": "??$GetRandSpawnPointInList@VcNetGamePlayerSpawnPoint@GameManagement@@",
         "matching": false,
-        "note": "87%: srawi. test and size recompute reproduced (unsigned pointer-difference size(), if (size() > 0) ... Rand(size())); open: register numbering in the modulo sequence"
+        "note": "87%: srawi. test and size recompute reproduced (unsigned pointer-difference size(), if (size() > 0) ... Rand(size())); open: register numbering in the modulo sequence. 48/55 words: the instructions and their order are identical; only the allocator's choice differs (CD2 reuses r9 for the data pointer, ours takes r4). Ruled out: a size local, const-reference or 64-bit bounds and indices, real std::vector indexing, modulo and Rand-local variants, an early-return size test, a result local, a signed operator[] index (no change), a signed size() (worse)"
       },
       {
         "address": "0x8284ED60",
@@ -1098,6 +1098,20 @@
         "address": "0x8303BC60",
         "size": 20,
         "symbol": "??__FcChaseBehaviourSpawningRegistrar@AI@@"
+      },
+      {
+        "address": "0x824CEB38",
+        "size": 224,
+        "symbol": "?V104@cChaseBehaviour@AI@@",
+        "matching": false,
+        "note": "3.6%: needs CD2's shared float-constant base register (matching notes, Traps, \"LTCG limit\")"
+      },
+      {
+        "address": "0x824CEC18",
+        "size": 392,
+        "symbol": "?PreUpdateAllStates@cChaseBehaviour@AI@@",
+        "matching": false,
+        "note": "99%: one compare differs, CD2's cmpwi against our cmplwi on the word at +0x4E4 (reg). The field's type is the lead: it is dereferenced (lbz 0x37), so it is a pointer whose real type compares signed (matching notes, \"A pointer from an inline accessor tests signed\"). if ((int)reg && ...) reproduces it but turns a pointer into an integer (R4); that match was removed on 2026-11-08"
       }
     ],
     "src/Equip/DLCWeapons/cFlocket.cpp": [
@@ -1448,7 +1462,7 @@
         "size": 116,
         "symbol": "?Flatten2D@VEHICLE_CONTROL@@",
         "matching": false,
-        "note": "59%: xz flatten + optional normalise; fmadds operand choice not matched (58%)"
+        "note": "59%: xz flatten + optional normalise; fmadds operand choice not matched (58%). CD2 computes the two sums separately, in opposite orders. Best lead: if (normalise && x * x + z * z < 0.01f) { zero } else if (normalise) { normalise } (91.7% by objdiff, 45.2% by check): the sum is then recomputed exactly as in CD2, but our build keeps the second normalise test, which CD2 lacks, and squares z first where CD2 squares x first. An early if (!normalise) return; scores 75.7% with the sums in either order. Ruled out: square temporaries, sqrt, powf, __fsqrts and double sqrt variants, signed products, double intermediates, /fp:precise and /fp:strict (either order, worse), /O1, /O2, /Os, #pragma optimize(\"g\", off) (0%), the written order of the sums (/fp:fast reorders them), declaring x before z (worse), testing the stored out[] values, helpers reading out[] (worse), by-value and struct-copy helpers, a length helper in another file (not inlined under /Ob1), a three-component length with y = 0 (loses the fmadds), a conditional expression for inv, swapping the operands of x * inv"
       },
       {
         "address": "0x830056E0",
@@ -2384,6 +2398,13 @@
         "address": "0x8303B720",
         "size": 20,
         "symbol": "??__FPedestrianSpawningRegistrar@AI@@"
+      },
+      {
+        "address": "0x824A8E68",
+        "size": 80,
+        "symbol": "??_GPedestrian@AI@@",
+        "matching": false,
+        "note": "plain EXACT, LTCG 5/20 words: the deleting destructor cPedestrianBase, Pedestrian and PedestrianGuard share (slot 0 of 0x8200B1F8, 0x82108DB0, 0x8200AE78), with implicit destructors. The single-file LTCG model inlines ~cPedestrianBase (0x824A8EB8) where CD2's whole-program build keeps the call; it waits until the model sees that destructor's other callers"
       }
     ],
     "src/AI/cPedestrianBase.cpp": [
@@ -3567,6 +3588,98 @@
         "address": "0x823F5050",
         "size": 16,
         "symbol": "?Init@cCharacterEntityIFPrototype@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F3908",
+        "size": 60,
+        "symbol": "?StoreItem@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F4758",
+        "size": 124,
+        "symbol": "?SetActiveAgent@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F11C0",
+        "size": 60,
+        "symbol": "?Idle@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F1200",
+        "size": 80,
+        "symbol": "?Reload@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F2B48",
+        "size": 80,
+        "symbol": "?PrimaryFire@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F2B98",
+        "size": 80,
+        "symbol": "?SecondaryFire@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F2BE8",
+        "size": 80,
+        "symbol": "?Throw@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F31C8",
+        "size": 60,
+        "symbol": "?UpperBodyAnimateAndFace@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F3948",
+        "size": 60,
+        "symbol": "?PickUpItem@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F3988",
+        "size": 60,
+        "symbol": "?PickUp@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F39C8",
+        "size": 60,
+        "symbol": "?Drop@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F3A08",
+        "size": 60,
+        "symbol": "?Crouch@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F3A48",
+        "size": 60,
+        "symbol": "?Uncrouch@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F3C28",
+        "size": 60,
+        "symbol": "?ExitVehicle@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F4358",
+        "size": 96,
+        "symbol": "?Face@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F4640",
+        "size": 60,
+        "symbol": "?ChaseAndReload@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F4680",
+        "size": 60,
+        "symbol": "?Intercept@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F5790",
+        "size": 304,
+        "symbol": "??$CreateAgent@VcIdleAgent@AI@@@cCharacterBrain@AI@@",
+        "matching": false,
+        "note": "94% (objdiff): lookup loop, inline agent constructor, ReInit, class-ID guards and push_back reproduced; CD2 keeps one zero in r30 and assigns it at the search loop's exit, with the found block placed at the end; ours assigns it before the loop. Return-in-loop, break, while, ternary and early-return forms tried"
       }
     ],
     "src/cAgencyGarageDoor.cpp": [
@@ -4836,6 +4949,13 @@
         "address": "0x82880D40",
         "size": 8,
         "symbol": "??_EcHunterGathererGameModePrototype@unknown@@WBI@"
+      },
+      {
+        "address": "0x8287E2B0",
+        "size": 156,
+        "symbol": "??0cHunterGathererGameModePrototype@unknown@@",
+        "matching": false,
+        "note": "37.5%: typed initializers and a flag initializer followed by body assignments leave float-anchor and vptr-store scheduling differences; a bounded search found no improvement. Its implicit deleting wrapper (0x8287E350) is EXACT"
       }
     ],
     "src/cKeysToTheCityGameModePrototype.cpp": [
@@ -6805,24 +6925,40 @@
     ],
     "src/AI/Mission/BreachHole/cBreachExplosion.cpp": [
       {
-        "address": "0x82470ED0",
+        "address": "0x82470E18",
         "size": 12,
-        "symbol": "?RetClassName@cBreachExplosion@AI@@"
-      },
-      {
-        "address": "0x82F89AB0",
-        "size": 76,
-        "symbol": "??__EcBreachExplosionRegistrar@AI@@"
-      },
-      {
-        "address": "0x8303B068",
-        "size": 12,
-        "symbol": "??__FcBreachExplosionRegistrar@AI@@"
+        "symbol": "?RetClass@cBreachExplosion@AI@@"
       },
       {
         "address": "0x82470E88",
         "size": 68,
         "symbol": "?MakeNew@cBreachExplosion@AI@@"
+      },
+      {
+        "address": "0x82470ED0",
+        "size": 12,
+        "symbol": "?RetClassName@cBreachExplosion@AI@@"
+      },
+      {
+        "address": "0x82470EE0",
+        "size": 80,
+        "symbol": "??_GcBreachExplosion@AI@@UAAPAXI@Z"
+      },
+      {
+        "address": "0x82470F30",
+        "size": 116,
+        "symbol": "??1cBreachExplosion@AI@@"
+      },
+      {
+        "address": "0x824712F8",
+        "size": 8,
+        "symbol": "??_EcBreachExplosion@AI@@WBI@"
+      },
+      {
+        "address": "0x82F89770",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
       },
       {
         "address": "0x82F89798",
@@ -6885,17 +7021,6 @@
         "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
       },
       {
-        "address": "0x82F89770",
-        "size": 40,
-        "symbol": "??__EfPhysicsSimulationTick@@",
-        "ltcg": true
-      },
-      {
-        "address": "0x8303B060",
-        "size": 4,
-        "symbol": "??__FgRandGen@CHARACTER@@"
-      },
-      {
         "address": "0x82F89928",
         "size": 56,
         "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
@@ -6918,6 +7043,21 @@
         "size": 40,
         "symbol": "??__EnPART_PERCENT_WEIGHT@@",
         "ltcg": true
+      },
+      {
+        "address": "0x82F89AB0",
+        "size": 76,
+        "symbol": "??__EcBreachExplosionRegistrar@AI@@"
+      },
+      {
+        "address": "0x8303B060",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x8303B068",
+        "size": 12,
+        "symbol": "??__FcBreachExplosionRegistrar@AI@@"
       }
     ],
     "src/AI/Streaming/cCrowdZoneDataHolder.cpp": [
@@ -7072,6 +7212,13 @@
         "size": 40,
         "symbol": "??__EnPART_PERCENT_WEIGHT@@",
         "ltcg": true
+      },
+      {
+        "address": "0x8244A770",
+        "size": 128,
+        "symbol": "?MakeNew@cCrowdZoneDataHolder@AI@@",
+        "matching": false,
+        "note": "21.9%: new of a field-less cNonGameBase whose constructor CD2 inlines, storing the vptrs through r3 (the base constructor's return value): cross-module LTCG inlining. A plain compile keeps this in r31 even with __forceinline, and the LTCG model does not inline the constructor"
       }
     ],
     "src/AI/Mission/cDocksMission.cpp": [
@@ -15273,6 +15420,13 @@
         "address": "0x82911410",
         "size": 212,
         "symbol": "?MakeNew@BillboardData@Billboard@@"
+      },
+      {
+        "address": "0x829115D0",
+        "size": 484,
+        "symbol": "?HandleAttributes@BillboardData@Billboard@@",
+        "matching": false,
+        "note": "15.8%: resource-map lookup and event-string assignments recovered; our compile inlines string construction where CD2 calls it, while CD2 inlines GUID-map insertion and stores the GUID where the shared header still calls AddEntityToMap"
       }
     ],
     "src/Billboard/BillboardProfile.cpp": [
@@ -18318,6 +18472,13 @@
         "address": "0x8284D808",
         "size": 168,
         "symbol": "?HandleAttributes@cGameModeSpawnPoint@GameManagement@@"
+      },
+      {
+        "address": "0x8284D6F0",
+        "size": 168,
+        "symbol": "?MakeNew@cGameModeSpawnPoint@GameManagement@@",
+        "matching": false,
+        "note": "35.7%: the identity-matrix initialization has the right stores but misses CD2's matrix-address calculation; an inline SetIdentity helper (also with its reference return) and search do not restore it"
       }
     ],
     "src/GameManagement/cGameModeStartZone.cpp": [
@@ -18870,6 +19031,13 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x82868D98",
+        "size": 184,
+        "symbol": "?MakeNew@cMultiPlayerTriggerZone@GameManagement@@",
+        "matching": false,
+        "note": "32.6%: typed Mtx construction has the right fields and values; scalar row-store order and CD2's retained matrix-address calculation differ in plain and LTCG builds"
       }
     ],
     "src/GameManagement/cNetGamePickupSpawnPoint.cpp": [
@@ -19012,6 +19180,13 @@
         "address": "0x8284DA60",
         "size": 240,
         "symbol": "?HandleAttributes@cNetGameSpawnPoint@GameManagement@@"
+      },
+      {
+        "address": "0x8284D908",
+        "size": 136,
+        "symbol": "??0cNetGameSpawnPoint@GameManagement@@QAA@XZ",
+        "matching": false,
+        "note": "44.1%: CD2 keeps a matrix-address calculation absent from the typed identity initialization; search and an inline SetIdentity helper do not improve it. The AI-spawn constructor and vehicle factory likewise keep r31 where CD2 uses the base constructor's returned r3"
       }
     ],
     "src/GameManagement/cRoadRaceGameModePrototype.cpp": [
@@ -21341,6 +21516,13 @@
         "size": 40,
         "symbol": "??__EnPART_PERCENT_WEIGHT@@",
         "ltcg": true
+      },
+      {
+        "address": "0x82695F98",
+        "size": 128,
+        "symbol": "?MakeNew@cSurfaceProfile@PHYSICS@@",
+        "matching": false,
+        "note": "5.4%: keeps this in r31 where CD2 uses the base constructor's returned r3 (cross-module constructor return, as the crowd/streaming factories); the deleting wrapper and IsA are EXACT. A forced-inline constructor taking the reference packet parameter gives 37 instructions against 32; implicit default construction leaves a constructor call"
       }
     ],
     "src/Prop/Custom/cHingedDoor.cpp": [
@@ -22392,6 +22574,27 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x82897B38",
+        "size": 96,
+        "symbol": "?ApplyGamma@UI@@",
+        "matching": false,
+        "note": "37.5%: (32 - float(value - 1)) * 2 * 0.03125 folds the two multipliers, even under the LTCG model; CD2 keeps both multiplies and several constant bases"
+      },
+      {
+        "address": "0x82897EC0",
+        "size": 312,
+        "symbol": "??0cUIControl@UI@@QAA@XZ",
+        "matching": false,
+        "note": "1.2%: options registration and the 3-second autosave display default restored; our compile saves registers for its scattered float constants and schedules the callback stores differently"
+      },
+      {
+        "address": "0x82897FF8",
+        "size": 128,
+        "symbol": "??_GcUIControl@UI@@",
+        "matching": false,
+        "note": "71.9%: Load/Save-only secondary interface corrected, destructor inline; the save-manager load still follows the vptr stores, unlike CD2. A local manager copy and both singleton/unregister statement orders do not resolve it"
       }
     ],
     "src/Vehicle/cCarDamageProfile.cpp": [
@@ -24112,6 +24315,11 @@
         "address": "0x827FA650",
         "size": 144,
         "symbol": "?HandleAttributes@cLinkedVFXPrototype@VFX@@"
+      },
+      {
+        "address": "0x827FA5F0",
+        "size": 92,
+        "symbol": "?IsA@cLinkedVFXSpawner@VFX@@"
       }
     ],
     "src/VFX/cOvercast.cpp": [
@@ -25448,6 +25656,13 @@
         "size": 40,
         "symbol": "??__EnPART_PERCENT_WEIGHT@@",
         "ltcg": true
+      },
+      {
+        "address": "0x8244C010",
+        "size": 128,
+        "symbol": "?MakeNew@cStreamingDataHolder@AI@@",
+        "matching": false,
+        "note": "as cCrowdZoneDataHolder::MakeNew (21.9%)"
       }
     ],
     "src/AI/Behaviour/NPC/Mission_Specific/BeaconDropBehaviour.cpp": [
@@ -28001,6 +28216,13 @@
         "size": 40,
         "symbol": "??__EnPART_PERCENT_WEIGHT@@",
         "ltcg": true
+      },
+      {
+        "address": "0x824897A0",
+        "size": 224,
+        "symbol": "?MakeNew@cCityGliderMission@AI@@",
+        "matching": false,
+        "note": "87.5% plain and LTCG (49/56 words): the inline RuffKing constructor (singleton store, two XMemSet calls, three waypoint vectors); only the singleton's lis is scheduled after the first vptr store instead of with the vptr lis group. search finds nothing"
       }
     ],
     "src/AI/Behaviour/NPC/Cell/CellMinigun.cpp": [
@@ -28577,9 +28799,49 @@
     ],
     "src/AI/Mission/AU/cFinalMission.cpp": [
       {
+        "address": "0x8246A7C0",
+        "size": 12,
+        "symbol": "?RetClass@cFinalMission@AI@@"
+      },
+      {
         "address": "0x8246A7D0",
         "size": 92,
         "symbol": "?IsA@cFinalMission@AI@@"
+      },
+      {
+        "address": "0x8246A830",
+        "size": 64,
+        "symbol": "?MakeNew@cFinalMission@AI@@"
+      },
+      {
+        "address": "0x8246A870",
+        "size": 12,
+        "symbol": "?RetClassName@cFinalMission@AI@@"
+      },
+      {
+        "address": "0x8246A880",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cFinalMission@AI@@"
+      },
+      {
+        "address": "0x8246BFB8",
+        "size": 12,
+        "symbol": "?GetMaxReplicatedFields@cFinalMission@AI@@"
+      },
+      {
+        "address": "0x8246BFC8",
+        "size": 256,
+        "symbol": "?ReplicateInitialFields@cFinalMission@AI@@"
+      },
+      {
+        "address": "0x8246C238",
+        "size": 16,
+        "symbol": "?OnChildMissionCompleted@cFinalMission@AI@@"
+      },
+      {
+        "address": "0x8246C248",
+        "size": 244,
+        "symbol": "?OnEnterGlobalMissionState@cFinalMission@AI@@"
       },
       {
         "address": "0x8246C420",
@@ -28592,39 +28854,50 @@
         "symbol": "?Save@cFinalMission@AI@@"
       },
       {
-        "address": "0x82F89398",
-        "size": 76,
-        "symbol": "??__EcFinalMissionRegistrar@AI@@"
+        "address": "0x8246C430",
+        "size": 64,
+        "symbol": "?GetSaveStateForMissionState@cFinalMission@AI@@"
       },
       {
-        "address": "0x8303B038",
-        "size": 12,
-        "symbol": "??__FcFinalMissionRegistrar@AI@@"
+        "address": "0x8246E5E8",
+        "size": 16,
+        "symbol": "?ArePrerequisitesComplete@cFinalMission@AI@@"
       },
       {
-        "address": "0x8246A880",
-        "size": 156,
-        "symbol": "?StaticCreateClass@cFinalMission@AI@@"
+        "address": "0x8246E6C0",
+        "size": 8,
+        "symbol": "?RetClass@cFinalMission@AI@@WBA@"
       },
       {
-        "address": "0x82F89308",
+        "address": "0x8246E6C8",
+        "size": 8,
+        "symbol": "??_EcFinalMission@AI@@WBA@"
+      },
+      {
+        "address": "0x8246E6D0",
+        "size": 8,
+        "symbol": "?IsA@cFinalMission@AI@@WBA@"
+      },
+      {
+        "address": "0x82F88FF8",
         "size": 40,
-        "symbol": "??__E?ms_pcFinalMissionClass@cFinalMission@AI@@"
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
       },
       {
-        "address": "0x8246A7C0",
-        "size": 12,
-        "symbol": "?RetClass@cFinalMission@AI@@"
+        "address": "0x82F89020",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
       },
       {
-        "address": "0x8246A870",
-        "size": 12,
-        "symbol": "?RetClassName@cFinalMission@AI@@"
+        "address": "0x82F89048",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
       },
       {
-        "address": "0x82F89330",
-        "size": 104,
-        "symbol": "??__EcFinalMissioncMissionInheritRegistrar@AI@@"
+        "address": "0x82F89060",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
       },
       {
         "address": "0x82F89078",
@@ -28672,16 +28945,6 @@
         "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
       },
       {
-        "address": "0x82F892F0",
-        "size": 24,
-        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
-      },
-      {
-        "address": "0x8303B030",
-        "size": 4,
-        "symbol": "??__FgRandGen@CHARACTER@@"
-      },
-      {
         "address": "0x82F891B0",
         "size": 56,
         "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
@@ -28700,6 +28963,12 @@
         "ltcg": true
       },
       {
+        "address": "0x82F89258",
+        "size": 40,
+        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
+        "ltcg": true
+      },
+      {
         "address": "0x82F89280",
         "size": 56,
         "symbol": "??__EfFACING_TARGET_MIN_DOT_PRODUCT@@",
@@ -28712,71 +28981,34 @@
         "ltcg": true
       },
       {
-        "address": "0x82F88FF8",
-        "size": 40,
-        "symbol": "??__EfPhysicsSimulationTick@@",
-        "ltcg": true
-      },
-      {
-        "address": "0x82F89020",
-        "size": 36,
-        "symbol": "??__EfMAX_TIME_STEP@@"
-      },
-      {
-        "address": "0x82F89048",
+        "address": "0x82F892F0",
         "size": 24,
-        "symbol": "??__EfSLIP_LIMIT@@"
+        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
       },
       {
-        "address": "0x82F89060",
-        "size": 24,
-        "symbol": "??__EfSKID_LIMIT@@"
-      },
-      {
-        "address": "0x82F89258",
+        "address": "0x82F89308",
         "size": 40,
-        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
-        "ltcg": true
+        "symbol": "??__E?ms_pcFinalMissionClass@cFinalMission@AI@@"
       },
       {
-        "address": "0x8246C238",
-        "size": 16,
-        "symbol": "?OnChildMissionCompleted@cFinalMission@AI@@"
+        "address": "0x82F89330",
+        "size": 104,
+        "symbol": "??__EcFinalMissioncMissionInheritRegistrar@AI@@"
       },
       {
-        "address": "0x8246A830",
-        "size": 64,
-        "symbol": "?MakeNew@cFinalMission@AI@@"
+        "address": "0x82F89398",
+        "size": 76,
+        "symbol": "??__EcFinalMissionRegistrar@AI@@"
       },
       {
-        "address": "0x8246C248",
-        "size": 244,
-        "symbol": "?OnEnterGlobalMissionState@cFinalMission@AI@@"
+        "address": "0x8303B030",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
       },
       {
-        "address": "0x8246C430",
-        "size": 64,
-        "symbol": "?GetSaveStateForMissionState@cFinalMission@AI@@"
-      },
-      {
-        "address": "0x8246E5E8",
-        "size": 16,
-        "symbol": "?ArePrerequisitesComplete@cFinalMission@AI@@"
-      },
-      {
-        "address": "0x8246E6C0",
-        "size": 8,
-        "symbol": "?RetClass@cFinalMission@AI@@WBA@"
-      },
-      {
-        "address": "0x8246E6D0",
-        "size": 8,
-        "symbol": "?IsA@cFinalMission@AI@@WBA@"
-      },
-      {
-        "address": "0x8246E6C8",
-        "size": 8,
-        "symbol": "??_EcFinalMission@AI@@WBA@"
+        "address": "0x8303B038",
+        "size": 12,
+        "symbol": "??__FcFinalMissionRegistrar@AI@@"
       }
     ],
     "src/AI/cFreakSniperEvent.cpp": [
@@ -33189,6 +33421,13 @@
         "address": "0x82837FC8",
         "size": 92,
         "symbol": "??_GcWorldGameObjectPosition@Audio@@"
+      },
+      {
+        "address": "0x82837F18",
+        "size": 160,
+        "symbol": "?MakeNew@cWorldGameObjectPosition@Audio@@",
+        "matching": false,
+        "note": "62.5%: Burn/RuffKing and this factory establish position +0x20, direction +0x30, created flag +0x40, world object +0x44, ID +0x48 (size 0x50). Literal vectors leave scheduling/load differences. g_GlobalConstants scalar constructor arguments reproduce the bytes but reach this file's copy 0x832AA110 where IsA uses 0x830ACBD8; a second global-namespace static (as the reference objects list it) gives two COFF statics both named g_GlobalConstants, which relocs.Obj merges by name, so those probes were removed. Resolve source ownership and COFF identity first; never alias the two addresses as one object"
       }
     ],
     "src/VEHICLE_CONTROL/cVehicleCollectionZone.cpp": [
@@ -35215,6 +35454,13 @@
         "address": "0x82775620",
         "size": 12,
         "symbol": "?UnPause@cTimeOfDay@Sim@@"
+      },
+      {
+        "address": "0x82773B48",
+        "size": 92,
+        "symbol": "?IsA@cTimeOfDay@",
+        "matching": false,
+        "note": "descriptor query; LTCG drops the unused this (no function in this file installs the vtable yet). Plain EXACT, LTCG 21/23 words."
       }
     ],
     "src/Activity/LongDistanceProps/cLongDistancePropManager.cpp": [
@@ -37264,6 +37510,13 @@
         "address": "0x824ABCA0",
         "size": 8,
         "symbol": "?SetSpawnAction@FreakBase@AI@@"
+      },
+      {
+        "address": "0x824ABBB0",
+        "size": 92,
+        "symbol": "?IsA@FreakBase@",
+        "matching": false,
+        "note": "descriptor query; LTCG drops the unused this without a live vtable. Plain EXACT, LTCG 21/23 words."
       }
     ],
     "src/AI/Behaviour/NPC/Freak/Goliath.cpp": [
@@ -38606,23 +38859,39 @@
         "address": "0x82629C68",
         "size": 4,
         "symbol": "?RetNetworkLOD@cHWGrenadeProjectile@Equip@@"
+      },
+      {
+        "address": "0x8262A628",
+        "size": 8,
+        "symbol": "?IsA@cHWGrenadeProjectile@Equip@@WPA@"
       }
     ],
     "src/ExplosionManager/cExplosionManager.cpp": [
+      {
+        "address": "0x821FE610",
+        "size": 156,
+        "symbol": "?StaticCreateClass@cExplosionManager@ExplosionManager@@"
+      },
+      {
+        "address": "0x8263EAE0",
+        "size": 12,
+        "symbol": "?RetClass@cExplosionManager@ExplosionManager@@"
+      },
       {
         "address": "0x8263EB98",
         "size": 12,
         "symbol": "?RetClassName@cExplosionManager@ExplosionManager@@"
       },
       {
-        "address": "0x82FD5840",
-        "size": 80,
-        "symbol": "??__EcExplosionManagerRegistrar@ExplosionManager@@"
+        "address": "0x8263F228",
+        "size": 232,
+        "symbol": "?InitiateExplosion@cExplosionManager@ExplosionManager@@QAAXAAUtExplosionData@2@@Z"
       },
       {
-        "address": "0x8303FBD8",
-        "size": 12,
-        "symbol": "??__FcExplosionManagerRegistrar@ExplosionManager@@"
+        "address": "0x82FD54A0",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
       },
       {
         "address": "0x82FD54C8",
@@ -38685,22 +38954,6 @@
         "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
       },
       {
-        "address": "0x82FD5798",
-        "size": 24,
-        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
-      },
-      {
-        "address": "0x82FD54A0",
-        "size": 40,
-        "symbol": "??__EfPhysicsSimulationTick@@",
-        "ltcg": true
-      },
-      {
-        "address": "0x8303FBD0",
-        "size": 4,
-        "symbol": "??__FgRandGen@CHARACTER@@"
-      },
-      {
         "address": "0x82FD5658",
         "size": 56,
         "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
@@ -38737,9 +38990,9 @@
         "ltcg": true
       },
       {
-        "address": "0x821FE610",
-        "size": 156,
-        "symbol": "?StaticCreateClass@cExplosionManager@ExplosionManager@@"
+        "address": "0x82FD5798",
+        "size": 24,
+        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
       },
       {
         "address": "0x82FD57B0",
@@ -38752,9 +39005,19 @@
         "symbol": "??__EcExplosionManagercNonGameBaseInheritRegistrar@ExplosionManager@@"
       },
       {
-        "address": "0x8263EAE0",
+        "address": "0x82FD5840",
+        "size": 80,
+        "symbol": "??__EcExplosionManagerRegistrar@ExplosionManager@@"
+      },
+      {
+        "address": "0x8303FBD0",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x8303FBD8",
         "size": 12,
-        "symbol": "?RetClass@cExplosionManager@ExplosionManager@@"
+        "symbol": "??__FcExplosionManagerRegistrar@ExplosionManager@@"
       }
     ],
     "src/PHYSICS/cPhysicsUniverse.cpp": [
@@ -39099,6 +39362,13 @@
         "address": "0x82FE5C28",
         "size": 104,
         "symbol": "??__EcGenVehicleProfilecNonGameBaseInheritRegistrar@Vehicle@@"
+      },
+      {
+        "address": "0x8269C760",
+        "size": 268,
+        "symbol": "??0cGenVehicleProfile@Vehicle@@",
+        "matching": false,
+        "note": "9.9%: restores the 26-entry VFX array to -1, clears the four 12-entry damage arrays and sets the AI gear-change ratio to 0.6 with the right loop bodies, but keeps this in r31 where CD2 uses the base constructor's returned r3; search finds no improvement. The deleting destructor and three thunks are EXACT with this body present"
       }
     ],
     "src/Prop/cVehicleDamageProp.cpp": [
@@ -40789,6 +41059,13 @@
         "address": "0x82744260",
         "size": 8,
         "symbol": "?IsA@cGasCanister@Prop@@WEOA@"
+      },
+      {
+        "address": "0x82743708",
+        "size": 240,
+        "symbol": "?MakeNew@cGasCanister@Prop@@",
+        "matching": false,
+        "note": "19.7%: identity matrix and defaults reconstructed; forcing the constructor inline restores its stores, but constant loads and scheduling differ. search, scalar defaults in the constructor body and the reference SetIdentity helper change nothing"
       }
     ],
     "src/Prop/Custom/cHingedSpawnDoor.cpp": [
@@ -41769,6 +42046,20 @@
         "address": "0x83007590",
         "size": 104,
         "symbol": "??__EcBloomcNonGameBaseInheritRegistrar@VFX@@"
+      },
+      {
+        "address": "0x827918C8",
+        "size": 144,
+        "symbol": "?MakeNew@cBloom@VFX@@",
+        "matching": false,
+        "note": "9.8%: not diagnosed beyond the destructor's vptr-store order"
+      },
+      {
+        "address": "0x827919B8",
+        "size": 136,
+        "symbol": "??1cBloom@VFX@@",
+        "matching": false,
+        "note": "50.0%: g_pBloom = 0; UnLinkMsg(RWS::iMsgRunningTick); has the right instructions, but CD2 stores the primary vptr first and the global between the +0x30 and +0x38 vptr stores. search finds nothing; defining the global in its own file (as RuffKing does) changes nothing. The deleting destructor and IsA are EXACT"
       }
     ],
     "src/VFX/cOutlines.cpp": [
@@ -42108,6 +42399,13 @@
         "address": "0x827CD818",
         "size": 8,
         "symbol": "??_EcVFXSurfaceProfile@VFX@@WBM@"
+      },
+      {
+        "address": "0x827CCBD0",
+        "size": 128,
+        "symbol": "?MakeNew@cVFXSurfaceProfile@VFX@@",
+        "matching": false,
+        "note": "as cSurfaceProfile::MakeNew (5.4%): r31 against the base constructor's returned r3"
       }
     ],
     "src/VFX/ParticleSystem/cParticleEffectManager.cpp": [
@@ -42266,9 +42564,24 @@
     ],
     "src/VFX/cGlobalLightManager.cpp": [
       {
+        "address": "0x827FAFE0",
+        "size": 68,
+        "symbol": "?MakeNew@cGlobalLightManager@VFX@@"
+      },
+      {
         "address": "0x827FB028",
         "size": 12,
         "symbol": "?RetClassName@cGlobalLightManager@VFX@@"
+      },
+      {
+        "address": "0x827FB038",
+        "size": 12,
+        "symbol": "?GetReloadCallback@cGlobalLightManagerShader@VFX@@"
+      },
+      {
+        "address": "0x827FB518",
+        "size": 128,
+        "symbol": "?SetOccluded@cGlobalLight@VFX@@"
       },
       {
         "address": "0x827FB8F8",
@@ -42276,9 +42589,19 @@
         "symbol": "?StaticCreateClass@cGlobalLightManager@VFX@@"
       },
       {
+        "address": "0x827FBD60",
+        "size": 4,
+        "symbol": "?HandleAttributes@cGlobalLightManager@VFX@@"
+      },
+      {
         "address": "0x8300B470",
         "size": 40,
         "symbol": "??__E?ms_pcGlobalLightManagerClass@cGlobalLightManager@VFX@@"
+      },
+      {
+        "address": "0x8300B498",
+        "size": 104,
+        "symbol": "??__EcGlobalLightManagercNonGameBaseInheritRegistrar@VFX@@"
       },
       {
         "address": "0x8300B500",
@@ -42289,26 +42612,6 @@
         "address": "0x83042F58",
         "size": 12,
         "symbol": "??__FcGlobalLightManagerRegistrar@VFX@@"
-      },
-      {
-        "address": "0x8300B498",
-        "size": 104,
-        "symbol": "??__EcGlobalLightManagercNonGameBaseInheritRegistrar@VFX@@"
-      },
-      {
-        "address": "0x827FAFE0",
-        "size": 68,
-        "symbol": "?MakeNew@cGlobalLightManager@VFX@@"
-      },
-      {
-        "address": "0x827FB518",
-        "size": 128,
-        "symbol": "?SetOccluded@cGlobalLight@VFX@@"
-      },
-      {
-        "address": "0x827FBD60",
-        "size": 4,
-        "symbol": "?HandleAttributes@cGlobalLightManager@VFX@@"
       }
     ],
     "src/Audio/cVOAScheduler.cpp": [
@@ -42463,6 +42766,13 @@
         "size": 40,
         "symbol": "??__EnPART_PERCENT_WEIGHT@@",
         "ltcg": true
+      },
+      {
+        "address": "0x82837050",
+        "size": 144,
+        "symbol": "??1cVOAScheduler@Audio@@",
+        "matching": false,
+        "note": "88.9% (35/36 words): CD2 restores cDebugPageHandler's vptr before clearing ms_pInstance, the same symptom as cBloom's destructor. Defining the singleton in its own file (as RuffKing does) changes nothing"
       }
     ],
     "src/cStaticInterestingObject.cpp": [
@@ -44285,6 +44595,31 @@
         "address": "0x8260B168",
         "size": 8,
         "symbol": "?RetClass@cBoostPack@unknown@@WEOA@"
+      },
+      {
+        "address": "0x8260AAA8",
+        "size": 8,
+        "symbol": "?HasDetonated@cGrenade@Equip@@"
+      },
+      {
+        "address": "0x8260AAB0",
+        "size": 8,
+        "symbol": "?IsLive@cGrenade@Equip@@"
+      },
+      {
+        "address": "0x8260AB40",
+        "size": 12,
+        "symbol": "?RetClass@cBoostPack@unknown@@UBA"
+      },
+      {
+        "address": "0x8260AB50",
+        "size": 92,
+        "symbol": "?IsA@cBoostPack@unknown@@"
+      },
+      {
+        "address": "0x8260AAE8",
+        "size": 16,
+        "symbol": "?RetDamageRadius@cGrenade@Equip@@"
       }
     ],
     "src/Equip/Weapon/cMag.cpp": [
@@ -49502,6 +49837,13 @@
         "address": "0x826E9870",
         "size": 92,
         "symbol": "?IsA@cAgencyBuggy@Vehicle@@"
+      },
+      {
+        "address": "0x826E98D0",
+        "size": 144,
+        "symbol": "?MakeNew@cAgencyBuggy@Vehicle@@",
+        "matching": false,
+        "note": "36.1%: RuffKing's cAgencyBuggyPrototype is modelled (0x4C0/0x540/0x544, size 0x550). CD2 zeroes the 128-byte suspension block with an inline 16-doubleword stdu loop; value-initialisation and a body memset both compile to a memset call"
       }
     ],
     "src/Vehicle/Agency/cAgencySports.cpp": [
@@ -52829,6 +53171,13 @@
         "address": "0x82771EA0",
         "size": 8,
         "symbol": "?IsA@cScriptManager@unknown@@WEM@"
+      },
+      {
+        "address": "0x827705D8",
+        "size": 260,
+        "symbol": "??1cScriptManager@unknown@@",
+        "matching": false,
+        "note": "17.9%: 32 cStringc at +0x80 and the search-path vector at +0x418 established. The compiler's vector-destruction helper passes allocator/tag arguments absent from CD2's two-argument helper, and the frame and singleton/vptr scheduling differ; standard and Fun_Runtime allocators and search do not resolve it"
       }
     ],
     "src/CCarController.cpp": [
@@ -53150,6 +53499,13 @@
         "address": "0x827A41D0",
         "size": 8,
         "symbol": "??_EcOutlines2@unknown@@WDI@"
+      },
+      {
+        "address": "0x827A4000",
+        "size": 128,
+        "symbol": "?MakeNew@cOutlines2@unknown@@",
+        "matching": false,
+        "note": "as cSurfaceProfile::MakeNew (5.4%): r31 against the base constructor's returned r3"
       }
     ],
     "src/cRenderToTextureManager.cpp": [
@@ -53217,6 +53573,13 @@
         "address": "0x827AA248",
         "size": 8,
         "symbol": "??_EcRenderToTextureManager@unknown@@WBM@"
+      },
+      {
+        "address": "0x827A9EA8",
+        "size": 140,
+        "symbol": "??1cRenderToTextureManager@unknown@@",
+        "matching": false,
+        "note": "71.4% (26/35 words): CD2 interleaves its singleton clear with vptr restoration and the vector load; search finds no improvement"
       }
     ],
     "src/WorldManager/cLOD4Environment.cpp": [
@@ -53666,29 +54029,9 @@
     ],
     "src/cPopulationZone.cpp": [
       {
-        "address": "0x8280C078",
+        "address": "0x8280BFE8",
         "size": 12,
-        "symbol": "?RetName@cPopTODScriptRegistration@unknown@@"
-      },
-      {
-        "address": "0x8280C090",
-        "size": 152,
-        "symbol": "?StaticCreateClass@cPopulationZone@unknown@@"
-      },
-      {
-        "address": "0x8300DCE0",
-        "size": 40,
-        "symbol": "??__E?ms_pcPopulationZoneClass@cPopulationZone@unknown@@"
-      },
-      {
-        "address": "0x8300DC90",
-        "size": 76,
-        "symbol": "??__EcPopulationZoneRegistrar@unknown@@"
-      },
-      {
-        "address": "0x83043208",
-        "size": 12,
-        "symbol": "??__FcPopulationZoneRegistrar@unknown@@"
+        "symbol": "?RetClassName@cPopulationZone@unknown@@"
       },
       {
         "address": "0x8280BFF8",
@@ -53696,14 +54039,9 @@
         "symbol": "?RetClass@cPopulationZone@unknown@@"
       },
       {
-        "address": "0x8300DD70",
-        "size": 88,
-        "symbol": "??__EcPopulationZoneScriptRegistrar@unknown@@"
-      },
-      {
-        "address": "0x83043218",
-        "size": 12,
-        "symbol": "??__FcPopulationZoneScriptRegistrar@unknown@@"
+        "address": "0x8280C008",
+        "size": 92,
+        "symbol": "?IsA@cPopulationZone@unknown@@"
       },
       {
         "address": "0x8280C068",
@@ -53711,9 +54049,34 @@
         "symbol": "?RetScriptTypeRegistration@cPopulationZone@unknown@@"
       },
       {
+        "address": "0x8280C078",
+        "size": 12,
+        "symbol": "?RetName@cPopTODScriptRegistration@unknown@@"
+      },
+      {
         "address": "0x8280C088",
         "size": 8,
         "symbol": "?RetGangInControl@cPopulationZone@unknown@@"
+      },
+      {
+        "address": "0x8280C090",
+        "size": 152,
+        "symbol": "?StaticCreateClass@cPopulationZone@unknown@@"
+      },
+      {
+        "address": "0x8280C300",
+        "size": 136,
+        "symbol": "?RegisterValues@cPopTODScriptRegistration@unknown@@"
+      },
+      {
+        "address": "0x8280C448",
+        "size": 80,
+        "symbol": "??_GcPopulationZone@unknown@@"
+      },
+      {
+        "address": "0x8280C498",
+        "size": 104,
+        "symbol": "??1cPopulationZone@unknown@@"
       },
       {
         "address": "0x8280C840",
@@ -53726,29 +54089,30 @@
         "symbol": "?SetInitialGangInControl@cPopulationZone@unknown@@"
       },
       {
-        "address": "0x8300DD08",
-        "size": 104,
-        "symbol": "??__EcPopulationZonecZoneInheritRegistrar@unknown@@"
-      },
-      {
-        "address": "0x8280C498",
-        "size": 104,
-        "symbol": "??1cPopulationZone@unknown@@"
-      },
-      {
-        "address": "0x8280C448",
-        "size": 80,
-        "symbol": "??_GcPopulationZone@unknown@@"
-      },
-      {
         "address": "0x8280CE00",
         "size": 8,
         "symbol": "??_EcPopulationZone@unknown@@WBI@"
       },
       {
-        "address": "0x8280C008",
-        "size": 92,
-        "symbol": "?IsA@cPopulationZone@unknown@@"
+        "address": "0x8300D980",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x8300D9A8",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x8300D9D0",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x8300D9E8",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
       },
       {
         "address": "0x8300DA00",
@@ -53796,16 +54160,6 @@
         "symbol": "??__EIDENTITY_QUATERNION@@"
       },
       {
-        "address": "0x8300DC78",
-        "size": 24,
-        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
-      },
-      {
-        "address": "0x83043200",
-        "size": 4,
-        "symbol": "??__FgRandGen@CHARACTER@@"
-      },
-      {
         "address": "0x8300DB38",
         "size": 56,
         "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
@@ -53824,6 +54178,12 @@
         "ltcg": true
       },
       {
+        "address": "0x8300DBE0",
+        "size": 40,
+        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
+        "ltcg": true
+      },
+      {
         "address": "0x8300DC08",
         "size": 56,
         "symbol": "??__EfFACING_TARGET_MIN_DOT_PRODUCT@@",
@@ -53836,9 +54196,29 @@
         "ltcg": true
       },
       {
-        "address": "0x8280C300",
-        "size": 136,
-        "symbol": "?RegisterValues@cPopTODScriptRegistration@unknown@@"
+        "address": "0x8300DC78",
+        "size": 24,
+        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x8300DC90",
+        "size": 76,
+        "symbol": "??__EcPopulationZoneRegistrar@unknown@@"
+      },
+      {
+        "address": "0x8300DCE0",
+        "size": 40,
+        "symbol": "??__E?ms_pcPopulationZoneClass@cPopulationZone@unknown@@"
+      },
+      {
+        "address": "0x8300DD08",
+        "size": 104,
+        "symbol": "??__EcPopulationZonecZoneInheritRegistrar@unknown@@"
+      },
+      {
+        "address": "0x8300DD70",
+        "size": 88,
+        "symbol": "??__EcPopulationZoneScriptRegistrar@unknown@@"
       },
       {
         "address": "0x8300DDC8",
@@ -53846,36 +54226,24 @@
         "symbol": "??__Eg_cPopTODScriptRegistration@unknown@@"
       },
       {
+        "address": "0x83043200",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x83043208",
+        "size": 12,
+        "symbol": "??__FcPopulationZoneRegistrar@unknown@@"
+      },
+      {
+        "address": "0x83043218",
+        "size": 12,
+        "symbol": "??__FcPopulationZoneScriptRegistrar@unknown@@"
+      },
+      {
         "address": "0x83043228",
         "size": 20,
         "symbol": "??__Fg_cPopTODScriptRegistration@unknown@@"
-      },
-      {
-        "address": "0x8300D980",
-        "size": 40,
-        "symbol": "??__EfPhysicsSimulationTick@@",
-        "ltcg": true
-      },
-      {
-        "address": "0x8300D9A8",
-        "size": 36,
-        "symbol": "??__EfMAX_TIME_STEP@@"
-      },
-      {
-        "address": "0x8300D9D0",
-        "size": 24,
-        "symbol": "??__EfSLIP_LIMIT@@"
-      },
-      {
-        "address": "0x8300D9E8",
-        "size": 24,
-        "symbol": "??__EfSKID_LIMIT@@"
-      },
-      {
-        "address": "0x8300DBE0",
-        "size": 40,
-        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
-        "ltcg": true
       }
     ],
     "src/cNetGameAISpawnPoint.cpp": [
@@ -54903,6 +55271,27 @@
         "address": "0x826DD3C8",
         "size": 88,
         "symbol": "?WaterExitAudio@cVehicle@Vehicle@@"
+      },
+      {
+        "address": "0x826CE0E8",
+        "size": 592,
+        "symbol": "??1cVehicle@Vehicle@@",
+        "matching": false,
+        "note": "97.3% (147/148 words): RuffKing's body (UnLinkMsg/UnRegisterMsg) over the modelled members. CD2 keeps cLinkedListItem's table address in r5 across the call to cDamageMorphManager::ClearMorphSections (0x825FC728, a leaf in unscaffolded text), which only whole-program LTCG allows: match ClearMorphSections first. It emits the vtable (the deleting destructor and 11 thunks are EXACT)"
+      },
+      {
+        "address": "0x826D4DB0",
+        "size": 64,
+        "symbol": "?RetCollisionLayer@cVehicle@Vehicle@@",
+        "matching": false,
+        "note": "plain EXACT, LTCG 3/16 words: the single-file model inlines IsInVehicle into its only visible caller; its other CD2 caller (0x82711F00, cUniqueStuntZone.cpp) is unmatched"
+      },
+      {
+        "address": "0x826D51B0",
+        "size": 120,
+        "symbol": "?IsInVehicle@cVehicle@Vehicle@@",
+        "matching": false,
+        "note": "plain EXACT, LTCG 4/30 words: as RetCollisionLayer"
       }
     ],
     "src/Vehicle/cVehicleController.cpp": [
@@ -56449,19 +56838,20 @@
     ],
     "src/AI/Mission/Delivery_Manager/cAgencyGarage.cpp": [
       {
-        "address": "0x82F8B1E8",
-        "size": 76,
-        "symbol": "??__EcAgencyGarageRegistrar@AI@@"
-      },
-      {
-        "address": "0x8303B100",
+        "address": "0x82479B10",
         "size": 12,
-        "symbol": "??__FcAgencyGarageRegistrar@AI@@"
+        "symbol": "?RetClass@cAgencyGarage@AI@@"
       },
       {
         "address": "0x82479BC8",
         "size": 12,
         "symbol": "?RetClassName@cAgencyGarage@AI@@"
+      },
+      {
+        "address": "0x82F8AE20",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
       },
       {
         "address": "0x82F8AE48",
@@ -56524,22 +56914,6 @@
         "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
       },
       {
-        "address": "0x82F8B118",
-        "size": 24,
-        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
-      },
-      {
-        "address": "0x82F8AE20",
-        "size": 40,
-        "symbol": "??__EfPhysicsSimulationTick@@",
-        "ltcg": true
-      },
-      {
-        "address": "0x8303B0F8",
-        "size": 4,
-        "symbol": "??__FgRandGen@CHARACTER@@"
-      },
-      {
         "address": "0x82F8AFD8",
         "size": 56,
         "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
@@ -56574,6 +56948,26 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x82F8B118",
+        "size": 24,
+        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x82F8B1E8",
+        "size": 76,
+        "symbol": "??__EcAgencyGarageRegistrar@AI@@"
+      },
+      {
+        "address": "0x8303B0F8",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x8303B100",
+        "size": 12,
+        "symbol": "??__FcAgencyGarageRegistrar@AI@@"
       }
     ],
     "src/AI/Mission/cPlayerRejectionZone.cpp": [
@@ -57520,6 +57914,20 @@
         "address": "0x827EF608",
         "size": 8,
         "symbol": "??_EcParticleEffectResourceHolder@VFX@@WBM@"
+      },
+      {
+        "address": "0x827EDB88",
+        "size": 156,
+        "symbol": "?MakeNew@cParticleEffectResourceHolder@VFX@@",
+        "matching": false,
+        "note": "6.8%: keeps r31 where CD2 uses the base constructor's returned r3"
+      },
+      {
+        "address": "0x827EEB98",
+        "size": 200,
+        "symbol": "??1cParticleEffectResourceHolder@VFX@@",
+        "matching": false,
+        "note": "90.0% (45/50 words): five register differences in the repeated vector size test; default versus packet constructor signatures and search do not resolve it"
       }
     ],
     "src/GameManagement/cTeamDeathMatchGameModePrototype.cpp": [
@@ -58973,21 +59381,6 @@
         "symbol": "??__FcWeaponProjectileSpawningRegistrar@Equip@@"
       },
       {
-        "address": "0x8260AAA8",
-        "size": 8,
-        "symbol": "?HasDetonated@cGrenade@Equip@@"
-      },
-      {
-        "address": "0x8260AAB0",
-        "size": 8,
-        "symbol": "?IsLive@cGrenade@Equip@@"
-      },
-      {
-        "address": "0x8260AB40",
-        "size": 12,
-        "symbol": "?RetClass@cBoostPack@unknown@@UBA"
-      },
-      {
         "address": "0x82609BA8",
         "size": 68,
         "symbol": "?TickUpdate@cWeapon@Equip@@"
@@ -59006,11 +59399,6 @@
         "address": "0x82609518",
         "size": 92,
         "symbol": "?IsA@cWeaponProjectile@Equip@@"
-      },
-      {
-        "address": "0x8260AB50",
-        "size": 92,
-        "symbol": "?IsA@cBoostPack@unknown@@"
       }
     ],
     "src/gom/cGameBase.cpp": [
@@ -63822,6 +64210,13 @@
         "address": "0x8245B7D8",
         "size": 92,
         "symbol": "?MakeNew@cMissionCriticalPropSpawnPoint@AI@@"
+      },
+      {
+        "address": "0x8245B6E0",
+        "size": 92,
+        "symbol": "?IsA@cMissionCriticalPropSpawnPoint@",
+        "matching": false,
+        "note": "descriptor query; LTCG drops the unused this: the constructor (0x8245B838) is outside scaffolded ranges. Plain EXACT, LTCG 21/23 words."
       }
     ],
     "src/AI/Mission/cMissionPropSpawnPoint.cpp": [
@@ -64384,6 +64779,13 @@
         "address": "0x824D0B68",
         "size": 12,
         "symbol": "?RetClassName@cAgressiveResponsePilotBehaviour@AI@@"
+      },
+      {
+        "address": "0x824D0BA0",
+        "size": 92,
+        "symbol": "?IsA@cAgressiveResponsePilotBehaviour@",
+        "matching": false,
+        "note": "descriptor query; LTCG drops the unused this: the placement factory calls the out-of-line constructor, so nothing here installs the vtable. Plain EXACT, LTCG 21/23 words."
       }
     ],
     "src/AI/Behaviour/NPC/Vehicle/ChaseAndAttackPilotBehaviour.cpp": [
@@ -66449,6 +66851,13 @@
         "address": "0x82801D08",
         "size": 12,
         "symbol": "?RetClass@cPlaceableLight@VFX@@"
+      },
+      {
+        "address": "0x82801D18",
+        "size": 92,
+        "symbol": "?IsA@cPlaceableLight@",
+        "matching": false,
+        "note": "descriptor query; LTCG drops the unused this without a live vtable (MakeNew 0x82801E18 still needs the base constructor's return-value propagation). Plain EXACT, LTCG 21/23 words."
       }
     ],
     "src/Audio/cWorldGameObject.cpp": [
@@ -73270,6 +73679,16 @@
         "symbol": "?StaticCreateClass@cGangInfo@GangManager@@"
       },
       {
+        "address": "0x82677EE8",
+        "size": 12,
+        "symbol": "?RetClass@cGangManager@GangManager@@"
+      },
+      {
+        "address": "0x82677F58",
+        "size": 152,
+        "symbol": "?StaticCreateClass@cGangManager@GangManager@@"
+      },
+      {
         "address": "0x82FDD300",
         "size": 40,
         "symbol": "??__EfPhysicsSimulationTick@@",
@@ -73294,11 +73713,6 @@
         "address": "0x82FDD380",
         "size": 12,
         "symbol": "??__EgRandGen@CHARACTER@@"
-      },
-      {
-        "address": "0x83040278",
-        "size": 4,
-        "symbol": "??__FgRandGen@CHARACTER@@"
       },
       {
         "address": "0x82FDD390",
@@ -73382,9 +73796,16 @@
         "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
       },
       {
-        "address": "0x82677F58",
-        "size": 152,
-        "symbol": "?StaticCreateClass@cGangManager@GangManager@@"
+        "address": "0x83040278",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82677EF8",
+        "size": 92,
+        "symbol": "?IsA@cGangManager@",
+        "matching": false,
+        "note": "descriptor query; LTCG drops the unused this: the constructor (0x825D2300) is outside scaffolded ranges. Plain EXACT, LTCG 21/23 words."
       }
     ],
     "src/RPG/cSkillPickupManager.cpp": [
@@ -73533,6 +73954,11 @@
         "symbol": "??$fill_n@PAMIM@std@@"
       },
       {
+        "address": "0x827819E8",
+        "size": 12,
+        "symbol": "?RetClass@cVehicleController@VEHICLE_CONTROL@@"
+      },
+      {
         "address": "0x83004C28",
         "size": 40,
         "symbol": "??__EfPhysicsSimulationTick@@",
@@ -73589,11 +74015,6 @@
         "symbol": "??__EgRandGen@CHARACTER@@"
       },
       {
-        "address": "0x83042360",
-        "size": 4,
-        "symbol": "??__FgRandGen@CHARACTER@@"
-      },
-      {
         "address": "0x83004DB0",
         "size": 24,
         "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
@@ -73643,9 +74064,24 @@
         "address": "0x83004F20",
         "size": 24,
         "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x83042360",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
       }
     ],
     "src/VFX/cBeaconExplosionEffect.cpp": [
+      {
+        "address": "0x828050D0",
+        "size": 100,
+        "symbol": "?ReloadInstance@cBeaconExplosionPassThroughShader@VFX@@"
+      },
+      {
+        "address": "0x82805138",
+        "size": 12,
+        "symbol": "?GetReloadCallback@cBeaconExplosionPassThroughShader@VFX@@"
+      },
       {
         "address": "0x8300BB98",
         "size": 40,
@@ -73703,11 +74139,6 @@
         "symbol": "??__EgRandGen@CHARACTER@@"
       },
       {
-        "address": "0x83043108",
-        "size": 4,
-        "symbol": "??__FgRandGen@CHARACTER@@"
-      },
-      {
         "address": "0x8300BD20",
         "size": 24,
         "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
@@ -73757,9 +74188,19 @@
         "address": "0x8300BE90",
         "size": 24,
         "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x83043108",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
       }
     ],
     "src/Audio/cLightGameObject.cpp": [
+      {
+        "address": "0x82837598",
+        "size": 12,
+        "symbol": "?RetClass@cWorldGameObject@Audio@@"
+      },
       {
         "address": "0x830130A8",
         "size": 40,
@@ -73785,11 +74226,6 @@
         "address": "0x83013128",
         "size": 12,
         "symbol": "??__EgRandGen@CHARACTER@@"
-      },
-      {
-        "address": "0x83043830",
-        "size": 4,
-        "symbol": "??__FgRandGen@CHARACTER@@"
       },
       {
         "address": "0x83013138",
@@ -73871,6 +74307,11 @@
         "address": "0x830133A0",
         "size": 24,
         "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x83043830",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
       }
     ],
     "src/GameManagement/cDeathMatchParticipant.cpp": [
@@ -75523,6 +75964,26 @@
         "symbol": "?EnableCompletion@cMission@AI@@"
       },
       {
+        "address": "0x82459A38",
+        "size": 40,
+        "symbol": "?OnEnterComplete@cMission@AI@@"
+      },
+      {
+        "address": "0x8245A230",
+        "size": 348,
+        "symbol": "?ReplicateInitialFields@cMission@AI@@"
+      },
+      {
+        "address": "0x8245A4E8",
+        "size": 56,
+        "symbol": "?SetCompletionFlag@cMission@AI@@"
+      },
+      {
+        "address": "0x8245A520",
+        "size": 56,
+        "symbol": "?SetResetFlag@cMission@AI@@"
+      },
+      {
         "address": "0x82F86A90",
         "size": 40,
         "symbol": "??__EfPhysicsSimulationTick@@",
@@ -75579,11 +76040,6 @@
         "symbol": "??__EgRandGen@CHARACTER@@"
       },
       {
-        "address": "0x8303AF10",
-        "size": 4,
-        "symbol": "??__FgRandGen@CHARACTER@@"
-      },
-      {
         "address": "0x82F86C18",
         "size": 24,
         "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
@@ -75633,6 +76089,18 @@
         "address": "0x82F86D88",
         "size": 24,
         "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x8303AF10",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82458DA8",
+        "size": 92,
+        "symbol": "?IsA@cMission@",
+        "matching": false,
+        "note": "descriptor query; LTCG drops the unused this: the factory's out-of-line constructor does not emit the vtable. Plain EXACT, LTCG 21/23 words."
       }
     ],
     "src/Anim/cAnimationProfile.cpp": [
@@ -75800,6 +76268,11 @@
         "address": "0x824E04A0",
         "size": 80,
         "symbol": "??_GcAnimationProfile@Anim@@"
+      },
+      {
+        "address": "0x824E2370",
+        "size": 8,
+        "symbol": "??_EcAnimationProfile@Anim@@WBI@"
       }
     ],
     "src/PHYSICS/cStaticBody.cpp": [

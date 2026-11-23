@@ -4345,7 +4345,7 @@ src/Equip/Weapon/cCWWeapon.cpp
 src/cBoostPack.cpp
   atexit 0x8303F400   # script registrar for cBoostPack; registration table 0x82100494
   init 0x82FCC3B0   # script registrar for cBoostPack; registration table 0x82100494
-  text 0x8260ABB0 0x8260B178   # auto: cBoostPack; not in RuffKing; 12 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x8260B178): an object's thunks close its code, so the functions between belong to it too
+  text 0x8260AAA8 0x8260B178   # starts after cWeapon.obj's last adjustor thunk (2026-11-23): 0x8260AAE8 reads this object's g_GlobalConstants copy 0x831F4520, which its first header initializer 0x82FCC000 also reads, and 0x8260AB40/0x8260AB50 are cBoostPack's RetClass/IsA; auto: cBoostPack; not in RuffKing; 12 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 2 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x8260B178): an object's thunks close its code, so the functions between belong to it too
   init 0x82FCC318
   atexit 0x8303F3D8
   init 0x82FCC288   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -9777,7 +9777,7 @@ src/CHARACTER/cCharacterMotion.cpp
   init 0x82FAE0F0   # inheritance registrar: cCharacterMotion under cNetDynamicBody (StaticCreateClass 0x82687E38)
 
 src/Equip/Weapon/cWeapon.cpp
-  text 0x82609418 0x8260ABB0   # constructor/descriptor or registered-method evidence; contiguous cold code; source consolidation: RuffKing cWeapon.obj defines both cWeapon and cWeaponProjectile, as does its header; CD2 cWeaponPrototype::Init at 0x8260A790 reads this object's Ret_OK at 0x83838A28. The former projectile range and class initializers therefore belong to this same source object.
+  text 0x82609418 0x8260AAA8   # constructor/descriptor or registered-method evidence; ends at its adjustor thunks (2026-11-23: the code after them, from 0x8260AAA8, is cBoostPack.obj's); contiguous cold code; source consolidation: RuffKing cWeapon.obj defines both cWeapon and cWeaponProjectile, as does its header; CD2 cWeaponPrototype::Init at 0x8260A790 reads this object's Ret_OK at 0x83838A28. The former projectile range and class initializers therefore belong to this same source object.
   # Script-binding extension: RegisterMethods 0x826098C0 references the adjacent factories 0x8260A840/0x8260A8A0 and seven compiler-generated virtual member thunks through 0x8260AA80; next object cBoostPack begins at 0x8260ABB0.
   folded 0x8273D230   # shared const-bool member descriptor factory: weapon registrar references it four times; 59 direct callers across concrete registrars, identical 96-byte name/PMF/vptr construction proved in strict plain and LTCG checks
   # Former projectile range evidence: auto: cWeaponProjectile; RuffKing cWeapon.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-07 to the end of cWeaponProjectile::StaticCreateClass (0x8260A7A0), which its class-pointer initializer names

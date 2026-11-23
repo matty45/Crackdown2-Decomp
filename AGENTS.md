@@ -98,7 +98,7 @@ How to work:
 2. Work on one function at a time: claim it, write it from the assembly in `show`, `check` the file. Get the structure
    right first: calls, branches, loads and stores. Keep the file compiling at every step: a file that does not compile
    takes every matched function in it out of `verify`, not only the new one. A session can be cut off at any moment,
-   so before you stop, remove whatever is not exact.
+   so before you stop, remove whatever is not exact, unless you record it as work in progress (step 6).
 3. Read the `diff` findings and fix the **first** one; they are ordered from most to least fundamental. A wrong
    field offset is a header problem: fix the header, not the function.
 4. Floats: the game was built with link-time code generation. If a finding says "float constants: CD2 loads them the
@@ -106,11 +106,18 @@ How to work:
 5. When only register numbering or ordering differs, run `search`. Use `--apply` to keep its result.
 6. Stop when the function is exact, or when you run out of ideas. Do not distort correct source to raise a score: a
    change that improves the percentage without reproducing what CD2 does is not progress. If you showed a reusable
-   mechanism (a source shape that controls the code, with an A/B test), add it to `docs/matching-notes.md`; for a
-   function you could not finish, add one line to its "Open functions" list saying what is ruled out.
+   mechanism (a source shape that controls the code, with an A/B test), add it to `docs/matching-notes.md`. Record a
+   function you could not finish where `show` prints it for the next person, never in `docs/matching-notes.md`: if
+   its source stays in the file (real code that compiles, never fake), give it a manifest entry with
+   `"matching": false` and a short `"note"` (the score, what is reproduced, what differs, what is ruled out); if you
+   remove the attempt, add an entry to `docs/open-functions.md` under its file.
 7. When it is exact, add its entry to `config/matched_functions.json` (address, size, mangled symbol prefix;
    `"ltcg": true` if it is exact only under `--ltcg`), then run `py -I tools/cd2.py facts record`.
-8. Before finishing, run `py -I tools/cd2.py verify`. It must pass.
+8. Before finishing, run `py -I tools/cd2.py verify`. It must pass. It also links the whole program under LTCG,
+   where every file sees every other file's bodies: a function exact in `check` but not there (`py -I
+   tools/verify_ltcg.py build/cd2/orig/default_patched.exe --whole` lists them) usually names a callee CD2 had in
+   another form, an inline it did not expand or a library function it called (`docs/matching-notes.md`, "`verify`
+   also builds the whole program").
 
 `WRONG TARGET` means the bytes match but a call or global goes elsewhere than in the game: you called the wrong
 function, or used the wrong global or constant.

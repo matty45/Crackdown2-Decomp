@@ -2,8 +2,10 @@
 
 Read this before starting a file. It is a catalogue of reusable mechanisms: a source shape and the code it produces, or
 a trap and how to recognise it. Add an entry only for a mechanism you showed with an A/B test (one source change, one
-codegen change) that will help with other functions. What you tried on one function goes in "Open functions" at the
-end, in one line, and is removed when the function matches. History belongs in git, not here.
+codegen change) that will help with other functions. What you tried on one function does not go here: when its source
+stays in the file, it is a work-in-progress entry in `config/matched_functions.json` (`"matching": false` with a
+`"note"`); when you removed the attempt, it is an entry in `docs/open-functions.md`. `cd2.py show <address>` prints
+both. History belongs in git, not here.
 
 ## Shared bases
 - **The prop approach callback is inline in derived callbacks.** CD2 0x8274BB58 includes the
@@ -119,6 +121,7 @@ end, in one line, and is removed when the function matches. History belongs in g
   in plain and LTCG, preserving the faction profile's 31 checked functions. The profile initializes m_bReset
   in its body after the event-ID constructor.
 - **A parent-walk loop can come from tail-recursive fallback.** `cAnimationProfile::RetSpecificAnimationProfile` (0x824E1090) checks its own slot, then delegates to the parent's const overload. The compiler hoists the handler index and turns recursion into CD2's 16-instruction loop, exact in both modes. An explicit while loop with a cached result emits a 15-instruction conditional return instead; re-reading the slot at its final return emits 18 instructions. Preserve the recursive source rather than trying to force its loop's registers.
+- **Tail-recursive setters preserve body store order in the parent path.** `cMission::SetResetFlag` (0x8245A520, descriptive name ours) reaches 12/14 words with reset assigned before completion is cleared. Clearing completion first gives 14/14 in both builds, although the entry path still stores reset first. The differing loop stores can appear as a field-offset finding; both layouts are identical, and their `CD2_OFFSET` checks remain valid.
 - **Build a typed array range from its saved begin after setup calls.** In ORB::cSkillPickupManager construction (0x82756238), spelling the end as the member array plus its count hoists the adjacent random-generator address across five calls and saves an extra register. Keeping the array begin for memset, then creating a separate iterator and end from that begin after the calls, reproduces the target without changing the operations: 56/56 words in plain and LTCG builds. Reusing the saved begin as the iterator instead removes a move that CD2 retains.
 - **Enum registration objects keep the virtual Lua ABI visible to LTCG.** Character-state registration
   (0x82540308) is 22/22 words in a plain build when only the method exists, but LTCG removes unused `this`
@@ -402,7 +405,9 @@ end, in one line, and is removed when the function matches. History belongs in g
   4 `lwz` then 4 `stw`); the ambient spawner needed a declared GUID assigned with `=` (the header's inline
   `operator=`), not copy-initialized; `RWSGUID g = GetListGUID(list, i); LinkToObject(g);` puts the hidden-return
   temporary at the lower slot, while `LinkToObject(GetListGUID(...))` swaps them. A by-value GUID parameter is passed
-  in two 64-bit registers (`ld r4 / ld r5`).
+  in two 64-bit registers (`ld r4 / ld r5`). A GUID read from an attribute goes into a named local before the prototype
+  lookup: passing `it->GetAs_RWSGUID()` straight to it omits CD2's address reload (cSpawnPointBase::HandleAttributes
+  0x823D2B38 is EXACT in both builds only with the local).
 - String-id hash (inlined `GetStringID`): `int mult = <chain>; int id = 0; for (char c = *s; c != 0; c = *++s)
   id = id * mult + c;` with `mult` declared before `id`.
 - **A chain of early returns versus one `&&` return.** CD2's cVehicle::IsOkToInteract (0x826D6FC8) sends every failed
@@ -439,6 +444,34 @@ end, in one line, and is removed when the function matches. History belongs in g
   /OPT:REF link were tried on cGrenade's 0x8261E148), so a RegisterMethods with a single-use signature stays open; its
   source still makes the compiler emit the vcall thunks (`??_9<Class>@@$B<offset>@AA`) of the virtuals it registers,
   which match on their own.
+- **Typed script-method registration and shared pointer lists.** Weapon registrar `0x826098C0` passes native eight-byte
+  const-member pointers to 16-byte descriptor factories and inserts the resulting pointers into its first 12-byte list.
+  Taking the addresses of the actual virtual members emits the MSVC vcall thunks; never handwrite forwarding functions
+  for them. The descriptor has one virtual Lua invocation slot and no virtual destructor. A/B on the same registrar: a
+  declaration-only list insertion gives 103/122 words in plain and LTCG builds (the stack stores of the member-pointer
+  adjustment are scheduled differently); the full XDK `std::list` gives 122/122 plain words but inlines insertion into
+  the LTCG caller (2/122 there); the typed `cPointerList` adapter (`include/fun_runtime/pointer_list.h`), which models
+  the node construction, length check and links and keeps allocation and destruction external, gives 122/122 in both
+  with no rule findings. That proves the caller, not the insertion body, which is still unmatched; reference `cList`
+  derives from `std::list`, so the adapter is marked as an incomplete stand-in. The descriptor constructor initializes
+  the name in its base and the member pointer in its derived initializer list: moving the name assignment into the
+  derived constructor body reorders two stores (both 96-byte factories 22/24 words); base and member initialization give
+  24/24 in both builds.
+- **A clamped result goes into its own local.** cWeapon::IncrementClipAmmo computes the clamped amount into a separate
+  result with a conditional expression (`const unsigned int added = m_nCurrentClipAmmo + amount > maximum ? maximum -
+  m_nCurrentClipAmmo : amount; m_nCurrentClipAmmo += added; return added;`): EXACT in both builds. Clamping the `amount`
+  parameter in place changes the branch shape. The same form makes the other three ammo arithmetic methods EXACT.
+- **A Havok `hkBool` read through its real helper keeps the sign extension.** cLandVehicle's IsReversing and IsBraking
+  call the reference-named cCustomVehicleInstance helpers that return `hkBool` by value
+  (`bool(m_pVehicleInstance->IsReversing())`): EXACT in both builds. Converting the field directly omits CD2's sign
+  extension; changing `char` to `signed char` alone does not bring it back.
+- **Havok SIMD lengths: extract the dot product before `sqrtf`.** In cCustomVehicleInstance::calcMPH (0x82699F08)
+  converting `dot3` through `hkSimdReal` first emits a `stvewx` CD2 does not have; `length3` must extract the dot
+  product, take `sqrtf`, then construct `hkSimdReal`'s splat (the final float conversion does use `stvewx`). EXACT under
+  LTCG only. Its factor is the rounded 2.2369974f, not 2.2369363f.
+- **Copy a `Vec3` as a whole vector.** CD2's Vec3 storage is a single `__vector4`. The implicit assignment of our
+  scalar-view union expands into scalar copies; `Vec3::operator=` assigning `v = other.v` (`include/fun_runtime/vec3.h`)
+  keeps CD2's single vector copy and makes cCharacterControllerComplex::SetEffectsVelocity and SetADMOffset EXACT.
 
 ## Patterns by kind of function
 - **Header constants (the common initializer sequence).** About a thousand objects open their initializer run with
@@ -520,6 +553,12 @@ end, in one line, and is removed when the function matches. History belongs in g
   prototype constructor emits the table.
 - **`RetClassName`:** returns the class-id string; define `static const char *const pcXClassID = "X";` in the `.cpp`
   (constant-folded to lis/addi, no load).
+- **`RetScriptTypeRegistration`** (our name for cScriptHost slot 1, a three-instruction global-address getter): returns
+  the 0x24-byte script-type descriptor that 0x82772828 constructs (`include/fun_runtime/cScriptTypeRegistration.h`).
+  0x82772828 registers game classes and AI events alike, so the getter belongs to the registered child name: an AIE_*
+  getter is that event class's slot 1, an enum-name getter slot 1 of an enum registrar table a static initializer
+  installs. RetClassName, RetClass and these getters have the same size: classify each by the data it returns (a name
+  string, a cClass descriptor, a script-type object) and its slot (primary 11, registered-class 0, cScriptHost 1).
 - **`HandleAttributes`:** `for (RWS::CAttributeCommandIterator it(packet, pcXClassID); !it.IsFinished(); ++it)
   switch (it->GetCommandId()) { ... }`. A float attribute is
   `{ float mem = it->GetAs_float(); RwMemNative32(&mem, 4); m_f = mem; }`: the byte swap goes through the stack (stfs,
@@ -548,7 +587,8 @@ end, in one line, and is removed when the function matches. History belongs in g
 
 ## Middleware
 Middleware with published source lives in `src/middleware/<library>/` (each with a README), its rule waivers in
-`config/middleware.txt`, its compiler settings in `config/file_flags.txt`.
+`config/middleware.txt`, its compiler settings in `config/file_flags.txt`. XDK libraries stay linked from the pinned
+SDK: their proprietary implementations (including code derived from PNG, JPEG and zlib) are outside this scope.
 - **A library was not built with the game's flags: measure each candidate.** Compile every file of the library
   with a candidate setting, align the compiled functions (source order) with CD2's functions in the file's range
   (address order) by longest common subsequence of exact masked comparisons, and count. Measured (2026-11-08): Lua
@@ -630,6 +670,9 @@ Middleware with published source lives in `src/middleware/<library>/` (each with
 - **Extract versus mask for single bits.** Testing a bit in place (`(x >> 12) & 1`, `x & 0x1000`, or a bitfield read)
   gives `rlwinm rD, rS, 0, 19, 19` (mask). Converting it into a `bool` or `unsigned char` local first
   (`bool b = ((x >> 12) & 1) != 0;`) gives `extrwi rD, rS, 1, 19`.
+- **Reference builds can order bit flags differently.** cCharacterControllerComplex's three flag bytes (+0x300..+0x302)
+  use the reverse of the later reference's declaration order within each byte; reversing the groups made all its
+  predicates and SetIsInWater EXACT. Take each flag's bit from CD2's masks, not from the reference header.
 - **Recomputed values come from repeated calls.** CD2 computing `size()` twice, with `srawi.` for the test and again
   after a store that may alias, means the source called `size()` twice. A local `n` computes it once. `srawi.` instead
   of a mask test came from an `unsigned` pointer-difference `size()` with `if (size() > 0)`.
@@ -653,6 +696,25 @@ Middleware with published source lives in `src/middleware/<library>/` (each with
   remedy is the file's own code: once a constructor or placement factory that installs the vtable is matched in the
   file (`Pedestrian::SpawnFromPrototype` for `Pedestrian::IsA`), the virtual comes out exact. Keeping the vtable as a
   link root (`/INCLUDE`) does not help. `check --ltcg` shows such a function as `PLAIN ONLY`.
+- **`verify` also builds the whole program** (`py -I tools/verify_ltcg.py <exe> --whole`): every `/GL` game source
+  in one `/LTCG` link, where each file sees every other file's bodies, matched or not. Every matched function must be
+  exact there too. A function exact in `check` but not in the whole-program model differs because of a body another
+  file gives LTCG: an inline the caller's file did not see, or a callee CD2 resolved elsewhere. Neither side wins
+  automatically: find which declaration or body CD2 had (below), and when that stays open, mark the function
+  `"matching": false` with a note naming the callee.
+- **LTCG's inlining threshold depends on the size of the program.** c2.dll adjusts `-inlT` (104) by the IL size of
+  the link (+32 up to 50,000, down to -24 above 2,500,000), so the same call is inlined in a small link and not in a
+  large one. CD2's decisions fit only the smallest bracket's threshold (136): with c2's own threshold the
+  whole-program model left the by-name `cCharacterInterface::AddEquipment`, several class-body destructors and
+  `RetFirearmSkillLevel` out of line where CD2 expands them. Both models pass the threshold that gives 136 for their
+  size (`verify_ltcg.inline_option`); it belongs to the model link only, never to `config/file_flags.txt`. Call-site
+  counts are local estimates (a function's entry, half after a null check, ten times in a loop), not whole-program.
+- **A Havok call CD2 makes out of line can name the derived class's function.** `hkWorldObject` declares its own
+  `addReference`/`removeReference` (Havok's library copies at 0x82BD22E0 and 0x82BD2300), which hide
+  `hkReferencedObject`'s inline `removeReference() const`. Called on an `hkRigidBody`, `removeReference()` must reach
+  `hkWorldObject`'s: naming the base's inline gives the same per-file bytes, but the whole-program model then inlines
+  the base's body (cTruck::RemoveWedge). The linker keeps an IL COMDAT over a native library copy of the same name, so
+  a call CD2 makes into a library's copy of an inline cannot name an inline that some game file defines.
 - **Which file a function belongs to is decided by its address, not by what it looks like.** Outside the order-list
   region the linker lays out each object's functions contiguously, so every function inside a file's range
   (`config/splits.txt`) was emitted by that file's object. That includes another class's inline or template functions
@@ -729,506 +791,3 @@ Middleware with published source lives in `src/middleware/<library>/` (each with
   (`?vf304@cEquipment@Equip@@UAAXXZ`); after a rename the old spelling no longer exists and the data check reports
   the shared body "referenced under several names". Respell the alias in the same change, and rename only within
   the hierarchy that owns the slot (cCharacter's or cGrenade's `vf418` is another class's slot 418).
-
-## Open functions
-- **cHarpoonBolt::CheckForReplicationActivation (0x82628228):** ownership flag, authority, processed-fixup flag and character/body IDs are recovered. Direct early returns, equivalent nested conditions and a result variable do not reproduce CD2's branch layout (22 versus 24 instructions for the direct form); search finds no improvement, so the body remains removed.
-- **cGrenade::RetDamageRadius (0x8260AAE8, cWeapon.cpp):** returning this unit's `g_GlobalConstants.CONST_FLOAT_0` is byte-exact in both builds but WRONG TARGET: the existing weapon matches use 0x831F4454, while this getter reaches a distinct constants object at 0x831F4520; the probe was removed.
-- **cTODNotification constructor (0x82773E90):** separate counter increment followed by zeroing the day count reaches 19/28 words in both builds; counter postincrement in the initializer is 2/28, and search finds no improvement. Table slot 2 is script metadata (0x82773B18), not a virtual destructor; the header is corrected, but the constructor body remains removed.
-- **cTimeOfDay::IsA (0x82773B48):** forwarding to `ms_pcTimeOfDayClass->IsA(c)` is plain EXACT but LTCG 21/23 words; the body was removed and remains unpromoted.
-- `cEquipment::STATE_Active::Process` (0x82605950): the typed timer update, RetDeltaTimeSecs and idle transition are plain-exact with a 0.0001f threshold; LTCG gives 27/29 words. Zero is the wrong relocation value. Probe removed; remaining LTCG differences are not diagnosed.
-- Shared prop-state BeginState (0x8273F8D8): SetMotion(eMT_DYNAMIC), followed by a typed owner conversion and physical-state flag test, gives all 33 instructions but branches for the second base conversion where CD2 masks it. Probe removed.
-- `cStaticEnvironment::SetInstancePriority` (0x828094D8): a direct `old >= new ? old : new` maximum gives 15 instructions against CD2's 30; CD2 instead subtracts, compares with zero, indexes a boolean-to-float table and uses `fsel`. The probe was removed.
-- Water-zone deleting wrapper (0x827082A0) and water-profile factory/deleting wrapper (0x82697560/0x826976B0): out-of-line destruction adds an absent derived cleanup call; forceinline destruction is not emitted without a visible constructor. The water-profile factory has five extra saved-this instructions because CD2 uses the base constructor's returned r3 (the same cross-module LTCG dependency as surface-profile factories). Probes removed.
-- Enum writers `cMovementTypeScriptRegistration::RegisterValues` (0x823EECB0) and `cAttackStateScriptRegistration::RegisterValues` (0x823EF120): direct Lua literal/float/settable sequences produce the correct operations, but plain builds miss CD2's saved constant-base register and official LTCG checks remain nonexact. Probes removed; investigate the original constant-pool context before retrying these shapes.
-- `cBody::GetLocalAABB` (0x82683EE8): direct component construction gives 25/26 instructions with different load/store order and folded prototype offsets. A reference-named Vec3TohkVector4 helper using mutable SIMD components emits a different sequence. Both probes removed; recover the original reference-taking conversion before retrying.
-- `cLandVehicle::RetSteeringMaxAngle` (0x826C4900): the typed steering query and CONST_FLOAT_1 fallback are byte-exact, but the function reaches a different g_GlobalConstants copy from RetEngineDamage and IsA in the same source file. Probe removed pending recovery of the original constant ownership.
-- `cAgencyTank::SetupTurret` (0x82700238): typed turret/prototype fields and a Vec3::Set temporary give all 28 instructions but 18/28 words (register numbering differs); standard search finds no improvement. Reference by-value SetCrosshairOffset introduces absent copy/frame work. Probe removed; checked layouts and exact Init/Reinitialise wrappers remain.
-- `cGodRaysAddRaysShader` deleting wrapper (0x82796B18): singleton-clearing inline/forceinline destruction is not emitted without its constructor; an out-of-line destructor emits a separate derived cleanup call instead of CD2's direct base call (5/26 words). Destructor probe removed.
-- `cGangInfo` constructor (0x826779A8): named reference fields and four population-block memsets give 63/65 words in plain and LTCG; only the saved-this move shifts one instruction early. Scalar initializer-list/body forms, the reference-named ClearPopData helper, data-block alignment and standard search do not change it. Constructor probe removed; its descriptor factory and RetClass getter are promoted independently. The deleting wrapper is EXACT with an inline empty destructor, but is not emitted without the constructor.
-- `cPulseRiflePrototype::HandleAttributes` (0x8260FFA8): typed profile, double tan and half-angle conversion give 321/323 LTCG words. The comparison uses plain switch offsets 0x8C..0xC8 even though the LTCG pool anchor shifts the table to 0x90..0xCC; the unchanged comparison API with those actual offsets gives 323/323. Official check remains nonexact, so the body and claim were removed pending a maintainer tooling fix.
-- `cPulseRiflePrototype` constructor (0x8260FEA8): whole-profile memset followed by typed defaults and one shared double-tan result gives 12/63 LTCG words; pool/register scheduling remains different. Probe removed; the CD2-evidenced profile layout stays.
-- `cAnimationProfile::RetSpecificAnimationProfile` mutable overload (0x824E10D0): CD2 expands two profile checks before calling the const overload. Direct delegation, explicit const-parent fallback, inline and forceinline forms retain a shorter tail-branch sequence. Probe removed; the const recursive overload at 0x824E1090 is exact independently.
-- Animation sequence-map construction (0x824E1288, cAnimationProfile.cpp): a natural out-of-line cMap constructor calls the SDK tree's _Init instead of expanding its 35 target instructions. Its body/claim were removed; the declaration-only wrapper preserves the independently exact specific-profile constructor and factory.
-- `std::vector<float, cAllocator<float> >::resize` (0x8277F5B8, cSplineController.cpp): one-argument SDK instantiation retains a 12-byte forwarder to the two-argument form (152 bytes); CD2 instead has a 160-byte zero-default expansion. Public float copy/copy_backward/fill_n helpers match independently; resize probe removed pending the original inlining context.
-- `ORB::cSkillPickupProfile` constructor (0x82756D70) and deleting wrapper (0x82756E88): checked full field layout/default constants; initializer-list versus body assignments and Vec3::Set leave LTCG pool/register differences. Inline singleton-clearing destruction reaches 17/26 words in both modes; forceinline does not change it, while an out-of-line body adds an absent call. Probes removed.
-
-- `cAgressiveResponsePilotBehaviour::IsA` (0x824D0BA0): the descriptor query is plain EXACT, but LTCG removes unused this (21/23 words). The placement factory calls the out-of-line constructor, so it does not emit a live vtable; probe removed pending the complete pilot interfaces/layout.
-
-- `cWaterProfile` factory/attribute handler (0x82697560/0x82697740): typed 0x2C water settings and case order 0..4,6..8,5,9,10 give 216/219 plain handler words; LTCG hoists its shared float pool into an extra saved register. The expanded cWave::Setup also reads another object's g_GlobalConstants. Factory keeps the allocation pointer across its base constructor, adding five instructions; probes removed. Its inline empty destructor and design-build override preserve the existing IsA's virtual ABI (23/23 words in both modes).
-
-- `cMission::IsA` (0x82458DA8): the shared class-bitset test is plain EXACT but LTCG removes the unused this parameter (21/23 words). The out-of-line-constructor factory does not emit its vtable; probe removed pending real construction/destruction.
-
-- `BillboardProfile` factory/destructor (0x829128E0/0x82912A10): three typed vectors, reserve(9) on the first two and XMemSet of the strength-level array give a plain-EXACT factory; LTCG gives 16/52 words. Destructor singleton clearing leaves four scheduled stores/moves different (35/39 words); probes removed.
-
-- `cCharacterGlobalDlcProfile` factory/deleting wrapper (0x82552490/0x82552590): reference field block matches CD2's initialized offsets and size 0xA8. Literal defaults and a reference-named SetDefaults helper leave constant-hoisting/store-order differences (best 26/59 LTCG words); inline versus out-of-class forced-inline singleton-clearing destruction both give 17/26 words. Probes removed; typed layout retained.
-
-- `cSurfaceProfile::MakeNew` (0x82695F98): adding the reference packet parameter to the explicit forced-inline constructor leaves the same saved-object-register/vptr-store mismatch (37 instructions versus CD2's 32). Implicit default construction instead leaves a constructor call. Original source restored; no promotion.
-
-- `cGameDamageProfile::HandleAttributes` (0x825560A0): four float cases and creation-packet test agree, but shared GUID registration passes handler/GUID/object instead of CD2's GUID/object-reference insertion at 0x82886380 followed by m_GUID assignment (112/130 words). Requested the shared inline operation from its header owner; probe removed.
-
-- `cExplosivesSkillProfile::MakeNew` (0x827530D0): typed shared base/string/event layout gives 38/48 words with forced-inline construction; initializer-list versus body assignment is identical. CD2 stores the primary vptr through the base constructor's returned pointer before the secondary tables; the current compiler schedules that store through the saved object pointer. Ordinary inline leaves a constructor call. Probe removed.
-
-- `cFaceTargetScriptRegistration::RegisterValues` (0x823EEF80): recovered keys and values 0, 30, 90, 181; CD2 anchors its float reads at 0x820F7680, outside the current LTCG pool model. Literal source loses the preserved base register; probe removed, unpromoted.
-
-- `cMovementTypeScriptRegistration::RegisterValues` (0x823EECB0): recovered Lua keys/values/order; literal source emits 58 instructions, CD2 has 60. CD2 anchors 0 and 3 through 0x820F2444, outside the current LTCG pool model; plain and LTCG probes removed, unpromoted.
-
-- `cSpinningPropPrototype::HandleAttributes` (0x8273F628): typed attribute loop and runtime `Pi2 = g_GlobalConstants.CONST_FLOAT_PI * 2` give 72/72 code words in plain and LTCG, but both builds leave `Pi2` zero while CD2 initializes it to 2*pi. Literal 2*pi hoists into f31 and changes the body. Data checks correctly reject the runtime-initializer probe; removed, unpromoted.
-- `cPlayerTriggerBase` constructor (0x8280DB80): reference box/vector layout and `reserve(1)` reproduce the stores and call, but inline box scale-from-ZeroVec plus shared Mtx initialization gives only 7/79 LTCG words (77 versus 79 plain instructions); GUID-store scheduling and box/matrix address calculations still differ. Constructor probe removed.
-- `cLoadStream::Read` (0x82767390): the typed reader with separate chunk/buffer checks gives 39/39 words in plain and LTCG, but adding it as a matched dependency changes `cVOAZone::Load` from 32/32 to 2/32 LTCG words; `noinline` on Read does not restore the caller. Probe and reader claim removed; the whole-program caller context remains unresolved.
-- `cSpinningProp::Term` (0x8273EE70): inline reconstructed `cStateMachine::GoTo_State(0)` plus `cPivotBasedProp::Term()` gives 22/22 words in plain and LTCG, but exposing that helper body changes existing folded `GoToSpinningFreeState` and `GoToSpinningClockWiseState` from 17/17 to 2/17 LTCG words; probe removed, helper visibility remains unresolved.
-One line each: what is ruled out. Remove the line when the function matches.
-- `Equip::cWeapon::ProcessReloading` (0x8221BF38): the typed timer decrement and idle transition have the right structure, but CD2 keeps this in r3 across its delta-time call (0x827671D0), where the current plain/LTCG model uses r31 and restores r3. The callee is unmatched and therefore correctly remains opaque to LTCG; reconstruct and match it before retrying. Probe removed.
-- `Equip::cWeapon` constructor (0x82609AA8): typed own fields and the shared Mtx default identity constructor give 20/63 words in plain and LTCG. CD2 retains a matrix-address calculation, reverses the live zero/one constant registers, and schedules its timer literal later. Constructor probe removed; its placement factory and both destructor forms are EXACT independently.
-- cTODNotification constructor (0x82773E90): typed fields/event ID and a body assignment for days-passed give 19/28 words in plain and LTCG; initializing days-passed in the member list gives 17/28. Early this/vptr scheduling differs, standard search finds no improvement, and removing the registered-class base changes no code. Constructor probe removed.
-- Enum value registration at 0x823EECB0: direct Lua pushlstring/pushnumber/settable calls have the right call sequence, but CD2's split float anchors and preserved-register frame differ under plain and LTCG checks; search did not resolve them. Probe removed.
-- `AI::Pedestrian` deleting destructor (0x824A8E68): shared by cPedestrianBase, Pedestrian and PedestrianGuard (slot 0 of 0x8200B1F8, 0x82108DB0, 0x8200AE78); its callee 0x824A8EB8 is the implicit `~cPedestrianBase` (Pedestrian.obj's COMDAT copy, now matched). With implicit destructors `??_GPedestrian` is plain EXACT, but the single-file LTCG model inlines `~cPedestrianBase` into it (5/20 words) where CD2's whole-program build kept the call; left out until the model sees its other callers.
-- `PHYSICS::cSurfaceProfile::MakeNew` (0x82695F98), `VFX::cVFXSurfaceProfile::MakeNew` (0x827CCBD0), `unknown::cOutlines2::MakeNew` (0x827A4000): recovered cNonGameBase hierarchy gives EXACT deleting wrappers and IsA methods, but factories retain this in r31 instead of using the base constructor's return in r3 under plain and standard LTCG builds (same cross-module constructor-return issue as the crowd/streaming factories).
-- `GameManagement::cGameModeSpawnPoint::MakeNew` (0x8284D6F0): identity-matrix initialization has the correct stores, but misses CD2's matrix-address calculation; an inline `SetIdentity` helper, including its reference return, and standard source search did not restore it. Destructor is EXACT.
-- `Prop::cGasCanister::MakeNew` (0x82743708): reconstructed the prototype's identity matrix and defaults; forcing the constructor inline restores its stores, but plain and standard LTCG checks remain 32.8% because the constant loads and scheduling differ. Standard source search found no improvement. Moving the scalar defaults into the constructor body and routing matrix construction through the reference SetIdentity helper produce no codegen change (both experiments reverted).
-- `Billboard::BillboardData::HandleAttributes` (0x829115D0): recovered resource-map lookup and event-string assignments; the standard compile inlines string construction where CD2 calls it, while CD2 inlines GUID-map insertion and stores the GUID where the shared header still calls AddEntityToMap.
-- `UI::ApplyGamma` (0x82897B38): the recovered `(32 - float(value - 1)) * 2 * 0.03125` formula folds the two multipliers together even under the standard LTCG model; CD2 retains both multiplies and multiple constant bases.
-- `UI::cUIControl::~cUIControl` deleting wrapper (0x82897FF8; 24/32 words): corrected the Load/Save-only secondary interface and inlined the destructor; the save-manager load still follows the vptr stores, unlike CD2. A local manager copy and both singleton/unregister statement orders do not resolve it.
-- `UI::cUIControl::cUIControl` (0x82897EC0): restored options registration and the 3-second autosave display default; the standard compile still saves registers for its scattered float constants and schedules the callback stores differently.
-- `cGameModeArena::GetRandSpawnPointInList<T>` (0x8284EC80, 0x8284ED60; 48/55 words): CD2 tests the size with
-  `srawi. r8,r10,2; beq`, then recomputes it for the `Rand` argument. Ruled out: a size local, const-reference or
-  64-bit bounds and indices, real `std::vector` indexing, modulo and Rand-local variants, an early-return size test,
-  a result local, a signed `operator[]` index (no change) and a signed `size()` (worse). The instructions and their
-  order are identical; only the allocator's choice differs (CD2 reuses r9 for the data pointer, ours takes r4).
-- `VEHICLE_CONTROL::Flatten2D` (0x82782D70; 16/29 words under LTCG): the `fmadds`/`fmuls` operand order. Ruled out:
-  square temporaries, sqrt and powf variants, signed products, double intermediates, /fp:precise and /fp:strict. The
-  written order of the two sums makes no difference (/fp:fast reorders them and merges the second into the first),
-  nor does testing the stored `out[]` values, declaring `x` before `z` (worse), or /fp:precise or /fp:strict with
-  either order (worse), `#pragma optimize("g", off)` (0%), `__fsqrts` or a double `sqrt` (no change), inline
-  (Later: an `if (normalise && x * x + z * z < 0.01f)` form with an `else if (normalise)` reaches 91.7% by objdiff, but `check` scores it 45.2% (plain and LTCG): the second normalise test is compiled in. An early `if (!normalise) return;` with the sums in either order recomputes nothing and scores 75.7%; swapping the operands of `x * inv` changes nothing.) helpers reading `out[]` (worse), and a length helper in another file under LTCG (not inlined under /Ob1). CD2
-  computes the two sums separately, in opposite orders. Best lead (91.7% by objdiff): `if (normalise && x * x + z * z
-  < 0.01f) { zero } else if (normalise) { normalise }`. The square-root sum is then not available on every path, so it
-  is computed again exactly as in CD2. But our build, plain or LTCG, keeps the second `normalise` test, which CD2 does
-  not have, and the test squares z first where CD2 squares x first. Also ruled out: by-value and struct-copy
-  helpers, a three-component length with y = 0 (loses the fmadds), a conditional expression for `inv`,
-  /O1, /O2, /Os.
-- `AI::cChaseBehaviour::Update` (99%): one compare, `cmpwi` in CD2 against our `cmplwi` on the word at `+0x4E4`; the
-  field's type is the lead. `if ((int)reg && ...)` reproduces it but is a pointer turned into an integer (R4); it was
-  matched that way once and removed (2026-11-08). The word is also dereferenced (`lbz 0x37`), so it is a pointer
-  stored in a field whose real type compares as signed. Chase F37 (0x824CEB38) needs a shared float-constant base
-  register (LTCG limit).
-- `cCrowdZoneDataHolder::MakeNew` (0x8244A770) and `cStreamingDataHolder::MakeNew` (0x8244C010): `new` of a
-  field-less cNonGameBase whose constructor CD2 inlines, then stores the vptrs through r3, the base constructor's
-  return value. That is cross-module LTCG inlining (CD2 knows the constructor returns `this`); a plain compile keeps
-  `this` in r31 even with `__forceinline`, and the LTCG model does not inline the constructor.
-
-- `AI::cAiPlayer` physical virtual slot 62 (0x823E7A38): two `RetCharacter()` calls around a null guard collapse to one load and 12 instructions instead of CD2's 18; the second safe-pointer conversion needs original helper evidence. Probe reverted.
-- Patrol-event factories (`cFreakExplodeEvent`, `cFreakSniperEvent`, `cReaperJumpEvent`, `cReaperPropAttackEvent`): corrected shared RWS bases and the 0x90-byte layout; still 5 extra instructions because CD2 uses the return of cBasePatrolRouteEvent's constructor directly, while the standard build retains this in r31. The base constructor at 0x824BFA80 is not in a scaffolded split, so it cannot be promoted as a matched LTCG dependency.
-- Shader deleting destructors (representative 0x82791E38): an out-of-line singleton-clearing destructor gives
-  19.2%; an inline destructor is not emitted without a construction/vtable use. Do not add an artificial use to
-  emit it. Shader constructors also encode an object-derived integer ID; recovering that interface is separate
-  work under R4. Destructor probe reverted; the 38 callback/getter pairs are promoted independently.
-- Runtime inheritance registration: 133 more 104-byte initializers match using the shared cInheritanceRegistrar.
-  The remaining 12 in this family need individual missing parent/child type and hierarchy recovery; the two
-  cVector push_back calls followed by RecursivelyAddParent are already identified.
-- Spawning-registration remainder: the distinct 80-byte cGrappler initializer (0x82FD3740) needs its missing class/base declarations recovered. All 117 initializers in the 72-byte family are EXACT; their atexit functions are outside claimable scaffolded splits.
-- Equipment hierarchy follow-up: CD2 constructors confirm cEquipment : cNetDynamicBody + cStateMachine,
-  cWeapon : cEquipment, cCWWeapon/cGrenade : cWeapon, cCWHeavyWeapon : cCWWeapon,
-  cCloakingDevice/cExplosiveGrenade : cGrenade, and cCWSatchelCharge : cExplosiveGrenade. The explosion callback
-  is at +0x9C0 in cExplosiveGrenade. These shared declarations unlocked 13 more inheritance initializers and the
-  final 3 spawning initializers. Descriptor bodies at 0x822E5B60/0x8262FE78 are outside claimable scaffolded splits;
-  keep their declarations and do not put their bodies in a neighbouring source file.
-- Script metadata getter lead (38 registered script-type objects, 81 name strings and 2 other pointer targets
-  in a scan of 121 12-byte global-address getters): representative 0x824556F8 returns
-  the 0x24-byte object initialized by 0x82F85E30 through 0x82772828 with child/parent script-type names. This is
-  cScriptHost virtual slot 1, currently unnamed; recover the shared metadata interface and actual class ownership
-  before adding more getters. The historical byte-global/GetPtr stand-ins were removed on 2026-11-06. A class's own
-  getter is its `RetScriptTypeRegistration` override, slot 1 of its cScriptHost table (cAiPlayer, cCharacterEntityIF
-  and cCharacterInterface are matched that way; cTimeOfDay uses its recovered cScriptHost base). The AIE_* getters are the
-  event classes' own slot 1, in tables their constructors install. The enum-name getters are slot 1 of enum registrar
-  tables that static initializers install.
-- Class-query batch: 64 class-name getters and 26 RetClass descriptor getters are EXACT. Classification needs
-  both target data and virtual-slot evidence: name strings at primary slot 11 identify RetClassName; descriptor
-  loads at registered-class slot 0 identify RetClass. The same three-instruction size also includes script metadata
-  and enum-name getters; it does not establish ownership or return type by itself.
-- IsA batch: cCrowdZoneDataHolder (0x8244A810) is EXACT in plain and LTCG builds. The former
-  cFactionConfigData attribution at 0x82676298 was removed: IDA identifies cFactionInfo instead. cRefractor (0x826105F0) and the existing FreakBase body (0x824ABBB0) are plain EXACT but 21/23 under
-  LTCG without a live vtable; do not promote them. cCharacterInterface (0x8254E7B0) reads the shared
-  g_GlobalConstants copy 0x830ACBD8 beside its file's 0x830C0E04; the relocation gate accepts that shared copy, and it
-  is matched. The cRefractor probe was reverted; FreakBase's pre-existing body is unchanged.
-- Placement-factory batch: 26 guarded 24-byte factories are EXACT in both builds using placement new and the
-  CD2 constructor ABI that takes only this. Later reference constructors take a prototype argument, but the CD2
-  factory does not forward one. Constructor chain evidence restored the shared AI and equipment bases; the
-  cNPCArmourySetup attribute tag is an empty global type in RuffKing, not an invented padding base.
-  cVehicle, cLandVehicle and cHelicopter's factories are now EXACT on the recovered vehicle chain (cVehicle :
-  cNetDynamicBody + the three prop interfaces; cLandVehicle, cWheelGroup, cCar). cTruck, the agency and transforming
-  vehicles still use flat stand-ins.
-- Descriptor ownership correction: 0x82676288/0x82676298 read the cFactionInfo descriptor (ID 1038, size 0x220),
-  installed by cFactionInfo's constructor 0x826766E0 at +0x14. They are not cFactionConfigData methods; the prior
-  misattributed IsA manifest entry and source were removed. Likewise, 0x827FA5E0 belongs to cLinkedVFXSpawner
-  and 0x82802398 to cBeamManager. Do not name folded helpers after the source file.
-  Six further RetClass getters with confirmed matching descriptor names are promoted independently.
-- Script metadata classification: 0x82772828 registers both game-class and AI-event descriptors. Getter ownership
-  must follow the registered child name: for example 0x824D82C0 is AIE_SQUAD_TARGET, not Squad;
-  0x82676318 is AIE_GANG_ENFORCER_LEVEL_CHANGED, not cFactionConfigData. The descriptor getters in the
-  equipment, camera, hinged-prop and world-manager files remain candidates once the shared metadata interface
-  is recovered. Targets 0x834146C4 and 0x82274520 are not registered script-type objects in this scan.
-- Prototype Init batch: 18 slot-5 CAttributeHandler::Init overrides return the file-local Ret_OK object and
-  check EXACT in plain and LTCG builds. Prototype ownership comes from the MakeNew constructor that installs
-  the table. Shared interface declarations follow the reference prototype chain from cNonGameBase/cGameBase
-  through cBody/cDynamicBody and equipment/weapon/grenade variants. These declarations do not establish
-  instance fields or allocation sizes; do not use their incomplete sizeof values in factories.
-  Remaining candidates need vehicle/character prototype recovery or reconciliation of the existing namespace-level
-  cHWProjectilePrototype with the reference nested type; do not create a second definition for it.
-  Follow-up: 14 additional prototype Init overrides are EXACT in plain and LTCG builds, using the recovered
-  vehicle prototype interface chain and constructor-confirmed equipment, character and prismatic-prop bases.
-  Where no reference names a prototype, its descriptive name is explicitly ours. These interface declarations
-  do not recover complete instance storage. The remaining BeaconMission slot-5 body increments a halfword,
-  rather than returning Ret_OK; the heavy-projectile nested/namespace-level type conflict remains unresolved.
-- Mission inheritance batch: 8 additional 104-byte initializers are EXACT in plain and LTCG builds after
-  restoring cMissionBase's standalone mission interfaces, cMission, and the child mission bases. Shared Load/Save
-  declarations now live in SaveGame/cLoadSaveObject.h; the UI interface is unchanged. Named inherited-field checks
-  establish the mission interface offsets, not the complete instance storage or sizes for allocation. Those fields
-  and the pre-existing constructor/factory WIPs still require individual recovery.
-- Script registrar batch: 41 typed registrars give 82 EXACT initializer and cleanup functions in plain and LTCG
-  checks. CD2 0x82772828 constructs their 0x24-byte descriptor with child/parent names and two lists;
-  its base table has two slots (destructor and method registration). The following table belongs to
-  a method wrapper, not a third registrar virtual. The template name is ours. Ten concrete tables
-  fold to 0x82100494; the initializer stores establish the alias group. The remaining 135 descriptors
-  need their event/standalone C++ types identified before instantiating this template; do not invent tag types.
-- Split follow-up: newly owned shared-base methods add 14 EXACT StaticCreateClass bodies, 14 class-pointer
-  initializers and 10 registered-class RetClass getters. CD2 descriptor names/IDs/sizes and slot-0 tables
-  establish ownership. Initializer 0x82FDFAE0 belongs to cDynamicBody, correcting its old cBody attribution.
-  cInterestingObject still needs its actual instance bases before adding virtual getters to its stand-in.
-  cGameBase::RetClass (0x824CDC40) and cScriptHost::RetClass (0x823E5800) are byte-exact probes but lie
-  outside both the order-list region and their classes' cold ranges; excluded until their surviving COMDAT
-  copies' actual source ownership is established. Do not disguise cold code as a hot split entry.
-- Folded-table follow-up: cGasCanister's constructor (0x82743828), cLaunchPadTargetLocation's constructor
-  (0x82714450) and BillboardData::MakeNew (0x82911410) are promoted after declaring their observed inherited
-  vtable aliases. The gas-canister factory and Billboard attribute handler remain partial.
-- `VFX::cBloom` destructor (0x827919B8, 76.5%; LTCG 17/34) and MakeNew (0x827918C8, 19.5%): body `g_pBloom = 0;
-  UnLinkMsg(RWS::iMsgRunningTick);` has the right instructions, but CD2 stores the primary vptr first and the global
-  between the +0x30 and +0x38 vptr stores; `search` found nothing. Deleting destructor and IsA are EXACT.
-  `Audio::cVOAScheduler` destructor (0x82837050, 35/36 words) has the same symptom: CD2 restores cDebugPageHandler's vptr
-  before clearing ms_pInstance. Defining the global in its own file (as RuffKing does) changes nothing in either.
-- The cStickler/cMag placement factories still need recovery on the shared satchel hierarchy.
-- `AI::Scrounger` constructor (0x824BABB0): FreakBase's constructor then `m_eAttackBone(eSB_RightHand)` (RuffKing, at
-  0x120); the size check needs FreakBase 16-byte aligned, i.e. the flat NPCBehaviourSM stand-in rebased on NPCBehaviour.
-- Script metadata getters: 17 further cScriptHost slot-1 getters are EXACT in plain and LTCG builds using the
-  existing typed script registrars. `RetScriptTypeRegistration` is our descriptive name; the returned objects are
-  the 0x24-byte descriptors constructed by 0x82772828, not runtime cClass objects. Manager constructor/destructor
-  evidence recovers cCameraManager : cNonGameBase and cScriptManager/cZoneManager/cWorldManager : cNonGameBase,
-  cDebugPageHandler (+0x7C); their later reference builds can have different bases. Remaining flat stand-ins need
-  their own hierarchy recovery before adding overrides.
-  Follow-up: the remaining three candidates (cVirtualCamera, cStaticInterestingObject and cPopulationZone) also
-  check EXACT in both builds. CD2's constructors establish cVirtualCamera : cGameBase, cDebugPageHandler (+0x120),
-  cInterestingObject : cScriptHost (size 0x40), cStaticInterestingObject : cInterestingObject, CAttributeHandler
-  (+0x40), CEventHandler (+0x58), and cPopulationZone : CAttributeHandler, cZone (+0x18). cZone is a cScriptHost
-  plus a narrow cStringc at +0x1C, size 0x38. The latter two classes are standalone script objects rather than
-  members of the cNonGameBase hierarchy. Their two inheritance registrations are independently EXACT.
-- Allocation-factory follow-up: 14 more guarded 68-byte factories are EXACT in plain and LTCG builds, using the
-  observed allocation size and an out-of-line constructor declaration. Unrecovered instance fields stay opaque;
-  allocation sizes are checked against both the factory and descriptor/registrar, not inferred from the bases.
-  cNetGameAISpawnPoint and cNetGamePickupSpawnPoint call the shared cNetGameSpawnPoint constructor (0x8284D908).
-  cRenderToTextureManager calls cNonGameBase. cVOAScheduler needs its real HandleEvents override declared to be
-  concrete. cCameraManager/cCharacterAnimSetManager/cRenderToTextureManager IsA probes remain 21/23 under LTCG
-  without their destructor definitions and were reverted at that stage. cGenVehicleProfile::IsA is 23/23 under
-  LTCG with its reference's inline destructor declaration. See the manager-cleanup follow-up below.
-- Manager cleanup follow-up: cZoneManager's destructor, deleting wrapper, IsA and six interface thunks are EXACT
-  in plain and LTCG builds. The pointer at +0x80 owns the population-zone pool; its observed table starts with
-  cDebugPageHandler's registered-class entries and destructor slot 2. cPopulationZonePool is our descriptive
-  interface name, not an allocation layout. cRenderToTextureManager's IsA, deleting wrapper and three thunks are
-  also EXACT after recovering its eight-byte POD vector at +0x88; the element/field names are ours. Destructor
-  0x827A9EA8 remains 26/35 words because CD2 interleaves its singleton clear with vptr restoration and the vector
-  load; search found no improvement. cCameraManager uses the shared pointer-list destructor at +0x7C and +0x160,
-  unlinks iMsgRunningPostTick/iMsgPausedPostTick, and clears its singleton; the inline cleanup makes IsA EXACT
-  under LTCG, but its deleting wrapper is not emitted without its constructor body.
-- cGenVehicleProfile's constructor restores the 26-entry VFX array to -1, clears the four 12-entry damage arrays,
-  and sets the AI gear-change ratio to 0.6. Attribute cases distinguish the reference-named arrays. The typed
-  constructor has the correct loop bodies but keeps this in r31 rather than the base constructor's returned r3;
-  search found no improvement. Its deleting destructor and three adjustor thunks are independently EXACT in both
-  builds with the constructor body present; the constructor itself is not promoted.
-- `VFX::cParticleEffectResourceHolder`: RuffKing's cParticleEffectResource.h contains this class too; CD2 confirms
-  cNonGameBase, a cVector<const char *> at +0x7C and priority at +0x8C. RetClass, IsA and the deleting wrapper are
-  EXACT. Destructor 0x827EEB98 is 45/50 words (five register differences in the repeated vector size test);
-  MakeNew 0x827EDB88 retains r31 where CD2 uses the base constructor's r3. Default versus packet constructor
-  signatures and search do not resolve either. Descriptor factory 0x82349300 and initializer 0x83009930 are
-  outside the scaffolded split, so their bodies remain undefined here.
-- Network spawn-point cleanup: cNetGameSpawnPoint's destructor and deleting wrapper are EXACT in both builds
-  with the reference-named arena string at +0x60 and arena index at +0x7C. Its constructor (0x8284D908) remains
-  partial: CD2 retains a matrix-address calculation absent from the typed identity initialization; search and
-  an inline SetIdentity helper do not improve it. cNetGameAISpawnPoint's RetClass, IsA and deleting wrapper,
-  plus cNetGameAIVehicleSpawnPoint's RetClass and IsA, are independently EXACT. An implicit AI-spawn destructor
-  omits the derived primary-vptr restoration; declaring an inline empty virtual destructor adds precisely those
-  three instructions. The shared GUID-handler guidance is therefore not universal. The AI constructor and
-  vehicle factory retain r31 where CD2 uses the base constructor's returned r3; search found no improvement.
-- cScriptManager's deleting wrapper is EXACT in both builds. Constructor/destructor evidence establishes
-  32 cStringc entries at +0x80 and the search-path vector at +0x418. Destructor 0x827705D8 remains partial:
-  the compiler's vector-destruction helper passes allocator/tag arguments absent from CD2's two-argument helper,
-  and the stack frame and singleton/vptr scheduling differ. Standard and Fun_Runtime allocators and search
-  do not resolve this. Its RetClass/IsA targets are outside the scaffolded split and remain declarations only.
-- Vehicle chain follow-up: cVehicle's destructor (0x826CE0E8) is the only in-file function that installs its table; it
-  needs typed members (m_VehicleAudio 0x7D0, safe pointers 0xD08/0x10E0/0x10F0, seats 0x11B0, turret vector 0x1410,
-  string 0x15C4; see Vehicle/cVehicle.h). cLandVehicle's small virtuals (slots 326, 327, 353, 354, 359, 363, 364) read
-  the Havok vehicle instance at 0x1DA4 and wait for that type (PHYSICS::cCustomVehicleInstance).
-- `cGrappler.cpp` (0x82631A38..0x82634920): its code is unoptimized (`StaticCreateClass` 0x82631B40 spills every
-  temporary to the stack; 0x826320A8 stores its arguments to their home slots), so the object was not built with the
-  game's `/Ox`. Its MakeNew, RetClassName and initializers are untouched until that file's flags are established.
-- Game-mode prototype factories: the recovered cGMMResource/cGameModePrototype/cPvPGameModePrototype chain makes
-  the 112-byte cRooftopRace, cRoadRace and cTeamHunterGatherer factories byte-exact in plain and LTCG checks.
-  Their constructor stores establish the CEventHandler table alias group at 0x8215B180; the three factories are
-  promoted with that alias declaration. cTeamATVAssault instead calls cATVAssaultGameModePrototype's constructor
-  at 0x8287B358 and uses table 0x8215F738; its factory is independently EXACT and promoted.
-- cHunterGathererGameModePrototype constructor (0x8287E2B0): typed initializers and a flag initializer followed by
-  body assignments leave float-anchor and vptr-store scheduling differences; a bounded search found no improvement.
-  Its implicit deleting wrapper (0x8287E350) is independently EXACT with cPvPGameModePrototype's implicit destructor.
-  The three aggregate getters at 0x8287E280..0x8287E2A0 remain unidentified: Burn's Fun_Runtime::RGBA produces byte
-  copies rather than CD2's word copy, so that return-type probe was removed.
-- Shared PvP prototype follow-up: CD2's constructor and the four adjacent limit/timeout getters establish the
-  narrow cPvPGameMode.cpp range 0x8283E2C8..0x8283E380. All five functions are EXACT in plain and LTCG checks.
-  A/B: CRT memset expands into inline stores/loops for the six-entry arrays; XMemSet preserves CD2's two external
-  fill calls and makes the constructor byte-exact. Relocation validation independently fixes all three scalar
-  defaults to zero. The reference cGameModeArena stand-in's cGMMResource is consolidated into the shared typed
-  resource header; all eleven existing arena matches remain EXACT in both builds.
-- cMultiPlayerTriggerZone::MakeNew (0x82868D98): typed Mtx construction has the correct fields and values, but
-  scalar row-store ordering and CD2's retained matrix-address calculation differ in plain and LTCG builds.
-- Lua 5.0.2: no open functions in its corrected 641-function inventory. Archive layout, selective call boundaries,
-  interpreter arithmetic and source-ownership gaps are recovered; see its README. jeff's analysis starts a false
-  function at 0x82946A24, inside the 176-byte reallymarkobject at 0x82946980; cd2.py drops any start inside a matched
-  function's manifest extent (matched_extents), in the inventory and in the symbol list setup splits with. The source
-  splits include the IDA-confirmed archive/loadfile tail, five CRT thunks and VM loop.
-- libjpeg 6b: all 329 functions pass standard checks. Enabling /Oi with the evidenced selective helper boundaries
-  preserves the existing 322 and makes the remaining seven exact. Published MEMZERO/MEMCOPY operations stay intact.
-  Earlier /O1 /Oi probes without those helper boundaries did not cover all functions and did not rule out this build.
-- XDK libraries remain linked from the pinned SDK. Their proprietary implementations, including code derived from
-  PNG, JPEG and zlib, are outside the published-source middleware matching scope.
-- cPvPSkillsetProfile::MakeNew (0x82763828): Burn's rank pointer at +0x18 and six skill pointers at +0x1C
-  establish the 0x34-byte layout. An inline constructor with the singleton assignment and XMemSet has the correct
-  operations but differs in base-clear/vtable scheduling (29/37 words in both modes); initializer-list versus body
-  initialization, defining the reference-named singleton in this object, and bounded source search did not improve
-  it. The partial factory body was removed.
-- cLongDistancePropManager::HandleAttributes (0x823DA998): the command loop, CMD_MAXPROPS field store and vector
-  reserve call agree, but rwSwap32 followed by narrowing lets the compiler eliminate CD2's full swap sequence
-  (25/49 words). _byteswap_ulong instead folds the payload load into lwbrx (24/49); neither probe was retained.
-- cLinkedVFXSpawner::ForceStop (0x827FAC48): typed in-play flag, manager unregister and virtual ReleaseVFX call
-  give 22/24 words in both modes; the this move and virtual-function load swap order. Bounded search did not improve
-  it, and the partial body was removed. Its IsA (0x827FA5F0, owned by cLinkedVFXPrototype.cpp) is byte-exact but
-  references the 0x830ACBD8 global-constant copy while that file's header initializers use 0x8321C138; unpromoted.
-- cSpawnPoint constructor (0x823D1F80): Burn's 0x50-byte base layout and CD2's GUID handler at +0x54 establish
-  the 0x70-byte class. Initializer-list and body initialization, a single captured UID increment, and novtable
-  probes did not recover CD2's initialization scheduling in either build. The constructor probes were removed.
-  cPlaceableLight::MakeNew (0x82801E18) still needs the base constructor's return-value propagation; its probe
-  was removed. cPlaceableLight::IsA (0x82801D18) is plain EXACT but 21/23 words under LTCG, so it is unpromoted.
-- cSpawnPointBase::HandleAttributes (0x823D2B38): the named GUID local is needed before prototype lookup;
-  passing GetAs_RWSGUID() directly omits CD2's address reload. The local form is EXACT in plain and LTCG.
-  HandleSystemCommands (0x823D2BF0) returns after the first CMD_LoadMatrix, also EXACT in both modes.
-
-- Helicopter-controller file deleting wrapper (0x82783448): the former cHelicopterControllerPrototype claim was incorrect. Its table is 0x8214C264, while the prototype constructor installs 0x8214C1A8 with deleting wrapper 0x82684630. The actual destructor 0x82783498 unregisters events and destroys state through +0x37C; ownership remains open.
-
-- cWorldGameObjectPosition: Burn/RuffKing and CD2 factory 0x82837F18 establish position +0x20,
-  direction +0x30, created flag +0x40, world-object pointer +0x44 and ID +0x48 (size 0x50).
-  The inline empty destructor yields deleting wrapper 0x82837FC8 EXACT in plain and LTCG.
-  Factory initialization remains unpromoted: literal vectors have scheduling/load differences; explicit
-  g_GlobalConstants scalar constructor arguments reproduce its bytes but reference the file-local copy at
-  0x832AA110, while IsA uses 0x830ACBD8. A separate global-namespace static (as reference objects list it)
-  exposes two COFF statics both named g_GlobalConstants, at distinct section offsets; relocs.Obj currently
-  keys symbols only by name and merges them. Those duplicate-static probes were removed. Resolve source
-  ownership and COFF identity before promoting; never alias the two different addresses as one object.
-
-- cGrappler mixed compiler settings: its factory, placement factory, class getter, name getter and
-  descriptor-pointer initializer are EXACT with the existing /Ox /Ob1 configuration. A/B probes showed
-  /Od /Ob0 reproduces the four later inheritance/factory/spawning/atexit registrar sequences, while
-  breaking the existing optimized header initializers and prototype Init. Whole-file /Od is therefore
-  unsupported; no compiler override was retained. The unoptimized bodies and registrars remain open.
-- Land-vehicle Havok interfaces: IsHandbrakeOn, SetEngineDamage and SetSteeringAngle are EXACT in
-  plain and LTCG with m_pVehicleInstance at +0x1DA4. The first uses hkVehicleDriverInputAnalogStatus's
-  hkBool at +0x10; SetSteeringAngle forwards to cCustomVehicleInstance (0x8269AD68), whose steering-angle
-  store and wheel loop identify the method. IsReversing/IsBraking are also EXACT after calling the
-  reference-named cCustomVehicleInstance helpers that return hkBool by value. A/B: converting the
-  field directly omits CD2's sign extension; returning the same field through the real hkBool-valued
-  helper preserves it. Changing char to signed char alone did not help. The matching base virtual
-  names replace the old numeric aliases at the existing folded false/empty addresses; no new alias
-  address was added.
-- cCustomVehicleInstance's recovered source range 0x82699F00..0x8269ADC8 contains its RPM/phantom
-  virtuals, compiler-generated copy helpers and SetSteeringAngle. The constructor installs table
-  0x82133048 at 0x82699680 and initializes the reference-named custom fields through +0xDB1; that
-  table's slots 9/11/4 identify calcRPM/calcMPH/getPhantoms. The copied custom/base/wheel layouts
-  identify the intervening helpers. calcRPM, calcMPH, getPhantoms and SetSteeringAngle are promoted.
-  SetSteeringAngle assigns the main angle and walks the signed wheel count, updating only wheels
-  selected by hkVehicleDefaultSteering::m_doesWheelSteer; the ordinary typed loop is EXACT in both builds.
-
-- cCustomVehicleInstance::calcMPH (0x82699F08): CD2 uses the rounded 2.2369974f factor,
-  not 2.2369363f. The hkEntity motion pointer (+0x50), hkRigidMotion linear velocity (+0xD0),
-  and SIMD/scalar wrappers recover the original access chain. A/B: converting dot3 through
-  hkSimdReal first emits stvewx; length3 must instead extract the dot product before sqrtf,
-  then construct hkSimdReal's splat. Its float conversion uses stvewx. This gives 21/21
-  words under LTCG; plain output still differs, so the manifest records ltcg:true.
-- cCharacterControllerComplex: constructor 0x82282670 installs table 0x821147D8 and
-  initializes the reference character info at +0xE0, velocities at +0x150..+0x1D0,
-  phantom +0x234, listener +0x240 and state flags +0x300..+0x302. The getter range
-  0x8255E2B8..0x8255E5F8 and matching table slots establish the new source split.
-  CD2's three flag bytes use the reverse declaration order within each byte compared
-  with the later reference: reversing the groups makes all predicates and SetIsInWater
-  EXACT. CD2 also swaps the standing-body predicate/heading slots and inserts a
-  boolean listener query at slot 51; that slot's name/signature remains open, with no body.
-  Disassembly places the two ApplyVecticalForce overloads at 52/53, the two-float
-  RetVecticalForce arithmetic at 54 and ForceLinearVelocity at 55.
-  The 43 promoted getters/setters are EXACT in plain and LTCG.
-  Vec3's real storage is a single __vector4. A/B: implicit assignment of our scalar-view
-  union expands into scalar copies, while explicit whole-vector assignment preserves
-  the original storage operation and makes SetEffectsVelocity/SetADMOffset EXACT.
-  The reference-named Set and Zero helpers recover GetPositionPhantom, horizontal-only
-  controls and ZeroLastControlsVelocity without raw offsets. ZeroEffectsVelocity remains
-  open: it passes the shared zero object's address directly to the virtual setter,
-  whereas our OldVec3 conversion constructs a temporary.
-
-- cCharacterControllerSimple: constructor 0x82564780 installs primary table 0x8200A880
-  at 0x825647C0. Its dimension info at +0x70, phantom +0x134, position +0x230 and
-  flag bytes +0x250/+0x251 agree with the getter range 0x82564578..0x82564780.
-  Twenty-five getters/setters in that range and two gravity setters at 0x82566548/
-  0x82566560 are EXACT in plain and LTCG. The latter are primary slots 73/74 and
-  access the same own gravity/flag fields, establishing their source ownership.
-  IsNearGround, IsNearFlatGround and IsOnGround share one address; only the first
-  is promoted. The distinct table 0x8200BB28 shares some bodies but is not assigned
-  this class's identity. CD2's masks place physical presence at byte 0x250 bit 2,
-  in-water at bit 1, unsafe at bit 0, still at bit 7, expensive checks at bit 4;
-  supported is byte 0x251 bit 7, switched direction bit 3 and gravity override bit 2.
-  GetLastGroundNormal returns a three-component value with w=1: using the shared
-  OldVec3-to-Vec3 conversion is EXACT; the member differs from the later Vec3 type.
-  The common interface now reaches slot 95, following the reference sequence after
-  CD2's extra slot 51. The final CD2 slot 96 remains unrecovered.
-- Simple/complex AddEffectsVelocity (0x825646B0/0x8255E538): vector addition and
-  virtual setter dispatch agree, but CD2 retains an aggregate-copy stage (two 64-bit
-  loads/stores) after the SIMD temporary store. Direct __vaddfp conversion, a natural
-  inline operator+, constructor body versus initializer list and value versus reference
-  vector parameters all omit that stage (7/24 words in strict checks, 18 versus 24
-  instructions). The partial bodies and unused wrapper probes were removed. Do not
-  manufacture a self-copy to fill the instruction gap; recover the original wrapper.
-  Replacing the scalar-view union with a single __vector4 and using an implicit copy constructor also fails:
-  by-value operator arguments introduce aggregate copies before the addition; reference arguments still omit
-  CD2's result-copy stage. These storage/copy probes were removed.
-- Weapon object ownership: the original cWeapon.obj defines cWeaponProjectile too (the reference cWeapon.h
-  contains both classes). The old class-only projectile scaffold included cWeapon's prototype and ammo bodies.
-  cWeaponPrototype::Init (0x8260A790) reads Ret_OK at 0x83838A28, inside the independently located cWeapon data
-  range. Consolidating these sources in Equip/Weapon/cWeapon.cpp preserves all existing matches and makes Init
-  EXACT with the correct data owner, without introducing a folded-data exception.
-  Constructor 0x8260A370 confirms three muzzle vectors followed by ammo/range fields; CD2 retains the
-  CMD_MUZZLE_POSITION_LEANING_OVER_WALL vector that the later reference removes. Constructor 0x82609AA8
-  establishes the activation matrix and live ammo/timer/flag members. The nine promoted ammo/range/activation
-  functions and prototype Init are EXACT in plain and LTCG checks.
-- Weapon state/ammo follow-up: the clamped amount returned by IncrementClipAmmo is a separate result local;
-  mutating the input amount changes the branch shape, while the conditional-expression result is EXACT in both
-  builds. The same source form matches the other three ammo arithmetic methods. Infinite stored ammo accepts a
-  decrement without changing storage, but rejects increments (returns zero).
-  cWeapon's idle/reload state tables at 0x8211FB90/0x8211FBA8 establish the three callbacks of each state.
-  Compiling an isolated state callback under LTCG removes its unused state-object parameter (six of eight words);
-  restoring the real singleton getter and table preserves that virtual callback ABI and makes it EXACT.
-  The const/non-const getters share their CD2 addresses and are recorded as evidenced folds.
-- Weapon active/prototype follow-up: the active singleton and its three callbacks use the same complete shared
-  state model as idle. Reference BeginAttack/ProcessAttack/EndAttack declarations replace the corresponding
-  slot placeholders throughout the derived weapon headers; bool returns and access are preserved.
-  CD2 cEquipmentPrototype's constructor (0x826071F8) establishes category at +0x29C and equipment type at +0x2CC;
-  the weapon prototype selects CATEGORY_WEAPON/eEquipT_Primary. Typed fields and ZeroVec initializers make its
-  constructor (0x8260A370) EXACT at 59/59 words in both builds; its factory and 13-case attribute handler match too.
-  The equipment prototype owns HandleAttributes (0x826073B8); declaring that missing override removes the false
-  game-base attribution. The projectile prototype inherits it and RetPvPKillPoints unchanged.
-  An implicit weapon-prototype destructor generated an 80-byte deleting wrapper. CD2's shared 104-byte wrapper
-  (0x82623BE0) restores the weapon-prototype tables before equipment-prototype cleanup: an explicit inline empty
-  destructor reproduces that transition, all bytes and all four relocation targets. Its folded manifest entry
-  counts the shared physical function once. No alias was added to conceal the shorter wrapper.
-- Weapon instance follow-up: the empty out-of-line destructor and its generated deleting wrapper are EXACT
-  (0x8237A6A0 and 0x82318258). The destructor stores the unchanged positional-proxy table 0x82120E8C.
-  Actual equipment and weapon tables retain the base empty slots 258..262 and 140 respectively; former
-  scaffold declarations had attributed later derived overrides to those bases. Projectile Term and Init
-  likewise inherit unchanged base implementations. Correcting declarations avoids false relocation aliases.
-  Cross-file verification establishes cCWWeapon as the first owner of Term (0x82608200) and slots 258..262
-  (0x82608838..0x826088D8), and cProp as the first owner of the distinct prop implementations in those slots.
-  The weapon primary table also requires its own RetClassName override at 0x821FF128.
-  CD2 equipment construction establishes m_fTimer at +0x7E4, corroborated by the weapon reload callbacks;
-  NotifyReloadComplete and FinishReload clear that timer and return to idle, matching both compiler modes.
-- Weapon owner/reload follow-up: cNonGameBase owns m_pOwner at +0x4C, independently established by its
-  constructor and cGameBase::RetOwnerGameObject. CanAttack only applies idle/ammo checks to an authority owner;
-  absent or non-authority owners return true. The direct RetOwner() expression, reference IsIdle wrapper and
-  early returns reproduce all 39 words; keeping the owner in a local changes the zero comparison.
-  BeginAttack records RetAttackDuration in the equipment timer and requests the owner's GetAimMatrix into
-  m_matActivateMatrix. Reference implementations corroborate both the owner query and slot 98's identity copy.
-  BeginReloading calls RetReloadDuration but then starts a fixed three-second timeout in both CD2 and RuffKing;
-  its discarded return is deliberate evidence, not a source variable added to manipulate code generation.
-  EndReloading clears the independently typed reload flag. All four callbacks are EXACT in both modes.
-- CW weapon follow-up: CD2's own slots 315 and 326..329 extend the recovered cCWWeapon source range through
-  0x826087E8. Their prototype reads establish the reference-named hand count at +0x374 and four upper-body
-  animation indices at +0x3AC..+0x3B8. The six adjacent AI setters/resetters use existing instance members;
-  RevertAIAccuracyCone additionally establishes the prototype default at +0x37C. All eleven methods are EXACT.
-- CW weapon reload/lifetime follow-up: RetReloadDuration uses the existing character RetSkill interface and
-  eSk_FireArms, with level one for an absent or non-character owner. The reference RetFirearmSkillLevel overloads
-  provide the real shared query; the typed five-float reload array starts at prototype +0x3C0. The duration method
-  is LTCG EXACT (38/38 words), while CanAttack's pintle-mount/timer test is EXACT in both modes.
-  PostAnimUpdate forwards UpdateAttachedMuzzleEffect, establishing that reference name at slot 408 and retaining
-  the protected overrides in cCWFirearm and cRefractor.
-  The prototype's named cStringc at +0x350 makes its out-of-line destructor EXACT (37/37 words); its Init returns
-  this object's Ret_OK. Own table 0x8211F278 establishes the actual handlers and inherits zero kill-point methods;
-  cCWFirearmPrototype first owns the nonzero kill-point overrides, and both firearm/heavy prototypes override Init
-  and HandleAttributes. The 80-byte deleting wrapper matches all bytes and both callees. Four CD2 prototype
-  tables share it (including cSucknBlowGunPrototype); its folded entry counts the physical function once.
-  NotifyAttackComplete returns to the idle singleton. InitMaxAmmo calls the two virtual ammo setters with their
-  prototype maxima, re-reading the prototype between calls; cGrenade shares this same body. Both are EXACT in
-  plain and LTCG builds, using the reference names at slots 409 and 367 respectively.
-  The reference static ms_Randomiser is independently identified by CD2's burst-pause consumer 0x8222B5D0
-  (generator at 0x838389A0). Its default initializer 0x82FCB930 and empty cleanup 0x8303F358 match with the shared
-  cRandGen, in the source's original initializer order immediately after the script registrar.
-
-- `cCityGliderMission::MakeNew` (0x824897A0): the inline RuffKing constructor (singleton store, two XMemSet calls,
-  three waypoint vectors) is 49/56 words in plain and LTCG; only the singleton's `lis` is scheduled after the first
-  vptr store instead of with the vptr `lis` group, and `search` finds nothing. Its deleting destructor (0x824898F8),
-  HandleAttributes (0x824899B0) and five thunks (0x82489C08..0x82489C30) lie in cPebbleDashMission.cpp's split range
-  but belong to this object (split fix for the next sync point).
-- cCellStrongholdMission's five thunks (0x82475600..0x82475620) lie in cTacticalObjective.cpp's split range.
-- `cAgencyBuggy::MakeNew` (0x826E98D0): RuffKing's cAgencyBuggyPrototype is modelled (0x4C0/0x540/0x544, size 0x550);
-  CD2 zeroes the 128-byte suspension block with an inline 16-doubleword `stdu` loop, but value-initialisation and a
-  body memset both compile to a memset call here (36%).
-- `cCellStrongholdMission::Update` (0x82475148): RuffKing's body (early return when complete, then a two-case switch)
-  gives every instruction, but CD2 keeps m_fResetTimer and m_fCurrResetTime in f9/f10 across the call to
-  RWS::Time::RetDeltaTimeSecs (0x827671D0): whole-program LTCG knows the callee leaves them alone; the single-file
-  models reload them (30.6% plain and LTCG). Body removed; the declaration stays for TickUpdate.
-- cLandVehicle's RemoveVehicleLights (0x826C2288) and CanActivateVehicleLights (0x826C2A90) inline functions CD2 also
-  keeps out of line (cVehicle::RemoveVehicleLight with the light manager's TermOccludedLight losing its `this`;
-  cVehicle::RetDriver 0x823CC0E8): cross-module LTCG inlining the single-file models cannot reproduce.
-
-### Typed script-method registration and shared pointer lists
-
-Weapon registrar `0x826098C0` passes native eight-byte const-member pointers to
-16-byte descriptor factories and inserts the resulting pointers into its first
-12-byte list. Taking addresses of the actual virtual members emits the MSVC
-virtual-call thunks; these must not be handwritten forwarding functions. The
-descriptor has one virtual Lua invocation slot and no virtual destructor.
-
-A/B checks on the same registrar distinguish container models. A declaration-only
-list insertion gives 103/122 words in plain and LTCG builds: stack stores of the
-member-pointer adjustment are scheduled differently. Full XDK `std::list` gives
-122/122 plain words but inlines insertion into the LTCG caller, leaving only
-2/122 words there. The typed `cPointerList` adapter models the observed node
-construction, length check and links, retaining external allocation/destruction.
-It gives 122/122 in both modes with no rule findings. Its insertion body is still
-unmatched; this result proves the caller, not that body. Reference `cList` derives
-from `std::list`, so the adapter is explicitly marked as an incomplete stand-in.
-
-The descriptor constructor initializes the name in its base and the member pointer
-in its derived initializer list. Moving the name assignment into the derived
-constructor body reorders two stores: both 96-byte factories score 22/24 words.
-Base/member initialization yields 24/24 in both plain and LTCG checks.
-- `cAmbienceZone::OnPlayerEnter/OnPlayerLeave` (0x8280FB78/0x8280FC20): Burn's `Audio::ScopedProfile` (GameAudioUtil.h, counter 0x838015E0) brackets the game object's static PostEnterEvent/PostExitEvent (0x82838718/0x828389E8) after the arguments are evaluated. CD2 stores the decremented counter after the following `m_bPreviously*` byte store, which only a whole-program view of the never-address-taken counter allows; plain and LTCG models keep the store first (39/41 words). Probes and headers removed.
-- `cAgencyTank` constructor (0x826FCD08): cAgencyCar call, vptrs, out-of-line cFixedVehicleTurret constructor and `m_bMarkerAdded = false` give every instruction, but CD2 hoists the cPositionalProxy (+0x420) table store to fifth place where ours keeps it ninth (54.9%; initializer-list and body forms identical, search finds nothing). Its deleting destructor (0x826FCDD8) and IsA thunk (0x82700760) are EXACT once the constructor emits the table; probe removed.
-- `cVehicle::~cVehicle` (0x826CE0E8): RuffKing's body (UnLinkMsg/UnRegisterMsg) over the modelled members gives 147/148
-  words; CD2 keeps cLinkedListItem's table address in r5 across the call to cDamageMorphManager::ClearMorphSections
-  (0x825FC728, a leaf in unscaffolded text), which only whole-program LTCG allows. The definition stays (it emits the
-  vtable: the deleting destructor and 11 thunks are EXACT); match ClearMorphSections first.
-- `cVehicle::RetCollisionLayer` / `IsInVehicle` (0x826D4DB0, 0x826D51B0): plain EXACT, LTCG 3/16 and 4/30: the
-  single-file model inlines IsInVehicle into its only visible caller; its other CD2 caller (0x82711F00) is unmatched.
-- `cVehicle::HandleTryToCloseAlterantiveDoorPermissionQuery` (0x826DEA30, slot 424): RuffKing's body (RetSwapSeat,
-  inline RetVehicleSeat, seat RetStatus == eVSS_Unoccupied, CanSeatDoorBeClosed, IsUpRight) gives every instruction,
-  but CD2 keeps the swap seat in r4 across the call to the leaf cVehicleSeat::RetStatus (0x826DFBE8): whole-program
-  LTCG knows the callee leaves r4 alone; plain and LTCG models keep it in a saved register (30.6%). Removed.
-- `cCar::LeavePhysicalState` (0x826B7538, slot 27, a tail call to cVehicle's): declared inline in cCar.h; it is only
-  emitted where cCar's vtable is, which nothing in cCar.cpp does yet ("missing").
-- Shared carrier-event deleting destructor (0x826CC7C0): an inline empty `cVehiclePickedUpEvent` destructor is not emitted; an out-of-line empty destructor gives 5/36 words in both builds. Both probes were removed.
-- `cWaterProfile::MakeNew` (0x82697560): construction sets shared max height to 50.0f and ground level to `CONST_FLOAT_0`. An inline constructor stays out of line; `__forceinline` expands the right body but adds five instructions preserving `this` across the external `cNonGameBase` constructor. Factory and constructor probes were removed; recover the base constructor before retrying.
-- `cCwTransCharacterPrototype::SetAnimationProfile` (0x82539950): reference source `RetAnimMgr()->RetrieveAnimProfile(name)` gives 5/19 words under the local LTCG model; CD2 omits the unused manager argument. The lookup itself (0x824E5510) is LTCG EXACT with its reference member signature. The caller probe was removed; it needs cross-file optimization evidence, not a static replacement signature.
-- `cProp::UnAttachEffects` (0x8272C5A0): scans six typed 0x70-byte effect records at +0xB00. A short-circuit loop emits 16 instructions against CD2's 22; a stored boolean with a separate find/release phase gives 9.1% plain, 0/22 LTCG words. Defining the scan also changes both water callbacks under local LTCG, even with `noinline`. All scan probes and that attribute were removed; the typed records remain.
-- `tAttachedEffect::Release` (0x8272C5F8): natural StopEmitters/SetAsOrphan/Release, pointer clear, then handle OnReleased is 53/53 LTCG words. Global verification rejects its header-constant ownership: `g_GlobalConstants` is 0x830B7F30 here but 0x832037C0 in this file's initializers. Body and manifest entry were removed; do not split or alias the constant to hide that conflict.
-- `cMissionCriticalProp::vf226` (0x8245B5F8, reference OnApproachedByLocalPlayer): interactable guard, inline prop callback, typed spawner and mission notification reach 29/30 words in both modes. The remaining difference is CD2's signed null test of the spawn-point pointer versus the compiler's unsigned test. Nested/early-return forms and official search do not resolve it; the probe and claim were removed. The spawner member and complete spawn-point base layout remain supported by CD2.
-- `cMissionCriticalPropSpawnPoint::IsA` (0x8245B6E0): existing body is plain EXACT but 21/23 LTCG words without a live vtable. The constructor (0x8245B838) falls outside scaffolded ranges; do not add it to this source merely to retain the query's unused this argument. Claim removed.
-- `cAgressiveResponseTurretVehicleSetup::HandleAttributes` (0x82672BB0): reference SDK APIs are RWSGUIDList::Num/GetGUID; registration inlines AddEntityToMap (0x82886228), calling GUID-map Insert (0x82886380) before copying m_GUID. The reference map is cHashTable<RWSGUID,void*,10,21000,CRWGUIDHashFunctor,std::equal_to<RWSGUID>>; CD2 global 0x8392FAB0 uses the matching pool/list/count/mask offsets 0/0xCD160/0xD2160/0xD2164. Recover the canonical container/member implementation for local LTCG argument elision rather than inventing a static adapter. No handler body was added.

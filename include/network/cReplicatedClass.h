@@ -60,7 +60,10 @@ public:
     virtual SNetworkHeader::etNetworkDataType GetReplicatedObjectType() const = 0;
     virtual unsigned int GetMaxReplicatedFields() const = 0;
 private:
-    unsigned char m_unknown4[0x30 - 4];
+    unsigned char m_unknown4[0x10 - 4];
+    // Reference name; CD2 current-node state writes read this word at +0x10.
+    int m_CurrentRecentBufferNode;
+    unsigned char m_unknown14[0x30 - 0x14];
 protected:
     // RuffKing's names and offsets; SetFieldStateForNode reads both.
     sReplicatedField *m_pReplicatedFields;              // 0x30
@@ -78,6 +81,12 @@ public:
     // CD2 0x8282BFA8 reads/writes a 32-bit field and returns whether it was processed.
     // Reference name; CD2 omits the reference build's debug field-name parameter.
     bool ReplicateUInt32(unsigned int *value, int field);
+    // CD2 0x8282AF40 / 0x8282B038 use the active replication object internally.
+    static void _AllocateUInt8(unsigned char value, int field, sReplicatedField::etReplicatedFieldState state);
+    static void _AllocateUInt8Bits(unsigned char value, int field, unsigned int bits,
+        sReplicatedField::etReplicatedFieldState state);
+    // CD2 0x8282BBE8 retains the explicit replication-object argument.
+    void _AllocateBool(bool value, int field, sReplicatedField::etReplicatedFieldState state);
     void _AllocateUInt32(unsigned int value, int field, sReplicatedField::etReplicatedFieldState state);
     // CD2 0x8282B490 uses the active replication object at 0x838015D8, so has no explicit this.
     // Reference method name; the static CD2 interface takes value, field, bit count and flags.
@@ -98,6 +107,12 @@ protected:
             m_pReplicatedFields[field].SetState(state, nNodeID);
     }
 public:
+    // Reference API, inlined by CD2 cFinalMission::ReplicateInitialFields.
+    void SetFieldStateForCurrentNode(int state, int field)
+    {
+        SetFieldStateForNode(static_cast<unsigned char>(m_CurrentRecentBufferNode),
+            static_cast<sReplicatedField::etReplicatedFieldState>(state), field);
+    }
     // RuffKing's names, types and offsets from here to m_bRegisteredWithReplicationManager (the same in CD2: the
     // equipment's CalculateLOD, 0x826066B0, stores its node's LOD at +0x154 + 4 * node).
     unsigned char m_iReadWrite;                         // 0x88
@@ -120,6 +135,7 @@ public:
 private:
     unsigned char m_unknown225[0x230 - 0x225];
     CD2_LAYOUT_CHECKS(cReplicatedClass, CD2_SIZE(cReplicatedClass, 0x230)
+        CD2_OFFSET(cReplicatedClass, m_CurrentRecentBufferNode, 0x10)
         CD2_OFFSET(cReplicatedClass, m_pReplicatedFields, 0x30)
         CD2_OFFSET(cReplicatedClass, m_iHasBeenReplicated, 0x87)
         CD2_OFFSET(cReplicatedClass, m_nObjectID, 0x38)

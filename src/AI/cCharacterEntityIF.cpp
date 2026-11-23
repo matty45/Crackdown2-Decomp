@@ -26,6 +26,21 @@
 #include "fun_runtime/inheritance_registrar.h"
 #include "CHARACTER/cCharacterInterface.h"
 #include "AI/cCharacterEntityIF.h"
+#include "AI/cStoreItemAgent.h"
+#include "AI/cIdleAgent.h"
+#include "AI/cReloadAgent.h"
+#include "AI/cPrimaryFireAgent.h"
+#include "AI/cSecondaryFireAgent.h"
+#include "AI/cThrowAgent.h"
+#include "AI/cUpperBodyAnimateAndFaceAgent.h"
+#include "AI/cPickUpItemAgent.h"
+#include "AI/cPickUpAgent.h"
+#include "AI/cDropAgent.h"
+#include "AI/cCrouchAgent.h"
+#include "AI/cUncrouchAgent.h"
+#include "AI/cExitVehicleAgent.h"
+#include "AI/cChaseAndReloadAgent.h"
+#include "AI/cInterceptAgent.h"
 #include "AI/cObjectInstigatorEvent.h"
 #include "AI/cDamageTakenEvent.h"
 #include "AI/cDiedEvent.h"
@@ -303,14 +318,106 @@ namespace AI
         return IsVisible(object, visibilityDate);
     }
 
+    void cCharacterEntityIF::Idle()
+    {
+        SetActiveAgent(m_pCharacterBrain->CreateAgent<cIdleAgent>());
+    }
+
+    void cCharacterEntityIF::Reload(float fTolerance)
+    {
+        cReloadAgent *pAgent = m_pCharacterBrain->CreateAgent<cReloadAgent>();
+        pAgent->SetTolerance(fTolerance);
+        SetActiveAgent(pAgent);
+    }
+
+    void cCharacterEntityIF::PrimaryFire(float fTolerance)
+    {
+        cPrimaryFireAgent *pAgent = m_pCharacterBrain->CreateAgent<cPrimaryFireAgent>();
+        pAgent->SetTolerance(fTolerance);
+        SetActiveAgent(pAgent);
+    }
+
+    void cCharacterEntityIF::SecondaryFire(float fTolerance)
+    {
+        cSecondaryFireAgent *pAgent = m_pCharacterBrain->CreateAgent<cSecondaryFireAgent>();
+        pAgent->SetTolerance(fTolerance);
+        SetActiveAgent(pAgent);
+    }
+
+    void cCharacterEntityIF::Throw(float fTolerance)
+    {
+        cThrowAgent *pAgent = m_pCharacterBrain->CreateAgent<cThrowAgent>();
+        pAgent->SetTolerance(fTolerance);
+        SetActiveAgent(pAgent);
+    }
+
+    void cCharacterEntityIF::UpperBodyAnimateAndFace()
+    {
+        SetActiveAgent(m_pCharacterBrain->CreateAgent<cUpperBodyAnimateAndFaceAgent>());
+    }
+
     void cCharacterEntityIF::SetCharacterStateProfileFromID(unsigned int profile)
     {
         RetCharacter()->SetCharacterStateProfileFromIndex(profile);
     }
 
+    void cCharacterEntityIF::StoreItem()
+    {
+        SetActiveAgent(m_pCharacterBrain->CreateAgent<cStoreItemAgent>());
+    }
+
+    void cCharacterEntityIF::PickUpItem()
+    {
+        SetActiveAgent(m_pCharacterBrain->CreateAgent<cPickUpItemAgent>());
+    }
+
+    void cCharacterEntityIF::PickUp()
+    {
+        SetActiveAgent(m_pCharacterBrain->CreateAgent<cPickUpAgent>());
+    }
+
+    void cCharacterEntityIF::Drop()
+    {
+        SetActiveAgent(m_pCharacterBrain->CreateAgent<cDropAgent>());
+    }
+
+    void cCharacterEntityIF::Crouch()
+    {
+        SetActiveAgent(m_pCharacterBrain->CreateAgent<cCrouchAgent>());
+    }
+
+    void cCharacterEntityIF::Uncrouch()
+    {
+        SetActiveAgent(m_pCharacterBrain->CreateAgent<cUncrouchAgent>());
+    }
+
+    void cCharacterEntityIF::ExitVehicle()
+    {
+        SetActiveAgent(m_pCharacterBrain->CreateAgent<cExitVehicleAgent>());
+    }
+
+    void cCharacterEntityIF::Face(float fTolerance)
+    {
+        cFaceAgent *pAgent = m_pCharacterBrain->CreateAgent<cFaceAgent>();
+        pAgent->SetTolerance(fTolerance);
+        pAgent->SetFaceTarget();
+        pAgent->SetTargetFacingEnabled(true);
+        SetActiveAgent(pAgent);
+    }
+
     void cCharacterEntityIF::SetBreakTrafficLaws(unsigned char value)
     {
         m_bBreakTrafficLaws = value;
+    }
+
+    void cCharacterEntityIF::ChaseAndReload()
+    {
+        SetActiveAgent(m_pCharacterBrain->CreateAgent<cChaseAndReloadAgent>());
+    }
+
+    void cCharacterEntityIF::Intercept()
+    {
+        SetActiveAgent(m_pCharacterBrain->CreateAgent<cInterceptAgent>());
     }
 
     bool cCharacterEntityIF::ForceIntoVehicle(Vehicle::cVehicle *pVehicle, unsigned int nSeat)
@@ -353,6 +460,11 @@ namespace AI
     void cCharacterEntityIF::SetAiming(bool bAiming)
     {
         m_pCharacterBrain->SetAiming(bAiming);
+    }
+
+    void cCharacterEntityIF::SetActiveAgent(cAgent *pState)
+    {
+        m_pCharacterBrain->SetActiveAgent(pState);
     }
 
     bool cCharacterEntityIF::IsAIEntityOwner(Kaim::CEntity *pEntity)

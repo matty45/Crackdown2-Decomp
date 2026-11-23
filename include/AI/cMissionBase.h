@@ -85,8 +85,8 @@ namespace AI
         float m_fSpawnDoorDistance;
         bool m_bUseSpawnDoorDistance;
         bool m_bUseSquadGroupTransitionManagement;
-        unsigned char m_nDebugOptionIndex;
-        unsigned char m_nNumDebugOptions;
+        // CD2 omits the reference debug-selection bytes. TickSquadSwitch at
+        // 0x82459F1C and initial replication at 0x8245A2A8 read this at +0x346.
         bool m_bSquadSwitchBlocked;
         CD2_LAYOUT_CHECKS(cMissionBase,
             CD2_OFFSET(cMissionBase, m_eNetRole, 0x244)
@@ -95,7 +95,7 @@ namespace AI
             CD2_OFFSET(cMissionBase, m_bActive, 0x300)
             CD2_OFFSET(cMissionBase, m_nMissionIndex, 0x302)
             CD2_OFFSET(cMissionBase, m_eLocation, 0x33C)
-            CD2_OFFSET(cMissionBase, m_bSquadSwitchBlocked, 0x348)
+            CD2_OFFSET(cMissionBase, m_bSquadSwitchBlocked, 0x346)
             CD2_SIZE(cMissionBase, 0x350))
     };
 }

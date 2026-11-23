@@ -21,6 +21,16 @@ namespace GangManager
         return *descriptor;
     }
 
+    const Fun_Runtime::cClass &cGangManager::RetClass() const
+    {
+        return *ms_pcGangManagerClass;
+    }
+
+    bool cGangManager::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcGangManagerClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cGangManager::StaticCreateClass()
     {
         static Fun_Runtime::cClass *gangManagerClass = new Fun_Runtime::cClass(0x40C, "cGangManager", 0x50);

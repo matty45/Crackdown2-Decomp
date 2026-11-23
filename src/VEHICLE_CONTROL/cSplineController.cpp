@@ -10,9 +10,18 @@
 #include "CHARACTER/cRagdollProfile.h"
 #include "AI/aiconstants.h"
 #include <algorithm>
+#include "VEHICLE_CONTROL/cHelicopterController.h"
 
 // CD2's range-fill helper takes float storage, an unsigned count and a value
 // reference; the standard template retains a load from that reference each time.
 template float *std::copy<float *, float *>(float *, float *, float *);
 template float *std::copy_backward<float *, float *>(float *, float *, float *);
 template void std::fill_n<float *, unsigned int, float>(float *, unsigned int, const float &);
+
+namespace VEHICLE_CONTROL
+{
+    const Fun_Runtime::cClass &cVehicleController::RetClass() const
+    {
+        return *ms_pcVehicleControllerClass;
+    }
+}

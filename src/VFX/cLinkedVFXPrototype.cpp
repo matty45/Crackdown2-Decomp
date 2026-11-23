@@ -30,6 +30,11 @@ namespace VFX
         return *ms_pcLinkedVFXSpawnerClass;
     }
 
+    bool cLinkedVFXSpawner::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcLinkedVFXSpawnerClass->IsA(c);
+    }
+
     void cLinkedVFXPrototype::HandleAttributes(const RWS::CAttributePacket &packet)
     {
         cAmbientVFXPrototypeBase::HandleAttributes(packet);

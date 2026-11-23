@@ -18,7 +18,8 @@ namespace unknown
     public:
         // CD2 table 0x82155A9C has 13 primary slots. Names/signatures of these slots remain unrecovered.
         virtual void vf11(); // primary slot 11
-        virtual void vf12(); // primary slot 12
+        // Slot 12 is now identified by CD2 0x8280BFE8 and its class-name string.
+        virtual const char *RetClassName() const; // primary slot 12
 
         // CD2 script registrations name these methods and their two stored gang pointers.
         GangManager::cGangInfo *RetGangInControl() const;

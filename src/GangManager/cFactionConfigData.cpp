@@ -100,7 +100,7 @@ namespace GangManager
 
         if (packet.IsInstanceCreationPacket())
         {
-            cFactionInfo *pFaction = cGangManager::RetGangManager()->m_apFactions[m_Faction];
+            cFactionInfo *pFaction = cGangManager::RetGangManager()->m_vFactionInfo[m_Faction];
             if (pFaction)
             {
                 pFaction->m_nEnforcerRatingForLevel[0] = 0;

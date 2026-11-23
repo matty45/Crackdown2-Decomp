@@ -42,6 +42,8 @@ namespace VEHICLE_CONTROL
         // CD2 0x82781AA0 creates the named runtime descriptor.
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pcVehicleControllerClass;
+        // CD2 0x827819E8, folded into cSplineController.cpp, returns this descriptor.
+        virtual const Fun_Runtime::cClass &RetClass() const;
         // CD2 0x827819F8 builds the prototype below.
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         // RuffKing: cVehicleControllerPrototype : cNonGameBase::cNonGameBasePrototype (: GOM::cObjectPrototype).

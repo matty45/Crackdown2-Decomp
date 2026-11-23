@@ -7,6 +7,8 @@ namespace Trigger
 {
     enum eTriggerEvent
     {
+        // CD2 table 0x820E6F58, entry 39, names ChainReaction.
+        eTriggerEvent_ChainReaction = 39,
         // CD2 table 0x820E6F58, entry 91, names PlayerApproachedExplosiveObject.
         eTriggerEvent_PlayerApproachedExplosiveObject = 91,
         // CD2 table entry 304 names UseGunTurretReminder.

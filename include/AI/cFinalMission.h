@@ -1,4 +1,5 @@
 #include "AI/cMission.h"
+#include "fun_runtime/pointer_list.h"
 // Mission base restored from the registered parent and reference hierarchy; instance fields remain incomplete.
 #ifndef AI_CFINALMISSION_H
 #define AI_CFINALMISSION_H
@@ -13,6 +14,7 @@ namespace GameManagement { class cFinalMissionBarrier; }
 namespace AI
 {
     class cHeliCallZone;
+    class cBreachHole;
     class cMissionCriticalPropSpawnPoint;
 
     class cFinalMission : public AI::cMission
@@ -50,6 +52,10 @@ namespace AI
         // CD2: this class's replication table differs from cMission's (0x8245A230, 0x8230E318, 0x82889A60) here.
         virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x8246BFC8
         virtual void ReplicateFields(); // cReplicatedClass 9: 0x8246C0C8
+        enum etReplicatedFields
+        {
+            eRF_BreachHoleStatesN = 4
+        };
         virtual unsigned int GetMaxReplicatedFields() const; // cReplicatedClass 23: 0x8246BFB8
         // CD2: cFinalMission's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
@@ -96,7 +102,13 @@ namespace AI
         bool m_bCore1Alive;                             // 0x417
         bool m_bCore2Alive;                             // 0x418
         bool m_bCore3Alive;                             // 0x419
-        unsigned int m_unmodelled41C[(0xA08 - 0x41C) / 4];
+        unsigned int m_unmodelled41C[(0x930 - 0x41C) / 4];
+        // Reference name; CD2 0x8246DD28 stores the packed breach-list field count here.
+        // The replication interface is +0x10, so its getter reads relative offset +0x920.
+        int m_nNumBreachStateFields;
+        unsigned int m_nBreachHoleStates[4];
+        Fun_Runtime::cPointerList<cBreachHole *> m_vReplicationList;
+        unsigned int m_unmodelled950[(0xA08 - 0x950) / 4];
         GameManagement::cFinalMissionBarrier *m_pBarrier;       // 0xA08
         unsigned int m_unmodelledA0C[(0xC20 - 0xA0C) / 4];
         cMissionActivationCylinder *m_pCore1ContainmentZone;    // 0xC20
@@ -107,6 +119,9 @@ namespace AI
             CD2_OFFSET(cFinalMission, m_nNumChildMissionsCompleted, 0x3C5)
             CD2_OFFSET(cFinalMission, m_pCore1Spawnpoint, 0x408)
             CD2_OFFSET(cFinalMission, m_bCore3Alive, 0x419)
+            CD2_OFFSET(cFinalMission, m_nNumBreachStateFields, 0x930)
+            CD2_OFFSET(cFinalMission, m_nBreachHoleStates, 0x934)
+            CD2_OFFSET(cFinalMission, m_vReplicationList, 0x944)
             CD2_OFFSET(cFinalMission, m_pBarrier, 0xA08)
             CD2_OFFSET(cFinalMission, m_pCore1ContainmentZone, 0xC20)
             CD2_SIZE(cFinalMission, 0xC50))

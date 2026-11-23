@@ -61,6 +61,42 @@ For each manifest source it models the rest of the program automatically:
 
 All 63 tracked functions are exact under it, including the three `CalcRand*` that only match under LTCG (`"ltcg": true` in the manifest).
 
+## The whole-program model and the inlining threshold (2026-11-23)
+`tools/verify_ltcg.py --whole` links every `/GL` game source into one LTCG image (491 files: compile cached, link
+about 22 s). With c2's own settings 13,603 of 13,613 per-file-exact functions stayed exact. Each of the 10 others was
+an inline decision:
+- **Order does not matter.** Reversing the objects on the link line gives the same 10.
+- **Inliner parameters** (IDA on c2.dll, no PDB):
+  - The `-inlT#` option is stored at `0x10C3DCEC` and copied into the normal parameter profile (`n60`: inlS 60, then
+    inlT 104, inlfcsw 32) by `sub_10B53710` and `sub_10B53ADA`.
+  - Under LTCG only (`dword_10C3E19C`), `sub_10B56281` passes the program size to `sub_10B53857`, which adjusts
+    inlT: ≤50,000 +32 (inlfcsw +24), ≤100,000 +24 (+16), ≤500,000 +16, ≤1,500,000 −8, ≤2,500,000 −16, else −24.
+  - The size (`sub_10B6A525`) is the sum of the 16-bit IL size (+80) of every function flagged reachable (0x20 at
+    +76). `sub_10B219C6` spreads that flag from the roots through the call graph. Functions reached only through data
+    count too.
+  - The only reader of inlT is the count-weighted branch of the inline test `sub_10B58209`, called from
+    `sub_10B58E09`.
+- **Call-site counts** (call record +16, from the block at +200) are local static estimates: a function's entry
+  1e8, half after a null check, ten times in a loop. They do not depend on the call graph.
+- **Measured** with a small WOW64 debugger that broke in c2.dll during a link (session-only, not kept). The
+  whole-program model's size is 556,430 (threshold 96). A file's own model is usually ≤50,000 (136). 0.238 IL per
+  byte of plain object code.
+- **CD2's decisions fit thresholds 136..147 only.** Sweeping `/d2:-inlT<n>` on the whole-program link:
+  - below 136, cRopes' vector `_Insert` and `cCWWeapon::RetReloadDuration` differ;
+  - from 148 on, `cPlayer::SpawnFromPrototype` differs;
+  - an effective 80 (the bracket CD2's size should give) loses 74 more.
+
+  136 is the smallest bracket's value. Why CD2's link sat in that bracket is open: packing the objects into
+  libraries does not split the size.
+- **Both models now pass the threshold that gives 136** (`inline_option`): link option `/d2:-inlT<136 − the bracket's
+  adjustment>`, a model parameter only. Only one `/d2` is accepted per link. `inlfcsw` had no effect.
+- **The tenth was a header, not the model.** `cTruck::RemoveWedge` called `hkReferencedObject`'s inline
+  `removeReference() const`, which the whole program then inlined. CD2 calls `hkWorldObject::removeReference()`
+  (Havok's library copy, 0x82BD2300). Even placed first, or taken from a library, a native COMDAT stub loses to the IL
+  COMDAT of the same name.
+
+Result: 13,613 of 13,613 in both models, and `verify` gates both.
+
 ## Source-shape sweeps (`tools/sweep.py`)
 Compiles named variants (text replacements in the source and headers) and reports each target function's match. Specs live in `sweeps/`. Results so far:
 - **`CalcRand*`:** `fmuls` operand order follows definition order (a local for the random value).

@@ -218,6 +218,10 @@ The earlier conclusion ("game objects compiled without `/GL`") was wrong for gam
   1. **Escape analysis.** A global whose address no `/GL` code takes is treated as unaliased. Modelling `g_GUIDNull` as non-`const` with an escaping address made the `cNPCTintProfile` constructor exact under LTCG.
   2. **Constant pool.** `c2.dll` pools a float literal unless a `const` global with that value was already registered. In CD2, 1.0f and 0.0f are such globals (loaded directly ~2,400 and ~2,900 times), while rarer constants are pooled. Registering them made `cAmbientVFXPrototype::MakeNew` exact under LTCG.
   3. **Open:** a further sensitivity to the link's composition (scheduling around global addresses).
+  4. **Inlining threshold** (2026-11-23). c2 adjusts its inlining threshold by the size of the link, and CD2's
+     inline decisions fit only the smallest size bracket's value. A full relink of the game would land in a larger
+     bracket, so it does not get this effect for free: it needs the same threshold that both models now pass
+     (`tools/research/compiler_re/README.md`, "The whole-program model and the inlining threshold").
 - **Practical consequence.** Plain compiles stay the main loop, since most functions come out identical either way.
   - `tools/verify_ltcg.py` builds each source under LTCG with an automatically generated model of the rest of the program: escapes, constant registrations and a pool seed. All 63 tracked functions are exact under it.
   - Three functions (`CalcRand*`) are exact **only** under LTCG and are marked `"ltcg": true` in the manifest.

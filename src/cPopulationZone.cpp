@@ -30,6 +30,11 @@ namespace unknown
     static Fun_Runtime::cInheritanceRegistrar cPopulationZonecZoneInheritRegistrar(
         cPopulationZone::StaticCreateClass(), cZone::StaticCreateClass());
 
+    const char *cPopulationZone::RetClassName() const
+    {
+        return "cPopulationZone";
+    }
+
     const char *cPopTODScriptRegistration::RetName() const
     {
         return "ePopTOD";

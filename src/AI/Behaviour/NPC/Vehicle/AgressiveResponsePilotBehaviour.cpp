@@ -37,6 +37,11 @@ namespace AI
         return *ms_pcAgressiveResponsePilotBehaviourClass;
     }
 
+    bool cAgressiveResponsePilotBehaviour::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcAgressiveResponsePilotBehaviourClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cAgressiveResponsePilotBehaviour::StaticCreateClass()
     {
         static Fun_Runtime::cClass *pilotClass =

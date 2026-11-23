@@ -9,3 +9,27 @@
 #include "CHARACTER/cCharacterController.h"
 #include "CHARACTER/cRagdollProfile.h"
 #include "AI/aiconstants.h"
+
+#include "VFX/cBeaconExplosionPassThroughShader.h"
+
+namespace VFX
+{
+    cBeaconExplosionPassThroughShader *cBeaconExplosionPassThroughShader::ms_pInstance;
+
+    bool cBeaconExplosionPassThroughShader::ReloadInstance(bool revert)
+    {
+        if (ms_pInstance)
+        {
+            ms_pInstance->Reload(revert);
+            cBeaconExplosionPassThroughShader *shader = ms_pInstance;
+            Ext_82B8A7B0(shader->m_pVertexShader);
+            Ext_82B8A780(shader->m_pPixelShader);
+        }
+        return true;
+    }
+
+    cShader::ReloadCallback cBeaconExplosionPassThroughShader::GetReloadCallback() const
+    {
+        return ReloadInstance;
+    }
+}

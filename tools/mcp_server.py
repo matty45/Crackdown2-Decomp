@@ -25,7 +25,8 @@ TOOLS_DEF = {
     'cd2_tasks': ('Open functions of the scaffolded files, easiest first, with difficulty tier and features.',
                   S(file=('string', 'only tasks of files whose path contains this'), tier=('integer', 'only this tier (1-4)')), [],
                   lambda a: ['tasks'] + ([a['file']] if a.get('file') else []) + (['--tier', str(a['tier'])] if a.get('tier') else [])),
-    'cd2_show': ('Task brief for one function: file, size, tier, status, neighbours, hints and CD2\'s assembly.',
+    'cd2_show': ('Task brief for one function: file, size, tier, status, neighbours, hints, notes on earlier attempts '
+                 'and CD2\'s assembly.',
                  S(address=ADDR), ['address'], lambda a: ['show', a['address']]),
     'cd2_claim': ('Start a task: map the function to the mangled symbol (prefix) you are writing for it.',
                   S(address=ADDR, symbol=('string', 'mangled symbol prefix, e.g. ?Update@cFoo@NS@@')), ['address', 'symbol'],

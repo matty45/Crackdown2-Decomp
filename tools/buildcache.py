@@ -22,7 +22,7 @@ INCLUDE_NOTE = 'Note: including file:'
 HEADERS = ('.h', '.hpp', '.inl', '.hh')
 TOOL_ENV = ('CL', '_CL_', 'LINK', '_LINK_')  # options cl.exe and link.exe read from the environment
 _memo, _lock, _names = {}, threading.Lock(), {}
-stats = dict(hits=0, misses=0, ltcg_hits=0, ltcg_misses=0, lint_hits=0, lint_misses=0)
+stats = dict(hits=0, misses=0, ltcg_hits=0, ltcg_misses=0, lint_hits=0, lint_misses=0, whole_hits=0, whole_misses=0)
 
 
 def count(what):

@@ -15,6 +15,10 @@ public:
     const hkCollidable *getCollidable() const { return &m_collidable; }
     // RuffKing's (Havok's) name; CD2 0x82BD22E0 (30 callers), called by cEquipment::EnterGhostState as RuffKing's.
     void addReference();
+    // RuffKing's and Burn's (Havok's) name: CD2 0x82BD2300, beside addReference in hkdynamics.lib(hkWorldObject.obj).
+    // It hides hkReferencedObject's inline removeReference: cTruck::RemoveWedge calls this out of line, and the
+    // whole-program LTCG model inlines the base's body there when the call names the base's function.
+    void removeReference();
     hkCollidable *getCollidableRw() { return &m_collidable; }
 protected:
     virtual hkMotionState *getMotionState() = 0;

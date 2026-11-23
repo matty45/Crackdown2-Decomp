@@ -23,6 +23,11 @@
 #include "rws/classfactory.h"
 #include "fun_runtime/inheritance_registrar.h"
 #include "cd2/memory.h"
+#include "ExplosionManager/tExplosionData.h"
+#include "ExplosionManager/cExplosionEffect.h"
+#include "CHARACTER/cCharacterInterface.h"
+#include "PLAYER/cPlayer.h"
+#include "Trigger/cTriggerManager.h"
 
 namespace ExplosionManager
 {
@@ -46,6 +51,29 @@ namespace ExplosionManager
     {
         static Fun_Runtime::cClass *cExplosionManagerClass = new Fun_Runtime::cClass(0x1ED8, "cExplosionManager", 0x928B0);
         return *cExplosionManagerClass;
+    }
+
+    void cExplosionManager::InitiateExplosion(tExplosionData &Data)
+    {
+        bool bChain = (Data.m_word78 & 2) != 0;
+        cExplosionEffect *pExplosion;
+        if (!Data.bHEExplosion && (Data.m_word78 & 1))
+            pExplosion = Accumulate(Data);
+        else
+            pExplosion = CreateExplosionInstance(Data);
+
+        if (pExplosion)
+        {
+            if (bChain)
+                Chain(pExplosion, Data);
+            pExplosion->StartExplosion();
+        }
+
+        if (Data.nChainLength > 1 && Data.pAttacker &&
+            Data.pAttacker->RetCharacter() == PLAYER::RetLocalPlayerCharacter())
+        {
+            Trigger::cTriggerManager::Instance().NotifyEvent(Trigger::eTriggerEvent_ChainReaction);
+        }
     }
 
     const Fun_Runtime::cClass *cExplosionManager::ms_pcExplosionManagerClass = &cExplosionManager::StaticCreateClass();

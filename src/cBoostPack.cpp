@@ -28,8 +28,39 @@
 #include "rw/rwmem.h"
 #include "fun_runtime/retval.h"
 
+namespace Equip
+{
+    // cGrenade's inline getters (RuffKing cGrenade.h): CD2 keeps their one copy in this object's text, before
+    // cBoostPack's own code (0x8260AAA8, 0x8260AAB0).
+    bool cGrenade::HasDetonated()
+    {
+        return m_bDetonated;
+    }
+
+    bool cGrenade::IsLive()
+    {
+        return m_bLive;
+    }
+
+    // Slot 415: zero, from this object's g_GlobalConstants copy (0x831F4520).
+    float cGrenade::RetDamageRadius() const
+    {
+        return Fun_Runtime::g_GlobalConstants.CONST_FLOAT_0;
+    }
+}
+
 namespace unknown
 {
+    const Fun_Runtime::cClass &cBoostPack::RetClass() const
+    {
+        return *ms_pcBoostPackClass;
+    }
+
+    bool cBoostPack::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcBoostPackClass->IsA(c);
+    }
+
     RWS::CAttributeHandler *cBoostPack::MakeNew(const RWS::CAttributePacket &packet, bool)
     {
         return new cBoostPackPrototype(packet);

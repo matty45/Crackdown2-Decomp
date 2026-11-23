@@ -578,6 +578,34 @@ def verify(override=None, ltcg=True, out=print, shared=None):
         ref_problems += pr
         ltcg_reached += rf
     out('LTCG: %d of %d matched functions exact under LTCG (from recorded facts)' % (ltcg_ok, ltcg_total))
+    # the whole-program model (tools/verify_ltcg.py --whole): each function against its recorded LTCG hash, with the
+    # recorded constant registrations of every file. A self-test's modified copy (override) is checked by the per-file
+    # part above; the whole-program model builds the repository's own sources.
+    whole_ok = whole_total = 0
+    if not override:
+        wconsts = sorted({(op, struct.unpack('>d', bytes.fromhex(h))[0]) for src in verify_ltcg.whole_sources()
+                          for op, h in facts['files'].get(src, {}).get('direct_constants', [])})
+
+        def judge(f, lread, a, nxt, absolute):
+            fe = facts['functions'].get(f['address'])
+            if not fe or 'ltcg' not in fe:
+                return False, 'no recorded facts'
+            lw = verify_ltcg.words(lread(a, (nxt if nxt else a + f['size'] + 64) - a))
+            while lw and lw[-1] == 0:
+                lw.pop()
+            n = f['size'] // 4
+            if len(lw) > n and fe['ltcg']['ends']:
+                lw = lw[:n]
+            exact = len(lw) == n and ltcg_hash(lw, a, fe['ltcg'].get('absolute_relocations', ())) == fe['ltcg']['sha']
+            return exact, 'recorded hash %s' % ('matches' if exact else 'differs')
+        whole = verify_ltcg.check_whole(env(), os.path.join(tmp, 'whole'), man, wconsts, judge)
+        tracked = [r for r in whole['rows'] if r['tracked']]
+        whole_total, whole_ok = len(tracked), sum(1 for r in tracked if r['whole'])
+        out('whole-program LTCG: %d of %d matched functions exact in the whole-program model (from recorded facts)'
+            % (whole_ok, whole_total))
+        for r in tracked:
+            if not r['whole']:
+                out('  not exact in the whole-program model: %s %s' % (r['address'], r['symbol'][:80]))
     ref_problems += relocs.check_extents(ltcg_reached, ref_entries)
     ref_problems += relocs.check_tables(ltcg_reached, oracle.table_words, oracle.own_slot)
     ref_problems += relocs.check_ownership(ltcg_reached, splits)
@@ -591,7 +619,7 @@ def verify(override=None, ltcg=True, out=print, shared=None):
     for pr in ref_problems:
         out('  ' + pr)
     problems = problems + ref_problems
-    return ok == total and not problems and ltcg_ok == ltcg_total, problems
+    return ok == total and not problems and ltcg_ok == ltcg_total and whole_ok == whole_total, problems
 
 
 def self_test():

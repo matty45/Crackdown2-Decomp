@@ -14,6 +14,8 @@ namespace ExplosionManager
 {
     class cExplosive;
     class cExplosionLevelInfo;
+    class cExplosionEffect;
+    struct tExplosionData;
 
     class cExplosionManager : public cNonGameBase, public GDb::cDebugPageHandler
     {
@@ -29,9 +31,14 @@ namespace ExplosionManager
         // CD2 0x8263EAE0 / 0x8263EAF0: the registered-class pair, at the start of this object's code.
         virtual const Fun_Runtime::cClass &RetClass() const;
         virtual bool IsA(const Fun_Runtime::cClass &) const;
+        // Reference signatures; CD2 dispatch is 0x8263F228.
+        void InitiateExplosion(tExplosionData &Data);
 
     private:
         static cExplosionManager *ms_pSingleton;
+        cExplosionEffect *CreateExplosionInstance(const tExplosionData &Data); // CD2 0x8263ECE8
+        void Chain(cExplosionEffect *pExplosion, const tExplosionData &Data); // CD2 0x8263ED50
+        cExplosionEffect *Accumulate(tExplosionData &Data); // CD2 0x823A3E50
         // RuffKing's names and order after the bases; the destructor builds the list at +0x80.
         unsigned int m_lpExplosive[3];  // RuffKing: cList<cExplosive *>; not modelled
         Fun_Runtime::cVectorip<cExplosionLevelInfo *, 15> m_vpExplosion;

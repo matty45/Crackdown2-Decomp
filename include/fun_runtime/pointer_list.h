@@ -25,6 +25,7 @@ namespace Fun_Runtime
         cPointerList() { cListNode *n = AllocListNode(); if (n) n->m_pNext = n; cListNode **pp = PrevPtr(n); if (pp) *pp = n; m_pHead = n; m_nSize = 0; }
         ~cPointerList();
         void push_back(const T &);
+        unsigned int size() const { return m_nSize; }
     private:
         int m_nAlloc;
         cListNode *m_pHead;
