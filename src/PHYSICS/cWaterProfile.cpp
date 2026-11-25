@@ -50,6 +50,11 @@ namespace PHYSICS
         return ms_pcWaterProfileClass->IsA(c);
     }
 
+    RWS::CAttributeHandler *cWaterProfile::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        return new cWaterProfile(packet);
+    }
+
     static RWS::CClassFactory::CRegistrar cWaterProfileRegistrar(
         "cWaterProfile", cWaterProfile::MakeNew, 0x7C, false);
 

@@ -73,4 +73,102 @@ namespace Prop
         static Fun_Runtime::cClass *cSlidingDoorClass = new Fun_Runtime::cClass(0x13882, "cSlidingDoor", 0xF00);
         return *cSlidingDoorClass;
     }
+
+    // RetSTATE_Min's body (0x82381100) lies in the order-list region, outside this object's range.
+    inline Fun_Runtime::State *cSlidingDoor::StaticRetSTATE_Min()
+    {
+        static STATE_Min s_State;
+        return &s_State;
+    }
+
+    Fun_Runtime::State *cSlidingDoor::RetSTATE_Min() const
+    {
+        return StaticRetSTATE_Min();
+    }
+
+    Fun_Runtime::State *cSlidingDoor::RetSTATE_Min()
+    {
+        return StaticRetSTATE_Min();
+    }
+
+    inline Fun_Runtime::State *cSlidingDoor::StaticRetSTATE_Max()
+    {
+        static STATE_Max s_State;
+        return &s_State;
+    }
+
+    Fun_Runtime::State *cSlidingDoor::RetSTATE_Max() const
+    {
+        return StaticRetSTATE_Max();
+    }
+
+    Fun_Runtime::State *cSlidingDoor::RetSTATE_Max()
+    {
+        return StaticRetSTATE_Max();
+    }
+
+    cSlidingDoor::cSlidingDoor(GOM::cObjectPrototype *pPrototype) : cPrismaticProp(pPrototype)
+    {
+    }
+
+    cSlidingDoor::~cSlidingDoor()
+    {
+    }
+
+    bool cSlidingDoor::CreatePathObject()
+    {
+        if (cPathObjectOwner::CreatePathObject())
+        {
+            InitStreamingGraphs(RetScriptPosition());
+            return true;
+        }
+        return false;
+    }
+
+    void cSlidingDoor::DestroyPathObject()
+    {
+        if (m_pPathObject)
+        {
+            TermStreamingGraphs();
+            cPathObjectOwner::DestroyPathObject();
+        }
+    }
+
+    void cSlidingDoor::OnEnterGraph(AI::cStreamingGraph *pStreamingGraph)
+    {
+        LinkIntersectingGraphEdges(pStreamingGraph, this);
+    }
+
+    void cSlidingDoor::OnFinishedSlidingToMin()
+    {
+        if (m_PropAudio.IsRegistered())
+            m_PropAudio.OneShot(Audio::eOSE_Training_GateClosed);
+    }
+
+    Fun_Runtime::RetVal cSlidingDoor::cSlidingDoorPrototype::Init(const RWS::CAttributePacket &)
+    {
+        return Ret_OK;
+    }
+
+    void cSlidingDoor::STATE_Min::EnterPhysicalState(Fun_Runtime::cStateMachine *pSM)
+    {
+        static_cast<cSlidingDoor *>(pSM)->ForceToMin();
+        static_cast<cSlidingDoor *>(pSM)->CreatePathObject();
+    }
+
+    void cSlidingDoor::STATE_Min::LeavePhysicalState(Fun_Runtime::cStateMachine *pSM)
+    {
+        static_cast<cSlidingDoor *>(pSM)->DestroyPathObject();
+    }
+
+    void cSlidingDoor::STATE_Max::EnterPhysicalState(Fun_Runtime::cStateMachine *pSM)
+    {
+        static_cast<cSlidingDoor *>(pSM)->ForceToMax();
+        static_cast<cSlidingDoor *>(pSM)->CreatePathObject();
+    }
+
+    void cSlidingDoor::STATE_Max::LeavePhysicalState(Fun_Runtime::cStateMachine *pSM)
+    {
+        static_cast<cSlidingDoor *>(pSM)->DestroyPathObject();
+    }
 }

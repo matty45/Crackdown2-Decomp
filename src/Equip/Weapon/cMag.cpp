@@ -63,6 +63,12 @@ namespace Equip
         return "cMag";
     }
 
+    cMag::cMag()
+        : m_nReplicatedNextLinkID(0x3FFFFF), m_nReplicatedPrevLinkID(0x3FFFFF), m_pActiveMagVFX(0),
+          m_pBeamMagVFX(0), m_bUnknownB10(false), m_bUnknownB11(false)
+    {
+    }
+
     RWS::CAttributeHandler *cMag::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
     {
         if (memory)

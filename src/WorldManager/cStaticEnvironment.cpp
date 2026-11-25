@@ -21,6 +21,7 @@
 #include "WorldManager/cStaticEnvironment.h"
 #include "cd2/memory.h"
 #include "rws/CResource.h"
+#include "GameRenderer/cLODClump.h"
 
 namespace WorldManager
 {
@@ -96,5 +97,15 @@ namespace WorldManager
     bool cStaticEnvironment::HasLoadedResources(eResourcesType resources)
     {
         return (m_nResourceState & resources) != 0;
+    }
+
+    void cStaticEnvironment::SetVisibility(bool bVisibility)
+    {
+        // Two expansions of the inline SetVisibility, as CD2 has them: one call with the argument folded to false
+        // gives one shared tail instead.
+        if (!m_bBlockIsDisabled)
+            m_pClump->SetVisibility(bVisibility);
+        else
+            m_pClump->SetVisibility(false);
     }
 }

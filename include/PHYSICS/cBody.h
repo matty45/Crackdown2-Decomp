@@ -74,7 +74,7 @@ namespace PHYSICS
         virtual void vf159(); virtual void vf160(); virtual void vf161(); virtual void vf162(); virtual void vf163(); virtual void vf164();
         virtual void vf165(); virtual void vf166(); virtual void vf167(); virtual void vf168(); virtual void vf169(); virtual void vf170();
         // Ret_pRB is the reference name; CD2 slot 172 at 0x82457858 returns m_pRigidBody (+0x224).
-        virtual void vf171(); virtual hkRigidBody *Ret_pRB(); virtual void vf173(); virtual void GetLocalAABB(hkAabb *) const; virtual void GetWorldAABB(hkAabb *) const; virtual void vf176();
+        virtual bool NeedsEnvironmentCollision(); virtual hkRigidBody *Ret_pRB(); virtual void vf173(); virtual void GetLocalAABB(hkAabb *) const; virtual void GetWorldAABB(hkAabb *) const; virtual void vf176();
         // Reference names; CD2 0x82683F50 forwards AI world bounds to primary slot 175.
         virtual void GetAIWorldAABB(hkAabb *); virtual void vf178(); virtual void vf179(); virtual void vf180(); virtual void vf181(); virtual void vf182();
         virtual void vf183(); virtual void vf184(); virtual void vf185(); virtual void vf186(); virtual void vf187(); virtual void vf188();

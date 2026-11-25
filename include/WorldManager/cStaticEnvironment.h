@@ -21,6 +21,8 @@ namespace WorldManager
         virtual unsigned char RetResourceState();
         virtual void TermClump();
         virtual void ReCalculateResourceState();
+        // RuffKing name (not virtual there either); CD2 0x82809550 has three direct callers.
+        void SetVisibility(bool bVisibility);
         // CD2 0x82808970: primary virtual slot 11 returns the registered class name.
         virtual const char *RetClassName() const;
         // CD2 0x828088A8 / 0x828088B8: the registered-class pair, at the start of this object's code.

@@ -1,7 +1,9 @@
 // PHYSICS::cLaunchPad (Crackdown 2): STAND-IN. Name and base (RWS::CEventHandler, virtual destructor in slot 0)
 // from RuffKing's Physics/LaunchPad/cLaunchPad.h. CD2's cLaunchPadLocation::MakeNew (0x82714020) allocates 0x1A0
 // bytes and calls the out-of-line constructor 0x8232C168 with only the object; its destructor releases the pad
-// through virtual slot 0 (the deleting destructor). Fields are not modelled.
+// through virtual slot 0 (the deleting destructor). Fields are not modelled; RuffKing's Vec3 members (m_vLaunchPos at
+// 0x10) make the class 16-byte aligned, and CD2's cPortableLaunchPad (constructor 0x8260DF18) places it at 0xB00, past a
+// field ending at 0xAF4.
 #ifndef PHYSICS_CLAUNCHPAD_H
 #define PHYSICS_CLAUNCHPAD_H
 
@@ -10,7 +12,7 @@
 
 namespace PHYSICS
 {
-    class cLaunchPad : public RWS::CEventHandler
+    __declspec(align(16)) class cLaunchPad : public RWS::CEventHandler
     {
     public:
         cLaunchPad();

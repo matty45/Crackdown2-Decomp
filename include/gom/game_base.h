@@ -5,7 +5,7 @@
 #include "gom/non_game_base.h"
 #include "rws/systemcommands.h"
 #include "GameRenderer/cFrame.h"
-namespace Fun_Runtime { class Mtx; }
+#include "fun_runtime/mtx.h"
 namespace GOM { class cPointOfInterest; }
 namespace CHARACTER { class cCharacter; }
 __declspec(align(16)) class cGameBase : public RWS::CSystemCommands, public cNonGameBase
@@ -85,7 +85,18 @@ private:
     unsigned char m_unknown7C[0x80 - 0x7C];
     // Reference name; CD2 cWaterZonePhantom::OnGameObjectEnter stores the zone ID at +0x80.
     int m_nWaterZoneID;
-    unsigned char m_unknown84[0x108 - 0x84];
+    unsigned char m_unknown84[0x90 - 0x84];
+public:
+    // RuffKing's name and type (protected there); cPhantomBody's UpdateRenderMatrix (0x8268AA80) copies it into the clump.
+    Fun_Runtime::Mtx m_Transform;
+private:
+    unsigned char m_unknownD0[0xF4 - 0xD0];
+public:
+    // RuffKing's name and type (public there too); CD2's TermClump (slot 70, 0x82651180) releases it, and cVehicle's
+    // Show (0x826CFE90) sets its visibility.
+    GameRenderer::cLODClump *m_pClump;
+private:
+    unsigned char m_unknownF8[0x108 - 0xF8];
     // Descriptive name ours: CD2 TickUpdate (0x82808DC8) increments this word when m_nNGBFlags bit 0 is set.
     unsigned int m_nTickCount;
     unsigned char m_unknown10C[4];
@@ -121,6 +132,8 @@ private:
     CD2_LAYOUT_CHECKS(cGameBase,
         CD2_SIZE(cGameBase, 0x120)
         CD2_OFFSET(cGameBase, m_nWaterZoneID, 0x80)
+        CD2_OFFSET(cGameBase, m_Transform, 0x90)
+        CD2_OFFSET(cGameBase, m_pClump, 0xF4)
         CD2_OFFSET(cGameBase, m_nTickCount, 0x108)
         CD2_OFFSET(cGameBase, m_fHealth, 0x110)
         CD2_OFFSET(cGameBase, m_fFullHealth, 0x114)

@@ -23,6 +23,7 @@ namespace Audio
     // CD2's one-shot table 0x820E50A0 supplies these names and indices.
     enum eOneShotEvent
     {
+        eOSE_Training_GateClosed = 12,
         eOSE_ObjectWaterIn = 64,
         eOSE_ObjectWaterOut = 65,
     };

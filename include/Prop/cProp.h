@@ -131,7 +131,10 @@ namespace Prop
     private:
         unsigned char m_unknown7B4[0x7B8 - 0x7B4];
         // RuffKing's names and types, 0x28..0x70 below RuffKing's offsets; the destructor (0x82729538) destroys them.
+    public:
+        // Public in RuffKing; cSlidingDoor's OnFinishedSlidingToMin (0x82746D60) plays a one-shot on it.
         Audio::cPhysicsBodyGameObject m_PropAudio;              // 0x7B8
+    private:
         cPropDamageManager m_PropDamageManager;                 // 0x880
         cPropCollisionManager m_ColDamageListener;              // 0xA24
         // RuffKing's order; CD2 0x82730450 tests the explosive pointer at +0xA30.

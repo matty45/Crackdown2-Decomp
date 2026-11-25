@@ -43,6 +43,88 @@ namespace Prop
         return *cHingedDoorClass;
     }
 
+    inline Fun_Runtime::State *cHingedDoor::StaticRetSTATE_Min()
+    {
+        static STATE_Min s_State;
+        return &s_State;
+    }
+
+    Fun_Runtime::State *cHingedDoor::RetSTATE_Min() const
+    {
+        return StaticRetSTATE_Min();
+    }
+
+    Fun_Runtime::State *cHingedDoor::RetSTATE_Min()
+    {
+        return StaticRetSTATE_Min();
+    }
+
+    inline Fun_Runtime::State *cHingedDoor::StaticRetSTATE_Max()
+    {
+        static STATE_Max s_State;
+        return &s_State;
+    }
+
+    Fun_Runtime::State *cHingedDoor::RetSTATE_Max() const
+    {
+        return StaticRetSTATE_Max();
+    }
+
+    Fun_Runtime::State *cHingedDoor::RetSTATE_Max()
+    {
+        return StaticRetSTATE_Max();
+    }
+
+    cHingedDoor::cHingedDoor(GOM::cObjectPrototype *pPrototype) : cHingedProp(pPrototype)
+    {
+    }
+
+    cHingedDoor::~cHingedDoor()
+    {
+    }
+
+    void cHingedDoor::TickUpdate(float dt)
+    {
+        cHingedProp::TickUpdate(dt);
+    }
+
+    bool cHingedDoor::CreatePathObject()
+    {
+        if (cPathObjectOwner::CreatePathObject())
+        {
+            InitStreamingGraphs(RetScriptPosition());
+            return true;
+        }
+        return false;
+    }
+
+    void cHingedDoor::OnEnterGraph(AI::cStreamingGraph *pStreamingGraph)
+    {
+        LinkIntersectingGraphEdges(pStreamingGraph, this);
+    }
+
+    void cHingedDoor::STATE_Min::EnterPhysicalState(Fun_Runtime::cStateMachine *pSM)
+    {
+        static_cast<cHingedDoor *>(pSM)->ForceToMin();
+        static_cast<cHingedDoor *>(pSM)->CreatePathObject();
+    }
+
+    void cHingedDoor::STATE_Min::LeavePhysicalState(Fun_Runtime::cStateMachine *pSM)
+    {
+        static_cast<cHingedDoor *>(pSM)->DestroyPathObject();
+    }
+
+    void cHingedDoor::STATE_Max::EnterPhysicalState(Fun_Runtime::cStateMachine *pSM)
+    {
+        static_cast<cHingedDoor *>(pSM)->ForceToMax();
+        static_cast<cHingedDoor *>(pSM)->CreatePathObject();
+    }
+
+    void cHingedDoor::STATE_Max::LeavePhysicalState(Fun_Runtime::cStateMachine *pSM)
+    {
+        static_cast<cHingedDoor *>(pSM)->DestroyPathObject();
+    }
+
     const Fun_Runtime::cClass *cHingedDoor::ms_pcHingedDoorClass = &cHingedDoor::StaticCreateClass();
 
     // CD2 0x82FFAEF0: runtime class inheritance registration.

@@ -48,6 +48,8 @@ namespace unknown
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcPhantomBodyClass;
         static Fun_Runtime::cClass &StaticCreateClass();
+        // Primary slot 26 (0x8268AA80): copies the transform into the current clump's base matrix.
+        virtual void UpdateRenderMatrix();
     };
 }
 

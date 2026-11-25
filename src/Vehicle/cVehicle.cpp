@@ -29,6 +29,7 @@
 #include "AI/cVehicleDroppedEvent.h"
 #include "AI/cHornSoundEvent.h"
 #include "Equip/cCWSatchelCharge.h"
+#include "GameRenderer/cLODClump.h"
 #include <new>
 
 namespace AI
@@ -152,6 +153,11 @@ namespace Vehicle
     bool cVehicle::CreateParts(const char **names, unsigned short count)
     {
         return LocateParts(names, count);
+    }
+
+    void cVehicle::Show()
+    {
+        m_pClump->SetVisibility(true);
     }
 
     void cVehicle::EventTriggerStartFire(CHARACTER::cCharacter *)

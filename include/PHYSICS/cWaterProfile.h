@@ -15,6 +15,13 @@ namespace PHYSICS
     {
     public:
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
+        // RuffKing's constructor (0x827E0D78) sets two water settings; CD2's MakeNew (0x82697560) inlines it, which
+        // needs __forceinline here (docs/matching-notes.md, "Inlining").
+        __forceinline cWaterProfile(const RWS::CAttributePacket &)
+        {
+            m_WaterInfo.fMaxHeightLevel = 50.0f;
+            m_WaterInfo.fGroundLevel = Fun_Runtime::g_GlobalConstants.CONST_FLOAT_0;
+        }
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         static const Fun_Runtime::cClass *ms_pcWaterProfileClass;
         virtual const Fun_Runtime::cClass &RetClass() const;

@@ -21,6 +21,7 @@
 #include "WorldManager/cLOD4Environment.h"
 #include "WorldManager/cStaticEnvironment.h"
 #include "cd2/memory.h"
+#include "GameRenderer/cLODClump.h"
 
 namespace WorldManager
 {
@@ -59,6 +60,11 @@ namespace WorldManager
         cGameBase::HandleAttributes(packet);
         if (packet.IsInstanceCreationPacket())
             m_EventHandler.Register(this, packet.GetInstanceId());
+    }
+
+    void cLOD4Environment::LockLOD(cStaticEnvironment *pEnvBlock)
+    {
+        pEnvBlock->m_pClump->SetForceLOD(pEnvBlock->CheckResources(eRes_Render_LOD1) == eRLS_Loaded ? 0 : 2);
     }
 
     bool cLOD4Environment::AnyLOD3Fading() const

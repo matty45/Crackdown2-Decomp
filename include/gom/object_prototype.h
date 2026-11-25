@@ -17,8 +17,31 @@
 #include "cd2/layout.h"
 #include "fun_runtime/aabb.h"
 
-enum eResourcesType { };
-enum eResourceLoadStatus { };
+// RuffKing's enumerators (exported.h; ResourceManager/cResourceCatalogueEntry.h).
+enum eResourcesType
+{
+    eRes_Physical = 1,
+    eRes_Render_LOD1 = 2,
+    eRes_Render_LOD2 = 4,
+    eRes_Render_LOD3 = 8,
+    eRes_Render_LOD4 = 16,
+    eRes_Render_All = 30,
+    eRes_Other = 32,
+    eRes_All = 63,
+};
+enum eResourceLoadStatus
+{
+    eRLS_Loaded = 0,
+    eRLS_Requested,
+    eRLS_InRequestQueue,
+    eRLS_Loading,
+    eRLS_Inflating,
+    eRLS_LoadedPendingFixup,
+    eRLS_Cancelled,
+    eRLS_NotLoaded,
+    eRLS_ToBeUnloaded,
+    eRLS_InvalidResource,
+};
 
 namespace RWS { class CResource; }
 

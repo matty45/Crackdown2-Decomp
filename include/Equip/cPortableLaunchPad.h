@@ -2,12 +2,15 @@
 #include "Equip/cCWSatchelCharge.h"
 #include "gom/object_prototype.h"
 #include "rws/attributes.h"
-// Equip::cPortableLaunchPad (Crackdown 2): STAND-IN: constructor-confirmed base; remaining instance fields are not modelled.
+// Equip::cPortableLaunchPad (Crackdown 2): STAND-IN: constructor-confirmed base and fields. The constructor (0x8260DF18)
+// initializes RuffKing's three fields in its order, 0xA0 below RuffKing's offsets; the launch pad ends the class at 0xCA0.
 // StaticCreateClass (0x8260DE78) builds cClass(0x27412, "cPortableLaunchPad", 0xCA0); 0xCA0 is the size its registrar gives.
 #ifndef EQUIP_CPORTABLELAUNCHPAD_H
 #define EQUIP_CPORTABLELAUNCHPAD_H
 
 #include "fun_runtime/class.h"
+#include "fun_runtime/safedeletablepointer.h"
+#include "PHYSICS/cLaunchPad.h"
 
 namespace Equip
 {
@@ -45,6 +48,28 @@ namespace Equip
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static const Fun_Runtime::cClass *ms_pcPortableLaunchPadClass;
         static Fun_Runtime::cClass &StaticCreateClass();
+
+        // The other slots where CD2's table (0x82120F88, stored by the constructor) differs from cCWSatchelCharge's;
+        // RuffKing's cPortableLaunchPad overrides the same ones (Unstick aside).
+        virtual Fun_Runtime::RetVal Term(); // 6: 0x8260E088
+        virtual void TickUpdate(float fDeltaTime); // 23: 0x8260E1F0
+        virtual void NotifyTracked(cEquipment *pLastTracked); // 342: 0x8260E4D8
+        virtual void NowStuck(); // 432: 0x8260E638
+        virtual void Unstick(); // 433: 0x8260E700
+        virtual void OnAttachedToObject(cSatchelChargeTarget *pTarget, const Fun_Runtime::Mtx &matOffset); // 434: 0x8260E7B0
+        virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x8260E8D8
+        virtual void ReplicateFields(); // cReplicatedClass 9: 0x8260E918
+
+    private:
+        Fun_Runtime::cSafeDeletablePointer<cPortableLaunchPad> m_pTarget;     // 0xAE0
+        unsigned int m_nReplicatedTargetID;                                 // 0xAF0
+        PHYSICS::cLaunchPad m_LaunchPad;                                    // 0xB00
+
+        CD2_LAYOUT_CHECKS(cPortableLaunchPad,
+            CD2_SIZE(cPortableLaunchPad, 0xCA0)
+            CD2_OFFSET(cPortableLaunchPad, m_pTarget, 0xAE0)
+            CD2_OFFSET(cPortableLaunchPad, m_nReplicatedTargetID, 0xAF0)
+            CD2_OFFSET(cPortableLaunchPad, m_LaunchPad, 0xB00))
     };
 }
 

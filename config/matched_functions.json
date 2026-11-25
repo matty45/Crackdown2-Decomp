@@ -3854,6 +3854,85 @@
         "address": "0x82734A50",
         "size": 16,
         "symbol": "?Init@cAgencyGarageDoorPrototype@cAgencyGarageDoor@unknown@@"
+      },
+      {
+        "address": "0x82732D60",
+        "size": 92,
+        "symbol": "?IsA@cAgencyGarageDoor@unknown@@"
+      },
+      {
+        "address": "0x82733000",
+        "size": 80,
+        "symbol": "??_GcAgencyGarageDoor@unknown@@"
+      },
+      {
+        "address": "0x82736170",
+        "size": 8,
+        "symbol": "?IsA@cAgencyGarageDoor@unknown@@WPA@"
+      },
+      {
+        "address": "0x82736178",
+        "size": 8,
+        "symbol": "??_EcAgencyGarageDoor@unknown@@WBI@"
+      },
+      {
+        "address": "0x82736180",
+        "size": 8,
+        "symbol": "??_EcAgencyGarageDoor@unknown@@WFBA@"
+      },
+      {
+        "address": "0x82736188",
+        "size": 8,
+        "symbol": "??_EcAgencyGarageDoor@unknown@@WDI@"
+      },
+      {
+        "address": "0x82736190",
+        "size": 8,
+        "symbol": "??_EcAgencyGarageDoor@unknown@@WBM@"
+      },
+      {
+        "address": "0x82736198",
+        "size": 8,
+        "symbol": "?RetClass@cAgencyGarageDoor@unknown@@WEOA@"
+      },
+      {
+        "address": "0x827361A0",
+        "size": 8,
+        "symbol": "??_EcAgencyGarageDoor@unknown@@WCFA@"
+      },
+      {
+        "address": "0x827361A8",
+        "size": 8,
+        "symbol": "?IsA@cAgencyGarageDoor@unknown@@WEOA@"
+      },
+      {
+        "address": "0x827361B0",
+        "size": 8,
+        "symbol": "??_EcAgencyGarageDoor@unknown@@WCJE@"
+      },
+      {
+        "address": "0x827361B8",
+        "size": 8,
+        "symbol": "??_EcAgencyGarageDoor@unknown@@WBCA@"
+      },
+      {
+        "address": "0x827361C0",
+        "size": 8,
+        "symbol": "??_EcAgencyGarageDoor@unknown@@WHKM@"
+      },
+      {
+        "address": "0x82732F00",
+        "size": 256,
+        "symbol": "??0cAgencyGarageDoor@unknown@@",
+        "matching": false,
+        "note": "17%: calls, every vptr and field store, the two statics and the 0.0f constant are CD2's; CD2 hoists all 17 high halves into r22..r30 (one more saved register) and loads 0.0f late, ours loads it first; store order around ms_pInstance follows CD2's"
+      },
+      {
+        "address": "0x82733050",
+        "size": 216,
+        "symbol": "??1cAgencyGarageDoor@unknown@@",
+        "matching": false,
+        "note": "7%: same stores; CD2 clears ms_bUnknown before restoring the vptrs and uses r22..r31, ours after them with r24..r31"
       }
     ],
     "src/cATVAssaultGameModePrototype.cpp": [
@@ -21701,6 +21780,135 @@
         "address": "0x82744810",
         "size": 16,
         "symbol": "?Init@cHingedDoorPrototype@cHingedDoor@Prop@@"
+      },
+      {
+        "address": "0x82744280",
+        "size": 92,
+        "symbol": "?IsA@cHingedDoor@Prop@@"
+      },
+      {
+        "address": "0x827443D8",
+        "size": 72,
+        "symbol": "?IsInMinState@cHingedProp@Prop@@"
+      },
+      {
+        "address": "0x82744560",
+        "size": 256,
+        "symbol": "??0cHingedDoor@Prop@@"
+      },
+      {
+        "address": "0x82744660",
+        "size": 80,
+        "symbol": "??_GcHingedDoor@Prop@@"
+      },
+      {
+        "address": "0x827446B0",
+        "size": 208,
+        "symbol": "??1cHingedDoor@Prop@@"
+      },
+      {
+        "address": "0x82744780",
+        "size": 4,
+        "symbol": "?TickUpdate@cHingedDoor@Prop@@"
+      },
+      {
+        "address": "0x82744788",
+        "size": 124,
+        "symbol": "?CreatePathObject@cHingedDoor@Prop@@"
+      },
+      {
+        "address": "0x82744808",
+        "size": 8,
+        "symbol": "?OnEnterGraph@cHingedDoor@Prop@@"
+      },
+      {
+        "address": "0x82744888",
+        "size": 36,
+        "symbol": "?LeavePhysicalState@STATE_Min@cHingedDoor@Prop@@"
+      },
+      {
+        "address": "0x82744918",
+        "size": 8,
+        "symbol": "??_EcHingedDoor@Prop@@WFBA@"
+      },
+      {
+        "address": "0x82744920",
+        "size": 8,
+        "symbol": "??_EcHingedDoor@Prop@@WDI@"
+      },
+      {
+        "address": "0x82744928",
+        "size": 8,
+        "symbol": "??_EcHingedDoor@Prop@@WBM@"
+      },
+      {
+        "address": "0x82744930",
+        "size": 8,
+        "symbol": "?RetClass@cHingedDoor@Prop@@WEOA@"
+      },
+      {
+        "address": "0x82744938",
+        "size": 8,
+        "symbol": "??_EcHingedDoor@Prop@@WCFA@"
+      },
+      {
+        "address": "0x82744940",
+        "size": 8,
+        "symbol": "?IsA@cHingedDoor@Prop@@WEOA@"
+      },
+      {
+        "address": "0x82744948",
+        "size": 8,
+        "symbol": "??_EcHingedDoor@Prop@@WCJE@"
+      },
+      {
+        "address": "0x82744950",
+        "size": 8,
+        "symbol": "??_EcHingedDoor@Prop@@WBCA@"
+      },
+      {
+        "address": "0x82744958",
+        "size": 8,
+        "symbol": "??_EcHingedDoor@Prop@@WHKM@"
+      },
+      {
+        "address": "0x82744960",
+        "size": 8,
+        "symbol": "?RetClass@cHingedDoor@Prop@@WPA@"
+      },
+      {
+        "address": "0x82744968",
+        "size": 8,
+        "symbol": "?IsA@cHingedDoor@Prop@@WPA@"
+      },
+      {
+        "address": "0x82744970",
+        "size": 8,
+        "symbol": "??_EcHingedDoor@Prop@@WBI@"
+      },
+      {
+        "address": "0x827444C0",
+        "size": 80,
+        "symbol": "?RetSTATE_Min@cHingedDoor@Prop@@"
+      },
+      {
+        "address": "0x82744510",
+        "size": 80,
+        "symbol": "?RetSTATE_Max@cHingedDoor@Prop@@"
+      },
+      {
+        "address": "0x82744820",
+        "size": 100,
+        "symbol": "?EnterPhysicalState@STATE_Min@cHingedDoor@Prop@@",
+        "matching": false,
+        "note": "20%: calls ForceToMin then CreatePathObject through the 0xEB0 subobject, as CD2; CD2 keeps pSM-0xE30 in r30 and selects it branch-free (subfic/subfe/and) for both casts, which per-file builds give as cmplwi/bne; looks like cHingedProp::STATE_Min::EnterPhysicalState inlined across files"
+      },
+      {
+        "address": "0x827448B0",
+        "size": 100,
+        "symbol": "?EnterPhysicalState@STATE_Max@cHingedDoor@Prop@@",
+        "matching": false,
+        "note": "20%: as STATE_Min's (ForceToMax)"
       }
     ],
     "src/Prop/Custom/cPintleFaceplate.cpp": [
@@ -41634,6 +41842,100 @@
         "address": "0x82746878",
         "size": 12,
         "symbol": "?RetClass@cSlidingDoor@Prop@@"
+      },
+      {
+        "address": "0x82746888",
+        "size": 92,
+        "symbol": "?IsA@cSlidingDoor@Prop@@"
+      },
+      {
+        "address": "0x82746A28",
+        "size": 80,
+        "symbol": "?RetSTATE_Max@cSlidingDoor@Prop@@"
+      },
+      {
+        "address": "0x82746A78",
+        "size": 256,
+        "symbol": "??0cSlidingDoor@Prop@@"
+      },
+      {
+        "address": "0x82746B78",
+        "size": 208,
+        "symbol": "??1cSlidingDoor@Prop@@"
+      },
+      {
+        "address": "0x82746C48",
+        "size": 124,
+        "symbol": "?CreatePathObject@cSlidingDoor@Prop@@"
+      },
+      {
+        "address": "0x82746CC8",
+        "size": 76,
+        "symbol": "?DestroyPathObject@cSlidingDoor@Prop@@"
+      },
+      {
+        "address": "0x82746D18",
+        "size": 8,
+        "symbol": "?OnEnterGraph@cSlidingDoor@Prop@@"
+      },
+      {
+        "address": "0x82746D60",
+        "size": 28,
+        "symbol": "?OnFinishedSlidingToMin@cSlidingDoor@Prop@@"
+      },
+      {
+        "address": "0x82746D80",
+        "size": 16,
+        "symbol": "?Init@cSlidingDoorPrototype@cSlidingDoor@Prop@@"
+      },
+      {
+        "address": "0x82746DF8",
+        "size": 36,
+        "symbol": "?LeavePhysicalState@STATE_Min@cSlidingDoor@Prop@@"
+      },
+      {
+        "address": "0x82746E88",
+        "size": 8,
+        "symbol": "?IsA@cSlidingDoor@Prop@@WEOA@"
+      },
+      {
+        "address": "0x82746E90",
+        "size": 8,
+        "symbol": "??_EcSlidingDoor@Prop@@WCJE@"
+      },
+      {
+        "address": "0x82746E98",
+        "size": 8,
+        "symbol": "?RetClass@cSlidingDoor@Prop@@WPA@"
+      },
+      {
+        "address": "0x82746EA0",
+        "size": 8,
+        "symbol": "?IsA@cSlidingDoor@Prop@@WPA@"
+      },
+      {
+        "address": "0x82746EA8",
+        "size": 8,
+        "symbol": "??_EcSlidingDoor@Prop@@WDI@"
+      },
+      {
+        "address": "0x82746EB0",
+        "size": 8,
+        "symbol": "?RetClass@cSlidingDoor@Prop@@WEOA@"
+      },
+      {
+        "address": "0x82746D90",
+        "size": 100,
+        "symbol": "?EnterPhysicalState@STATE_Min@cSlidingDoor@Prop@@",
+        "matching": false,
+        "note": "20%: as cHingedDoor's state callbacks: ForceToMin then CreatePathObject, CD2 selects pSM-0xE30 branch-free for both casts"
+      },
+      {
+        "address": "0x82746E20",
+        "size": 100,
+        "symbol": "?EnterPhysicalState@STATE_Max@cSlidingDoor@Prop@@",
+        "matching": false,
+        "note": "20%: as STATE_Min's (ForceToMax)"
       }
     ],
     "src/Prop/Custom/cTODSlidingDoor.cpp": [
@@ -41747,6 +42049,71 @@
         "address": "0x83041AD0",
         "size": 20,
         "symbol": "??__FcTODSlidingDoorSpawningRegistrar@Prop@@"
+      },
+      {
+        "address": "0x82746EC8",
+        "size": 12,
+        "symbol": "?RetClass@cTODSlidingDoor@Prop@@"
+      },
+      {
+        "address": "0x82746F80",
+        "size": 228,
+        "symbol": "?SpawnFromPrototype@cTODSlidingDoor@Prop@@"
+      },
+      {
+        "address": "0x82747258",
+        "size": 80,
+        "symbol": "??_GcTODSlidingDoor@Prop@@"
+      },
+      {
+        "address": "0x82747300",
+        "size": 8,
+        "symbol": "?RetClass@cTODSlidingDoor@Prop@@WEOA@"
+      },
+      {
+        "address": "0x82747308",
+        "size": 8,
+        "symbol": "??_EcTODSlidingDoor@Prop@@WCFA@"
+      },
+      {
+        "address": "0x82747310",
+        "size": 8,
+        "symbol": "?IsA@cTODSlidingDoor@Prop@@WEOA@"
+      },
+      {
+        "address": "0x82747318",
+        "size": 8,
+        "symbol": "??_EcTODSlidingDoor@Prop@@WBCA@"
+      },
+      {
+        "address": "0x82747320",
+        "size": 8,
+        "symbol": "??_EcTODSlidingDoor@Prop@@WHKM@"
+      },
+      {
+        "address": "0x82747328",
+        "size": 8,
+        "symbol": "?RetClass@cTODSlidingDoor@Prop@@WPA@"
+      },
+      {
+        "address": "0x82747330",
+        "size": 8,
+        "symbol": "?IsA@cTODSlidingDoor@Prop@@WPA@"
+      },
+      {
+        "address": "0x82747338",
+        "size": 8,
+        "symbol": "??_EcTODSlidingDoor@Prop@@WBI@"
+      },
+      {
+        "address": "0x82747340",
+        "size": 8,
+        "symbol": "??_EcTODSlidingDoor@Prop@@WFBA@"
+      },
+      {
+        "address": "0x82747348",
+        "size": 8,
+        "symbol": "??_EcTODSlidingDoor@Prop@@WBM@"
       }
     ],
     "src/Prop/Custom/cTurretBase.cpp": [
@@ -43976,6 +44343,11 @@
         "address": "0x826066B0",
         "size": 120,
         "symbol": "?CalculateLOD@cEquipment@Equip@@"
+      },
+      {
+        "address": "0x82605A18",
+        "size": 28,
+        "symbol": "?GetVisibility@cEquipment@Equip@@"
       }
     ],
     "src/Equip/Weapon/cCWWeapon.cpp": [
@@ -44878,6 +45250,71 @@
         "address": "0x8260D1A8",
         "size": 4,
         "symbol": "?Launched@cMag@Equip@@"
+      },
+      {
+        "address": "0x8260BD28",
+        "size": 236,
+        "symbol": "??0cMag@Equip@@"
+      },
+      {
+        "address": "0x8260BE18",
+        "size": 188,
+        "symbol": "??_GcMag@Equip@@"
+      },
+      {
+        "address": "0x8260DD08",
+        "size": 8,
+        "symbol": "?IsA@cMag@Equip@@WPA@"
+      },
+      {
+        "address": "0x8260DD10",
+        "size": 8,
+        "symbol": "??_EcMag@Equip@@WBI@"
+      },
+      {
+        "address": "0x8260DD18",
+        "size": 8,
+        "symbol": "??_EcMag@Equip@@WFBA@"
+      },
+      {
+        "address": "0x8260DD20",
+        "size": 8,
+        "symbol": "??_EcMag@Equip@@WDI@"
+      },
+      {
+        "address": "0x8260DD28",
+        "size": 8,
+        "symbol": "??_EcMag@Equip@@WBM@"
+      },
+      {
+        "address": "0x8260DD30",
+        "size": 8,
+        "symbol": "?RetClass@cMag@Equip@@WEOA@"
+      },
+      {
+        "address": "0x8260DD38",
+        "size": 8,
+        "symbol": "??_EcMag@Equip@@WCFA@"
+      },
+      {
+        "address": "0x8260DD40",
+        "size": 8,
+        "symbol": "?IsA@cMag@Equip@@WEOA@"
+      },
+      {
+        "address": "0x8260DD48",
+        "size": 8,
+        "symbol": "??_EcMag@Equip@@WCJE@"
+      },
+      {
+        "address": "0x8260DD50",
+        "size": 8,
+        "symbol": "??_EcMag@Equip@@WBCA@"
+      },
+      {
+        "address": "0x8260BB20",
+        "size": 92,
+        "symbol": "?IsA@cMag@Equip@@"
       }
     ],
     "src/Equip/Gadget/cPortableLaunchPad.cpp": [
@@ -45001,6 +45438,79 @@
         "address": "0x8260EC10",
         "size": 4,
         "symbol": "?HandleAttributes@cJumpPadPrototype@cPortableLaunchPad@Equip@@"
+      },
+      {
+        "address": "0x8260DD70",
+        "size": 92,
+        "symbol": "?IsA@cPortableLaunchPad@Equip@@"
+      },
+      {
+        "address": "0x8260DFF0",
+        "size": 152,
+        "symbol": "??_GcPortableLaunchPad@Equip@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x8260EC18",
+        "size": 8,
+        "symbol": "?RetClass@cPortableLaunchPad@Equip@@WPA@"
+      },
+      {
+        "address": "0x8260EC20",
+        "size": 8,
+        "symbol": "?IsA@cPortableLaunchPad@Equip@@WPA@"
+      },
+      {
+        "address": "0x8260EC28",
+        "size": 8,
+        "symbol": "??_EcPortableLaunchPad@Equip@@WBI@"
+      },
+      {
+        "address": "0x8260EC30",
+        "size": 8,
+        "symbol": "??_EcPortableLaunchPad@Equip@@WFBA@"
+      },
+      {
+        "address": "0x8260EC38",
+        "size": 8,
+        "symbol": "??_EcPortableLaunchPad@Equip@@WDI@"
+      },
+      {
+        "address": "0x8260EC40",
+        "size": 8,
+        "symbol": "??_EcPortableLaunchPad@Equip@@WBM@"
+      },
+      {
+        "address": "0x8260EC48",
+        "size": 8,
+        "symbol": "?RetClass@cPortableLaunchPad@Equip@@WEOA@"
+      },
+      {
+        "address": "0x8260EC50",
+        "size": 8,
+        "symbol": "??_EcPortableLaunchPad@Equip@@WCFA@"
+      },
+      {
+        "address": "0x8260EC58",
+        "size": 8,
+        "symbol": "?IsA@cPortableLaunchPad@Equip@@WEOA@"
+      },
+      {
+        "address": "0x8260EC60",
+        "size": 8,
+        "symbol": "??_EcPortableLaunchPad@Equip@@WCJE@"
+      },
+      {
+        "address": "0x8260EC68",
+        "size": 8,
+        "symbol": "??_EcPortableLaunchPad@Equip@@WBCA@"
+      },
+      {
+        "address": "0x8260DF18",
+        "size": 216,
+        "symbol": "??0cPortableLaunchPad@Equip@@",
+        "matching": false,
+        "note": "99.1% (48/54 words): calls, fields and every vptr exact; only the vptr store for the 0x420 subobject is scheduled before 0x250/0x294 where CD2 stores it after them; search finds nothing"
       }
     ],
     "src/Equip/Gadget/cPulseRifle.cpp": [
@@ -48958,6 +49468,11 @@
         "address": "0x8268AD98",
         "size": 16,
         "symbol": "?Init@cPhantomBodyPrototype@cPhantomBody@unknown@@"
+      },
+      {
+        "address": "0x8268AA80",
+        "size": 76,
+        "symbol": "?UpdateRenderMatrix@cPhantomBody@unknown@@"
       }
     ],
     "src/cTransformingCar.cpp": [
@@ -50396,6 +50911,20 @@
         "address": "0x826F7B80",
         "size": 4,
         "symbol": "?HandleTryToExitInteractPermisiionQuery@cAgencySquadChopper@unknown@@"
+      },
+      {
+        "address": "0x826F7B50",
+        "size": 20,
+        "symbol": "?HandleTryToSwapSeatsInteractionPermissionQuery@cAgencySquadChopper@unknown@@",
+        "matching": false,
+        "note": "exact in the plain build; LTCG drops the unused this (args in r3/r5, 3/5 words) because nothing in the file installs the vtable: needs the constructor 0x826EEEF8"
+      },
+      {
+        "address": "0x826F7B68",
+        "size": 20,
+        "symbol": "?HanldTryToEjectInteractPermissionQuery@cAgencySquadChopper@unknown@@",
+        "matching": false,
+        "note": "exact in the plain build; LTCG drops the unused this (3/5 words) until the constructor 0x826EEEF8 is matched"
       }
     ],
     "src/Vehicle/Agency/cAgencySUV.cpp": [
@@ -53772,6 +54301,12 @@
         "address": "0x82807E18",
         "size": 144,
         "symbol": "?HandleAttributes@cLOD4Environment@WorldManager@@"
+      },
+      {
+        "address": "0x82807FC8",
+        "size": 116,
+        "symbol": "?LockLOD@cLOD4Environment@WorldManager@@",
+        "ltcg": true
       }
     ],
     "src/WorldManager/cStaticEnvironment.cpp": [
@@ -53890,6 +54425,11 @@
         "address": "0x828093C0",
         "size": 252,
         "symbol": "?ReCalculateResourceState@cStaticEnvironment@WorldManager@@"
+      },
+      {
+        "address": "0x82809550",
+        "size": 104,
+        "symbol": "?SetVisibility@cStaticEnvironment@WorldManager@@"
       }
     ],
     "src/cZoneManager.cpp": [
@@ -55381,6 +55921,11 @@
         "symbol": "?IsInVehicle@cVehicle@Vehicle@@",
         "matching": false,
         "note": "plain EXACT, LTCG 4/30 words: as RetCollisionLayer"
+      },
+      {
+        "address": "0x826CFE90",
+        "size": 56,
+        "symbol": "?Show@cVehicle@Vehicle@@"
       }
     ],
     "src/Vehicle/cVehicleController.cpp": [

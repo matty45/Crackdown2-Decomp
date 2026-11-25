@@ -22,6 +22,8 @@ namespace WorldManager
         // CD2 0x82807900 is called out of line without a packet.
         cLOD4Environment();
         virtual ~cLOD4Environment();
+        // RuffKing names; CD2 0x82807FC8 (LockLOD) has two callers in this file, FadeDown and FadeUp.
+        void LockLOD(cStaticEnvironment *pEnvBlock);
         bool AnyLOD3Fading() const;
         virtual void HandleAttributes(const RWS::CAttributePacket &);
         // CD2 0x828077A0: registered-class virtual slot 0 reads this class descriptor.

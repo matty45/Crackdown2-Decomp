@@ -31,6 +31,7 @@
 #include "CHARACTER/cPlayerNetManager.h"
 #include "PHYSICS/cPhysicsWorld.h"
 #include "Havok/hkRigidBody.h"
+#include "GameRenderer/cLODClump.h"
 
 namespace Equip
 {
@@ -309,6 +310,11 @@ namespace Equip
         if (pOwner)
             pOwner->GetAimMatrix(Mat);
         return &Mat;
+    }
+
+    bool cEquipment::GetVisibility()
+    {
+        return m_pClump->GetGameVisibility();
     }
 
     void cEquipment::LeaveRenderableState()

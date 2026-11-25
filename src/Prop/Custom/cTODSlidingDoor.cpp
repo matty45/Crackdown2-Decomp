@@ -25,9 +25,26 @@
 
 namespace Prop
 {
+    const Fun_Runtime::cClass &cTODSlidingDoor::RetClass() const
+    {
+        return *ms_pcTODSlidingDoorClass;
+    }
+
+    bool cTODSlidingDoor::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcTODSlidingDoorClass->IsA(c);
+    }
+
     const char *cTODSlidingDoor::RetClassName() const
     {
         return "cTODSlidingDoor";
+    }
+
+    RWS::CAttributeHandler *cTODSlidingDoor::SpawnFromPrototype(GOM::cObjectPrototype *pPrototype, void *pMem)
+    {
+        if (pMem)
+            return new (pMem) cTODSlidingDoor(pPrototype);
+        return 0;
     }
 
     Fun_Runtime::cClass &cTODSlidingDoor::StaticCreateClass()

@@ -52,6 +52,27 @@ namespace unknown
         return *cAgencyGarageDoorClass;
     }
 
+    cAgencyGarageDoor *cAgencyGarageDoor::ms_pInstance;
+    bool cAgencyGarageDoor::ms_bUnknown;
+
+    // CD2 stores the first three fields before the instance pointer and the others after it.
+    cAgencyGarageDoor::cAgencyGarageDoor(GOM::cObjectPrototype *pPrototype)
+        : cSlidingDoor(pPrototype), m_nUnknownF04(0), m_fUnknownF10(0.0f), m_fUnknownF14(0.0f)
+    {
+        ms_pInstance = this;
+        m_fUnknownF18 = 0.0f;
+        m_nUnknownF00 = 0;
+        m_fUnknownF24 = 0.0f;
+        m_bUnknownF21 = false;
+        ms_bUnknown = false;
+    }
+
+    cAgencyGarageDoor::~cAgencyGarageDoor()
+    {
+        ms_bUnknown = false;
+        ms_pInstance = 0;
+    }
+
     const Fun_Runtime::cClass *cAgencyGarageDoor::ms_pcAgencyGarageDoorClass = &cAgencyGarageDoor::StaticCreateClass();
 
     // CD2 0x82FF67B0: runtime class inheritance registration.

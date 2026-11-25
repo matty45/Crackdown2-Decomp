@@ -99,6 +99,22 @@ namespace unknown
         return 0;
     }
 
+    // Byte-identical to cHelicopter's (RuffKing cHelicopter.cpp 0x82B18968, 0x82B189B8); the linker kept this object's
+    // copies, which cHelicopter's table (0x820168E8) also holds.
+    void cAgencySquadChopper::HandleTryToSwapSeatsInteractionPermissionQuery(
+        PHYSICS::cDynamicBodyInteractionData *pInteractionData, cNonGameBase *, bool &bInteractionResult)
+    {
+        pInteractionData->m_eInteraction = PHYSICS::eDBIT_SWAP_SEATS_FINISHED;
+        bInteractionResult = true;
+    }
+
+    void cAgencySquadChopper::HanldTryToEjectInteractPermissionQuery(
+        PHYSICS::cDynamicBodyInteractionData *pInteractionData, cNonGameBase *, bool &bInteractionResult)
+    {
+        pInteractionData->m_eInteraction = PHYSICS::eDBIT_EJECT_CHARACTER_FAIL;
+        bInteractionResult = false;
+    }
+
     void cAgencySquadChopper::HandleTryToExitInteractPermisiionQuery(
         PHYSICS::cDynamicBodyInteractionData *pInteractionData, cNonGameBase *pNonGameBase, bool &bInteractionResult)
     {

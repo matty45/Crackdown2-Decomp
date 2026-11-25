@@ -7207,7 +7207,7 @@ src/Prop/Custom/cSearchLight.cpp
 src/Prop/Custom/cSlidingDoor.cpp
   atexit 0x83041AA8   # script registrar for cSlidingDoor; table 0x82100494
   init 0x82FFBD28   # script registrar for cSlidingDoor; table 0x82100494
-  text 0x82746878 0x82746A24   # auto: cSlidingDoor; RuffKing cSlidingDoor.obj; 2 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-07 to the end of cSlidingDoor::StaticCreateClass (0x82746988), which its class-pointer initializer names; extended 2026-11-14 back to its RetClass/IsA pair at 0x82746878 (they read the class pointer this object's initializer sets)
+  text 0x82746878 0x82746EC8   # auto: cSlidingDoor; RuffKing cSlidingDoor.obj; 2 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-07 to the end of cSlidingDoor::StaticCreateClass (0x82746988), which its class-pointer initializer names; extended 2026-11-14 back to its RetClass/IsA pair at 0x82746878 (they read the class pointer this object's initializer sets); extended 2026-11-25 over the gap to cTODSlidingDoor's RetClass (0x82746EC8): the constructor 0x82746A78 and destructor 0x82746B78 store cSlidingDoor's table 0x82011C50, the functions between are its RetSTATE_Max, cPathObjectOwner overrides (table 0x82144970), state callbacks (0x821449D4/0x821449E8), prototype Init (0x82746D80) and adjustor thunks
   init 0x82FFBC90
   atexit 0x83041A80
   init 0x82FFBA48   # header static (physicsconsts.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
@@ -7230,7 +7230,7 @@ src/Prop/Custom/cSlidingDoor.cpp
   atexit 0x83041A90   # destroys the spawning registrar for cSlidingDoor, registered by its initializer
 
 src/Prop/Custom/cTODSlidingDoor.cpp
-  text 0x82746ED8 0x82747350   # auto: cTODSlidingDoor; RuffKing cTODSlidingDoor.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82747350): an object's thunks close its code, so the functions between belong to it too
+  text 0x82746EC8 0x82747350   # auto: cTODSlidingDoor; RuffKing cTODSlidingDoor.obj; 3 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x82747350): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-25 back to its RetClass 0x82746EC8 (slot 0 of its registered-class table 0x82144A5C)
   init 0x82FFC078
   atexit 0x83041AC0
   init 0x82FFBFE8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries

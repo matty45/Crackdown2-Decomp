@@ -10,7 +10,7 @@
 namespace unknown
 {
     // Base cSlidingDoor: its inheritance registrar (0x82FF67B0) names it and its destructor (0x82733050) calls
-    // cSlidingDoor's. That destructor also clears two statics and restores a vptr at +0xED0 (an interface not modelled).
+    // cSlidingDoor's. That destructor also clears two statics and restores the vptr of cSlidingDoor's cPathObjectOwner.
     class cAgencyGarageDoor : public Prop::cSlidingDoor
     {
     public:
@@ -46,6 +46,41 @@ namespace unknown
         // CD2 0x82732D50 / 0x82732D60: the registered-class pair, at the start of this object's code.
         virtual const Fun_Runtime::cClass &RetClass() const;
         virtual bool IsA(const Fun_Runtime::cClass &) const;
+
+        // The slots where CD2's table (0x82012DF0, stored by the constructor) differs from cSlidingDoor's; names and
+        // signatures are the bases'. 76 holds a shared float getter body (folded).
+        virtual ~cAgencyGarageDoor(); // 0: 0x82733000
+        virtual bool EnterPhysicalState(); // 7: 0x82733128
+        virtual void Slot13(); // 13: 0x82734890
+        virtual void TickUpdate(float dt); // 23: 0x827338E8
+        virtual bool EnterRenderableState(eResourcesType eResources); // 31: 0x827331E0
+        virtual void LeaveRenderableState(); // 32: 0x827332E0
+        virtual void vf76(); // 76: 0x82457958
+        virtual void vf140(); // 140: 0x827333B8
+        virtual void vf158(); // 158: 0x827331C8
+
+    private:
+        // The constructor (0x82732F00) stores this in the first and clears the second; the destructor (0x82733050) clears
+        // both. Names ours.
+        static cAgencyGarageDoor *ms_pInstance;             // 0x83800FA4
+        static bool ms_bUnknown;                            // 0x83800F9D
+        // Fields the constructor clears; names ours.
+        unsigned int m_nUnknownF00;
+        unsigned int m_nUnknownF04;
+        unsigned char m_unknownF08[0xF10 - 0xF08];
+        float m_fUnknownF10;
+        float m_fUnknownF14;
+        float m_fUnknownF18;
+        unsigned char m_unknownF1C[0xF21 - 0xF1C];
+        bool m_bUnknownF21;
+        float m_fUnknownF24;
+
+        CD2_LAYOUT_CHECKS(cAgencyGarageDoor,
+            CD2_SIZE(cAgencyGarageDoor, 0xF30)
+            CD2_OFFSET(cAgencyGarageDoor, m_nUnknownF00, 0xF00)
+            CD2_OFFSET(cAgencyGarageDoor, m_fUnknownF10, 0xF10)
+            CD2_OFFSET(cAgencyGarageDoor, m_bUnknownF21, 0xF21)
+            CD2_OFFSET(cAgencyGarageDoor, m_fUnknownF24, 0xF24))
     };
 }
 

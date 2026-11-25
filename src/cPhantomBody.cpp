@@ -23,6 +23,7 @@
 #include "rws/classfactory.h"
 #include "unknown/cPhantomBody.h"
 #include "cd2/memory.h"
+#include "GameRenderer/cLODClump.h"
 
 namespace unknown
 {
@@ -65,6 +66,11 @@ namespace unknown
         if (memory)
             return new (memory) cPhantomBody;
         return 0;
+    }
+
+    void cPhantomBody::UpdateRenderMatrix()
+    {
+        m_pClump->m_LODClumps[GameRenderer::g_nGameIndex].SetBaseMtx(m_Transform);
     }
 
     Fun_Runtime::RetVal cPhantomBody::cPhantomBodyPrototype::Init(const RWS::CAttributePacket &)

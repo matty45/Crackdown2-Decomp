@@ -65,6 +65,10 @@ namespace Equip
         return "cPortableLaunchPad";
     }
 
+    cPortableLaunchPad::cPortableLaunchPad() : m_nReplicatedTargetID(0x3FFFFF)
+    {
+    }
+
     RWS::CAttributeHandler *cPortableLaunchPad::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
     {
         if (memory)
