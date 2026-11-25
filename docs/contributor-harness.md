@@ -11,7 +11,7 @@ pinned compiler and the maintainers' symbol table.
 
 You need:
 - your own copy of Crackdown 2's title-update XEX, `default_patched.xex` (SHA1 `EC7B1636...`; the base `default.xex`
-  is refused);
+  is refused). [`title-update.md`](title-update.md) shows how to make it from the disc's `default.xex` and the update;
 - the Xbox 360 XDK 9328, extracted (not installed). Its compiler and linker must be the exact builds in
   `config/toolchain.txt`, or every tool refuses to run;
 - Windows with PowerShell and git; Python 3.8+ with the `py` launcher; Rust (cargo) with the Visual Studio C++ build

@@ -11,8 +11,9 @@ cannot influence (see "How correctness is guaranteed").
 ## What you need
 
 - **Your own copy of the game**: the XEX patched with the latest title update, `default_patched.xex` (SHA1
-  `EC7B163617CD725F50B0CCA665AAF943F9BC6D8A`). The tools refuse any other build.
-- **The Xbox 360 XDK 9328**, extracted (not installed). Its compiler must be the exact build pinned in
+  `EC7B163617CD725F50B0CCA665AAF943F9BC6D8A`). The tools refuse any other build. To make it from your disc's
+  `default.xex` and the title update, see [`docs/title-update.md`](docs/title-update.md).
+- **The Xbox 360 XDK 9328**: Its compiler must be the exact build pinned in
   `config/toolchain.txt`.
 - Windows with PowerShell and git.
 - Python 3.8 or later, with the `py` launcher (every command uses it).
