@@ -11,7 +11,7 @@
 - **`default.xex`**: at the root of your Crackdown 2 disc (title ID `4D5308BC`). Extract the disc image's files with an
   ISO extractor such as exiso.
 - **`default.xexp`**: title update 5. Its `Version.txt` reads `"15.10.30.57636"`.
-  It is an STFS package: extract it with an STFS tool (wxPirs, Le Fluffie, Velocity), and `default.xexp` is at its
+  The update itself is an STFS package: extract it with an STFS tool (wxPirs, Le Fluffie, Velocity), and `default.xexp` is at its
   root, beside `Version.txt`. If you installed the update into Xenia, Xenia has already extracted it, to
   `<Xenia>\content\0000000000000000\4D5308BC\000B0000\TU_16L625S_0000004000000.0000000000181\default.xexp`.
 - **XexTool v6.6** by xorloser (`xextool.exe`, build of 23 September 2013). It is not part of this repository.

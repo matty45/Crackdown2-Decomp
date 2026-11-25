@@ -50,6 +50,7 @@ Then write the function in its source file and run `py -I tools\cd2.py check <fi
   your first function.
 - **[docs/open-functions.md](docs/open-functions.md)**: what was tried on open functions whose attempts were removed.
   `cd2.py show <address>` prints the entries for that address.
+- **[docs/PROGRESS.md](docs/PROGRESS.md)**: how much of the game is matched.
 
 ## How correctness is guaranteed
 
