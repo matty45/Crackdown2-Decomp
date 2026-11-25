@@ -14,7 +14,7 @@
   The update itself is an STFS package: extract it with an STFS tool (wxPirs, Le Fluffie, Velocity), and `default.xexp` is at its
   root, beside `Version.txt`. If you installed the update into Xenia, Xenia has already extracted it, to
   `<Xenia>\content\0000000000000000\4D5308BC\000B0000\TU_16L625S_0000004000000.0000000000181\default.xexp`.
-- **XexTool v6.6** by xorloser (`xextool.exe`, build of 23 September 2013). It is not part of this repository.
+- **[XexTool v6.6](https://github.com/mLoaDs/XexTool/releases)** by xorloser (`xextool.exe`, build of 23 September 2013). It is not part of this repository.
 
 Check both inputs before you patch (`certutil` comes with Windows):
 
