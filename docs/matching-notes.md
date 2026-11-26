@@ -516,6 +516,14 @@ both. History belongs in git, not here.
   New files for runs without one: a run lying alone between two scaffolded files' runs, at the module RuffKing
   links between those two objects, takes the unassigned text between their ranges (6 files). The other 92 such
   runs come in chains between two scaffolded files, where nothing yet divides the text, and stay unassigned.
+- **An object with no code of its own.** Some objects define only data, so their whole contribution to CD2's code is
+  the header constants' initializer run and gRandGen's at-exit destructor. Example: NPCArmoury.obj, whose only class,
+  cNPCArmourySetup, is an attribute-block class ID that NPCBehaviourPrototype's armoury setup reads. Its run lies inside
+  another file's initializers but reads its own g_GlobalConstants copy, so it can match only as a file of its own. Such a
+  file gets an empty text range at its place in the link order (`text A A`, where A is the boundary between the
+  neighbouring objects' text), so the link-order check still places its initializers and at-exits; `setup` gives jeff
+  no unit for an empty range. Evidence needed: both reference PDBs list no functions for the object beyond its
+  initializers, and its run sits between its neighbours' runs in RuffKing's module order.
 - **Class-factory registrar** (an initializer near 0x82F.., 76 bytes, and its at-exit destructor near 0x830..):
   `static RWS::CClassFactory::CRegistrar <Class>Registrar("<name>", <Class>::MakeNew, <size>, false);` in the class's
   namespace. The size argument is the class's size; the `MakeNew` it passes often builds the class's prototype.

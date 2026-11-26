@@ -5,10 +5,13 @@
 #include "Havok/hkBool.h"
 class hkEntity;
 class hkAction;
+class hkPhantom;
 class hkWorld
 {
 public:
     hkBool removeEntity(hkEntity *);
     void removeAction(hkAction *);
+    // Havok's (RuffKing's) name and signature; CD2 0x82BCCF48, called by cPulse::Stop (0x8260F400).
+    void removePhantom(hkPhantom *);
 };
 #endif

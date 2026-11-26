@@ -27,6 +27,9 @@ namespace AI
         virtual ~cMission();
         // Overrides named by the reference mission interface.
         virtual bool IsOwnedLocally();
+        // RuffKing's override; CD2's table 0x82102DC8 (installed by the constructor at 0x82459328) holds 0x82709328 in
+        // cReplicatedClass slot 3, where cReplicatedClass's own table 0x82157920 holds 0x8282DC30.
+        virtual void CalculateLOD(int);
         virtual SNetworkHeader::etNetworkDataType GetReplicatedObjectType() const;
         virtual unsigned int GetMaxReplicatedFields() const;
         virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x8245A230

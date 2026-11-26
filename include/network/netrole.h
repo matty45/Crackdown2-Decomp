@@ -28,7 +28,8 @@ namespace Network
         etNetRole RetNetRole() const { return m_eNetRole; }
         // RuffKing's name; CD2 expands it (cDocksMission::TickUpdate 0x82474790 compares the role with 3).
         bool IsAuthority() const { return m_eNetRole == eNR_Authority; }
-        virtual ~cNetRoleObject();
+        // Inline: cTimeOfDay's destructor (0x82774280) restores this table (0x82102E64) and calls nothing.
+        virtual ~cNetRoleObject() {}
         virtual void SetNetRole(etNetRole);
         virtual void OnEnterNetRoleAuthority(etNetRole);
         virtual void OnEnterNetRoleSimulated(etNetRole);

@@ -26,6 +26,8 @@
 #include "network/cReplicatedClass.h"
 #include "network/netrole.h"
 #include "fun_runtime/script_type_registrar.h"
+#include "fun_runtime/multiset.h"
+#include "Sim/cTODNotification.h"
 
 namespace Sim
 {
@@ -45,17 +47,31 @@ namespace Sim
         virtual void Destruct();
         virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
         virtual void HandleEvents(RWS::CMsg &);
+        // RuffKing's overrides: CD2's tables hold this class's code for them (primary 0x821478E4 slot 1: 0x82774960;
+        // cLoadSaveObject table 0x8214795C: 0x8239B650, 0x82775630).
+        virtual void HandleAttributes(const RWS::CAttributePacket &);
+        virtual void Load(SaveGame::cLoadStream *pStream);
+        virtual void Save(SaveGame::cSaveStream *pStream);
+        // RuffKing's inline override; CD2's primary table 0x821478E4 slot 9 holds the shared return-true body 0x8288FB78.
+        virtual bool HandleDataInNewDesignBuild() { return true; }
         // CD2's replicated-class table 0x82147968 supplies these formerly pure interface slots.
         virtual bool IsSequential() const;
         virtual bool IsOwnedLocally();
         virtual void SetPingedFieldStatesForNode(unsigned char);
         virtual SNetworkHeader::etNetworkDataType GetReplicatedObjectType() const;
         virtual unsigned int GetMaxReplicatedFields() const;
+        // RuffKing's other replication overrides. Against cReplicatedClass's own table (0x82157920), CD2's 0x82147968
+        // holds this class's code in slots 8, 12 and 13 (0x82775828, 0x827759B8, 0x827758C8) and, in slot 16, the
+        // shared return-1 body 0x8288FB78 where the base has return 0.
+        virtual void ReplicateInitialFields();
+        virtual void ReplicateFieldsRead();
+        virtual void ReplicateFieldsWrite();
+        virtual unsigned int GetNumObjectIDBits() const;
         float m_fPhase;                         // 0x278
     private:
         // RuffKing name; CD2 Pause (0x82775600) saves the current phase at +0x27C.
         float m_fOldPhase;
-        unsigned char m_unmodelled280[0x284 - 0x280];
+        float m_fLastPhaseStep;
     public:
         // RetPeriod's folded CD2 copy (0x825EC2E8); RuffKing names this field at phase +0xC too.
         float m_fPeriod;
@@ -63,12 +79,24 @@ namespace Sim
         // RuffKing names; CD2 console callback 0x82774798 toggles the force flag at +0x289.
         bool m_bActive;
         bool m_bForceUpdatePhaseStep;
-        unsigned char m_unmodelled28A[0x2B0 - 0x28A];
+        // RuffKing names and order, each RuffKing's offset less 0x10 as for the fields above. The destructor
+        // (0x82774280) empties the notification set through its head at +0x2A8 and count at +0x2AC.
+        float m_fDawn;
+        float m_fDusk;
+        float m_fThreeAM;
+        float m_fNineAM;
+        float m_fThreePM;
+        float m_fNinePM;
+        typedef Fun_Runtime::cMultiSet<cTODNotification> tTODs;
+        tTODs m_TODs;
     public:
         static cTimeOfDay *ms_pInstance;
 
+        virtual ~cTimeOfDay();
         float RetPhase();
         float RetPeriod();
+        void SetPeriod(float fPeriod); // CD2 0x82774D98, script method "SetPeriod"
+        bool RemoveTimeOfDayEvent(unsigned int in_ID); // CD2 0x82775580, script method "RemoveTimeOfDayEvent"
         void Pause(bool); // CD2 script method 0x82775600; reference signature
         void UnPause(); // CD2 script method 0x82775620; sets the reference m_bActive flag
         void SetForceUpdatePhaseStep(bool force) { m_bForceUpdatePhaseStep = force; }
@@ -80,7 +108,10 @@ namespace Sim
             CD2_OFFSET(cTimeOfDay, m_fOldPhase, 0x27C)
             CD2_OFFSET(cTimeOfDay, m_fPeriod, 0x284)
             CD2_OFFSET(cTimeOfDay, m_bActive, 0x288)
-            CD2_OFFSET(cTimeOfDay, m_bForceUpdatePhaseStep, 0x289))
+            CD2_OFFSET(cTimeOfDay, m_bForceUpdatePhaseStep, 0x289)
+            CD2_OFFSET(cTimeOfDay, m_fDawn, 0x28C)
+            CD2_OFFSET(cTimeOfDay, m_fNinePM, 0x2A0)
+            CD2_OFFSET(cTimeOfDay, m_TODs, 0x2A4))
     };
 
     // Console callback name and signature from RuffKing; CD2 registers it at 0x82774944.

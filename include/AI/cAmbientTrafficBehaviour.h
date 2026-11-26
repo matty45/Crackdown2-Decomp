@@ -31,6 +31,10 @@ namespace AI
         virtual void OnExit(); // slot 69: 0x824CD380
         virtual void Update(float fDeltaTime); // slot 71: 0x82370AD0
         virtual void Slot79(); // slot 79: 0x824CD338
+        // CD2's secondary tables (0x8210BA4C, 0x8210BA64) differ from NPCBehaviour's at these slots; RuffKing's class
+        // overrides HandleEvents too.
+        virtual void HandleEvents(RWS::CMsg &); // CEventHandler 5: 0x824CCF08
+        virtual void Slot2(); // cSafeDeletable 2: 0x8222DBC8
     private:
         // Descriptive name is ours: CD2 0x824CD248 releases seven event
         // subscriptions, then unlinks this behaviour's two message registrations.

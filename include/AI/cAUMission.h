@@ -69,6 +69,7 @@ namespace AI
     public:
         virtual void TickUpdate(float); // cRegisteredClass 8: 0x82271FD8
         virtual void Deactivate(); // cRegisteredClass 3: 0x8245E238
+        virtual void HandleAttributes(const RWS::CAttributePacket &); // CAttributeHandler 1: 0x823C3618
 
         // Own virtuals, RuffKing's three in its order: CD2 slots 39..41 (0x8245F460, 0x82312890, 0x8245F540); slot 41
         // returns m_bLocalPlayerOnPad as RuffKing's IsLocalPlayerOnAnyPad does.

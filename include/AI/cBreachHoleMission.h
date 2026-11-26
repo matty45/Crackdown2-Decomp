@@ -51,6 +51,7 @@ namespace AI
         virtual void ReplicateInitialFields(); // cReplicatedClass 8: 0x82471638
         virtual void ReplicateFields(); // cReplicatedClass 9: 0x824716A0
         virtual unsigned int GetMaxReplicatedFields() const; // cReplicatedClass 23: 0x8288AAD0
+        virtual void HandleAttributes(const RWS::CAttributePacket &); // CAttributeHandler 1: 0x822E5690
         // CD2: cBreachHoleMission's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:

@@ -47,7 +47,13 @@ public:
     // CD2 script registration names the setter at 0x824C83F8; RuffKing names the member.
     void SetFullHealth(float);
     // RuffKing's three health members; CD2's script wrapper 0x8254E8E8 reads 0x110/0x114/0x118.
-    float RetHealthFraction() const;
+    // Inline: CD2 expands it in cCharacterInterface::RetHealthFraction (RuffKing's body).
+    float RetHealthFraction() const
+    {
+        if (m_fFullHealthMultiplier * m_fFullHealth == 0.0f)
+            return Fun_Runtime::g_GlobalConstants.CONST_FLOAT_1;
+        return m_fHealth / (m_fFullHealthMultiplier * m_fFullHealth);
+    }
     // Inline: cBody's (0x826837D8) and cPhantomBody's (0x8268A578) destructors restore cGameBase's tables and then
     // call ~cNonGameBase directly.
     virtual ~cGameBase() {}

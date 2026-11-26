@@ -149,6 +149,26 @@ namespace CHARACTER
         return RetCharacter()->RetActionManager().ForceOutOfVehicle();
     }
 
+    bool cCharacterInterface::ForceRappel()
+    {
+        return RetCharacter()->RetActionManager().ForceRappel();
+    }
+
+    bool cCharacterInterface::ForceOntoTurret(Prop::cTurretBase *pTurret)
+    {
+        return RetCharacter()->RetActionManager().ForceOntoTurret(pTurret);
+    }
+
+    bool cCharacterInterface::IsEnemy(cCharacterInterface *pCharacterInterface)
+    {
+        return pCharacterInterface ? RetRelationship(pCharacterInterface) <= GangManager::eEnemy : true;
+    }
+
+    bool cCharacterInterface::IsFriend(cCharacterInterface *pCharacterInterface)
+    {
+        return pCharacterInterface ? RetRelationship(pCharacterInterface) >= GangManager::eFriend : false;
+    }
+
     static RWS::CClassFactory::CRegistrar cCharacterInterfaceRegistrar(
         "cCharacterInterface", cCharacterInterface::MakeNew, 0xC0, false);
 

@@ -104,8 +104,7 @@ namespace AI
     {
         m_nNodeID = 0xFF;
         SetReplicatedObjectID(0xFFFFFFFF);
-        if (m_bRegisteredWithReplicationManager)
-            TermReplicatedClass();
+        TermReplicatedClass();
         SetNetRole(eNR_None);
     }
 

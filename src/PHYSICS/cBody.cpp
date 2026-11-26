@@ -59,10 +59,6 @@ namespace PHYSICS
     static Fun_Runtime::cInheritanceRegistrar cBodycDebugPageHandlerInheritRegistrar(
         PHYSICS::cBody::StaticCreateClass(), GDb::cDebugPageHandler::StaticCreateClass());
 
-    // CD2 0x82FDFB08: runtime class inheritance registration.
-    static Fun_Runtime::cInheritanceRegistrar cDynamicBodycBodyInheritRegistrar(
-        PHYSICS::cDynamicBody::StaticCreateClass(), PHYSICS::cBody::StaticCreateClass());
-
     // CD2 0x82FDF730: register the class descriptor and placement factory.
     static GOM::cProtoRegistrar cBodySpawningRegistrar(
         cBody::StaticCreateClass(), cBody::SpawnFromPrototype);

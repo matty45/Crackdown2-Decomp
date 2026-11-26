@@ -20,7 +20,11 @@ namespace Sim
         virtual const Fun_Runtime::cClass &RetClass() const;
         virtual bool IsA(const Fun_Runtime::cClass &) const;
         virtual const Fun_Runtime::cScriptTypeRegistration *RetScriptTypeRegistration() const;
-        ~cTODNotification();
+        // RuffKing's accessors. The destructor is compiler-generated there; CD2's tree node cleanup (0x82776898)
+        // destroys the event ID directly.
+        unsigned int RetID() { return m_ID; }
+        RWS::CEventId &RetEventID() { return m_EventID; }
+        bool operator<(const cTODNotification &) const;
     private:
         float m_fTime;
         unsigned int m_ID;

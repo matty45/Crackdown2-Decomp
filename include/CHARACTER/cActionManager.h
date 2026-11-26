@@ -5,6 +5,7 @@
 #define CHARACTER_CACTIONMANAGER_H
 
 #include "CHARACTER/cActionManagerCharacterStateInfo.h"
+namespace Prop { class cTurretBase; }
 namespace CHARACTER
 {
     class cActionManager
@@ -12,6 +13,9 @@ namespace CHARACTER
     public:
         ~cActionManager();
         bool ForceOutOfVehicle(); // CD2 0x8257B850
+        // RuffKing's names; cCharacterInterface's slots 102/103 (0x8254F170/0x8254F190) forward to them.
+        bool ForceRappel(); // CD2 0x8257B908
+        bool ForceOntoTurret(Prop::cTurretBase *pTurret); // CD2 0x8257B9E8
         cActionManagerCharacterStateInfo &RetCharacterStateInfo() { return m_CharacterStateInfo; }
         const cActionManagerCharacterStateInfo &RetCharacterStateInfo() const { return m_CharacterStateInfo; }
     private:

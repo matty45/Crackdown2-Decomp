@@ -33,6 +33,10 @@ namespace AI
         virtual void OnEnterReplicatedState(unsigned char); // slot 72: 0x824A8CA0
         virtual void Slot79(); // slot 79: 0x824D4510
         virtual unsigned char GetStateReplicationInfo() const; // slot 89: 0x824D42A8
+        // Its own virtual (RuffKing's one new slot; CD2's body calls OnEnter, then applies the state).
+        virtual void OnReplicatedEnter(unsigned char nState); // slot 96: 0x824D44C0
+        // CD2's cSafeDeletable table differs from NPCBehaviour's at this slot.
+        virtual void Slot2(); // cSafeDeletable 2: 0x824D4AE8
     };
 }
 

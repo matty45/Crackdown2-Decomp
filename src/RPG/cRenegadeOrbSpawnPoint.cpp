@@ -39,6 +39,13 @@ namespace RPG
     static Fun_Runtime::cInheritanceRegistrar cRenegadeOrbSpawnPointcSpawnPointBaseInheritRegistrar(
         cRenegadeOrbSpawnPoint::StaticCreateClass(), Activity::cSpawnPointBase::StaticCreateClass());
 
+    RWS::CAttributeHandler *cRenegadeOrbSpawnPoint::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        cRenegadeOrbSpawnPoint *point = new cRenegadeOrbSpawnPoint;
+        point->HandleAttributes(packet);
+        return 0;
+    }
+
     static RWS::CClassFactory::CRegistrar cRenegadeOrbSpawnPointRegistrar(
         "cRenegadeOrbSpawnPoint", cRenegadeOrbSpawnPoint::MakeNew, 0x90, false);
 }

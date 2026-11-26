@@ -17,6 +17,10 @@
 #include "AI/cTODDawnEvent.h"
 #include "AI/cTODDuskEvent.h"
 #include "cd2/memory.h"
+#include "fun_runtime/maths.h"
+#include "GMan/cGameManager.h"
+#include "rws/logic.h"
+#include "SaveGame/cSaveGameManager.h"
 
 namespace Sim
 {
@@ -80,11 +84,45 @@ namespace Sim
         return *cTimeOfDayClass;
     }
 
+    cTimeOfDay::~cTimeOfDay()
+    {
+        while (m_TODs.size() != 0)
+            RemoveTimeOfDayEvent(m_TODs.begin()->RetID());
+        ms_pInstance = NULL;
+        SaveGame::Unregister(SaveGame::eSaveType_City, SaveGame::eSaveChunk_TimeOfDay, this);
+        UnLinkMsg(RWS::iMsgRunningTick);
+        UnLinkMsg(iMsgBeginPlay);
+        UnRegisterMsg(iMsgTODDawn);
+        UnRegisterMsg(iMsgTODDusk);
+        TermReplicatedClass();
+    }
+
     void TODForceUpdatePhase(void *, wchar_t *)
     {
         cTimeOfDay *timeOfDay = cTimeOfDay::ms_pInstance;
         if (timeOfDay && timeOfDay->RetNetRole() == eNR_Authority)
             timeOfDay->SetForceUpdatePhaseStep(!timeOfDay->RetForceUpdatePhaseStep());
+    }
+
+    void cTimeOfDay::SetPeriod(float fPeriod)
+    {
+        m_fPeriod = Fun_Runtime::Clamp(fPeriod, 0.05f, 1440.0f);
+    }
+
+    bool cTimeOfDay::RemoveTimeOfDayEvent(unsigned int in_ID)
+    {
+        bool bRemoved = false;
+        for (tTODs::iterator it = m_TODs.begin(); it != m_TODs.end(); ++it)
+        {
+            if (it->RetID() == in_ID)
+            {
+                UnRegisterMsg(it->RetEventID());
+                bRemoved = true;
+                m_TODs.erase(it);
+                break;
+            }
+        }
+        return bRemoved;
     }
 
     void cTimeOfDay::Pause(bool pause)

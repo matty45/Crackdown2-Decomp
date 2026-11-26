@@ -26,6 +26,12 @@
 #include "rws/classfactory.h"
 #include "Equip/cPulseRifle.h"
 #include "cd2/memory.h"
+#include "Havok/hkAabbPhantom.h"
+#include "PHYSICS/cPhysicsWorld.h"
+#include "rws/time.h"
+#include "VFX/cParticleEffectInstance.h"
+#include "CHARACTER/cCharacter.h"
+#include "Vehicle/cVehicle.h"
 
 namespace Equip
 {
@@ -68,9 +74,85 @@ namespace Equip
         return "cPulseRifle";
     }
 
+    RWS::CAttributeHandler *cPulseRifle::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
+    {
+        if (memory)
+            return new (memory) cPulseRifle;
+        return 0;
+    }
+
     Fun_Runtime::RetVal cPulseRifle::cPulseRiflePrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;
     }
 
+    cPulse::cPulse()
+        : m_pProfile(NULL), m_vPosition(Fun_Runtime::ZeroVec), m_vDirection(Fun_Runtime::ZAxis), m_fStartTime(0.0f),
+          m_pPhantom(NULL), m_pPulseVFX(NULL), m_bActive(false)
+    {
+        m_vCollected.clear();
+    }
+
+    cPulse::~cPulse()
+    {
+        Stop();
+    }
+
+    void cPulse::Update()
+    {
+        if (m_bActive)
+        {
+            if (RWS::Time::RetGameTimeSecs() < m_fStartTime + m_pProfile->fPulseDuration)
+            {
+                if (m_pPhantom)
+                    PHYSICS::cPhysicsUniverse::FindBodiesInAabb(m_pPhantom, *this);
+                UpdatePulseVFX();
+            }
+            else
+                Stop();
+        }
+    }
+
+    void cPulse::Stop()
+    {
+        m_fStartTime = 0.0f;
+        if (m_pPhantom)
+        {
+            PHYSICS::cPhysicsUniverse::m_pPrimaryWorld->removePhantom(m_pPhantom);
+            m_pPhantom->removeReference();
+            m_pPhantom = NULL;
+        }
+        m_vCollected.clear();
+        ReleasePulseVFX();
+        m_bActive = false;
+    }
+
+    void cPulse::ReleasePulseVFX()
+    {
+        if (m_pPulseVFX)
+        {
+            m_pPulseVFX->StopEmitters();
+            m_pPulseVFX->SetAsOrphan();
+            m_pPulseVFX->Release();
+            m_pPulseVFX = NULL;
+        }
+    }
+
+    tPulseTargetProfile &cPulse::RetPulseTargetProfile(PHYSICS::cBody *pBody) const
+    {
+        if (pBody->IsA(*CHARACTER::cCharacter::ms_pcCharacterClass))
+            return m_pProfile->aTargetProfiles[2];
+        if (pBody->IsA(*Vehicle::cVehicle::ms_pcVehicleClass))
+            return m_pProfile->aTargetProfiles[1];
+        if (pBody->IsA(*cEquipment::ms_pcEquipmentClass))
+            return m_pProfile->aTargetProfiles[3];
+        return m_pProfile->aTargetProfiles[0];
+    }
+
+    void cPulseRifle::TickUpdate(float fDeltaTime)
+    {
+        cCWWeapon::TickUpdate(fDeltaTime);
+        if (m_Pulse.IsActive())
+            m_Pulse.Update();
+    }
 }

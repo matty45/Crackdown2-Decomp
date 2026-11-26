@@ -9,12 +9,23 @@
 
 #include "gom/non_game_base.h"
 
+class hkAabbPhantom;
+
 namespace PHYSICS
 {
+    class cBody;
     class cPhysicsWorld;
     class cPhysicsUniverse : public cNonGameBase
     {
     public:
+        // RuffKing's callback interface (one pure slot, 4 bytes); CD2's cPulse table 0x821217D4 starts with it.
+        class cFindBodiesCallback
+        {
+        public:
+            virtual void BodyFoundCallback(cBody *) = 0;
+        };
+        // RuffKing's name and signature; CD2 0x821DA1E8, called by cPulse::Update (0x8260F378).
+        static void FindBodiesInAabb(hkAabbPhantom *pPhantom, cFindBodiesCallback &CB);
         // RuffKing static name; CD2 RemoveWedge (0x826CC448) loads it at 0x83800DD4.
         static cPhysicsWorld *m_pPrimaryWorld;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);

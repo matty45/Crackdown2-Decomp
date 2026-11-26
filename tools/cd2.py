@@ -1176,7 +1176,7 @@ def cmd_setup(a):
     # pass 2: one unit per source file (its text range) and one per extra function (hot, init, atexit), see unit_of
     units = []
     for f, e in load_splits(SPLITS).items():
-        if e['text']:
+        if e['text'] and e['text'][0] < e['text'][1]:  # an empty range: an object with no code of its own
             units += ['%s:' % f, '\t.text       start:0x%08X end:0x%08X' % e['text'], '']
         for addr in e['hot'] + e['init'] + e['atexit']:
             if addr not in syms:

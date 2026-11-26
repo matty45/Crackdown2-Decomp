@@ -54,4 +54,25 @@ namespace RPG
     {
         return new cSkillProfile(packet);
     }
+
+    cSkillProfile::~cSkillProfile()
+    {
+        if (G_pDLCSkillProfile == this)
+        {
+            G_pDLCSkillProfile = NULL;
+            if (G_pSkillProfile == this)
+                G_pSkillProfile = G_pFullGameSkillProfile;
+        }
+        else
+        {
+            if (G_pFullGameSkillProfile == this)
+                G_pFullGameSkillProfile = NULL;
+            else if (G_pDemoSkillProfile == this)
+                G_pDemoSkillProfile = NULL;
+            else
+                return;
+            if (G_pSkillProfile == this)
+                G_pSkillProfile = NULL;
+        }
+    }
 }

@@ -2405,6 +2405,11 @@
         "symbol": "??_GPedestrian@AI@@",
         "matching": false,
         "note": "plain EXACT, LTCG 5/20 words: the deleting destructor cPedestrianBase, Pedestrian and PedestrianGuard share (slot 0 of 0x8200B1F8, 0x82108DB0, 0x8200AE78), with implicit destructors. The single-file LTCG model inlines ~cPedestrianBase (0x824A8EB8) where CD2's whole-program build keeps the call; it waits until the model sees that destructor's other callers"
+      },
+      {
+        "address": "0x824A90B0",
+        "size": 8,
+        "symbol": "??_EPedestrian@AI@@WBM@"
       }
     ],
     "src/AI/cPedestrianBase.cpp": [
@@ -17020,6 +17025,11 @@
         "address": "0x82615AE0",
         "size": 100,
         "symbol": "??1cLightAttachmentData@Equip@@"
+      },
+      {
+        "address": "0x82615D88",
+        "size": 8,
+        "symbol": "??_EcLightAttachmentData@Equip@@WBI@"
       }
     ],
     "src/Equip/Attachments/cUVLightAttachmentData.cpp": [
@@ -19801,6 +19811,12 @@
         "address": "0x828520E0",
         "size": 12,
         "symbol": "?RetStringID@cTagGameModePrototype@GameManagement@@"
+      },
+      {
+        "address": "0x82852050",
+        "size": 140,
+        "symbol": "??_GcTagGameModePrototype@GameManagement@@",
+        "ltcg": true
       }
     ],
     "src/GameManagement/cTrainingModePrototype.cpp": [
@@ -25253,6 +25269,46 @@
         "address": "0x82809A68",
         "size": 12,
         "symbol": "?RetClass@cWorldManager@WorldManager@@"
+      },
+      {
+        "address": "0x82809A78",
+        "size": 92,
+        "symbol": "?IsA@cWorldManager@WorldManager@@UBA"
+      },
+      {
+        "address": "0x82809DB0",
+        "size": 80,
+        "symbol": "??_GcWorldManager@WorldManager@@"
+      },
+      {
+        "address": "0x82809E00",
+        "size": 212,
+        "symbol": "??1cWorldManager@WorldManager@@"
+      },
+      {
+        "address": "0x8280B630",
+        "size": 8,
+        "symbol": "?IsA@cWorldManager@WorldManager@@WEM@"
+      },
+      {
+        "address": "0x8280B638",
+        "size": 8,
+        "symbol": "??_EcWorldManager@WorldManager@@WBI@"
+      },
+      {
+        "address": "0x8280B640",
+        "size": 8,
+        "symbol": "??_EcWorldManager@WorldManager@@WDI@"
+      },
+      {
+        "address": "0x8280B648",
+        "size": 8,
+        "symbol": "??_EcWorldManager@WorldManager@@WBM@"
+      },
+      {
+        "address": "0x8280B650",
+        "size": 8,
+        "symbol": "??_EcWorldManager@WorldManager@@WHM@"
       }
     ],
     "src/ZoneManager/cAmbienceZone.cpp": [
@@ -26428,6 +26484,16 @@
         "address": "0x8245D3E8",
         "size": 8,
         "symbol": "??_EcAgencyTowerSegmentMission@AI@@WBA@"
+      },
+      {
+        "address": "0x8245D3F8",
+        "size": 8,
+        "symbol": "??_EcAgencyTowerSegmentMission@AI@@WCEA@"
+      },
+      {
+        "address": "0x8245D400",
+        "size": 8,
+        "symbol": "??_EcAgencyTowerSegmentMission@AI@@WCEI@"
       }
     ],
     "src/AI/cAgentPickup.cpp": [
@@ -27012,6 +27078,21 @@
         "address": "0x824CD380",
         "size": 4,
         "symbol": "?OnExit@cAmbientTrafficBehaviour@AI@@"
+      },
+      {
+        "address": "0x824CDC28",
+        "size": 8,
+        "symbol": "??_EcAmbientTrafficBehaviour@AI@@WBI@"
+      },
+      {
+        "address": "0x824CDC30",
+        "size": 8,
+        "symbol": "??_EcAmbientTrafficBehaviour@AI@@WDI@"
+      },
+      {
+        "address": "0x824CDC38",
+        "size": 8,
+        "symbol": "??_EcAmbientTrafficBehaviour@AI@@WBM@"
       }
     ],
     "src/AI/cAnimParams.cpp": [
@@ -27350,6 +27431,16 @@
         "address": "0x8245F690",
         "size": 8,
         "symbol": "??_EcAUMission@AI@@WBA@"
+      },
+      {
+        "address": "0x8245F670",
+        "size": 8,
+        "symbol": "??_EcAUMission@AI@@WCEA@"
+      },
+      {
+        "address": "0x8245F678",
+        "size": 8,
+        "symbol": "??_EcAUMission@AI@@WCEI@"
       }
     ],
     "src/AI/Mission/AchievementMissions/cBaseJumperMission.cpp": [
@@ -28133,6 +28224,16 @@
         "address": "0x82473D40",
         "size": 8,
         "symbol": "??_EcBreachHoleMission@AI@@WCA@"
+      },
+      {
+        "address": "0x82473D30",
+        "size": 8,
+        "symbol": "??_EcBreachHoleMission@AI@@WCFI@"
+      },
+      {
+        "address": "0x82473D48",
+        "size": 8,
+        "symbol": "??_EcBreachHoleMission@AI@@WCFA@"
       }
     ],
     "src/AI/Mission/cCellStrongholdMission.cpp": [
@@ -29254,6 +29355,16 @@
         "address": "0x8303B038",
         "size": 12,
         "symbol": "??__FcFinalMissionRegistrar@AI@@"
+      },
+      {
+        "address": "0x8246E6D8",
+        "size": 8,
+        "symbol": "??_EcFinalMission@AI@@WCEA@"
+      },
+      {
+        "address": "0x8246E6E0",
+        "size": 8,
+        "symbol": "??_EcFinalMission@AI@@WCEI@"
       }
     ],
     "src/AI/cFreakSniperEvent.cpp": [
@@ -29846,6 +29957,11 @@
         "address": "0x824D3410",
         "size": 64,
         "symbol": "?OnEnter@cPilotBase@AI@@"
+      },
+      {
+        "address": "0x824D4198",
+        "size": 8,
+        "symbol": "??_EcPilotBase@AI@@WBM@"
       }
     ],
     "src/AI/cPilotRespawn.cpp": [
@@ -30015,6 +30131,21 @@
         "address": "0x8303BDD8",
         "size": 20,
         "symbol": "??__FcPilotRespawnSpawningRegistrar@AI@@"
+      },
+      {
+        "address": "0x824D4B60",
+        "size": 8,
+        "symbol": "??_EcPilotRespawn@AI@@WBI@"
+      },
+      {
+        "address": "0x824D4B68",
+        "size": 8,
+        "symbol": "??_EcPilotRespawn@AI@@WDI@"
+      },
+      {
+        "address": "0x824D4B70",
+        "size": 8,
+        "symbol": "??_EcPilotRespawn@AI@@WBM@"
       }
     ],
     "src/AI/cPKDropPilot.cpp": [
@@ -31631,7 +31762,7 @@
         "symbol": "??__FEquipmentDropBehaviourSpawningRegistrar@AI@@"
       }
     ],
-    "src/AI/Behaviour/NPC/NPCBehaviour.cpp": [
+    "src/AI/Behaviour/NPC/NPCArmedBehaviour.cpp": [
       {
         "address": "0x824A7E00",
         "size": 92,
@@ -31688,41 +31819,6 @@
         "symbol": "?ExitSubState@NPCArmedBehaviour@AI@@"
       },
       {
-        "address": "0x824A8608",
-        "size": 128,
-        "symbol": "??0NPCBehaviourPrototype@AI@@"
-      },
-      {
-        "address": "0x824A8688",
-        "size": 8,
-        "symbol": "?RetPrimaryWeapon@NPCBehaviourPrototype@AI@@"
-      },
-      {
-        "address": "0x824A8690",
-        "size": 116,
-        "symbol": "??1NPCBehaviourPrototype@AI@@"
-      },
-      {
-        "address": "0x824A8708",
-        "size": 24,
-        "symbol": "?SpawnFromPrototype@NPCBehaviour@AI@@"
-      },
-      {
-        "address": "0x824A8790",
-        "size": 16,
-        "symbol": "?OnEnterReplicatedState@NPCBehaviour@AI@@"
-      },
-      {
-        "address": "0x82F91D70",
-        "size": 76,
-        "symbol": "??__ENPCBehaviourRegistrar@AI@@"
-      },
-      {
-        "address": "0x8303B6B0",
-        "size": 12,
-        "symbol": "??__FNPCBehaviourRegistrar@AI@@"
-      },
-      {
         "address": "0x824A7DF0",
         "size": 12,
         "symbol": "?RetClass@NPCArmedBehaviour@AI@@"
@@ -31731,11 +31827,6 @@
         "address": "0x824A7DD0",
         "size": 12,
         "symbol": "?RetClassName@NPCBehaviour@AI@@"
-      },
-      {
-        "address": "0x82F91D08",
-        "size": 104,
-        "symbol": "??__ENPCBehaviourAIBehaviourInheritRegistrar@AI@@"
       },
       {
         "address": "0x824A7E80",
@@ -31833,34 +31924,9 @@
         "ltcg": true
       },
       {
-        "address": "0x824A87A0",
-        "size": 164,
-        "symbol": "?StaticCreateClass@NPCBehaviour@AI@@"
-      },
-      {
-        "address": "0x82F91CE0",
-        "size": 40,
-        "symbol": "??__E?ms_pNPCBehaviourClass@NPCBehaviour@AI@@"
-      },
-      {
-        "address": "0x82F91DC0",
-        "size": 72,
-        "symbol": "??__ENPCBehaviourSpawningRegistrar@AI@@"
-      },
-      {
-        "address": "0x8303B6C0",
-        "size": 20,
-        "symbol": "??__FNPCBehaviourSpawningRegistrar@AI@@"
-      },
-      {
         "address": "0x82F91630",
         "size": 40,
         "symbol": "??__E?ms_pNPCArmedBehaviourClass@NPCArmedBehaviour@AI@@"
-      },
-      {
-        "address": "0x824A8720",
-        "size": 12,
-        "symbol": "?RetClass@NPCBehaviour@AI@@"
       },
       {
         "address": "0x82F91320",
@@ -31903,6 +31969,185 @@
         "address": "0x824A8278",
         "size": 80,
         "symbol": "?OnExit@NPCArmedBehaviour@AI@@"
+      }
+    ],
+    "src/AI/Behaviour/NPC/NPCBehaviour.cpp": [
+      {
+        "address": "0x824A8608",
+        "size": 128,
+        "symbol": "??0NPCBehaviourPrototype@AI@@"
+      },
+      {
+        "address": "0x824A8688",
+        "size": 8,
+        "symbol": "?RetPrimaryWeapon@NPCBehaviourPrototype@AI@@"
+      },
+      {
+        "address": "0x824A8690",
+        "size": 116,
+        "symbol": "??1NPCBehaviourPrototype@AI@@"
+      },
+      {
+        "address": "0x824A8708",
+        "size": 24,
+        "symbol": "?SpawnFromPrototype@NPCBehaviour@AI@@"
+      },
+      {
+        "address": "0x824A8790",
+        "size": 16,
+        "symbol": "?OnEnterReplicatedState@NPCBehaviour@AI@@"
+      },
+      {
+        "address": "0x82F91D70",
+        "size": 76,
+        "symbol": "??__ENPCBehaviourRegistrar@AI@@"
+      },
+      {
+        "address": "0x8303B6B0",
+        "size": 12,
+        "symbol": "??__FNPCBehaviourRegistrar@AI@@"
+      },
+      {
+        "address": "0x82F91D08",
+        "size": 104,
+        "symbol": "??__ENPCBehaviourAIBehaviourInheritRegistrar@AI@@"
+      },
+      {
+        "address": "0x824A87A0",
+        "size": 164,
+        "symbol": "?StaticCreateClass@NPCBehaviour@AI@@"
+      },
+      {
+        "address": "0x82F91CE0",
+        "size": 40,
+        "symbol": "??__E?ms_pNPCBehaviourClass@NPCBehaviour@AI@@"
+      },
+      {
+        "address": "0x82F91DC0",
+        "size": 72,
+        "symbol": "??__ENPCBehaviourSpawningRegistrar@AI@@"
+      },
+      {
+        "address": "0x8303B6C0",
+        "size": 20,
+        "symbol": "??__FNPCBehaviourSpawningRegistrar@AI@@"
+      },
+      {
+        "address": "0x824A8720",
+        "size": 12,
+        "symbol": "?RetClass@NPCBehaviour@AI@@"
+      },
+      {
+        "address": "0x82F919D0",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F919F8",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82F91A20",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82F91A38",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82F91A50",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82F91A60",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x82F91A78",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x82F91A90",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82F91AB0",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82F91AD0",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82F91AF0",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82F91B10",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82F91B68",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82F91B88",
+        "size": 56,
+        "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F91BC0",
+        "size": 56,
+        "symbol": "??__EfStepDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F91BF8",
+        "size": 56,
+        "symbol": "??__EfStepDotTan@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F91C30",
+        "size": 40,
+        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F91C58",
+        "size": 56,
+        "symbol": "??__EfFACING_TARGET_MIN_DOT_PRODUCT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F91C90",
+        "size": 56,
+        "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F91CC8",
+        "size": 24,
+        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x8303B6A8",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
       }
     ],
     "src/AI/Behaviour/NPC/Peacekeeper/Peacekeeper.cpp": [
@@ -32415,6 +32660,21 @@
         "address": "0x8303B858",
         "size": 20,
         "symbol": "??__FReaperSpawningRegistrar@AI@@"
+      },
+      {
+        "address": "0x824BAA00",
+        "size": 8,
+        "symbol": "??_EReaper@AI@@WBI@"
+      },
+      {
+        "address": "0x824BAA08",
+        "size": 8,
+        "symbol": "??_EReaper@AI@@WDI@"
+      },
+      {
+        "address": "0x824BAA10",
+        "size": 8,
+        "symbol": "??_EReaper@AI@@WBM@"
       }
     ],
     "src/AI/Behaviour/NPC/Freak/ScroungerKamikaze.cpp": [
@@ -34770,6 +35030,26 @@
         "address": "0x8254E7B0",
         "size": 92,
         "symbol": "?IsA@cCharacterInterface@CHARACTER@@"
+      },
+      {
+        "address": "0x8254F610",
+        "size": 88,
+        "symbol": "?IsEnemy@cCharacterInterface@CHARACTER@@"
+      },
+      {
+        "address": "0x8254F668",
+        "size": 88,
+        "symbol": "?IsFriend@cCharacterInterface@CHARACTER@@"
+      },
+      {
+        "address": "0x8254F170",
+        "size": 28,
+        "symbol": "?ForceRappel@cCharacterInterface@CHARACTER@@"
+      },
+      {
+        "address": "0x8254F190",
+        "size": 28,
+        "symbol": "?ForceOntoTurret@cCharacterInterface@CHARACTER@@"
       }
     ],
     "src/Prop/cProp.cpp": [
@@ -35728,6 +36008,80 @@
         "symbol": "?IsA@cTimeOfDay@",
         "matching": false,
         "note": "descriptor query; LTCG drops the unused this (no function in this file installs the vtable yet). Plain EXACT, LTCG 21/23 words."
+      },
+      {
+        "address": "0x82774230",
+        "size": 80,
+        "symbol": "??_GcTimeOfDay@Sim@@"
+      },
+      {
+        "address": "0x82774280",
+        "size": 372,
+        "symbol": "??1cTimeOfDay@Sim@@"
+      },
+      {
+        "address": "0x82774D98",
+        "size": 84,
+        "symbol": "?SetPeriod@cTimeOfDay@Sim@@",
+        "matching": false,
+        "note": "Clamp to [0.05, 1440] through RuffKing's reference-returning Clamp: every instruction but the constant load; CD2 loads 1440.0f through LTCG pool anchor 0x820F8C80 (+0x364), which the per-file models load directly (plain 82%, LTCG 20/21 words)"
+      },
+      {
+        "address": "0x82775580",
+        "size": 128,
+        "symbol": "?RemoveTimeOfDayEvent@cTimeOfDay@Sim@@",
+        "matching": false,
+        "note": "plain EXACT (bool result set before erase, as RuffKing's); the per-file LTCG model inlines const_iterator::_Inc (0x827763D0), which CD2 calls (LTCG 3/32 words)"
+      },
+      {
+        "address": "0x827762E0",
+        "size": 120,
+        "symbol": "?_Lrotate@?$_Tree@V?$_Tset_traits@VcTODNotification@Sim@@"
+      },
+      {
+        "address": "0x82776358",
+        "size": 120,
+        "symbol": "?_Rrotate@?$_Tree@V?$_Tset_traits@VcTODNotification@Sim@@"
+      },
+      {
+        "address": "0x827763D0",
+        "size": 140,
+        "symbol": "?_Inc@const_iterator@?$_Tree@V?$_Tset_traits@VcTODNotification@Sim@@"
+      },
+      {
+        "address": "0x82776898",
+        "size": 92,
+        "symbol": "?_Erase@?$_Tree@V?$_Tset_traits@VcTODNotification@Sim@@"
+      },
+      {
+        "address": "0x82776B88",
+        "size": 8,
+        "symbol": "??_EcTimeOfDay@Sim@@WBI@"
+      },
+      {
+        "address": "0x82776B90",
+        "size": 8,
+        "symbol": "??_EcTimeOfDay@Sim@@WDI@"
+      },
+      {
+        "address": "0x82776B98",
+        "size": 8,
+        "symbol": "??_EcTimeOfDay@Sim@@WBM@"
+      },
+      {
+        "address": "0x82776BA0",
+        "size": 8,
+        "symbol": "?RetClass@cTimeOfDay@Sim@@W7B"
+      },
+      {
+        "address": "0x82776BA8",
+        "size": 8,
+        "symbol": "??_EcTimeOfDay@Sim@@WEA@"
+      },
+      {
+        "address": "0x82776BB0",
+        "size": 8,
+        "symbol": "??_EcTimeOfDay@Sim@@WCHA@"
       }
     ],
     "src/Activity/LongDistanceProps/cLongDistancePropManager.cpp": [
@@ -36343,12 +36697,6 @@
         "address": "0x826092F8",
         "size": 96,
         "symbol": "??$CreateScriptMethod@VcSpinningProp@Prop@@X@Fun_Runtime@@",
-        "folded": true
-      },
-      {
-        "address": "0x82738E08",
-        "size": 16,
-        "symbol": "??_9cSpinningProp@Prop@@$BFLI@AA",
         "folded": true
       },
       {
@@ -39572,6 +39920,26 @@
         "address": "0x82FE24F8",
         "size": 24,
         "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x826976B0",
+        "size": 144,
+        "symbol": "??_GcWaterProfile@PHYSICS@@"
+      },
+      {
+        "address": "0x82697AB0",
+        "size": 8,
+        "symbol": "??_EcWaterProfile@PHYSICS@@WBI@"
+      },
+      {
+        "address": "0x82697AB8",
+        "size": 8,
+        "symbol": "??_EcWaterProfile@PHYSICS@@WDI@"
+      },
+      {
+        "address": "0x82697AC0",
+        "size": 8,
+        "symbol": "??_EcWaterProfile@PHYSICS@@WBM@"
       }
     ],
     "src/Vehicle/cGenVehicleProfile.cpp": [
@@ -40227,6 +40595,11 @@
         "address": "0x82737780",
         "size": 44,
         "symbol": "?GoToInitialState@cHingedProp@Prop@@"
+      },
+      {
+        "address": "0x82738E08",
+        "size": 16,
+        "symbol": "??_9cHingedProp@Prop@@$BFLI@AA"
       }
     ],
     "src/Prop/Constrained/cMovingPlatform.cpp": [
@@ -42430,6 +42803,38 @@
         "address": "0x827534A0",
         "size": 88,
         "symbol": "?MakeNew@cSkillProfile@RPG@@"
+      },
+      {
+        "address": "0x82753440",
+        "size": 92,
+        "symbol": "?IsA@cSkillProfile@RPG@@UBA"
+      },
+      {
+        "address": "0x82753838",
+        "size": 80,
+        "symbol": "??_GcSkillProfile@RPG@@"
+      },
+      {
+        "address": "0x82753888",
+        "size": 192,
+        "symbol": "??1cSkillProfile@RPG@@",
+        "matching": false,
+        "note": "RuffKing's destructor (the DLC profile falls back to the full-game one, the others clear) without its assert: every branch and store; CD2 loads G_pDLCSkillProfile (0x83800FC8) before the five vptr stores, which needs the global known not to alias this; the plain build and the per-file LTCG model (which escapes every global) load it after them (24/48 words)"
+      },
+      {
+        "address": "0x82753948",
+        "size": 8,
+        "symbol": "??_EcSkillProfile@RPG@@WBI@"
+      },
+      {
+        "address": "0x82753950",
+        "size": 8,
+        "symbol": "??_EcSkillProfile@RPG@@WDI@"
+      },
+      {
+        "address": "0x82753958",
+        "size": 8,
+        "symbol": "??_EcSkillProfile@RPG@@WBM@"
       }
     ],
     "src/VFX/cBloom.cpp": [
@@ -45511,6 +45916,11 @@
         "symbol": "??0cPortableLaunchPad@Equip@@",
         "matching": false,
         "note": "99.1% (48/54 words): calls, fields and every vptr exact; only the vptr store for the 0x420 subobject is scheduled before 0x250/0x294 where CD2 stores it after them; search finds nothing"
+      },
+      {
+        "address": "0x8260E8B0",
+        "size": 40,
+        "symbol": "?OnDetachedFromObject@cCWSatchelCharge@Equip@@"
       }
     ],
     "src/Equip/Gadget/cPulseRifle.cpp": [
@@ -45680,6 +46090,114 @@
         "address": "0x8260EC70",
         "size": 12,
         "symbol": "?RetClass@cPulseRifle@Equip@@"
+      },
+      {
+        "address": "0x8260EC80",
+        "size": 92,
+        "symbol": "?IsA@cPulseRifle@Equip@@UBA"
+      },
+      {
+        "address": "0x8260ED48",
+        "size": 204,
+        "symbol": "?SpawnFromPrototype@cPulseRifle@Equip@@"
+      },
+      {
+        "address": "0x8260EE28",
+        "size": 220,
+        "symbol": "??0cPulse@Equip@@",
+        "matching": false,
+        "note": "RuffKing's initializers (ZeroVec/ZAxis positions, zero start time, null phantom/VFX, inactive) and the vector clear: 52/55 words in plain and LTCG; CD2 loads the 0.0f start time after the phantom store, ours hoists the load two stores earlier (body assignment of the time, int literal and search tried)"
+      },
+      {
+        "address": "0x8260EF08",
+        "size": 80,
+        "symbol": "??_GcPulse@Equip@@"
+      },
+      {
+        "address": "0x8260EF58",
+        "size": 212,
+        "symbol": "??1cPulse@Equip@@"
+      },
+      {
+        "address": "0x8260F378",
+        "size": 136,
+        "symbol": "?Update@cPulse@Equip@@"
+      },
+      {
+        "address": "0x8260F400",
+        "size": 120,
+        "symbol": "?Stop@cPulse@Equip@@"
+      },
+      {
+        "address": "0x8260F638",
+        "size": 184,
+        "symbol": "?ReleasePulseVFX@cPulse@Equip@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x8260F9C8",
+        "size": 212,
+        "symbol": "?RetPulseTargetProfile@cPulse@Equip@@"
+      },
+      {
+        "address": "0x8260FB40",
+        "size": 92,
+        "symbol": "??_GcPulseRifle@Equip@@"
+      },
+      {
+        "address": "0x8260FBA0",
+        "size": 64,
+        "symbol": "?TickUpdate@cPulseRifle@Equip@@"
+      },
+      {
+        "address": "0x82610588",
+        "size": 8,
+        "symbol": "?IsA@cPulseRifle@Equip@@WPA@"
+      },
+      {
+        "address": "0x82610590",
+        "size": 8,
+        "symbol": "??_EcPulseRifle@Equip@@WBI@"
+      },
+      {
+        "address": "0x82610598",
+        "size": 8,
+        "symbol": "??_EcPulseRifle@Equip@@WFBA@"
+      },
+      {
+        "address": "0x826105A0",
+        "size": 8,
+        "symbol": "??_EcPulseRifle@Equip@@WDI@"
+      },
+      {
+        "address": "0x826105A8",
+        "size": 8,
+        "symbol": "??_EcPulseRifle@Equip@@WBM@"
+      },
+      {
+        "address": "0x826105B0",
+        "size": 8,
+        "symbol": "?RetClass@cPulseRifle@Equip@@WEOA@"
+      },
+      {
+        "address": "0x826105B8",
+        "size": 8,
+        "symbol": "??_EcPulseRifle@Equip@@WCFA@"
+      },
+      {
+        "address": "0x826105C0",
+        "size": 8,
+        "symbol": "?IsA@cPulseRifle@Equip@@WEOA@"
+      },
+      {
+        "address": "0x826105C8",
+        "size": 8,
+        "symbol": "??_EcPulseRifle@Equip@@WCJE@"
+      },
+      {
+        "address": "0x826105D0",
+        "size": 8,
+        "symbol": "??_EcPulseRifle@Equip@@WBCA@"
       }
     ],
     "src/Equip/Gadget/Refractor/cRefractor.cpp": [
@@ -49064,11 +49582,6 @@
         "address": "0x82FDF678",
         "size": 104,
         "symbol": "??__EcBodycDebugPageHandlerInheritRegistrar@PHYSICS@@"
-      },
-      {
-        "address": "0x82FDFB08",
-        "size": 104,
-        "symbol": "??__EcDynamicBodycBodyInheritRegistrar@PHYSICS@@"
       },
       {
         "address": "0x82FDF730",
@@ -60488,6 +61001,123 @@
         "address": "0x82684C78",
         "size": 8,
         "symbol": "?vf8@cCollisionEvent@AI@@"
+      },
+      {
+        "address": "0x82FDFB08",
+        "size": 104,
+        "symbol": "??__EcDynamicBodycBodyInheritRegistrar@PHYSICS@@"
+      },
+      {
+        "address": "0x82FDF7D0",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FDF7F8",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82FDF820",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82FDF838",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82FDF850",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82FDF870",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82FDF890",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82FDF8B0",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82FDF8D0",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82FDF928",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82FDF948",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82FDF958",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x82FDF970",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x82FDF988",
+        "size": 56,
+        "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FDF9C0",
+        "size": 56,
+        "symbol": "??__EfStepDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FDF9F8",
+        "size": 56,
+        "symbol": "??__EfStepDotTan@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FDFA30",
+        "size": 40,
+        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FDFA58",
+        "size": 56,
+        "symbol": "??__EfFACING_TARGET_MIN_DOT_PRODUCT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FDFA90",
+        "size": 56,
+        "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82FDFAC8",
+        "size": 24,
+        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x83040390",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
       }
     ],
     "src/Fun_Runtime/cScriptHost.cpp": [
@@ -66830,6 +67460,18 @@
         "address": "0x82758838",
         "size": 12,
         "symbol": "?RetClass@cRenegadeOrbSpawnPoint@RPG@@"
+      },
+      {
+        "address": "0x82758848",
+        "size": 92,
+        "symbol": "?IsA@cRenegadeOrbSpawnPoint@RPG@@"
+      },
+      {
+        "address": "0x82758940",
+        "size": 252,
+        "symbol": "?MakeNew@cRenegadeOrbSpawnPoint@RPG@@",
+        "matching": false,
+        "note": "15% plain, 10/63 LTCG words: the inline constructors (cSpawnPointBase's, then RuffKing's fields at CD2's 0x50..0x84) give every store and the HandleAttributes call; CD2 reads cSpawnPointBase::ms_nNextUID once and drops the base's table store, so its LTCG knew the new object cannot alias the counter (every CD2 reference to 0x830AC820 is a direct lwz/stw: its address is never taken). The LTCG model takes the address of every global (verify_ltcg.escape_copy), so ours reloads it and keeps the dead store. The source also emits the table that makes IsA exact."
       }
     ],
     "src/RPG/cPlayerStatManager.cpp": [
@@ -77526,6 +78168,120 @@
         "address": "0x82F7FB30",
         "size": 24,
         "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      }
+    ],
+    "src/AI/Behaviour/NPC/NPCArmoury.cpp": [
+      {
+        "address": "0x82F916C0",
+        "size": 40,
+        "symbol": "??__EfPhysicsSimulationTick@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F916E8",
+        "size": 36,
+        "symbol": "??__EfMAX_TIME_STEP@@"
+      },
+      {
+        "address": "0x82F91710",
+        "size": 24,
+        "symbol": "??__EfSLIP_LIMIT@@"
+      },
+      {
+        "address": "0x82F91728",
+        "size": 24,
+        "symbol": "??__EfSKID_LIMIT@@"
+      },
+      {
+        "address": "0x82F91740",
+        "size": 12,
+        "symbol": "??__EgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82F91750",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_HALF_SQ@@"
+      },
+      {
+        "address": "0x82F91768",
+        "size": 24,
+        "symbol": "??__EfWALK_VELOCITY_THRESHOLD_DOUBLED_SQ@@"
+      },
+      {
+        "address": "0x82F91780",
+        "size": 28,
+        "symbol": "??__EWORLD_RIGHT_VECTOR@@"
+      },
+      {
+        "address": "0x82F917A0",
+        "size": 28,
+        "symbol": "??__EWORLD_UP_VECTOR@@"
+      },
+      {
+        "address": "0x82F917C0",
+        "size": 28,
+        "symbol": "??__EWORLD_AT_VECTOR@@"
+      },
+      {
+        "address": "0x82F917E0",
+        "size": 28,
+        "symbol": "??__EZERO_VECTOR@@"
+      },
+      {
+        "address": "0x82F91800",
+        "size": 88,
+        "symbol": "??__EIDENTITY_TRANSFORM@@"
+      },
+      {
+        "address": "0x82F91858",
+        "size": 28,
+        "symbol": "??__EIDENTITY_QUATERNION@@"
+      },
+      {
+        "address": "0x82F91878",
+        "size": 56,
+        "symbol": "??__EfSlopeDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F918B0",
+        "size": 56,
+        "symbol": "??__EfStepDotLimit@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F918E8",
+        "size": 56,
+        "symbol": "??__EfStepDotTan@CHARACTER@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F91920",
+        "size": 40,
+        "symbol": "??__EnPART_PERCENT_WEIGHT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F91948",
+        "size": 56,
+        "symbol": "??__EfFACING_TARGET_MIN_DOT_PRODUCT@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F91980",
+        "size": 56,
+        "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
+        "ltcg": true
+      },
+      {
+        "address": "0x82F919B8",
+        "size": 24,
+        "symbol": "??__EfPOINT_LOCK_RADIUS_SQ@@"
+      },
+      {
+        "address": "0x8303B6A0",
+        "size": 4,
+        "symbol": "??__FgRandGen@CHARACTER@@"
       }
     ]
   }

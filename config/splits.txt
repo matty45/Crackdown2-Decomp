@@ -1315,12 +1315,35 @@ src/AI/Behaviour/AIBehaviour.cpp
   init 0x82F90D08   # spawning registrar: AIBehaviour with placement factory 0x824A4A90
   atexit 0x8303B3B8   # destroys the spawning registrar for AIBehaviour, registered by its initializer
 
-src/AI/Behaviour/NPC/NPCBehaviour.cpp
-  text 0x824A7DD0 0x824A8844   # auto: NPCBehaviour; RuffKing NPCArmedBehaviour.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-07 to the end of NPCBehaviour::StaticCreateClass (0x824A87A0), which its class-pointer initializer names
-  init 0x82F91D70
-  atexit 0x8303B6B0
+src/AI/Behaviour/NPC/NPCArmedBehaviour.cpp
+  text 0x824A7DD0 0x824A8608   # RuffKing NPCArmedBehaviour.obj: NPCArmedBehaviour's code and the NPCBehaviour class-body virtuals it emits (RuffKing has NPCBehaviour::RetClassName in this object), up to ExitSubState (0x824A8538); from 0x824A8608 the code is NPCBehaviourPrototype's and NPCBehaviour's, which RuffKing defines in NPCBehaviour.obj. Split from NPCBehaviour.cpp 2026-11-26
+  init 0x82F91320   # header static (physicsconsts.h): inside this object's initializer run, which reads one g_GlobalConstants copy (0x830BA120)
+  init 0x82F91348   # header static (physicsconsts.h): inside this object's initializer run, which reads one g_GlobalConstants copy (0x830BA120)
+  init 0x82F91370   # header static (physicsconsts.h): inside this object's initializer run, which reads one g_GlobalConstants copy (0x830BA120)
+  init 0x82F91388   # header static (physicsconsts.h): inside this object's initializer run, which reads one g_GlobalConstants copy (0x830BA120)
+  init 0x82F913A0   # header static (characterconsts.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
+  init 0x82F913B0   # header static (characterconsts.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
+  init 0x82F913C8   # header static (characterconsts.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
+  init 0x82F913E0   # header static (physicsproject.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
+  init 0x82F91400   # header static (physicsproject.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
+  init 0x82F91420   # header static (physicsproject.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
+  init 0x82F91440   # header static (physicsproject.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
+  init 0x82F91460   # header static (physicsproject.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
+  init 0x82F914B8   # header static (physicsproject.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
+  init 0x82F914D8   # header static (cCharacterController.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
+  init 0x82F91510   # header static (cCharacterController.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
+  init 0x82F91548   # header static (cCharacterController.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
+  init 0x82F91580   # header static (cRagdollProfile.h): inside this object's initializer run, which reads one g_GlobalConstants copy (0x830BA120)
+  init 0x82F915A8   # header static (aiconstants.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
+  init 0x82F915E0   # header static (aiconstants.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
+  init 0x82F91618   # header static (aiconstants.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
   init 0x82F91630   # class pointer: NPCArmedBehaviour::ms_pNPCArmedBehaviourClass = StaticCreateClass() (0x824A7E80)
   init 0x82F91658   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  atexit 0x8303B698   # header static CHARACTER::gRandGen (characterconsts.h): its at-exit destructor, registered by the initializer
+
+# RuffKing module 1251 (NPCArmoury.obj, Libraries/Shared/AI/Behaviour/NPC/NPCArmoury.cpp): RuffKing links NPCArmedBehaviour.obj (1252), NPCArmoury.obj and NPCBehaviour.obj (1250) in this order; CD2 runs their initializers in reverse module order as three runs, each reading its own g_GlobalConstants copy (0x830BA120, 0x830BA200, 0x830BA2DC); this run (from 0x82F916C0) is the middle one. RuffKing's NPCArmoury.obj defines no code of its own (its functions are the header constants' initializers and gRandGen's at-exit destructor), so it has no text range
+src/AI/Behaviour/NPC/NPCArmoury.cpp
+  text 0x824A8608 0x824A8608   # empty: RuffKing's NPCArmoury.obj has no code; its (empty) contribution lies between NPCArmedBehaviour.obj's and NPCBehaviour.obj's, the place its initializers and at-exit destructor take in CD2's link order
   init 0x82F916C0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
   init 0x82F916E8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
   init 0x82F91710   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -1341,6 +1364,10 @@ src/AI/Behaviour/NPC/NPCBehaviour.cpp
   init 0x82F91948   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
   init 0x82F91980   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
   init 0x82F919B8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  atexit 0x8303B6A0   # header static CHARACTER::gRandGen (characterconsts.h): its at-exit destructor, registered by 0x82F91740
+
+src/AI/Behaviour/NPC/NPCBehaviour.cpp
+  text 0x824A8608 0x824A8844   # RuffKing NPCBehaviour.obj: NPCBehaviourPrototype's constructor and destructor, NPCBehaviour's placement factory, registered-class pair and StaticCreateClass (0x824A87A0), which its class-pointer initializer names; split from NPCBehaviour.cpp 2026-11-26
   init 0x82F919D0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
   init 0x82F919F8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
   init 0x82F91A20   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
@@ -1361,31 +1388,13 @@ src/AI/Behaviour/NPC/NPCBehaviour.cpp
   init 0x82F91C58   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
   init 0x82F91C90   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
   init 0x82F91CC8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
-  init 0x82F91D08   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
-  init 0x82F913A0   # header static (characterconsts.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
-  init 0x82F913B0   # header static (characterconsts.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
-  init 0x82F913C8   # header static (characterconsts.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
-  init 0x82F913E0   # header static (physicsproject.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
-  init 0x82F91400   # header static (physicsproject.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
-  init 0x82F91420   # header static (physicsproject.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
-  init 0x82F91440   # header static (physicsproject.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
-  init 0x82F91460   # header static (physicsproject.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
-  init 0x82F914B8   # header static (physicsproject.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
-  init 0x82F914D8   # header static (cCharacterController.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
-  init 0x82F91510   # header static (cCharacterController.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
-  init 0x82F91548   # header static (cCharacterController.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
-  init 0x82F915A8   # header static (aiconstants.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
-  init 0x82F915E0   # header static (aiconstants.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
-  init 0x82F91618   # header static (aiconstants.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
-  atexit 0x8303B698   # header static CHARACTER::gRandGen (characterconsts.h): its at-exit destructor, registered by the initializer
   init 0x82F91CE0   # class pointer: NPCBehaviour::ms_pNPCBehaviourClass = StaticCreateClass() (0x824A87A0)
+  init 0x82F91D08   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
+  init 0x82F91D70
   init 0x82F91DC0   # spawning registrar: NPCBehaviour with placement factory 0x824A8708
+  atexit 0x8303B6A8   # header static CHARACTER::gRandGen (characterconsts.h): its at-exit destructor, registered by 0x82F91A50
+  atexit 0x8303B6B0
   atexit 0x8303B6C0   # destroys the spawning registrar for NPCBehaviour, registered by its initializer
-  init 0x82F91320   # header static (physicsconsts.h): inside this object's initializer run, which reads one g_GlobalConstants copy (0x830BA120)
-  init 0x82F91348   # header static (physicsconsts.h): inside this object's initializer run, which reads one g_GlobalConstants copy (0x830BA120)
-  init 0x82F91370   # header static (physicsconsts.h): inside this object's initializer run, which reads one g_GlobalConstants copy (0x830BA120)
-  init 0x82F91388   # header static (physicsconsts.h): inside this object's initializer run, which reads one g_GlobalConstants copy (0x830BA120)
-  init 0x82F91580   # header static (cRagdollProfile.h): inside this object's initializer run, which reads one g_GlobalConstants copy (0x830BA120)
 
 src/AI/Behaviour/NPC/Civilian/Pedestrian.cpp
   text 0x824A8CB0 0x824A90B8   # auto: Pedestrian; RuffKing Pedestrian.obj; 8 markers (RetClassName, MakeNew, own vtable slots); extended 2026-10-31 by 0 function(s) before and 1 after: used only by this file (calls, addresses, vtables it installs); extended 2026-11-14 to its adjustor thunks (the last ends at 0x824A90B8): an object's thunks close its code, so the functions between belong to it too
@@ -5566,27 +5575,6 @@ src/PHYSICS/cBody.cpp
   init 0x82FDF678   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
   init 0x82FDF730   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
   init 0x82FDF778   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
-  init 0x82FDF7D0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
-  init 0x82FDF7F8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
-  init 0x82FDF820   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
-  init 0x82FDF838   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
-  init 0x82FDF850   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
-  init 0x82FDF870   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
-  init 0x82FDF890   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
-  init 0x82FDF8B0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
-  init 0x82FDF8D0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
-  init 0x82FDF928   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
-  init 0x82FDF948   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
-  init 0x82FDF958   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
-  init 0x82FDF970   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
-  init 0x82FDF988   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
-  init 0x82FDF9C0   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
-  init 0x82FDF9F8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
-  init 0x82FDFA30   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
-  init 0x82FDFA58   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
-  init 0x82FDFA90   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
-  init 0x82FDFAC8   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
-  init 0x82FDFB08   # 2026-10-31: initializer-region function whose code references only this file's functions, or lies between two of its entries
   init 0x82FDF360   # header static (physicsconsts.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
   init 0x82FDF388   # header static (physicsconsts.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
   init 0x82FDF3B0   # header static (physicsconsts.h, RuffKing PDB line info): this object's initializer sequence, from its first header constant to its own initializers
@@ -6887,7 +6875,6 @@ src/Prop/Constrained/cSpinningProp.cpp
   init 0x82FF8FF0   # script registrar for cSpinningProp; registration table 0x82141F6C
   text 0x8273E5A8 0x8273FA98   # auto: cSpinningProp; RuffKing cSpinningProp.obj; 4 markers (RetClassName, MakeNew, own vtable slots); extended 2026-11-14 to its adjustor thunks (the last ends at 0x8273FA98): an object's thunks close its code, so the functions between belong to it too; extended 2026-11-14 back to its RetClass/IsA pair at 0x8273E5A8 (they read the class pointer this object's initializer sets)
   # Extension: 367-slot primary table 0x82141860 and registrar 0x8273E738 identify this object's state getters/actions and three adjacent native query thunks through 0x8273FA68; no other source range overlaps.
-  folded 0x82738E08   # shared slot-366 vcall thunk: spinning registrar uses it for IsInBrokenOffState; hinged registrar uses the same slot-specific body for its state query
   folded 0x826092F8   # shared 96-byte mutable void-member factory: spinning registrar calls it at 0x8273E770/0x8273E7A4/0x8273E7D4; CW weapon registrar also uses it for no-argument AI-accuracy actions
   folded 0x8288FB78   # cSpinningProp table 0x82141860 slot 357 gives CanGoToInitialState the shared true-returning body; heavy-grenade slot 330 shares it
   folded 0x823810B8   # shared with hinged-prop state methods: matching state-getter slot, cStateMachine +0xE30, and identical transition/query body
@@ -9918,6 +9905,28 @@ src/PHYSICS/cDynamicBody.cpp
   atexit 0x83040398   # destroys the class-factory registrar for "cDynamicBody", registered by its initializer
   init 0x82FDFBC0   # spawning registrar: cDynamicBody with placement factory 0x82684BA8
   atexit 0x830403A8   # destroys the spawning registrar for cDynamicBody, registered by its initializer
+  init 0x82FDF7D0   # 2026-11-26: cDynamicBody.obj's initializer run (one g_GlobalConstants copy, 0x831FDC2C), ending at its class-pointer initializer 0x82FDFAE0
+  init 0x82FDF7F8   # 2026-11-26: cDynamicBody.obj's initializer run (one g_GlobalConstants copy, 0x831FDC2C), ending at its class-pointer initializer 0x82FDFAE0
+  init 0x82FDF820   # 2026-11-26: cDynamicBody.obj's initializer run (one g_GlobalConstants copy, 0x831FDC2C), ending at its class-pointer initializer 0x82FDFAE0
+  init 0x82FDF838   # 2026-11-26: cDynamicBody.obj's initializer run (one g_GlobalConstants copy, 0x831FDC2C), ending at its class-pointer initializer 0x82FDFAE0
+  init 0x82FDF850   # 2026-11-26: cDynamicBody.obj's initializer run (one g_GlobalConstants copy, 0x831FDC2C), ending at its class-pointer initializer 0x82FDFAE0
+  init 0x82FDF870   # 2026-11-26: cDynamicBody.obj's initializer run (one g_GlobalConstants copy, 0x831FDC2C), ending at its class-pointer initializer 0x82FDFAE0
+  init 0x82FDF890   # 2026-11-26: cDynamicBody.obj's initializer run (one g_GlobalConstants copy, 0x831FDC2C), ending at its class-pointer initializer 0x82FDFAE0
+  init 0x82FDF8B0   # 2026-11-26: cDynamicBody.obj's initializer run (one g_GlobalConstants copy, 0x831FDC2C), ending at its class-pointer initializer 0x82FDFAE0
+  init 0x82FDF8D0   # 2026-11-26: cDynamicBody.obj's initializer run (one g_GlobalConstants copy, 0x831FDC2C), ending at its class-pointer initializer 0x82FDFAE0
+  init 0x82FDF928   # 2026-11-26: cDynamicBody.obj's initializer run (one g_GlobalConstants copy, 0x831FDC2C), ending at its class-pointer initializer 0x82FDFAE0
+  init 0x82FDF948   # 2026-11-26: cDynamicBody.obj's initializer run (one g_GlobalConstants copy, 0x831FDC2C), ending at its class-pointer initializer 0x82FDFAE0
+  init 0x82FDF958   # 2026-11-26: cDynamicBody.obj's initializer run (one g_GlobalConstants copy, 0x831FDC2C), ending at its class-pointer initializer 0x82FDFAE0
+  init 0x82FDF970   # 2026-11-26: cDynamicBody.obj's initializer run (one g_GlobalConstants copy, 0x831FDC2C), ending at its class-pointer initializer 0x82FDFAE0
+  init 0x82FDF988   # 2026-11-26: cDynamicBody.obj's initializer run (one g_GlobalConstants copy, 0x831FDC2C), ending at its class-pointer initializer 0x82FDFAE0
+  init 0x82FDF9C0   # 2026-11-26: cDynamicBody.obj's initializer run (one g_GlobalConstants copy, 0x831FDC2C), ending at its class-pointer initializer 0x82FDFAE0
+  init 0x82FDF9F8   # 2026-11-26: cDynamicBody.obj's initializer run (one g_GlobalConstants copy, 0x831FDC2C), ending at its class-pointer initializer 0x82FDFAE0
+  init 0x82FDFA30   # 2026-11-26: cDynamicBody.obj's initializer run (one g_GlobalConstants copy, 0x831FDC2C), ending at its class-pointer initializer 0x82FDFAE0
+  init 0x82FDFA58   # 2026-11-26: cDynamicBody.obj's initializer run (one g_GlobalConstants copy, 0x831FDC2C), ending at its class-pointer initializer 0x82FDFAE0
+  init 0x82FDFA90   # 2026-11-26: cDynamicBody.obj's initializer run (one g_GlobalConstants copy, 0x831FDC2C), ending at its class-pointer initializer 0x82FDFAE0
+  init 0x82FDFAC8   # 2026-11-26: cDynamicBody.obj's initializer run (one g_GlobalConstants copy, 0x831FDC2C), ending at its class-pointer initializer 0x82FDFAE0
+  init 0x82FDFB08   # inheritance registrar cDynamicBody under cBody: between cDynamicBody's class-pointer initializer 0x82FDFAE0 and its class-factory registrar 0x82FDFB70 (moved from cBody.cpp 2026-11-26)
+  atexit 0x83040390   # header static CHARACTER::gRandGen (characterconsts.h): its at-exit destructor, registered by this object's run
 
 # RuffKing cNetDynamicBody.obj (Libraries/Shared/Physics/cNetDynamicBody.cpp, which defines ms_pcNetDynamicBodyClass,
 # StaticCreateClass and cNetDynamicBodycDynamicBodyInheritRegistrar): CD2's initializers 0x82FDFC60 and 0x82FDFC88

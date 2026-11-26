@@ -9,6 +9,9 @@
 // RuffKing's cGameManager.cpp defines this message at global scope; CD2's copy is at 0x8383A95C, which
 // cTrainingMission::OnMissionUnlocked (0x82480DA0) links with the format "Mtx *".
 extern RWS::CEventId iMsgRestartPlayer;
+// RuffKing's cGameManager.cpp defines this one at global scope too. RuffKing's cTimeOfDay destructor unlinks
+// iMsgRunningTick and then iMsgBeginPlay; CD2's (0x82774280) unlinks 0x83A05C54 and then 0x8383A94C.
+extern RWS::CEventId iMsgBeginPlay;
 
 namespace GMan
 {

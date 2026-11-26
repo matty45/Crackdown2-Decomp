@@ -12,13 +12,8 @@ namespace AI
     class Reaper : public FreakBase
     {
     public:
-        // CD2 table 0x82109970 has 185 primary slots.
-        virtual void vf179();
-        virtual void vf180();
-        virtual void vf181();
-        virtual void vf182();
-        virtual void vf183();
-        virtual void vf184();
+        // CD2 table 0x82109970 has 179 primary slots, as FreakBase's: Reaper's CEventHandler table (its first word the
+        // adjustor thunk 0x824BAA00) starts at 0x82109C3C, 179 words on. Reaper adds no primary virtual.
 
         // CD2 spawning initializer 0x82F93F90 names placement factory 0x824b26a8.
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *memory);
@@ -91,6 +86,8 @@ namespace AI
         // CD2 table 0x82109970 differs from FreakBase at these inherited slots.
         virtual void V102(); // slot 102: 0x824BACF0
         virtual void V106(); // slot 106: 0x824BB7B8
+        // CD2's cSafeDeletable table 0x82001740 differs from FreakBase's (0x82109FBC) at this slot.
+        virtual void Slot2(); // cSafeDeletable 2: 0x824B73C8
     };
 }
 

@@ -523,7 +523,7 @@ def verify(override=None, ltcg=True, out=print, shared=None):
         lread, fs, _ = verify_ltcg.build_ltcg(override.get(src) or os.path.join(ROOT, src), plain, consts, d, env(),
                                               extra_flags=['/I' + os.path.dirname(os.path.join(ROOT, src))] + file_flags(src),
                                               deps=verify_ltcg.dependencies(src, plain, d, env(), man, override))
-        return lread, fs, verify_ltcg.StaticNames(d, plain)
+        return lread, fs, verify_ltcg.StaticNames(d, plain, objs[src][1])
     lfiles = [src for src in man['files'] if ltcg_built(src)]  # a plain object has no LTCG build
     builds = dict(zip(lfiles, pool.map(build, lfiles)))
     for src in lfiles:

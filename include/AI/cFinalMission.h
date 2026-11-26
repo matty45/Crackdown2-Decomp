@@ -57,6 +57,7 @@ namespace AI
             eRF_BreachHoleStatesN = 4
         };
         virtual unsigned int GetMaxReplicatedFields() const; // cReplicatedClass 23: 0x8246BFB8
+        virtual void HandleAttributes(const RWS::CAttributePacket &); // CAttributeHandler 1: 0x8246AF70
         // CD2: cFinalMission's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:

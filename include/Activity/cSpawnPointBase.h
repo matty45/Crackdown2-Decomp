@@ -28,10 +28,18 @@ namespace Activity
         // Burn names the UID counter. CD2 0x823D1F80 initializes the shared
         // base inline and increments its data word at 0x830AC820 (initially 1000).
         static unsigned int ms_nNextUID;
-        cSpawnPointBase();
+        // Inline: cRenegadeOrbSpawnPoint's MakeNew (0x82758940) expands it (m_Pos's x, y and z zeroed, m_Rot left).
+        __forceinline cSpawnPointBase()
+            : m_pPrototype(0), m_pSpawned(0), m_nAVBitfield(0), m_nAVRefCount(0), m_bInLocalAV(false),
+              m_bIgnoreLocalBlocking(false), m_nARSquadID(0xFFFFFFFF), m_nUID(ms_nNextUID++), m_nStatusBitfield(1),
+              m_bPersistingObject(true)
+        {
+        }
         virtual const Fun_Runtime::cClass &RetClass() const;
         virtual bool IsA(const Fun_Runtime::cClass &) const;
-        virtual ~cSpawnPointBase();
+        // Inline and empty: the deleting destructor CD2's derived spawn points share (0x823D01B8) only restores this
+        // class's table (0x820F9B14) before freeing.
+        virtual ~cSpawnPointBase() {}
         virtual void SetInAV(cActivityVolume *, bool);
         virtual unsigned int RetSpawnedObjectID() const;
         virtual bool IsLocallyBlocked() const;

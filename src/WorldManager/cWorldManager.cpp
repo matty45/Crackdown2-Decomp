@@ -13,6 +13,8 @@
 #include "WorldManager/cWorldManager.h"
 #include "cd2/memory.h"
 #include "fun_runtime/script_type_registrar.h"
+#include "GMan/cGameManager.h"
+#include "rws/logic.h"
 
 namespace WorldManager
 {
@@ -65,5 +67,13 @@ namespace WorldManager
     const Fun_Runtime::cScriptTypeRegistration *cWorldManager::RetScriptTypeRegistration() const
     {
         return &cWorldManagerScriptRegistrar;
+    }
+
+    cWorldManager::~cWorldManager()
+    {
+        UnLinkMsg(RWS::iMsgRunningTick);
+        UnLinkMsg(RWS::iMsgRunningPreTick);
+        UnLinkMsg(iMsgBeginPlay);
+        ms_pInstance = NULL;
     }
 }

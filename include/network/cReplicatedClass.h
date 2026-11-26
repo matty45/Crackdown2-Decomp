@@ -30,6 +30,17 @@ struct sReplicatedField
     void SetState(etReplicatedFieldState state, unsigned char nNodeID) { m_iFieldState[nNodeID] = (unsigned char)state; }
     CD2_LAYOUT_CHECKS(sReplicatedField, CD2_SIZE(sReplicatedField, 0x14))
 };
+namespace Network
+{
+    // RuffKing's cReplicationManager::UnRegisterReplicatedClass(cReplicatedClass *), called through
+    // g_pReplicationManager there. CD2 0x82814AB0 takes the replicated class as its only argument (it first calls the
+    // class's GetReplicatedObjectType) and reads the manager's state from globals: the static member is our reading.
+    class cReplicationManager
+    {
+    public:
+        static void UnRegisterReplicatedClass(cReplicatedClass *pRepClass);
+    };
+}
 // CD2 cMissionBase places this base at +0x10 after a four-byte registered-class base.
 // The reference starts its first field at +0x10 and its bit stream at +0x20.
 __declspec(align(16)) class cReplicatedClass
@@ -92,9 +103,16 @@ public:
     // Reference method name; the static CD2 interface takes value, field, bit count and flags.
     static void _AllocateUInt32Bits(unsigned int value, int field, unsigned int bits,
         sReplicatedField::etReplicatedFieldState state);
-    // RuffKing's names; CD2 0x82829E20 and 0x82814AB0, called by cTacticalObjective's Init/TermReplication.
+    // RuffKing's name; CD2 0x82829E20, called by cTacticalObjective's InitReplication.
     void InitReplicatedClass(void *pData, bool bAddToHash);
-    void TermReplicatedClass();
+    // RuffKing's (out of line there, 0x829D08C8: the flag test, then the manager's UnRegisterReplicatedClass). CD2
+    // expands it: cTimeOfDay's destructor (0x82774280) tests +0x224 through its cReplicatedClass base and passes that
+    // base to 0x82814AB0.
+    void TermReplicatedClass()
+    {
+        if (m_bRegisteredWithReplicationManager)
+            Network::cReplicationManager::UnRegisterReplicatedClass(this);
+    }
 private:
     unsigned char m_unknown40[0x87 - 0x40];
 protected:
@@ -130,7 +148,7 @@ public:
     unsigned int m_LastSendTimeStamp[16];               // 0x1A4
     unsigned int m_LastForcedSendTimeStamp[16];         // 0x1E4
 public:
-    // RuffKing's name and offset; cTacticalObjective::TermReplication tests it before TermReplicatedClass.
+    // RuffKing's name and offset; TermReplicatedClass tests it.
     bool m_bRegisteredWithReplicationManager;           // 0x224
 private:
     unsigned char m_unknown225[0x230 - 0x225];

@@ -44,13 +44,13 @@ namespace AI
         // CD2's table 0x82108C08 agree: 87 stores m_pAmbientTarget (0x824A7DE0), 91 returns the zero vector, 93
         // returns 1000 (Goliath's 0x824B12F0: 3500), 94 and 95 return true.
         virtual void SetSpawnAction(unsigned char);
-        virtual void SetAmbientTarget(Activity::cSquadMemberSpawnPoint *pTarget);
+        virtual void SetAmbientTarget(Activity::cSquadMemberSpawnPoint *pTarget) { m_pAmbientTarget = pTarget; }
         virtual void NotifySquadMemberDead();
         virtual unsigned char GetStateReplicationInfo() const;
         virtual bool HasControlsVelocityOverride() const;
         virtual const Fun_Runtime::Vec3 &GetControlsVelocityOverride() const;
         virtual void SetControlsVelocityOverride(const Fun_Runtime::Vec3 &);
-        virtual unsigned int RetCorpseFadeOutTimeMillis() const;
+        virtual unsigned int RetCorpseFadeOutTimeMillis() const { return 1000; }
         virtual bool ShouldLockVehicleOwnership() const;
         virtual bool CanBeAttackedByNPC() const;
 
@@ -76,7 +76,9 @@ namespace AI
 
         virtual const Fun_Runtime::cClass &RetClass() const;
         virtual bool IsA(const Fun_Runtime::cClass &) const;
-        virtual const char *RetClassName() const;
+        // Defined in the class body: RuffKing emits NPCBehaviour::RetClassName in NPCArmedBehaviour.obj, and CD2 has it
+        // (with the two defaults above) at the start of NPCArmedBehaviour's code (0x824A7DD0..0x824A7DE8).
+        virtual const char *RetClassName() const { return "NPCBehaviour"; }
 
         CD2_LAYOUT_CHECKS(NPCBehaviour,
             CD2_SIZE(NPCBehaviour, 0xC0)

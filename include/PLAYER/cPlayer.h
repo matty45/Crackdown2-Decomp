@@ -151,8 +151,8 @@ namespace PLAYER
         virtual void vf85(); // 85: 0x827203F0
         virtual void vf86(); // 86: 0x82720FF0
         virtual void vf93(); // 93: 0x822E6700
-        virtual void vf108(); // 108: 0x8232F958
-        virtual void vf109(); // 109: 0x82399A88
+        virtual bool IsEnemy(CHARACTER::cCharacterInterface *pCharacterInterface); // 108: 0x8232F958
+        virtual bool IsFriend(CHARACTER::cCharacterInterface *pCharacterInterface); // 109: 0x82399A88
         virtual void vf115(); // 115: 0x827219D0
         virtual void vf121(); // 121: 0x8237D1E0
         virtual void vf124(); // 124: 0x82723C80

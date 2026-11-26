@@ -14,6 +14,8 @@ namespace RWS
         inline unsigned int RetGameTime() { return g_bUseStoredTime ? g_nStoredTime : CalcGameTime(); }
         // RuffKing's name and signature (RWS::Time::RetDeltaTimeSecs); CD2 0x827671D0, 183 callers.
         float RetDeltaTimeSecs();
+        // RuffKing's name and signature (cPulse::Update calls it there); CD2 0x82767258.
+        float RetGameTimeSecs();
     }
 }
 

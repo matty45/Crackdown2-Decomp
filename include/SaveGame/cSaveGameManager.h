@@ -7,8 +7,9 @@
 namespace SaveGame
 {
     class cLoadSaveObject;
-    enum eSaveType { eSaveType_Options = 0 };
-    enum eSaveChunk { eSaveChunk_Options = 16 };
+    // RuffKing's enums (values as RuffKing's); cTimeOfDay's destructor (0x82774280) clears type 2, chunk 2.
+    enum eSaveType { eSaveType_Options = 0, eSaveType_Agent, eSaveType_City };
+    enum eSaveChunk { eSaveChunk_TimeOfDay = 2, eSaveChunk_Options = 16 };
     class cSaveGameManager
     {
         cLoadSaveObject *m_apChunkHandlers[3][24];

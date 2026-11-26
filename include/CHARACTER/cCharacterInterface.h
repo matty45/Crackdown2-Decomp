@@ -27,6 +27,8 @@
 #include "fun_runtime/safedeletable.h"
 #include "fun_runtime/safedeletablepointer.h"
 #include "CHARACTER/cCharacter.h"
+#include "GangManager/cGangManager.h"
+#include "GangManager/cFactionInfo.h"
 #include "cd2/layout.h"
 namespace Prop { class cTurretBase; }
 
@@ -44,7 +46,8 @@ namespace CHARACTER
         float m_fLastVocalSoundTime;                        // 0xA4
         float m_fLastBulletSoundTime;                       // 0xA8
     private:
-        unsigned char m_padAC;
+        // Name ours: the faction index RetRelationship reads (RuffKing reads it from the character).
+        unsigned char m_nGang;
         bool m_bInitialState;                               // 0xAD: name ours; initialized false by the constructor
     protected:
         bool m_bCanShareVehicleWithPlayer;
@@ -152,8 +155,10 @@ namespace CHARACTER
         virtual void vf105();
         virtual void vf106();
         virtual void vf107();
-        virtual void vf108();
-        virtual void vf109();
+        // RuffKing order: IsEnemy and IsFriend after ForceDead's group; CD2 0x8254F610/0x8254F668 test the expanded
+        // RetRelationship against eEnemy and eFriend.
+        virtual bool IsEnemy(cCharacterInterface *pCharacterInterface);
+        virtual bool IsFriend(cCharacterInterface *pCharacterInterface);
         virtual void vf110();
         virtual bool ShouldTriggerVocalEvent();
         virtual bool ShouldTriggerFootStepEvent();
@@ -167,6 +172,11 @@ namespace CHARACTER
 
         unsigned char RetLODLevel() const;
         float RetHealthFraction();
+        // RuffKing's; CD2 expands it in IsEnemy and IsFriend, and the script method registration keeps a copy (0x8254F6C0).
+        int RetRelationship(cCharacterInterface *pCharacterInterface)
+        {
+            return GangManager::cGangManager::RetGangManager()->m_vFactionInfo[m_nGang]->m_anGangRelationship[pCharacterInterface->m_nGang];
+        }
 
         // CD2: cCharacterInterface's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.

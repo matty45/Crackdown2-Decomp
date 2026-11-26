@@ -6,6 +6,7 @@
 #include "fun_runtime/class.h"
 #include "gom/non_game_base.h"
 #include "GDb/cDebugPageHandler.h"
+#include "WorldManager/cEnvironmentWorldMap.h"
 
 namespace WorldManager
 {
@@ -31,11 +32,20 @@ namespace WorldManager
     public:
         // Out of line: CD2 0x82278B80 (MakeNew calls it).
         cWorldManager();
+        virtual ~cWorldManager(); // CD2 0x82809E00
+        // RuffKing's overrides; CD2's tables hold this class's code for them (primary 0x82009368 slot 1: 0x82809ED8;
+        // CEventHandler table 0x821558A8 slot 5: 0x8220A960).
+        virtual void HandleAttributes(const RWS::CAttributePacket &attr);
+        virtual void HandleEvents(RWS::CMsg &pMsg);
 
     private:
-        unsigned char m_unmodelled80[0x5DA0 - 0x80];
+        unsigned char m_unmodelled80[0x970 - 0x80];
+        // RuffKing's member (+0x9D0 there); CD2's destructor destroys it at +0x970.
+        cEnvironmentWorldMap m_WorldMap;
+        unsigned char m_unmodelled9A0[0x5DA0 - 0x9A0];
 
-        CD2_LAYOUT_CHECKS(cWorldManager, CD2_SIZE(cWorldManager, 0x5DA0))
+        CD2_LAYOUT_CHECKS(cWorldManager, CD2_SIZE(cWorldManager, 0x5DA0)
+            CD2_OFFSET(cWorldManager, m_WorldMap, 0x970))
 
     };
 }

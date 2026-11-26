@@ -1,6 +1,14 @@
 // Script registrar source ownership: CD2 initializer 0x82FDFC08 names cDynamicBody,
 // and cleanup 0x830403C0 destroys the same descriptor. Shared interface names are ours.
 
+// Header constants: CD2's initializer run for this object shows these headers' constants in this order. RuffKing's
+// object gets them through its other headers (docs/matching-notes.md, "Header constants"); included directly here.
+#include "PHYSICS/physicsconsts.h"
+#include "PHYSICS/physicsproject.h"
+#include "CHARACTER/characterconsts.h"
+#include "CHARACTER/cCharacterController.h"
+#include "CHARACTER/cRagdollProfile.h"
+#include "AI/aiconstants.h"
 #include "PHYSICS/cDynamicBody.h"
 #include "PHYSICS/cNetDynamicBody.h"
 #include "AI/cObjectLockedEvent.h"
@@ -9,6 +17,7 @@
 #include "rws/classfactory.h"
 #include "gom/proto_registrar.h"
 #include "cd2/memory.h"
+#include "fun_runtime/inheritance_registrar.h"
 #include <new>
 
 namespace AI
@@ -58,6 +67,10 @@ namespace PHYSICS
     }
 
     const Fun_Runtime::cClass *cDynamicBody::ms_pcDynamicBodyClass = &cDynamicBody::StaticCreateClass();
+
+    // CD2 0x82FDFB08: runtime class inheritance registration.
+    static Fun_Runtime::cInheritanceRegistrar cDynamicBodycBodyInheritRegistrar(
+        PHYSICS::cDynamicBody::StaticCreateClass(), PHYSICS::cBody::StaticCreateClass());
 
     static RWS::CClassFactory::CRegistrar cDynamicBodyRegistrar(
         "cDynamicBody", cDynamicBody::MakeNew, 0x420, false);

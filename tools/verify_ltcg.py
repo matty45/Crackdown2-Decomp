@@ -260,6 +260,13 @@ def write_stubs(names, path):
     return path
 
 
+def unresolved_symbols(stdout):
+    """The symbols a link's errors call unresolved. A C++ symbol is printed as `"<undecorated>" (<decorated>)`, a C one
+    (the compiler's __savegprlr_N, say) bare: LTCG code generation can call one the plain object never named."""
+    return {cpp or c for cpp, c in re.findall(r'error LNK20(?:01|19): unresolved external symbol '
+                                              r'(?:"[^"]*" \((\S+)\)|(\S+))', stdout)}
+
+
 def map_symbols(path):
     """Every symbol of the LTCG link map (publics and statics): sorted [(address, name)]."""
     out = []
@@ -332,10 +339,12 @@ class StaticNames:
     """The names of a file's LTCG image for the reference check: the link map's symbols, and the file's static data
     from the link's PDB (the map lists no static data, so a reference to one would otherwise be credited to the symbol
     before it). A static takes the decorated name of the plain object's static with the same qualified name, else its
-    PDB name. `internal` (for relocs.check_consistency) is every name with internal linkage: each file has its own."""
+    PDB name. `internal` (for relocs.check_consistency) is every name with internal linkage: each file has its own.
+    sizes (tools/cvtypes.py, compile_sizes) give data_symbol the exact extents relocs.identical_copies needs, so the
+    shared copies it accepts (relocs.LTCG_SHARED_COPIES) are accepted for the functions exact only under LTCG too."""
 
-    def __init__(self, d, plain_obj):
-        o = relocs.Obj(plain_obj)
+    def __init__(self, d, plain_obj, sizes=None):
+        o = self._obj = relocs.Obj(plain_obj, sizes)
         self.internal = set(o.internal)
         decorated = {}
         for s in o.symbols.values():
@@ -361,6 +370,10 @@ class StaticNames:
 
     def symbol_bytes(self, name, n):
         return None  # strings are compared by check_references itself
+
+    def data_symbol(self, name):
+        """The plain object's data of name (relocs.Obj.data_symbol): the image's statics are the plain object's"""
+        return self._obj.data_symbol(name)
 
 def references(ws, start):
     """[(index, kind, address, opcode)] of every address a function uses: calls and branches leaving it, and data
@@ -578,7 +591,7 @@ def build_ltcg(srcpath, plain_obj, consts, d, env, extra_flags=(), deps=()):
                             '/OUT:' + os.path.join(d, 't.exe'), os.path.join(d, 'env.obj'), os.path.join(d, 'src.obj')]
                            + [obj for obj, _ in deps] + ([stubs] if stubs else []), env=env, capture_output=True, text=True)
         dup = set(re.findall(r'stubs\.obj : error LNK2005: .*?\((\S+)\) already defined', r.stdout))
-        unres = set(re.findall(r'error LNK20(?:01|19): unresolved external symbol .*?\((\S+)\)', r.stdout))
+        unres = unresolved_symbols(r.stdout)
         if not dup and not unres:
             break
         names = (names - dup) | unres
@@ -660,9 +673,10 @@ def check_file(src, funcs, read, env, d, srcpath=None, out=print, manifest=None)
         out('%s: %s' % (src, e))
         return None
     compiled = list(coff.functions(plain))
-    names = StaticNames(d, plain)
+    sizes = compile_sizes(src, d, env, srcpath)
+    names = StaticNames(d, plain, sizes)
     syms = names.symbols
-    robj = relocs.Obj(plain, compile_sizes(src, d, env, srcpath))
+    robj = relocs.Obj(plain, sizes)
     res = dict(results=[], entries=[], problems=[], known={}, nref=0, reached=[])
     for f in funcs:
         hit = [n for n, _, _ in compiled if symbol_matches(f['symbol'], n)]
@@ -821,7 +835,7 @@ def build_whole(sources, consts, d, env, inline=None):
             raise RuntimeError('whole-program link: %d symbol(s) defined by two sources\n%s' % (
                 len(clash), '\n'.join('  %s and %s: %s' % (a, c, s[:160]) for a, s, c in clash[:40])))
         dup = set(re.findall(r'stubs\.obj : error LNK2005: .*?\((\S+)\) already defined', r.stdout))
-        unres = set(re.findall(r'error LNK20(?:01|19): unresolved external symbol .*?\((\S+)\)', r.stdout))
+        unres = unresolved_symbols(r.stdout)
         if not dup and not unres:
             break
         names = (names - dup) | unres
