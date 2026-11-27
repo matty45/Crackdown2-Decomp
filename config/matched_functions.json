@@ -38590,6 +38590,160 @@
         "address": "0x824AEF68",
         "size": 12,
         "symbol": "?STATE_Enter_FollowRoute@FreakBase@AI@@"
+      },
+      {
+        "address": "0x824ABCA8",
+        "size": 16,
+        "symbol": "?STATE_AnimEvent_RushAttack@FreakBase@AI@@"
+      },
+      {
+        "address": "0x824AD910",
+        "size": 52,
+        "symbol": "?SetReactResupplyPoint@FreakBase@AI@@"
+      },
+      {
+        "address": "0x824AD9B0",
+        "size": 36,
+        "symbol": "?OnFullBodyAnimFinished@FreakBase@AI@@"
+      },
+      {
+        "address": "0x824ADFA0",
+        "size": 4,
+        "symbol": "?STATE_Update_FollowRoute@FreakBase@AI@@"
+      },
+      {
+        "address": "0x824ADFA8",
+        "size": 144,
+        "symbol": "?STATE_ReachedDestination_MoveTo@FreakBase@AI@@"
+      },
+      {
+        "address": "0x824AEF20",
+        "size": 4,
+        "symbol": "?OnFinishedReaction@FreakBase@AI@@"
+      },
+      {
+        "address": "0x824AEF78",
+        "size": 32,
+        "symbol": "?STATE_ReachedDestination_FollowRoute@FreakBase@AI@@"
+      },
+      {
+        "address": "0x824AF118",
+        "size": 96,
+        "symbol": "?OnReachedRouteEnd@FreakBase@AI@@"
+      },
+      {
+        "address": "0x824B0308",
+        "size": 116,
+        "symbol": "?OnStuck@FreakBase@AI@@",
+        "matching": false,
+        "note": "93.1%: only the two state compares differ, CD2 cmpwi against our cmplwi (the byte at 0xC4 read with lbz in both). Tried: switch in both case orders (CD2 lays the FollowRoute body first), if-chains, casts of the state to the enum, int and char, and LTCG; all compile cmplwi"
+      },
+      {
+        "address": "0x824B0380",
+        "size": 96,
+        "symbol": "?OnRouteEvent@FreakBase@AI@@"
+      },
+      {
+        "address": "0x824AD9D8",
+        "size": 68,
+        "symbol": "?On180TurnFinished@FreakBase@AI@@"
+      },
+      {
+        "address": "0x824ABED0",
+        "size": 76,
+        "symbol": "?OnEnter@FreakBase@AI@@"
+      },
+      {
+        "address": "0x824AD948",
+        "size": 96,
+        "symbol": "?OnCharacterEvent@FreakBase@AI@@",
+        "matching": false,
+        "note": "88%: only the event range test differs, CD2 cmpwi 2 / cmpwi 4 on the zero-extended byte parameter against our cmplwi; the same in LTCG. Tried literals and RuffKing's enum constants; cAgressiveResponseChaseBehaviour's equality form compiles cmplwi in CD2 too"
+      },
+      {
+        "address": "0x824ADA20",
+        "size": 124,
+        "symbol": "?OnAmbient@FreakBase@AI@@"
+      },
+      {
+        "address": "0x824ADC70",
+        "size": 88,
+        "symbol": "?OnDied@FreakBase@AI@@"
+      },
+      {
+        "address": "0x824AE6F0",
+        "size": 100,
+        "symbol": "?STATE_Enter_FacingUp@FreakBase@AI@@"
+      },
+      {
+        "address": "0x824AC120",
+        "size": 152,
+        "symbol": "?OnExit@FreakBase@AI@@"
+      },
+      {
+        "address": "0x824AC4B0",
+        "size": 2476,
+        "symbol": "?GetState@FreakBase@AI@@"
+      },
+      {
+        "address": "0x824B0BE8",
+        "size": 16,
+        "symbol": "??_9FreakBase@AI@@$BBLM@AA"
+      },
+      {
+        "address": "0x824B0BF8",
+        "size": 16,
+        "symbol": "??_9FreakBase@AI@@$BCEI@AA"
+      },
+      {
+        "address": "0x824B0C08",
+        "size": 16,
+        "symbol": "??_9FreakBase@AI@@$BBMM@AA"
+      },
+      {
+        "address": "0x824B0C18",
+        "size": 16,
+        "symbol": "??_9FreakBase@AI@@$BCFI@AA"
+      },
+      {
+        "address": "0x824B0C28",
+        "size": 16,
+        "symbol": "??_9FreakBase@AI@@$BBNM@AA"
+      },
+      {
+        "address": "0x824B0C38",
+        "size": 16,
+        "symbol": "??_9FreakBase@AI@@$BCGI@AA"
+      },
+      {
+        "address": "0x824B0C48",
+        "size": 16,
+        "symbol": "??_9FreakBase@AI@@$BBPM@AA"
+      },
+      {
+        "address": "0x824B0C60",
+        "size": 16,
+        "symbol": "??_9FreakBase@AI@@$BCAM@AA"
+      },
+      {
+        "address": "0x824B0C70",
+        "size": 16,
+        "symbol": "??_9FreakBase@AI@@$BCBM@AA"
+      },
+      {
+        "address": "0x824B0C80",
+        "size": 16,
+        "symbol": "??_9FreakBase@AI@@$BBKA@AA"
+      },
+      {
+        "address": "0x824B0C90",
+        "size": 16,
+        "symbol": "??_9FreakBase@AI@@$BCCM@AA"
+      },
+      {
+        "address": "0x824B0CA0",
+        "size": 16,
+        "symbol": "??_9FreakBase@AI@@$BCDM@AA"
       }
     ],
     "src/AI/Behaviour/NPC/Freak/Goliath.cpp": [

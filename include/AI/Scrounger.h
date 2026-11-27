@@ -66,26 +66,26 @@ namespace AI
         virtual void OnEnterReplicatedState(unsigned char); // slot 72: 0x824BAD08
         virtual unsigned char GetStateReplicationInfo() const; // slot 89: 0x824BAD88
         virtual IBehaviourState *GetState(unsigned char nState); // slot 100: 0x824BAE98
-        virtual void vf120(); // slot 120: 0x824BB288
-        virtual void vf141(); // slot 141: 0x824BBF78
-        virtual void vf148(); // slot 148: 0x824BBCD8
-        virtual void vf152(); // slot 152: 0x824BB540
-        virtual void vf157(); // slot 157: 0x824BC7F8
-        virtual void vf161(); // slot 161: 0x824BAE00
-        virtual void vf165(); // slot 165: 0x824BBD38
-        virtual void vf166(); // slot 166: 0x824BB008
-        virtual void vf173(); // slot 173: 0x82564280
+        virtual void STATE_Update_Chasing(float); // 120: 0x824BB288
+        virtual void STATE_AnimEvent_Attacking(unsigned char, int, short); // 141: 0x824BBF78
+        virtual void STATE_Attacked_Ambient(CHARACTER::cCharacter *, const Fun_Runtime::Vec3 &, cAIEvent *); // 148: 0x824BBCD8
+        virtual void STATE_ReachedDestination_Chasing(bool); // 152: 0x824BB540
+        virtual const char *RetStringForState(unsigned char); // 157: 0x824BC7F8
+        virtual bool OnStuck(); // 161: 0x824BAE00
+        virtual void OnFullBodyAnimFinished(); // 165: 0x824BBD38
+        virtual void OnTargetLost(); // 166: 0x824BB008
+        virtual float RetMaxTargetHeightDelta() const; // 173: 0x82564280
 
     public:
         // CD2 table 0x82109CC8 differs from FreakBase at these inherited slots.
-        virtual void V102(); // slot 102: 0x824BACF0
-        virtual void V104(); // slot 104: 0x824BB1B0
-        virtual void V106(); // slot 106: 0x824BB7B8
-        virtual void V108(); // slot 108: 0x824BB240
-        virtual void Slot109(); // slot 109: 0x824BB560
-        virtual void Slot110(); // slot 110: 0x824BB738
-        virtual void vf115(); // slot 115: 0x824BB0A0
-        virtual void V118(); // slot 118: 0x824BBCD0
+        virtual void EnterStateCold(unsigned char); // 102: 0x824BACF0
+        virtual void STATE_Enter_Alerted(); // 104: 0x824BB1B0
+        virtual void STATE_Enter_Idle(); // 106: 0x824BB7B8
+        virtual void STATE_Enter_Chasing(); // 108: 0x824BB240
+        virtual void STATE_Enter_Attacking(); // 109: 0x824BB560
+        virtual void STATE_Enter_RushAttack(); // 110: 0x824BB738
+        virtual void STATE_Update_PostSpawn(float); // 115: 0x824BB0A0
+        virtual void STATE_Update_Idle(float); // 118: 0x824BBCD0
     };
 }
 

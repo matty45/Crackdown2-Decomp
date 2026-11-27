@@ -59,8 +59,8 @@ namespace AI
         virtual void OnAttachSatchelCharge(Equip::cCWSatchelCharge *); // 82: 0x824BEFC0
         virtual unsigned char GetStateReplicationInfo() const; // 89: 0x824BE8C0
         virtual IBehaviourState *GetState(unsigned char); // 100: 0x824BE908
-        virtual void Slot101(); // 101: 0x824BE7C0
-        virtual void V102(); // 102: 0x824BE808
+        virtual void InitBehaviour(); // 101: 0x824BE7C0
+        virtual void EnterStateCold(unsigned char); // 102: 0x824BE808
     private:
         CD2_LAYOUT_CHECKS(ScroungerSlinger,
             CD2_SIZE(ScroungerSlinger, 0x140)
@@ -69,10 +69,10 @@ namespace AI
 
     public:
         // CD2 table 0x8210A398 differs from Scrounger at these inherited slots.
-        virtual void vf120(); // slot 120: 0x824BEEA0
-        virtual void vf157(); // slot 157: 0x824BF7D8
-        virtual void vf162(); // slot 162: 0x824BF768
-        virtual void vf165(); // slot 165: 0x824BEF28
+        virtual void STATE_Update_Chasing(float); // 120: 0x824BEEA0
+        virtual const char *RetStringForState(unsigned char); // 157: 0x824BF7D8
+        virtual void OnRouteEvent(const cBasePatrolRouteEvent &); // 162: 0x824BF768
+        virtual void OnFullBodyAnimFinished(); // 165: 0x824BEF28
     };
 }
 

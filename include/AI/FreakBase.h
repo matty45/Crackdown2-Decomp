@@ -5,6 +5,7 @@
 #define AI_FREAKBASE_H
 
 #include "AI/NPCBehaviourSM.h"
+#include "AI/tBehaviourState.h"
 #include "AI/NPCBehaviourPrototype.h"
 #include "gom/object_prototype.h"
 #include "cd2/layout.h"
@@ -12,11 +13,14 @@
 #include "fun_runtime/vec3.h"
 
 namespace CHARACTER { class cCharacterInterface; }
+namespace PLAYER { class cPlayer; }
+class cGameBase;
 namespace VFX { class cParticleEffectInstance; }
 
 namespace AI
 {
     class cAIEventSubscription;
+    class cBasePatrolRouteEvent;
     // RuffKing: AI::FreakPrototype : NPCBehaviourPrototype, 176 bytes. CD2's FreakBase::MakeNew (0x824ABC10) allocates
     // 0xB0 and calls this constructor (0x824B0B78), which calls NPCBehaviourPrototype's (0x824A8608).
     class FreakPrototype : public NPCBehaviourPrototype
@@ -31,91 +35,142 @@ namespace AI
             CD2_SIZE(FreakPrototype, 0xB0))
     };
 
+    // RuffKing's; CD2's freak behaviours change to these states (OnFullBodyAnimFinished 0x824AD9B0 leaves Detonate, 13;
+    // SetReactResupplyPoint 0x824AD910 enters MoveTo, 11), and RetStringForState's table (0x832B6A98) names them in
+    // this order.
+    enum eFreakBaseState
+    {
+        eState_Null = 0,
+        eState_PostSpawn,
+        eState_Emerging,
+        eState_Unconscious,
+        eState_Alerted,
+        eState_Idle,
+        eState_Ambient,
+        eState_Chasing,
+        eState_Circling,
+        eState_H2HAttack,
+        eState_RushAttack,
+        eState_MoveTo,
+        eState_FacingUp,
+        eState_Detonate,
+        eState_Reaction,
+        eState_FollowRoute,
+        eState_FreakStateTotal
+    };
+
+    // RuffKing's state flags (tBehaviourState's m_nFlags); FreakBase::GetState gives 3 or 1 to the states that allow them.
+    enum eFreakStateFlags
+    {
+        eFlags_CanChangeTarget = 1,
+        eFlags_CanReact = 2
+    };
+
     class FreakBase : public AI::NPCBehaviourSM
     {
     public:
-        // CD2 constructor installs table 0x82109378, with 179 primary slots. Names/signatures of these slots remain unrecovered.
-        virtual void Slot101();
-        virtual void V102();
-        virtual void Slot103();
-        virtual void V104();
-        virtual void Slot105();
-        virtual void V106();
-        virtual void V107();
-        virtual void V108();
-        virtual void Slot109();
-        virtual void Slot110();
-        virtual void V111(float dt);
-        // 112, 113: Burn's STATE_Enter_Detonate and STATE_Enter_FollowRoute (its offsets 332 and 336; CD2's slots are
-        // Burn's from 101 on, 29 higher). CD2's bodies do what RuffKing's do: play the detonate full-body animation
-        // 0x1B59F (0x824AE800), set the host's movement type 2 (0x824AEF68).
+        // RuffKing's non-virtual helpers: CD2 0x824AE628 (UpdateStuck), 0x824AF298 (MoveToNextRouteNode), 0x824AF3F8
+        // (RecoverFromInterruption).
+        void UpdateStuck();
+        bool MoveToNextRouteNode();
+        void RecoverFromInterruption();
+        // RuffKing's; CD2 0x824AF750 (STATE_Enter_FacingUp tests it first, as RuffKing's does).
+        bool FaceTarget();
+        // Burn's.
+        enum eTargetAvailability
+        {
+            eTarget_NearSideAvailable = 0,
+            eTarget_FarSideAvailable,
+            eTarget_Surrounded
+        };
+
+        // CD2 constructor 0x824ABD60 installs table 0x82109378, 179 primary slots. 101..178: RuffKing's FreakBase virtuals
+        // in Burn's order (RuffKing's slot + 7), with CD2's differences in 155..162: two handlers more (155, 159; Notify
+        // 0x824AD480 calls them for the events InitBehaviour 0x824ABFC0 subscribes in m_pReactionFinishedSub and
+        // m_pDestinationReachedSub; their names are ours), RetStringForState (157) after OnFinishedReaction, and from
+        // OnReachedRouteWaypoint (163) on RuffKing's slot + 9. CD2's code lies in RuffKing's source order with these two
+        // handlers after OnTookDamage, and every body does what RuffKing's does: OnTookDamage (158) calls OnAcidSackHit
+        // (160), RetStringForState (0x824B0B48) returns a state name or "INVALID STATE", OnReachedRouteEnd (164) changes
+        // state by AcquireNewTarget (174). The slots holding the empty 0x82580578 are RuffKing's inline empty state
+        // callbacks. Signatures are Burn's (RuffKing's for OnTookDamage and OnAcidSackHit).
+        virtual void InitBehaviour();
+        virtual void EnterStateCold(unsigned char state);
+        virtual void STATE_Enter_Emerging();
+        virtual void STATE_Enter_Alerted();
+        virtual void STATE_Enter_FacingUp();
+        virtual void STATE_Enter_Idle();
+        virtual void STATE_Enter_Ambient();
+        virtual void STATE_Enter_Chasing();
+        virtual void STATE_Enter_Attacking();
+        virtual void STATE_Enter_RushAttack();
+        virtual void STATE_Enter_MoveTo();
         virtual void STATE_Enter_Detonate();
         virtual void STATE_Enter_FollowRoute();
-        virtual void Slot114();
-        virtual void vf115(); // primary slot 115
-        virtual void vf116(); // primary slot 116
-        virtual void V117();
-        virtual void V118();
-        virtual void vf119(); // primary slot 119
-        virtual void vf120(); // primary slot 120
-        virtual void vf121(); // primary slot 121
-        virtual void vf122(); // primary slot 122
-        virtual void vf123(); // primary slot 123
-        virtual void vf124(); // primary slot 124
-        virtual void vf125(); // primary slot 125
-        virtual void vf126(); // primary slot 126
-        virtual void vf127(); // primary slot 127
-        virtual void vf128(); // primary slot 128
-        virtual void vf129(); // primary slot 129
-        virtual void vf130(); // primary slot 130
-        virtual void vf131(); // primary slot 131
-        virtual void vf132(); // primary slot 132: shared empty callback, independent of cGameBase's slot 132
-        virtual void vf133(); // primary slot 133
-        virtual void vf134(); // primary slot 134
-        virtual void vf135(); // primary slot 135
-        virtual void vf136(); // primary slot 136
-        virtual void vf137(); // primary slot 137
-        virtual void vf138(); // primary slot 138
-        virtual void vf139(); // primary slot 139
-        virtual void vf140(); // primary slot 140
-        virtual void vf141(); // primary slot 141
-        virtual void vf142(); // primary slot 142
-        virtual void vf143(); // primary slot 143
-        virtual void vf144(); // primary slot 144
-        virtual void vf145(); // primary slot 145
-        virtual void vf146(); // primary slot 146
-        virtual void vf147(); // primary slot 147
-        virtual void vf148(); // primary slot 148
-        virtual void vf149(); // primary slot 149
-        virtual void vf150(); // primary slot 150
-        virtual void vf151(); // primary slot 151
-        virtual void vf152(); // primary slot 152
-        virtual void vf153(); // primary slot 153
-        virtual void vf154(); // primary slot 154
-        virtual void vf155(); // primary slot 155
-        virtual void vf156(); // primary slot 156
-        virtual void vf157(); // primary slot 157
-        virtual void vf158(); // primary slot 158
-        virtual void vf159(); // primary slot 159
-        virtual void vf160(); // primary slot 160
-        virtual void vf161(); // primary slot 161
-        virtual void vf162(); // primary slot 162
-        virtual void vf163(); // primary slot 163
-        virtual void vf164(); // primary slot 164
-        virtual void vf165(); // primary slot 165
-        virtual void vf166(); // primary slot 166
-        virtual void vf167(); // primary slot 167
-        virtual void vf168(); // primary slot 168
-        virtual void vf169(); // primary slot 169
-        virtual void vf170(); // primary slot 170
-        virtual void vf171(); // primary slot 171
-        virtual void vf172(); // primary slot 172
-        virtual void vf173(); // primary slot 173
-        virtual void vf174(); // primary slot 174
-        virtual void vf175(); // primary slot 175
-        virtual void vf176(); // primary slot 176
-        virtual void vf177(); // primary slot 177
-        virtual void vf178(); // primary slot 178
+        virtual void STATE_Enter_Circling();
+        virtual void STATE_Update_PostSpawn(float dt);
+        virtual void STATE_Update_Alerted(float dt);
+        virtual void STATE_Update_FacingUp(float dt);
+        virtual void STATE_Update_Idle(float dt);
+        virtual void STATE_Update_Ambient(float dt);
+        virtual void STATE_Update_Chasing(float dt);
+        virtual void STATE_Update_RushAttack(float dt);
+        virtual void STATE_Update_Attacking(float dt);
+        virtual void STATE_Update_MoveTo(float dt);
+        virtual void STATE_Update_FollowRoute(float dt);
+        virtual void STATE_Update_Circling(float dt);
+        virtual void STATE_Exit_PostSpawn();
+        virtual void STATE_Exit_Alerted();
+        virtual void STATE_Exit_FacingUp();
+        virtual void STATE_Exit_Idle();
+        virtual void STATE_Exit_Ambient();
+        virtual void STATE_Exit_Chasing();
+        virtual void STATE_Exit_Attacking();
+        virtual void STATE_Exit_MoveTo();
+        virtual void STATE_Exit_Detonate();
+        virtual void STATE_Exit_FollowRoute();
+        virtual void STATE_AnimEvent_Alerted(unsigned char nType, int nBaseState, short nEventID);
+        virtual void STATE_AnimEvent_FacingUp(unsigned char nType, int nBaseState, short nEventID);
+        virtual void STATE_AnimEvent_Idle(unsigned char nType, int nBaseState, short nEventID);
+        virtual void STATE_AnimEvent_Ambient(unsigned char nType, int nBaseState, short nEventID);
+        virtual void STATE_AnimEvent_Chasing(unsigned char nType, int nBaseState, short nEventID);
+        virtual void STATE_AnimEvent_Attacking(unsigned char nType, int nBaseState, short nEventID);
+        virtual void STATE_AnimEvent_RushAttack(unsigned char nType, int nBaseState, short nEventID);
+        virtual void STATE_AnimEvent_MoveTo(unsigned char nType, int nBaseState, short nEventID);
+        virtual void STATE_AnimEvent_Detonate(unsigned char nType, int nBaseState, short nEventID);
+        virtual void STATE_Attacked_Alerted(CHARACTER::cCharacter *pAttacker, const Fun_Runtime::Vec3 &vPosition, cAIEvent *pEvent);
+        virtual void STATE_Attacked_FacingUp(CHARACTER::cCharacter *pAttacker, const Fun_Runtime::Vec3 &vPosition, cAIEvent *pEvent);
+        virtual void STATE_Attacked_Idle(CHARACTER::cCharacter *pAttacker, const Fun_Runtime::Vec3 &vPosition, cAIEvent *pEvent);
+        virtual void STATE_Attacked_Ambient(CHARACTER::cCharacter *pAttacker, const Fun_Runtime::Vec3 &vPosition, cAIEvent *pEvent);
+        virtual void STATE_Attacked_Chasing(CHARACTER::cCharacter *pAttacker, const Fun_Runtime::Vec3 &vPosition, cAIEvent *pEvent);
+        virtual void STATE_Attacked_Attacking(CHARACTER::cCharacter *pAttacker, const Fun_Runtime::Vec3 &vPosition, cAIEvent *pEvent);
+        virtual void STATE_Attacked_MoveTo(CHARACTER::cCharacter *pAttacker, const Fun_Runtime::Vec3 &vPosition, cAIEvent *pEvent);
+        virtual void STATE_ReachedDestination_Chasing(bool bSuccess);
+        virtual void STATE_ReachedDestination_MoveTo(bool bSuccess);
+        virtual void STATE_ReachedDestination_FollowRoute(bool bSuccess);
+        virtual void OnReactionFinishedEvent(cAIEvent *pEvent); // CD2 only
+        virtual void OnFinishedReaction(bool bSuccess);
+        virtual const char *RetStringForState(unsigned char nState);
+        virtual void OnTookDamage(cAIEvent *pEvent);
+        virtual void OnDestinationReachedEvent(cAIEvent *pEvent); // CD2 only
+        virtual void OnAcidSackHit(CHARACTER::cCharacterInterface *pAttacker);
+        virtual bool OnStuck();
+        virtual void OnRouteEvent(const cBasePatrolRouteEvent &routeEvent);
+        virtual void OnReachedRouteWaypoint();
+        virtual void OnReachedRouteEnd();
+        virtual void OnFullBodyAnimFinished();
+        virtual void OnTargetLost();
+        virtual void On180TurnFinished();
+        virtual bool CheckAndKillOnTODDeath();
+        virtual void PlayFreakVOA() const;
+        virtual void SpawnAcidSackVFX();
+        virtual void SetHostileTarget(CHARACTER::cCharacter *pTarget);
+        virtual bool IsAcceptableTarget(CHARACTER::cCharacter &pTarget);
+        virtual float RetMaxTargetHeightDelta() const;
+        virtual bool AcquireNewTarget();
+        virtual void EvaluateTargetAvailability();
+        virtual eTargetAvailability CheckTargetAvailability(const cGameBase &target);
+        virtual bool TryMoveToFarSideOfTarget(const cGameBase &target);
+        virtual const PLAYER::cPlayer *FindAndMoveToNearestAvailablePlayer(float fMaxRange, float fMaxHeightDelta, const PLAYER::cPlayer *pIgnore);
 
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         FreakBase();
@@ -127,16 +182,22 @@ namespace AI
         virtual const char *RetClassName() const;
 
     protected:
-        // RuffKing's members, 0x40 lower in CD2 (its base is that much larger, and it adds a debug buffer at the end):
-        // SetSpawnAction (0x824ABCA0) stores +0x115 and CanBeAttackedByNPC (0x824ABC90) tests +0x118, RuffKing's 0x155
-        // and 0x158; the class ends at 0x120 as CD2's registrar gives.
-        unsigned int m_CheckTargetPeriodic[2];                  // 0xD0, RuffKing: cPeriodic; not modelled
-        unsigned int m_CheckAttackPeriodic[2];                  // 0xD8, RuffKing: cPeriodic; not modelled
-        Fun_Runtime::cSafeDeletablePointer<CHARACTER::cCharacterInterface> m_pAcidSackAttacker;    // 0xE0
-        cAIEventSubscription *m_pOnTookDamageSub;               // 0xF0
-        VFX::cParticleEffectInstance *m_pAcidSackHandle;        // 0xF4
-        float m_fTargetChangeCountDown;                         // 0xF8
-        unsigned short m_nNextRouteNode;                        // 0xFC
+        // RuffKing's members in its order, at the offsets CD2's constructor (0x824ABD60) initializes: the safe pointer's
+        // table and object at 0xD0/0xDC, four zero words at 0xE0..0xEC, the countdown 0.0 at 0xF0, the route node -1
+        // (a halfword) at 0xF4, the last position's three floats at 0x100, the stuck timeout at 0x110 and seven zero
+        // bytes from 0x114; the class ends at 0x120 as CD2's registrar gives. CD2 has no cPeriodic members (RuffKing's
+        // m_CheckTargetPeriodic and m_CheckAttackPeriodic: no constructor call), and three subscriptions where RuffKing
+        // has one: InitBehaviour (0x824ABFC0) subscribes the events 12, 2 and 3 into 0xE0, 0xE4 and 0xE8, OnExit
+        // (0x824AC120) unsubscribes the three, and Notify (0x824AD480) hands their events to OnTookDamage (158) and
+        // CD2's two handlers 159 and 155 (the names of those two subscriptions are ours). OnExit releases the effect at
+        // 0xEC through the character.
+        Fun_Runtime::cSafeDeletablePointer<CHARACTER::cCharacterInterface> m_pAcidSackAttacker;    // 0xD0
+        cAIEventSubscription *m_pOnTookDamageSub;               // 0xE0
+        cAIEventSubscription *m_pDestinationReachedSub;         // 0xE4
+        cAIEventSubscription *m_pReactionFinishedSub;           // 0xE8
+        VFX::cParticleEffectInstance *m_pAcidSackHandle;        // 0xEC
+        float m_fTargetChangeCountDown;                         // 0xF0
+        unsigned short m_nNextRouteNode;                        // 0xF4
         Fun_Runtime::Vec3 m_vLastPosition;                      // 0x100
         unsigned int m_nStuckTimeout;                           // 0x110
         unsigned char m_nStateToEnterOnceFacing;                // 0x114
@@ -151,7 +212,9 @@ namespace AI
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     private:
         CD2_LAYOUT_CHECKS(FreakBase, CD2_SIZE(FreakBase, 0x120)
-            CD2_OFFSET(FreakBase, m_pAcidSackAttacker, 0xE0) CD2_OFFSET(FreakBase, m_vLastPosition, 0x100)
+            CD2_OFFSET(FreakBase, m_pAcidSackAttacker, 0xD0) CD2_OFFSET(FreakBase, m_pOnTookDamageSub, 0xE0)
+            CD2_OFFSET(FreakBase, m_pAcidSackHandle, 0xEC) CD2_OFFSET(FreakBase, m_nNextRouteNode, 0xF4)
+            CD2_OFFSET(FreakBase, m_vLastPosition, 0x100) CD2_OFFSET(FreakBase, m_nStuckTimeout, 0x110)
             CD2_OFFSET(FreakBase, m_nSpawnAction, 0x115) CD2_OFFSET(FreakBase, m_bIsCaged, 0x118))
 
     public:
@@ -167,7 +230,8 @@ namespace AI
         virtual void SetReactResupplyPoint(const Fun_Runtime::Vec3 &, const Fun_Runtime::Vec3 &); // slot 85: 0x824AD910
         virtual void SetSpawnAction(unsigned char); // slot 86: 0x824ABCA0
         virtual bool CanBeAttackedByNPC() const; // slot 95: 0x824ABC90
-        virtual IBehaviourState *GetState(unsigned char nState); // slot 100: 0x824AC4B0
+        typedef tBehaviourState<FreakBase> FreakState;
+        virtual IBehaviourState *GetState(unsigned char stateIdx); // slot 100: 0x824AC4B0
         // cScriptHost slot 2 (0x824AD480; RuffKing's FreakBase::Notify): the base stand-in declared it before.
         virtual void Slot2();
     };

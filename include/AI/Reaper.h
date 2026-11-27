@@ -54,38 +54,37 @@ namespace AI
         virtual void PreUpdateAllStates(float); // 96: 0x824B2DB0
         virtual void ChangeState(unsigned char); // 99: 0x824B5518
         virtual IBehaviourState *GetState(unsigned char); // 100: 0x824B4D38
-        virtual void Slot101(); // 101: 0x824B2B08
-        virtual void V104(); // 104: 0x824B3150
-        virtual void V108(); // 108: 0x824B31F0
-        virtual void Slot109(); // 109: 0x824B3760
-        virtual void Slot110(); // 110: 0x824B3ED0
-        virtual void vf115(); // 115: 0x824B2E18
-        virtual void V117(); // 117: 0x824B4CC0
-        virtual void V118(); // 118: 0x824AE038
+        virtual void InitBehaviour(); // 101: 0x824B2B08
+        virtual void STATE_Enter_Alerted(); // 104: 0x824B3150
+        virtual void STATE_Enter_Chasing(); // 108: 0x824B31F0
+        virtual void STATE_Enter_Attacking(); // 109: 0x824B3760
+        virtual void STATE_Enter_RushAttack(); // 110: 0x824B3ED0
+        virtual void STATE_Update_PostSpawn(float); // 115: 0x824B2E18
+        virtual void STATE_Update_FacingUp(float); // 117: 0x824B4CC0
 
     public:
         // CD2 table 0x82109970 differs from FreakBase at these inherited slots.
         virtual void SetReactResupplyPoint(const Fun_Runtime::Vec3 &, const Fun_Runtime::Vec3 &); // slot 85: 0x824A8A90
-        virtual void vf120(); // slot 120: 0x824B3278
-        virtual void vf121(); // slot 121: 0x824ADFA0
-        virtual void vf125(); // slot 125: 0x824B3058
-        virtual void vf141(); // slot 141: 0x824B3940
-        virtual void vf142(); // slot 142: 0x824B3D28
-        virtual void vf147(); // slot 147: 0x824B30A8
-        virtual void vf148(); // slot 148: 0x824B4C78
-        virtual void vf152(); // slot 152: 0x824B35C0
-        virtual void vf157(); // slot 157: 0x824B8050
-        virtual void vf161(); // slot 161: 0x824B6D80
-        virtual void vf162(); // slot 162: 0x824B7020
-        virtual void vf165(); // slot 165: 0x824B7290
-        virtual void vf166(); // slot 166: 0x824B6548
-        virtual void vf171(); // slot 171: 0x824B65E8
-        virtual void vf173(); // slot 173: 0x824B7F50
+        virtual void STATE_Update_Chasing(float); // 120: 0x824B3278
+        virtual void STATE_Update_RushAttack(float); // 121: 0x824ADFA0
+        virtual void STATE_Update_Circling(float); // 125: 0x824B3058
+        virtual void STATE_AnimEvent_Attacking(unsigned char, int, short); // 141: 0x824B3940
+        virtual void STATE_AnimEvent_RushAttack(unsigned char, int, short); // 142: 0x824B3D28
+        virtual void STATE_Attacked_Idle(CHARACTER::cCharacter *, const Fun_Runtime::Vec3 &, cAIEvent *); // 147: 0x824B30A8
+        virtual void STATE_Attacked_Ambient(CHARACTER::cCharacter *, const Fun_Runtime::Vec3 &, cAIEvent *); // 148: 0x824B4C78
+        virtual void STATE_ReachedDestination_Chasing(bool); // 152: 0x824B35C0
+        virtual const char *RetStringForState(unsigned char); // 157: 0x824B8050
+        virtual bool OnStuck(); // 161: 0x824B6D80
+        virtual void OnRouteEvent(const cBasePatrolRouteEvent &); // 162: 0x824B7020
+        virtual void OnFullBodyAnimFinished(); // 165: 0x824B7290
+        virtual void OnTargetLost(); // 166: 0x824B6548
+        virtual void SetHostileTarget(CHARACTER::cCharacter *); // 171: 0x824B65E8
+        virtual float RetMaxTargetHeightDelta() const; // 173: 0x824B7F50
 
     public:
         // CD2 table 0x82109970 differs from FreakBase at these inherited slots.
-        virtual void V102(); // slot 102: 0x824BACF0
-        virtual void V106(); // slot 106: 0x824BB7B8
+        virtual void EnterStateCold(unsigned char); // 102: 0x824BACF0
+        virtual void STATE_Enter_Idle(); // 106: 0x824BB7B8
         // CD2's cSafeDeletable table 0x82001740 differs from FreakBase's (0x82109FBC) at this slot.
         virtual void Slot2(); // cSafeDeletable 2: 0x824B73C8
     };

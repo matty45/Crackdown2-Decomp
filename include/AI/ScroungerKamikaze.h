@@ -28,17 +28,17 @@ namespace AI
         // CD2: ScroungerKamikaze's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
-        virtual void V104(); // 104: 0x824BE1D8
-        virtual void V108(); // 108: 0x824BDF98
+        virtual void STATE_Enter_Alerted(); // 104: 0x824BE1D8
+        virtual void STATE_Enter_Chasing(); // 108: 0x824BDF98
         virtual void Slot2(); // cSafeDeletable 2: 0x824BE218
 
     public:
         // CD2 table 0x82109FF0 differs from Scrounger at these inherited slots.
-        virtual void vf120(); // slot 120: 0x824BE018
-        virtual void vf144(); // slot 144: 0x824BE1F0
-        virtual void vf158(); // slot 158: 0x824BE2D0
-        virtual void vf160(); // slot 160: 0x82580578
-        virtual void vf170(); // slot 170: 0x82580578
+        virtual void STATE_Update_Chasing(float); // 120: 0x824BE018
+        virtual void STATE_AnimEvent_Detonate(unsigned char, int, short); // 144: 0x824BE1F0
+        virtual void OnTookDamage(cAIEvent *); // 158: 0x824BE2D0
+        virtual void OnAcidSackHit(CHARACTER::cCharacterInterface *); // 160: 0x82580578
+        virtual void SpawnAcidSackVFX(); // 170: 0x82580578
     };
 }
 

@@ -22,9 +22,12 @@
 #include "AI/cCharacterEntity.h"
 #include "AI/cCharacterBrain.h"
 #include "AI/cAiTargetCache.h"
+#include "fun_runtime/vectorip.h"
 
 namespace AI
 {
+    class cAnimParams;
+
     class cCharacterEntityIF : public CHARACTER::cCharacterInterface
     {
     public:
@@ -222,6 +225,9 @@ namespace AI
         // RuffKing's cFullBodyAnimateAgent::ActivateAgent(entity, nAnimID, nFlags, ...), as FreakBase::STATE_Enter_Detonate
         // calls it with 0x1B59F and 0x14; CD2's copy (0x823F2F90, four callers) is this object's. The name is ours.
         void ActivateFullBodyAnimateAgent(int nAnimID, unsigned int nFlags);
+        // RuffKing's cAmbientAnimAgent::ActivateAgent(entity, aParams, ...), as FreakBase::OnAmbient calls it; CD2's copy
+        // (0x823F3290, five callers) is this object's and takes the parameters only. The name is ours.
+        void ActivateAmbientAnimAgent(const Fun_Runtime::cVectorip<cAnimParams *, 10> &aParams);
 
         // CD2's cAiPlayer adds slot 125 (0x823E92B8) after this interface's 115..124 slots.
         virtual void vf115(); virtual void vf116(); virtual void vf117(); virtual void vf118(); virtual void vf119();

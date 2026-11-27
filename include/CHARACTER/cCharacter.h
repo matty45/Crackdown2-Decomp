@@ -109,6 +109,8 @@ namespace CHARACTER
         // RuffKing's (out of line there); CD2 expands it, reading the state info's vehicle pointer at +0x1700
         // (cChaseBehaviour 0x824CEB38). Its state-info accessor is defined in Vehicle/cVehicle.h.
         Vehicle::cVehicle *RetVehicle() { return m_ActionManager.RetCharacterStateInfo().RetVehicle(); }
+        // RuffKing's; CD2 0x825476A8 (22 callers; FreakBase::OnExit passes its acid-sack effect, as RuffKing's does).
+        void TerminateEffect(VFX::cParticleEffectInstance **pVFX);
         // RetTarget is RuffKing's inline; the script-host form is ours. CD2's cChaseBehaviour calls the targeting's
         // slot 4 in PreUpdateAllStates (0x824CEC18) and its slot 5 in OnUpdateIdle (0x824CEE70) where RuffKing's
         // calls RetTarget in both.

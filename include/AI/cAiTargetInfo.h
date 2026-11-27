@@ -32,6 +32,12 @@ namespace AI
         // as RuffKing's tests m_bIsDeleted before m_bIsAlive.
         bool m_bIsAlive;                        // 0x37
         bool m_bIsDeleted;                      // 0x38
+    private:
+        unsigned char m_pad39[0x4C - 0x39];
+    public:
+        // RuffKing's name: FreakBase::On180TurnFinished (0x824AD9D8) compares it with fSTART_CHASING_DP (0.866), as
+        // RuffKing's does, and reads it in place.
+        float m_fLastFacingTargetDP;            // 0x4C
 
     public:
         // CD2 0x8244DCD8 builds the cClass "cAiTargetInfo"; cAiTargetPositionInfo's inheritance registrar
@@ -51,7 +57,8 @@ namespace AI
             CD2_OFFSET(cAiTargetInfo, m_bPrimaryFireBlocked, 0x20)
             CD2_OFFSET(cAiTargetInfo, m_bVisible, 0x2E)
             CD2_OFFSET(cAiTargetInfo, m_bIsAlive, 0x37)
-            CD2_OFFSET(cAiTargetInfo, m_bIsDeleted, 0x38))
+            CD2_OFFSET(cAiTargetInfo, m_bIsDeleted, 0x38)
+            CD2_OFFSET(cAiTargetInfo, m_fLastFacingTargetDP, 0x4C))
     };
 }
 
