@@ -27,14 +27,14 @@
    "address": "0x824CEFB8",
    "size": 20,
    "file": "src/AI/cChaseBehaviour.cpp",
-   "symbol": "?V117@cChaseBehaviour@AI@@",
+   "symbol": "?OnTargetLost@cChaseBehaviour@AI@@",
    "tier": 1
   },
   {
    "address": "0x824CEF80",
    "size": 52,
    "file": "src/AI/cChaseBehaviour.cpp",
-   "symbol": "?V111@cChaseBehaviour@AI@@",
+   "symbol": "?OnUpdateDriveFleeing@cChaseBehaviour@AI@@",
    "tier": 1
   },
   {
@@ -90,7 +90,7 @@
    "address": "0x824CF0D8",
    "size": 172,
    "file": "src/AI/cChaseBehaviour.cpp",
-   "symbol": "?TryBindTarget@cChaseBehaviour@AI@@",
+   "symbol": "?TryBindAmbientTarget@cChaseBehaviour@AI@@",
    "tier": 2
   },
   {

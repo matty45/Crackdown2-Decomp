@@ -75,6 +75,16 @@ namespace AI
         m_nSpawnAction = nAction;
     }
 
+    void FreakBase::STATE_Enter_Detonate()
+    {
+        m_pHost->ActivateFullBodyAnimateAgent(0x1B59F, 0x14);
+    }
+
+    void FreakBase::STATE_Enter_FollowRoute()
+    {
+        m_pHost->SetMovementType(2);
+    }
+
     static RWS::CClassFactory::CRegistrar FreakBaseRegistrar(
         "FreakBase", FreakBase::MakeNew, 0x120, false);
 

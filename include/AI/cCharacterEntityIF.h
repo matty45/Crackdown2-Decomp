@@ -61,8 +61,10 @@ namespace AI
         void *m_pRooftopPoint;                  // 0x524: RetRooftopPoint (0x823F4E78)
     private:
         unsigned char m_pad528[0x533 - 0x528];
-    protected:
+    public:
+        // Public: cChaseBehaviour::OnEnter stores it directly (0x824CE750), as RuffKing's does.
         unsigned char m_nPerceptionOptions;     // 0x533
+    protected:
         unsigned char m_bCheckingTargetTooClose;
         unsigned char m_bCheckingTargetAreaClear;
         unsigned char m_bCheckingTargetPathClear;
@@ -209,6 +211,17 @@ namespace AI
         void Face(float fTolerance);
         void ChaseAndReload();
         void Intercept();
+        // RuffKing's cAmbientTrafficDrivingAgent::ActivateAgent(entity, nInitialEdge, false) and
+        // cFleeingDangerAgent::ActivateAgent(entity, vDangerPosition), as cChaseBehaviour's EnterDrivingTraffic and
+        // EnterDriveFleeing call them; CD2's copies (0x823F1610, 0x823F16E8) are this object's. The names are ours.
+        void ActivateAmbientTrafficDrivingAgent(unsigned int nInitialEdge, bool bFlag);
+        void ActivateFleeingDangerAgent(const Fun_Runtime::Vec3 &vDangerPosition);
+        // RuffKing's cCharacterInterface::PlayGenericFullBodyAnimation(nAnimID, nFlags); CD2's (0x823F2DB0, seven
+        // callers) reads the full-body animation parameters at 0x4B0.., so it is this class's.
+        void PlayGenericFullBodyAnimation(int nAnimID, unsigned int nFlags);
+        // RuffKing's cFullBodyAnimateAgent::ActivateAgent(entity, nAnimID, nFlags, ...), as FreakBase::STATE_Enter_Detonate
+        // calls it with 0x1B59F and 0x14; CD2's copy (0x823F2F90, four callers) is this object's. The name is ours.
+        void ActivateFullBodyAnimateAgent(int nAnimID, unsigned int nFlags);
 
         // CD2's cAiPlayer adds slot 125 (0x823E92B8) after this interface's 115..124 slots.
         virtual void vf115(); virtual void vf116(); virtual void vf117(); virtual void vf118(); virtual void vf119();

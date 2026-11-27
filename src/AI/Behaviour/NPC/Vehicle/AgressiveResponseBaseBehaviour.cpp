@@ -37,7 +37,7 @@ namespace AI
 
     void cAgressiveResponseBase::vf119()
     {
-        m_bF6 = true;
-        ChangeState(2);
+        m_bClearTargetOnDeath = true;
+        ChangeState(eState_Chasing);
     }
 }

@@ -1,11 +1,5 @@
-// AI/cChaseBehaviour.cpp: cChaseBehaviour of Crackdown 2.
-// All 28 mapped functions are byte-exact (checked 2026-10-26; config/matched_functions.json).
-// Unknown bases and callees are stand-ins named in the header; out-of-line
-// callees without a known name are declared as Ext_<address>.
-// AI/cChaseBehaviour.cpp: cChaseBehaviour, the vehicle chase behaviour of Crackdown 2 (measurement batch 2, round 2).
-
-
-// Out-of-line functions of other files (unknown names).
+// AI/cChaseBehaviour.cpp: cChaseBehaviour, the vehicle chase behaviour of Crackdown 2 (RuffKing's
+// AI/Behaviour/NPC/Vehicle/ChaseBehaviour.cpp).
 
 // Header constants: CD2's initializer run for this object shows these headers' constants in this order. RuffKing's
 // object gets them through its other headers (docs/matching-notes.md, "Header constants"); included directly here.
@@ -20,20 +14,14 @@
 #include "AI/NPCBehaviour.h"
 #include "AI/cChaseBehaviour.h"
 #include "AI/cAIEventManager.h"
+#include "AI/cAiPlayer.h"
+#include "AI/cAiTargetInfo.h"
 #include "CHARACTER/cCharacter.h"
+#include "Vehicle/cVehicle.h"
+#include "VEHICLE_CONTROL/cHelicopterController.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
 #include <new>
-
-void Ext_824A8848(void *proto, AI::NPCHost *host);
-void Ext_823E97B8(AI::NPCHost *host, int id);
-void Ext_823F1610(AI::NPCHost *host, int handle, int flag);
-void Ext_8244CF18(AI::NPCRegistry *, AI::TgtSubA *, const AI::TargetInfo &, int);
-void Ext_823E9640(AI::NPCHost *, AI::NPCTarget *, int);
-void Ext_823F16E8(AI::NPCHost *, void *);
-void Ext_823E9738(AI::NPCHost *);
-void Ext_8244D038(AI::NPCRegistry *);
-AI::cAIEventSubscription *Ext_8276F1B8(Fun_Runtime::cSafeDeletable *, int, AI::XSub *, void *);
 
 namespace AI
 {
@@ -45,7 +33,9 @@ namespace AI
         return pcChaseBehaviourClassID;
     }
 
-    cChaseBehaviour::cChaseBehaviour() : m_hD0(0), m_nF0(-1), m_bF4(false), m_bF5(false), m_bF6(true)
+    cChaseBehaviour::cChaseBehaviour()
+        : m_pVehicleCollisionSub(0), m_nInitialEdge(-1), m_bFollowMode(false), m_bTargetLocked(false),
+          m_bClearTargetOnDeath(true)
     {
     }
 
@@ -58,75 +48,73 @@ namespace AI
 
     void cChaseBehaviour::OnEnter()
     {
-        Ext_824A8848(m_pPrototype, m_pHost);
-        m_pHost->m_nMode = 0x41;
-        Ext_823E97B8(m_pHost, 0xBF);
-        m_hD0 = 0;
-        ChangeState(1);
+        static_cast<NPCBehaviourPrototype *>(m_pPrototype)->SetupWeapons(m_pHost);
+        m_pHost->m_nPerceptionOptions = 0x41;
+        m_pHost->SetTriggerEventFlags(0xBF);
+        m_pVehicleCollisionSub = 0;
+        ChangeState(eState_Idle);
     }
 
     void cChaseBehaviour::OnExit()
     {
-        if (m_hD0)
-            m_hD0 = cAIEventManager::ms_pEventManager->Unsubscribe(m_hD0);
+        if (m_pVehicleCollisionSub)
+            m_pVehicleCollisionSub = cAIEventManager::ms_pEventManager->Unsubscribe(m_pVehicleCollisionSub);
     }
 
-    void cChaseBehaviour::V106()
+    void cChaseBehaviour::EnterDrivingTraffic()
     {
-        Ext_823F1610(m_pHost, m_nF0, 0);
-        m_nF0 = -1;
+        m_pHost->ActivateAmbientTrafficDrivingAgent(m_nInitialEdge, false);
+        m_nInitialEdge = -1;
     }
 
-    void cChaseBehaviour::V111(float dt)
+    void cChaseBehaviour::OnUpdateDriveFleeing(float fDeltaTime)
     {
-        m_fD4 += dt;
-        if (m_fD4 > 5.0f)
-            ChangeState(6);
+        m_fTimeFleeing += fDeltaTime;
+        if (m_fTimeFleeing > 5.0f)
+            ChangeState(eState_DrivingTraffic);
     }
 
-    void cChaseBehaviour::OnEvent74(NPCTarget *t)
+    void cChaseBehaviour::OnDetectedEnemy(CHARACTER::cCharacter *pEnemy, const Fun_Runtime::Vec3 &, cAIEvent *)
     {
-        if (m_fTimer <= 0.0001f && !m_bF5)
+        if (m_fInActivityTimer <= 0.0001f && !m_bTargetLocked)
         {
-            SetTarget(t);
-            V118();
+            SetTargetAndEnemy(pEnemy);
+            OnTargetAcquired();
         }
     }
 
-    void cChaseBehaviour::SetTarget(NPCTarget *t)
+    void cChaseBehaviour::SetTargetAndEnemy(CHARACTER::cCharacter *pTarget)
     {
-        if (t)
+        if (pTarget)
         {
-            TgtSubA *sub = t;
-            NPCRegistry *reg = &m_pHost->m_Registry;
-            int id = GetTargetId();
-            Ext_8244CF18(reg, sub, sub->GetInfo(), id);
-            Ext_823E9640(m_pHost, t, 4);
+            cAiTargetCache &targetCache = m_pHost->m_TargetCache;
+            targetCache.SetTarget(pTarget, pTarget->RetScriptPosition(), RetTargetingFlags());
+            m_pHost->SetEnemy(pTarget, 4);
         }
     }
 
-    bool cChaseBehaviour::TryBindTarget()
+    bool cChaseBehaviour::TryBindAmbientTarget()
     {
-        NPCTarget *t = GetTarget();
-        if (t && t->IsA(*CHARACTER::cCharacter::ms_pcCharacterClass) && t->IsAliveLike())
+        cNonGameBase *pTarget = GetSpawnedAmbientTarget();
+        if (pTarget && pTarget->IsA(*CHARACTER::cCharacter::ms_pcCharacterClass) && pTarget->IsAlive())
         {
-            SetTarget(t);
+            SetTargetAndEnemy(static_cast<CHARACTER::cCharacter *>(pTarget));
             return true;
         }
         return false;
     }
 
-    void cChaseBehaviour::V117()
+    void cChaseBehaviour::OnTargetLost()
     {
-        ChangeState(6);
+        ChangeState(eState_DrivingTraffic);
     }
 
-    void cChaseBehaviour::V118()
+    void cChaseBehaviour::OnTargetAcquired()
     {
-        if (m_bF4)
-            ChangeState(3);
+        if (m_bFollowMode)
+            ChangeState(eState_Follow);
         else
-            ChangeState(2);
+            ChangeState(eState_Chasing);
     }
 
     Fun_Runtime::cClass &cChaseBehaviour::StaticCreateClass()
@@ -162,110 +150,92 @@ namespace AI
 
     static RWS::CClassFactory::CRegistrar cChaseBehaviourRegistrar("cChaseBehaviour", cChaseBehaviour::MakeNew, 0x100, false);
 
-    void cChaseBehaviour::V104()
+    void cChaseBehaviour::EnterDriveFleeing()
     {
-        Player *player = static_cast<Player *>(m_pHost->m_Links.m_pPlayerSub);
-        XSub *xs = player->m_pX;
-        X *x = xs ? static_cast<X *>(xs) : 0;
+        Vehicle::cVehicle *pVehicle = m_pHost->RetCharacter()->RetVehicle();
+        if (pVehicle)
         {
-            if (x)
-            {
-                m_fD4 = 0.0f;
-                Ext_823F16E8(m_pHost, &m_vTarget);
-                YSub *ys = x->m_pY;
-                Y *y = ys ? static_cast<Y *>(ys) : 0;
-                {
-                    if (y)
-                        y->SetV(y->GetV() < 60.0f ? y->GetV() : 60.0f);
-                }
-            }
+            m_fTimeFleeing = 0.0f;
+            m_pHost->ActivateFleeingDangerAgent(m_vFleeDangerPosition);
+            VEHICLE_CONTROL::cVehicleController *pController = pVehicle->RetPtrVehicleController();
+            if (pController)
+                pController->SetSpeedLimit(pController->GetSpeedLimit() < 60.0f ? pController->GetSpeedLimit() : 60.0f);
         }
     }
 
-    void cChaseBehaviour::V107()
+    void cChaseBehaviour::UpdateVehicleSubs()
     {
-        HostLinks *links = &m_pHost->m_Links;
-        Player *player = static_cast<Player *>(links->m_pPlayerSub);
-        XSub *xs = player->m_pX;
-        X *x = xs ? static_cast<X *>(xs) : 0;
-        if (x)
+        if (m_pHost->RetCharacter()->RetVehicle())
         {
-            if (m_hD0 == 0)
-            {
-                Player *player2 = static_cast<Player *>(links->m_pPlayerSub);
-                XSub *xs2 = player2->m_pX;
-                X *x2 = xs2 ? static_cast<X *>(xs2) : 0;
-                XSub *arg = x2;
-                m_hD0 = Ext_8276F1B8(this, 106, arg, g_p830BBDB4);
-            }
+            if (!m_pVehicleCollisionSub)
+                m_pVehicleCollisionSub = SubscribeImmediate(106, m_pHost->RetCharacter()->RetVehicle(),
+                                                            Fun_Runtime::g_GlobalConstants.CONST_INT_0);
         }
-        else if (m_hD0 != 0)
-            m_hD0 = cAIEventManager::ms_pEventManager->Unsubscribe(m_hD0);
+        else if (m_pVehicleCollisionSub)
+            m_pVehicleCollisionSub = cAIEventManager::ms_pEventManager->Unsubscribe(m_pVehicleCollisionSub);
     }
 
-    void cChaseBehaviour::PreUpdateAllStates(float dt)
+    void cChaseBehaviour::PreUpdateAllStates(float fDeltaTime)
     {
-        V107();
-        if (m_bC4 && !m_pHost->IsAliveLike())
-            ChangeState(0);
-        if (m_fTimer > 0.0001f)
+        UpdateVehicleSubs();
+        if (m_nState && !m_pHost->IsAlive())
+            ChangeState(eState_Null);
+        if (m_fInActivityTimer > 0.0001f)
         {
-            float t = m_fTimer - dt;
-            if (t < 0.0001f)
-                t = 0.0f;
-            m_fTimer = t;
+            float fTimer = m_fInActivityTimer - fDeltaTime;
+            if (fTimer < 0.0001f)
+                fTimer = 0.0f;
+            m_fInActivityTimer = fTimer;
         }
-        Player *player = static_cast<Player *>(m_pHost->m_Links.m_pPlayerSub);
-        if (!player->m_p1524->O4())
+        if (!m_pHost->RetCharacter()->RetTargetScriptHost())
         {
-            if (TryBindTarget())
+            if (TryBindAmbientTarget())
             {
-                m_bF5 = true;
-                V118();
+                LockTarget(true);
+                OnTargetAcquired();
             }
             else
-                m_bF5 = false;
+                LockTarget(false);
         }
-        HostReg *reg = m_pHost->m_Registry.m_pReg;
-        if (reg && ((!reg->m_b37 && m_bF6) || reg->m_b38))
+        const cAiTargetCache &targetCache = m_pHost->m_TargetCache;
+        if (targetCache.RetTargetInfo()
+            && ((!targetCache.RetTargetInfo()->IsTargetAlive() && m_bClearTargetOnDeath)
+                || targetCache.RetTargetInfo()->IsTargetDeleted()))
         {
-            Ext_823E9738(m_pHost);
-            Ext_8244D038(&m_pHost->m_Registry);
-            m_bF5 = false;
-            V117();
+            ClearTargetAndEnemy();
+            LockTarget(false);
+            OnTargetLost();
         }
     }
 
-    void cChaseBehaviour::V108()
+    void cChaseBehaviour::OnUpdateIdle(float)
     {
-        Player *player = m_pHost->m_Links.RetPlayer();
-        if (player->m_p1524->O5())
+        if (m_pHost->RetCharacter()->RetTarget())
         {
-            V118();
+            OnTargetAcquired();
             return;
         }
-        player = m_pHost->m_Links.RetPlayer();
-        XSub *xs = player->m_pX;
-        X *x = xs ? static_cast<X *>(xs) : 0;
-        if (x)
-        {
-            Player *player2 = m_pHost->m_Links.RetPlayer();
-            X *x2 = static_cast<X *>(player2->m_pX);
-            YSub *ys = x2->m_pY;
-            Y *y = ys ? static_cast<Y *>(ys) : 0;
-            if (y)
-                ChangeState(6);
-        }
+        if (m_pHost->RetCharacter()->RetVehicle() && m_pHost->RetCharacter()->RetVehicle()->RetPtrVehicleController())
+            ChangeState(eState_DrivingTraffic);
     }
 
-    // Pointers to virtual members (the behaviour-state callbacks); taking their address makes the compiler emit the
-    // "vcall" thunks F51-F57.
-    typedef void (cChaseBehaviour::*StateFn)();
-    StateFn g_ChaseStateFns[] =
+    IBehaviourState *cChaseBehaviour::GetState(unsigned char stateIdx)
     {
-        &cChaseBehaviour::Slot112, &cChaseBehaviour::Slot105, &cChaseBehaviour::Slot113, &cChaseBehaviour::V106,
-        &cChaseBehaviour::Slot110, &cChaseBehaviour::Slot114, &cChaseBehaviour::Slot103
-    };
+        static ChaseState s_States[eState_ChaseTotal] =
+        {
+            ChaseState(0, 0, 0, 0, 0, 0, 0),
+            ChaseState(&cChaseBehaviour::EnterIdle, &cChaseBehaviour::OnUpdateIdle, 0, 0, 0, 0, 0),
+            ChaseState(&cChaseBehaviour::EnterChasing, &cChaseBehaviour::OnUpdateChasing, 0, 0, 0, 0, 0),
+            ChaseState(&cChaseBehaviour::EnterFollow, &cChaseBehaviour::OnUpdateFollow, 0, 0, 0, 0, 0),
+            ChaseState(&cChaseBehaviour::EnterDriveFleeing, &cChaseBehaviour::OnUpdateDriveFleeing, 0, 0, 0, 0, 0),
+            ChaseState(&cChaseBehaviour::EnterHolding, &cChaseBehaviour::OnUpdateHolding, &cChaseBehaviour::ExitHolding,
+                       0, 0, 0, 0),
+            ChaseState(&cChaseBehaviour::EnterDrivingTraffic, &cChaseBehaviour::OnUpdateDrivingTraffic, 0, 0, 0, 0, 0)
+        };
+        if (stateIdx >= eState_ChaseTotal)
+            return 0;
+        return &s_States[stateIdx];
+    }
 
     // CD2 0x82F9A108: runtime class inheritance registration.
     static Fun_Runtime::cInheritanceRegistrar cChaseBehaviourNPCBehaviourInheritRegistrar(

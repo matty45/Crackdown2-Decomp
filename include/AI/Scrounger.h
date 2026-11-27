@@ -84,7 +84,7 @@ namespace AI
         virtual void V108(); // slot 108: 0x824BB240
         virtual void Slot109(); // slot 109: 0x824BB560
         virtual void Slot110(); // slot 110: 0x824BB738
-        virtual NPCTarget *GetTarget(); // slot 115: 0x824BB0A0
+        virtual void vf115(); // slot 115: 0x824BB0A0
         virtual void V118(); // slot 118: 0x824BBCD0
     };
 }

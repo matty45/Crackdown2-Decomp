@@ -93,10 +93,10 @@ namespace AI
         virtual const char *RetClassName() const;
 
         // Overrides of base slots (under the base stand-in's slot names).
-        virtual void Slot80(unsigned char nEventType, unsigned char nEventSubType, unsigned char nEvent); // OnCharacterEvent
+        virtual void OnCharacterEvent(unsigned char nEventType, unsigned char nEventSubType, unsigned char nEvent); // OnCharacterEvent
         virtual void PostUpdateAllStates(float fDeltaTime);
-        virtual int GetTargetId();      // 116: RuffKing RetTargetingFlags
-        virtual void V117();            // 117: RuffKing OnTargetLost
+        virtual unsigned int RetTargetingFlags() const; // 116
+        virtual void OnTargetLost();                    // 117
 
         // Own virtuals, slots 120..153 (RuffKing names and order).
         virtual void EnterGettingOut();                 // 120
@@ -132,26 +132,26 @@ namespace AI
         virtual void ExitMoveRetreat();                 // 150
         virtual void OnFullbodyAnimFinishedOrInterrupted(); // 151
         virtual bool LookForCover();                    // 152
-        virtual void StartReaction(NPCTarget *pInstigator, const cChaseBehaviour::Vec3 &vReactionPos, char nReaction,
-                                   unsigned int nReactionFlags); // 153
+        virtual void StartReaction(CHARACTER::cCharacter *pInstigator, const Fun_Runtime::Vec3 &vReactionPos,
+                                   char nReaction, unsigned int nReactionFlags); // 153
 
         // CD2 table 0x8210B748 overrides these inherited slots; the base's
         // own table 0x8210B510 retains cChaseBehaviour's implementations.
         virtual void OnEnter(); // 68: 0x824C9530
         virtual void OnExit(); // 69: 0x824C96F0
         virtual void OnEnterReplicatedState(unsigned char); // 72: 0x824C9638
-        virtual void OnEvent74(AI::NPCTarget *); // 74: 0x824CB058
-        virtual void OnEvent75(AI::NPCTarget *); // 75: 0x824CB118
-        virtual void Slot76(); // 76: 0x824CB610
-        virtual void Slot77(); // 77: 0x824CB530
-        virtual void Slot79(); // 79: 0x824C9770
-        virtual void Slot82(); // 82: 0x824CAFA8
+        virtual void OnDetectedEnemy(CHARACTER::cCharacter *, const Fun_Runtime::Vec3 &, cAIEvent *); // 74: 0x824CB058
+        virtual void OnHeardSuspiciousSound(CHARACTER::cCharacter *, const Fun_Runtime::Vec3 &, cAIEvent *); // 75: 0x824CB118
+        virtual void OnAvailableVehicleFound(Vehicle::cVehicle *); // 76: 0x824CB610
+        virtual void OnObjectApproached(CHARACTER::cCharacter *, PHYSICS::cDynamicBody *, const Fun_Runtime::Vec3 &, cAIEvent *); // 77: 0x824CB530
+        virtual void OnDied(CHARACTER::cCharacter *, cAIEvent *); // 79: 0x824C9770
+        virtual void OnAttachSatchelCharge(Equip::cCWSatchelCharge *); // 82: 0x824CAFA8
         virtual void PreUpdateAllStates(float); // 96: 0x824C97E0
         virtual IBehaviourState *GetState(unsigned char); // 100: 0x824CBF08
-        virtual void V102(); // 102: 0x824C9A70
-        virtual void Slot109(); // 109: 0x824CAA60
-        virtual void Slot112(); // 112: 0x824CAC70
-        virtual void V118(); // 118: 0x824CB938
+        virtual void EnterChasing(); // 102: 0x824C9A70
+        virtual void OnUpdateChasing(float); // 109: 0x824CAA60
+        virtual void OnUpdateHolding(float); // 112: 0x824CAC70
+        virtual void OnTargetAcquired(); // 118: 0x824CB938
         virtual void Slot2(); // cSafeDeletable 2: 0x824CBAA0
 
         unsigned int m_nUnknown100;                     // 0x100
@@ -166,10 +166,8 @@ namespace AI
         float m_fEnteredVehicleTime;                    // 0x130
         bool m_bTransitioningToCover;                   // 0x134
         cAgressiveResponseChaseBehaviourPrototype *m_pARCBProto; // 0x138
-        // CD2's class size is 0x140; the last field ends at 0x13C. The real NPCBehaviour base is 16-byte aligned
-        // (a Vec3 member), which the flat NPCBehaviourSM stand-in is not, so no size check here yet.
-
         CD2_LAYOUT_CHECKS(cAgressiveResponseChaseBehaviour,
+            CD2_SIZE(cAgressiveResponseChaseBehaviour, 0x140)
             CD2_OFFSET(cAgressiveResponseChaseBehaviour, m_pCoverPoint, 0x10C)
             CD2_OFFSET(cAgressiveResponseChaseBehaviour, m_pVehicleToGetIn, 0x110)
             CD2_OFFSET(cAgressiveResponseChaseBehaviour, m_fCurrentGoalDistanceSq, 0x124)

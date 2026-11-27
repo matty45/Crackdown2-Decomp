@@ -31,7 +31,7 @@ namespace AI
         virtual void OnExit(); // slot 69: 0x824D3590
         virtual void Update(float fDeltaTime); // slot 71: 0x824D4550
         virtual void OnEnterReplicatedState(unsigned char); // slot 72: 0x824A8CA0
-        virtual void Slot79(); // slot 79: 0x824D4510
+        virtual void OnDied(CHARACTER::cCharacter *, cAIEvent *); // slot 79: 0x824D4510
         virtual unsigned char GetStateReplicationInfo() const; // slot 89: 0x824D42A8
         // Its own virtual (RuffKing's one new slot; CD2's body calls OnEnter, then applies the state).
         virtual void OnReplicatedEnter(unsigned char nState); // slot 96: 0x824D44C0

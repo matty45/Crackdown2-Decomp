@@ -23,18 +23,6 @@ matches. Reusable mechanisms (a source shape and the code it produces, shown wit
   0x70-byte class. Initializer-list and body initialization, a single captured UID increment and novtable probes did not
   recover CD2's initialization scheduling in either build. Probes removed.
 
-## src/AI/Behaviour/NPC/Freak/FreakBase.cpp
-
-- FreakBase slot 113 (0x824AEF68): forwards host to cCharacterEntityIF::SetMovementType with value 2. The shared
-  NPCBehaviourSM header still models its host as NPCHost and documents an incorrect base; recover that shared
-  type/hierarchy before adding this wrapper.
-
-## src/AI/cAiPlayer.cpp
-
-- `AI::cAiPlayer` physical virtual slot 62 (0x823E7A38): two `RetCharacter()` calls around a null guard collapse to one
-  load and 12 instructions instead of CD2's 18; the second safe-pointer conversion needs original helper evidence. Probe
-  reverted.
-
 ## src/AI/cTRCamLookAtStop.cpp
 
 - cTRCamLookAtStart constructor (0x82487458): recovered tTCamCutParams at +0x90 with a vector, typed cGameBase safe

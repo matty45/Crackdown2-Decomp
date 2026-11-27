@@ -89,7 +89,7 @@ namespace AI
     public:
         // CD2 table 0x821089B0 differs from NPCBehaviour at these inherited slots.
         virtual void OnEnterReplicatedState(unsigned char); // slot 72: 0x824A7E70
-        virtual void Slot79(); // slot 79: 0x824A82C8
+        virtual void OnDied(CHARACTER::cCharacter *, cAIEvent *); // slot 79: 0x824A82C8
         virtual void SetReactResupplyPoint(const Fun_Runtime::Vec3 &, const Fun_Runtime::Vec3 &); // slot 85: 0x824A8110
         virtual unsigned char GetStateReplicationInfo() const; // slot 89: 0x824A7E60
 

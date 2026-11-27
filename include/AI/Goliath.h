@@ -5,7 +5,8 @@
 #ifndef AI_GOLIATH_H
 #define AI_GOLIATH_H
 
-#include "AI/cChaseBehaviour.h"
+#include "AI/NPCBehaviourSM.h"
+#include "AI/NPCBehaviourPrototype.h"
 #include "fun_runtime/vec3.h"
 #include "cd2/layout.h"
 
@@ -66,7 +67,7 @@ namespace AI
         virtual void OnExit(); // slot 69: 0x824B12F8
         virtual void Update(float fDeltaTime); // slot 71: 0x824B1790
         virtual void OnEnterReplicatedState(unsigned char); // slot 72: 0x824B1190
-        virtual void Slot80(unsigned char nEventType, unsigned char nEventSubType, unsigned char nEvent); // slot 80: 0x824B1E00
+        virtual void OnCharacterEvent(unsigned char nEventType, unsigned char nEventSubType, unsigned char nEvent); // slot 80: 0x824B1E00
         virtual unsigned char GetStateReplicationInfo() const; // slot 89: 0x824B12C0
         virtual bool HasControlsVelocityOverride() const; // slot 90: 0x824B0FF0
         virtual const Fun_Runtime::Vec3 &GetControlsVelocityOverride() const; // slot 91: 0x82564710

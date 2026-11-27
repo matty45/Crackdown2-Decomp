@@ -119,8 +119,16 @@ namespace VEHICLE_CONTROL
     public:
         virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x827FBD60
     };
+}
 
+// Declared in Vehicle/cVehicle.h; defined here, where cVehicleController is complete.
+inline VEHICLE_CONTROL::cVehicleController *Vehicle::cVehicle::RetPtrVehicleController() const
+{
+    return m_pVehicleController;
+}
 
+namespace VEHICLE_CONTROL
+{
     // Plain vectors (no constructor), as returned by value through a hidden pointer.
     struct Vec4f { float x, y, z, w; };
     struct Vec3f { float x, y, z; };

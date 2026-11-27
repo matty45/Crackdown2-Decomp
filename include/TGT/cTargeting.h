@@ -8,6 +8,7 @@
 #include "cd2/layout.h"
 
 namespace CHARACTER { class cCharacter; }
+namespace Fun_Runtime { class cScriptHost; }
 class cGameBase;
 
 namespace TGT
@@ -19,8 +20,12 @@ namespace TGT
         virtual void Slot1();
         virtual void Slot2();
         virtual void Slot3();
-        virtual void Slot4();
-        virtual void Slot5();
+        // CD2's cAiTargeting (table 0x82147B98) forwards both to its owner's target info: slot 4 (0x82778360) to the
+        // info's slot 19, which returns the object of its slot 20 adjusted to that object's cScriptHost (+0x1C), and
+        // slot 5 (0x82778398) to the info's slot 20 itself. Slot 5 is RuffKing's RetTarget (its slot 4, cAiTargeting's
+        // forwarding to the info's RetTarget); the name of slot 4 is ours.
+        virtual Fun_Runtime::cScriptHost *RetTargetScriptHost();
+        virtual cGameBase *RetTarget();
         virtual void Slot6();
         virtual void Slot7();
         virtual void Slot8();

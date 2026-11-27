@@ -177,6 +177,9 @@ namespace Vehicle
         bool IsInVehicle(cNonGameBase *pObject);
         // RuffKing's; CD2 0x826D5020 returns the turret slot only while it holds a turret.
         cVehicleTurret *RetVehicleTurret(int nTurret);
+        // RuffKing's (out of line there); CD2 expands it (cChaseBehaviour::EnterDriveFleeing, 0x824CEB38). Defined
+        // after cVehicleController (VEHICLE_CONTROL/cHelicopterController.h): the conversion needs the complete class.
+        inline VEHICLE_CONTROL::cVehicleController *RetPtrVehicleController() const;
         void BlowUp(cGameBase *pInstigator, CHARACTER::cCharacterInterface *pAttacker, unsigned char nActivationType,
             bool bDetonateExplosive);
 
@@ -447,6 +450,12 @@ namespace Vehicle
             CD2_OFFSET(cVehicle, m_fEngineHazeTimer, 0x115C)
             CD2_OFFSET(cVehicle, m_nSystemGroup, 0x15E6))
     };
+}
+
+// Declared in CHARACTER/cActionManagerCharacterStateInfo.h; defined here, where cVehicle is complete.
+inline Vehicle::cVehicle *CHARACTER::cActionManagerCharacterStateInfo::RetVehicle() const
+{
+    return m_pVehicle;
 }
 
 #endif // VEHICLE_CVEHICLE_H

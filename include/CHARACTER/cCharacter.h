@@ -106,6 +106,14 @@ namespace CHARACTER
         {
             return m_ActionManager.RetCharacterStateInfo().RetInventory().RetPrimary();
         }
+        // RuffKing's (out of line there); CD2 expands it, reading the state info's vehicle pointer at +0x1700
+        // (cChaseBehaviour 0x824CEB38). Its state-info accessor is defined in Vehicle/cVehicle.h.
+        Vehicle::cVehicle *RetVehicle() { return m_ActionManager.RetCharacterStateInfo().RetVehicle(); }
+        // RetTarget is RuffKing's inline; the script-host form is ours. CD2's cChaseBehaviour calls the targeting's
+        // slot 4 in PreUpdateAllStates (0x824CEC18) and its slot 5 in OnUpdateIdle (0x824CEE70) where RuffKing's
+        // calls RetTarget in both.
+        Fun_Runtime::cScriptHost *RetTargetScriptHost() { return m_pTargeting->RetTargetScriptHost(); }
+        cGameBase *RetTarget() { return m_pTargeting->RetTarget(); }
 
         // The six pure slots of cCharacterMotion are implemented by CD2's cCharacter table.
         virtual void vf341(); virtual void vf342(); virtual void vf343();

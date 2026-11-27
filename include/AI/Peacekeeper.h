@@ -30,9 +30,9 @@ namespace AI
         // CD2 table 0x8210AEB0: overrides relative to CellGuard.
         virtual void OnEnter(); // slot 68: 0x824C6D28
         virtual void OnExit(); // slot 69: 0x82377328
-        virtual void Slot79(); // slot 79: 0x821F0908, distinct from NPCArmedBehaviour's 0x824A82C8
-        virtual void Slot80(unsigned char nEventType, unsigned char nEventSubType, unsigned char nEvent); // slot 80: 0x824C74F0
-        virtual void Slot81(); // slot 81: 0x824C7450
+        virtual void OnDied(CHARACTER::cCharacter *, cAIEvent *); // slot 79: 0x821F0908, distinct from NPCArmedBehaviour's 0x824A82C8
+        virtual void OnCharacterEvent(unsigned char nEventType, unsigned char nEventSubType, unsigned char nEvent); // slot 80: 0x824C74F0
+        virtual void OnAnimationEvent(unsigned char, int, short); // slot 81: 0x824C7450
     };
 }
 

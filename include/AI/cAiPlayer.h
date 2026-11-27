@@ -164,6 +164,11 @@ namespace AI
         // CD2 script method "ClearEnemy" (0x823E9738, 23 callers): clears m_pUnknown5E8 and m_bUnknown61B. The NPC
         // behaviours call it before clearing the target cache.
         void ClearEnemy();
+        // CD2 script methods "SetEnemy" (0x823E9640) and "SetTriggerEventFlags" (0x823E97B8): cChaseBehaviour's
+        // SetTargetAndEnemy (0x824CF058) passes its target and 4, its OnEnter (0x824CE750) the flags 0xBF, as RuffKing's
+        // OnEnter does; the parameter names are ours.
+        void SetEnemy(cGameBase *pEnemy, int nEnemyFlags);
+        void SetTriggerEventFlags(unsigned int nFlags);
         // CD2 forwards these primary slots to the attached character; names remain unknown.
         // Keep the shared base's provisional identifiers: Slot54/Slot60 compile to physical slots 53/59.
         virtual void SetSpawner(Activity::cSpawnPointBase *pSpawner); // 0x823EB5A8, guarded forwarding

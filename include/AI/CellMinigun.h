@@ -48,11 +48,11 @@ namespace AI
         virtual void OnEnter(); // slot 68: 0x824C33D8
         virtual void OnExit(); // slot 69: 0x824C5648
         virtual void Update(float fDeltaTime); // slot 71: 0x824C3A48
-        virtual void Slot73(); // slot 73: 0x824C35F8
-        virtual void OnEvent74(NPCTarget *t); // slot 74: 0x824C3510
-        virtual void OnEvent75(NPCTarget *t); // slot 75: 0x824C3728
-        virtual void Slot79(); // slot 79: 0x824C34C0
-        virtual void Slot83(); // slot 83: 0x824C41E8
+        virtual void OnAttacked(CHARACTER::cCharacter *, const Fun_Runtime::Vec3 &, cAIEvent *); // slot 73: 0x824C35F8
+        virtual void OnDetectedEnemy(CHARACTER::cCharacter *, const Fun_Runtime::Vec3 &, cAIEvent *); // slot 74: 0x824C3510
+        virtual void OnHeardSuspiciousSound(CHARACTER::cCharacter *, const Fun_Runtime::Vec3 &, cAIEvent *); // slot 75: 0x824C3728
+        virtual void OnDied(CHARACTER::cCharacter *, cAIEvent *); // slot 79: 0x824C34C0
+        virtual void OnAmbient(const Fun_Runtime::cVectorip<cAnimParams *, 10> &, float); // slot 83: 0x824C41E8
         virtual void SetReactResupplyPoint(const Fun_Runtime::Vec3 &, const Fun_Runtime::Vec3 &); // slot 85: 0x824C3D30
         virtual void ChangeMainState(eState); // slot 98: 0x824C3870
         virtual void OnIdle(); // slot 102: 0x824C3B18

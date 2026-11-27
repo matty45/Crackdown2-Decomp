@@ -29,7 +29,7 @@ namespace AI
     public:
         // CD2 table 0x8210C7D8 differs from cPilotBase at these inherited slots.
         virtual void OnExit(); // slot 69: 0x824C7978
-        virtual void Slot79(); // slot 79: 0x824D2D08
+        virtual void OnDied(CHARACTER::cCharacter *, cAIEvent *); // slot 79: 0x824D2D08
         virtual void vf98(); // slot 98: 0x824D6BE8
         virtual void vf100(); // slot 100: 0x824D2FD8
         virtual void vf104(); // slot 104: 0x824D3090

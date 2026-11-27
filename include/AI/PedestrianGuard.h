@@ -71,11 +71,11 @@ namespace AI
         // CD2 table 0x8200AE78 differs from cPedestrianBase at these inherited slots.
         virtual void OnEnter(); // slot 68: 0x824AB258
         virtual void OnExit(); // slot 69: 0x824AB928
-        virtual void Slot73(); // slot 73: 0x824AB2D8
-        virtual void OnEvent74(NPCTarget *t); // slot 74: 0x824AB368
-        virtual void OnEvent75(NPCTarget *t); // slot 75: 0x824AB408
-        virtual void Slot77(); // slot 77: 0x82580578
-        virtual void Slot79(); // slot 79: 0x824AB478
+        virtual void OnAttacked(CHARACTER::cCharacter *, const Fun_Runtime::Vec3 &, cAIEvent *); // slot 73: 0x824AB2D8
+        virtual void OnDetectedEnemy(CHARACTER::cCharacter *, const Fun_Runtime::Vec3 &, cAIEvent *); // slot 74: 0x824AB368
+        virtual void OnHeardSuspiciousSound(CHARACTER::cCharacter *, const Fun_Runtime::Vec3 &, cAIEvent *); // slot 75: 0x824AB408
+        virtual void OnObjectApproached(CHARACTER::cCharacter *, PHYSICS::cDynamicBody *, const Fun_Runtime::Vec3 &, cAIEvent *); // slot 77: 0x82580578
+        virtual void OnDied(CHARACTER::cCharacter *, cAIEvent *); // slot 79: 0x824AB478
         virtual void vf98(); // slot 98: 0x824AB480
         virtual void vf99(); // slot 99: 0x824AB4B8
         virtual void vf100(); // slot 100: 0x824AB558

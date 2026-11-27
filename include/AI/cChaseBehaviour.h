@@ -1,297 +1,45 @@
-// AI::cChaseBehaviour (CD2 layout, 0x100 bytes) and its prototype.
-// Layout from F31 (ctor): the base NPCBehaviourSM (out-of-line ctor 0x824ABA30, whose chain reaches cNonGameBase's
-// constructor) is a cNonGameBase (gom/non_game_base.h, 0x7C bytes) plus its own fields to 0xD0; own fields from 0xD0.
-// Primary vtable (0x8210BCA8) has 119 slots: 0..67 are cNonGameBase's (11 RetClassName), 68..118 NPCBehaviourSM's and
-// cChaseBehaviour's. RetClass and IsA are in the cRegisteredClass vtable (0x8210BE84, right after the primary).
-// Stand-ins (all ours, sized/slotted to CD2): AI::NPCBehaviourSM, AI::NPCHost (the character at this+0x7C) and
-// AI::NPCBehaviourPrototype (a GOM::cObjectPrototype, size 0x90; two out-of-line HandleAttributes base calls: in
-// RuffKing NPCBehaviourPrototype::HandleAttributes calls its base's HandleAttributes and SetupArmoury, inlined in CD2).
+// AI::cChaseBehaviour (Crackdown 2): the vehicle chase behaviour, 0x100 bytes. RuffKing's ChaseBehaviour.h: an
+// NPCBehaviourSM and a cNPCArmourySetup. CD2's constructor 0x824CE6B0 calls NPCBehaviourSM's (0x824ABA30), installs the
+// tables 0x8210BCA8 (primary, 119 slots), 0x8210B4D8, 0x8210B6F0, 0x8210BE84 and 0x8212CED0 and sets the fields below
+// (RuffKing's names and order, at CD2's offsets from that constructor).
+// Its own virtuals 101..118 are RuffKing's (EnterIdle .. OnTargetAcquired, its offsets 284..348) in RuffKing's order,
+// with one CD2 slot more: 114, the exit callback of the Holding state (GetState 0x824CF188 builds that state from 105,
+// 112 and 114; the name is ours). Every state's callbacks are the ones GetState stores; the empty ones fold to
+// 0x82580578. CD2's table overrides 11, 68, 69, 72, 74, 75 (one body), 96 and 100, and slot 2 of the cScriptHost table.
+// m_bClearTargetOnDeath (0xF6) is CD2's alone; PreUpdateAllStates (0x824CEC18) tests it with the target's alive flag.
 #ifndef AI_CCHASEBEHAVIOUR_H
 #define AI_CCHASEBEHAVIOUR_H
 
 #include "rws/attributes.h"
 #include "fun_runtime/class.h"
+#include "fun_runtime/vec3.h"
 #include "cd2/layout.h"
-#include "gom/non_game_base.h"
 #include "AI/BehaviourClassID.h"
+#include "AI/NPCBehaviourSM.h"
 #include "AI/NPCBehaviourPrototype.h"
+#include "AI/cNPCArmourySetup.h"
+#include "AI/tBehaviourState.h"
+#include "AI/cAiPlayer.h"
 
-// Globals cChaseBehaviour.cpp uses; their real owners and names are not known (the names are ours).
-extern void *g_p830BBDB4;                                   // 0x830BBDB4
-
-namespace Activity { class cSquadMemberSpawnPoint; }
 namespace AI
 {
-    struct TargetInfo { unsigned int v[4]; };
-    class TgtSubA { public: virtual void A0(); virtual void A1(); virtual void A2(); virtual TargetInfo GetInfo(); unsigned char pad[0x10]; };
-    class TgtReg { public: virtual void R0(); virtual bool IsA(const Fun_Runtime::cClass &) const; unsigned char pad[4]; };
-    class TgtBase0
-    {
-    public:
-        virtual void T0();
-        virtual void T1();
-        virtual void T2();
-        virtual void T3();
-        virtual void T4();
-        virtual void T5();
-        virtual void T6();
-        virtual void T7();
-        virtual void T8();
-        virtual void T9();
-        virtual void T10();
-        virtual void T11();
-        virtual void T12();
-        virtual void T13();
-        virtual void T14();
-        virtual void T15();
-        virtual void T16();
-        virtual void T17();
-        virtual void T18();
-        virtual void T19();
-        virtual void T20();
-        virtual void T21();
-        virtual void T22();
-        virtual void T23();
-        virtual void T24();
-        virtual void T25();
-        virtual void T26();
-        virtual void T27();
-        virtual void T28();
-        virtual void T29();
-        virtual void T30();
-        virtual void T31();
-        virtual void T32();
-        virtual void T33();
-        virtual void T34();
-        virtual void T35();
-        virtual void T36();
-        virtual void T37();
-        virtual void T38();
-        virtual void T39();
-        virtual void T40();
-        virtual void T41();
-        virtual void T42();
-        virtual void T43();
-        virtual void T44();
-        virtual void T45();
-        virtual void T46();
-        virtual void T47();
-        virtual void T48();
-        virtual bool IsAliveLike();
-        unsigned char pad[0x1C - 4];
-    };
-    // Stand-in for the chase target (a character): primary vtable (49+ slots), a sub-object at 0x1C and a
-    // registered-class sub-object at 0x30.
-    class NPCTarget : public TgtBase0, public TgtSubA, public TgtReg { public: unsigned char pad2[0x20]; };
-
-    struct HostReg { unsigned char pad[0x37]; bool m_b37; bool m_b38; };
-    struct NPCRegistry { unsigned char pad[4]; HostReg *m_pReg; unsigned char pad2[0x50 - 8]; };
-
-    // ---- Stand-ins for the owning character's object graph (offsets from F34..F40). Each "Sub" is a polymorphic base
-    // sub-object at 0x1C of its complete class (pointers to it are adjusted by -0x1C with static_cast).
-    struct Pre1C { virtual void Pre0(); unsigned char pad[0x18]; };
-    struct PlayerSub { virtual void PS0(); };
-    struct XSub { virtual void XS0(); };
-    struct YSub { virtual void YS0(); };
-    struct Obj1524 { virtual void O0(); virtual void O1(); virtual void O2(); virtual void O3(); virtual unsigned int O4(); virtual unsigned int O5(); };
-
-    struct YBase
-    {
-        virtual void Y0();
-        virtual void Y1();
-        virtual void Y2();
-        virtual void Y3();
-        virtual void Y4();
-        virtual void Y5();
-        virtual void Y6();
-        virtual void Y7();
-        virtual void Y8();
-        virtual void Y9();
-        virtual void Y10();
-        virtual void Y11();
-        virtual void Y12();
-        virtual void Y13();
-        virtual void Y14();
-        virtual void Y15();
-        virtual void Y16();
-        virtual void Y17();
-        virtual void Y18();
-        virtual void Y19();
-        virtual void Y20();
-        virtual void Y21();
-        virtual void Y22();
-        virtual void Y23();
-        virtual void Y24();
-        virtual void Y25();
-        virtual void Y26();
-        virtual void Y27();
-        virtual void Y28();
-        virtual void Y29();
-        virtual void Y30();
-        virtual void Y31();
-        virtual void Y32();
-        virtual void Y33();
-        virtual void Y34();
-        virtual void Y35();
-        virtual void Y36();
-        virtual void Y37();
-        virtual void Y38();
-        virtual void Y39();
-        virtual void Y40();
-        virtual void Y41();
-        virtual void Y42();
-        virtual void Y43();
-        virtual void Y44();
-        virtual void Y45();
-        virtual void Y46();
-        virtual void Y47();
-        virtual void Y48();
-        virtual void Y49();
-        virtual void Y50();
-        virtual void Y51();
-        virtual void Y52();
-        virtual void Y53();
-        virtual void Y54();
-        virtual void Y55();
-        virtual void Y56();
-        virtual void Y57();
-        virtual void Y58();
-        virtual void Y59();
-        virtual void Y60();
-        virtual void Y61();
-        virtual void Y62();
-        virtual void Y63();
-        virtual void Y64();
-        virtual void Y65();
-        virtual void Y66();
-        virtual void Y67();
-        virtual void Y68();
-        virtual void Y69();
-        virtual void Y70();
-        virtual void Y71();
-        virtual void Y72();
-        virtual void Y73();
-        virtual void Y74();
-        virtual void Y75();
-        virtual void SetV(float);
-        virtual float GetV();
-        unsigned char pad[0x18];
-    };
-    class Y : public YBase, public YSub
-    {
-    public:
-        unsigned char padY[0x820 - 0x20];
-        int m_n820;
-        int m_n824;
-    };
-    class X : public Pre1C, public XSub
-    {
-    public:
-        unsigned char padX[0xD14 - 0x20];
-        YSub *m_pY;
-    };
-    class Player : public Pre1C, public PlayerSub
-    {
-    public:
-        unsigned char padP[0x1524 - 0x20];
-        Obj1524 *m_p1524;
-        unsigned char padP2[0x1700 - 0x1528];
-        XSub *m_pX;
-    };
-
-    // At host+0x7C; the player link is host+0x88. Keep its downcast in an inline accessor:
-    // V108 (0x824CEE70) retains this subobject address and reloads the link on its second use.
-    struct HostLinks
-    {
-        unsigned char pad[0xC];
-        PlayerSub *m_pPlayerSub;
-        Player *RetPlayer() { return static_cast<Player *>(m_pPlayerSub); }
-    };
-    // The character that owns the behaviour (this+0x7C). Only offsets used here.
-    struct NPCHost : public TgtBase0
-    {
-        unsigned char pad0[0x7C - sizeof(TgtBase0)];
-        HostLinks m_Links;     // 0x7C
-
-        unsigned char pad8C[0x4E0 - 0x7C - sizeof(HostLinks)];
-        NPCRegistry m_Registry;
-        unsigned char padReg[3];
-        unsigned char m_nMode;   // 0x533
-    };
-
-    // Known wrong, left for a structural fix: CD2's inheritance registrar (0x82F92140) names NPCBehaviour as the base, as RuffKing
-    // and Burn do. m_pHost (0x7C), m_fTimer (0xB0) and m_pB4 (0xB4) below are NPCBehaviour's fields (AI/NPCBehaviour.h:
-    // m_pHost, m_fInActivityTimer, m_pAmbientTarget), and m_nState (0xA8) falls inside its m_vRespawnHeading (0xA0), so
-    // one of the two layouts is wrong there. Only the bytes from 0xC0 are this class's own. FreakBase and, through
-    // cChaseBehaviour, cAgressiveResponseBase derive from it, so the fix moves all of them.
-    class IBehaviourState;
     class cAIEventSubscription;
 
-    class NPCBehaviourSM : public cNonGameBase
+    class cChaseBehaviour : public NPCBehaviourSM, public cNPCArmourySetup
     {
     public:
-        // CD2 0x8221DD30 creates the named runtime descriptor.
-        static Fun_Runtime::cClass &StaticCreateClass();
-        NPCBehaviourSM();
-        virtual const char *RetClassName() const;
-        virtual void OnEnter();
-        virtual void OnExit();
-        virtual void Slot70();
-        virtual void Update(float fDeltaTime);
-        virtual void OnEnterReplicatedState(unsigned char);
-        virtual void Slot73();
-        virtual void OnEvent74(NPCTarget *t);
-        virtual void OnEvent75(NPCTarget *t);
-        virtual void Slot76();
-        virtual void Slot77();
-        virtual void Slot78();
-        virtual void Slot79();
-        virtual void Slot80(unsigned char nEventType, unsigned char nEventSubType, unsigned char nEvent); // RuffKing OnCharacterEvent (cAgressiveResponseChaseBehaviour 0x824CAF68)
-        virtual void Slot81();
-        virtual void Slot82();
-        virtual void Slot83();
-        virtual void Slot84();
-        virtual void SetReactResupplyPoint(const Fun_Runtime::Vec3 &, const Fun_Runtime::Vec3 &);
-        // 86..95: RuffKing's names and order (its slots 55..64; CD2 has no StartSequence after them). The defaults in
-        // CD2's table 0x82108C08 agree: 87 stores m_pAmbientTarget (0x824A7DE0), 91 returns the zero vector, 93
-        // returns 1000 (Goliath's 0x824B12F0: 3500), 94 and 95 return true.
-        virtual void SetSpawnAction(unsigned char);
-        virtual void SetAmbientTarget(Activity::cSquadMemberSpawnPoint *pTarget);
-        virtual void NotifySquadMemberDead();
-        virtual unsigned char GetStateReplicationInfo() const;
-        virtual bool HasControlsVelocityOverride() const;
-        virtual const Fun_Runtime::Vec3 &GetControlsVelocityOverride() const;
-        virtual void SetControlsVelocityOverride(const Fun_Runtime::Vec3 &);
-        virtual unsigned int RetCorpseFadeOutTimeMillis() const;
-        virtual bool ShouldLockVehicleOwnership() const;
-        virtual bool CanBeAttackedByNPC() const;
-        // 96..100: RuffKing's NPCBehaviourSM virtuals in its order. Update (0x824ABAA8) calls 96 before the current
-        // state's update and 97 after it, both with the time step.
-        virtual void PreUpdateAllStates(float fDeltaTime);
-        virtual void PostUpdateAllStates(float fDeltaTime);
-        virtual void OnReachedDestination(bool bSuccess);
-        virtual void ChangeState(unsigned char nState);
-        virtual IBehaviourState *GetState(unsigned char nState);
-        NPCHost *m_pHost;         // 0x7C
-        unsigned char pad80[0xA8 - 0x80];
-        int m_nState;             // 0xA8
-        unsigned char padAC[4];
-        float m_fTimer;           // 0xB0
-        void *m_pB4;              // 0xB4
-        unsigned char padB8[0xC4 - 0xB8];
-        unsigned char m_bC4;      // a state index: cAgressiveResponseChaseBehaviour slot 117 compares it with 7
-        unsigned char padC5[0xD0 - 0xC5];
-        // CD2: NPCBehaviourSM's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
-        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
-    public:
-        virtual void HandleAttributes(RWS::CAttributePacket const &); // 1: 0x827FBD60
-        virtual int RetUniqueID(); // CEventHandler 1: 0x82604E70
-        virtual void Slot2(); // cSafeDeletable 2: 0x824AD480
-    };
+        enum eChaseState
+        {
+            eState_Null = 0,
+            eState_Idle,
+            eState_Chasing,
+            eState_Follow,
+            eState_DriveFleeing,
+            eState_Holding,
+            eState_DrivingTraffic,
+            eState_ChaseTotal
+        };
 
-    class cChaseBehaviour : public NPCBehaviourSM
-    {
-    public:
         class cChaseBehaviourPrototype : public NPCBehaviourPrototype
         {
         public:
@@ -302,74 +50,80 @@ namespace AI
                 CD2_SIZE(cChaseBehaviourPrototype, 0x90))
         };
 
-        cAIEventSubscription *m_hD0;      // 0xD0 AI event subscription (zero when none)
-        float m_fD4;              // 0xD4 timer
-        unsigned char padD8[0xE0 - 0xD8];
-        struct Vec3 { float x, y, z; Vec3() : x(0.0f), y(0.0f), z(0.0f) {} } m_vTarget;       // 0xE0
-        unsigned char padEC[4];
-        int m_nF0;                // 0xF0 handle, -1 when none
-        bool m_bF4;
-        bool m_bF5;
-        bool m_bF6;
-        unsigned char padF7[9];
-
         static Fun_Runtime::cClass *const ms_pcChaseBehaviourClass;
         static const char *const pcChaseBehaviourClassID;
 
         cChaseBehaviour();
         virtual const char *RetClassName() const;
-
-        // CD2 NPCBehaviourSM table 0x821091A8 and Goliath table 0x821096A0
-        // end at slot 100. Chase-specific entries 101..118 belong here.
-        virtual void Slot101();
-        virtual void V102();
-        virtual void Slot103();
-        virtual void V104();
-        virtual void Slot105();
-        virtual void V106();
-        virtual void V107();
-        virtual void V108();
-        virtual void Slot109();
-        virtual void Slot110();
-        virtual void V111(float dt);
-        virtual void Slot112();
-        virtual void Slot113();
-        virtual void Slot114();
-        virtual NPCTarget *GetTarget();
-        virtual int GetTargetId();
-        virtual void V117();
-        virtual void V118();
-        virtual void OnEnter();
-        virtual void OnExit();
-        virtual void OnEvent74(NPCTarget *t);
-        virtual void OnEvent75(NPCTarget *t);
-        void SetTarget(NPCTarget *t);
-        bool TryBindTarget();
-        virtual void PreUpdateAllStates(float dt);
-        virtual IBehaviourState *GetState(unsigned char nState);
         virtual const Fun_Runtime::cClass &RetClass() const;
         virtual bool IsA(const Fun_Runtime::cClass &) const;
-        virtual void Slot2();     // cSafeDeletable slot 2: cChaseBehaviour's own (0x824CE808, not yet matched)
 
         static Fun_Runtime::cClass &StaticCreateClass();
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *proto, void *mem);
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
 
-        // CD2: cChaseBehaviour's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
-        // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
-    public:
-        virtual void Update(float fDeltaTime); // 71: 0x824ABAA8
-        virtual void OnEnterReplicatedState(unsigned char); // 72: 0x8221B7C8
-        virtual void Slot79(); // 79: 0x82580578
-        virtual void Slot80(unsigned char,unsigned char,unsigned char); // 80: 0x82580578
-        virtual void Slot83(); // 83: 0x82580578
-        virtual void SetSpawnAction(unsigned char); // 86: 0x82580578
-        virtual bool CanBeAttackedByNPC() const; // 95: 0x8288FB78
+        virtual void OnEnter();
+        virtual void OnExit();
+        virtual void OnEnterReplicatedState(unsigned char nReplicatedState);
+        virtual void OnDetectedEnemy(CHARACTER::cCharacter *pEnemy, const Fun_Runtime::Vec3 &vPosition, cAIEvent *pEvent);
+        virtual void OnHeardSuspiciousSound(CHARACTER::cCharacter *pSource, const Fun_Runtime::Vec3 &vPosition,
+                                            cAIEvent *pEvent);
+        virtual void PreUpdateAllStates(float fDeltaTime);
+
+        // 101..118
+        virtual void EnterIdle();
+        virtual void EnterChasing();
+        virtual void EnterFollow();
+        virtual void EnterDriveFleeing();
+        virtual void EnterHolding();
+        virtual void EnterDrivingTraffic();
+        virtual void UpdateVehicleSubs();
+        virtual void OnUpdateIdle(float fDeltaTime);
+        virtual void OnUpdateChasing(float fDeltaTime);
+        virtual void OnUpdateFollow(float fDeltaTime);
+        virtual void OnUpdateDriveFleeing(float fDeltaTime);
+        virtual void OnUpdateHolding(float fDeltaTime);
+        virtual void OnUpdateDrivingTraffic(float fDeltaTime);
+        virtual void ExitHolding();
+        virtual cNonGameBase *GetSpawnedAmbientTarget();
+        virtual unsigned int RetTargetingFlags() const;
+        virtual void OnTargetLost();
+        virtual void OnTargetAcquired();
+
+        void SetTargetAndEnemy(CHARACTER::cCharacter *pTarget);
+        // RuffKing's out-of-line ClearTargetAndEnemy clears the target cache; CD2 expands it in PreUpdateAllStates
+        // (0x824CEC18) and cAgressiveResponseChaseBehaviour::EnterIdleGuard (0x824CAE60), with the host's ClearEnemy first.
+        void ClearTargetAndEnemy()
+        {
+            m_pHost->ClearEnemy();
+            m_pHost->m_TargetCache.ClearTarget();
+        }
+        // RuffKing's; CD2 expands it in PreUpdateAllStates.
+        void LockTarget(bool bLock) { m_bTargetLocked = bLock; }
+
+        // cScriptHost slot 2: cChaseBehaviour's own (0x824CE808).
+        virtual void Slot2();
+
+    protected:
+        typedef tBehaviourState<cChaseBehaviour> ChaseState;
+        virtual IBehaviourState *GetState(unsigned char stateIdx);
+        bool TryBindAmbientTarget();
+
+        cAIEventSubscription *m_pVehicleCollisionSub;   // 0xD0
+        float m_fTimeFleeing;                           // 0xD4
+        Fun_Runtime::Vec3 m_vFleeDangerPosition;        // 0xE0
+        unsigned int m_nInitialEdge;                    // 0xF0
+        bool m_bFollowMode;                             // 0xF4
+        bool m_bTargetLocked;                           // 0xF5
+        bool m_bClearTargetOnDeath;                     // 0xF6: name ours
+
     public:
         CD2_LAYOUT_CHECKS(cChaseBehaviour,
             CD2_SIZE(cChaseBehaviour, 0x100)
-            CD2_OFFSET(cChaseBehaviour, m_hD0, 0xD0)
-            CD2_OFFSET(cChaseBehaviour, m_nF0, 0xF0))
+            CD2_OFFSET(cChaseBehaviour, m_pVehicleCollisionSub, 0xD0)
+            CD2_OFFSET(cChaseBehaviour, m_vFleeDangerPosition, 0xE0)
+            CD2_OFFSET(cChaseBehaviour, m_nInitialEdge, 0xF0)
+            CD2_OFFSET(cChaseBehaviour, m_bClearTargetOnDeath, 0xF6))
     };
 }
 

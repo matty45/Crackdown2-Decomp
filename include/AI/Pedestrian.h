@@ -36,7 +36,7 @@ namespace AI
         virtual void OnEnter(); // slot 68: 0x824A8F30
         virtual void OnExit(); // slot 69: 0x824A8F38
         virtual void Update(float fDeltaTime); // slot 71: 0x824A8FE8
-        virtual void Slot79(); // slot 79: 0x824AB478
+        virtual void OnDied(CHARACTER::cCharacter *, cAIEvent *); // slot 79: 0x824AB478
         virtual void vf98(); // slot 98: 0x824A8F40
         virtual void vf99(); // slot 99: 0x824A8F48
         virtual void vf100(); // slot 100: 0x824A8F50

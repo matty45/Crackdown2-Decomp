@@ -68,9 +68,9 @@ namespace AI
         }
     }
 
-    void CellRocket::Slot79()
+    void CellRocket::OnDied(CHARACTER::cCharacter *pKiller, cAIEvent *pEvent)
     {
-        NPCArmedBehaviour::Slot79();
+        NPCArmedBehaviour::OnDied(pKiller, pEvent);
         if (m_nReloadSub)
         {
             cAIEventManager::ms_pEventManager->Unsubscribe(m_nReloadSub);

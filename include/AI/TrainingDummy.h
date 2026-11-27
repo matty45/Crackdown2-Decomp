@@ -44,7 +44,7 @@ namespace AI
         // CD2 table 0x8210B1C0 differs from NPCBehaviour at these inherited slots.
         virtual void OnEnter(); // slot 68: 0x824C86F0
         virtual void Update(float fDeltaTime); // slot 71: 0x824C8758
-        virtual void Slot73(); // slot 73: 0x824C8CE8
+        virtual void OnAttacked(CHARACTER::cCharacter *, const Fun_Runtime::Vec3 &, cAIEvent *); // slot 73: 0x824C8CE8
         virtual void SetSpawnAction(unsigned char); // slot 86: 0x824C83F0
     };
 }

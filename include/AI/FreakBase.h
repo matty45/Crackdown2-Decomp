@@ -4,7 +4,8 @@
 #ifndef AI_FREAKBASE_H
 #define AI_FREAKBASE_H
 
-#include "AI/cChaseBehaviour.h"
+#include "AI/NPCBehaviourSM.h"
+#include "AI/NPCBehaviourPrototype.h"
 #include "gom/object_prototype.h"
 #include "cd2/layout.h"
 #include "fun_runtime/safedeletablepointer.h"
@@ -45,11 +46,14 @@ namespace AI
         virtual void Slot109();
         virtual void Slot110();
         virtual void V111(float dt);
-        virtual void Slot112();
-        virtual void Slot113();
+        // 112, 113: Burn's STATE_Enter_Detonate and STATE_Enter_FollowRoute (its offsets 332 and 336; CD2's slots are
+        // Burn's from 101 on, 29 higher). CD2's bodies do what RuffKing's do: play the detonate full-body animation
+        // 0x1B59F (0x824AE800), set the host's movement type 2 (0x824AEF68).
+        virtual void STATE_Enter_Detonate();
+        virtual void STATE_Enter_FollowRoute();
         virtual void Slot114();
-        virtual NPCTarget *GetTarget();
-        virtual int GetTargetId();
+        virtual void vf115(); // primary slot 115
+        virtual void vf116(); // primary slot 116
         virtual void V117();
         virtual void V118();
         virtual void vf119(); // primary slot 119
@@ -145,8 +149,6 @@ namespace AI
 
         // CD2: FreakBase's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
-    public:
-        virtual unsigned char GetStateReplicationInfo() const; // 89: 0x824BAD88
     private:
         CD2_LAYOUT_CHECKS(FreakBase, CD2_SIZE(FreakBase, 0x120)
             CD2_OFFSET(FreakBase, m_pAcidSackAttacker, 0xE0) CD2_OFFSET(FreakBase, m_vLastPosition, 0x100)
@@ -157,15 +159,17 @@ namespace AI
         virtual void OnEnter(); // slot 68: 0x824ABED0
         virtual void OnExit(); // slot 69: 0x824AC120
         virtual void Update(float fDeltaTime); // slot 71: 0x824AD168
-        virtual void OnEvent74(NPCTarget *t); // slot 74: 0x824ADAA0
-        virtual void OnEvent75(NPCTarget *t); // slot 75: 0x824ADBF0
-        virtual void Slot79(); // slot 79: 0x824ADC70
-        virtual void Slot80(unsigned char nEventType, unsigned char nEventSubType, unsigned char nEvent); // slot 80: 0x824AD948
-        virtual void Slot83(); // slot 83: 0x824ADA20
+        virtual void OnDetectedEnemy(CHARACTER::cCharacter *, const Fun_Runtime::Vec3 &, cAIEvent *); // slot 74: 0x824ADAA0
+        virtual void OnHeardSuspiciousSound(CHARACTER::cCharacter *, const Fun_Runtime::Vec3 &, cAIEvent *); // slot 75: 0x824ADBF0
+        virtual void OnDied(CHARACTER::cCharacter *, cAIEvent *); // slot 79: 0x824ADC70
+        virtual void OnCharacterEvent(unsigned char nEventType, unsigned char nEventSubType, unsigned char nEvent); // slot 80: 0x824AD948
+        virtual void OnAmbient(const Fun_Runtime::cVectorip<cAnimParams *, 10> &, float); // slot 83: 0x824ADA20
         virtual void SetReactResupplyPoint(const Fun_Runtime::Vec3 &, const Fun_Runtime::Vec3 &); // slot 85: 0x824AD910
         virtual void SetSpawnAction(unsigned char); // slot 86: 0x824ABCA0
         virtual bool CanBeAttackedByNPC() const; // slot 95: 0x824ABC90
         virtual IBehaviourState *GetState(unsigned char nState); // slot 100: 0x824AC4B0
+        // cScriptHost slot 2 (0x824AD480; RuffKing's FreakBase::Notify): the base stand-in declared it before.
+        virtual void Slot2();
     };
 }
 

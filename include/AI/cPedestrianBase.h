@@ -112,15 +112,15 @@ namespace AI
         virtual void OnExit(); // slot 69: 0x824A9588
         virtual void Update(float fDeltaTime); // slot 71: 0x824A9E18
         virtual void OnEnterReplicatedState(unsigned char); // slot 72: 0x824A8CA0
-        virtual void Slot73(); // slot 73: 0x824A9888
-        virtual void OnEvent74(NPCTarget *t); // slot 74: 0x824A9728
-        virtual void OnEvent75(NPCTarget *t); // slot 75: 0x824A98F0
-        virtual void Slot77(); // slot 77: 0x824A99F8
-        virtual void Slot79(); // slot 79: 0x824A96C8
-        virtual void Slot80(unsigned char nEventType, unsigned char nEventSubType, unsigned char nEvent); // slot 80: 0x824AABA0
-        virtual void Slot82(); // slot 82: 0x824A9B98
-        virtual void Slot83(); // slot 83: 0x824AABF8
-        virtual void Slot84(); // slot 84: 0x824A96B0
+        virtual void OnAttacked(CHARACTER::cCharacter *, const Fun_Runtime::Vec3 &, cAIEvent *); // slot 73: 0x824A9888
+        virtual void OnDetectedEnemy(CHARACTER::cCharacter *, const Fun_Runtime::Vec3 &, cAIEvent *); // slot 74: 0x824A9728
+        virtual void OnHeardSuspiciousSound(CHARACTER::cCharacter *, const Fun_Runtime::Vec3 &, cAIEvent *); // slot 75: 0x824A98F0
+        virtual void OnObjectApproached(CHARACTER::cCharacter *, PHYSICS::cDynamicBody *, const Fun_Runtime::Vec3 &, cAIEvent *); // slot 77: 0x824A99F8
+        virtual void OnDied(CHARACTER::cCharacter *, cAIEvent *); // slot 79: 0x824A96C8
+        virtual void OnCharacterEvent(unsigned char nEventType, unsigned char nEventSubType, unsigned char nEvent); // slot 80: 0x824AABA0
+        virtual void OnAttachSatchelCharge(Equip::cCWSatchelCharge *); // slot 82: 0x824A9B98
+        virtual void OnAmbient(const Fun_Runtime::cVectorip<cAnimParams *, 10> &, float); // slot 83: 0x824AABF8
+        virtual void OnTransitionFromCrowd(unsigned char); // slot 84: 0x824A96B0
         virtual void NotifySquadMemberDead(); // slot 88: 0x82370840
         virtual unsigned char GetStateReplicationInfo() const; // slot 89: 0x824D42A8
     };

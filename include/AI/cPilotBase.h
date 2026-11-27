@@ -77,8 +77,8 @@ namespace AI
         virtual void OnExit(); // slot 69: 0x824D3590
         virtual void Update(float fDeltaTime); // slot 71: 0x822026C8
         virtual void OnEnterReplicatedState(unsigned char); // slot 72: 0x824A7E70
-        virtual void Slot73(); // slot 73: 0x824D3610
-        virtual void Slot79(); // slot 79: 0x824C7980
+        virtual void OnAttacked(CHARACTER::cCharacter *, const Fun_Runtime::Vec3 &, cAIEvent *); // slot 73: 0x824D3610
+        virtual void OnDied(CHARACTER::cCharacter *, cAIEvent *); // slot 79: 0x824C7980
         virtual unsigned char GetStateReplicationInfo() const; // slot 89: 0x824D42A8
         virtual bool ShouldLockVehicleOwnership() const; // slot 94: 0x827E56A8
     };

@@ -49,7 +49,7 @@ namespace AI
         virtual void OnExit(); // 69: 0x824B2C30
         virtual void Update(float fDeltaTime); // 71: 0x824B5330
         virtual void OnEnterReplicatedState(unsigned char); // 72: 0x824B2CD8
-        virtual void Slot80(unsigned char,unsigned char,unsigned char); // 80: 0x824B69F0
+        virtual void OnCharacterEvent(unsigned char,unsigned char,unsigned char); // 80: 0x824B69F0
         virtual unsigned char GetStateReplicationInfo() const; // 89: 0x824B2D68
         virtual void PreUpdateAllStates(float); // 96: 0x824B2DB0
         virtual void ChangeState(unsigned char); // 99: 0x824B5518
@@ -59,7 +59,7 @@ namespace AI
         virtual void V108(); // 108: 0x824B31F0
         virtual void Slot109(); // 109: 0x824B3760
         virtual void Slot110(); // 110: 0x824B3ED0
-        virtual AI::NPCTarget * GetTarget(); // 115: 0x824B2E18
+        virtual void vf115(); // 115: 0x824B2E18
         virtual void V117(); // 117: 0x824B4CC0
         virtual void V118(); // 118: 0x824AE038
 

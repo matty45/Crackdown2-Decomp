@@ -873,37 +873,37 @@
       {
         "address": "0x824CEAF8",
         "size": 64,
-        "symbol": "?V106@cChaseBehaviour@AI@@"
+        "symbol": "?EnterDrivingTraffic@cChaseBehaviour@AI@@"
       },
       {
         "address": "0x824CEF80",
         "size": 52,
-        "symbol": "?V111@cChaseBehaviour@AI@@"
+        "symbol": "?OnUpdateDriveFleeing@cChaseBehaviour@AI@@"
       },
       {
         "address": "0x824CEFB8",
         "size": 20,
-        "symbol": "?V117@cChaseBehaviour@AI@@"
+        "symbol": "?OnTargetLost@cChaseBehaviour@AI@@"
       },
       {
         "address": "0x824CEFD0",
         "size": 40,
-        "symbol": "?V118@cChaseBehaviour@AI@@"
+        "symbol": "?OnTargetAcquired@cChaseBehaviour@AI@@"
       },
       {
         "address": "0x824CEFF8",
         "size": 96,
-        "symbol": "?OnEvent74@cChaseBehaviour@AI@@"
+        "symbol": "?OnDetectedEnemy@cChaseBehaviour@AI@@"
       },
       {
         "address": "0x824CF058",
         "size": 128,
-        "symbol": "?SetTarget@cChaseBehaviour@AI@@"
+        "symbol": "?SetTargetAndEnemy@cChaseBehaviour@AI@@"
       },
       {
         "address": "0x824CF0D8",
         "size": 172,
-        "symbol": "?TryBindTarget@cChaseBehaviour@AI@@"
+        "symbol": "?TryBindAmbientTarget@cChaseBehaviour@AI@@"
       },
       {
         "address": "0x824CF578",
@@ -965,7 +965,7 @@
       {
         "address": "0x824CEE70",
         "size": 272,
-        "symbol": "?V108@cChaseBehaviour@AI@@"
+        "symbol": "?OnUpdateIdle@cChaseBehaviour@AI@@"
       },
       {
         "address": "0x82F9A0E0",
@@ -1102,16 +1102,34 @@
       {
         "address": "0x824CEB38",
         "size": 224,
-        "symbol": "?V104@cChaseBehaviour@AI@@",
+        "symbol": "?EnterDriveFleeing@cChaseBehaviour@AI@@",
         "matching": false,
         "note": "3.6%: needs CD2's shared float-constant base register (matching notes, Traps, \"LTCG limit\")"
       },
       {
         "address": "0x824CEC18",
         "size": 392,
-        "symbol": "?PreUpdateAllStates@cChaseBehaviour@AI@@",
-        "matching": false,
-        "note": "99%: one compare differs, CD2's cmpwi against our cmplwi on the word at +0x4E4 (reg). The field's type is the lead: it is dereferenced (lbz 0x37), so it is a pointer whose real type compares signed (matching notes, \"A pointer from an inline accessor tests signed\"). if ((int)reg && ...) reproduces it but turns a pointer into an integer (R4); that match was removed on 2026-11-08"
+        "symbol": "?PreUpdateAllStates@cChaseBehaviour@AI@@"
+      },
+      {
+        "address": "0x824CEDA0",
+        "size": 208,
+        "symbol": "?UpdateVehicleSubs@cChaseBehaviour@AI@@"
+      },
+      {
+        "address": "0x824CF188",
+        "size": 1008,
+        "symbol": "?GetState@cChaseBehaviour@AI@@"
+      },
+      {
+        "address": "0x824CF5F8",
+        "size": 48,
+        "symbol": "?HandleAnimEvent@?$tBehaviourState@VcChaseBehaviour@AI@@@AI@@"
+      },
+      {
+        "address": "0x824CF628",
+        "size": 48,
+        "symbol": "?OnAttacked@?$tBehaviourState@VcChaseBehaviour@AI@@@AI@@"
       }
     ],
     "src/Equip/DLCWeapons/cFlocket.cpp": [
@@ -3003,6 +3021,11 @@
         "address": "0x8222FC18",
         "size": 92,
         "symbol": "?IsA@cAiPlayer@AI@@"
+      },
+      {
+        "address": "0x823E7A38",
+        "size": 72,
+        "symbol": "?IsManagedByActivityManager@cAiPlayer@AI@@"
       }
     ],
     "src/AI/cCharacterEntityIF.cpp": [
@@ -27041,9 +27064,7 @@
       {
         "address": "0x824CAE60",
         "size": 72,
-        "symbol": "?EnterIdleGuard@cAgressiveResponseChaseBehaviour@AI@@",
-        "matching": false,
-        "note": "Bytes EXACT, but it calls cAiPlayer::ClearEnemy (0x823E9738) and cAiTargetCache::ClearTarget (0x8244D038) as Ext_823E9738/Ext_8244D038 through cChaseBehaviour.h's NPCHost/NPCRegistry stand-ins; BreachPilot::OnExit calls both by their real names, so the relocation check sees two names per callee. Waits for cChaseBehaviour's move onto NPCBehaviour (cChaseBehaviour.h, \"Known wrong\"), where m_pHost gets its real type."
+        "symbol": "?EnterIdleGuard@cAgressiveResponseChaseBehaviour@AI@@"
       },
       {
         "address": "0x824C9390",
@@ -27193,7 +27214,7 @@
       {
         "address": "0x824C9528",
         "size": 8,
-        "symbol": "?GetTargetId@cAgressiveResponseChaseBehaviour@AI@@"
+        "symbol": "?RetTargetingFlags@cAgressiveResponseChaseBehaviour@AI@@"
       },
       {
         "address": "0x824C9A08",
@@ -27270,12 +27291,12 @@
       {
         "address": "0x824CAF68",
         "size": 60,
-        "symbol": "?Slot80@cAgressiveResponseChaseBehaviour@AI@@"
+        "symbol": "?OnCharacterEvent@cAgressiveResponseChaseBehaviour@AI@@"
       },
       {
         "address": "0x824CB910",
         "size": 40,
-        "symbol": "?V117@cAgressiveResponseChaseBehaviour@AI@@"
+        "symbol": "?OnTargetLost@cAgressiveResponseChaseBehaviour@AI@@"
       }
     ],
     "src/AI/cAmbientTrafficBehaviour.cpp": [
@@ -29323,7 +29344,7 @@
       {
         "address": "0x824C4190",
         "size": 84,
-        "symbol": "?Slot79@CellRocket@AI@@"
+        "symbol": "?OnDied@CellRocket@AI@@"
       }
     ],
     "src/AI/Behaviour/NPC/Cell/CellTurret.cpp": [
@@ -38559,6 +38580,16 @@
         "address": "0x824ABBB0",
         "size": 92,
         "symbol": "?IsA@FreakBase@"
+      },
+      {
+        "address": "0x824AE800",
+        "size": 20,
+        "symbol": "?STATE_Enter_Detonate@FreakBase@AI@@"
+      },
+      {
+        "address": "0x824AEF68",
+        "size": 12,
+        "symbol": "?STATE_Enter_FollowRoute@FreakBase@AI@@"
       }
     ],
     "src/AI/Behaviour/NPC/Freak/Goliath.cpp": [

@@ -20,6 +20,9 @@ namespace CHARACTER
         cActionManagerCharacterStateInfo();
         ~cActionManagerCharacterStateInfo();
         Equip::cCharacterInventory &RetInventory() { return m_Inventory; }
+        // RuffKing's (out of line there); CD2 expands it (cChaseBehaviour reads the character's +0x1700). Defined in
+        // Vehicle/cVehicle.h, after cVehicle: the conversion needs the complete class.
+        inline Vehicle::cVehicle *RetVehicle() const;
     private:
         unsigned char m_nDamageLocation;
         unsigned char m_nDamageDirection;

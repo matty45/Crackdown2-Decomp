@@ -34,10 +34,10 @@ namespace AI
         virtual void OnEnter(); // slot 68: 0x824C55F0
         virtual void OnExit(); // slot 69: 0x824C5648
         virtual void Update(float fDeltaTime); // slot 71: 0x824C5C28
-        virtual void Slot73(); // slot 73: 0x824C56B8
-        virtual void OnEvent74(NPCTarget *t); // slot 74: 0x824C56B8
-        virtual void OnEvent75(NPCTarget *t); // slot 75: 0x824C5798
-        virtual void Slot79(); // slot 79: 0x824C34C0
+        virtual void OnAttacked(CHARACTER::cCharacter *, const Fun_Runtime::Vec3 &, cAIEvent *); // slot 73: 0x824C56B8
+        virtual void OnDetectedEnemy(CHARACTER::cCharacter *, const Fun_Runtime::Vec3 &, cAIEvent *); // slot 74: 0x824C56B8
+        virtual void OnHeardSuspiciousSound(CHARACTER::cCharacter *, const Fun_Runtime::Vec3 &, cAIEvent *); // slot 75: 0x824C5798
+        virtual void OnDied(CHARACTER::cCharacter *, cAIEvent *); // slot 79: 0x824C34C0
         virtual void OnReplicatedEnter(unsigned char); // slot 97: 0x824C5420
         virtual void OnIdle(); // slot 102: 0x824C58B0
         virtual void OnInvestigating(); // slot 103: 0x824C5A58

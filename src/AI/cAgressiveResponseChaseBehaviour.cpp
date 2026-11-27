@@ -15,12 +15,6 @@
 #include "AI/BehaviourClassID.h"
 #include "Vehicle/cVehicle.h"
 
-// Out-of-line functions of other files (unknown names).
-void Ext_823F2DB0(AI::NPCHost *host, unsigned int id, int flags);
-void Ext_823E9738(AI::NPCHost *host);
-void Ext_8244D038(AI::NPCRegistry *registry);
-void Ext_823E97B8(AI::NPCHost *host, int id);
-
 namespace AI
 {
     const Fun_Runtime::cClass *cAgressiveResponseChaseBehaviour::ms_pcAgressiveResponseChaseBehaviourClass = &cAgressiveResponseChaseBehaviour::StaticCreateClass();
@@ -61,20 +55,20 @@ namespace AI
         return *cAgressiveResponseChaseBehaviourClass;
     }
 
-    int cAgressiveResponseChaseBehaviour::GetTargetId()
+    unsigned int cAgressiveResponseChaseBehaviour::RetTargetingFlags() const
     {
         return 0x4006;
     }
 
     void cAgressiveResponseChaseBehaviour::PostUpdateAllStates(float)
     {
-        if (m_bC4 && LookForCover())
+        if (m_nState && LookForCover())
             ChangeState(eState_MoveToCover);
     }
 
     void cAgressiveResponseChaseBehaviour::ExitGettingOut()
     {
-        m_bF5 = false;
+        m_bTargetLocked = false;
     }
 
     void cAgressiveResponseChaseBehaviour::ExitMoveToCover()
@@ -90,26 +84,25 @@ namespace AI
 
     void cAgressiveResponseChaseBehaviour::EnterIdleOccluded()
     {
-        Ext_823F2DB0(m_pHost, 0xC35CB, 0x10);
+        m_pHost->PlayGenericFullBodyAnimation(0xC35CB, 0x10);
     }
 
     void cAgressiveResponseChaseBehaviour::EnterIdleGuard()
     {
-        Ext_823E9738(m_pHost);
-        Ext_8244D038(&m_pHost->m_Registry);
-        Ext_823E97B8(m_pHost, 0xFF);
+        ClearTargetAndEnemy();
+        m_pHost->SetTriggerEventFlags(0xFF);
     }
 
-    void cAgressiveResponseChaseBehaviour::Slot80(unsigned char nEventType, unsigned char, unsigned char nEvent)
+    void cAgressiveResponseChaseBehaviour::OnCharacterEvent(unsigned char nEventType, unsigned char, unsigned char nEvent)
     {
         if (nEventType == 1 && (nEvent == 3 || nEvent == 4 || nEvent == 2))
             OnFullbodyAnimFinishedOrInterrupted();
     }
 
-    void cAgressiveResponseChaseBehaviour::V117()
+    void cAgressiveResponseChaseBehaviour::OnTargetLost()
     {
-        if (m_bC4 < eState_ARCBFirstState)
-            ChangeState(6);
+        if (m_nState < eState_ARCBFirstState)
+            ChangeState(eState_DrivingTraffic);
         else
             ChangeState(eState_IdleGuard);
     }

@@ -50,11 +50,11 @@ namespace AI
         // CD2 table 0x8200BCC0 differs from NPCArmedBehaviour at these inherited slots.
         virtual void OnEnter(); // slot 68: 0x824C3FE0
         virtual void OnExit(); // slot 69: 0x824C4118
-        virtual void Slot73(); // slot 73: 0x824C43D0
-        virtual void OnEvent74(NPCTarget *t); // slot 74: 0x824C4268
-        virtual void OnEvent75(NPCTarget *t); // slot 75: 0x824C4440
-        virtual void Slot79(); // slot 79: 0x824C4190
-        virtual void Slot83(); // slot 83: 0x824C41E8
+        virtual void OnAttacked(CHARACTER::cCharacter *, const Fun_Runtime::Vec3 &, cAIEvent *); // slot 73: 0x824C43D0
+        virtual void OnDetectedEnemy(CHARACTER::cCharacter *, const Fun_Runtime::Vec3 &, cAIEvent *); // slot 74: 0x824C4268
+        virtual void OnHeardSuspiciousSound(CHARACTER::cCharacter *, const Fun_Runtime::Vec3 &, cAIEvent *); // slot 75: 0x824C4440
+        virtual void OnDied(CHARACTER::cCharacter *, cAIEvent *); // slot 79: 0x824C4190
+        virtual void OnAmbient(const Fun_Runtime::cVectorip<cAnimParams *, 10> &, float); // slot 83: 0x824C41E8
         virtual void ChangeMainState(eState); // slot 98: 0x824C3F20
         virtual void OnIdle(); // slot 102: 0x82580578
         virtual void OnInvestigating(); // slot 103: 0x82580578

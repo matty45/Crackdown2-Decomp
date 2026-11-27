@@ -30,7 +30,7 @@ namespace AI
         virtual void OnEnter(); // slot 68: 0x8222D910
         virtual void OnExit(); // slot 69: 0x824CD380
         virtual void Update(float fDeltaTime); // slot 71: 0x82370AD0
-        virtual void Slot79(); // slot 79: 0x824CD338
+        virtual void OnDied(CHARACTER::cCharacter *, cAIEvent *); // slot 79: 0x824CD338
         // CD2's secondary tables (0x8210BA4C, 0x8210BA64) differ from NPCBehaviour's at these slots; RuffKing's class
         // overrides HandleEvents too.
         virtual void HandleEvents(RWS::CMsg &); // CEventHandler 5: 0x824CCF08

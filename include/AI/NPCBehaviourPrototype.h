@@ -9,6 +9,8 @@
 
 namespace AI
 {
+    class cAiPlayer;
+
     class NPCBehaviourPrototype : public AIBehaviour::AIBehaviourPrototype
     {
     public:
@@ -18,6 +20,8 @@ namespace AI
         // Existing chase-profile entry points; their original wrapper names remain unresolved.
         void HandleAttributesBase(const RWS::CAttributePacket &);
         void HandleAttributesNPC(const RWS::CAttributePacket &);
+        // RuffKing's; CD2 0x824A8848. cChaseBehaviour::OnEnter calls it with its host, as RuffKing's does.
+        void SetupWeapons(cAiPlayer *pHost);
 
         RWS::RWSGUID mPrimary;
         Fun_Runtime::cVector<RWS::RWSGUID> mSecondaries;

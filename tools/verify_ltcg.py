@@ -44,9 +44,37 @@ FLOAT_LOADS = {48: 4, 50: 8}  # lfs, lfd
 LOGICAL_RA_DEST = {20, 21, 23, 24, 25, 26, 27, 28, 29, 30}  # rotates and logical immediates write rA, not rS
 
 
+STACK_STORE_SIZES = {36: 4, 37: 4, 38: 1, 39: 1, 44: 2, 45: 2, 52: 4, 53: 4, 54: 8, 55: 8, 62: 8}
+
+
+def stack_spill(slots, w, value):
+    """Track the 32-bit stack slots (offsets from r1) that hold a spilled address half, for masked() and references():
+    a stw to the stack records `value` (what the stored register holds, or None), any other store to the stack forgets
+    the slots it overwrites (all of them for stwu, stmw and indexed stores, which move or hide the frame). Returns the
+    slot a lwz from the stack reads (or None); the caller gives its value to the loaded register. GetState of
+    cChaseBehaviour (0x824CF188) builds member pointers with lis, spills the high halves and reloads them before the
+    addi that completes them: without this the addi's immediate is compared raw and its address goes unchecked."""
+    op, rt, ra, rb = w >> 26, (w >> 21) & 31, (w >> 16) & 31, (w >> 11) & 31
+    sx = (w & 0xFFFF) - 0x10000 if w & 0x8000 else w & 0xFFFF
+    if op == 36 and ra == 1:
+        slots[sx] = value
+    elif op == 32 and ra == 1:
+        return slots.get(sx)
+    elif op in STACK_STORE_SIZES and ra == 1:
+        if op in (37, 39, 45, 53, 55):  # update forms move r1
+            slots.clear()
+        else:
+            d, n = (sx & ~3 if op == 62 else sx), STACK_STORE_SIZES[op]
+            for k in [k for k in slots if k < d + n and k + 4 > d]:
+                del slots[k]
+    elif op == 47 and ra == 1 or op in (4, 31) and 1 in (ra, rb):
+        slots.clear()
+    return None
+
+
 def masked(ws, start, absolute_offsets=()):
     """Mask address immediates; retain ADDR32 table destinations as function-relative offsets."""
-    out, hi = [], set()
+    out, hi, slots = [], set(), {}
     end = start + 4 * len(ws)
     for i, w in enumerate(ws):
         if i * 4 in absolute_offsets:
@@ -54,12 +82,18 @@ def masked(ws, start, absolute_offsets=()):
             continue
         op, rt, ra = w >> 26, (w >> 21) & 31, (w >> 16) & 31
         m = w
+        spilled = stack_spill(slots, w, rt in hi or None)
         if op == 15 and ra == 0:
             m = w & 0xFFFF0000
             hi.add(rt)
         elif op == 14 and ra in hi and ra != 0:
             m = w & 0xFFFF0000
             hi.add(rt)
+        elif op == 32 and ra == 1:  # a register reloaded from the stack holds a high half if one was spilled there
+            if spilled:
+                hi.add(rt)
+            else:
+                hi.discard(rt)
         elif (op in LOADS or op in STORES) and ra in hi and ra != 0:
             m = w & 0xFFFF0000
             if op in LOADS and op not in (48, 49, 50, 51):  # integer loads overwrite rt; float loads write an FPR
@@ -446,16 +480,22 @@ def references(ws, start):
     """[(index, kind, address, opcode)] of every address a function uses: calls and branches leaving it, and data
     addresses built with lis (the addi that completes one, and loads/stores through it). Mirrors masked(): exactly
     the immediates it masks are the ones resolved here."""
-    out, base = [], {}
+    out, base, slots = [], {}, {}
     end = start + 4 * len(ws)
     for i, w in enumerate(ws):
         op, rt, ra = w >> 26, (w >> 21) & 31, (w >> 16) & 31
         sx = (w & 0xFFFF) - 0x10000 if w & 0x8000 else w & 0xFFFF
+        spilled = stack_spill(slots, w, base.get(rt))
         if op == 15 and ra == 0:
             base[rt] = (w & 0xFFFF) << 16
         elif op == 14 and ra in base and ra != 0:
             base[rt] = (base[ra] + sx) & 0xFFFFFFFF
             out.append((i, 'address', base[rt], op))
+        elif op == 32 and ra == 1:  # see masked()
+            if spilled is not None:
+                base[rt] = spilled
+            else:
+                base.pop(rt, None)
         elif (op in LOADS or op in STORES) and ra in base and ra != 0:
             out.append((i, 'load' if op in LOADS else 'store', (base[ra] + sx) & 0xFFFFFFFF, op))
             if op in LOADS and op not in (48, 49, 50, 51):

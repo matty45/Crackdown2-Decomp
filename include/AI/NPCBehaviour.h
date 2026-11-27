@@ -11,34 +11,48 @@
 #include "cd2/layout.h"
 #include "fun_runtime/vec3.h"
 #include "AI/AIBehaviour.h"
+#include "fun_runtime/vectorip.h"
 
 namespace Activity
 {
     class cSquadMemberSpawnPoint;
 }
+namespace CHARACTER { class cCharacter; }
+namespace Vehicle { class cVehicle; }
+namespace PHYSICS { class cDynamicBody; }
+namespace Equip { class cCWSatchelCharge; }
 
 namespace AI
 {
     class cAiPlayer;
-    class NPCTarget;
+    class cAIEvent;
+    class cAnimParams;
 
     class NPCBehaviour : public AIBehaviour
     {
     public:
         // CD2 constructor 0x824A89C8 installs the 96-slot table 0x82108C08.
+        // 72..85: Burn's NPCBehaviour virtuals in its order, without its OnTakeDamage (after OnEnterReplicatedState) and
+        // without its OnEjectedFromVehicle, OnVehicleDamaged and ActiveAgentComplete (after OnTransitionFromCrowd): with
+        // those left out its SetReactResupplyPoint falls on 85 and its SetSpawnAction on 86, as in CD2. The arguments
+        // agree with CD2's code: NPCBehaviourSM's OnAttacked (73) and OnAnimationEvent (81) pass three arguments on to
+        // the current state, OnCharacterEvent (80) takes three bytes (cAgressiveResponseChaseBehaviour's, 0x824CAF68),
+        // OnDetectedEnemy (74) receives the enemy first (cChaseBehaviour's, 0x824CEFF8).
         virtual void OnEnterReplicatedState(unsigned char);
-        virtual void Slot73();
-        virtual void OnEvent74(NPCTarget *t);
-        virtual void OnEvent75(NPCTarget *t);
-        virtual void Slot76();
-        virtual void Slot77();
-        virtual void Slot78();
-        virtual void Slot79();
-        virtual void Slot80(unsigned char nEventType, unsigned char nEventSubType, unsigned char nEvent); // RuffKing OnCharacterEvent (cAgressiveResponseChaseBehaviour 0x824CAF68)
-        virtual void Slot81();
-        virtual void Slot82();
-        virtual void Slot83();
-        virtual void Slot84();
+        virtual void OnAttacked(CHARACTER::cCharacter *pAttacker, const Fun_Runtime::Vec3 &vPosition, cAIEvent *pEvent);
+        virtual void OnDetectedEnemy(CHARACTER::cCharacter *pEnemy, const Fun_Runtime::Vec3 &vPosition, cAIEvent *pEvent);
+        virtual void OnHeardSuspiciousSound(CHARACTER::cCharacter *pSource, const Fun_Runtime::Vec3 &vPosition,
+                                            cAIEvent *pEvent);
+        virtual void OnAvailableVehicleFound(Vehicle::cVehicle *pVehicle);
+        virtual void OnObjectApproached(CHARACTER::cCharacter *pInstigator, PHYSICS::cDynamicBody *pObject,
+                                        const Fun_Runtime::Vec3 &vPosition, cAIEvent *pEvent);
+        virtual void OnFriendlyFire(CHARACTER::cCharacter *pInstigator, const Fun_Runtime::Vec3 &vPosition, cAIEvent *pEvent);
+        virtual void OnDied(CHARACTER::cCharacter *pKiller, cAIEvent *pEvent);
+        virtual void OnCharacterEvent(unsigned char nEventType, unsigned char nEventSubType, unsigned char nEvent);
+        virtual void OnAnimationEvent(unsigned char nType, int nBaseState, short nEventID);
+        virtual void OnAttachSatchelCharge(Equip::cCWSatchelCharge *pSatchel);
+        virtual void OnAmbient(const Fun_Runtime::cVectorip<cAnimParams *, 10> &aParams, float fAmbientTimer);
+        virtual void OnTransitionFromCrowd(unsigned char nMode);
         virtual void SetReactResupplyPoint(const Fun_Runtime::Vec3 &, const Fun_Runtime::Vec3 &);
         // 86..95: RuffKing's names and order (its slots 55..64; CD2 has no StartSequence after them). The defaults in
         // CD2's table 0x82108C08 agree: 87 stores m_pAmbientTarget (0x824A7DE0), 91 returns the zero vector, 93

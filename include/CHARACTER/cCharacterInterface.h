@@ -165,9 +165,11 @@ namespace CHARACTER
         virtual bool ShouldTriggerBulletSoundEvent();
         virtual void vf114();
 
+        // RuffKing's body (its assertion aside): the safe pointer's conversion. cChaseBehaviour::OnUpdateIdle
+        // (0x824CEE70) keeps the safe pointer's address (+0x7C) and reads its object pointer at +0xC a second time.
         cCharacter *RetCharacter() const
         {
-            return m_pCharacter.m_pPtr ? static_cast<cCharacter *>(m_pCharacter.m_pPtr) : 0;
+            return m_pCharacter;
         }
 
         unsigned char RetLODLevel() const;

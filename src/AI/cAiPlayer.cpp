@@ -276,6 +276,13 @@ namespace AI
         RetCharacter()->Slot60();
     }
 
+    bool cAiPlayer::IsManagedByActivityManager()
+    {
+        if (RetCharacter())
+            return RetCharacter()->IsManagedByActivityManager();
+        return true;
+    }
+
     bool cAiPlayer::ShouldTriggerFootStepEvent()
     {
         if (RetCharacter()->RetLODLevel() <= 1)

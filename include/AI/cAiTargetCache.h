@@ -10,7 +10,7 @@
 
 #include "cd2/layout.h"
 
-namespace Fun_Runtime { class Vec3; }
+namespace Fun_Runtime { class Vec3; class cScriptHost; }
 
 namespace AI
 {
@@ -21,6 +21,9 @@ namespace AI
     {
     public:
         cAiTargetInfo *SetTarget(const Fun_Runtime::Vec3 &vecPosition, unsigned int nFlags);
+        // RuffKing's SetTarget(cGameBase *, const Vec3 &, unsigned int); CD2's (0x8244CF18) takes the target as its
+        // script host: cChaseBehaviour::SetTargetAndEnemy (0x824CF058) passes the character's +0x1C.
+        cAiTargetInfo *SetTarget(Fun_Runtime::cScriptHost *pTarget, const Fun_Runtime::Vec3 &vecPosition, unsigned int nFlags);
         void ClearTarget();
         // RuffKing's accessor; CD2's behaviours test its result with cmpwi, as an inline accessor's.
         cAiTargetInfo *RetTargetInfo() const { return m_pTargetInfo; }
