@@ -26,6 +26,13 @@ namespace AI
         return *cRefineryPropSpawnPointClass;
     }
 
+    RWS::CAttributeHandler *cRefineryPropSpawnPoint::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        cRefineryPropSpawnPoint *point = new cRefineryPropSpawnPoint;
+        point->HandleAttributes(packet);
+        return 0;
+    }
+
     const Fun_Runtime::cClass *cRefineryPropSpawnPoint::ms_pcRefineryPropSpawnPointClass = &cRefineryPropSpawnPoint::StaticCreateClass();
 
     static Fun_Runtime::cInheritanceRegistrar cRefineryPropSpawnPointcMissionCriticalPropSpawnPointInheritRegistrar(

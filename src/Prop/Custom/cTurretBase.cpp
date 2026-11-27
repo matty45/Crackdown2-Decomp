@@ -98,6 +98,11 @@ namespace Prop
         return nGroup;
     }
 
+    float cTurretBase::TakeDamage(Damage::cDamage &Damage)
+    {
+        return TakeDamage(Damage, false);
+    }
+
     void cTurretBase::vf226()
     {
         if (!static_cast<CHARACTER::cCharacter *>(m_pUsingCharacter))

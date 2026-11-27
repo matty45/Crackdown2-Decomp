@@ -44,7 +44,6 @@ namespace Audio
         void Term();
 
     private:
-        unsigned char m_unmodelledC[0x90 - 0xC];
         eGameObjectType m_eType;    // 0x90 (RuffKing's name)
         unsigned char m_unmodelled94[0xC8 - 0x94];
 

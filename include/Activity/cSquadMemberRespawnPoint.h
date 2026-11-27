@@ -7,6 +7,7 @@
 #include "fun_runtime/class.h"
 #include "rws/attributes.h"
 #include "Activity/cSquadMemberSpawnPointBase.h"
+#include "editor/guid_event_handler.h"
 
 namespace Activity
 {
@@ -16,6 +17,21 @@ namespace Activity
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pcSquadMemberRespawnPointClass;
+        // CD2 0x823DBEF0; MakeNew applies the packet afterwards.
+        cSquadMemberRespawnPoint();
+        virtual cNonGameBase *Spawn();
+
+    protected:
+        virtual void HandleAttributes(const RWS::CAttributePacket &attr);
+        Editor::cGUIDEventHandler<cSquadMemberRespawnPoint> m_EventHandler;
+        unsigned char m_nNumRespawns;
+        bool m_bInfiniteRespawn;
+        unsigned char m_nSpawnAction;
+
+        CD2_LAYOUT_CHECKS(cSquadMemberRespawnPoint,
+            CD2_SIZE(cSquadMemberRespawnPoint, 0x90)
+            CD2_OFFSET(cSquadMemberRespawnPoint, m_EventHandler, 0x70)
+            CD2_OFFSET(cSquadMemberRespawnPoint, m_nSpawnAction, 0x86))
     };
 }
 

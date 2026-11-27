@@ -26,8 +26,12 @@ namespace WorldManager
         void LockLOD(cStaticEnvironment *pEnvBlock);
         bool AnyLOD3Fading() const;
         virtual void HandleAttributes(const RWS::CAttributePacket &);
+        // RuffKing's override; CD2's primary table 0x8200C348 slot 5 holds 0x82807B78, where cGameBase's has 0x82323A98.
+        virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &attr);
         // CD2 0x828077A0: registered-class virtual slot 0 reads this class descriptor.
         virtual const Fun_Runtime::cClass &RetClass() const;
+        // CD2 0x828077B0: registered-class virtual slot 1.
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         // CD2 0x82807858: primary virtual slot 11 returns the registered class name.
         virtual const char *RetClassName() const;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);

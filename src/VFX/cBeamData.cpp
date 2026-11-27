@@ -34,6 +34,11 @@ namespace VFX
         return *ms_pcBeamManagerClass;
     }
 
+    bool cBeamManager::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcBeamManagerClass->IsA(c);
+    }
+
     static RWS::CClassFactory::CRegistrar cBeamDataRegistrar(
         "cBeamData", cBeamData::MakeNew, 0x88, false);
 

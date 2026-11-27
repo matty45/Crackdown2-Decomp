@@ -39,6 +39,11 @@ namespace PHYSICS
         return *ms_pcPickupClass;
     }
 
+    bool cPickup::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcPickupClass->IsA(c);
+    }
+
     const char *cPickup::RetClassName() const
     {
         return "cPickup";
@@ -49,10 +54,24 @@ namespace PHYSICS
         return *ms_pcDynamicPickupClass;
     }
 
+    bool cDynamicPickup::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcDynamicPickupClass->IsA(c);
+    }
+
+    bool cDynamicPickup::CanPickupNow()
+    {
+        return m_fCantPickupTimer <= 0.0f;
+    }
+
     Fun_Runtime::cClass &cPickupBase::StaticCreateClass()
     {
         static Fun_Runtime::cClass *pickupBaseClass = new Fun_Runtime::cClass(0x113, "cPickupBase", 0x150);
         return *pickupBaseClass;
+    }
+
+    cPickupBase::~cPickupBase()
+    {
     }
 
     Fun_Runtime::cClass &cPickup::StaticCreateClass()

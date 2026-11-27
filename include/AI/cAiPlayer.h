@@ -166,7 +166,7 @@ namespace AI
         void ClearEnemy();
         // CD2 forwards these primary slots to the attached character; names remain unknown.
         // Keep the shared base's provisional identifiers: Slot54/Slot60 compile to physical slots 53/59.
-        virtual void Slot20(); // 0x823EB5A8, guarded forwarding
+        virtual void SetSpawner(Activity::cSpawnPointBase *pSpawner); // 0x823EB5A8, guarded forwarding
         virtual void Slot54(); // 0x823E8A90
         virtual void Slot60(); // 0x823E7A10
         virtual bool ShouldTriggerFootStepEvent();

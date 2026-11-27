@@ -629,8 +629,9 @@ def self_test(read, env):
         print('self-test %-32s %s' % (what, 'caught' if caught else 'NOT CAUGHT'))
     # 5. one file's internal datum at two addresses (relocs.identical_copies, only for relocs.LTCG_SHARED_COPIES):
     # CD2's g_GlobalConstants copies at 0x830ACBD8 (every IsA reads it, LTCG having inlined cClass::HasAncestor from
-    # one object), 0x830B7F30 (the inlined StopEmitters reads it) and 0x830ADF6C (cLongDistancePropManager's own) hold
-    # the same 0x2C bytes, so the own copy with either or both shared ones is one datum; a copy that differs, two
+    # one object), 0x830B7F30 (the inlined StopEmitters reads it), 0x830B0910 (the inlined cFaceAgent constructor reads
+    # it) and 0x830ADF6C (cLongDistancePropManager's own) hold the same 0x2C bytes, so the own copy with any of the
+    # shared ones is one datum; a copy that differs, two
     # identical copies neither of them a shared one, a second unlisted copy, an unlisted name, a datum without an exact
     # size and a function are still caught
     gc = '?g_GlobalConstants@Fun_Runtime@@3UtGlobalConstants@1@A'
@@ -651,6 +652,7 @@ def self_test(read, env):
             ('static, identical copies', gc, _D(0x2C), (0x830ACBD8, 0x830ADF6C), False),
             ('static, second shared copy', gc, _D(0x2C), (0x830B7F30, 0x830ADF6C), False),
             ('static, both shared copies', gc, _D(0x2C), (0x830ACBD8, 0x830B7F30, 0x830ADF6C), False),
+            ('static, third shared copy', gc, _D(0x2C), (0x830ACBD8, 0x830B0910, 0x830ADF6C), False),
             ('static, shared and two others', gc, _D(0x2C), (0x830B7F30, 0x830ADF6C, third), True),
             ('static, copies that differ', gc, _D(0x2C), (0x830ACBD8, 0x830ACBDC), True),
             ('static, not the shared copy', gc, _D(0x2C), (third, 0x830ADF6C), True),

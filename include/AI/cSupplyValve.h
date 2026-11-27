@@ -46,8 +46,8 @@ namespace AI
         // CD2: cSupplyValve's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
-        virtual void Slot20(); // 20: 0x823ABEF8
-        virtual void vf76(); // 76: 0x824585F8
+        virtual void SetSpawner(Activity::cSpawnPointBase *pSpawner); // 20: 0x823ABEF8
+        virtual float TakeDamage(Damage::cDamage &Damage); // 76: 0x824585F8
         virtual void vf78(); // 78: 0x8288FB78
         virtual void vf79(); // 79: 0x82457F00
         virtual void vf80(); // 80: 0x82457F78

@@ -68,6 +68,11 @@ namespace RPG
             return new (memory) cRenegadeOrb;
         return 0;
     }
+
+    cRenegadeOrb::~cRenegadeOrb()
+    {
+    }
+
     bool cRenegadeOrb::EnterPhysicalState()
     {
         if (!cNonGameBase::EnterPhysicalState())

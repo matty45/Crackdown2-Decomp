@@ -17,6 +17,7 @@ namespace AI
         virtual const char *RetClassName() const;
         // CD2 registered-class slot 0 at 0x8210C764 returns the pointer at 0x83820074.
         virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);
         static RWS::CAttributeHandler *SpawnFromPrototype(GOM::cObjectPrototype *, void *);
         static Fun_Runtime::cClass &StaticCreateClass();

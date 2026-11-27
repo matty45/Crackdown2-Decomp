@@ -44,7 +44,7 @@ namespace Prop
         virtual bool EnterPhysicalState(); // 7: 0x8224BF78
         virtual void Slot13(); // 13: 0x82732350
         virtual void Slot14(); // 14: 0x82732028
-        virtual void Slot15(); // 15: 0x82730F50
+        virtual bool HandleRenderableResources(GOM::cObjectPrototype *pPrototype); // 15: 0x82730F50
         virtual void TickUpdate(float fDeltaTime); // 23: 0x82732358
         virtual void Slot24(); // 24: 0x82732458
         virtual void Slot64(); // 63: 0x82732148

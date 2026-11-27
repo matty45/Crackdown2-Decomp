@@ -18,7 +18,7 @@
 
 namespace WorldManager
 {
-    cWorldManager *cWorldManager::ms_pInstance;
+    cWorldManager *g_pWorldManager;
 
     const Fun_Runtime::cClass &cWorldManager::RetClass() const
     {
@@ -74,6 +74,6 @@ namespace WorldManager
         UnLinkMsg(RWS::iMsgRunningTick);
         UnLinkMsg(RWS::iMsgRunningPreTick);
         UnLinkMsg(iMsgBeginPlay);
-        ms_pInstance = NULL;
+        g_pWorldManager = NULL;
     }
 }

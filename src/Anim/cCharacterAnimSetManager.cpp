@@ -53,6 +53,11 @@ namespace Anim
         return *ms_pcCharacterAnimSetManagerClass;
     }
 
+    bool cCharacterAnimSetManager::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcCharacterAnimSetManagerClass->IsA(c);
+    }
+
     RWS::CAttributeHandler *cCharacterAnimSetManager::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cCharacterAnimSetManager;

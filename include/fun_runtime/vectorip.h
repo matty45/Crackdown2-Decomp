@@ -3,6 +3,8 @@
 // CD2 cVehicle::RetNumberOfSeats (0x826D5008) confirms the pointer difference.
 #ifndef FUN_RUNTIME_VECTORIP_H
 #define FUN_RUNTIME_VECTORIP_H
+#include <new>
+#include <string.h>
 #include "cd2/layout.h"
 namespace Fun_Runtime
 {
@@ -65,6 +67,33 @@ namespace Fun_Runtime
         T **end() { return last_; }
         T *const *begin() const { return data_; }
         T *const *end() const { return last_; }
+        // RuffKing's checks the capacity first; CD2's expansion (cAmbientEventMission::HandleAttributes, 0x8248DFC0)
+        // only constructs the element in place, with placement new's null test, and reloads last_ to advance it.
+        void push_back(T *const &val)
+        {
+            ::new (static_cast<void *>(last_)) T *(val);
+            ++last_;
+        }
+        // RuffKing's (out of line there: cVectorip<Damage::Response *,64>::erase 0x82993930, erase_n 0x82991F40);
+        // CD2 expands both in cLOD4Environment's destructor (0x82807A38), without erase_n's capacity check.
+        T **erase(T **pos)
+        {
+            if (pos == last_)
+                --last_;
+            else
+                erase_n(pos, 1);
+            return pos;
+        }
+    protected:
+        void erase_n(T **pos, unsigned int n)
+        {
+            T **src = pos + n;
+            int count = last_ - src;
+            T **newLast = pos + count;
+            if (count > 0)
+                memmove_s(pos, count * sizeof(T *), src, count * sizeof(T *));
+            last_ = newLast;
+        }
     private:
         T **last_;
         __declspec(align(16)) T *data_[N];

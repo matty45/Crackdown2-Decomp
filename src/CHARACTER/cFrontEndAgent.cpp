@@ -71,6 +71,11 @@ namespace CHARACTER
         return *ms_pcFrontEndAgentClass;
     }
 
+    bool cFrontEndAgent::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcFrontEndAgentClass->IsA(c);
+    }
+
     Fun_Runtime::RetVal cFrontEndAgent::cFrontEndAgentPrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;

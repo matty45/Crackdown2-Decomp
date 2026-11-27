@@ -12,6 +12,7 @@
 #define RWS_ATTRIBUTES_H
 
 #include "cd2/layout.h"
+#include "rw/rwmem.h"
 
 class CAttributeTableEntry;
 enum eMemType { };
@@ -43,6 +44,31 @@ namespace RWS
 
         CD2_LAYOUT_CHECKS(RWSGUID,
             CD2_SIZE(RWSGUID, 0x10))
+    };
+
+    // A GUID-list attribute: a little-endian count, then the GUIDs. RuffKing declares both accessors inline (its
+    // out-of-line copies are 0x822FB8E8 and 0x822FB930) on an empty class over the attribute data; the fields are ours,
+    // from the offsets CD2 reads (count at 0, GUIDs from +4, 16 bytes each).
+    class RWSGUIDList
+    {
+    public:
+        // CD2 expands it (cAmbientEventMission::HandleAttributes, 0x8248DFC0).
+        unsigned int Num() const
+        {
+            unsigned int nNum = m_nNum;
+            RwMemNative32(&nNum, sizeof(nNum));
+            return nNum;
+        }
+        // Out of line: CD2 calls its one copy, 0x82219228 (84 callers), which swaps the four words of the GUID.
+        RWSGUID GetGUID(unsigned int Idx) const;
+
+    private:
+        unsigned int m_nNum;
+        RWSGUID m_aGUIDs[1];
+
+        CD2_LAYOUT_CHECKS(RWSGUIDList,
+            CD2_OFFSET(RWSGUIDList, m_nNum, 0)
+            CD2_OFFSET(RWSGUIDList, m_aGUIDs, 4))
     };
 
     // Inlined by cAmbientVFXSpawner::HandleAttributes (0x827F9370). Keep the four assignments explicit:
@@ -123,7 +149,8 @@ namespace RWS
         const Fun_Runtime::Vec3 GetAs_Vec3() const;
         const bool GetAs_bool() const;
         const RWSGUID GetAs_RWSGUID() const;
-        const RWSGUIDList *GetAs_RWSGUIDList() const;
+        // inline in CD2 (cAmbientEventMission::HandleAttributes, 0x8248DFC0)
+        const RWSGUIDList *GetAs_RWSGUIDList() const { return (const RWSGUIDList *)&chunk_.data_; }
 
     protected:
         CAttributeCommand(const CAttributeCommand &);

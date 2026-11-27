@@ -6,7 +6,9 @@
 // (0x826CE0E8); its body counts Burn's Audio::ScopedProfile references (0x838015E0) around RuffKing's IsRegistered/
 // Unregister. cLandVehicle's destructor (0x826C2458) has that body expanded for its wheels, which only cross-module
 // LTCG inlining of the out-of-line copy explains (an inline definition is expanded in the vehicle's too). Only the ID
-// at +8 is modelled.
+// at +8 and the 64-bit field at +0x10 are modelled. CD2's object is 0x90 bytes: every derived class's own fields start
+// there (cPhysicsBodyGameObject's type at +0x90, cPickupGameObject's loop at +0x90, cWorldGameObject's attribute
+// interface at +0x90, which its factory 0x82837608 converts to).
 #ifndef AUDIO_CGAMEOBJECT_H
 #define AUDIO_CGAMEOBJECT_H
 
@@ -70,11 +72,19 @@ namespace Audio
         void OneShot(eOneShotEvent eEvent) const;
 
     private:
-        unsigned char m_unmodelled4[4];
+        // The 64-bit member below gives the class 8-byte alignment, so the compiler pads the vptr to 8: CD2's
+        // constructors store nothing at +4.
         unsigned int m_id;      // 0x8 (RuffKing's name)
+        unsigned char m_unmodelledC[4];
+        // RuffKing's one 64-bit member. The constructors CD2 expands (cPhysicsBodyGameObject's 0x82832DB0,
+        // cPickupGameObject's in cRenegadeOrb's 0x827570B0) clear it with one std at +0x10.
+        unsigned long long m_nLoopsOn;
+        unsigned char m_unmodelled18[0x90 - 0x18];
 
         CD2_LAYOUT_CHECKS(cGameObject,
-            CD2_OFFSET(cGameObject, m_id, 8))
+            CD2_OFFSET(cGameObject, m_id, 8)
+            CD2_OFFSET(cGameObject, m_nLoopsOn, 0x10)
+            CD2_SIZE(cGameObject, 0x90))
     };
 }
 

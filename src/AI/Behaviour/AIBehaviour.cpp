@@ -49,6 +49,11 @@ namespace AI
         return *ms_pAIBehaviourClass;
     }
 
+    bool AIBehaviour::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pAIBehaviourClass->IsA(c);
+    }
+
     const Fun_Runtime::cClass *AIBehaviour::ms_pAIBehaviourClass = &AIBehaviour::StaticCreateClass();
 
     static Fun_Runtime::cInheritanceRegistrar AIBehaviourcNonGameBaseInheritRegistrar(

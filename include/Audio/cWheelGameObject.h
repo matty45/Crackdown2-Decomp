@@ -12,7 +12,7 @@ namespace Audio
     class cWheelGameObject : public cGameObject
     {
     private:
-        unsigned char m_unmodelledC[0xB8 - 0xC];
+        unsigned char m_unmodelled90[0xB8 - 0x90];
 
         CD2_LAYOUT_CHECKS(cWheelGameObject,
             CD2_SIZE(cWheelGameObject, 0xB8))

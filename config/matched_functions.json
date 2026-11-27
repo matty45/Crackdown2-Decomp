@@ -2800,7 +2800,7 @@
       {
         "address": "0x823EB5A8",
         "size": 44,
-        "symbol": "?Slot20@cAiPlayer@AI@@"
+        "symbol": "?SetSpawner@cAiPlayer@AI@@"
       },
       {
         "address": "0x82F604D0",
@@ -3682,9 +3682,326 @@
       {
         "address": "0x823F5790",
         "size": 304,
-        "symbol": "??$CreateAgent@VcIdleAgent@AI@@@cCharacterBrain@AI@@",
+        "symbol": "??$CreateAgent@VcIdleAgent@AI@@@cCharacterBrain@AI@@"
+      },
+      {
+        "address": "0x823EBE30",
+        "size": 92,
+        "symbol": "?IsA@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F0300",
+        "size": 96,
+        "symbol": "?SetGameImportance@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F7A70",
+        "size": 384,
+        "symbol": "??$CreateAgent@VcPrimaryFireAgent@AI@@@cCharacterBrain@AI@@"
+      },
+      {
+        "address": "0x823F7BF0",
+        "size": 384,
+        "symbol": "??$CreateAgent@VcSecondaryFireAgent@AI@@@cCharacterBrain@AI@@"
+      },
+      {
+        "address": "0x823F7D70",
+        "size": 384,
+        "symbol": "??$CreateAgent@VcThrowAgent@AI@@@cCharacterBrain@AI@@"
+      },
+      {
+        "address": "0x823F8288",
+        "size": 380,
+        "symbol": "??$CreateAgent@VcUpperBodyAnimateAndFaceAgent@AI@@@cCharacterBrain@AI@@"
+      },
+      {
+        "address": "0x823F8880",
+        "size": 384,
+        "symbol": "??$CreateAgent@VcStoreItemAgent@AI@@@cCharacterBrain@AI@@"
+      },
+      {
+        "address": "0x823F8A00",
+        "size": 384,
+        "symbol": "??$CreateAgent@VcPickUpItemAgent@AI@@@cCharacterBrain@AI@@"
+      },
+      {
+        "address": "0x823F8B80",
+        "size": 316,
+        "symbol": "??$CreateAgent@VcPickUpAgent@AI@@@cCharacterBrain@AI@@"
+      },
+      {
+        "address": "0x823F8CC0",
+        "size": 384,
+        "symbol": "??$CreateAgent@VcDropAgent@AI@@@cCharacterBrain@AI@@"
+      },
+      {
+        "address": "0x823F8E40",
+        "size": 380,
+        "symbol": "??$CreateAgent@VcCrouchAgent@AI@@@cCharacterBrain@AI@@"
+      },
+      {
+        "address": "0x823F8FC0",
+        "size": 380,
+        "symbol": "??$CreateAgent@VcUncrouchAgent@AI@@@cCharacterBrain@AI@@"
+      },
+      {
+        "address": "0x823F96E8",
+        "size": 336,
+        "symbol": "??$CreateAgent@VcExitVehicleAgent@AI@@@cCharacterBrain@AI@@"
+      },
+      {
+        "address": "0x823FA1A0",
+        "size": 368,
+        "symbol": "??$CreateAgent@VcFaceAgent@AI@@@cCharacterBrain@AI@@"
+      },
+      {
+        "address": "0x823FA6F0",
+        "size": 304,
+        "symbol": "??$CreateAgent@VcChaseAndReloadAgent@AI@@@cCharacterBrain@AI@@"
+      },
+      {
+        "address": "0x823FA820",
+        "size": 296,
+        "symbol": "??$CreateAgent@VcInterceptAgent@AI@@@cCharacterBrain@AI@@"
+      },
+      {
+        "address": "0x823F2018",
+        "size": 148,
+        "symbol": "?MoveTo@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F20B0",
+        "size": 148,
+        "symbol": "?MoveAndFace@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F2300",
+        "size": 172,
+        "symbol": "?MoveAndPrimaryFire@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F41B8",
+        "size": 112,
+        "symbol": "?BackAway@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F4228",
+        "size": 64,
+        "symbol": "?Dodge@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F5550",
+        "size": 284,
+        "symbol": "??$CreateAgent@VcMoveAgent@AI@@@cCharacterBrain@AI@@"
+      },
+      {
+        "address": "0x823F6880",
+        "size": 284,
+        "symbol": "??$CreateAgent@VcMoveAndFaceAgent@AI@@@cCharacterBrain@AI@@"
+      },
+      {
+        "address": "0x823F9C30",
+        "size": 320,
+        "symbol": "??$CreateAgent@VcBackAwayAgent@AI@@@cCharacterBrain@AI@@"
+      },
+      {
+        "address": "0x823F9D70",
+        "size": 304,
+        "symbol": "??$CreateAgent@VcDodgeAgent@AI@@@cCharacterBrain@AI@@"
+      },
+      {
+        "address": "0x823F2148",
+        "size": 148,
+        "symbol": "?MoveAndReload@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F2920",
+        "size": 140,
+        "symbol": "?FaceAndPrimaryFire@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F3208",
+        "size": 132,
+        "symbol": "?UpperBodyAnimateAndMove@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F45C8",
+        "size": 120,
+        "symbol": "?ChaseAndPrimaryFire@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F69A0",
+        "size": 304,
+        "symbol": "??$CreateAgent@VcMoveAndReloadAgent@AI@@@cCharacterBrain@AI@@"
+      },
+      {
+        "address": "0x823F74F0",
+        "size": 284,
+        "symbol": "??$CreateAgent@VcFaceAndPrimaryFireAgent@AI@@@cCharacterBrain@AI@@"
+      },
+      {
+        "address": "0x823F8408",
+        "size": 296,
+        "symbol": "??$CreateAgent@VcUpperBodyAnimateAndMoveAgent@AI@@@cCharacterBrain@AI@@"
+      },
+      {
+        "address": "0x823FA5B8",
+        "size": 308,
+        "symbol": "??$CreateAgent@VcChaseAndPrimaryFireAgent@AI@@@cCharacterBrain@AI@@"
+      },
+      {
+        "address": "0x823EC8A0",
+        "size": 212,
+        "symbol": "?SetDefendedPosition@cChaseAgent@AI@@",
         "matching": false,
-        "note": "94% (objdiff): lookup loop, inline agent constructor, ReInit, class-ID guards and push_back reproduced; CD2 keeps one zero in r30 and assigns it at the search loop's exit, with the found block placed at the end; ours assigns it before the loop. Return-in-loop, break, while, ternary and early-return forms tried"
+        "note": "84% (objdiff): RuffKing's inline setter over the temporary safe pointer gives every store and the list relinking, but our cGameBase* parameter is converted to the safe-deletable base (+0x1C, subfic/subfe/and) where CD2 stores the incoming pointer unchanged: CD2's parameter (or the pointer's element type) has its cSafeDeletable base at offset 0. Chase (0x823F44E8) calling it is exact"
+      },
+      {
+        "address": "0x823F44E8",
+        "size": 120,
+        "symbol": "?Chase@cCharacterEntityIF@AI@@QAAX_NPAVcGameBase"
+      },
+      {
+        "address": "0x823FA498",
+        "size": 284,
+        "symbol": "??$CreateAgent@VcChaseAgent@AI@@@cCharacterBrain@AI@@"
+      },
+      {
+        "address": "0x823F2550",
+        "size": 56,
+        "symbol": "?ResetIntelliFleeTimeout@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F2588",
+        "size": 80,
+        "symbol": "?SetIntelliFleeUpperBodyAnim@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F25D8",
+        "size": 96,
+        "symbol": "?SetIntelliFleeLookBehindAnim@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F2638",
+        "size": 52,
+        "symbol": "?SetIntelliFleeCowerAnim@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F2670",
+        "size": 52,
+        "symbol": "?SetIntelliFleePanicAnim@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F7110",
+        "size": 284,
+        "symbol": "??$CreateAgent@VcIntelliFleeAgent@AI@@@cCharacterBrain@AI@@"
+      },
+      {
+        "address": "0x823F2768",
+        "size": 108,
+        "symbol": "?SetWanderFleeAvoidPosition@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F27D8",
+        "size": 56,
+        "symbol": "?SetWanderFleeAvoidObject@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F2810",
+        "size": 80,
+        "symbol": "?SetWanderFleeUpperBodyAnim@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F2860",
+        "size": 96,
+        "symbol": "?SetWanderFleeLookBehindAnim@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823EC978",
+        "size": 204,
+        "symbol": "?SetProtectObject@cProtectAgent@AI@@"
+      },
+      {
+        "address": "0x823F0260",
+        "size": 80,
+        "symbol": "?vf105@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F02B0",
+        "size": 80,
+        "symbol": "?vf106@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F23B0",
+        "size": 96,
+        "symbol": "?Follow@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F2A40",
+        "size": 128,
+        "symbol": "?Reaction@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F40F8",
+        "size": 92,
+        "symbol": "?ProtectObject@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F42F8",
+        "size": 96,
+        "symbol": "?Brake@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F43B8",
+        "size": 152,
+        "symbol": "?Face@cCharacterEntityIF@AI@@QAAXMABVOldVec3"
+      },
+      {
+        "address": "0x823F5670",
+        "size": 284,
+        "symbol": "??$CreateAgent@VcSimpleDrivingAvoidanceAgent@AI@@@cCharacterBrain@AI@@"
+      },
+      {
+        "address": "0x823F7770",
+        "size": 428,
+        "symbol": "??$CreateAgent@VcReactionAgent@AI@@@cCharacterBrain@AI@@"
+      },
+      {
+        "address": "0x823F2AC0",
+        "size": 132,
+        "symbol": "?SafeDistancePrimaryFire@cCharacterEntityIF@AI@@",
+        "matching": false,
+        "note": "93.9% (31/33 words): RuffKing's setters (SetFirePauseTime's 0.01 test, SetDistance's m_fUnSafeDistance = d - 1) give every store; only the copy of fFirePauseTime into f31 is placed before the two bool copies, CD2 after them. Four statement orders and search tried"
+      },
+      {
+        "address": "0x823F4158",
+        "size": 96,
+        "symbol": "?Circle@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F05B0",
+        "size": 68,
+        "symbol": "?SetViewingAngle@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F3C68",
+        "size": 80,
+        "symbol": "?CloseAttack@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F4068",
+        "size": 144,
+        "symbol": "?ProtectPosition@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F47D8",
+        "size": 76,
+        "symbol": "?ClearBrainState@cCharacterEntityIF@AI@@"
+      },
+      {
+        "address": "0x823F9838",
+        "size": 284,
+        "symbol": "??$CreateAgent@VcCloseAttackAgent@AI@@@cCharacterBrain@AI@@"
       }
     ],
     "src/cAgencyGarageDoor.cpp": [
@@ -7025,6 +7342,11 @@
         "address": "0x8303BC30",
         "size": 20,
         "symbol": "??__FcAmbientWanderAttackBehaviourSpawningRegistrar@AI@@"
+      },
+      {
+        "address": "0x824CDDA0",
+        "size": 92,
+        "symbol": "?IsA@cAmbientWanderAttackBehaviour@AI@@"
       }
     ],
     "src/AI/Mission/BreachHole/cBreachExplosion.cpp": [
@@ -9013,6 +9335,16 @@
         "address": "0x8303B780",
         "size": 20,
         "symbol": "??__FPedestrianGuardSpawningRegistrar@AI@@"
+      },
+      {
+        "address": "0x824AB480",
+        "size": 56,
+        "symbol": "?vf98@PedestrianGuard@AI@@"
+      },
+      {
+        "address": "0x824AB4B8",
+        "size": 20,
+        "symbol": "?vf99@PedestrianGuard@AI@@"
       }
     ],
     "src/AI/Behaviour/NPC/Freak/Scrounger.cpp": [
@@ -9366,6 +9698,11 @@
         "address": "0x8303BE98",
         "size": 20,
         "symbol": "??__FSquadSpawningRegistrar@AI@@"
+      },
+      {
+        "address": "0x824D8248",
+        "size": 92,
+        "symbol": "?IsA@Squad@AI@@"
       }
     ],
     "src/Anim/cBasePoseAnimationProfile.cpp": [
@@ -14280,6 +14617,11 @@
         "size": 40,
         "symbol": "??__EnPART_PERCENT_WEIGHT@@",
         "ltcg": true
+      },
+      {
+        "address": "0x824E67B0",
+        "size": 92,
+        "symbol": "?IsA@cSkeletonProfile@Anim@@"
       }
     ],
     "src/Anim/cSprintAnimationProfile.cpp": [
@@ -16103,6 +16445,11 @@
         "address": "0x8253F3C8",
         "size": 12,
         "symbol": "?RetClass@cCwCharacter@CHARACTER@@"
+      },
+      {
+        "address": "0x8253F3D8",
+        "size": 92,
+        "symbol": "?IsA@cCwCharacter@CHARACTER@@"
       }
     ],
     "src/CHARACTER/cCwCharacterStateProfile.cpp": [
@@ -16410,6 +16757,11 @@
         "address": "0x82542128",
         "size": 12,
         "symbol": "?RetClass@cCwGoliathCharacterWrapper@CHARACTER@@"
+      },
+      {
+        "address": "0x82542138",
+        "size": 92,
+        "symbol": "?IsA@cCwGoliathCharacterWrapper@CHARACTER@@"
       }
     ],
     "src/CHARACTER/cGameDamageProfile.cpp": [
@@ -16654,6 +17006,11 @@
         "size": 40,
         "symbol": "??__EnPART_PERCENT_WEIGHT@@",
         "ltcg": true
+      },
+      {
+        "address": "0x82575DE8",
+        "size": 92,
+        "symbol": "?IsA@cRagdollProfile@CHARACTER@@"
       }
     ],
     "src/CHARACTER/cStrengthSkillProfile.cpp": [
@@ -23411,6 +23768,11 @@
         "address": "0x826BD9C0",
         "size": 72,
         "symbol": "?LeavePhysicalState@cHelicopter@Vehicle@@"
+      },
+      {
+        "address": "0x826B8A18",
+        "size": 92,
+        "symbol": "?IsA@cHelicopter@Vehicle@@"
       }
     ],
     "src/Vehicle/cHelicopterDamageProfile.cpp": [
@@ -24264,6 +24626,11 @@
         "address": "0x82802398",
         "size": 12,
         "symbol": "?RetClass@cBeamManager@VFX@@"
+      },
+      {
+        "address": "0x828023A8",
+        "size": 92,
+        "symbol": "?IsA@cBeamManager@VFX@@"
       }
     ],
     "src/VFX/cDeityRay.cpp": [
@@ -25068,6 +25435,11 @@
         "address": "0x827B98B8",
         "size": 12,
         "symbol": "?RetClass@cTracers@VFX@@"
+      },
+      {
+        "address": "0x827B98C8",
+        "size": 92,
+        "symbol": "?IsA@cTracers@VFX@@"
       }
     ],
     "src/VFX/cVFXPriorityTable.cpp": [
@@ -29141,6 +29513,13 @@
         "address": "0x824C55F0",
         "size": 88,
         "symbol": "?OnEnter@CellTurret@AI@@"
+      },
+      {
+        "address": "0x824C54B8",
+        "size": 140,
+        "symbol": "?EnterSubStateInvestigating@CellTurret@AI@@",
+        "matching": false,
+        "note": "47% plain and LTCG: SetMovementType(1) then ChaseAndPrimaryFire(2.5, true, 5.0, 0.0, ZeroVec, -1.0) gives every call, argument and the ZeroVec copy; CD2 loads 2.5 and 5.0 through -1.0's address (0x820E3404 +0x4B30 / +0x7598), the LTCG pool-anchor limit (matching notes, Traps)"
       }
     ],
     "src/AI/Mission/AU/cFinalMission.cpp": [
@@ -32148,6 +32527,11 @@
         "address": "0x8303B6A8",
         "size": 4,
         "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x824A8730",
+        "size": 92,
+        "symbol": "?IsA@NPCBehaviour@AI@@"
       }
     ],
     "src/AI/Behaviour/NPC/Peacekeeper/Peacekeeper.cpp": [
@@ -34412,6 +34796,11 @@
         "address": "0x826CC4A0",
         "size": 4,
         "symbol": "?HandleAttributes@cTruckPrototype@cTruck@Vehicle@@"
+      },
+      {
+        "address": "0x826CB378",
+        "size": 92,
+        "symbol": "?IsA@cTruck@Vehicle@@UBA_NABVcClass@Fun_Runtime@@@Z"
       }
     ],
     "src/cCwTransCharacter.cpp": [
@@ -34741,6 +35130,11 @@
         "address": "0x8253E1A0",
         "size": 20,
         "symbol": "?SetLastVehicleHitID@cCwTransCharacter@CHARACTER@@"
+      },
+      {
+        "address": "0x82538088",
+        "size": 92,
+        "symbol": "?IsA@cCwTransCharacter@CHARACTER@@"
       }
     ],
     "src/CHARACTER/cCharacterInterface.cpp": [
@@ -35050,6 +35444,18 @@
         "address": "0x8254F190",
         "size": 28,
         "symbol": "?ForceOntoTurret@cCharacterInterface@CHARACTER@@"
+      },
+      {
+        "address": "0x8254F6C0",
+        "size": 44,
+        "symbol": "?RetRelationship@cCharacterInterface@CHARACTER@@QAAHPAV12@@Z"
+      },
+      {
+        "address": "0x8254F290",
+        "size": 104,
+        "symbol": "?AddEquipment@cCharacterInterface@CHARACTER@@QAAPAVcEquipment@Equip@@PBD",
+        "matching": false,
+        "note": "plain EXACT, LTCG 1/26 words: the out-of-line copy of the inline name form (5 CD2 callers in other files); the single-file LTCG model specializes it for its one visible caller (AddDefaultEquipmentByName passes constants)"
       }
     ],
     "src/Prop/cProp.cpp": [
@@ -35568,6 +35974,11 @@
         "address": "0x8253EF08",
         "size": 4,
         "symbol": "?HandleAttributes@cCwTransCharacterWrapperPrototype@CHARACTER@@"
+      },
+      {
+        "address": "0x8253ED08",
+        "size": 92,
+        "symbol": "?IsA@cCwTransCharacterWrapper@CHARACTER@@"
       }
     ],
     "src/CHARACTER/cCharacter.cpp": [
@@ -35782,6 +36193,11 @@
         "address": "0x82542F70",
         "size": 12,
         "symbol": "?RetClass@cCharacter@CHARACTER@@"
+      },
+      {
+        "address": "0x82542F80",
+        "size": 92,
+        "symbol": "?IsA@cCharacter@CHARACTER@@"
       }
     ],
     "src/Sim/cTimeOfDay.cpp": [
@@ -36005,9 +36421,7 @@
       {
         "address": "0x82773B48",
         "size": 92,
-        "symbol": "?IsA@cTimeOfDay@",
-        "matching": false,
-        "note": "descriptor query; LTCG drops the unused this (no function in this file installs the vtable yet). Plain EXACT, LTCG 21/23 words."
+        "symbol": "?IsA@cTimeOfDay@"
       },
       {
         "address": "0x82774230",
@@ -37249,6 +37663,11 @@
         "address": "0x82458658",
         "size": 8,
         "symbol": "?IsA@cSupplyValve@AI@@WEOA@"
+      },
+      {
+        "address": "0x824585F8",
+        "size": 28,
+        "symbol": "?TakeDamage@cSupplyValve@AI@@"
       }
     ],
     "src/AI/Mission/cMissionCriticalProp.cpp": [
@@ -37951,6 +38370,11 @@
         "address": "0x8303B3B8",
         "size": 20,
         "symbol": "??__FAIBehaviourSpawningRegistrar@AI@@"
+      },
+      {
+        "address": "0x824A4AB8",
+        "size": 92,
+        "symbol": "?IsA@AIBehaviour@AI@@"
       }
     ],
     "src/AI/Behaviour/NPC/Freak/FreakBase.cpp": [
@@ -38134,9 +38558,7 @@
       {
         "address": "0x824ABBB0",
         "size": 92,
-        "symbol": "?IsA@FreakBase@",
-        "matching": false,
-        "note": "descriptor query; LTCG drops the unused this without a live vtable. Plain EXACT, LTCG 21/23 words."
+        "symbol": "?IsA@FreakBase@"
       }
     ],
     "src/AI/Behaviour/NPC/Freak/Goliath.cpp": [
@@ -38481,6 +38903,11 @@
         "size": 148,
         "symbol": "?RetrieveAnimProfile@cCharacterAnimSetManager@Anim@@",
         "ltcg": true
+      },
+      {
+        "address": "0x824E42D8",
+        "size": 92,
+        "symbol": "?IsA@cCharacterAnimSetManager@Anim@@"
       }
     ],
     "src/AudioLogic/cAudioBaseProfile.cpp": [
@@ -38854,6 +39281,11 @@
         "address": "0x82540A30",
         "size": 12,
         "symbol": "?RetClass@cCwCharacterWrapper@CHARACTER@@"
+      },
+      {
+        "address": "0x82540A40",
+        "size": 92,
+        "symbol": "?IsA@cCwCharacterWrapper@CHARACTER@@"
       }
     ],
     "src/CHARACTER/cGenCharProfile.cpp": [
@@ -38942,6 +39374,11 @@
         "address": "0x825562A8",
         "size": 12,
         "symbol": "?RetClass@cGenCharProfile@CHARACTER@@"
+      },
+      {
+        "address": "0x825562B8",
+        "size": 92,
+        "symbol": "?IsA@cGenCharProfile@CHARACTER@@"
       }
     ],
     "src/Equip/Weapon/cHarpoonBolt.cpp": [
@@ -39643,6 +40080,11 @@
         "address": "0x8303FBD8",
         "size": 12,
         "symbol": "??__FcExplosionManagerRegistrar@ExplosionManager@@"
+      },
+      {
+        "address": "0x8263EAF0",
+        "size": 92,
+        "symbol": "?IsA@cExplosionManager@ExplosionManager@@"
       }
     ],
     "src/PHYSICS/cPhysicsUniverse.cpp": [
@@ -39802,6 +40244,11 @@
         "size": 40,
         "symbol": "??__EnPART_PERCENT_WEIGHT@@",
         "ltcg": true
+      },
+      {
+        "address": "0x8268DA40",
+        "size": 92,
+        "symbol": "?IsA@cPhysicsUniverse@PHYSICS@@"
       }
     ],
     "src/PHYSICS/cWaterProfile.cpp": [
@@ -40171,6 +40618,11 @@
         "address": "0x82732A08",
         "size": 16,
         "symbol": "?Init@cVehicleDamagePropPrototype@cVehicleDamageProp@Prop@@"
+      },
+      {
+        "address": "0x82731D40",
+        "size": 92,
+        "symbol": "?IsA@cVehicleDamageProp@Prop@@"
       }
     ],
     "src/Prop/Constrained/cHingedProp.cpp": [
@@ -41324,6 +41776,11 @@
         "address": "0x82742CF8",
         "size": 12,
         "symbol": "?RetClass@cBoomBox@Prop@@"
+      },
+      {
+        "address": "0x82742D08",
+        "size": 92,
+        "symbol": "?IsA@cBoomBox@Prop@@"
       }
     ],
     "src/Prop/Custom/cExplosiveBarrel.cpp": [
@@ -41864,6 +42321,11 @@
         "address": "0x82744978",
         "size": 12,
         "symbol": "?RetClass@cHingedSpawnDoor@Prop@@"
+      },
+      {
+        "address": "0x82744988",
+        "size": 92,
+        "symbol": "?IsA@cHingedSpawnDoor@Prop@@"
       }
     ],
     "src/Prop/Custom/cSearchLight.cpp": [
@@ -42761,6 +43223,11 @@
         "address": "0x827488D0",
         "size": 112,
         "symbol": "?Term@cTurretBase@Prop@@"
+      },
+      {
+        "address": "0x82748BB8",
+        "size": 40,
+        "symbol": "?TakeDamage@cTurretBase@Prop@@UAA"
       }
     ],
     "src/RPG/cSkillProfile.cpp": [
@@ -42953,6 +43420,11 @@
         "address": "0x827A0B28",
         "size": 12,
         "symbol": "?RetClass@cOutlines@VFX@@"
+      },
+      {
+        "address": "0x827A0B38",
+        "size": 92,
+        "symbol": "?IsA@cOutlines@VFX@@"
       }
     ],
     "src/VFX/cProjectedDecal.cpp": [
@@ -43136,6 +43608,11 @@
         "address": "0x827A55D0",
         "size": 12,
         "symbol": "?RetClass@cProjectedDecal@VFX@@"
+      },
+      {
+        "address": "0x827A55E0",
+        "size": 92,
+        "symbol": "?IsA@cProjectedDecal@VFX@@"
       }
     ],
     "src/VFX/cSkidMarks.cpp": [
@@ -43188,6 +43665,11 @@
         "address": "0x827B7A20",
         "size": 12,
         "symbol": "?RetClass@cSkidMarks@VFX@@"
+      },
+      {
+        "address": "0x827B7A30",
+        "size": 92,
+        "symbol": "?IsA@cSkidMarks@VFX@@"
       }
     ],
     "src/VFX/cVFXSurfaceProfile.cpp": [
@@ -43411,6 +43893,11 @@
         "address": "0x827DED40",
         "size": 12,
         "symbol": "?RetClass@cParticleEffectManager@VFX@@"
+      },
+      {
+        "address": "0x827DED50",
+        "size": 92,
+        "symbol": "?IsA@cParticleEffectManager@VFX@@"
       }
     ],
     "src/VFX/cGlobalLightManager.cpp": [
@@ -43793,6 +44280,11 @@
         "size": 56,
         "symbol": "??__EfTARGET_FACING_ME_MIN_DOT_PRODUCT@AI@@",
         "ltcg": true
+      },
+      {
+        "address": "0x82455718",
+        "size": 92,
+        "symbol": "?IsA@cStaticInterestingObject@unknown@@"
       }
     ],
     "src/AI/Mission/cAmbientEventMission.cpp": [
@@ -43942,6 +44434,96 @@
         "address": "0x8248DA20",
         "size": 12,
         "symbol": "?RetClass@cAmbientEventMission@AI@@"
+      },
+      {
+        "address": "0x8248DA30",
+        "size": 92,
+        "symbol": "?IsA@cAmbientEventMission@AI@@UBA"
+      },
+      {
+        "address": "0x8248DA90",
+        "size": 64,
+        "symbol": "?MakeNew@cAmbientEventMission@AI@@"
+      },
+      {
+        "address": "0x8248DB80",
+        "size": 80,
+        "symbol": "??_GcAmbientEventMission@AI@@"
+      },
+      {
+        "address": "0x8248DBD0",
+        "size": 172,
+        "symbol": "??1cAmbientEventMission@AI@@"
+      },
+      {
+        "address": "0x8248DD70",
+        "size": 40,
+        "symbol": "?RetMissionID@cAmbientEventMission@AI@@"
+      },
+      {
+        "address": "0x8248DD98",
+        "size": 200,
+        "symbol": "?InitReplication@cAmbientEventMission@AI@@"
+      },
+      {
+        "address": "0x8248DE60",
+        "size": 128,
+        "symbol": "?TermReplication@cAmbientEventMission@AI@@"
+      },
+      {
+        "address": "0x8248DFA0",
+        "size": 32,
+        "symbol": "?Deactivate@cAmbientEventMission@AI@@"
+      },
+      {
+        "address": "0x8248E230",
+        "size": 20,
+        "symbol": "?ReplicateInitialFields@cAmbientEventMission@AI@@"
+      },
+      {
+        "address": "0x8248E2C8",
+        "size": 8,
+        "symbol": "??_EcAmbientEventMission@AI@@WCA@"
+      },
+      {
+        "address": "0x8248E2D0",
+        "size": 8,
+        "symbol": "??_EcAmbientEventMission@AI@@WCFA@"
+      },
+      {
+        "address": "0x8248E2D8",
+        "size": 8,
+        "symbol": "?RetClass@cAmbientEventMission@AI@@WBA@"
+      },
+      {
+        "address": "0x8248E2E0",
+        "size": 8,
+        "symbol": "??_EcAmbientEventMission@AI@@WCFI@"
+      },
+      {
+        "address": "0x8248DC80",
+        "size": 236,
+        "symbol": "?HandleEvents@cAmbientEventMission@AI@@"
+      },
+      {
+        "address": "0x8248E248",
+        "size": 124,
+        "symbol": "?ReplicateFields@cAmbientEventMission@AI@@"
+      },
+      {
+        "address": "0x8248DEE0",
+        "size": 192,
+        "symbol": "?Activate@cAmbientEventMission@AI@@"
+      },
+      {
+        "address": "0x8248DFC0",
+        "size": 372,
+        "symbol": "?HandleAttributes@cAmbientEventMission@AI@@"
+      },
+      {
+        "address": "0x8248E138",
+        "size": 248,
+        "symbol": "?TickUpdate@cAmbientEventMission@AI@@"
       }
     ],
     "src/Cam/Camera_Manager/cCameraManager.cpp": [
@@ -44314,6 +44896,11 @@
         "address": "0x8252CD08",
         "size": 12,
         "symbol": "?RetClass@cVirtualCamera@unknown@@"
+      },
+      {
+        "address": "0x8252CD18",
+        "size": 92,
+        "symbol": "?IsA@cVirtualCamera@unknown@@"
       }
     ],
     "src/Equip/cEquipment.cpp": [
@@ -47963,6 +48550,11 @@
         "address": "0x82622DE8",
         "size": 12,
         "symbol": "?RetClass@cStickler@unknown@@"
+      },
+      {
+        "address": "0x82622DF8",
+        "size": 92,
+        "symbol": "?IsA@cStickler@unknown@@"
       }
     ],
     "src/cSticklerGrenade.cpp": [
@@ -48862,6 +49454,11 @@
         "address": "0x82635480",
         "size": 12,
         "symbol": "?RetClass@cSucknBlowGun@unknown@@"
+      },
+      {
+        "address": "0x82635490",
+        "size": 92,
+        "symbol": "?IsA@cSucknBlowGun@unknown@@"
       }
     ],
     "src/Equip/Weapon/cFlakCannon.cpp": [
@@ -49986,6 +50583,11 @@
         "address": "0x8268AA80",
         "size": 76,
         "symbol": "?UpdateRenderMatrix@cPhantomBody@unknown@@"
+      },
+      {
+        "address": "0x8268A308",
+        "size": 92,
+        "symbol": "?IsA@cPhantomBody@unknown@@"
       }
     ],
     "src/cTransformingCar.cpp": [
@@ -50160,6 +50762,11 @@
         "address": "0x826AB450",
         "size": 12,
         "symbol": "?RetClass@cTransformingCar@unknown@@"
+      },
+      {
+        "address": "0x826AB460",
+        "size": 92,
+        "symbol": "?IsA@cTransformingCar@unknown@@"
       }
     ],
     "src/cTransformingTruck.cpp": [
@@ -50329,6 +50936,11 @@
         "address": "0x826B1AE8",
         "size": 12,
         "symbol": "?RetClass@cTransformingTruck@unknown@@"
+      },
+      {
+        "address": "0x826B1AF8",
+        "size": 92,
+        "symbol": "?IsA@cTransformingTruck@unknown@@"
       }
     ],
     "src/cWeaponisedHelicopter.cpp": [
@@ -50745,6 +51357,11 @@
         "address": "0x830409F0",
         "size": 20,
         "symbol": "??__FcAgencyATVSpawningRegistrar@unknown@@"
+      },
+      {
+        "address": "0x826E2310",
+        "size": 92,
+        "symbol": "?IsA@cAgencyATV@unknown@@"
       }
     ],
     "src/Vehicle/Agency/cAgencyBuggy.cpp": [
@@ -51428,16 +52045,17 @@
       {
         "address": "0x826F7B50",
         "size": 20,
-        "symbol": "?HandleTryToSwapSeatsInteractionPermissionQuery@cAgencySquadChopper@unknown@@",
-        "matching": false,
-        "note": "exact in the plain build; LTCG drops the unused this (args in r3/r5, 3/5 words) because nothing in the file installs the vtable: needs the constructor 0x826EEEF8"
+        "symbol": "?HandleTryToSwapSeatsInteractionPermissionQuery@cAgencySquadChopper@unknown@@"
       },
       {
         "address": "0x826F7B68",
         "size": 20,
-        "symbol": "?HanldTryToEjectInteractPermissionQuery@cAgencySquadChopper@unknown@@",
-        "matching": false,
-        "note": "exact in the plain build; LTCG drops the unused this (3/5 words) until the constructor 0x826EEEF8 is matched"
+        "symbol": "?HanldTryToEjectInteractPermissionQuery@cAgencySquadChopper@unknown@@"
+      },
+      {
+        "address": "0x826EDA00",
+        "size": 92,
+        "symbol": "?IsA@cAgencySquadChopper@unknown@@"
       }
     ],
     "src/Vehicle/Agency/cAgencySUV.cpp": [
@@ -51826,6 +52444,11 @@
         "address": "0x826FC640",
         "size": 12,
         "symbol": "?RetClass@cAgencyTank@Vehicle@@"
+      },
+      {
+        "address": "0x826FC650",
+        "size": 92,
+        "symbol": "?IsA@cAgencyTank@Vehicle@@"
       }
     ],
     "src/PHYSICS/cWaterZone.cpp": [
@@ -51995,6 +52618,11 @@
         "address": "0x827083F8",
         "size": 40,
         "symbol": "?OnGameObjectEnter@cWaterZonePhantom@PHYSICS@@"
+      },
+      {
+        "address": "0x82708150",
+        "size": 92,
+        "symbol": "?IsA@cWaterZone@PHYSICS@@"
       }
     ],
     "src/cAudioLog.cpp": [
@@ -52179,6 +52807,11 @@
         "address": "0x8270FC10",
         "size": 8,
         "symbol": "??_EcAudioLog@unknown@@WBM@"
+      },
+      {
+        "address": "0x8270ECD0",
+        "size": 16,
+        "symbol": "?Use@cAudioLog@unknown@@"
       }
     ],
     "src/cDebugPlayer.cpp": [
@@ -53023,6 +53656,11 @@
         "address": "0x8273DDF0",
         "size": 76,
         "symbol": "?HandleAttributes@cPrismaticTriggerPrototype@cPrismaticTrigger@unknown@@"
+      },
+      {
+        "address": "0x8273D350",
+        "size": 92,
+        "symbol": "?IsA@cPrismaticTrigger@unknown@@"
       }
     ],
     "src/cSpawnPortal.cpp": [
@@ -53436,6 +54074,11 @@
         "address": "0x83041718",
         "size": 20,
         "symbol": "??__FcSupplyEntryPointSpawningRegistrar@unknown@@"
+      },
+      {
+        "address": "0x8273FAA8",
+        "size": 92,
+        "symbol": "?IsA@cSupplyEntryPoint@unknown@@"
       }
     ],
     "src/cTeleporterDoor.cpp": [
@@ -54093,6 +54736,51 @@
         "address": "0x82756EF0",
         "size": 12,
         "symbol": "?RetClass@cRenegadeOrb@RPG@@"
+      },
+      {
+        "address": "0x82756F00",
+        "size": 92,
+        "symbol": "?IsA@cRenegadeOrb@RPG@@"
+      },
+      {
+        "address": "0x827571F0",
+        "size": 80,
+        "symbol": "??_GcRenegadeOrb@RPG@@"
+      },
+      {
+        "address": "0x82757240",
+        "size": 140,
+        "symbol": "??1cRenegadeOrb@RPG@@"
+      },
+      {
+        "address": "0x82758520",
+        "size": 8,
+        "symbol": "??_EcRenegadeOrb@RPG@@WBCA@AAPAXI@Z"
+      },
+      {
+        "address": "0x82758528",
+        "size": 8,
+        "symbol": "?RetClass@cRenegadeOrb@RPG@@WPA@"
+      },
+      {
+        "address": "0x82758530",
+        "size": 8,
+        "symbol": "?IsA@cRenegadeOrb@RPG@@WPA@"
+      },
+      {
+        "address": "0x82758538",
+        "size": 8,
+        "symbol": "??_EcRenegadeOrb@RPG@@WBI@AAPAXI@Z"
+      },
+      {
+        "address": "0x82758540",
+        "size": 8,
+        "symbol": "??_EcRenegadeOrb@RPG@@WDI@AAPAXI@Z"
+      },
+      {
+        "address": "0x82758548",
+        "size": 8,
+        "symbol": "??_EcRenegadeOrb@RPG@@WBM@AAPAXI@Z"
       }
     ],
     "src/cScriptManager.cpp": [
@@ -54568,6 +55256,11 @@
         "address": "0x83042348",
         "size": 20,
         "symbol": "??__FCCarControllerSpawningRegistrar@unknown@@"
+      },
+      {
+        "address": "0x8277EC00",
+        "size": 92,
+        "symbol": "?IsA@CCarController@unknown@@"
       }
     ],
     "src/cOutlines2.cpp": [
@@ -54820,6 +55513,48 @@
         "size": 116,
         "symbol": "?LockLOD@cLOD4Environment@WorldManager@@",
         "ltcg": true
+      },
+      {
+        "address": "0x828077B0",
+        "size": 92,
+        "symbol": "?IsA@cLOD4Environment@WorldManager@@UBA"
+      },
+      {
+        "address": "0x828079E8",
+        "size": 80,
+        "symbol": "??_GcLOD4Environment@WorldManager@@"
+      },
+      {
+        "address": "0x82807A38",
+        "size": 316,
+        "symbol": "??1cLOD4Environment@WorldManager@@",
+        "matching": false,
+        "note": "RuffKing's destructor (UnregisterLOD4Block on g_pWorldManager, inlined with std::find and cVectorip::erase as CD2 does) over the modelled members: 39% under LTCG. CD2 loads g_pWorldManager (0x83801548) before the vptr stores (the model escapes every global), calls ~cVectorip (0x828087A0) where cVectorip's __forceinline destructor (kept for cVehicle's 0x826CE0E8) expands it, and the plain build calls erase"
+      },
+      {
+        "address": "0x828087A0",
+        "size": 100,
+        "symbol": "??1?$cVectorip@V?$cSafeDeletablePointer@VcStaticEnvironment@WorldManager@@@Fun_Runtime@@$0BF@@Fun_Runtime@@"
+      },
+      {
+        "address": "0x82808888",
+        "size": 8,
+        "symbol": "??_EcLOD4Environment@WorldManager@@WBCA@"
+      },
+      {
+        "address": "0x82808890",
+        "size": 8,
+        "symbol": "??_EcLOD4Environment@WorldManager@@WBI@"
+      },
+      {
+        "address": "0x82808898",
+        "size": 8,
+        "symbol": "??_EcLOD4Environment@WorldManager@@WDI@"
+      },
+      {
+        "address": "0x828088A0",
+        "size": 8,
+        "symbol": "??_EcLOD4Environment@WorldManager@@WBM@"
       }
     ],
     "src/WorldManager/cStaticEnvironment.cpp": [
@@ -54943,6 +55678,11 @@
         "address": "0x82809550",
         "size": 104,
         "symbol": "?SetVisibility@cStaticEnvironment@WorldManager@@"
+      },
+      {
+        "address": "0x828088B8",
+        "size": 92,
+        "symbol": "?IsA@cStaticEnvironment@WorldManager@@"
       }
     ],
     "src/cZoneManager.cpp": [
@@ -55730,6 +56470,11 @@
         "address": "0x83044AC0",
         "size": 20,
         "symbol": "??__FcFrontEndAgentSpawningRegistrar@CHARACTER@@"
+      },
+      {
+        "address": "0x8289CE68",
+        "size": 92,
+        "symbol": "?IsA@cFrontEndAgent@CHARACTER@@"
       }
     ],
     "src/Equip/Weapon/cHWProjectile.cpp": [
@@ -55969,6 +56714,11 @@
         "address": "0x8262D470",
         "size": 72,
         "symbol": "?RetDamageRadius@cHWProjectile@Equip@@"
+      },
+      {
+        "address": "0x8262AEB0",
+        "size": 52,
+        "symbol": "?SetStatus@cHWProjectile@Equip@@"
       }
     ],
     "src/Vehicle/cVehicle.cpp": [
@@ -58120,6 +58870,11 @@
         "address": "0x8303B100",
         "size": 12,
         "symbol": "??__FcAgencyGarageRegistrar@AI@@"
+      },
+      {
+        "address": "0x82479B20",
+        "size": 92,
+        "symbol": "?IsA@cAgencyGarage@AI@@"
       }
     ],
     "src/AI/Mission/cPlayerRejectionZone.cpp": [
@@ -58536,6 +59291,11 @@
         "address": "0x826B6E70",
         "size": 96,
         "symbol": "?TerminatePintleMounts@cCar@Vehicle@@"
+      },
+      {
+        "address": "0x826B5CB8",
+        "size": 92,
+        "symbol": "?IsA@cCar@Vehicle@@"
       }
     ],
     "src/Vehicle/Agency/cAgencyCar.cpp": [
@@ -58698,6 +59458,11 @@
         "address": "0x83040A60",
         "size": 20,
         "symbol": "??__FcAgencyCarSpawningRegistrar@Vehicle@@"
+      },
+      {
+        "address": "0x826EC0A8",
+        "size": 92,
+        "symbol": "?IsA@cAgencyCar@Vehicle@@"
       }
     ],
     "src/cAudioLogContainer.cpp": [
@@ -61118,6 +61883,11 @@
         "address": "0x83040390",
         "size": 4,
         "symbol": "??__FgRandGen@CHARACTER@@"
+      },
+      {
+        "address": "0x82684BF8",
+        "size": 92,
+        "symbol": "?IsA@cNetDynamicBody@PHYSICS@@"
       }
     ],
     "src/Fun_Runtime/cScriptHost.cpp": [
@@ -61918,6 +62688,11 @@
         "address": "0x82478A80",
         "size": 32,
         "symbol": "?IsLocalPlayerNearby@cTacticalObjective@AI@@"
+      },
+      {
+        "address": "0x82475798",
+        "size": 92,
+        "symbol": "?IsA@cTacticalObjective@AI@@UBA_NABVcClass@Fun_Runtime@@@Z"
       }
     ],
     "src/AI/Mission/AchievementMissions/cPebbleDashMission.cpp": [
@@ -62694,6 +63469,11 @@
         "address": "0x823D0200",
         "size": 12,
         "symbol": "?RetClass@cCampaignWeaponSpawnPoint@Activity@@"
+      },
+      {
+        "address": "0x823D0210",
+        "size": 92,
+        "symbol": "?IsA@cCampaignWeaponSpawnPoint@Activity@@"
       }
     ],
     "src/Activity/SpawnPoint/cGlobalLightPropSpawnPoint.cpp": [
@@ -62849,6 +63629,11 @@
         "address": "0x823D1818",
         "size": 12,
         "symbol": "?RetClass@cReaperAerialRespawnPoint@Activity@@"
+      },
+      {
+        "address": "0x823D1828",
+        "size": 92,
+        "symbol": "?IsA@cReaperAerialRespawnPoint@Activity@@"
       }
     ],
     "src/Activity/SpawnPoint/cSpawnPoint.cpp": [
@@ -62998,6 +63783,11 @@
         "address": "0x823D1DA0",
         "size": 92,
         "symbol": "?MakeNew@cSpawnPoint@Activity@@"
+      },
+      {
+        "address": "0x823D1B78",
+        "size": 92,
+        "symbol": "?IsA@cSpawnPoint@Activity@@"
       }
     ],
     "src/Activity/SpawnPoint/cSpawnPointBase.cpp": [
@@ -63398,6 +64188,11 @@
         "address": "0x823D4A18",
         "size": 12,
         "symbol": "?RetClass@cTurretVehicleSpawnPoint@Activity@@"
+      },
+      {
+        "address": "0x823D4A28",
+        "size": 92,
+        "symbol": "?IsA@cTurretVehicleSpawnPoint@Activity@@"
       }
     ],
     "src/Activity/ActivityVolume/cActivityVolume.cpp": [
@@ -63788,6 +64583,11 @@
         "address": "0x823DB518",
         "size": 12,
         "symbol": "?RetClass@cChopperRespawnPoint@Activity@@"
+      },
+      {
+        "address": "0x823DB528",
+        "size": 92,
+        "symbol": "?IsA@cChopperRespawnPoint@Activity@@"
       }
     ],
     "src/Activity/SquadSpawnPoint/cChopperSpawnPoint.cpp": [
@@ -63932,6 +64732,11 @@
         "address": "0x823DB838",
         "size": 12,
         "symbol": "?RetClass@cChopperSpawnPoint@Activity@@"
+      },
+      {
+        "address": "0x823DB848",
+        "size": 92,
+        "symbol": "?IsA@cChopperSpawnPoint@Activity@@"
       }
     ],
     "src/Activity/SquadSpawnPoint/cSquadMemberRespawnPoint.cpp": [
@@ -64215,6 +65020,11 @@
         "address": "0x823DC640",
         "size": 12,
         "symbol": "?RetClass@cSquadMemberSpawnPoint@Activity@@"
+      },
+      {
+        "address": "0x823DC650",
+        "size": 92,
+        "symbol": "?IsA@cSquadMemberSpawnPoint@Activity@@"
       }
     ],
     "src/Activity/SquadSpawnPoint/cSquadMemberSpawnPointBase.cpp": [
@@ -64488,6 +65298,11 @@
         "address": "0x823DD7A0",
         "size": 12,
         "symbol": "?RetClass@cSquadSpawnPoint@Activity@@"
+      },
+      {
+        "address": "0x823DD7B0",
+        "size": 92,
+        "symbol": "?IsA@cSquadSpawnPoint@Activity@@"
       }
     ],
     "src/Activity/SquadSpawnPoint/cTurretSquadMemberSpawnPoint.cpp": [
@@ -64632,6 +65447,11 @@
         "address": "0x823DF018",
         "size": 12,
         "symbol": "?RetClass@cTurretSquadMemberSpawnPoint@Activity@@"
+      },
+      {
+        "address": "0x823DF028",
+        "size": 92,
+        "symbol": "?IsA@cTurretSquadMemberSpawnPoint@Activity@@"
       }
     ],
     "src/Activity/SquadSpawnPoint/cWeaponVehicleRespawnPoint.cpp": [
@@ -64664,6 +65484,11 @@
         "address": "0x823DF600",
         "size": 12,
         "symbol": "?RetClass@cWeaponVehicleRespawnPoint@Activity@@"
+      },
+      {
+        "address": "0x823DF610",
+        "size": 92,
+        "symbol": "?IsA@cWeaponVehicleRespawnPoint@Activity@@"
       }
     ],
     "src/Activity/SquadSpawnPoint/cWeaponVehicleSpawnPoint.cpp": [
@@ -64791,6 +65616,11 @@
         "address": "0x823DF888",
         "size": 12,
         "symbol": "?RetClass@cWeaponVehicleSpawnPoint@Activity@@"
+      },
+      {
+        "address": "0x823DF898",
+        "size": 92,
+        "symbol": "?IsA@cWeaponVehicleSpawnPoint@Activity@@"
       }
     ],
     "src/AI/Markup/cCoverPoint.cpp": [
@@ -65200,6 +66030,11 @@
         "address": "0x824561F0",
         "size": 12,
         "symbol": "?RetClass@cAttachableLight@AI@@"
+      },
+      {
+        "address": "0x82456200",
+        "size": 92,
+        "symbol": "?IsA@cAttachableLight@AI@@"
       }
     ],
     "src/AI/Mission/cRefineryPropSpawnPoint.cpp": [
@@ -65232,6 +66067,11 @@
         "address": "0x82458688",
         "size": 12,
         "symbol": "?RetClass@cRefineryPropSpawnPoint@AI@@"
+      },
+      {
+        "address": "0x82458698",
+        "size": 92,
+        "symbol": "?IsA@cRefineryPropSpawnPoint@AI@@"
       }
     ],
     "src/AI/Mission/cSupplyValveSpawnPoint.cpp": [
@@ -65335,6 +66175,11 @@
         "address": "0x82458A88",
         "size": 12,
         "symbol": "?RetClass@cSupplyValveSpawnPoint@AI@@"
+      },
+      {
+        "address": "0x82458A98",
+        "size": 92,
+        "symbol": "?IsA@cSupplyValveSpawnPoint@AI@@"
       }
     ],
     "src/AI/Mission/cMissionCriticalPropSpawnPoint.cpp": [
@@ -65488,9 +66333,7 @@
       {
         "address": "0x8245B6E0",
         "size": 92,
-        "symbol": "?IsA@cMissionCriticalPropSpawnPoint@",
-        "matching": false,
-        "note": "descriptor query; LTCG drops the unused this: the constructor (0x8245B838) is outside scaffolded ranges. Plain EXACT, LTCG 21/23 words."
+        "symbol": "?IsA@cMissionCriticalPropSpawnPoint@"
       }
     ],
     "src/AI/Mission/cMissionPropSpawnPoint.cpp": [
@@ -65786,6 +66629,11 @@
         "address": "0x8247E7D8",
         "size": 12,
         "symbol": "?RetClass@cTrainingAimTarget@AI@@"
+      },
+      {
+        "address": "0x8247E7E8",
+        "size": 92,
+        "symbol": "?IsA@cTrainingAimTarget@AI@@"
       }
     ],
     "src/AI/Mission/Training/cTrainingDoorSpawnPoint.cpp": [
@@ -65889,6 +66737,11 @@
         "address": "0x8247E9E0",
         "size": 12,
         "symbol": "?RetClass@cTrainingDoorSpawnPoint@AI@@"
+      },
+      {
+        "address": "0x8247E9F0",
+        "size": 92,
+        "symbol": "?IsA@cTrainingDoorSpawnPoint@AI@@"
       }
     ],
     "src/AI/Behaviour/NPC/Vehicle/AgressiveResponsePilotBehaviour.cpp": [
@@ -66057,9 +66910,7 @@
       {
         "address": "0x824D0BA0",
         "size": 92,
-        "symbol": "?IsA@cAgressiveResponsePilotBehaviour@",
-        "matching": false,
-        "note": "descriptor query; LTCG drops the unused this: the placement factory calls the out-of-line constructor, so nothing here installs the vtable. Plain EXACT, LTCG 21/23 words."
+        "symbol": "?IsA@cAgressiveResponsePilotBehaviour@"
       }
     ],
     "src/AI/Behaviour/NPC/Vehicle/ChaseAndAttackPilotBehaviour.cpp": [
@@ -66175,6 +67026,11 @@
         "address": "0x824D28C0",
         "size": 12,
         "symbol": "?RetClassName@cChaseAndAttackPilotBehaviour@AI@@"
+      },
+      {
+        "address": "0x824D2980",
+        "size": 92,
+        "symbol": "?IsA@cChaseAndAttackPilotBehaviour@AI@@"
       }
     ],
     "src/Anim/cAnimationParams.cpp": [
@@ -67028,6 +67884,11 @@
         "address": "0x82711C18",
         "size": 12,
         "symbol": "?RetClassName@cStunt@PHYSICS@@"
+      },
+      {
+        "address": "0x82711A70",
+        "size": 92,
+        "symbol": "?IsA@cStuntRing@PHYSICS@@"
       }
     ],
     "src/CHARACTER/cWingSuitUpdraftZone.cpp": [
@@ -67316,6 +68177,11 @@
         "address": "0x82753960",
         "size": 12,
         "symbol": "?RetClass@cSkillSet@RPG@@"
+      },
+      {
+        "address": "0x82753970",
+        "size": 92,
+        "symbol": "?IsA@cSkillSet@RPG@@"
       }
     ],
     "src/RPG/cRenegadeOrbSpawnPoint.cpp": [
@@ -67606,6 +68472,11 @@
         "address": "0x827597D8",
         "size": 12,
         "symbol": "?RetClass@cPlayerStatManager@RPG@@"
+      },
+      {
+        "address": "0x827597E8",
+        "size": 92,
+        "symbol": "?IsA@cPlayerStatManager@RPG@@"
       }
     ],
     "src/RPG/cPvPSkillset.cpp": [
@@ -68021,6 +68892,11 @@
         "address": "0x8277DA58",
         "size": 12,
         "symbol": "?RetClass@cTargetDebugPage@GOM@@"
+      },
+      {
+        "address": "0x8277DA68",
+        "size": 92,
+        "symbol": "?IsA@cTargetDebugPage@GOM@@"
       }
     ],
     "src/VFX/cWeather.cpp": [
@@ -68151,9 +69027,7 @@
       {
         "address": "0x82801D18",
         "size": 92,
-        "symbol": "?IsA@cPlaceableLight@",
-        "matching": false,
-        "note": "descriptor query; LTCG drops the unused this without a live vtable (MakeNew 0x82801E18 still needs the base constructor's return-value propagation). Plain EXACT, LTCG 21/23 words."
+        "symbol": "?IsA@cPlaceableLight@"
       }
     ],
     "src/Audio/cWorldGameObject.cpp": [
@@ -75124,9 +75998,7 @@
       {
         "address": "0x82677EF8",
         "size": 92,
-        "symbol": "?IsA@cGangManager@",
-        "matching": false,
-        "note": "descriptor query; LTCG drops the unused this: the constructor (0x825D2300) is outside scaffolded ranges. Plain EXACT, LTCG 21/23 words."
+        "symbol": "?IsA@cGangManager@"
       }
     ],
     "src/RPG/cSkillPickupManager.cpp": [
@@ -77429,9 +78301,7 @@
       {
         "address": "0x82458DA8",
         "size": 92,
-        "symbol": "?IsA@cMission@",
-        "matching": false,
-        "note": "descriptor query; LTCG drops the unused this: the factory's out-of-line constructor does not emit the vtable. Plain EXACT, LTCG 21/23 words."
+        "symbol": "?IsA@cMission@"
       }
     ],
     "src/Anim/cAnimationProfile.cpp": [
@@ -77826,6 +78696,46 @@
         "address": "0x8270A670",
         "size": 152,
         "symbol": "?StaticCreateClass@cDynamicPickup@PHYSICS@@"
+      },
+      {
+        "address": "0x82709188",
+        "size": 92,
+        "symbol": "?IsA@cPickup@PHYSICS@@"
+      },
+      {
+        "address": "0x82709288",
+        "size": 92,
+        "symbol": "?IsA@cDynamicPickup@PHYSICS@@UBA"
+      },
+      {
+        "address": "0x82709638",
+        "size": 128,
+        "symbol": "??1cPickupBase@PHYSICS@@"
+      },
+      {
+        "address": "0x827094C0",
+        "size": 80,
+        "symbol": "??_GcPickupBase@PHYSICS@@"
+      },
+      {
+        "address": "0x8270B2C8",
+        "size": 8,
+        "symbol": "??_EcPickupBase@PHYSICS@@WBI@AAPAXI@Z"
+      },
+      {
+        "address": "0x8270B2D0",
+        "size": 8,
+        "symbol": "??_EcPickupBase@PHYSICS@@WDI@AAPAXI@Z"
+      },
+      {
+        "address": "0x8270B2D8",
+        "size": 8,
+        "symbol": "??_EcPickupBase@PHYSICS@@WBM@AAPAXI@Z"
+      },
+      {
+        "address": "0x827092E8",
+        "size": 36,
+        "symbol": "?CanPickupNow@cDynamicPickup@PHYSICS@@"
       }
     ],
     "src/AI/Streaming/cCrowdZoneHandler.cpp": [

@@ -125,7 +125,7 @@ namespace Vehicle
         virtual Fun_Runtime::RetVal Slot37();                                  // 37: 0x826C1CF8
         virtual Fun_Runtime::RetVal Reinitialise(const GOM::cSpawner *);    // 38: 0x826C1B58
         virtual Fun_Runtime::RetVal TermForReuse();             // 39: 0x826C1F88
-        virtual void vf76();                                    // 76: 0x823568D0
+        virtual float TakeDamage(Damage::cDamage &Damage);     // 76: 0x823568D0
         virtual void vf140();                                   // 140: 0x826C5B58
         virtual void vf143();                                   // 143: 0x82363D58
         virtual void vf144();                                   // 144: 0x826AB238

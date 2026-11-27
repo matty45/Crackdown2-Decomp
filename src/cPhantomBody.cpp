@@ -61,6 +61,11 @@ namespace unknown
         return *ms_pcPhantomBodyClass;
     }
 
+    bool cPhantomBody::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcPhantomBodyClass->IsA(c);
+    }
+
     RWS::CAttributeHandler *cPhantomBody::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
     {
         if (memory)

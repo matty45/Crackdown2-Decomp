@@ -16,7 +16,7 @@ namespace Audio
         virtual ~cProjectileGameObject();
 
     private:
-        unsigned char m_unmodelledC[0xA8 - 0xC];
+        unsigned char m_unmodelled90[0xA8 - 0x90];
 
         CD2_LAYOUT_CHECKS(cProjectileGameObject,
             CD2_SIZE(cProjectileGameObject, 0xA8))

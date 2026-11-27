@@ -10,6 +10,7 @@
 #include "fun_runtime/inheritance_registrar.h"
 #include "AI/cPedestrianBase.h"
 #include "AI/PedestrianGuard.h"
+#include "AI/cAiPlayer.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
 #include "AI/BehaviourClassID.h"
@@ -63,5 +64,19 @@ namespace AI
         if (memory)
             return new (memory) PedestrianGuard;
         return 0;
+    }
+
+    void PedestrianGuard::vf98()
+    {
+        if (m_nState != 9)
+            cPedestrianBase::vf98();
+        else
+            m_pHost->FaceAndPrimaryFire(1.0f, 45.0f, 0.0f, 0.0f, 0.0f);
+    }
+
+    void PedestrianGuard::vf99()
+    {
+        if (m_nState != 9)
+            cPedestrianBase::vf99();
     }
 }

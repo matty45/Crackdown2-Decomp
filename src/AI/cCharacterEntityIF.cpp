@@ -41,6 +41,25 @@
 #include "AI/cExitVehicleAgent.h"
 #include "AI/cChaseAndReloadAgent.h"
 #include "AI/cInterceptAgent.h"
+#include "AI/cMoveAgent.h"
+#include "AI/cMoveAndFaceAgent.h"
+#include "AI/cMoveAndPrimaryFireAgent.h"
+#include "AI/cBackAwayAgent.h"
+#include "AI/cDodgeAgent.h"
+#include "AI/cMoveAndReloadAgent.h"
+#include "AI/cUpperBodyAnimateAndMoveAgent.h"
+#include "AI/cChaseAndPrimaryFireAgent.h"
+#include "AI/cFaceAndPrimaryFireAgent.h"
+#include "AI/cIntelliFleeAgent.h"
+#include "AI/cWanderFleeAgent.h"
+#include "AI/cFollowAgent.h"
+#include "AI/cBrakeAgent.h"
+#include "AI/cProtectAgent.h"
+#include "AI/cReactionAgent.h"
+#include "AI/cSafeDistancePrimaryFireAgent.h"
+#include "AI/cSimpleDrivingAvoidanceAgent.h"
+#include "AI/cCircleAgent.h"
+#include "AI/cCloseAttackAgent.h"
 #include "AI/cObjectInstigatorEvent.h"
 #include "AI/cDamageTakenEvent.h"
 #include "AI/cDiedEvent.h"
@@ -277,6 +296,26 @@ namespace AI
         return t->m_fViewingAngle;
     }
 
+    void cCharacterEntityIF::vf105()
+    {
+        cSimpleDrivingAvoidanceAgent *pAgent = m_pCharacterBrain->CreateAgent<cSimpleDrivingAvoidanceAgent>();
+        if (m_pCharacterBrain->RetActiveAgent() == pAgent)
+            pAgent->VehicleEnterPhysicalState();
+    }
+
+    void cCharacterEntityIF::vf106()
+    {
+        cSimpleDrivingAvoidanceAgent *pAgent = m_pCharacterBrain->CreateAgent<cSimpleDrivingAvoidanceAgent>();
+        if (m_pCharacterBrain->RetActiveAgent() == pAgent)
+            pAgent->VehicleLeavePhysicalState();
+    }
+
+    void cCharacterEntityIF::SetGameImportance(eGameImportance nGI)
+    {
+        RetCharacter()->SetGameImportance(nGI);
+        cCharacterInterface::SetGameImportance(nGI);
+    }
+
     float cCharacterEntityIF::RetHeight()
     {
         return m_pAIEntity->m_attrHeight->GetHeight();
@@ -290,6 +329,11 @@ namespace AI
     void cCharacterEntityIF::SetPerceptionOptions(unsigned int nPerceptionOptions)
     {
         m_nPerceptionOptions = nPerceptionOptions;
+    }
+
+    void cCharacterEntityIF::SetViewingAngle(float fViewingAngle)
+    {
+        m_pAIEntity->SetViewingAngle(fViewingAngle);
     }
 
     void cCharacterEntityIF::SetViewingDistance(float fViewingDistance)
@@ -330,6 +374,151 @@ namespace AI
         SetActiveAgent(pAgent);
     }
 
+    void cCharacterEntityIF::MoveTo(Fun_Runtime::OldVec3 vecPos, bool bUsePrecision, float fStuckTimeout,
+        float fAcceptableDistance)
+    {
+        cMoveAgent *pAgent = m_pCharacterBrain->CreateAgent<cMoveAgent>();
+        Fun_Runtime::Vec3 vecDestination;
+        vecDestination.Set(vecPos.x, vecPos.y, vecPos.z);
+        pAgent->SetDestination(vecDestination, true, false);
+        pAgent->SetStuckTimeout(fStuckTimeout);
+        pAgent->SetUsePrecision(bUsePrecision);
+        pAgent->SetAcceptableReachedDestinationDistance(fAcceptableDistance);
+        SetActiveAgent(pAgent);
+    }
+
+    void cCharacterEntityIF::MoveAndFace(Fun_Runtime::OldVec3 vecPos, bool bUsePrecision, float fStuckTimeout,
+        float fAcceptableDistance)
+    {
+        cMoveAndFaceAgent *pAgent = m_pCharacterBrain->CreateAgent<cMoveAndFaceAgent>();
+        Fun_Runtime::Vec3 vecDestination;
+        vecDestination.Set(vecPos.x, vecPos.y, vecPos.z);
+        pAgent->SetDestination(vecDestination, true, false);
+        pAgent->SetStuckTimeout(fStuckTimeout);
+        pAgent->SetUsePrecision(bUsePrecision);
+        pAgent->SetAcceptableReachedDestinationDistance(fAcceptableDistance);
+        SetActiveAgent(pAgent);
+    }
+
+    void cCharacterEntityIF::MoveAndReload(Fun_Runtime::OldVec3 vecPos, bool bUsePrecision, float fStuckTimeout,
+        float fAcceptableDistance)
+    {
+        cMoveAndReloadAgent *pAgent = m_pCharacterBrain->CreateAgent<cMoveAndReloadAgent>();
+        Fun_Runtime::Vec3 vecDestination;
+        vecDestination.Set(vecPos.x, vecPos.y, vecPos.z);
+        pAgent->SetDestination(vecDestination, true, false);
+        pAgent->SetStuckTimeout(fStuckTimeout);
+        pAgent->SetUsePrecision(bUsePrecision);
+        pAgent->SetAcceptableReachedDestinationDistance(fAcceptableDistance);
+        SetActiveAgent(pAgent);
+    }
+
+    void cCharacterEntityIF::MoveAndPrimaryFire(Fun_Runtime::OldVec3 vecPos, float fSuppressingFireTime,
+        bool bFaceTargetWhenNotFiring, bool bUsePrecision, float fStuckTimeout, float fAcceptableDistance)
+    {
+        cMoveAndPrimaryFireAgent *pAgent = m_pCharacterBrain->CreateAgent<cMoveAndPrimaryFireAgent>();
+        Fun_Runtime::Vec3 vecDestination;
+        vecDestination.Set(vecPos.x, vecPos.y, vecPos.z);
+        pAgent->SetDestination(vecDestination, true, false);
+        pAgent->SetSurpressingFireTime(fSuppressingFireTime);
+        pAgent->SetFaceTargetWhenNotFiring(bFaceTargetWhenNotFiring);
+        pAgent->SetStuckTimeout(fStuckTimeout);
+        pAgent->SetUsePrecision(bUsePrecision);
+        pAgent->SetAcceptableReachedDestinationDistance(fAcceptableDistance);
+        SetActiveAgent(pAgent);
+    }
+
+    void cCharacterEntityIF::Follow(float fMinDistance, float fMaxDistance)
+    {
+        cFollowAgent *pAgent = m_pCharacterBrain->CreateAgent<cFollowAgent>();
+        pAgent->SetDistances(fMinDistance, fMaxDistance);
+        SetActiveAgent(pAgent);
+    }
+
+    void cCharacterEntityIF::ResetIntelliFleeTimeout()
+    {
+        m_pCharacterBrain->CreateAgent<cIntelliFleeAgent>()->ResetTimeout();
+    }
+
+    void cCharacterEntityIF::SetIntelliFleeUpperBodyAnim(bool bUse, int nAnimID)
+    {
+        m_pCharacterBrain->CreateAgent<cIntelliFleeAgent>()->SetUpperBodyAnim(bUse, nAnimID);
+    }
+
+    void cCharacterEntityIF::SetIntelliFleeLookBehindAnim(bool bUse, int nLookAnimID, int nTurnAnimID, float fMinTime,
+        float fMaxTime)
+    {
+        m_pCharacterBrain->CreateAgent<cIntelliFleeAgent>()->SetLookBehindAnim(bUse, nLookAnimID, nTurnAnimID, fMinTime,
+            fMaxTime);
+    }
+
+    void cCharacterEntityIF::SetIntelliFleeCowerAnim(int nStartAnimID, int nLoopAnimID, int nEndAnimID)
+    {
+        m_pCharacterBrain->CreateAgent<cIntelliFleeAgent>()->SetCowerAnims(nStartAnimID, nLoopAnimID, nEndAnimID);
+    }
+
+    void cCharacterEntityIF::SetIntelliFleePanicAnim(int nAnimID)
+    {
+        m_pCharacterBrain->CreateAgent<cIntelliFleeAgent>()->SetPanicAnim(nAnimID);
+    }
+
+    void cCharacterEntityIF::SetWanderFleeAvoidPosition(const Fun_Runtime::OldVec3 &vPosition)
+    {
+        m_pCharacterBrain->CreateAgent<cWanderFleeAgent>()->SetAvoidPosition(vPosition);
+    }
+
+    void cCharacterEntityIF::SetWanderFleeAvoidObject(cGameBase *pObject)
+    {
+        m_pCharacterBrain->CreateAgent<cWanderFleeAgent>()->SetAvoidObject(pObject);
+    }
+
+    void cCharacterEntityIF::SetWanderFleeUpperBodyAnim(bool bUse, int nAnimID)
+    {
+        m_pCharacterBrain->CreateAgent<cWanderFleeAgent>()->SetUpperBodyAnim(bUse, nAnimID);
+    }
+
+    void cCharacterEntityIF::SetWanderFleeLookBehindAnim(bool bUse, int nLookAnimID, int nTurnAnimID, float fMinTime,
+        float fMaxTime)
+    {
+        m_pCharacterBrain->CreateAgent<cWanderFleeAgent>()->SetLookBehindAnim(bUse, nLookAnimID, nTurnAnimID, fMinTime,
+            fMaxTime);
+    }
+
+    void cCharacterEntityIF::FaceAndPrimaryFire(float fSuppressingFireTime, float fTolerance, float fFirePauseTime,
+        float fMinTargetDistance, float fMaxTargetDistance)
+    {
+        cFaceAndPrimaryFireAgent *pAgent = m_pCharacterBrain->CreateAgent<cFaceAndPrimaryFireAgent>();
+        pAgent->SetSurpressingFireTime(fSuppressingFireTime);
+        pAgent->SetTolerance(fTolerance);
+        pAgent->SetFirePauseTime(fFirePauseTime);
+        pAgent->SetEnemyDistances(fMinTargetDistance, fMaxTargetDistance);
+        SetActiveAgent(pAgent);
+    }
+
+    void cCharacterEntityIF::Reaction(const Fun_Runtime::Vec3 &vReactionPos, char nReaction, unsigned int nReactionFlags,
+        float fReactionChance, Fun_Runtime::Vec3 *pReactionSourceVelo)
+    {
+        cReactionAgent *pAgent = m_pCharacterBrain->CreateAgent<cReactionAgent>();
+        if (pReactionSourceVelo)
+            pAgent->SetReactionSourceVelocity(*pReactionSourceVelo);
+        pAgent->SetReactionPos(vReactionPos);
+        pAgent->SetReaction(nReaction);
+        pAgent->SetReactionFlags(nReactionFlags);
+        SetActiveAgent(pAgent);
+        pAgent->SetReactionChance(fReactionChance);
+    }
+
+    void cCharacterEntityIF::SafeDistancePrimaryFire(float fDistance, float fFirePauseTime, bool bFiringEnabled,
+        bool bFaceTargetWhenNotFiring)
+    {
+        cSafeDistancePrimaryFireAgent *pAgent = m_pCharacterBrain->CreateAgent<cSafeDistancePrimaryFireAgent>();
+        pAgent->SetFirePauseTime(fFirePauseTime);
+        pAgent->SetDistance(fDistance);
+        pAgent->SetFiringEnabled(bFiringEnabled);
+        pAgent->SetFaceTargetWhenNotFiring(bFaceTargetWhenNotFiring);
+        SetActiveAgent(pAgent);
+    }
+
     void cCharacterEntityIF::PrimaryFire(float fTolerance)
     {
         cPrimaryFireAgent *pAgent = m_pCharacterBrain->CreateAgent<cPrimaryFireAgent>();
@@ -354,6 +543,15 @@ namespace AI
     void cCharacterEntityIF::UpperBodyAnimateAndFace()
     {
         SetActiveAgent(m_pCharacterBrain->CreateAgent<cUpperBodyAnimateAndFaceAgent>());
+    }
+
+    void cCharacterEntityIF::UpperBodyAnimateAndMove(Fun_Runtime::OldVec3 vecPos)
+    {
+        cUpperBodyAnimateAndMoveAgent *pAgent = m_pCharacterBrain->CreateAgent<cUpperBodyAnimateAndMoveAgent>();
+        Fun_Runtime::Vec3 vecDestination;
+        vecDestination.Set(vecPos.x, vecPos.y, vecPos.z);
+        pAgent->SetDestination(vecDestination, true, false);
+        SetActiveAgent(pAgent);
     }
 
     void cCharacterEntityIF::SetCharacterStateProfileFromID(unsigned int profile)
@@ -396,6 +594,67 @@ namespace AI
         SetActiveAgent(m_pCharacterBrain->CreateAgent<cExitVehicleAgent>());
     }
 
+    void cCharacterEntityIF::CloseAttack(float fTime)
+    {
+        cCloseAttackAgent *pAgent = m_pCharacterBrain->CreateAgent<cCloseAttackAgent>();
+        pAgent->SetCloseAttackTime(fTime);
+        SetActiveAgent(pAgent);
+    }
+
+    void cCharacterEntityIF::ProtectPosition(float fRadius, Fun_Runtime::OldVec3 vPosition, float fSuppressingFireTime)
+    {
+        cProtectAgent *pAgent = m_pCharacterBrain->CreateAgent<cProtectAgent>();
+        Fun_Runtime::Vec3 vecPosition;
+        vecPosition.Set(vPosition.x, vPosition.y, vPosition.z);
+        pAgent->SetProtectRadius(fRadius);
+        pAgent->SetProtectPosition(vecPosition);
+        pAgent->SetSurpressingFireTime(fSuppressingFireTime);
+        SetActiveAgent(pAgent);
+    }
+
+    void cCharacterEntityIF::ProtectObject(float fRadius, cGameBase *pObject, float fSuppressingFireTime)
+    {
+        cProtectAgent *pAgent = m_pCharacterBrain->CreateAgent<cProtectAgent>();
+        pAgent->SetProtectRadius(fRadius);
+        pAgent->SetProtectObject(pObject);
+        pAgent->SetSurpressingFireTime(fSuppressingFireTime);
+        SetActiveAgent(pAgent);
+    }
+
+    void cCharacterEntityIF::Circle(float fDistance, bool bAdjustMovement, bool bLockDirection, float fTimeout)
+    {
+        cCircleAgent *pAgent = m_pCharacterBrain->CreateAgent<cCircleAgent>();
+        pAgent->SetDistance(fDistance);
+        pAgent->SetAdjustMovement(bAdjustMovement);
+        pAgent->SetStuckTimeout(fTimeout);
+        pAgent->SetDirectionLocked(bLockDirection);
+        SetActiveAgent(pAgent);
+    }
+
+    void cCharacterEntityIF::BackAway(bool bAdjustMovement, float fSafeDistance, float fTooCloseDistance)
+    {
+        cBackAwayAgent *pAgent = m_pCharacterBrain->CreateAgent<cBackAwayAgent>();
+        pAgent->SetAdjustMovement(bAdjustMovement);
+        pAgent->SetSafeDistance(fSafeDistance);
+        pAgent->SetTargetTooCloseDistance(fTooCloseDistance);
+        SetActiveAgent(pAgent);
+    }
+
+    void cCharacterEntityIF::Dodge(bool bFiringEnabled, bool bFaceTargetWhenNotFiring)
+    {
+        cDodgeAgent *pAgent = m_pCharacterBrain->CreateAgent<cDodgeAgent>();
+        pAgent->SetFiringEnabled(bFiringEnabled);
+        pAgent->SetFaceTargetWhenNotFiring(bFaceTargetWhenNotFiring);
+        SetActiveAgent(pAgent);
+    }
+
+    void cCharacterEntityIF::Brake(bool bBrakeFlag, float fStopSpeed)
+    {
+        cBrakeAgent *pAgent = m_pCharacterBrain->CreateAgent<cBrakeAgent>();
+        pAgent->SetBrake(bBrakeFlag, fStopSpeed);
+        SetActiveAgent(pAgent);
+    }
+
     void cCharacterEntityIF::Face(float fTolerance)
     {
         cFaceAgent *pAgent = m_pCharacterBrain->CreateAgent<cFaceAgent>();
@@ -405,9 +664,39 @@ namespace AI
         SetActiveAgent(pAgent);
     }
 
+    void cCharacterEntityIF::Face(float fTolerance, const Fun_Runtime::OldVec3 &vPointToFace)
+    {
+        cFaceAgent *pAgent = m_pCharacterBrain->CreateAgent<cFaceAgent>();
+        pAgent->SetTolerance(fTolerance);
+        pAgent->SetFacePoint(vPointToFace);
+        SetActiveAgent(pAgent);
+    }
+
     void cCharacterEntityIF::SetBreakTrafficLaws(unsigned char value)
     {
         m_bBreakTrafficLaws = value;
+    }
+
+    void cCharacterEntityIF::Chase(bool bUseDefendedPosition, cGameBase *pDefendedObject,
+        Fun_Runtime::OldVec3 vecDefendedPosition, float fRadius)
+    {
+        cChaseAgent *pAgent = m_pCharacterBrain->CreateAgent<cChaseAgent>();
+        Fun_Runtime::Vec3 vecPosition;
+        vecPosition.Set(vecDefendedPosition.x, vecDefendedPosition.y, vecDefendedPosition.z);
+        pAgent->SetDefendedPosition(bUseDefendedPosition, pDefendedObject, vecPosition, fRadius);
+        SetActiveAgent(pAgent);
+    }
+
+    void cCharacterEntityIF::ChaseAndPrimaryFire(float fSuppressingFireTime, bool bFaceTargetWhenNotFiring,
+        float fAcceptableDistance, float fTargetTooFarDistance, Fun_Runtime::Vec3 vGuardPoint, float fGuardDistance)
+    {
+        cChaseAndPrimaryFireAgent *pAgent = m_pCharacterBrain->CreateAgent<cChaseAndPrimaryFireAgent>();
+        pAgent->SetSurpressingFireTime(fSuppressingFireTime);
+        pAgent->SetFaceTargetWhenNotFiring(bFaceTargetWhenNotFiring);
+        pAgent->SetAcceptableReachedDestinationDistance(fAcceptableDistance);
+        pAgent->SetTargetTooFarDistance(fTargetTooFarDistance);
+        pAgent->SetGuardPointAndDistance(vGuardPoint, fGuardDistance);
+        SetActiveAgent(pAgent);
     }
 
     void cCharacterEntityIF::ChaseAndReload()
@@ -465,6 +754,11 @@ namespace AI
     void cCharacterEntityIF::SetActiveAgent(cAgent *pState)
     {
         m_pCharacterBrain->SetActiveAgent(pState);
+    }
+
+    void cCharacterEntityIF::ClearBrainState()
+    {
+        m_pCharacterBrain->ClearActiveAgent();
     }
 
     bool cCharacterEntityIF::IsAIEntityOwner(Kaim::CEntity *pEntity)

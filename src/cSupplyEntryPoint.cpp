@@ -56,6 +56,11 @@ namespace unknown
         return *ms_pcSupplyEntryPointClass;
     }
 
+    bool cSupplyEntryPoint::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcSupplyEntryPointClass->IsA(c);
+    }
+
     Fun_Runtime::RetVal cSupplyEntryPoint::cSupplyEntryPointPrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;

@@ -98,6 +98,13 @@ namespace AI
             }
         }
     }
+    float cSupplyValve::TakeDamage(Damage::cDamage &Damage)
+    {
+        if (m_nMotionType == Prop::eMT_DYNAMIC)
+            return cSpinningProp::TakeDamage(Damage);
+        return 0.0f;
+    }
+
     unsigned int cSupplyValve::RetInteractionAnimID() const
     {
         return static_cast<cSupplyValvePrototype *>(m_pPrototype)->m_nInteractionAnimID;

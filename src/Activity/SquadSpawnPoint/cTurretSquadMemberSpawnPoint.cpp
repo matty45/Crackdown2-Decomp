@@ -34,6 +34,13 @@ namespace Activity
         return *cTurretSquadMemberSpawnPointClass;
     }
 
+    RWS::CAttributeHandler *cTurretSquadMemberSpawnPoint::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        cTurretSquadMemberSpawnPoint *point = new cTurretSquadMemberSpawnPoint;
+        point->HandleAttributes(packet);
+        return 0;
+    }
+
     const Fun_Runtime::cClass *cTurretSquadMemberSpawnPoint::ms_pcTurretSquadMemberSpawnPointClass = &cTurretSquadMemberSpawnPoint::StaticCreateClass();
 
     static Fun_Runtime::cInheritanceRegistrar cTurretSquadMemberSpawnPointcSquadMemberSpawnPointInheritRegistrar(

@@ -44,7 +44,7 @@ namespace unknown
         virtual Fun_Runtime::RetVal Slot37(); // 37: 0x826F2B48
         virtual Fun_Runtime::RetVal Reinitialise(GOM::cSpawner const *); // 38: 0x826F2988
         virtual Fun_Runtime::RetVal TermForReuse(); // 39: 0x826F28F0
-        virtual void vf76(); // 76: 0x826F2EB8
+        virtual float TakeDamage(Damage::cDamage &Damage); // 76: 0x826F2EB8
         virtual GOM::cPointOfInterest *RetPointOfInterest(int nPoint); // 122: 0x826F7B20
         virtual unsigned char RetNumPointsOfInterest(); // 123: 0x826F7B18
         virtual void vf127(); // 127: 0x826F77E8

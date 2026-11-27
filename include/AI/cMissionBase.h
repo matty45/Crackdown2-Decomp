@@ -53,14 +53,18 @@ namespace AI
         // Primary slots 2..16 (after cRegisteredClass's RetClass/IsA), in RuffKing's order. CD2's mission tables
         // (cTacticalObjective 0x820073D8, cCellStrongholdMission 0x82007478) agree up to slot 16; CD2 has none of
         // RuffKing's three debug-page virtuals (DebugPageEnter, RenderDebugPage, RetMenuText) after them.
-        virtual void Activate();
-        virtual void Deactivate();
+        // Inline: CD2's bodies (0x82458C30, 0x82458C40) only set m_bActive, and cAmbientEventMission::Deactivate
+        // (0x8248DFA0) expands the base's call, as RuffKing's does.
+        virtual void Activate() { m_bActive = true; }
+        virtual void Deactivate() { m_bActive = false; }
         virtual void ResetMission() = 0;
         virtual void NotifySquadDead(Activity::cSquadSpawnPoint *);
         virtual void NotifySquadDelete(Activity::cSquadSpawnPoint *);
         virtual void NotifySquadSpawn(Activity::cSquadSpawnPoint *);
         virtual void TickUpdate(float) = 0;
-        virtual unsigned short RetMissionID() const;
+        // Inline: CD2's body (0x8245AB70) returns m_nMissionIndex, and cAmbientEventMission::RetMissionID (0x8248DD70)
+        // expands RuffKing's call to it.
+        virtual unsigned short RetMissionID() const { return m_nMissionIndex; }
         virtual void OnMissionCriticalPropTakeDamage(cMissionCriticalPropSpawnPoint *, Damage::cDamage &);
         virtual void OnMissionCriticalPropDestroyed(cMissionCriticalPropSpawnPoint *);
         virtual void OnMissionCriticalPropUsed(cMissionCriticalPropSpawnPoint *, unsigned char);
@@ -71,6 +75,10 @@ namespace AI
         // CAttributeHandler slot 6: every mission's attribute-handler table (cMission's 0x82102E28, cPebbleDashMission's
         // 0x82105810, ...) holds 0x82458C20 there, ahead of cMission's code.
         virtual Fun_Runtime::RetVal Term();
+        // RuffKing's pure virtual with a body: cMissionBase's attribute-handler table (0x82102F40, installed by the
+        // constructor) holds _purecall in slot 1, and the body (CD2 0x8245AB78, outside the scaffolded files) is only
+        // called directly, by cMission's (0x824596C8) and cAmbientEventMission's (0x8248DFC0) overrides.
+        virtual void HandleAttributes(const RWS::CAttributePacket &attr) = 0;
     protected:
         // Fields in RuffKing's names and order (cMissionBase.h, 0x350 bytes); RuffKing's cMission ends at 0x3C0 like
         // CD2's, and its derived missions' fields fall at CD2's offsets (cFinalMission 0x3C5, cBeaconMission 0x3CA).

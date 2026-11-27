@@ -15,8 +15,9 @@ Rules (check_consistency):
   - names that embed an address (Ext_82954E48, sub_82954E48, fn_82954E48) must resolve to that address;
   - names with internal linkage (header statics, their initializers) are one name, one address per file, and within a
     file an address one of them resolves to has no other name. One exception, listed by name in LTCG_SHARED_COPIES
-    and checked by CONTENT (identical_copies): g_GlobalConstants may resolve to the file's own copy and to 0x830ACBD8
-    and 0x830B7F30, the copies LTCG's inlined code reads in every object, when all hold identical, not all-zero bytes;
+    and checked by CONTENT (identical_copies): g_GlobalConstants may resolve to the file's own copy and to 0x830ACBD8,
+    0x830B7F30 and 0x830B0910, the copies LTCG's inlined code reads in other objects, when all hold identical, not
+    all-zero bytes;
   - local (per-object) symbols ('$...', '.rdata' section symbols) are only checked for content where possible.
 Data (check_data, check_extents): the data a matched function references and our object defines (a vtable, an
 initialized global, a constant table) must equal CD2's at the resolved address, byte for byte outside its relocations;
@@ -531,9 +532,13 @@ def known_key(src, name, obj):
 # the one COMDAT the linker kept, so other objects read that object's copy: cClass::HasAncestor (every IsA) reads
 # 0x830ACBD8; VFX::cParticleEffectInstance::StopEmitters (+0x10, CONST_FLOAT_0, in about a hundred functions, most of
 # them destructors) reads 0x830B7F30, cAgencyTowerSegmentMission's own copy (its header constants' initializers read
-# it). Add a name or an address only with that evidence: anything not listed here keeps the rule one name, one address
+# it); AI::cFaceAgent's constructor (m_fTolerance and m_fDifference from CONST_FLOAT_0) reads 0x830B0910, cFaceAgent's
+# object's own copy (its header constants' initializers 0x82F67E18, 0x82F67E40 and 0x82F68078 and cFaceAgent::Think
+# 0x82286BA8 read it), wherever LTCG inlined it: in the 15 CreateAgent instances of cFaceAgent and its derived agents
+# in cCharacterEntityIF's object (0x823F58C0 ... 0x823FA310) and in cFaceAndPrimaryFireAgent's constructor 0x8240CA48.
+# Add a name or an address only with that evidence: anything not listed here keeps the rule one name, one address
 # per file.
-_GLOBAL_CONSTANTS_COPIES = (0x830ACBD8, 0x830B7F30)
+_GLOBAL_CONSTANTS_COPIES = (0x830ACBD8, 0x830B7F30, 0x830B0910)
 LTCG_SHARED_COPIES = {'g_GlobalConstants': _GLOBAL_CONSTANTS_COPIES,
                       '?g_GlobalConstants@Fun_Runtime@@3UtGlobalConstants@1@A': _GLOBAL_CONSTANTS_COPIES}
 

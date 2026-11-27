@@ -34,6 +34,16 @@ namespace GOM { class cSpawner; }
 namespace Kaim { class CEntity; }
 namespace Activity { class cSpawnPointBase; }
 
+// RuffKing's values; cNonGameBase's constructor (0x82653588) starts each object at eGI_Default.
+enum eGameImportance
+{
+    eGI_Critical = 0,
+    eGI_High,
+    eGI_Default,
+    eGI_Low,
+    eGI_Max,
+};
+
 class cNonGameBase : public RWS::CAttributeHandler, public RWS::CEventHandler, public Fun_Runtime::cScriptHost,
     public Network::cNetRoleObject
 {
@@ -58,7 +68,14 @@ private:
 protected:
     int m_nUniqueID;                        // 0x64
 private:
-    unsigned char m_pad68[0x79 - 0x68];
+    unsigned char m_pad68[0x76 - 0x68];
+protected:
+    // RuffKing's names: slot 51 (SetGameImportance, 0x823CBF38) stores the byte at +0x76 and slot 52 returns it; slot 56
+    // (0x823CBF58) returns the byte at +0x77, as RuffKing's RetAVFlags returns m_nAVFlags.
+    unsigned char m_nGameImportance;        // 0x76
+    unsigned char m_nAVFlags;               // 0x77
+private:
+    unsigned char m_pad78[0x79 - 0x78];
 protected:
     // RuffKing's name (its last byte, 0xAA there); cLandVehicle's CanTurnOnPoliceLights (0x826C2B30) and
     // CanTurnOnExhaustFumes (0x826C2BB0) test bit 1 of the byte at 0x79 where RuffKing's test m_nNGBFlags & 2.
@@ -108,7 +125,9 @@ public:
     virtual void Slot12();
     virtual void Slot13();
     virtual void Slot14();
-    virtual void Slot15();
+    // Slot 15: RuffKing's HandleRenderableResources: cGameBase's override (0x82323C98) is RuffKing's body (it walks the
+    // prototype's resource handles at +0x70..+0x7C); this class's returns false (0x827E56A8).
+    virtual bool HandleRenderableResources(GOM::cObjectPrototype *pPrototype);
     virtual void Slot16();
     virtual void Slot17();
     virtual Fun_Runtime::RetVal Init(const GOM::cSpawner *);
@@ -118,7 +137,9 @@ public:
     // 0x823D9718.
     virtual Fun_Runtime::RetVal Init(const RWS::CAttributePacket &);
     virtual void Slot19();
-    virtual void Slot20();
+    // Slot 20: RuffKing's SetSpawner: cRenegadeOrb's override (0x82757610) stores the spawner at m_pSpawner (+0x5C) and
+    // links itself back into it, or clears both for a null spawner.
+    virtual void SetSpawner(Activity::cSpawnPointBase *pSpawner);
     virtual void Slot21();
     virtual void Slot22();
     virtual void TickUpdate(float fDeltaTime);
@@ -161,8 +182,9 @@ public:
     // The character-interface override at 0x823E7778 reads its reference-named alive flag.
     virtual bool IsAlive() const;
     virtual void Slot51();
-    virtual void Slot52();
-    virtual void Slot53();
+    // Slots 51 and 52: RuffKing's SetGameImportance (inline there, as here) and a getter of the same field.
+    virtual void SetGameImportance(eGameImportance nGI) { m_nGameImportance = nGI; }
+    virtual eGameImportance RetGameImportance() const;
     virtual void Slot54();
     virtual void Slot55();
     virtual void Slot56();
@@ -195,6 +217,7 @@ public:
         CD2_OFFSET(cNonGameBase, m_pOwner, 0x4C)
         CD2_OFFSET(cNonGameBase, m_p50, 0x50)
         CD2_OFFSET(cNonGameBase, m_nUniqueID, 0x64)
+        CD2_OFFSET(cNonGameBase, m_nGameImportance, 0x76)
         CD2_OFFSET(cNonGameBase, m_nNGBFlags, 0x79))
 };
 

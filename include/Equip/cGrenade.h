@@ -103,7 +103,7 @@ namespace Equip
         virtual Fun_Runtime::RetVal Term(); // CD2 cGrenade table 0x82014DD0 slot 6: 0x822F4390.
         virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // Same table, slot 18: 0x8261E380.
         virtual void Slot24(); // 24: 0x8261F1F8
-        virtual void vf76(); // 76: 0x8261F060
+        virtual float TakeDamage(Damage::cDamage &Damage); // 76: 0x8261F060
         virtual void vf140(); // 140: 0x8261C148
         virtual void vf158(); // 158: 0x82277CE8
         virtual void vf166(); // 166: 0x827E56A8

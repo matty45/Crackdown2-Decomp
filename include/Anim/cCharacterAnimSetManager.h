@@ -17,6 +17,7 @@ namespace Anim
         // CD2 0x824E4390: the allocation factory calls this constructor out of line.
         cCharacterAnimSetManager();
         virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         // CD2 descriptor pointer 0x838214ec; its initializer names cCharacterAnimSetManager.
         static const Fun_Runtime::cClass *ms_pcCharacterAnimSetManagerClass;
         static RWS::CAttributeHandler *MakeNew(const RWS::CAttributePacket &, bool);

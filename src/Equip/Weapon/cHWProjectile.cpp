@@ -80,6 +80,12 @@ namespace Equip
         ReleaseEffect();
     }
 
+    void cHWProjectile::SetStatus(Equip::cEquipment::EQUIP_STATUS eStatus)
+    {
+        cWeaponProjectile::SetStatus(eStatus);
+        m_nGameImportance = eGI_Critical;
+    }
+
     void cHWProjectile::SetExplosiveSkillLevel(unsigned char nLevel)
     {
         if (m_pExplosive)

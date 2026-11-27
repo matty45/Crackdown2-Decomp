@@ -9,11 +9,14 @@
 //   - m_pOwner (0xC8; RuffKing 0xC4, CD2 has one more word before it): the owning cCharacterEntityIF; RetViewingAngle
 //     reads its character pointer (+0x88).
 //   - "SetPlayerViewingDistance" (0x823F0608) stores 0x94, RuffKing's m_fPlayerViewingDistance there.
+//   - "SetViewingAngle" (0x823F05B0) expands RuffKing's SetViewingAngle: the angle at 0x88 and the cosine of its
+//     radians at 0x8C, RuffKing's m_fCosViewingAngle.
 //   - m_attrWidth (0x70) and m_attrHeight (0x74): RuffKing's names and offsets; "RetHeight" (0x823F03E8) returns the
 //     height attribute's value and RetRadius (0x823F03F8) half the width attribute's.
 #ifndef AI_CCHARACTERENTITY_H
 #define AI_CCHARACTERENTITY_H
 
+#include <math.h>
 #include "fun_runtime/vec3.h"
 #include "cd2/layout.h"
 #include "Kaim/CEntity.h"
@@ -44,9 +47,13 @@ namespace AI
         unsigned char m_pad78[0x88 - 0x78];
     public:
         float m_fViewingAngle;                      // 0x88
-    private:
-        unsigned char m_pad8C[0x90 - 0x8C];
-    public:
+        float m_fCosViewingAngle;                   // 0x8C
+        // RuffKing's (out of line there); the "SetViewingAngle" script method expands it.
+        void SetViewingAngle(float fAngle)
+        {
+            m_fViewingAngle = fAngle;
+            m_fCosViewingAngle = cosf(fAngle * 0.017453f);
+        }
         float m_fViewingDistance;                   // 0x90
         float m_fPlayerViewingDistance;             // 0x94
         float m_fThreatObjectViewingDistance;       // 0x98
@@ -63,6 +70,7 @@ namespace AI
             CD2_OFFSET(cCharacterEntity, m_attrWidth, 0x70)
             CD2_OFFSET(cCharacterEntity, m_attrHeight, 0x74)
             CD2_OFFSET(cCharacterEntity, m_fViewingAngle, 0x88)
+            CD2_OFFSET(cCharacterEntity, m_fCosViewingAngle, 0x8C)
             CD2_OFFSET(cCharacterEntity, m_fViewingDistance, 0x90)
             CD2_OFFSET(cCharacterEntity, m_fPlayerViewingDistance, 0x94)
             CD2_OFFSET(cCharacterEntity, m_fThreatObjectViewingDistance, 0x98)

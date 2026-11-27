@@ -28,6 +28,11 @@ namespace AI
         return *ms_pcChaseAndAttackPilotBehaviourClass;
     }
 
+    bool cChaseAndAttackPilotBehaviour::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcChaseAndAttackPilotBehaviourClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cChaseAndAttackPilotBehaviour::StaticCreateClass()
     {
         static Fun_Runtime::cClass *descriptor = new Fun_Runtime::cClass(

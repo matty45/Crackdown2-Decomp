@@ -10,6 +10,7 @@
 #include "fun_runtime/inheritance_registrar.h"
 #include "AI/NPCArmedBehaviour.h"
 #include "AI/CellTurret.h"
+#include "AI/cAiPlayer.h"
 #include "rws/classfactory.h"
 #include "cd2/memory.h"
 #include "AI/BehaviourClassID.h"
@@ -54,6 +55,12 @@ namespace AI
             cAIEventManager::ms_pEventManager->Unsubscribe(m_nTargetDiedSub);
             m_nTargetDiedSub = 0;
         }
+    }
+
+    void CellTurret::EnterSubStateInvestigating()
+    {
+        m_pHost->SetMovementType(1);
+        m_pHost->ChaseAndPrimaryFire(2.5f, true, 5.0f, 0.0f, Fun_Runtime::ZeroVec, -1.0f);
     }
 
     static RWS::CClassFactory::CRegistrar CellTurretRegistrar(

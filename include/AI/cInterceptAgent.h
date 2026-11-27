@@ -1,6 +1,6 @@
 // AI::cInterceptAgent (Crackdown 2): STAND-IN. CD2's CreateAgent<cInterceptAgent> (0x823FA820) allocates 0xB0 bytes,
 // builds a cMoveAndFaceAgent and installs table 0x820FD5B0 (RetAgentName 0x8240E110 returns "InterceptAgent"; slot
-// 14, RetAgentClassID, is 0x8240E0C8). Its fields are not modelled (not an allocation layout).
+// 14, RetAgentClassID, is 0x8240E0C8). It adds no fields and overrides Think (slot 5, 0x8240E120).
 #ifndef AI_CINTERCEPTAGENT_H
 #define AI_CINTERCEPTAGENT_H
 
@@ -19,7 +19,11 @@ namespace AI
             return s_nAgentClassID;
         }
         virtual const char *RetAgentName();
+        virtual void Think();                                   // 5: 0x8240E120
         virtual unsigned short RetAgentClassID();
+
+        CD2_LAYOUT_CHECKS(cInterceptAgent,
+            CD2_SIZE(cInterceptAgent, 0xB0))
     };
 }
 

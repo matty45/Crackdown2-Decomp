@@ -47,6 +47,11 @@ namespace AI
         return *ms_pNPCBehaviourClass;
     }
 
+    bool NPCBehaviour::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pNPCBehaviourClass->IsA(c);
+    }
+
     void NPCBehaviour::OnEnterReplicatedState(unsigned char)
     {
         OnEnter();

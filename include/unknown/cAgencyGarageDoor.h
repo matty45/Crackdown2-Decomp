@@ -55,7 +55,7 @@ namespace unknown
         virtual void TickUpdate(float dt); // 23: 0x827338E8
         virtual bool EnterRenderableState(eResourcesType eResources); // 31: 0x827331E0
         virtual void LeaveRenderableState(); // 32: 0x827332E0
-        virtual void vf76(); // 76: 0x82457958
+        virtual float TakeDamage(Damage::cDamage &Damage); // 76: 0x82457958
         virtual void vf140(); // 140: 0x827333B8
         virtual void vf158(); // 158: 0x827331C8
 

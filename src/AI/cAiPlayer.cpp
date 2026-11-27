@@ -259,11 +259,11 @@ namespace AI
         return m_pAIEntity->m_name;
     }
 
-    void cAiPlayer::Slot20()
+    void cAiPlayer::SetSpawner(Activity::cSpawnPointBase *pSpawner)
     {
         CHARACTER::cCharacter *character = RetCharacter();
         if (character)
-            character->Slot20();
+            character->SetSpawner(pSpawner);
     }
 
     void cAiPlayer::Slot54()

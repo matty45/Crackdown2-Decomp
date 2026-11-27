@@ -6,14 +6,18 @@
 // table (0x820FCDF4) and the heuristic's Kaim::CObject table, so the destructor is user-declared and inline.
 // CD2's table has 15 slots: RuffKing's 14 with RetAgentStatus and CanUseUpperBodyLookat swapped (cFaceAgent overrides
 // slot 2 with RuffKing's RetAgentStatus body, 0x8240C948) and one more before the pure RetAgentClassID (slot 14).
-// RuffKing's EventTrigger, EventAnimation, ShowDestination, ShowDebugInfo and ReevaluatePath do not map one to one
-// onto CD2's empty slots 8..13, so those stay unnamed. The base RetAgentName (0x82405630) returns
+// Slots 8 and 9 are RuffKing's EventTrigger and EventAnimation: CD2's cDropAgent and cSecondaryFireAgent override slot 8
+// and test its three controller-event arguments (RuffKing's cThrowAgent and cExitVehicleAgent override EventTrigger),
+// and cPrimaryFireAgent's slot 9 (0x8241A7D8) reads its first argument through a reference and sign-extends the third,
+// as EventAnimation(const etActionTypesEnum &, int, short). RuffKing's ShowDestination, ShowDebugInfo and
+// ReevaluatePath do not map one to one onto CD2's remaining empty slots 10..13, so those stay unnamed. The base RetAgentName (0x82405630) returns
 // "Unnamed Brain State"; CD2 calls ReInit (slot 4) after creating an agent and OnExit/OnEnter (slots 7/6) when the
 // brain changes its active agent.
 #ifndef AI_CAGENT_H
 #define AI_CAGENT_H
 
 #include "Kaim/CHeuristicEuclidianDistance.h"
+#include "CHARACTER/controllerevents.h"
 #include "cd2/layout.h"
 
 namespace AI
@@ -32,8 +36,10 @@ namespace AI
         virtual void Think();
         virtual void OnEnter();
         virtual void OnExit();
-        virtual void vf8();
-        virtual void vf9();
+        virtual void EventTrigger(CHARACTER::eControllerEventType eEventType,
+            CHARACTER::eControllerEventSubType eEventSubType,
+            CHARACTER::eControllerEvents eEvent);
+        virtual void EventAnimation(const CHARACTER::etActionTypesEnum &eType, int nBaseState, short nEventID);
         virtual void vf10();
         virtual void vf11();
         virtual void vf12();

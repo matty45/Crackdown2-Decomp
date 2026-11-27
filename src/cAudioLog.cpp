@@ -60,6 +60,11 @@ namespace unknown
     {
     }
 
+    void cAudioLog::Use(PLAYER::cPlayer *pPlayer)
+    {
+        Collect(pPlayer);
+    }
+
     RWS::CAttributeHandler *cAudioLog::MakeNew(const RWS::CAttributePacket &, bool)
     {
         return new cAudioLog;

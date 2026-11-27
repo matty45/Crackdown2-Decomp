@@ -24,6 +24,7 @@ namespace unknown
 
         // CD2 0x8273FA98: registered-class virtual slot 0 reads this class descriptor.
         virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         // CD2 0x8273FB98: primary virtual slot 11 returns the registered class name.
         virtual const char *RetClassName() const;
         // CD2 spawning initializer 0x82FF9598 names placement factory 0x8273fbc0.

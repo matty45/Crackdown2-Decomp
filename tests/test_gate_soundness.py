@@ -102,10 +102,12 @@ class JumpTableLabelTests(unittest.TestCase):
 class IdenticalCopiesTests(unittest.TestCase):
     """One file's internal datum may resolve to several CD2 addresses only when relocs.LTCG_SHARED_COPIES lists its
     name, at least one address is a listed shared copy and at most one is not, and all hold identical, not all-zero
-    copies of its exact size (LTCG's inlined HasAncestor and StopEmitters read one object's g_GlobalConstants each)."""
+    copies of its exact size (LTCG's inlined HasAncestor, StopEmitters and cFaceAgent constructor read one object's
+    g_GlobalConstants each)."""
     name = '?g_GlobalConstants@Fun_Runtime@@3UtGlobalConstants@1@A'
-    shared, shared2 = relocs.LTCG_SHARED_COPIES[name]
-    memory = {shared: words(0, 1, 2, 100), shared2: words(0, 1, 2, 100), 0x2000: words(0, 1, 2, 100),
+    shared, shared2, shared3 = relocs.LTCG_SHARED_COPIES[name]
+    memory = {shared: words(0, 1, 2, 100), shared2: words(0, 1, 2, 100), shared3: words(0, 1, 2, 100),
+              0x2000: words(0, 1, 2, 100),
               0x3000: words(0, 1, 2, 101), 0x4000: words(0, 1, 2, 100)}
 
     class Obj:
@@ -132,6 +134,9 @@ class IdenticalCopiesTests(unittest.TestCase):
 
     def test_own_copy_and_the_second_shared_copy_are_one_datum(self):
         self.assertFalse(self.problems(self.shared2, 0x2000))
+
+    def test_own_copy_and_the_third_shared_copy_are_one_datum(self):
+        self.assertFalse(self.problems(self.shared3, 0x2000))
 
     def test_own_copy_and_both_shared_copies_are_one_datum(self):
         self.assertFalse(self.problems(self.shared, self.shared2, 0x2000))

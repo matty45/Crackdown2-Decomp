@@ -6,6 +6,7 @@
 #include "rws/systemcommands.h"
 #include "GameRenderer/cFrame.h"
 #include "fun_runtime/mtx.h"
+namespace Damage { class cDamage; }
 namespace GOM { class cPointOfInterest; }
 namespace CHARACTER { class cCharacter; }
 __declspec(align(16)) class cGameBase : public RWS::CSystemCommands, public cNonGameBase
@@ -71,7 +72,11 @@ public:
     // uses drift by one from slot 32, so they are not reused here).
     // Reference TermClump: CD2 slot 70 (0x82651180) releases the clump at +0xF4 and clears it.
     virtual void vf68(); virtual void vf69(); virtual void TermClump(); virtual void vf71(); virtual void vf72(); virtual void vf73();
-    virtual void vf74(); virtual void vf75(); virtual void vf76(); virtual void vf77(); virtual void vf78(); virtual void vf79();
+    virtual void vf74(); virtual void vf75();
+    // Slot 76: RuffKing's TakeDamage: cGameBase's body (0x826512C0) takes the damage's amount (+0x54) off the health
+    // at +0x110 and returns it, as RuffKing's does.
+    virtual float TakeDamage(Damage::cDamage &Damage);
+    virtual void vf77(); virtual void vf78(); virtual void vf79();
     virtual void vf80(); virtual void vf81(); virtual void vf82(); virtual void vf83(); virtual void vf84(); virtual void vf85();
     virtual void vf86(); virtual void vf87(); virtual void vf88(); virtual void vf89(); virtual void vf90(); virtual void vf91();
     virtual void vf92(); virtual void vf93(); virtual void vf94(); virtual void vf95(); virtual void vf96(); virtual void vf97();
@@ -96,7 +101,13 @@ public:
     // RuffKing's name and type (protected there); cPhantomBody's UpdateRenderMatrix (0x8268AA80) copies it into the clump.
     Fun_Runtime::Mtx m_Transform;
 private:
-    unsigned char m_unknownD0[0xF4 - 0xD0];
+    unsigned char m_unknownD0[0xF1 - 0xD0];
+protected:
+    // RuffKing's name (protected there): RuffKing's cTurretBase::TakeDamage tests it after the motion type, as CD2's
+    // (0x82748BB8) tests the byte at +0xF1.
+    bool m_bRequestingDeath;
+private:
+    unsigned char m_unknownF2[0xF4 - 0xF2];
 public:
     // RuffKing's name and type (public there too); CD2's TermClump (slot 70, 0x82651180) releases it, and cVehicle's
     // Show (0x826CFE90) sets its visibility.
@@ -116,7 +127,7 @@ public:
     virtual char const * RetClassName() const; // 11: 0x82451430
     virtual void Slot13(); // 13: 0x826511F8
     virtual void Slot14(); // 14: 0x8288FB78
-    virtual void Slot15(); // 15: 0x82323C98
+    virtual bool HandleRenderableResources(GOM::cObjectPrototype *pPrototype); // 15: 0x82323C98
     virtual void Slot17(); // 17: 0x82650838
     virtual void TickUpdate(float fDeltaTime); // 23: 0x82808DC8
     virtual void Slot30(); // 30: 0x82651DB0

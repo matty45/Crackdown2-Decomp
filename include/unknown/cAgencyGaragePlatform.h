@@ -28,7 +28,7 @@ namespace unknown
     public:
         virtual bool EnterPhysicalState(); // 7: 0x82736628
         virtual void Slot13(); // 13: 0x827365F0
-        virtual void vf76(); // 76: 0x82457958
+        virtual float TakeDamage(Damage::cDamage &Damage); // 76: 0x82457958
         virtual Fun_Runtime::cClass const & RetClass() const; // cBody 0: 0x82736D40
         virtual bool IsA(Fun_Runtime::cClass const &) const; // cBody 1: 0x82736D48
     protected:

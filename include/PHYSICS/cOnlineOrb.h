@@ -39,6 +39,13 @@ namespace PHYSICS
         virtual Fun_Runtime::RetVal Init(RWS::CAttributePacket const &); // 5: 0x82710BC0
         virtual void HandleEvents(RWS::CMsg &); // CEventHandler 5: 0x82710D28
         virtual bool IsA(Fun_Runtime::cClass const &) const; // cRegisteredClass 1: 0x822E2438
+        // cPickupBase's virtuals 70..75, which CD2's table for this class (0x8200AA08) overrides.
+        virtual void SetActive(bool bActive);                                       // 70: 0x82711240
+        virtual void GetVFXData(int &nEffectId, float &fPri, float &fScale);        // 71: 0x822B3A18
+        virtual bool CanAutoPickup() const;                                         // 72: 0x822A2690
+        virtual void GetLocPickupString(Fun_Runtime::cString &sLocString, bool &bHideButton) const; // 73: 0x82711068
+        virtual void Use(PLAYER::cPlayer *);                                        // 74: 0x82711180
+        virtual void Collect(PLAYER::cPlayer *pPlayer);                             // 75: 0x827112E0
     protected:
         CD2_LAYOUT_CHECKS(cOnlineOrb,
             CD2_SIZE(cOnlineOrb, 0x170)

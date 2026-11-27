@@ -138,6 +138,7 @@ namespace AI
         void SetPlayerViewingDistance(float fViewingDistance);
         void SetThreatObjectViewingDistance(float fViewingDistance);
         void SetHearingAcuteness(float fHearingAcuteness);
+        void SetViewingAngle(float fViewingAngle);
         void SetBreakTrafficLaws(unsigned char value);
         void DropImmediately();
         void ExitVehicleImmediately();
@@ -150,6 +151,50 @@ namespace AI
         // CD2 script methods: each makes the brain's agent of one type active (CreateAgent instances in this object).
         void Idle();
         void Reload(float fTolerance);
+        // CD2 script methods with the parameters of RuffKing's cMoveAgent::ActivateAgent and cMoveAndFaceAgent's, but
+        // the position by value as an OldVec3 (in r4/r5, as RuffKing's script method cProp::ForceSetVelocity takes it),
+        // copied into a Vec3 as three floats.
+        void MoveTo(Fun_Runtime::OldVec3 vecPos, bool bUsePrecision, float fStuckTimeout, float fAcceptableDistance);
+        void MoveAndPrimaryFire(Fun_Runtime::OldVec3 vecPos, float fSuppressingFireTime, bool bFaceTargetWhenNotFiring,
+            bool bUsePrecision, float fStuckTimeout, float fAcceptableDistance);
+        void MoveAndReload(Fun_Runtime::OldVec3 vecPos, bool bUsePrecision, float fStuckTimeout,
+            float fAcceptableDistance);
+        void UpperBodyAnimateAndMove(Fun_Runtime::OldVec3 vecPos);
+        // RuffKing's cFaceAndPrimaryFireAgent::ActivateAgent and cChaseAndPrimaryFireAgent's parameters.
+        void FaceAndPrimaryFire(float fSuppressingFireTime, float fTolerance, float fFirePauseTime, float fMinTargetDistance,
+            float fMaxTargetDistance);
+        void ChaseAndPrimaryFire(float fSuppressingFireTime, bool bFaceTargetWhenNotFiring, float fAcceptableDistance,
+            float fTargetTooFarDistance, Fun_Runtime::Vec3 vGuardPoint, float fGuardDistance);
+        void Chase(bool bUseDefendedPosition, cGameBase *pDefendedObject, Fun_Runtime::OldVec3 vecDefendedPosition,
+            float fRadius);
+        void ResetIntelliFleeTimeout();
+        void SetIntelliFleeUpperBodyAnim(bool bUse, int nAnimID);
+        void SetIntelliFleeLookBehindAnim(bool bUse, int nLookAnimID, int nTurnAnimID, float fMinTime, float fMaxTime);
+        void SetIntelliFleeCowerAnim(int nStartAnimID, int nLoopAnimID, int nEndAnimID);
+        void SetIntelliFleePanicAnim(int nAnimID);
+        void SetWanderFleeAvoidPosition(const Fun_Runtime::OldVec3 &vPosition);
+        void SetWanderFleeAvoidObject(cGameBase *pObject);
+        void SetWanderFleeUpperBodyAnim(bool bUse, int nAnimID);
+        void SetWanderFleeLookBehindAnim(bool bUse, int nLookAnimID, int nTurnAnimID, float fMinTime, float fMaxTime);
+        void Follow(float fMinDistance, float fMaxDistance);
+        // RuffKing's cReactionAgent::ActivateAgent parameters; CD2's copy (0x823F2A40, four callers) is this object's.
+        void Reaction(const Fun_Runtime::Vec3 &vReactionPos, char nReaction, unsigned int nReactionFlags,
+            float fReactionChance, Fun_Runtime::Vec3 *pReactionSourceVelo);
+        void SafeDistancePrimaryFire(float fDistance, float fFirePauseTime, bool bFiringEnabled,
+            bool bFaceTargetWhenNotFiring);
+        void ProtectPosition(float fRadius, Fun_Runtime::OldVec3 vPosition, float fSuppressingFireTime);
+        void ClearBrainState();
+        void CloseAttack(float fTime);
+        void ProtectObject(float fRadius, cGameBase *pObject, float fSuppressingFireTime);
+        void Brake(bool bBrakeFlag, float fStopSpeed);
+        // RuffKing's cFaceAgent::ActivateAgent with a point; CD2's copy (0x823F43B8, four callers) is this object's.
+        void Face(float fTolerance, const Fun_Runtime::OldVec3 &vPointToFace);
+        void Circle(float fDistance, bool bAdjustMovement, bool bLockDirection, float fTimeout);
+        // CD2 script method "SetMovementType" (0x823F3650): stores m_nMovementType and sets the character's speeds.
+        void SetMovementType(unsigned char nMovementType);
+        void BackAway(bool bAdjustMovement, float fSafeDistance, float fTooCloseDistance);
+        void Dodge(bool bFiringEnabled, bool bFaceTargetWhenNotFiring);
+        void MoveAndFace(Fun_Runtime::OldVec3 vecPos, bool bUsePrecision, float fStuckTimeout, float fAcceptableDistance);
         void PrimaryFire(float fTolerance);
         void SecondaryFire(float fTolerance);
         void Throw(float fTolerance);
@@ -175,7 +220,7 @@ namespace AI
         // CD2: cCharacterEntityIF's own virtuals. Each slot below holds, in this class's CD2 vtable (and its derived classes'), an
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
-        virtual void Slot52(); // 51: 0x823F0300
+        virtual void SetGameImportance(eGameImportance nGI); // 51: 0x823F0300
         virtual bool IsAIEntityOwner(Kaim::CEntity *pEntity); // 61: 0x823F4828
         virtual void vf75(); // 75: 0x8224C0C0
         virtual void vf76(); // 76: 0x82360140

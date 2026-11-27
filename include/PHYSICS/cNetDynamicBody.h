@@ -41,7 +41,7 @@ namespace PHYSICS
         virtual Fun_Runtime::RetVal Reinitialise(GOM::cSpawner const *);       // 38: 0x82688148
         virtual Fun_Runtime::RetVal TermForReuse();                            // 39: 0x82688198
         virtual void Slot64();                                                 // 63: 0x82689C78
-        virtual void vf76();                                                   // 76: 0x822D0950
+        virtual float TakeDamage(Damage::cDamage &Damage);                    // 76: 0x822D0950
         virtual void vf134();                                                  // 134: 0x82457A38
         virtual void vf158();                                                  // 158: 0x82689BF0
         virtual void SetCarriedByCharacter(CHARACTER::cCharacter *pCarrying);                                                  // 254: 0x822C5A30

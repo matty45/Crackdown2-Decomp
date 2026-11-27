@@ -99,6 +99,8 @@ namespace Sim
         bool RemoveTimeOfDayEvent(unsigned int in_ID); // CD2 0x82775580, script method "RemoveTimeOfDayEvent"
         void Pause(bool); // CD2 script method 0x82775600; reference signature
         void UnPause(); // CD2 script method 0x82775620; sets the reference m_bActive flag
+        // RuffKing's (out of line there); CD2 has no copy: cAmbientEventMission::Activate (0x8248DEE0) expands it.
+        bool IsDayTime() { return m_fPhase > m_fDawn && m_fPhase < m_fDusk; }
         void SetForceUpdatePhaseStep(bool force) { m_bForceUpdatePhaseStep = force; }
         bool RetForceUpdatePhaseStep() { return m_bForceUpdatePhaseStep; }
 

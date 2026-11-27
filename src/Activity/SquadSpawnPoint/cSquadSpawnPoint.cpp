@@ -34,6 +34,13 @@ namespace Activity
         return *cSquadSpawnPointClass;
     }
 
+    RWS::CAttributeHandler *cSquadSpawnPoint::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        cSquadSpawnPoint *point = new cSquadSpawnPoint;
+        point->HandleAttributes(packet);
+        return 0;
+    }
+
     const Fun_Runtime::cClass *cSquadSpawnPoint::ms_pcSquadSpawnPointClass = &cSquadSpawnPoint::StaticCreateClass();
 
     static Fun_Runtime::cInheritanceRegistrar cSquadSpawnPointcSpawnPointBaseInheritRegistrar(

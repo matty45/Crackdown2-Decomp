@@ -31,7 +31,7 @@ namespace unknown
         virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // 18: 0x826234C0
         virtual void TickUpdate(float fDeltaTime); // 23: 0x82623758
         virtual void Slot24(); // 24: 0x826237B8
-        virtual void vf76(); // 76: 0x82623BC0
+        virtual float TakeDamage(Damage::cDamage &Damage); // 76: 0x82623BC0
         virtual void vf158(); // 158: 0x82623810
         virtual void vf199(); // 199: 0x82623B40
         virtual void TriggerEnterWater(float fWaterLevel); // 284: 0x82623B60

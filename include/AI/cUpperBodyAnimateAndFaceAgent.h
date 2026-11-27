@@ -20,6 +20,12 @@ namespace AI
         }
         virtual const char *RetAgentName();
         virtual unsigned short RetAgentClassID();
+        // Slots 6..8: CD2 0x8241E838, 0x8241E918 and 0x8241EAF0; Think is cFaceAgent's (0x82286BA8).
+        virtual void OnEnter();
+        virtual void OnExit();
+        virtual void EventTrigger(CHARACTER::eControllerEventType eEventType,
+            CHARACTER::eControllerEventSubType eEventSubType,
+            CHARACTER::eControllerEvents eEvent);
 
         CD2_LAYOUT_CHECKS(cUpperBodyAnimateAndFaceAgent,
             CD2_SIZE(cUpperBodyAnimateAndFaceAgent, 0x40))

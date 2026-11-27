@@ -28,6 +28,7 @@ namespace unknown
         CCarController();
         // CD2 0x8277EBF0: registered-class virtual slot 0 reads this class descriptor.
         virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         // CD2 0x8277ECD0: primary virtual slot 11 returns the registered class name.
         virtual const char *RetClassName() const;
         // CD2 spawning initializer 0x83004BE0 names placement factory 0x8277ece0.

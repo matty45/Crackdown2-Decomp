@@ -39,24 +39,24 @@ namespace AI
         // RuffKing's, out of line there; CD2 expands it into every CreateAgent instance.
         __forceinline cAgent *RetAgent(unsigned short nAgentTypeID) const
         {
-            cAgent *pAgent = 0;
             for (Fun_Runtime::cVector<tAgentCacheBlock>::const_iterator it = m_vpAgentCache.begin();
                  it != m_vpAgentCache.end(); ++it)
             {
                 if (it->nAgentTypeID == nAgentTypeID)
-                {
-                    pAgent = it->pAgent;
-                    break;
-                }
+                    return it->pAgent;
             }
-            return pAgent;
+            return 0;
         }
 
         // RuffKing's (cCharacterBrain.h); CD2 instantiates it in cCharacterEntityIF's object (0x823F5790 for
         // cIdleAgent, ...): look the agent type up, else create, reinitialise and cache one.
+        template <class T> __forceinline T *RetAgent() const
+        {
+            return static_cast<T *>(RetAgent(T::StaticAgentClassID()));
+        }
         template <class T> T *CreateAgent()
         {
-            T *pAgent = static_cast<T *>(RetAgent(T::StaticAgentClassID()));
+            T *pAgent = RetAgent<T>();
             if (pAgent == 0)
             {
                 pAgent = new T(this);
@@ -67,6 +67,17 @@ namespace AI
                 m_vpAgentCache.push_back(block);
             }
             return pAgent;
+        }
+        // RuffKing's (out of line there); CD2's callers (cCharacterEntityIF slots 105/106) expand it.
+        cAgent *RetActiveAgent() const { return m_pActiveAgent; }
+        // RuffKing's (out of line there); the "ClearBrainState" script method (0x823F47D8) expands it.
+        void ClearActiveAgent()
+        {
+            if (m_pActiveAgent)
+            {
+                m_pActiveAgent->OnExit();
+                m_pActiveAgent = 0;
+            }
         }
         // __forceinline: CD2 expands it into cCharacterEntityIF::SetActiveAgent, which /Ob1 declines for a plain inline.
         __forceinline void SetActiveAgent(cAgent *pAgent)

@@ -101,7 +101,7 @@ namespace Equip
         virtual void LeavePhysicalState(); // 27: 0x82580578
         virtual bool EnterRenderableState(eResourcesType); // 31: 0x8262ACC0
         virtual void LeaveRenderableState(); // 32: 0x82580578
-        virtual void vf76(); // 76: 0x8262CA98
+        virtual float TakeDamage(Damage::cDamage &Damage); // 76: 0x8262CA98
         virtual void vf166(); // 166: 0x827E56A8
         virtual void vf239(); // 239: 0x827E56A8
         virtual void vf276(); // 276: 0x8262D380

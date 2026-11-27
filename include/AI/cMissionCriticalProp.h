@@ -57,9 +57,9 @@ namespace AI
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
         virtual bool EnterPhysicalState(); // 7: 0x8272A070
-        virtual void Slot20(); // 20: 0x8245B2C8
+        virtual void SetSpawner(Activity::cSpawnPointBase *pSpawner); // 20: 0x8245B2C8
         virtual void TickUpdate(float fDeltaTime); // 23: 0x822C2DF0
-        virtual void vf76(); // 76: 0x8245B338
+        virtual float TakeDamage(Damage::cDamage &Damage); // 76: 0x8245B338
         virtual void vf78(); // 78: 0x8288FB78
         virtual void vf79(); // 79: 0x8245B428
         virtual void vf83(); // 83: 0x8245B570

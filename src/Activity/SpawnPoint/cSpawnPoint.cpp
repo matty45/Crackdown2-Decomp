@@ -23,6 +23,11 @@ namespace Activity
         return *ms_pcSpawnPointClass;
     }
 
+    bool cSpawnPoint::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcSpawnPointClass->IsA(c);
+    }
+
     Fun_Runtime::cClass &cSpawnPoint::StaticCreateClass()
     {
         static Fun_Runtime::cClass *cSpawnPointClass = new Fun_Runtime::cClass(0x5D1F3, "cSpawnPoint", 0x70);

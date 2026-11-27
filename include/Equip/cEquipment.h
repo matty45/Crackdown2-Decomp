@@ -297,7 +297,7 @@ namespace Equip
         virtual void LeaveRenderableState(); // 32: 0x82605B40
         virtual bool IsManagedByActivityManager(); // 62: 0x82605FD0
         virtual void Slot64(); // 63: 0x82605D20
-        virtual void vf76(); // 76: 0x822E88B0
+        virtual float TakeDamage(Damage::cDamage &Damage); // 76: 0x822E88B0
         virtual void vf86(); // 86: 0x826057A8
         virtual void vf87(); // 87: 0x826058A8
         virtual void vf91(); // 91: 0x82605710

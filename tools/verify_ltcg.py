@@ -25,7 +25,7 @@ Comparison masks address immediates only: halves derived from a `lis`, loads/sto
 calls that leave the function. Everything else (offsets, registers, opcodes, intra-function branches) must match.
 The build and comparison functions (build_ltcg, compare_ltcg, direct_constants) are also used by agent harnesses.
 """
-import bisect, concurrent.futures, json, math, os, re, shutil, struct, subprocess, sys, time
+import bisect, concurrent.futures, ctypes, json, math, os, re, shutil, struct, subprocess, sys, threading, time
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import buildcache
@@ -139,6 +139,63 @@ def function_symbols(obj):
     return sorted(q for q, names in seen.items() if len(names) == 1)
 
 
+UNDECORATE_LOCK = threading.Lock()  # DbgHelp's functions are single-threaded
+
+
+def undecorated(name):
+    """The C++ declaration a decorated name stands for (DbgHelp's UnDecorateSymbolName), or '' if it cannot say"""
+    buf = ctypes.create_string_buffer(2048)
+    with UNDECORATE_LOCK:
+        n = ctypes.windll.dbghelp.UnDecorateSymbolName(name.encode('latin-1'), buf, len(buf), 0)
+    return buf.value.decode('latin-1') if n else ''
+
+
+def virtual_functions(obj):
+    """Decorated names of the virtual member functions defined in the object (not their adjustor thunks).
+    A virtual function's address is in its class's vtable, which CD2's whole program emits wherever the class is
+    constructed or destroyed. The model emits it only if one of the files it links has the class's constructor or
+    destructor, and LTCG rewrites the calling convention of a function nothing takes the address of (an IsA that ignores
+    `this` gets its class argument in r3, where CD2's, reached through the vtable, reads r4). The stubs object, which is
+    not /GL code, refers to each of them (write_stubs), as the vtables CD2 emits do."""
+    secs, syms = coff.parse(obj)
+    out = set()
+    for s in syms:
+        if s['cls'] != 2 or s['sec'] <= 0 or not secs[s['sec'] - 1]['ch'] & 0x20 or not s['name'].startswith('?'):
+            continue
+        if re.match(r'(public|protected|private): virtual ', undecorated(s['name'])):
+            out.add(s['name'])
+    return sorted(out)
+
+
+_SCRIPT_METHOD_PREFIXES = None
+
+
+def script_method_prefixes():
+    """The manifest symbols (config/matched_functions.json, work-in-progress entries included) of the functions CD2
+    registers as script methods: CD2's registration code builds the function's address (lis/addi) and then its name
+    (cd2.py game_references()['names']), so the address escapes there."""
+    global _SCRIPT_METHOD_PREFIXES
+    if _SCRIPT_METHOD_PREFIXES is None:
+        import cd2  # the game's references and the manifest
+        names = cd2.game_references()['names']
+        _SCRIPT_METHOD_PREFIXES = sorted({e['symbol'] for es in cd2.manifest()['files'].values() for e in es
+                                          if '0x%08X' % int(e['address'], 16) in names})
+    return _SCRIPT_METHOD_PREFIXES
+
+
+def script_methods(obj):
+    """Decorated names of the functions the object defines that CD2 registers as script methods
+    (script_method_prefixes). Like a virtual function's (virtual_functions), such a function's address escapes in CD2,
+    through the script registration the model does not have for most classes; without it LTCG treats a function only
+    direct calls reach as its own: cCharacterEntityIF::FaceAndPrimaryFire (registered at 0x823ED36C) got the constant
+    arguments of its one modelled caller (PedestrianGuard's slot 98) folded in and was expanded there. The stubs object
+    refers to each of them (write_stubs), as CD2's registration code does."""
+    prefixes = script_method_prefixes()
+    if not prefixes:
+        return []
+    return sorted({n for n, _, _ in coff.functions(obj) if any(symbol_matches(q, n) for q in prefixes)})
+
+
 def data_symbols(obj):
     secs, syms = coff.parse(obj)
     names = set()
@@ -237,26 +294,36 @@ def dependencies(src, plain_obj, d, env, manifest=None, override=None):
     return deps
 
 
-def write_stubs(names, path):
+def write_stubs(names, path, refs=()):
     """A plain object that defines the given symbols, each at its own address. Unresolved references would all land on
     0; with the stubs every external call and global in the LTCG image has a distinct, nameable target. The stubs are
-    not /GL code, so link-time code generation cannot look into them."""
-    names = sorted(names)
-    if not names:
+    not /GL code, so link-time code generation cannot look into them. refs: symbols the LTCG objects define whose
+    address the object's data takes (one word each, as a vtable holds a virtual function: virtual_functions)."""
+    names = sorted(set(names) - set(refs))
+    refs = sorted(refs)
+    if not names and not refs:
         return None
     text = b'\x4e\x80\x00\x20' * len(names)  # blr
+    data = b'\0\0\0\0' * len(refs)
     strtab, syms = b'', b''
-    for k, n in enumerate(names):
+    for k, n in enumerate(names + refs):
         nb = n.encode('latin-1')
         if len(nb) <= 8:
             raw = nb.ljust(8, b'\0')
         else:
             raw = b'\0\0\0\0' + struct.pack('<I', 4 + len(strtab))
             strtab += nb + b'\0'
-        syms += struct.pack('<8sIhHBB', raw, 4 * k, 1, 0x20, 2, 0)
-    head = struct.pack('<HHIIIHH', 0x1F2, 1, 0, 60 + len(text), len(names), 0, 0)
-    head += struct.pack('<8sIIIIIIHHI', b'.text', 0, 0, len(text), 60, 0, 0, 0, 0, 0x60500020)
-    open(path, 'wb').write(head + text + syms + struct.pack('<I', 4 + len(strtab)) + strtab)
+        if k < len(names):
+            syms += struct.pack('<8sIhHBB', raw, 4 * k, 1, 0x20, 2, 0)  # defined in .text
+        else:
+            syms += struct.pack('<8sIhHBB', raw, 0, 0, 0x20, 2, 0)  # external, defined by an LTCG object
+    rel_at = 20 + 2 * 40 + len(text) + len(data)
+    rels = b''.join(struct.pack('<IIH', 4 * i, len(names) + i, 0x0002) for i in range(len(refs)))  # IMAGE_REL_PPC_ADDR32
+    head = struct.pack('<HHIIIHH', 0x1F2, 2, 0, rel_at + len(rels), len(names) + len(refs), 0, 0)
+    head += struct.pack('<8sIIIIIIHHI', b'.text', 0, 0, len(text), 100, 0, 0, 0, 0, 0x60500020)
+    head += struct.pack('<8sIIIIIIHHI', b'.data', 0, 0, len(data), 100 + len(text), rel_at if refs else 0, 0,
+                        len(refs), 0, 0xC0300040)
+    open(path, 'wb').write(head + text + data + rels + syms + struct.pack('<I', 4 + len(strtab)) + strtab)
     return path
 
 
@@ -561,6 +628,7 @@ def build_ltcg(srcpath, plain_obj, consts, d, env, extra_flags=(), deps=()):
     # LTCG build defines itself (drop those) and what else it needs (add those), so link at most three times. The
     # dependencies come after src.obj, so src.obj keeps the inline and template functions both define.
     names = undefined_symbols(plain_obj) - set().union(*[taken for _, taken in deps])
+    refs = sorted(set(virtual_functions(plain_obj)) | set(script_methods(plain_obj)))
     outputs = {ext: os.path.join(d, 't' + ext) for ext in ('.pe', '.map', '.pdb')}
     # a dependency's plain object sits beside its /GL object (dependencies())
     inline = inline_option([plain_obj] + [os.path.splitext(obj)[0] + '_plain.obj' for obj, _ in deps])
@@ -570,7 +638,7 @@ def build_ltcg(srcpath, plain_obj, consts, d, env, extra_flags=(), deps=()):
             buildcache.common(env, os.path.dirname(os.path.abspath(srcpath))), flags=flags, inline=inline,
             source=os.path.abspath(srcpath), model=buildcache.sha(text.encode('utf-8', 'surrogateescape')),
             env_model=buildcache.sha(env_text.encode('utf-8', 'surrogateescape')),
-            stubs=sorted(names), deps=[[os.path.basename(obj), buildcache.file_sha(obj), sorted(taken)]
+            stubs=sorted(names), refs=refs, deps=[[os.path.basename(obj), buildcache.file_sha(obj), sorted(taken)]
                                        for obj, taken in deps])))
         if buildcache.lookup(cached) is not None and buildcache.restore(cached, outputs):
             buildcache.count('ltcg_hits')
@@ -584,7 +652,7 @@ def build_ltcg(srcpath, plain_obj, consts, d, env, extra_flags=(), deps=()):
         for stale in ('t.pe', 't.map', 't.pdb'):
             if os.path.exists(os.path.join(d, stale)):
                 os.remove(os.path.join(d, stale))
-        stubs = write_stubs(names, os.path.join(d, 'stubs.obj'))
+        stubs = write_stubs(names, os.path.join(d, 'stubs.obj'), refs)
         r = subprocess.run([os.path.join(BIN, 'link.exe'), '/nologo', '/LTCG', '/NODEFAULTLIB', '/FORCE:UNRESOLVED',
                             '/ENTRY:VerifyLtcgStub', '/OPT:NOREF', '/OPT:NOICF', '/MAP:' + os.path.join(d, 't.map'),
                             '/DEBUG', '/INCREMENTAL:NO', '/PDB:' + os.path.join(d, 't.pdb'), inline,
@@ -801,6 +869,7 @@ def build_whole(sources, consts, d, env, inline=None):
     t1 = time.time()
     defined = set().union(*(defined_symbols(p) for p, _ in built.values()))
     names = set().union(*(undefined_symbols(p) for p, _ in built.values())) - defined
+    refs = sorted(set().union(*(set(virtual_functions(p)) | set(script_methods(p)) for p, _ in built.values())))
     outputs = {ext: os.path.join(d, 't' + ext) for ext in ('.pe', '.map', '.pdb')}
     if inline is None:
         inline = inline_option([p for p, _ in built.values()])
@@ -809,7 +878,7 @@ def build_whole(sources, consts, d, env, inline=None):
     cached = None
     if buildcache.enabled():
         cached = buildcache.entry('whole', buildcache.digest(dict(
-            buildcache.common(env, os.path.join(ROOT, 'src')), inline=inline, stubs=sorted(names),
+            buildcache.common(env, os.path.join(ROOT, 'src')), inline=inline, stubs=sorted(names), refs=refs,
             env_model=buildcache.file_sha(envsrc),
             objects=[[os.path.basename(o), buildcache.file_sha(o)] for _, o in built.values()])))
         if buildcache.lookup(cached) is not None and buildcache.restore(cached, {'.pe': outputs['.pe'], '.map': outputs['.map']}):
@@ -821,7 +890,7 @@ def build_whole(sources, consts, d, env, inline=None):
         for stale in list(outputs.values()) + [os.path.join(d, 't.exe')]:
             if os.path.exists(stale):
                 os.remove(stale)
-        stubs = write_stubs(names, os.path.join(d, 'stubs.obj'))
+        stubs = write_stubs(names, os.path.join(d, 'stubs.obj'), refs)
         args = ['/nologo', '/LTCG', '/NODEFAULTLIB', '/FORCE:UNRESOLVED', '/ENTRY:VerifyLtcgStub', '/OPT:NOREF',
                 '/OPT:NOICF', '/MAP:' + outputs['.map'], '/DEBUG', '/INCREMENTAL:NO', '/PDB:' + outputs['.pdb']] + (
                     [inline] if inline else []) + [

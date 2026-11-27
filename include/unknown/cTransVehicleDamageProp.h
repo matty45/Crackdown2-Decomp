@@ -48,7 +48,7 @@ namespace unknown
 
     public:
         // CD2 table 0x8200EFD0 differs from cVehicleDamageProp at these inherited slots.
-        virtual void Slot15(); // slot 15: 0x82730F50
+        virtual bool HandleRenderableResources(GOM::cObjectPrototype *pPrototype); // slot 15: 0x82730F50
         virtual void OnSpawnedAsFragment(cGameBase *pParent); // slot 317: 0x82731120
     };
 }

@@ -29,10 +29,19 @@ namespace AI
         virtual const char *RetAgentName();
         virtual unsigned int RetAgentStatus() const;
         virtual unsigned short RetAgentClassID();
+        // Slot 5: CD2 0x82286BA8 (also cUpperBodyAnimateAndFaceAgent's; cDropAgent's Think calls it first).
+        virtual void Think();
         // RuffKing's setters; CD2's "Face" script method (0x823F4358) expands them as RuffKing's ActivateAgent does.
         void SetTolerance(float fTolerance) { m_fTolerance = fTolerance; }
         void SetTargetFacingEnabled(bool bEnabled) { m_bTargetFacingEnabled = bEnabled; }
         void SetFaceTarget() { m_bFacePoint = false; }
+        // cCharacterEntityIF's Face(fTolerance, vPointToFace) (0x823F43B8) expands it, as RuffKing's ActivateAgent with a
+        // point does.
+        void SetFacePoint(const Fun_Runtime::Vec3 &vPoint)
+        {
+            m_bFacePoint = true;
+            m_vecFaceThisPoint = vPoint;
+        }
 
     protected:
         float m_fTolerance;                         // 0x10

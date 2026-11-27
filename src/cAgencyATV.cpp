@@ -68,6 +68,11 @@ namespace unknown
         return *ms_pcAgencyATVClass;
     }
 
+    bool cAgencyATV::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcAgencyATVClass->IsA(c);
+    }
+
     Fun_Runtime::RetVal cAgencyATVPrototype::Init(const RWS::CAttributePacket &)
     {
         return Ret_OK;

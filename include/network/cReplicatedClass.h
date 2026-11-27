@@ -92,6 +92,8 @@ public:
     // CD2 0x8282BFA8 reads/writes a 32-bit field and returns whether it was processed.
     // Reference name; CD2 omits the reference build's debug field-name parameter.
     bool ReplicateUInt32(unsigned int *value, int field);
+    // Reference name; CD2 0x8282BCC8, the 8-bit form (cAmbientEventMission::ReplicateFields, 0x8248E248).
+    bool ReplicateUInt8(unsigned char *pVal, int field);
     // CD2 0x8282AF40 / 0x8282B038 use the active replication object internally.
     static void _AllocateUInt8(unsigned char value, int field, sReplicatedField::etReplicatedFieldState state);
     static void _AllocateUInt8Bits(unsigned char value, int field, unsigned int bits,

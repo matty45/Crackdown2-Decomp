@@ -39,6 +39,9 @@ namespace AI
         virtual unsigned int GetNumObjectIDBits() const; // cReplicatedClass 16: 0x8288AD98
         virtual void TickUpdate(float);
         virtual void ResetMission();
+        // RuffKing's override; CD2's attribute-handler table 0x82102E28 holds 0x824596C8 in slot 1, which calls
+        // cMissionBase's body first.
+        virtual void HandleAttributes(const RWS::CAttributePacket &attr);
         // RuffKing's name and signature; CD2 0x82459BE0, called by cTacticalObjective::NotifyDeliveryStart.
         void SetMissionState(unsigned char nMissionState, bool bAllowAutoSave);
         // RuffKing's name and signature; CD2 0x82459F08, which cCellStrongholdMission::TickUpdate (0x824750A0) calls

@@ -60,6 +60,11 @@ namespace unknown
         return *ms_pcPrismaticTriggerClass;
     }
 
+    bool cPrismaticTrigger::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcPrismaticTriggerClass->IsA(c);
+    }
+
     void cPrismaticTrigger::cPrismaticTriggerPrototype::HandleAttributes(const RWS::CAttributePacket &packet)
     {
         cGameBase::cGameBasePrototype::HandleAttributes(packet);

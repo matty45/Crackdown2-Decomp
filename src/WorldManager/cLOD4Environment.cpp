@@ -22,6 +22,7 @@
 #include "WorldManager/cStaticEnvironment.h"
 #include "cd2/memory.h"
 #include "GameRenderer/cLODClump.h"
+#include "WorldManager/cWorldManager.h"
 
 namespace WorldManager
 {
@@ -53,6 +54,17 @@ namespace WorldManager
     const Fun_Runtime::cClass &cLOD4Environment::RetClass() const
     {
         return *ms_pcLOD4EnvironmentClass;
+    }
+
+    bool cLOD4Environment::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcLOD4EnvironmentClass->IsA(c);
+    }
+
+    cLOD4Environment::~cLOD4Environment()
+    {
+        if (g_pWorldManager)
+            g_pWorldManager->UnregisterLOD4Block(this);
     }
 
     void cLOD4Environment::HandleAttributes(const RWS::CAttributePacket &packet)

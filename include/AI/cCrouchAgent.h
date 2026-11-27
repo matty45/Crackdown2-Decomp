@@ -20,6 +20,8 @@ namespace AI
         }
         virtual const char *RetAgentName();
         virtual unsigned short RetAgentClassID();
+        // Slot 5: CD2 0x8240A9C0.
+        virtual void Think();
 
         CD2_LAYOUT_CHECKS(cCrouchAgent,
             CD2_SIZE(cCrouchAgent, 0x40))

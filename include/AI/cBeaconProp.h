@@ -61,7 +61,7 @@ namespace AI
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
         virtual bool EnterPhysicalState(); // 7: 0x8245C5E0
-        virtual void vf76(); // 76: 0x8245C550
+        virtual float TakeDamage(Damage::cDamage &Damage); // 76: 0x8245C550
     protected:
         CD2_LAYOUT_CHECKS(cBeaconProp,
             CD2_SIZE(cBeaconProp, 0xE50)

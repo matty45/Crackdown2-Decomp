@@ -13,7 +13,9 @@ namespace WorldManager
     {
     public:
         cFadeInOutInterface();
-        virtual ~cFadeInOutInterface();
+        // Inline: cLOD4Environment's destructor (0x82807A38) restores this base's table (0x820F9A84, folded with
+        // cLinkedListItem's) at +0x120 and calls nothing.
+        virtual ~cFadeInOutInterface() {}
         eFadeState RetFadeState() const { return m_eFadeState; }
     private:
         cFadeInOutInterface *m_pReplacing;

@@ -34,7 +34,7 @@ namespace Prop
         virtual bool EnterPhysicalState(); // 7: 0x8272A070
         virtual void TickUpdate(float fDeltaTime); // 23: 0x8226CB58
         virtual void Slot64(); // 63: 0x82743DB0
-        virtual void vf76(); // 76: 0x827439E0
+        virtual float TakeDamage(Damage::cDamage &Damage); // 76: 0x827439E0
         virtual void vf127(); // 127: 0x82743988
         virtual void vf330(); // 330: 0x8288FB78
         virtual void vf331(); // 331: 0x8288FB78

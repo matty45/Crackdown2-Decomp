@@ -24,6 +24,13 @@ namespace Activity
         return *cSquadMemberRespawnPointClass;
     }
 
+    RWS::CAttributeHandler *cSquadMemberRespawnPoint::MakeNew(const RWS::CAttributePacket &packet, bool)
+    {
+        cSquadMemberRespawnPoint *point = new cSquadMemberRespawnPoint;
+        point->HandleAttributes(packet);
+        return 0;
+    }
+
     const Fun_Runtime::cClass *cSquadMemberRespawnPoint::ms_pcSquadMemberRespawnPointClass = &cSquadMemberRespawnPoint::StaticCreateClass();
 
     static Fun_Runtime::cInheritanceRegistrar cSquadMemberRespawnPointcSquadMemberSpawnPointBaseInheritRegistrar(

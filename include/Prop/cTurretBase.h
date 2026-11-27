@@ -77,7 +77,15 @@ namespace Prop
         virtual void TickUpdate(float fDeltaTime); // 23: 0x8274B008
         virtual bool EnterRenderableState(eResourcesType); // 31: 0x82748B10
         virtual void Slot61(); // 60: 0x8274BA40
-        virtual void vf76(); // 76: 0x82748BB8
+        virtual float TakeDamage(Damage::cDamage &Damage); // 76: 0x82748BB8
+        // RuffKing's overload (out of line there, 0x82867200, which the override above calls with bForceDamage false); CD2
+        // has no copy: its override (0x82748BB8) expands it.
+        float TakeDamage(Damage::cDamage &Damage, bool bForceDamage)
+        {
+            if (m_nMotionType == eMT_DYNAMIC || bForceDamage || m_bRequestingDeath)
+                return cProp::TakeDamage(Damage);
+            return 0.0f;
+        }
         virtual unsigned char RetCollisionLayer(); // 196: 0x82748940
         virtual unsigned short RetCollisionSystemGroup(); // 197: 0x82748990
         virtual void vf226(); // 226: 0x8274BB58

@@ -136,10 +136,13 @@ namespace Prop
         Audio::cPhysicsBodyGameObject m_PropAudio;              // 0x7B8
     private:
         cPropDamageManager m_PropDamageManager;                 // 0x880
+    protected:
+        // RuffKing's access (protected).
         cPropCollisionManager m_ColDamageListener;              // 0xA24
         // RuffKing's order; CD2 0x82730450 tests the explosive pointer at +0xA30.
         eMotionType m_nMotionType;
         ExplosionManager::cExplosive *m_pExplosive;
+    private:
         unsigned char m_unknownA34[0xB00 - 0xA34];
         // Reference array, 0x70 bytes below RuffKing's +0xB70 in CD2.
         tAttachedEffect m_vAttachedEffects[6];
@@ -235,7 +238,7 @@ namespace Prop
         virtual void Slot14(); // 14: 0x8272C228
         virtual void TickUpdate(float fDeltaTime); // 23: 0x822C2DF0
         virtual void Slot24(); // 24: 0x8272A7F8
-        virtual void vf76(); // 76: 0x8237D638
+        virtual float TakeDamage(Damage::cDamage &Damage); // 76: 0x8237D638
         virtual void vf217(); // 217: 0x82604F40
         virtual void SetCarriedByCharacter(CHARACTER::cCharacter *pCarrying); // 254: 0x8272AB30
         virtual cFrame RetStartFrame(GameRenderer::cLODClump &pClump); // 266: 0x821D1C58

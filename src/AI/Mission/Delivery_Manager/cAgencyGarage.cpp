@@ -32,6 +32,11 @@ namespace AI
         return *ms_pcAgencyGarageClass;
     }
 
+    bool cAgencyGarage::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcAgencyGarageClass->IsA(c);
+    }
+
     const char *cAgencyGarage::RetClassName() const
     {
         return "cAgencyGarage";

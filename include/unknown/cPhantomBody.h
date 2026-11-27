@@ -41,6 +41,7 @@ namespace unknown
         cPhantomBody();
         // CD2 0x8268A2F8: registered-class virtual slot 0 reads this class descriptor.
         virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         // CD2 0x8268A3E0: primary virtual slot 11 returns the registered class name.
         virtual const char *RetClassName() const;
         // CD2 spawning initializer 0x82FE0118 names placement factory 0x8268a3f0.

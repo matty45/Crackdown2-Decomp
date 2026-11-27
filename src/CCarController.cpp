@@ -65,6 +65,11 @@ namespace unknown
         return *ms_pCCarControllerClass;
     }
 
+    bool CCarController::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pCCarControllerClass->IsA(c);
+    }
+
     RWS::CAttributeHandler *CCarController::SpawnFromPrototype(GOM::cObjectPrototype *, void *memory)
     {
         if (memory)

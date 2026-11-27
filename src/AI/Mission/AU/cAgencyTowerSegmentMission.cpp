@@ -20,7 +20,7 @@ namespace WorldManager
 {
     cWorldManager *cWorldManager::RetInstance()
     {
-        return ms_pInstance;
+        return g_pWorldManager;
     }
 }
 

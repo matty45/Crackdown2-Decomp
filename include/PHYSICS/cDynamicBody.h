@@ -107,7 +107,7 @@ namespace PHYSICS
         virtual bool EnterPhysicalState(); // 7: 0x82605A38
         virtual void Slot13(); // 13: 0x82729CA8
         virtual void Slot14(); // 14: 0x8272C228
-        virtual void Slot15(); // 15: 0x82608298
+        virtual bool HandleRenderableResources(GOM::cObjectPrototype *pPrototype); // 15: 0x82608298
         virtual Fun_Runtime::RetVal Init(GOM::cSpawner const *); // 18: 0x8263ACD0
         virtual void TickUpdate(float fDeltaTime); // 23: 0x82325CF8
         virtual void Slot24(); // 24: 0x8272A7F8
@@ -121,7 +121,7 @@ namespace PHYSICS
         virtual Fun_Runtime::RetVal TermForReuse(); // 39: 0x82688198
         virtual Fun_Runtime::Vec3 RetPosition() const; // 46: 0x82686CE0
         virtual void Slot55(); // 54: 0x826862F0
-        virtual void vf76(); // 76: 0x8237D638
+        virtual float TakeDamage(Damage::cDamage &Damage); // 76: 0x8237D638
         virtual void vf101(); // 101: 0x82686D08
         virtual void vf102(); // 102: 0x82292150
         virtual void vf107(); // 107: 0x8236E830

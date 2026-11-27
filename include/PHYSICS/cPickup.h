@@ -12,7 +12,10 @@ namespace PHYSICS
         static Fun_Runtime::cClass &StaticCreateClass();
         static const Fun_Runtime::cClass *ms_pcPickupClass;
         virtual const Fun_Runtime::cClass &RetClass() const;
+        virtual bool IsA(const Fun_Runtime::cClass &) const;
         virtual const char *RetClassName() const;
+        // CD2's table 0x82009F90 holds 0x822C0DA0 in slot 5, where cPickupBase's holds its own.
+        virtual Fun_Runtime::RetVal Init(RWS::CAttributePacket const &);
         CD2_LAYOUT_CHECKS(cPickup, CD2_SIZE(cPickup, 0x150))
     };
 }

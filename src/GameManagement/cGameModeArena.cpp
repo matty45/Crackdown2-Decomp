@@ -21,7 +21,6 @@
 
 namespace GameManagement
 {
-    RWS::RWSGUID GetListGUID(const void *list, unsigned int index);
     const char *const cGameModeArena::pcGameModeArenaClassID = "cGameModeArena";
 
     cGameModeArena::cGameModeArena()
@@ -71,11 +70,11 @@ namespace GameManagement
             {
             case 0:
                 {
-                    const unsigned int *list = (const unsigned int *)it->GetAs_char_ptr();
-                    unsigned int count = rwSwap32(*list);
+                    const RWS::RWSGUIDList *list = it->GetAs_RWSGUIDList();
+                    unsigned int count = list->Num();
                     for (unsigned int i = 0; i < count; i++)
                     {
-                        RWS::RWSGUID g = GetListGUID(list, i);
+                        RWS::RWSGUID g = list->GetGUID(i);
                         temp.p = Editor::cGUIDLinker<cGameModePrototype>::LinkToObject(g);
                         if (temp.p)
                         {

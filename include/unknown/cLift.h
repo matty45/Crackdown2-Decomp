@@ -47,7 +47,7 @@ namespace unknown
         virtual void TickUpdate(float fDeltaTime); // 23: 0x82739B80
         virtual void LeavePhysicalState(); // 27: 0x82739638
         virtual bool EnterRenderableState(eResourcesType); // 31: 0x82739630
-        virtual void vf76(); // 76: 0x82457958
+        virtual float TakeDamage(Damage::cDamage &Damage); // 76: 0x82457958
         virtual void vf140(); // 140: 0x82739900
         virtual void vf158(); // 158: 0x827397F8
     protected:

@@ -308,7 +308,7 @@ namespace Vehicle
         virtual void Slot61(); // 60: 0x826CD9F8
         virtual bool IsAIEntityOwner(Kaim::CEntity *pEntity); // 61: 0x8272C3E8
         virtual void vf72(); // 72: 0x826D0C18
-        virtual void vf76(); // 76: 0x823BA1C0
+        virtual float TakeDamage(Damage::cDamage &Damage); // 76: 0x823BA1C0
         virtual void vf86(); // 86: 0x826D02C0
         virtual void vf87(); // 87: 0x823B7280
         virtual void vf91(); // 91: 0x826D0910

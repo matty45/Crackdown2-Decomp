@@ -57,6 +57,11 @@ namespace unknown
         return *ms_pcStaticInterestingObjectClass;
     }
 
+    bool cStaticInterestingObject::IsA(const Fun_Runtime::cClass &c) const
+    {
+        return ms_pcStaticInterestingObjectClass->IsA(c);
+    }
+
     const Fun_Runtime::cScriptTypeRegistration *cStaticInterestingObject::RetScriptTypeRegistration() const
     {
         return &cStaticInterestingObjectScriptRegistrar;

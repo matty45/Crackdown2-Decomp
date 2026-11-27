@@ -44,7 +44,13 @@ namespace unknown
         // address its base's table does not hold there, so the class overrides it; names and signatures are the bases'.
     public:
         virtual Fun_Runtime::RetVal Init(RWS::CAttributePacket const &); // 5: 0x8270F758
-        virtual void HandleEvents(RWS::CMsg &); // CEventHandler 5: 0x82709930
+        // cPickupBase's virtuals 70..75, which CD2's table for this class (0x82139A28) overrides.
+        virtual void SetActive(bool bActive);                                       // 70: 0x8270F9B0
+        virtual void GetVFXData(int &nEffectId, float &fPri, float &fScale);        // 71: 0x8270F900
+        virtual bool CanAutoPickup() const;                                         // 72: 0x827E56A8, the shared return-false body
+        virtual void GetLocPickupString(Fun_Runtime::cString &sLocString, bool &bHideButton) const; // 73: 0x8270F930
+        virtual void Use(PLAYER::cPlayer *);                                        // 74: 0x8270ECD0
+        virtual void Collect(PLAYER::cPlayer *pPlayer);                             // 75: 0x8270FA78
     protected:
         CD2_LAYOUT_CHECKS(cAudioLog,
             CD2_SIZE(cAudioLog, 0x1A0)
